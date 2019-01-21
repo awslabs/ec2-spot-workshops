@@ -1,9 +1,8 @@
 +++
 title = "Architecture"
-chapter = true
 weight = 20
 +++
 
-# Architecture
+## Architecture
 
 {{% children showhidden="false" %}}

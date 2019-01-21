@@ -1,10 +1,9 @@
----
-title: ""
-date: 2019-01-06T12:22:13Z
-draft: false
----
-
-## Amazon EC2 Spot Workshops
++++
+title = "EC2 Spot Fleet web app"
+weight = 10
++++
+ 
+## EC2 Spot Fleet web app
 
 ### Overview
 
@@ -15,9 +14,7 @@ and scale your application's throughput up to 10X for the same budget. By simply
 selecting Spot when launching EC2 instances, you can save up-to 90% on On-Demand
 prices.
 
-This page covers a set of workshops designed for you to get familiar with EC2 
-Spot Instances by learning how to deploy them under diferent scenarios such as, 
-EC2 Spot Fleet, Auto Scaling Group, AWS Batch, AWS ECS. 
-
-The workshops are also designed to highlight best practices to follow when using
-EC2 Spot instances.
+This workshop is designed to get you familiar with EC2 Spot Instances by 
+learning how to deploy a simple web app on an EC2 Spot Fleet behind an Elastic 
+Load Balanacing Application Load Balancer and enable automatic scaling to allow 
+it to handle peak demand, as well as handle Spot Instance interruptions.
