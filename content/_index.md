@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Amazon EC2 Spot Workshops"
 date: 2019-01-06T12:22:13Z
 draft: false
 ---
