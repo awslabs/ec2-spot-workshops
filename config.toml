@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://ec2spotworkshops.com/"
 languageCode = "en-us"
 title = "EC2 Spot Workshops"
 theme = "learn"
