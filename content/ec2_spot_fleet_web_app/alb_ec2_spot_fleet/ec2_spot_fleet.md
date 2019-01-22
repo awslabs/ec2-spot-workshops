@@ -1,7 +1,7 @@
 +++
 title = "Launch EC2 Spot Fleet"
 chapter = false
-weight = 10
+weight = 20
 +++
 
 ### Launch an EC2 Spot Fleet and associate the Load Balancing Target Group with it
