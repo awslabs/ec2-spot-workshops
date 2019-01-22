@@ -32,14 +32,14 @@ Here is a diagram of the resulting architecture:
 
 To save time on the initial setup, a CloudFormation template will be used to create the Amazon VPC with subnets in two Availability Zones, as well as the IAM policies and roles, and security groups.
 
-1\.  Go ahead and launch the CloudFormation stack. You can check it out from GitHub, or grab the [template directly](https://github.com/awslabs/ec2-spot-labs/blob/master/workshops/ec2-spot-fleet-web-app/ec2-spot-fleet-web-app.yaml). I use the stack name “ec2-spot-fleet-web-app“, but feel free to use any name you like. Just remember to change it in the instructions.
+1\.  Go ahead and launch the CloudFormation stack. You can check it out from GitHub, or grab the [template directly](/config/ec2_spot_fleet_web_app/ec2-spot-fleet-web-app.yaml). I use the stack name “ec2-spot-fleet-web-app“, but feel free to use any name you like. Just remember to change it in the instructions.
 
 ```bash
-$ git clone https://github.com/awslabs/ec2-spot-labs.git
+$ wget https://ec2spotworkshops.com/config/ec2_spot_fleet_web_app/ec2-spot-fleet-web-app.yaml
 ```
 
 ```bash
-$ aws cloudformation create-stack --stack-name ec2-spot-fleet-web-app --template-body file://ec2-spot-labs/workshops/ec2-spot-fleet-web-app/ec2-spot-fleet-web-app.yaml --capabilities CAPABILITY_IAM --region us-east-1
+$ aws cloudformation create-stack --stack-name ec2-spot-fleet-web-app --template-body file://ec2-spot-fleet-web-app.yaml --capabilities CAPABILITY_IAM --region us-east-1
 ```
 
 You should receive a StackId value in return, confirming the stack is launching.
@@ -54,5 +54,5 @@ You should receive a StackId value in return, confirming the stack is launching.
 
 
 {{% notice note %}}
-Read the [contents of the CloudFormation Template](https://github.com/awslabs/ec2-spot-labs/blob/master/workshops/ec2-spot-fleet-web-app/ec2-spot-fleet-web-app.yaml) to get an understanding on how Infrastructure as Code can be deployed on AWS. You can [read more about CloudFormation here](https://aws.amazon.com/cloudformation/)
+Read the [contents of the CloudFormation Template](/config/ec2_spot_fleet_web_app/ec2-spot-fleet-web-app.yaml) to get an understanding on how Infrastructure as Code can be deployed on AWS. You can [read more about CloudFormation here](https://aws.amazon.com/cloudformation/)
 {{% /notice %}}
