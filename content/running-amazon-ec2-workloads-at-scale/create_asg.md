@@ -14,7 +14,6 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 	```
 	aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
 	```
-	
 {{% notice note %}}
 This command will not return any output if it is successful.
 {{% /notice %}}
