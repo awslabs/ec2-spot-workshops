@@ -14,9 +14,8 @@ Each target group routes requests to one or more registered targets, such as EC2
 	```
 	aws elbv2 create-load-balancer --cli-input-json file://application-load-balancer.json
 	```
-	
 {{% notice note %}}
->Plese note the ARN of the application load balancer for use in an upcoming step.
+Plese note the ARN of the application load balancer for use in an upcoming step.
 {{% /notice %}}
 
 
@@ -27,9 +26,8 @@ Each target group routes requests to one or more registered targets, such as EC2
 	```
 	aws elbv2 create-target-group --cli-input-json file://target-group.json
 	```
-	
 {{% notice note %}}
->Plese note the ARN of the application load balancer for use in an upcoming step.
+Plese note the ARN of the application load balancer for use in an upcoming step.
 {{% /notice %}}
 
 1. Edit **modify-target-group.json** and update the value of **%TargetGroupArn%** with the ARN. Save the file. Modify the target group:
