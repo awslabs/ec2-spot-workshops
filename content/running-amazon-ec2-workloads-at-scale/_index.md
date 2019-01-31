@@ -1,6 +1,7 @@
 ---
 title: "Running Amazon EC2 Workloads at Scale"
 date: 2019-01-24T09:05:54Z
+weight: 20
 ---
 
 ## Overview 
