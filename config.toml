@@ -12,12 +12,12 @@ hrefTargetBlank = true
 
 [params]
 themeVariant = "mine"
-showVisitedLinks = false
+showVisitedLinks = true
 description = "EC2 Spot Workshops"
 disableSearch = false
 disableAssetsBusting = false
 disableLanguageSwitchingButton = true
-disableShortcutsTitle=true
+disableShortcutsTitle = true
 
 
 [[menu.shortcuts]] 
