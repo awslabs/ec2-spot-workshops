@@ -1,0 +1,55 @@
+{
+  "AutoScalingGroupName": "runningAmazonEC2WorkloadsAtScale",
+  "MixedInstancesPolicy": {
+    "LaunchTemplate": {
+      "LaunchTemplateSpecification": {
+        "LaunchTemplateName": "runningAmazonEC2WorkloadsAtScale",
+        "Version": "1"
+      },
+      "Overrides": [
+        {
+          "InstanceType": "c3.large"
+        },
+        {
+          "InstanceType": "c4.large"
+        },
+        {
+          "InstanceType": "c5.large"
+        },
+        {
+          "InstanceType": "m3.large"
+        },
+        {
+          "InstanceType": "m4.large"
+        },
+        {
+          "InstanceType": "m5.large"
+        },
+        {
+          "InstanceType": "r3.large"
+        },
+        {
+          "InstanceType": "r4.large"
+        },
+        {
+          "InstanceType": "r5.large"
+        }
+      ]
+    },
+    "InstancesDistribution": {
+      "OnDemandAllocationStrategy": "prioritized",
+      "OnDemandBaseCapacity": 2,
+      "OnDemandPercentageAboveBaseCapacity": 0,
+      "SpotAllocationStrategy": "lowest-price",
+      "SpotInstancePools": 4
+    }
+  },
+  "MinSize": 2,
+  "MaxSize": 12,
+  "DesiredCapacity": 4,
+  "TargetGroupARNs": [
+    "%TargetGroupARN%"
+  ],
+  "HealthCheckType": "EC2",
+  "VPCZoneIdentifier": "%publicSubnet1%,%publicSubnet2%"
+}
