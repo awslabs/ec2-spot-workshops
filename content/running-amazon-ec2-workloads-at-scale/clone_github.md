@@ -6,7 +6,7 @@ weight = 60
 In order to execute the steps in the workshop, you'll need to clone the workshop GitHub repo.
 
 {{% notice note %}}
-TEMPORARILY because we don't yet have the new location for the github repo, if you want to run through the workshop use this git location and directory instead of the ones further down the page:\
+Due to internal constraints, please temporarily use the following git and folder locations instead of the ones listed below.\
 git clone https://github.com/awslabs/ec2-spot-labs.git\  
 cd ec2-spot-labs/workshops/running-amazon-ec2-workloads-at-scale\
 {{% /notice %}}
