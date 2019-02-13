@@ -14,7 +14,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 1. Change into the workshop directory:
 
 	```
-	cd ec2-spot-labs/workshops/running-amazon-ec2-workloads-at-scale
+	cd ec2-spot-workshops/workshops/running-amazon-ec2-workloads-at-scale
 	```
 
 1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
