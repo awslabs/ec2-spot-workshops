@@ -1,6 +1,6 @@
 +++
 title = "EC2 Spot Fleet web app"
-weight = 10
+weight = 30
 +++
  
 ## EC2 Spot Fleet web app
