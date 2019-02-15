@@ -21,7 +21,6 @@ popd
 hugo serve -D
 ```
 
-
 ## License
 
 This library is licensed under the Amazon Software License.
