@@ -37,7 +37,7 @@ The request type is fleet. When the request is fulfilled, requests of
 type instance are added, where the state is active and the status
 is fulfilled.
 
-![Spot Fleet Request](images/launching_ec2_spot_instances/spot_fleet_request_image_2.png)
+![Spot Fleet Request](/images/launching_ec2_spot_instances/spot_fleet_request_image_2.png)
 
 
 ## Monitoring Your Spot Fleet

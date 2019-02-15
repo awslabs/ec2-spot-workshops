@@ -17,4 +17,4 @@ $ aws ec2 run-instances --launch-template LaunchTemplateName=TemplateForSpot,Ver
 That is all there is to it\! You can see your Spot Instance request in
 the Spot console at <https://console.aws.amazon.com/ec2spot>.
 
-![RunInstances API](images/launching_ec2_spot_instances/runinstances_api_image_1.png)
+![RunInstances API](/images/launching_ec2_spot_instances/runinstances_api_image_1.png)
