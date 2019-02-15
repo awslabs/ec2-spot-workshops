@@ -7,8 +7,8 @@ weight = 180
 Here are additional resources to learn more:
 
 * [Amazon EC2 Auto Scaling](https://aws.amazon.com/ec2/autoscaling/)
-* [Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot)
-* [Amazon EC2 Spot Labs GitHub Repo](https://github.com/awslabs/ec2-spot-labs/)
+* [Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/)
+* [Amazon EC2 Spot Workshops GitHub Repo](https://github.com/awslabs/ec2-spot-workshops/)
 
 ### Articles
 * [Amazon EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/)
