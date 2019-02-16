@@ -1,5 +1,5 @@
 +++
-title = "EC Spot via Auto Scaling Group"
+title = "EC2 Spot via Auto Scaling Group"
 weight = 20
 +++
 
