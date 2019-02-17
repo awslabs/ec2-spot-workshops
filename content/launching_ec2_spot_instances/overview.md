@@ -11,9 +11,10 @@ Spot enables you to optimize your costs on the AWS cloud and scale your
 application’s throughput up to 10X for the same budget.
 
 This lab will walk you through creating an EC2 Launch Template, and then
-using this Launch Template to launch EC2 Spot Instances the following 3
-ways: the EC2 RunInstances API, EC2 Spot Fleet, and Amazon EC2 Auto
-Scaling.
+using this Launch Template to launch EC2 Spot Instances the following 4
+ways: Amazon EC2 Auto Scaling, the EC2 RunInstances API, EC2 Spot Fleet, and 
+EC2 Fleet.
+
 
 ## Pre-Requisites
 
