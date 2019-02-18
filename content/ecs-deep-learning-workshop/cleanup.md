@@ -1,6 +1,6 @@
 +++
 title = "Workshop Cleanup"
-weight = 40
+weight = 90
 +++
 
 ## Workshop Cleanup

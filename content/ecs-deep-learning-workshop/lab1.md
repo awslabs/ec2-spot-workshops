@@ -1,6 +1,6 @@
 +++
 title = "Lab-1 "
-weight = 60
+weight = 110
 +++
 
 ## Set up the Workshop Environment on AWS

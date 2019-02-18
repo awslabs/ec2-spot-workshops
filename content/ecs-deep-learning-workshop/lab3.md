@@ -1,6 +1,6 @@
 +++
 title = "Lab-3"
-weight = 80
+weight = 130
 +++
 
 ## Deploy the MXNet Container with ECS

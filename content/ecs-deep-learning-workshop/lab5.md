@@ -1,6 +1,6 @@
 +++
 title = "Lab-5"
-weight = 100
+weight = 150
 +++
 
 ## Wrap Image Classification in an ECS Task
