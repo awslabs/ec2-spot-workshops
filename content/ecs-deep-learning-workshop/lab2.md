@@ -1,6 +1,6 @@
 +++
 title = "Lab-2"
-weight = 70
+weight = 120
 +++
 
 ## Build an MXNet Docker Image

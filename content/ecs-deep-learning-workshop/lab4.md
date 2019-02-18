@@ -1,6 +1,6 @@
 +++
 title = "Lab-4"
-weight = 90
+weight = 140
 +++
 
 ## Image Classification with MXNet

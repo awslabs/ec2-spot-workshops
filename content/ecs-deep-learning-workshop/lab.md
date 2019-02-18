@@ -1,6 +1,6 @@
 +++
 title = "Labs"
-weight = 20
+weight = 70
 +++
 
 ## Labs
