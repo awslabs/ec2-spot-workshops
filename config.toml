@@ -12,26 +12,13 @@ hrefTargetBlank = true
 
 [params]
 themeVariant = "mine"
-showVisitedLinks = false
+showVisitedLinks = true
 description = "EC2 Spot Workshops"
 disableSearch = false
 disableAssetsBusting = false
 disableLanguageSwitchingButton = true
-disableShortcutsTitle=true
+disableShortcutsTitle = true
 
-
-[[menu.shortcuts]] 
-name = "<i class='fab fa-github'></i> Github repo"
-identifier = "github"
-url = "https://github.com/awslabs/ec2-spot-labs/tree/master/workshops/ec2-spot-fleet-web-app"
-weight = 1
-
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-bullhorn'></i> Credits"
-identifier = "credits"
-url = "https://github.com/schmutze"
-weight = 22
 
 [outputs]
 home = [ "HTML", "AMP", "RSS", "JSON"]
