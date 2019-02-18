@@ -1,9 +1,7 @@
 +++
-title = "Lab-4"
+title = "Lab-4 Image Classification with MXNet"
 weight = 140
 +++
-
-## Image Classification with MXNet
 
 Now that you have an MXNet container built and deployed with ECS, you can try out an image classification example provided by MXNet to make sure the framework is working properly. There are two examples you can run through, one for training a model and one for generating a prediction.
 

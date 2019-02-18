@@ -1,5 +1,5 @@
 +++
-title = "Lab-1 "
+title = "Lab-1 Setup the workshop environment on AWS"
 weight = 110
 +++
 
