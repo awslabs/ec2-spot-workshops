@@ -9,9 +9,8 @@ draft: false
 
 ### Overview
 
-[Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) 
-Amazon EC2 Spot Instances offer spare compute capacity available in the AWS cloud at 
-steep discounts compared to On-Demand instances. Spot Instances enable you to optimize 
+[Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) offer spare compute capacity available in 
+the AWS cloud at steep discounts compared to On-Demand instances. Spot Instances enable you to optimize 
 your costs on the AWS cloud and scale your application's throughput up to 10X for the same budget.
 
 Spot Instances can be interrupted by EC2 with two minutes of notification when EC2 needs the capacity 
