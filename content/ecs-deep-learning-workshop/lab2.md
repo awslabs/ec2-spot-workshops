@@ -1,9 +1,7 @@
 +++
-title = "Lab-2"
+title = "Lab-2 Build an MXNet Docker Image"
 weight = 120
 +++
-
-## Build an MXNet Docker Image
 
 In this lab, you will build an MXNet Docker image using one of the ECS cluster instances which already comes bundled with Docker installed. There are quite a few dependencies for MXNet, so for your convenience, we have provided a [Dockerfile](https://github.com/awslabs/ecs-deep-learning-workshop/blob/master/lab-2-build/mxnet/Dockerfile) in the lab 2 folder to make sure nothing is missed. You can review the Dockerfile to see what's being installed. Links to MXNet documentation can be found in the [Appendix](https://github.com/awslabs/ecs-deep-learning-workshop/#appendix) if you'd like to read more about it.
 
@@ -27,9 +25,10 @@ Once you've selected one of the provisioned EC2 instances, note the Public DNS N
 
 	$ docker build --build-arg PASSWORD=INSERT_A_PASSWORD -t mxnet .
 \
-**IMPORTANT**
 
-*It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command. We have chosen to do it for this lab for simplicity's sake. There are various other methods for secrets management like using [DynamoDB with encryption](https://aws.amazon.com/blogs/developer/client-side-encryption-for-amazon-dynamodb/) or [S3 with encryption](https://aws.amazon.com/blogs/security/how-to-manage-secrets-for-amazon-ec2-container-service-based-applications-by-using-amazon-s3-and-docker/) for key storage and using [IAM Roles](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) for granting access. There are also third party tools such as [Hashicorp Vault](https://www.vaultproject.io/) for secrets management.*
+{{% notice warning %}}
+It is not recommended to use build-time variables for passing secrets like github keys, user credentials etc. Build-time variable values are visible to any user of the image with the docker history command. We have chosen to do it for this lab for simplicity's sake. There are various other methods for secrets management like using [DynamoDB with encryption](https://aws.amazon.com/blogs/developer/client-side-encryption-for-amazon-dynamodb/) or [S3 with encryption](https://aws.amazon.com/blogs/security/how-to-manage-secrets-for-amazon-ec2-container-service-based-applications-by-using-amazon-s3-and-docker/) for key storage and using [IAM Roles](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) for granting access. There are also third party tools such as [Hashicorp Vault](https://www.vaultproject.io/) for secrets management.
+{{% /notice %}}
 
 This process will take a couple of minutes because MXNet and some dependencies are being installed during the container build process. If you're new to Docker, you can take this opportunity to review the Dockerfile to understand what's going on or take a quick break to grab some coffee/tea.
 

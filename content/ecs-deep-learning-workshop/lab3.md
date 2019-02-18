@@ -1,9 +1,7 @@
 +++
-title = "Lab-3"
+title = "Lab-3 Deploy the MXNet Container with ECS"
 weight = 130
 +++
-
-## Deploy the MXNet Container with ECS
 
 Now that you have an MXNet image ready to go, the next step is to create a task definition. A task defintion specifies parameters and requirements used by ECS to run your container, e.g. the Docker image, cpu/memory resource requirements, host:container port mappings. You'll notice that the parameters in the task definition closely match options passed to a Docker run command. Task definitions are very flexible and can be used to deploy multiple containers that are linked together- for example, an application server and database. In this workshop, we will focus on deploying a single container.
 

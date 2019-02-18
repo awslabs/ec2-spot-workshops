@@ -1,5 +1,5 @@
 +++
-title = "Lab-5"
+title = "Lab-5 Wrap Image Classfication in an ECS Task"
 weight = 150
 +++
 
