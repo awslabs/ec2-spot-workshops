@@ -148,3 +148,5 @@ div.notices p:first-child:before {
     font-weight: 900; /* Fix version 5.0.9 */
     left: 10px;
 }
+
+img[alt=spot_logo] { width: 350px; }

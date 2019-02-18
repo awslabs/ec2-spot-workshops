@@ -1,0 +1,25 @@
+{
+  "IamInstanceProfile": {
+    "Arn": "%instanceProfile%"
+  },
+  "ImageId": "%ami-id%",
+  "SecurityGroupIds": [
+    "%instanceSecurityGroup%"
+  ],
+  "TagSpecifications": [
+    {
+      "ResourceType": "instance",
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "runningAmazonEC2WorkloadsAtScale"
+        },
+        {
+          "Key": "Env",
+          "Value": "prod"
+        }
+      ]
+    }
+  ],
+  "UserData": "%UserData%"
+}
