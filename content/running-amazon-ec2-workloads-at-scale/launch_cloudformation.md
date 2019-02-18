@@ -9,8 +9,8 @@ To save time on the initial setup, a CloudFormation template will be used to cre
 
 #### To create the stack
 
-1. You can view and download the CloudFormation temlate from GitHub [here](https://raw.githubusercontent.com/awslabs/ec2-spot-labs/master/workshops/running-amazon-ec2-workloads-at-scale/running-amazon-ec2-workloads-at-scale.yaml).
-
+1. You can view and download the CloudFormation temlate from GitHub [here](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running-amazon-ec2-workloads-at-scale/running-amazon-ec2-workloads-at-scale.yaml).
+                                                                            
 1. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 
 1. Browse to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation).
