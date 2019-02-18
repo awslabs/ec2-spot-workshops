@@ -2,7 +2,6 @@
 title = "Spot Fleet Configuration"
 chapter = false
 weight = 50
-draft = true
 +++
 
 
