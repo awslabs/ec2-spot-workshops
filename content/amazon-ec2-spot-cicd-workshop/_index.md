@@ -1,5 +1,5 @@
 ---
-title: "Run your CI/CD and Test Workloads for 90% less with Amazon EC2 Spot Instances"
+title: "Run your CI/CD and Test Workloads with Spot Instances"
 date: 2019-02-19T02:02:35
 weight: 70
 ---
