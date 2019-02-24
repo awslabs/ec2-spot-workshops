@@ -1,7 +1,8 @@
 ---
-title: "⁃ ECS Deep Learning Workshop using EC2 Spot"
+title: "ECS Deep Learning Workshop using EC2 Spot"
 date: 2019-02-06T07:14:54Z
 weight: 40 
+pre: "<b>⁃ </b>"
 ---
 <!-- FIXME: 
 This workshop is still refering to the original github repo at
