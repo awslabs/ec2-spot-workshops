@@ -67,7 +67,7 @@ With launch templates, you can also provision capacity across multiple instance 
  **To create an Auto Scaling group using a launch template**
 
 1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
-2. On the navigation bar at the top of the screen, select the same region that you used when you created the launch template.
+2. On the navigation bar at the top right of the screen, select the same region that you used when you created the launch template.
 3. In the navigation pane, choose **Launch Templates**.
 4. Select your launch template.
 4. Choose **Create Auto Scaling group**.
@@ -75,8 +75,8 @@ With launch templates, you can also provision capacity across multiple instance 
 7. For Launch template version, select the **Default**.
 8. For Fleet Composition, choose **Combine purchase options and instances** to launch instances across multiple instance types using both On-Demand and Spot purchase options. 
 9. While you chose to combine purchase options and instance types:
-    1. For **Instance Types**, choose the optimal instance types (such as m4.large and c4.large) that may be launched.
-    2. For **Instance Destribution**, choose to replace the default instance settings.
+    1. For **Instance Types**, choose the optimal instance types that can be used for your application (such as m4.large and c4.large) that may be launched.
+    2. For **Instance Distribution**, choose to replace the default instance settings.
     3. Provide the following information.
         1. For **Maximum Spot Price**, choose Use default to cap your maximum Spot price at the On-Demand price.
         2. For **Optional On-Demand Base**, you can specify the minimum amount of the Auto Scaling group's initial capacity that must be fulfilled by On-Demand Instances. Leave this field blank to launch On-Demand Instances as a percentage of the group's desired capacity.
