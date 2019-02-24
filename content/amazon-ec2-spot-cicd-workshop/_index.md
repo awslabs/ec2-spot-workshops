@@ -1,5 +1,5 @@
 ---
-title: "Run your CI/CD and Test Workloads with Spot Instances"
+title: "⁃ CI/CD and Test Workloads with Spot Instances"
 date: 2019-02-19T02:02:35
 weight: 70
 ---

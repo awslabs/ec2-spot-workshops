@@ -1,5 +1,5 @@
 +++
-title = "EC2 Spot Fleet web app"
+title = "⁃ EC2 Spot Fleet Web App"
 weight = 30
 +++
 
