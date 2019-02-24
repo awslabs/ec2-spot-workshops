@@ -1,5 +1,5 @@
 ---
-title: "Using Spot Instances with EKS"
+title: "⁃ Using Spot Instances with EKS"
 date: 2019-01-24T09:05:54Z
 weight: 50
 ---
