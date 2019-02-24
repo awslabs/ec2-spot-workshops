@@ -1,7 +1,8 @@
 ---
-title: "⁃ Using Spot Instances with EKS"
+title: "Using Spot Instances with EKS"
 date: 2019-01-24T09:05:54Z
 weight: 50
+pre: "<b>⁃ </b>"
 ---
 
 To get hands-on experience with running EC2 Spot Instances with EKS and Kuberentes clusters, please visit the Spot module on http://eksworkshop.com : 

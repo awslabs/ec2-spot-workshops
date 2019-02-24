@@ -1,7 +1,8 @@
 ---
-title: "⁃ Running EC2 Workloads at Scale with ASG"
+title: "Running EC2 Workloads at Scale with ASG"
 date: 2019-01-24T09:05:54Z
 weight: 20
+pre: "<b>⁃ </b>"
 ---
 
 ## Overview 
