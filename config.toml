@@ -17,7 +17,7 @@ description = "EC2 Spot Workshops"
 disableSearch = false
 disableAssetsBusting = false
 disableLanguageSwitchingButton = true
-disableShortcutsTitle = true
+disableShortcutsTitle = false
 
 
 [outputs]
