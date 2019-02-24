@@ -1,6 +1,6 @@
 +++
-title = "EC2 Spot Fleet Web App"
-weight = 30
+title: "EC2 Spot Fleet Web App"
+weight: 30
 pre: "<b>⁃ </b>"
 +++
 
