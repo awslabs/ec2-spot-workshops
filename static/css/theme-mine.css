@@ -180,11 +180,6 @@ img[alt=spot_logo] { width: 350px; }
 div.cards {
     margin: 2rem 0;
     position: relative;
-/*
-    width: 45%;
-    margin-right: 3%;
-    float: left;
-*/
 }
 
 div.cards p {
@@ -196,6 +191,7 @@ div.cards p {
     color: #666;
 }
 
+
 div.cards.important_workshop p.header {
     background: #6AB0DE;
     color: #fff;
@@ -204,7 +200,8 @@ div.cards.important_workshop p.header {
 }
 
 div.cards.important_workshop p {
-    background: #E7F2FA; 
+    background: #E7F2FA;
+    padding-bottom: 30px;
 }
 
 div.cards.workshop p.header {
@@ -215,6 +212,7 @@ div.cards.workshop p.header {
 }
 
 div.cards.workshop p {
-    background: #E6F9E6; 
+    background: #E6F9E6;
+    padding-bottom: 30px;
 }
 
