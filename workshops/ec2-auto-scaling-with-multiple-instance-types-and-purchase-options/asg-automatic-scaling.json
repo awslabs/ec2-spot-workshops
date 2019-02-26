@@ -1,5 +1,5 @@
 {
-  "AutoScalingGroupName": "runningAmazonEC2WorkloadsAtScale",
+  "AutoScalingGroupName": "myEC2Workshop",
   "PolicyName": "automaticScaling",
   "PolicyType": "TargetTrackingScaling",
   "EstimatedInstanceWarmup": 180,

@@ -1,5 +1,5 @@
 {
-  "Name": "runningAmazonEC2WorkloadsAtScale",
+  "Name": "myEC2Workshop",
   "Protocol": "HTTP",
   "Port": 80,
   "VpcId": "%vpc%",

@@ -12,7 +12,7 @@
       "Tags": [
         {
           "Key": "Name",
-          "Value": "%myEC2Workshop%"
+          "Value": "myEC2Workshop"
         },
         {
           "Key": "Env",
