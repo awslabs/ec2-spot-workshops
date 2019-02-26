@@ -1,0 +1,276 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: EC2 Auto Scaling with multiple instance types and purchase options - workshop template
+Mappings:
+  CidrMappings:
+    public-subnet-1:
+      CIDR: 10.0.1.0/24
+    public-subnet-2:
+      CIDR: 10.0.2.0/24
+    vpc:
+      CIDR: 10.0.0.0/16
+Metadata:
+  Author:
+    Description: Chad Schmutzer <schmutze@amazon.com>
+  License:
+    Description: 'Copyright 2019 Amazon.com, Inc. and its affiliates. All Rights Reserved.
+
+      Licensed under the Amazon Software License (the "License"). You may not use this file
+      except in compliance with the License. A copy of the License is located at
+
+      http://aws.amazon.com/asl/
+
+      or in the "license" file accompanying this file. This file is distributed on an "AS IS"
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+      License for the specific language governing permissions and limitations under the License.'
+Outputs:
+  awsRegionId:
+    Description: The AWS Region ID your template was launched in
+    Value:
+      Ref: AWS::Region
+  cloud9Environment:
+    Description: Cloud9 environment
+    Value:
+      Fn::GetAtt:
+      - cloud9Environment
+      - Name
+  instanceProfile:
+    Description: Instance profile ARN
+    Value:
+      Fn::GetAtt:
+      - instanceProfile
+      - Arn
+  instanceSecurityGroup:
+    Description: Instance security group
+    Value:
+      Ref: instanceSecurityGroup
+  loadBalancerSecurityGroup:
+    Description: Load Balancer security group
+    Value:
+      Ref: loadBalancerSecurityGroup
+  publicSubnet1:
+    Description: Public subnet 1
+    Value:
+      Ref: publicSubnet1
+  publicSubnet2:
+    Description: Public subnet 2
+    Value:
+      Ref: publicSubnet2
+  vpc:
+    Description: The VPC
+    Value:
+      Ref: vpc
+Parameters:
+  sourceCidr:
+    Default: 0.0.0.0/0
+    Description: Optional - CIDR/IP range for instance ssh/http access and load balancer http
+      access
+    Type: String
+Resources:
+  attachGateway:
+    DependsOn:
+    - vpc
+    - internetGateway
+    Properties:
+      InternetGatewayId:
+        Ref: internetGateway
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::VPCGatewayAttachment
+  autoScalingServiceLinkedRole:
+    Properties:
+      AWSServiceName: autoscaling.amazonaws.com
+      Description: Default Service-Linked Role enables access to AWS Services and Resources
+        used or managed by Auto Scaling
+    Type: AWS::IAM::ServiceLinkedRole
+  cloud9Environment:
+    DependsOn:
+    - publicSubnet1
+    Properties:
+      Description:
+        Ref: AWS::StackName
+      InstanceType: t2.micro
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::Cloud9::EnvironmentEC2
+  ec2FleetServiceLinkedRole:
+    Properties:
+      AWSServiceName: ec2fleet.amazonaws.com
+      Description: Default EC2 Fleet Service Linked Role
+    Type: AWS::IAM::ServiceLinkedRole
+  instanceProfile:
+    DependsOn:
+    - instanceRole
+    Properties:
+      Path: /
+      Roles:
+      - Ref: instanceRole
+    Type: AWS::IAM::InstanceProfile
+  instanceRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+      Path: /
+    Type: AWS::IAM::Role
+  instanceSecurityGroup:
+    DependsOn:
+    - vpc
+    Properties:
+      GroupDescription: Allow ssh (22) and http (80)
+      SecurityGroupIngress:
+      - CidrIp:
+          Ref: sourceCidr
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+      - CidrIp:
+          Ref: sourceCidr
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::SecurityGroup
+  instanceSecurityGroupIngress:
+    DependsOn:
+    - instanceSecurityGroup
+    - loadBalancerSecurityGroup
+    Properties:
+      FromPort: 80
+      GroupId:
+        Ref: instanceSecurityGroup
+      IpProtocol: tcp
+      SourceSecurityGroupId:
+        Ref: loadBalancerSecurityGroup
+      ToPort: 80
+    Type: AWS::EC2::SecurityGroupIngress
+  internetGateway:
+    DependsOn:
+    - vpc
+    Type: AWS::EC2::InternetGateway
+  loadBalancerSecurityGroup:
+    DependsOn:
+    - vpc
+    Properties:
+      GroupDescription: Allow http (80)
+      SecurityGroupIngress:
+      - CidrIp:
+          Ref: sourceCidr
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::SecurityGroup
+  publicRoute:
+    DependsOn:
+    - publicRouteTable
+    - internetGateway
+    - attachGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: internetGateway
+      RouteTableId:
+        Ref: publicRouteTable
+    Type: AWS::EC2::Route
+  publicRouteTable:
+    DependsOn:
+    - vpc
+    - attachGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::RouteTable
+  publicSubnet1:
+    DependsOn: attachGateway
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+        - 0
+        - Fn::GetAZs:
+            Ref: AWS::Region
+      CidrBlock:
+        Fn::FindInMap:
+        - CidrMappings
+        - public-subnet-1
+        - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::Subnet
+  publicSubnet1RouteTableAssociation:
+    DependsOn:
+    - publicRouteTable
+    - publicSubnet1
+    - attachGateway
+    Properties:
+      RouteTableId:
+        Ref: publicRouteTable
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::EC2::SubnetRouteTableAssociation
+  publicSubnet2:
+    DependsOn: attachGateway
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+        - 1
+        - Fn::GetAZs:
+            Ref: AWS::Region
+      CidrBlock:
+        Fn::FindInMap:
+        - CidrMappings
+        - public-subnet-2
+        - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::Subnet
+  publicSubnet2RouteTableAssociation:
+    DependsOn:
+    - publicRouteTable
+    - publicSubnet2
+    - attachGateway
+    Properties:
+      RouteTableId:
+        Ref: publicRouteTable
+      SubnetId:
+        Ref: publicSubnet2
+    Type: AWS::EC2::SubnetRouteTableAssociation
+  vpc:
+    Properties:
+      CidrBlock:
+        Fn::FindInMap:
+        - CidrMappings
+        - vpc
+        - CIDR
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+    Type: AWS::EC2::VPC
+...
