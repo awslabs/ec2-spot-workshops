@@ -1,0 +1,46 @@
+{
+  "AutoScalingGroupName": "myEC2Workshop",
+  "MixedInstancesPolicy": {
+    "LaunchTemplate": {
+      "LaunchTemplateSpecification": {
+        "LaunchTemplateName": "myEC2Workshop",
+        "Version": "1"
+      },
+      "Overrides": [
+        {
+          "InstanceType": "c4.large"
+        },
+        {
+          "InstanceType": "c5.large"
+        },
+        {
+          "InstanceType": "m4.large"
+        },
+        {
+          "InstanceType": "m5.large"
+        },
+        {
+          "InstanceType": "t2.medium"
+        },
+        {
+          "InstanceType": "t3.medium"
+        }
+      ]
+    },
+    "InstancesDistribution": {
+      "OnDemandAllocationStrategy": "prioritized",
+      "OnDemandBaseCapacity": 2,
+      "OnDemandPercentageAboveBaseCapacity": 0,
+      "SpotAllocationStrategy": "lowest-price",
+      "SpotInstancePools": 4
+    }
+  },
+  "MinSize": 2,
+  "MaxSize": 12,
+  "DesiredCapacity": 4,
+  "TargetGroupARNs": [
+    "%TargetGroupARN%"
+  ],
+  "HealthCheckType": "EC2",
+  "VPCZoneIdentifier": "%publicSubnet1%,%publicSubnet2%"
+}
