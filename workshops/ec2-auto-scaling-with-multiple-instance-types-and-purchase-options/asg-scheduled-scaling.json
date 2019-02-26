@@ -1,7 +1,7 @@
 {
     "AutoScalingGroupName": "myEC2Workshop",
     "ScheduledActionName": "scheduledScaling",
-    "StartTime": "2018-11-11T12:20:00",
+    "StartTime": "2019-02-26T14:00:00",
     "MinSize": 2,
     "MaxSize": 12,
     "DesiredCapacity": 8
