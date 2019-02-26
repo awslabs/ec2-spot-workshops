@@ -3,8 +3,6 @@ title = "Architecture"
 weight = 20
 +++
 
-### Architecture
-
 In this workshop, you will deploy the following:
 
 * An Amazon Virtual Private Cloud (Amazon VPC) with subnets in two Availability Zones
