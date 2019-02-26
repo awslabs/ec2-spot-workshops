@@ -180,6 +180,11 @@ img[alt=spot_logo] { width: 350px; }
 div.cards {
     margin: 2rem 0;
     position: relative;
+/*
+    width: 45%;
+    margin-right: 3%;
+    float: left;
+*/
 }
 
 div.cards p {
@@ -191,70 +196,25 @@ div.cards p {
     color: #666;
 }
 
-
 div.cards.important_workshop p.header {
-    background: #F0B37E;
+    background: #6AB0DE;
     color: #fff;
     font-weight: 900;
     padding: 5px;
 }
 
 div.cards.important_workshop p {
-    background: #FFF2DB; 
+    background: #E7F2FA; 
 }
 
-
-/*
-div.cards.important_workshop p:first-child:before {
-    position: absolute;
-    top: 2px;
+div.cards.workshop p.header {
+    background: rgba(92, 184, 92, 0.8);;
     color: #fff;
-    font-family: "Font Awesome 5 Free";
     font-weight: 900;
-    content: "\f0c3";
-    left: 10px;
+    padding: 5px;    
 }
 
-div.cards p:first-child:after {
-    position: absolute;
-    top: 2px;
-    color: #fff;
-    left: 2rem;
+div.cards.workshop p {
+    background: #E6F9E6; 
 }
 
-div.cards.important_workshop p {
-    border-top: 30px solid #F0B37E;
-    background: #FFF2DB;
-}
-
-
-div.cards.important_workshop p:first-child:after {
-    content: 'Important Workshop';
-}
-*/
-
-div.notices.warning p {
-    border-top: 30px solid rgba(217, 83, 79, 0.8);
-    background: #FAE2E2;
-}
-
-div.cards.warning p:first-child:after {
-    content: 'Warning';
-}
-
-div.cards.note p {
-    border-top: 30px solid #6AB0DE;
-    background: #E7F2FA;
-}
-div.cards.note p:first-child:after {
-    content: 'Note';
-}
-
-div.cards.tip p {
-    border-top: 30px solid rgba(92, 184, 92, 0.8);
-    background: #E6F9E6;
-}
-
-div.cards.tip p:first-child:after {
-    content: 'Tip';
-}
