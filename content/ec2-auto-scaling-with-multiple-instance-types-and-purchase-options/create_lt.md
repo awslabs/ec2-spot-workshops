@@ -19,8 +19,6 @@ You'll use a launch template to specify configuration parameters for launching i
 	aws ec2 describe-images --owners amazon --filters 'Name=name,Values=amzn2-ami-hvm-2.0.????????-x86_64-gp2' 'Name=state,Values=available' --output json | jq -r '.Images | sort_by(.CreationDate) | last(.[]).ImageId'
 	```
 
-1. Update **%myEC2Workshop%** with a tag name of your choice.
-
 1. Save the file.
 
 1. Create the launch template from the launch template config you just saved:

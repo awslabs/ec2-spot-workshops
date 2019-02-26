@@ -1,5 +1,5 @@
 {
-    "AutoScalingGroupName": "runningAmazonEC2WorkloadsAtScale",
+    "AutoScalingGroupName": "myEC2Workshop",
     "ScheduledActionName": "scheduledScaling",
     "StartTime": "2018-11-11T12:20:00",
     "MinSize": 2,

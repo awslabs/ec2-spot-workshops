@@ -1,5 +1,5 @@
 {
-  "Name": "runningAmazonEC2WorkloadsAtScale",
+  "Name": "myEC2Workshop",
   "Subnets": [
     "%publicSubnet1%",
     "%publicSubnet2%"
@@ -11,7 +11,7 @@
   "Tags": [
     {
       "Key": "Name",
-      "Value": "runningAmazonEC2WorkloadsAtScale"
+      "Value": "myEC2Workshop"
     }
   ],
   "Type": "application"
