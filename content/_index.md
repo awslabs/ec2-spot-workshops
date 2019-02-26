@@ -25,6 +25,16 @@ Spot Instances and how to use them in different scenarios, with different AWS se
 are also designed to highlight best practices to follow when using EC2 Spot instances in your 
 applications and workloads.
 
+{{% card important_workshop "running-amazon-ec2-workloads-at-scale" "Amazon-EC2_Auto-Scaling_light-bg.png" %}}
+This workshop is designed to get you familiar with best practices for requesting 
+Amazon EC2 capacity at scale in a cost optimized architecture.
+{{% /card %}}
+
+{{% card important_workshop "amazon-ec2-spot-cicd-workshop" "Spot-Fleet_light-bg.png" %}}
+In this workshop, you’ll get hands-on with Amazon EC2 Spot and discover architectural best 
+practices through the lens of DevOps and CI/CD
+{{% /card %}}
+
 
 
 

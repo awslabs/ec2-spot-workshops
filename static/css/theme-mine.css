@@ -150,3 +150,111 @@ div.notices p:first-child:before {
 }
 
 img[alt=spot_logo] { width: 350px; }
+
+.contributors{
+    display:flex;
+    flex-flow:  wrap;
+    align-content: flex-start
+}
+
+.contributors > div{
+    width: 100% ;
+    display: inline-flex;
+    margin-bottom: 5px;
+}
+.contributors > div label{
+    padding-left: 4px ;
+}
+    
+.contributors > div span{
+    font-size: x-small;
+    padding-left: 4px ;
+}
+
+.contributor_entry >div {
+    width: 100px;
+}
+
+
+
+div.cards {
+    margin: 2rem 0;
+    position: relative;
+}
+
+div.cards p {
+    padding: 15px;
+    display: block;
+    font-size: 1rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    color: #666;
+}
+
+
+div.cards.important_workshop p.header {
+    background: #F0B37E;
+    color: #fff;
+    font-weight: 900;
+    padding: 5px;
+}
+
+div.cards.important_workshop p {
+    background: #FFF2DB; 
+}
+
+
+/*
+div.cards.important_workshop p:first-child:before {
+    position: absolute;
+    top: 2px;
+    color: #fff;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0c3";
+    left: 10px;
+}
+
+div.cards p:first-child:after {
+    position: absolute;
+    top: 2px;
+    color: #fff;
+    left: 2rem;
+}
+
+div.cards.important_workshop p {
+    border-top: 30px solid #F0B37E;
+    background: #FFF2DB;
+}
+
+
+div.cards.important_workshop p:first-child:after {
+    content: 'Important Workshop';
+}
+*/
+
+div.notices.warning p {
+    border-top: 30px solid rgba(217, 83, 79, 0.8);
+    background: #FAE2E2;
+}
+
+div.cards.warning p:first-child:after {
+    content: 'Warning';
+}
+
+div.cards.note p {
+    border-top: 30px solid #6AB0DE;
+    background: #E7F2FA;
+}
+div.cards.note p:first-child:after {
+    content: 'Note';
+}
+
+div.cards.tip p {
+    border-top: 30px solid rgba(92, 184, 92, 0.8);
+    background: #E6F9E6;
+}
+
+div.cards.tip p:first-child:after {
+    content: 'Tip';
+}
