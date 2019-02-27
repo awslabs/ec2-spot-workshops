@@ -53,7 +53,7 @@ and understand how to qualify workloads for EC2 Spot.
 {{% /card %}}
 
 {{% card workshop 
-    "launching_ec2_spot_instances"
+    "ec2_spot_fleet_web_app"
     "EC2 Spot Fleet Web App"
     "AWS-Lambda_Lambda-Function_light-bg.png" 
 %}}
