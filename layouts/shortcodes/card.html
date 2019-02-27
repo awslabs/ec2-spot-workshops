@@ -12,9 +12,10 @@
             {{if eq (.Get 0) "important_workshop" }}
             &nbsp;<i class="fas fa-star"></i>                          
             {{ end }}
-        
         </p>
-        <img width="64" height="64" style="margin-top:20px; float: left; margin-left: 8px; margin-right: 24px;" src="/images/{{ .Get 3 }}" alt="/images/{{ .Get 3 }}" /> 
-        {{ .Inner }}
+        <div class="content">
+            <img width="64" height="64" style="margin-top:20px; float: left; margin-left: 8px; margin-right: 24px; margin-bottom: 5px;" src="/images/{{ .Get 3 }}" alt="/images/{{ .Get 3 }}" /> 
+            {{ .Inner }}
+        </div>
     </div>
 </a>

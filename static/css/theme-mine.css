@@ -182,6 +182,7 @@ div.cards {
     position: relative;
 }
 
+
 div.cards p {
     padding: 15px;
     display: block;
@@ -191,7 +192,6 @@ div.cards p {
     color: #666;
 }
 
-
 div.cards.important_workshop p.header {
     background: #6AB0DE;
     color: #fff;
@@ -199,9 +199,19 @@ div.cards.important_workshop p.header {
     padding: 5px;
 }
 
+/*
 div.cards.important_workshop p {
     background: #E7F2FA;
     padding-bottom: 30px;
+}
+*/
+
+div.cards.important_workshop div.content {
+    background: #E7F2FA;
+    padding-bottom: 30px;
+    min-height: 100px;
+    margin: 0px;
+    padding: 0px;
 }
 
 div.cards.workshop p.header {
@@ -211,8 +221,11 @@ div.cards.workshop p.header {
     padding: 5px;    
 }
 
-div.cards.workshop p {
+div.cards.workshop div.content {
     background: #E6F9E6;
     padding-bottom: 30px;
+    min-height: 100px;
+    margin: 0px;
+    padding: 0px;
 }
 
