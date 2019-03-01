@@ -4,8 +4,6 @@ chapter = false
 weight = 30
 +++
 
-### Deploy the Application Load Balancer
-
 To deploy your Application Load Balancer and Spot Fleet in your AWS account, you will begin by signing in to the AWS Management Console with your user name and password. 
 
 1\. Go to the EC2 console by choosing **EC2** under **Compute**.

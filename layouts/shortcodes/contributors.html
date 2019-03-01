@@ -1,0 +1,53 @@
+<!-- 
+Documentation for the contributors template
+
+A few ways to use it:
+
+ __% contributors "https://api.github.com/repos/awslabs/ec2-spot-workshops/contributors?per_page=1000" %__ 
+
+Would be the default. this will pick up authors from the github repo listed and display the commits. 
+There can be more than one entry to ensure committers to other projects are listed too, given that the original content
+is coming from previous repositories. Additionally the function takes a third parameter that can
+be used as a filter, so if a profile commited in two of the repositories, it can be filtered from one of them
+and only be shown once in the list... this is a bit manual but should do for the moment: 
+for example: 
+
+__% contributors "https://api.github.com/repos/aws-samples/ecs-deep-learning-workshop/contributors?per_page=1000" "true" "hyandell" %__
+__% contributors "https://api.github.com/repos/awslabs/ec2-spot-workshops/contributors?per_page=1000" "true" "schmutze"%__
+
+Finally, static contacts can be added to /static/data/contributors.json file and be added to the list as follows.
+
+__% contributors "/static/data/contributors.json" "false" %__
+
+Two things to note: 
+- First the second parameter is changed to "false" this means that commit numbers will not be displayed
+- Second, respect the format below. Best practice is to point to Linkedin profile or perhaps twitter profiles
+  depending on where the contributor has more presence... you can also override the number of commits ;-) 
+
+[
+    {
+        "avatar_url": "https://media.licdn.com/dms/image/C4D03AQFpvlUuFEicBQ/profile-displayphoto-shrink_800_800/0?e=1556755200&v=beta&t=r0rxW9fnmvqylozRdxorKgMqHUYAW7FFqM-S-0Aw8Qg",
+        "html_url": "https://www.linkedin.com/in/ransheinberg/",
+        "login":"ransheinberg",
+        "contributions": 20
+    }
+]
+-->
+
+<div class="contributors">
+  {{ $url := .Get 0 }}
+  {{ $show_contributions := .Get 1 }}
+  {{ $filterList := .Get 2 }}
+  {{ range getJSON $url }}
+    {{ if in $filterList .login }}
+    {{else}}
+      <div class="contributor_entry">
+        <img src="{{.avatar_url}}" class="inline" width="32" height="32" style="height: 32px;height: 32px;margin-bottom:.25em; vertical-align:middle; ">
+        <label><a href="{{.html_url}}">@{{.login}}</a></label>
+        {{ if eq $show_contributions "true" }}
+          <span class="contributions">{{.contributions}} commits</span>
+        {{ end }}
+      </div>      
+    {{end}}
+  {{ end }}
+</div>

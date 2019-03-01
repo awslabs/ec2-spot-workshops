@@ -1,0 +1,21 @@
+<a href="/{{ .Get 1 }}.html">
+    <div class="cards {{ .Get 0 }}" {{ if len .Params | eq 2 }} id="{{ .Get 1 }}" {{ end }}>
+        <p class="header"> 
+            {{if eq (.Get 0) "important_workshop" }}
+                <i class="fas fa-star"></i>                
+            {{ else }}
+                <i class="fas fa-flask"></i>            
+            {{ end }}
+            
+            &nbsp;{{ .Get 2 }}
+            
+            {{if eq (.Get 0) "important_workshop" }}
+            &nbsp;<i class="fas fa-star"></i>                          
+            {{ end }}
+        </p>
+        <div class="content">
+            <img width="64" height="64" style="margin-top:20px; float: left; margin-left: 8px; margin-right: 24px; margin-bottom: 5px;" src="/images/{{ .Get 3 }}" alt="/images/{{ .Get 3 }}" /> 
+            {{ .Inner }}
+        </div>
+    </div>
+</a>

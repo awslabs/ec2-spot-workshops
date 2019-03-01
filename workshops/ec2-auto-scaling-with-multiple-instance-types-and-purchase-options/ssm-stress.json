@@ -1,0 +1,17 @@
+{
+    "Targets": [
+        {
+            "Key": "tag:Env",
+            "Values": [
+                "prod"
+            ]
+        }
+    ],
+    "DocumentName": "AWS-RunShellScript",
+    "Comment": "myEC2Workshop stress",
+    "Parameters": {
+        "commands": [
+            "stress-ng --matrix 0 -t 15m"
+        ]
+    }
+}

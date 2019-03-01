@@ -150,3 +150,82 @@ div.notices p:first-child:before {
 }
 
 img[alt=spot_logo] { width: 350px; }
+
+.contributors{
+    display:flex;
+    flex-flow:  wrap;
+    align-content: flex-start
+}
+
+.contributors > div{
+    width: 100% ;
+    display: inline-flex;
+    margin-bottom: 5px;
+}
+.contributors > div label{
+    padding-left: 4px ;
+}
+    
+.contributors > div span{
+    font-size: x-small;
+    padding-left: 4px ;
+}
+
+.contributor_entry >div {
+    width: 100px;
+}
+
+
+
+div.cards {
+    margin: 2rem 0;
+    position: relative;
+}
+
+
+div.cards p {
+    padding: 15px;
+    display: block;
+    font-size: 1rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    color: #666;
+}
+
+div.cards.important_workshop p.header {
+    background: #6AB0DE;
+    color: #fff;
+    font-weight: 900;
+    padding: 5px;
+}
+
+/*
+div.cards.important_workshop p {
+    background: #E7F2FA;
+    padding-bottom: 30px;
+}
+*/
+
+div.cards.important_workshop div.content {
+    background: #E7F2FA;
+    padding-bottom: 30px;
+    min-height: 100px;
+    margin: 0px;
+    padding: 0px;
+}
+
+div.cards.workshop p.header {
+    background: rgba(92, 184, 92, 0.8);;
+    color: #fff;
+    font-weight: 900;
+    padding: 5px;    
+}
+
+div.cards.workshop div.content {
+    background: #E6F9E6;
+    padding-bottom: 30px;
+    min-height: 100px;
+    margin: 0px;
+    padding: 0px;
+}
+

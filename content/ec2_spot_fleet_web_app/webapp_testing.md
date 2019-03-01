@@ -4,9 +4,6 @@ chapter = false
 weight = 60
 +++
 
-
-### Test the web app
-
 Now that everything is deployed, we can test the simple web application by browsing to the public URL of the Application Load Balancer.
 
 1\. Choose **Load Balancers** in the EC2 console navigation pane. This page shows a list of load balancer types to choose from.

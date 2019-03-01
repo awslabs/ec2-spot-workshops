@@ -18,12 +18,48 @@ back. You can use Spot Instances for various fault-tolerant and flexible applica
 big data, containerized workloads, high-performance computing (HPC), stateless web servers, rendering, 
 CI/CD and other test & development workloads. 
 
-Spot Instances are tightly integrated with other AWS services including EMR, Auto Scaling, Elastic Container Service (ECS), CloudFormation, Data Pipeline and AWS Batch, providing freedom of choice in how you launch and maintain your applications running on Spot Instances.
-
-This website contains a set of different hands-on workshops designed for you to get familiar with EC2
-Spot Instances and how to use them in different scenarios, with different AWS services. The workshops 
-are also designed to highlight best practices to follow when using EC2 Spot instances in your 
+This website contains a set of workshops designed for you to get familiar with EC2
+Spot Instances and how to use them in different scenarios. The workshops highlight 
+best practices to follow when using EC2 Spot instances in your 
 applications and workloads.
+
+Select a workshop from the left panel or just click and explore the workshops hightlighted below.
+
+{{% card important_workshop 
+    "running-amazon-ec2-workloads-at-scale" 
+    "Running EC2 Workloads at Scale with EC2 Auto Scaling"
+    "Amazon-EC2_Auto-Scaling_light-bg.png" 
+%}}
+This workshop is designed to get you familiar with best practices for requesting 
+Amazon EC2 capacity at scale in a cost optimized architecture.
+{{% /card %}}
+
+{{% card important_workshop 
+    "amazon-ec2-spot-cicd-workshop"
+    "CI/CD and Test Workloads with EC2 Spot Instances"
+    "Amazon-EC2_Instances_light-bg.png" 
+%}}
+In this workshop you will get hands-on with Amazon EC2 Spot and discover architectural best 
+practices through the lens of DevOps and CI/CD.
+{{% /card %}}
+
+{{% card workshop 
+    "launching_ec2_spot_instances"
+    "Launching EC2 Spot Instances"
+    "Amazon-EC2_Spot-Instance_light-bg.png" 
+%}}
+In this workshop you will explore different ways of requesting Amazon EC2 Spot requests
+and understand how to qualify workloads for EC2 Spot.
+{{% /card %}}
+
+{{% card workshop 
+    "ec2_spot_fleet_web_app"
+    "EC2 Spot Fleet Web App"
+    "AWS-Lambda_Lambda-Function_light-bg.png" 
+%}}
+This workshop is designed to understand how to take advantage of Amazon EC2 
+Spot instance interruption notices using lambda functions.
+{{% /card %}}
 
 
 
