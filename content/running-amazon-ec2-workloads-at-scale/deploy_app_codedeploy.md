@@ -23,7 +23,7 @@ You will now deploy your application to the EC2 instances launched by the auto s
 1. Then clone the Koel GitHub repo:
 
 	```
-	cd ~/environment/repos/ec2spotworkshops/workshops/running-amazon-ec2-workloads-at-scale/
+	cd ~/environment/repos/ec2-spot-workshops/workshops/running-amazon-ec2-workloads-at-scale/
 	
 	git clone https://github.com/phanan/koel.git
 	
