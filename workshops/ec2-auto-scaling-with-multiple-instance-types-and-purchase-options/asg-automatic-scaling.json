@@ -1,0 +1,13 @@
+{
+  "AutoScalingGroupName": "myEC2Workshop",
+  "PolicyName": "automaticScaling",
+  "PolicyType": "TargetTrackingScaling",
+  "EstimatedInstanceWarmup": 180,
+  "TargetTrackingConfiguration": {
+    "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ASGAverageCPUUtilization"
+    },
+    "TargetValue": 50,
+    "DisableScaleIn": false
+  }
+}
