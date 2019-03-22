@@ -13,7 +13,7 @@ While the workshop provides step by step instructions, please do take a moment t
 
 
 {{% notice warning %}}
-This workshop has been designed to run in the AWS Region **us-east-1 (Virginia)**. Please make sure you are operating in 
+This workshop has been designed to run in the AWS Region **us-east-1 (Virginia)**. Please make sure you are operating in this region.
 {{% /notice %}}
 
 
