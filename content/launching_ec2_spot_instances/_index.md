@@ -1,11 +1,7 @@
 ---
 title: "Launching EC2 Spot Instances"
 date: 2019-01-31T08:51:33Z
-<<<<<<< HEAD
-weight: 20
-=======
 weight: 10
->>>>>>> f71b4f10fe414e7ea3a78ffc9edca3e9a3f6ce59
 pre: "<b>⁃ </b>"
 ---
 
