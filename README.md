@@ -2,11 +2,8 @@
 
 Collection of workshops to demonstrate best practices in using Amazon EC2 Spot Instances. https://aws.amazon.com/ec2/spot/
 
-<<<<<<< HEAD
-=======
 Website for this workshops is available at https://ec2spotworkshops.com
 
->>>>>>> f71b4f10fe414e7ea3a78ffc9edca3e9a3f6ce59
 ## Building the Workshop site
 
 The content of the workshops is built using [hugo](https://gohugo.io/). 
