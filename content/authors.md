@@ -9,6 +9,9 @@ disableToc: true
 
 {{% contributors "https://api.github.com/repos/aws-samples/ecs-deep-learning-workshop/contributors?per_page=1000" "true" "hyandell" %}}
 {{% contributors "https://api.github.com/repos/awslabs/ec2-spot-workshops/contributors?per_page=1000" "true" "schmutze"%}}
+<<<<<<< HEAD
 {{% contributors "/static/data/contributors.json" "false" %}}
+=======
+>>>>>>> f71b4f10fe414e7ea3a78ffc9edca3e9a3f6ce59
 
 

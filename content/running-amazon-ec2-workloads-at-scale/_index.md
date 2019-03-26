@@ -1,7 +1,11 @@
 ---
 title: "Running EC2 Workloads at Scale with EC2 Auto Scaling"
 date: 2019-01-24T09:05:54Z
+<<<<<<< HEAD
 weight: 10
+=======
+weight: 20
+>>>>>>> f71b4f10fe414e7ea3a78ffc9edca3e9a3f6ce59
 pre: "<b>⁃ </b>"
 ---
 

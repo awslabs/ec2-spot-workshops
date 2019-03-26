@@ -5,6 +5,7 @@ theme = "learn"
 uglyurls = true
 sectionPagesMenu = "main"
 pygmentsCodeFences = true
+googleAnalytics = "UA-136840914-1"
 
 
 [blackfriday]
@@ -31,7 +32,7 @@ page = [ "HTML", "AMP"]
   [privacy.googleAnalytics]
     anonymizeIP = false
     disable = false
-    respectDoNotTrack = false
+    respectDoNotTrack = true
     useSessionStorage = false
   [privacy.instagram]
     disable = false
