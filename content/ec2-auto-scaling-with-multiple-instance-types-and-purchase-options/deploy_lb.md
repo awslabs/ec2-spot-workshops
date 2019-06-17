@@ -15,7 +15,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 	aws elbv2 create-load-balancer --cli-input-json file://application-load-balancer.json
 	```
 {{% notice note %}}
-Plese note the ARN of the application load balancer for use in an upcoming step.
+Please note the ARN of the application load balancer for use in an upcoming step.
 {{% /notice %}}
 
 
@@ -27,7 +27,7 @@ Plese note the ARN of the application load balancer for use in an upcoming step.
 	aws elbv2 create-target-group --cli-input-json file://target-group.json
 	```
 {{% notice note %}}
-Plese note the ARN of the application load balancer for use in an upcoming step.
+Please note the ARN of the application target-group for use in an upcoming step.
 {{% /notice %}}
 
 1. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName) to check out your newly created target group.
