@@ -1,7 +1,6 @@
 ---
 title: "Automations and monitoring"
 weight: 110
-draft: true
 ---
 
 When adopting EMR into your analytics flows and data processing pipelines, you will want to launch EMR clusters and run jobs in a programmatic manner. There are many ways to do so with AWS SDKs that can run in different environments like Lambda Functions, invoked by AWS Data Pipeline or AWS Step Functions, with third party tools like Apache Airflow, and more. \

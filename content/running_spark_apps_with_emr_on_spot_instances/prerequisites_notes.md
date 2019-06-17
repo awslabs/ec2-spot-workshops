@@ -1,7 +1,6 @@
 ---
 title: "Prerequisites and initial steps"
 weight: 10
-draft: true
 ---
 #### General requirements and notes:\
 

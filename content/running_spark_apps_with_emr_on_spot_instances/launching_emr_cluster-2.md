@@ -1,7 +1,6 @@
 ---
 title: "Launch a cluster - Step 2"
 weight: 70
-draft: true
 ---
 
 Under "**Instance group configuration**", select Instance Fleets. Under Network, select the VPC where you want to run the cluster, and select all subnets in the VPC. When you select multiple subnets, the EMR cluster will still be started in a single Availability Zone, but EMR Instance Fleets will make the best instance type selection based on available capacity and price across the multiple availability zones that you specified.

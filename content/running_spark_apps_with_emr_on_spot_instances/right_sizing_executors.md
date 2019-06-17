@@ -1,7 +1,6 @@
 ---
 title: "Right sizing Spark executors"
 weight: 40
-draft: true
 ---
 
 Building towards the first Spark application run on Amazon EMR Instance Fleets, let's dive deeper into the most important step that will allow us to be **flexible** around our EC2 Instance type selection - **right sizing our Spark executors**.

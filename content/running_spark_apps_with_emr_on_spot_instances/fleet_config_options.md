@@ -1,7 +1,6 @@
 ---
 title: "Instance Fleet configuration options"
 weight: 85
-draft: true
 ---
 
 While our cluster is starting (7-8 minutes) and the job is running (4-5 minutes) let's take the time to look at some of the EMR Instance Fleets configurations we didn't dive into when starting the cluster.

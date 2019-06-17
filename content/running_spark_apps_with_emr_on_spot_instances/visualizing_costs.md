@@ -1,7 +1,6 @@
 ---
 title: "Visualizing costs"
 weight: 130
-draft: true
 ---
 
 In this section we will use AWS Cost explorer to look at the costs of our EMR cluster, including the underlying EC2 Spot Instances.
