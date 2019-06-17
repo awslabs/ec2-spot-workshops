@@ -27,7 +27,7 @@ Please note the ARN of the application load balancer for use in an upcoming step
 	aws elbv2 create-target-group --cli-input-json file://target-group.json
 	```
 {{% notice note %}}
-Please note the ARN of the target group for use in an upcoming step.
+Please note the ARN of the target-group for use in an upcoming step.
 {{% /notice %}}
 
 1. Edit **modify-target-group.json** and update the value of **%TargetGroupArn%** with the ARN. Save the file. Modify the target group:
