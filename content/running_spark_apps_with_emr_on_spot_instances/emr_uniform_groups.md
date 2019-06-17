@@ -1,7 +1,6 @@
 ---
 title: "EMR Uniform Groups"
 weight: 20
-draft: true
 ---
 
 When using the EMR console to create a cluster via the quick settings, default advanced settings, or with the AWS CLI - Amazon EMR will provision your EMR cluster with a configuration option called "Uniform Instance Groups".

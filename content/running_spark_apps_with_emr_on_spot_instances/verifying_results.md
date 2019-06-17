@@ -1,7 +1,6 @@
 ---
 title: "Verifying the app's results"
 weight: 140
-draft: true
 ---
 
 In this section we will use Amazon Athena to run a SQL query against the results of our Spark application in order to make sure that it completed successfully.

@@ -1,7 +1,6 @@
 ---
 title: "Launch a cluster - Step 1"
 weight: 60
-draft: true
 ---
 
 In this step we'll launch our first cluster. This will be a transient cluster that will be shut down after it finishes the application we submit to it, and will run solely on Spot Instances. The application is a simple word count that will run against a public data set of Amazon product reviews.

@@ -1,7 +1,6 @@
 ---
 title: "Tracking Spot interruptions"
 weight: 100
-draft: true
 ---
 
 Now we're in the process of getting started with adopting Spot Instances for our EMR clusters. We're still not sure that our jobs are fully resilient and what would actually happen if some of the EC2 Spot Instances in our EMR clusters get interrupted, when EC2 needs the capacity back for On-Demand.

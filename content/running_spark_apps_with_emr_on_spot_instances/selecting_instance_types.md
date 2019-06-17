@@ -1,7 +1,6 @@
 ---
 title: "Selecting instance types"
 weight: 50
-draft: true
 ---
 
 Let's use the data points we have in order to select the EC2 Instance Types that will be used in our EMR cluster.
