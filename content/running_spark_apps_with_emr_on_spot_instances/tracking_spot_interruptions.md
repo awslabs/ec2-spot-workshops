@@ -4,14 +4,14 @@ weight: 100
 draft: true
 ---
 
-So we're in the process of getting started with adopting Spot Instances for our EMR clusters. We're still not sure that our jobs are fully resilient and what would actually happen if some of the EC2 Spot Instances in our EMR clusters get interrupted, when EC2 needs the capacity back for On-Demand.
+Now we're in the process of getting started with adopting Spot Instances for our EMR clusters. We're still not sure that our jobs are fully resilient and what would actually happen if some of the EC2 Spot Instances in our EMR clusters get interrupted, when EC2 needs the capacity back for On-Demand.
 
 {{% notice note %}}
 In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions, but when we get started with EMR jobs this could be useful.
 {{% /notice %}}
 
 
-Let's set up an email notification for when Spot interruptions occur, so if something fails in our EMR jobs we'll be able to check if the failures correlate to a Spot interruption.
+Let's set up an email notification for when Spot interruptions occur, so if there are any failures in our EMR applications, we'll be able to check if the failures correlate to a Spot interruption.
 
 #### Creating an SNS topic for the notifications
 1. Create a new SNS topic and take note of the topic ARN that is returned

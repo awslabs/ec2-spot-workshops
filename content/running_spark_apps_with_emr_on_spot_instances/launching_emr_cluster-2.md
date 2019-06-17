@@ -10,7 +10,7 @@ Let's discuss the right setup for each of our node types:\
 #### **Master node**:
 Unless your cluster is very short-lived and the runs are cost-driven, avoid running your Master node on a Spot Instance. We suggest this because a Spot interruption on the Master node terminates the entire cluster. \
 For the purpose of this workshop, we will run the Master node on a Spot Instance as we simulate a relatively short lived job running on a transient cluster. There will not be business impact if the job fails due to a Spot interruption and later re-started.\
-Click **Add / remove instance types to fleet** and select two relatively small and cheap instance types - i.e c4.large and m4.large and check Spot under target capacity. EMR will only provision one instance, but will select the best instance type for the Master node.
+Click **Add / remove instance types to fleet** and select two relatively small and cheap instance types - i.e c4.large and m4.large and check Spot under target capacity. EMR will only provision one instance, but will select the best instance type for the Master node based on price and available capacity.
 ![FleetSelection1](/images/running-emr-spark-apps-on-spot/emrinstancefleets-master.png)
 
 

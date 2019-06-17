@@ -11,9 +11,13 @@ EMR clusters run Master, Core and Task node types. [Click here] (https://docs.aw
 We determined that in order to maximize usage of R4 instance types, we will submit our Spark application with **"–executor-memory=18GB –executor cores=4"**, 
 
 We can use the [Spot Instance Advisor] (https://aws.amazon.com/ec2/spot/instance-advisor/) page to find the relevant instance types with sufficient number of vCPUs and RAM, and use this opportunity to also select instance types with low interruption rates. \
-For example: r4.2xlarge has 8 vCPUs and 64 GB of RAM, so EMR will automatically run 2 executors that will consume 36 GB of RAM and still leave free RAM for the operating system and other processes.\
+For example: r5.2xlarge has 8 vCPUs and 64 GB of RAM, so EMR will automatically run 2 executors that will consume 36 GB of RAM and still leave free RAM for the operating system and other processes.\
 However, at the time of writing, when looking at the EU (Ireland) region in the Spot Instance advisor, the r5.2xlarge instance type is showing an interruption rate of >20%.\
 Instead, we'll focus on instance types with lower interruption rates and suitable vCPU/Memory ratio. At the time of writing, in the EU (Ireland) region, these could be: r4.xlarge, r4.2xlarge, i3.xlarge, i3.2xlarge, r5d.xlarge
+
+{{% notice note %}}
+Spot Instance interruption rates are dynamic, the above just provides a real world example from a specific time and would probably be different when you are performing this workshop.
+{{% /notice %}}
 
 To keep our flexibility in place and be able to provide multiple instance types for our EMR cluster, we need to make sure that our executor size will be under the EMR YARN limitation that we saw in the previous step, 
 

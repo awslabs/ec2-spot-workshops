@@ -14,7 +14,7 @@ If we keep approximately the same vCPU:Mem ratio (1:6) for our job and avoid goi
 
 EMR by default places limits on executor sizes in two different ways, this is in order to avoid having the executor consume too much memory and interfere with the operating system and other processes running on the instance. 
 
-1. [for each instance type differently] (https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hadoop-task-config.html) in the spark., 
+1. [for each instance type differently] (https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hadoop-task-config.html) in the default YARN configuration options. 
 Let's have a look at a few examples of instances that have our approximate vCPU:Mem ratio:\
 r4.xlarge: yarn.scheduler.maximum-allocation-mb	23424\
 r4.2xlarge: yarn.scheduler.maximum-allocation-mb 54272\
@@ -26,4 +26,4 @@ So we can conclude that if we decrease our executor size to ~18GB, we'll be able
 
 ![tags](/images/running-emr-spark-apps-on-spot/sparkmemory.png)
 
-Our conclusion is that in order to use R family instances with the flexibility of also using the smallest instance types, we will use **"--executor-memory=18GB --executor cores=4"** for our Spark application submission.
+Our conclusion is that in order to use R family instances with the flexibility of also using the smallest supported instance types, we will use **"--executor-memory=18GB --executor cores=4"** for our Spark application submission.
