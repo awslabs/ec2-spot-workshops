@@ -3,8 +3,7 @@ title: "Selecting instance types"
 weight: 50
 ---
 
-Let's use the data points we have in order to select the EC2 Instance Types that will be used in our EMR cluster.
-
+Let's use our newly acquired knowledge around Spark executor sizing in order to select the EC2 Instance Types that will be used in our EMR cluster.\
 EMR clusters run Master, Core and Task node types. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html) to read more about the different node types.
 
 We determined that in order to maximize usage of R4 instance types, we will submit our Spark application with **"–executor-memory=18GB –executor cores=4"**, 
