@@ -5,6 +5,10 @@ weight: 40
 
 Building towards the first Spark application run on Amazon EMR Instance Fleets, let's dive deeper into the most important step that will allow us to be **flexible** around our EC2 Instance type selection - **right sizing our Spark executors**.
 
+{{% notice note %}}
+**Remember!** you might be able to achieve greater utilization and optimization when using a single EC2 instance type, but when adopting Spot Instances the idea is to be as flexible as possible in order to achieve and keep the desired scale to run your Spark applications.
+{{% /notice %}}
+
 Today, the developers in your organization run the job on a non-managed Spark cluster using “**spark-submit —executor-memory=90G —executor-cores=15**". This confines the platform to EC2 instance types with a lot of memory and cores to accommodate the size of the executor, and prevents the cluster from running on a diversified set of instances. If the Spot interruption rate for the high memory instances will increase, then you will have problems getting and keeping capacity for the clusters, hence we need to right size the executors to fit on smaller instance types and allow for a larger instance type selection. In some cases, smaller instance types will have lower Spot interruption rates. We will find out how to see Spot Interruption rates for the different instance types in the next section.
 
 If we keep approximately the same vCPU:Mem ratio (1:6) for our job and avoid going over the recommended Java memory configuration (20-30GB), then we'll conclude that we can optimize our executor configuration by using "--executor-memory=24GB --executor cores=4"
