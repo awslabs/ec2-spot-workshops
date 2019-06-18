@@ -3,7 +3,7 @@ title: "Conclusions and cleanup"
 weight: 150
 ---
 
-**Congratulations!** you have reached the end of the workshop. In this workshop, you learned about the need to be flexible with EC2 instance types when using Spot Instances, and how to size your Spark executors to allow for this flexibility. You ran a Spark application solely on Spot Instances using EMR Instance Fleets, verified the results of the application, and saw the cost savings that you achieved by running the application on Spot Instances.
+**Congratulations!** you have reached the end of the workshop. In this workshop, you learned about the need to be flexible with EC2 instance types when using Spot Instances, and how to size your Spark executors to allow for this flexibility. You ran a Spark application solely on Spot Instances using EMR Instance Fleets, you verified the results of the application, and saw the cost savings that you achieved by running the application on Spot Instances.
 
 #### Cleanup
 

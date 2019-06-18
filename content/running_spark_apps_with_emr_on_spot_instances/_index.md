@@ -5,7 +5,7 @@ weight: 60
 pre: "<b>⁃ </b>"
 ---
 
-## This workshop is still in draft! ping ranshein@amazon.com for any concerns.
+## This workshop is still under construction. ping ranshein@amazon.com if you have any concerns.
 
 ## Overview
 
@@ -28,4 +28,4 @@ The requirements for the platform are:
 * [Amazon EC2 Spot Instances] (https://aws.amazon.com/ec2/spot/) offer spare compute capacity available in the AWS Cloud at steep discounts compared to On-Demand prices. EC2 can interrupt Spot Instances with two minutes of notification when EC2 needs the capacity back. You can use Spot Instances for various fault-tolerant and flexible applications. Some examples are analytics, containerized workloads, high-performance computing (HPC), stateless web servers, rendering, CI/CD, and other test and development workloads.
 
 ### About Spot Instances in Analytics workloads
-The most important best practice when using Spot Instances is to be flexible with the EC2 instance types that our application can run on, in order to be able to access many spare capacity pools (a combination of EC2 instance type and an Availability Zone), as well as get our desired capacity from a different instance type in case some of our Spot capacity in the EMR cluster is interrupted, when EC2 needs the spare capacity back. It's possible to run Spark applications in a single cluster that is running on multiple different instance types, we'll just need to right-size our executors and use the EMR Instance Fleets configuration option in order to meet the Spot diversification best practice.
+The most important best practice when using Spot Instances is to be flexible with the EC2 instance types that our application can run on, in order to be able to access many spare capacity pools (a combination of EC2 instance type and an Availability Zone), as well as get our desired capacity from a different instance type in case some of our Spot capacity in the EMR cluster is interrupted, when EC2 needs the spare capacity back. It's possible to run Spark applications in a single cluster that is running on multiple different instance types, we'll just need to right-size our executors and use the EMR Instance Fleets configuration option in order to meet the Spot diversification best practice. We'll look into that in details during this workshop.

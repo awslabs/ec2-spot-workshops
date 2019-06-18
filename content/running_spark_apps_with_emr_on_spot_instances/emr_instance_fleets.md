@@ -5,6 +5,10 @@ weight: 30
 
 With EMR instance fleets, you specify target capacities for On-Demand Instances and Spot Instances within each fleet (Master, Core, Task). When the cluster launches, Amazon EMR provisions instances until the targets are fulfilled. You can specify up to five EC2 instance types per fleet for Amazon EMR to use when fulfilling the targets. You can also select multiple subnets for different Availability Zones.
 
+{{% notice info %}}
+[Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-fleet.html) to learn more about EMR Instance Fleets.
+{{% /notice %}}
+
 **When Amazon EMR launches the cluster, it looks across those subnets to find the instances and purchasing options you specify, and will select the Spot Instances with the lowest chance of getting interrupted, for the lowest cost.**
 
 

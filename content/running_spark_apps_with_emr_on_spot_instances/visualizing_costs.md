@@ -1,6 +1,6 @@
 ---
 title: "Visualizing costs"
-weight: 130
+weight: 145
 ---
 
 In this section we will use AWS Cost explorer to look at the costs of our EMR cluster, including the underlying EC2 Spot Instances.
@@ -8,13 +8,24 @@ In this section we will use AWS Cost explorer to look at the costs of our EMR cl
 It will take 24-48 hours for your usage to appear in Cost Explorer, so you can plan to come back to this step later to check the costs of running the workshop. If your organization administrator has not granted you access to Billing information, then you will not be able to access Cost Explorer, but you can look at the examples provided below.
 {{% /notice %}}
 
-In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=Name, Value=EMRTransientCluster1. These tags can be used to identify resources in your AWS accounts, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here] (https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
+In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=**Name**, Value=**EMRTransientCluster1**. This tag can be used to identify resources in your AWS accounts, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here] (https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
 
 
 ### Analyzing costs with AWS Cost Explorer
-[AWS Cost Explorer] (https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) has an easy-to-use interface that lets you visualize, understand, and manage your AWS costs and usage over time. Get started quickly by creating custom reports (including charts and tabular data) that analyze cost and usage data, both at a high level (e.g., total costs and usage across all accounts) and for highly-specific requests (e.g., m2.2xlarge costs within account Y that are tagged “project: secretProject”). Using AWS Cost Explorer, you can dive deeper into your cost and usage data to identify trends, pinpoint cost drivers, and detect anomalies.
+[AWS Cost Explorer] (https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) has an easy-to-use interface that lets you visualize, understand, and manage your AWS costs and usage over time. You can analyze cost and usage data, both at a high level (e.g. how much did I pay for EMR) and for highly-specific requests (e.g. Cost for a specific instance type in a specific account with a specific tag). 
 
 Let's use Cost Explorer to analyze the costs of running our EMR application.\
 1. Navigate to Cost Explorer by opening the AWS Management Console -> Click your username in the top right corner -> click **My Billing Dashboard** -> click **Cost Explorer in the left pane**. or [click here] (https://console.aws.amazon.com/billing/home#/costexplorer) for a direct link.\
-2. We know that we gave our EMR cluster a unique Name tag, so let's filter according to it. In the right pane, click Tags -> Name -> enter "**MyWorkshopEMRTransientCluster1**"
-3. To 
+2. We know that we gave our EMR cluster a unique Name tag, so let's filter according to it. In the right pane, click Tags -> Name -> enter "**EMRTransientCluster1**"\
+3. Instead of the default 45 days view, let's narrow down the time span to just the day when we ran the cluster. In the data selection dropdown, mark that day as start and end.
+4. You are now looking at the total cost to run the cluster (**$0.30**), including: EMR, EC2, EBS, and possible AWS Cross-Region data transfer costs, depending on where you ran your cluster relative to where the S3 dataset is located (in N. Virginia).
+5. Group by **Usage Type** to get a breakdown of the costs
+
+![costexplorer](/images/running-emr-spark-apps-on-spot/costexplorer1.png)
+
+* EU-SpotUsage:r5.xlarge: This was the instance that I ran in the EMR Task Instance fleet and accured the biggest cost ($0.17)\
+* EU-BoxUsage:r5.xlarge: The EMR costs. [Click here] (https://aws.amazon.com/emr/pricing/) to learn more about EMR pricing. ($0.06)\
+* EU-EBS:VolumeUsage.gp2: EBS volumes that were attached to my EC2 Instances in the cluster - these got tagged automatically. ($0.03)\
+* EU-SpotUsage:r5a.xlarge & EU-SpotUsage:m4.xlarge: EC2 Spot price for the other instances in my cluster (Master and Core) ($0.02 combined)\
+
+If you have access to Cost Explorer, have a look around and see what you can find by slicing and dicing with filtering and grouping. For example, what happens if you Filter by Service=EMR and Group by Usage Type?

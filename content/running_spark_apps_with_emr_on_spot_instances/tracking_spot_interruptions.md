@@ -6,7 +6,7 @@ weight: 100
 Now we're in the process of getting started with adopting Spot Instances for our EMR clusters. We're still not sure that our jobs are fully resilient and what would actually happen if some of the EC2 Spot Instances in our EMR clusters get interrupted, when EC2 needs the capacity back for On-Demand.
 
 {{% notice note %}}
-In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions, but when we get started with EMR jobs this could be useful.
+In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions as our applications should be built to handle them gracefully without any impact to performance or availability, but when we get started with EMR jobs this could be useful.
 {{% /notice %}}
 
 
@@ -41,11 +41,13 @@ The only way to simulate a Spot Interruption Notification is to use Spot Fleet. 
 1. In the AWS console, go to EC2 -> Spot Requests -> click **Request Spot Instances**
 1. Leave all the settings as-is and check the box next to "**Maintain target capacity**", then at the bottom click **Launch**. This will create a Spot Fleet with one instance and you will get a Success window.
 1. Still in the Spot console, click the console refresh button until your fleet has started the one instance (when capacity changes to **1 of 1**). 
-1. With your fleet checked, click Actions -> Modify target capacity -> Change "New target capacity" to 0, leave Terminate instances checked -> Click Submit
+1. With your fleet checked, click Actions -> **Modify target capacity** -> Change "**New target capacity**" to 0, leave Terminate instances checked -> Click **Submit**
 1. Within a minute or two you should receive an SNS notification from the topic you created, with a JSON event that indicates that the Spot Instance in the fleet was interrupted.
-```
+
+```json
 {"version":"0","id":"6009a9f4-cc7a-8a77-46f2-310520b31e0f","detail-type":"EC2 Spot Instance Interruption Warning","source":"aws.ec2","account":"<account-id>","time":"2019-05-27T04:52:57Z","region":"eu-west-1","resources":["arn:aws:ec2:eu-west-1b:instance/i-0481ef86f172b68d7"],"detail":{"instance-id":"i-0481ef86f172b68d7","instance-action":"terminate"}}
 ```
-1. Go ahead and terminate the fleet request itself by checking the fleet, click actions -> Cancel Spot request -> Confirm.
+
+Go ahead and terminate the fleet request itself by checking the fleet, click actions -> **Cancel Spot request** -> **Confirm**.
 
 
