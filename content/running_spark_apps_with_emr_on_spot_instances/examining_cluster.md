@@ -43,3 +43,11 @@ Go back to the Summary tab in your EMR cluster page, and you will see links to t
 * **Cluster Memory last hour** - this will show you how much memory we started the cluster with, and how much Spark actually consumed.\
 3. Go back to the Summary page and click the **Resource Manager** link.\
 4. On the left pane, click **Nodes**, and in the node table, you should see the number of Containers (Spark executors) that each node ran. This will correspond to the ContainerAllocated metric you saw in CloudWatch.\
+
+
+### Number of executors in the cluster
+With 80 Spot Units in the Task Instance Fleet, EMR launched either 20 * xlarge (one executor) or 10 * 2xlarge instances (2 executors), so the Task Instance Fleet provides 20 executors / containers to the cluster.\
+The Core Instance Fleet launched one xlarge instance, able to run one executor.
+{{%expand "Question: Did you see more than 21 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
+Your Task / Application running on the Spark cluster was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
+{{% /expand%}}
