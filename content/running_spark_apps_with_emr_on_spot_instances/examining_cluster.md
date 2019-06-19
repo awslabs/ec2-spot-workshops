@@ -36,13 +36,17 @@ To allow access to your IP address to reach the EMR web interfaces via EC2 Secur
 5. Click **Add Rule**. Under Type, select **All Traffic**, under Source, select **My IP**\
 6. Click **Save**.
 
+{{% notice note %}}
+While the Ganglia web interface uses TCP port 80, the YARN ResourceManager web interface uses TCP port 8088 which is not allowed for outbound traffic on every Internet connection. If you are using a network connection that blocks TCP 8088 (or in other words, doesn't allow non-well known ports) then you will not be able to reach the YARN ResourceManager web interface. You can either skip that part of the workshop, or consider using the more complex method of SSH tunneling described [here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html)
+{{% /notice %}}
+
 Go back to the Summary tab in your EMR cluster page, and you will see links to tools in the **Connections** section (you might need to refresh the page).\
 1. Click **Ganglia** to open the web interface.\
 2. Have a look around. Take notice of the heatmap (**Server Load Distribution**). Notable graphs are:\
 * **Cluster CPU last hour** - this will show you the CPU utilization that our Spark application consumed on our EMR cluster. you should see that utilization varied and reached around 70%.\
 * **Cluster Memory last hour** - this will show you how much memory we started the cluster with, and how much Spark actually consumed.\
 3. Go back to the Summary page and click the **Resource Manager** link.\
-4. On the left pane, click **Nodes**, and in the node table, you should see the number of Containers (Spark executors) that each node ran. This will correspond to the ContainerAllocated metric you saw in CloudWatch.\
+4. On the left pane, click **Nodes**, and in the node table, you should see the number of containers that each node ran. This will correspond to the ContainerAllocated metric you saw in CloudWatch.\
 
 
 ### Number of executors in the cluster
