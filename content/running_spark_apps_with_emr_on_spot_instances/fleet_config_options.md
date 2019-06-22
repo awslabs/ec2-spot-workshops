@@ -3,7 +3,7 @@ title: "Fleet configuration options"
 weight: 85
 ---
 
-While our cluster is starting (7-8 minutes) and the job is running (4-5 minutes) let's take the time to look at some of the EMR Instance Fleets configurations we didn't dive into when starting the cluster.
+While our cluster is starting (7-8 minutes) and the job is running (4-8 minutes depending on the instance types that were selected) let's take the time to look at some of the EMR Instance Fleets configurations we didn't dive into when starting the cluster.
 
 ![fleetconfigs](/images/running-emr-spark-apps-on-spot/emrinstancefleets-core1.png)
 

@@ -5,8 +5,13 @@ weight: 95
 
 In this section we will look at the utilization of our instances while the application is running, to examine how many Spark executors we are running and what is the instances utilization.
 
+### EMR Management Console
+To get started, let's check that your EMR cluster and Spark application are running.
+1. In our EMR Cluster page, the status of the cluster will either be Starting (in which case you can see the status of the hardware in the Summary or Hardware tabs) or Running.
+2. Move to the Steps tab, and your Spark application will either be Pending (for the cluster to start) or Running.
+
 {{% notice note %}}
-Do not expect to see full utilization of vCPUs and Memory on the EC2 instances, the wordcount Spark application we are running is not very intensive and is just used for demo purposes.
+In this step, when you look at the utilization of the EMR cluster, do not expect to see full utilization of vCPUs and Memory on the EC2 instances, as the wordcount Spark application we are running is not very intensive and is just used for demo purposes.
 {{% /notice %}}
 
 ### Using CloudWatch Metrics
@@ -25,7 +30,7 @@ The recommended approach to connect to the web interfaces running on our EMR clu
 For the purpose of this workshop, and since we started our EMR cluster in a VPC public subnet, we can allow access in the EC2 Security Group in order to reach the TCP ports on which the web interfaces are listening on.
 
 {{% notice warning %}}
-Normally you would not run EMR in a public subnet and open TCP access to the master instance, this is just for educational purposes.
+Normally you would not run EMR in a public subnet and open TCP access to the master instance, this faster approach is just used for the purpose of the workshop.
 {{% /notice %}}
 
 To allow access to your IP address to reach the EMR web interfaces via EC2 Security Groups:\
@@ -50,8 +55,8 @@ Go back to the Summary tab in your EMR cluster page, and you will see links to t
 
 
 ### Number of executors in the cluster
-With 80 Spot Units in the Task Instance Fleet, EMR launched either 20 * xlarge (one executor) or 10 * 2xlarge instances (2 executors), so the Task Instance Fleet provides 20 executors / containers to the cluster.\
+With 40 Spot Units in the Task Instance Fleet, EMR launched either 10 * xlarge (running one executor) or 5 * 2xlarge instances (running 2 executors), so the Task Instance Fleet provides 10 executors / containers to the cluster.\
 The Core Instance Fleet launched one xlarge instance, able to run one executor.
-{{%expand "Question: Did you see more than 21 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
-Your Task / Application running on the Spark cluster was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
+{{%expand "Question: Did you see more than 11 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
+Your Spark application was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
 {{% /expand%}}

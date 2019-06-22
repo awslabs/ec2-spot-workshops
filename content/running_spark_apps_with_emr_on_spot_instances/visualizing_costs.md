@@ -14,6 +14,11 @@ In Step 4 of the EMR cluster launch, we tagged the cluster with the following Ta
 ### Analyzing costs with AWS Cost Explorer
 [AWS Cost Explorer] (https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) has an easy-to-use interface that lets you visualize, understand, and manage your AWS costs and usage over time. You can analyze cost and usage data, both at a high level (e.g. how much did I pay for EMR) and for highly-specific requests (e.g. Cost for a specific instance type in a specific account with a specific tag). 
 
+{{% notice note %}}
+If the Name tag Key was not enabled as a Cost Allocation Tag, you will not be able to filter/group according to it in Cost Explorer, but you can still gather data like cost for the EMR service, instance types, etc.
+{{% /notice %}}
+
+
 Let's use Cost Explorer to analyze the costs of running our EMR application.\
 1. Navigate to Cost Explorer by opening the AWS Management Console -> Click your username in the top right corner -> click **My Billing Dashboard** -> click **Cost Explorer in the left pane**. or [click here] (https://console.aws.amazon.com/billing/home#/costexplorer) for a direct link.\
 2. We know that we gave our EMR cluster a unique Name tag, so let's filter according to it. In the right pane, click Tags -> Name -> enter "**EMRTransientCluster1**"\
