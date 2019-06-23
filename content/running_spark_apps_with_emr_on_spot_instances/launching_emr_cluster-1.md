@@ -3,7 +3,10 @@ title: "Launch a cluster - Step 1"
 weight: 60
 ---
 
-In this step we'll launch our first cluster. This will be a transient cluster that will be shut down after it finishes running the application we submit to it, and will run solely on Spot Instances. The application is a simple wordcount that will run against a public data set of Amazon product reviews, located in an Amazon S3 bucket in the N. Virginia region.
+In this step we'll launch our first cluster. This will be a transient cluster that will be shut down after it finishes running the application we submit to it, and will run solely on Spot Instances. The application is a simple wordcount that will run against a public data set of Amazon product reviews, located in an Amazon S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here] (https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
+{{% notice note %}}
+Normally our dataset on S3 would be located on the same region where we are going to run our EMR clusters. In this workshop, for educational purposes, it is fine if you are running EMR in a different region, and the Spark application will work against the dataset which is located in the N. Virginia region.
+{{% /notice %}}
 
 To launch the cluster, follow these steps:\
 
