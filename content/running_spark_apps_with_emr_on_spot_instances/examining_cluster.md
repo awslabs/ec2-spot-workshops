@@ -6,8 +6,8 @@ weight: 95
 In this section we will look at the utilization of our instances while the application is running, to examine how many Spark executors we are running and what is the instances utilization.
 
 ### EMR Management Console
-To get started, let's check that your EMR cluster and Spark application are running.
-1. In our EMR Cluster page, the status of the cluster will either be Starting (in which case you can see the status of the hardware in the Summary or Hardware tabs) or Running.
+To get started, let's check that your EMR cluster and Spark application are running.\
+1. In our EMR Cluster page, the status of the cluster will either be Starting (in which case you can see the status of the hardware in the Summary or Hardware tabs) or Running.\
 2. Move to the Steps tab, and your Spark application will either be Pending (for the cluster to start) or Running.
 
 {{% notice note %}}
