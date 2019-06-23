@@ -22,4 +22,4 @@ f. click **Next** and again **Next** in the next screen.\
 g. Click **Create stack**.\
 The stack creation should take under 2 minutes and the status of the stack will be **CREATE_COMPLETE**.
 
-Congratulations! you completed the pre-requisites to start the workshop, you now have a VPC to run your EMR cluster in, and an S3 bucket for the Spark application code and the results. Continue to the next step to proceed in the workshop.
+Congratulations! you completed the prerequisites to start the workshop, you now have a VPC to run your EMR cluster in, and an S3 bucket for the Spark application code and the results. Continue to the next step to proceed in the workshop.

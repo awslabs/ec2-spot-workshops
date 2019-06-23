@@ -36,7 +36,7 @@ Instance types with sufficient Memory and vCPUs for our executor size, as well a
 **Previous generation instance types:**\
 - r3.xlarge and larger\
 - i2.xlarge and larger\
-you will notice that these instance types have double the vCores as they do vCPU, as reflected in the EMR instance selection window - this is an EMR optimization method. Feel free to use these as well, but note that the executor calculations that we're referring to in the workshop will differ. Also, these previous generation instance types will perform slower and the application will take more time to complete.\
+you will notice that these instance types have double the vCores as they do vCPU, as reflected in the EMR instance selection window - this is an EMR optimization method. Feel free to use these as well, but note that the executor calculations that we're referring to in the workshop will differ. Also, these previous generation instance types will perform slower and the application will take longer to complete.\
 Also note that not all instance types exist in all regions.
 {{% /expand%}}
 
