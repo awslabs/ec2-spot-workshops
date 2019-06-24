@@ -25,6 +25,12 @@ Under the task node type, Click **Add / remove instance types to fleet** and sel
 Since our executor size is 4 vCPUs, and each instance counts as the number of its vCPUs towards the total units, let's specify **40 Spot units** in order to run 10 executors, and allow EMR to select the best instance type in the Task Instance Fleet to run the executors on. In this example, it will either start 10 * r4.xlarge / r5.xlarge / i3.xlarge **or** 5 * r5.2xlarge / r4.2xlarge in EMR Task Instance Fleet.
 ![FleetSelection3](/images/running-emr-spark-apps-on-spot/emrinstancefleets-task2.png)
 
+{{% notice warning %}}
+If you are using a new AWS account, or an account where Spot Instances were never launched in, your ability to launch Spot Instances will be limited. To overcome this, please make sure you launch no more than 3 instances in the Task Instance Fleet. You can do this, for example, by only providing instances that count as 8 units, and specify 24 for Spot units.\
+If your Task Instance Fleet is stuck on provisioning, try lowering the number of requested instances further.
+Your Spark application should still complete successfully, but it might take longer due to having less executors in the cluster.
+{{% /notice %}}
+
 click **Next** to continue to the next steps of launching your EMR cluster.
 
 
