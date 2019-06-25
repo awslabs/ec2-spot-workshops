@@ -5,7 +5,13 @@ weight: 70
 
 Under "**Instance group configuration**", select Instance Fleets. Under Network, select the VPC that you deployed using the CloudFormation template earlier in the workshop, and select all subnets in the VPC. When you select multiple subnets, the EMR cluster will still be started in a single Availability Zone, but EMR Instance Fleets will make the best instance type selection based on available capacity and price across the multiple availability zones that you specified.
 ![FleetSelection1](/images/running-emr-spark-apps-on-spot/emrinstancefleetsnetwork.png)
-Let's discuss the right setup for each of our node types:\
+
+
+### Setting up our EMR Master node, and Core / Task Instance Fleets
+{{% notice note %}}
+The workshop focuses on running Spot Instances across all the cluster node types for cost savings. If you want to dive deeper into when to use On-Demand and Spot in your EMR clusters, [click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-instances-guidelines.html#emr-plan-spot-instances)
+{{% /notice %}}
+
 #### **Master node**:
 Unless your cluster is very short-lived and the runs are cost-driven, avoid running your Master node on a Spot Instance. We suggest this because a Spot interruption on the Master node terminates the entire cluster. \
 For the purpose of this workshop, we will run the Master node on a Spot Instance as we simulate a relatively short lived job running on a transient cluster. There will not be business impact if the job fails due to a Spot interruption and later re-started.\
