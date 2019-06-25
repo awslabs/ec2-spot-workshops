@@ -1,5 +1,5 @@
 ---
-title: "EMR Uniform Groups"
+title: "EMR Uniform Instance Groups"
 weight: 20
 ---
 
