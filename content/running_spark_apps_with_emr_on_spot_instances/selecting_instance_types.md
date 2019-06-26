@@ -6,7 +6,7 @@ weight: 50
 Let's use our newly acquired knowledge around Spark executor sizing in order to select the EC2 Instance Types that will be used in our EMR cluster.\
 EMR clusters run Master, Core and Task node types. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html) to read more about the different node types.
 
-We determined that in order to maximize usage of R4 instance types, we will submit our Spark application with **"–executor-memory=18GB –executor cores=4"**, 
+We determined that in order to be flexible and allow running on multiple instance types, we will submit our Spark application with **"–executor-memory=18GB –executor cores=4"**, 
 
 We can use the [Spot Instance Advisor] (https://aws.amazon.com/ec2/spot/instance-advisor/) page to find the relevant instance types with sufficient number of vCPUs and RAM, and use this opportunity to also select instance types with low interruption rates. \
 For example: r5.2xlarge has 8 vCPUs and 64 GB of RAM, so EMR will automatically run 2 executors that will consume 36 GB of RAM and still leave free RAM for the operating system and other processes.\

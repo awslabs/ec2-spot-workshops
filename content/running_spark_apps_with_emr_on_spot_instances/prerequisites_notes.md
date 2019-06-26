@@ -11,7 +11,8 @@ weight: 10
 
 #### Preparation steps:\
 
-1. Create an S3 bucket for your Spark application code (which will be provided later) and the EMR application's results. Using the AWS CLI, run: **aws s3 mb s3://\<unique-bucket-name\>** or create a new bucket using the AWS Management Console.
+1. Create an S3 bucket for your Spark application code (which will be provided later) and the Spark application's results.\
+Using the AWS CLI, run: **aws s3 mb s3://\<unique-bucket-name\>** or create a new bucket using the AWS Management Console.
 2. Deploy a new VPC that will be used to run your EMR cluster in the workshop.\
 a. Open the ["Modular and Scalable VPC Architecture Quick stage page"] (https://aws.amazon.com/quickstart/architecture/vpc/) and go to the "How to deploy" tab, Click the ["Launch the Quick Start"] (https://fwd.aws/mm853) link.\
 b. Select your desired region to run the workshop from the top right corner of the AWS Management Console and click **Next**.\
