@@ -3,7 +3,7 @@ title: "Launch a cluster - Step 1"
 weight: 60
 ---
 
-In this step we'll launch our first cluster. This will be a transient cluster that will be shut down after it finishes running the application we submit to it, and will run solely on Spot Instances. The application is a simple wordcount that will run against a public data set of Amazon product reviews, located in an Amazon S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here] (https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
+In this step we'll launch our first cluster. This will be a transient cluster that will be shut down after it finishes running the application we submit to it at cluster creation time, and will run solely on Spot Instances. The application is a simple wordcount that will run against a public data set of Amazon product reviews, located in an Amazon S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here] (https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
 {{% notice note %}}
 Normally our dataset on S3 would be located on the same region where we are going to run our EMR clusters. In this workshop, for educational purposes, it is fine if you are running EMR in a different region, and the Spark application will work against the dataset which is located in the N. Virginia region.
 {{% /notice %}}
@@ -20,7 +20,7 @@ To launch the cluster, follow these steps:\
 ```
 --executor-memory 18G --executor-cores 4
 ```
-* **Application location**: here we will configure the location of our Spark application. Save the following python code to a file and upload it to your S3 bucket using the AWS console or AWS CLI: **aws s3 cp \<filename\> s3://\<your-bucket-name\>**
+* **Application location**: here we will configure the location of our Spark application. Save the following python code to a file (or download it from the Attachment box) and upload it to your S3 bucket using the AWS console or AWS CLI: **aws s3 cp script.py s3://\<your-bucket-name\>**
 
 ```python
 import sys
@@ -30,7 +30,10 @@ df = spark.read.parquet("s3://amazon-reviews-pds/parquet/")
 df.selectExpr("explode(split(lower(review_body), ' ')) as words").groupBy("words").count().write.mode("overwrite").parquet(sys.argv[1])
 exit()
 ```
-Then add the location of the file under the **Application location** field, i.e: s3://\<your-bucket-name\>/\<filename\>\
+{{%attachments style="orange" /%}}
+
+
+Then add the location of the file under the **Application location** field, i.e: s3://\<your-bucket-name\>/script.py
 
 * **Arguments**: Here we will configure the location of where Spark will write the results of the job. Enter: s3://\<your-bucket-name\>/results/\
 * **Action on failure**: Leave this on *Continue* and click **Add** to save the step.
