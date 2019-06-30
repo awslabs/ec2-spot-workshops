@@ -13,17 +13,17 @@ Mappings:
     ap-northeast-1:
       AMI: ami-0c1c7f04b4a0792d5
     ap-northeast-2:  
-      AMI: ami-263ae148
+      AMI: ami-03293a3b93252b842
     ap-southeast-2:
-      AMI: ami-ab03e4c9 
+      AMI: ami-0f6777438177dd7ec
     eu-west-1:
       AMI: ami-0c971caf926cf2589
     us-east-1:
-      AMI: ami-bde90fc7
+      AMI: ami-0c509141570009bb5
     us-east-2:
-      AMI: ami-80e9cbe5
+      AMI: ami-072ab8ae3a4ed1d23
     us-west-2:
-      AMI: ami-72ed1e0a
+      AMI: ami-0faaeebada3dc9afb
 Outputs:
   Jupyter:
     Description: URL to access Jupyter in Lab 2
@@ -285,14 +285,14 @@ Resources:
                 yum -y install aws-cli git emacs nano aws-cfn-bootstrap python-numpy python-matplotlib python-zmq nodejs
                 yum update -y
                 yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-                pip install pandas-datareader fix_yahoo_finance
+                pip install pandas-datareader yfinance
                 aws configure set default.region ${AWS::Region}
                 start amazon-ssm-agent
 
                 # Clone the workshop code
                 cd /home/ec2-user
-                git clone https://github.com/aws-samples/ec2-spot-montecarlo-workshop && break
-                WORKSHOPDIR=/home/ec2-user/ec2-spot-montecarlo-workshop/src
+                git clone https://github.com/ruecarlo/ec2-spot-workshops.git && break
+                WORKSHOPDIR=/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src
 
                 # Configure Web Client
                 cp -rf $WORKSHOPDIR/*.py $WORKSHOPDIR/web/public/static/
@@ -300,10 +300,10 @@ Resources:
 
                 #Configure Jupyter Notebook Password
                 mkdir $WORKSHOPDIR/keys
-                openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/ec2-user/ec2-spot-montecarlo-workshop/src/keys/mykey.key -out /home/ec2-user/ec2-spot-montecarlo-workshop/src/keys/mycert.pem  -subj "/C=US/ST=CA/L=SF/O=spot/OU=workshop/CN=example.com"
+                openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mykey.key -out /home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mycert.pem  -subj "/C=US/ST=CA/L=SF/O=spot/OU=workshop/CN=example.com"
                 jupyter-notebook --generate-config --allow-root
-                sed -i "s_#c.NotebookApp.certfile = ''_c.NotebookApp.certfile = u'/home/ec2-user/ec2-spot-montecarlo-workshop/src/keys/mycert.pem'_g" /root/.jupyter/jupyter_notebook_config.py
-                sed -i "s_#c.NotebookApp.keyfile = ''_c.NotebookApp.keyfile = u'/home/ec2-user/ec2-spot-montecarlo-workshop/src/keys/mykey.key'_g" /root/.jupyter/jupyter_notebook_config.py
+                sed -i "s_#c.NotebookApp.certfile = ''_c.NotebookApp.certfile = u'/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mycert.pem'_g" /root/.jupyter/jupyter_notebook_config.py
+                sed -i "s_#c.NotebookApp.keyfile = ''_c.NotebookApp.keyfile = u'/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mykey.key'_g" /root/.jupyter/jupyter_notebook_config.py
                 sed -i "s/#c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/g" /root/.jupyter/jupyter_notebook_config.py
                 PASSWORD=${JupyterPassword}
                 python -c "from notebook.auth import passwd;print(passwd('$PASSWORD') if '$PASSWORD' != '' else 'sha1:c6bd96fb0824:6654e9eabfc54d0b3d0715ddf9561bed18e09b82')" > $WORKSHOPDIR/password_temp
