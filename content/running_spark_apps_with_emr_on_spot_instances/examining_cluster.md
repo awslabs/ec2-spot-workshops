@@ -3,7 +3,7 @@ title: "Examining the cluster"
 weight: 95
 ---
 
-In this section we will look at the utilization of our instances while the application is running, to examine how many Spark executors we are running and what is the instances utilization.
+In this section we will look at the utilization of our EC2 Spot Instances while the application is running, and examine how many Spark executors are running.
 
 ### EMR Management Console
 To get started, let's check that your EMR cluster and Spark application are running.\
@@ -11,7 +11,7 @@ To get started, let's check that your EMR cluster and Spark application are runn
 2. Move to the Steps tab, and your Spark application will either be Pending (for the cluster to start) or Running.
 
 {{% notice note %}}
-In this step, when you look at the utilization of the EMR cluster, do not expect to see full utilization of vCPUs and Memory on the EC2 instances, as the wordcount Spark application we are running is not very intensive and is just used for demo purposes.
+In this step, when you look at the utilization of the EMR cluster, do not expect to see full utilization of vCPUs and Memory on the EC2 instances, as the wordcount Spark application we are running is not very resource intensive and is just used for demo purposes.
 {{% /notice %}}
 
 ### Using CloudWatch Metrics
@@ -22,7 +22,7 @@ EMR emits several useful metrics to CloudWatch metrics. You can use the AWS Mana
 Some notable metrics:
 
 * AppsRunning - you should see 1 since we only submitted one step to the cluster.\
-* ContainerAllocated - this represents the number of container Spark executors that are running on your cluster, on the Core and Task Instance Fleets.\
+* ContainerAllocated - this represents the number of containers that are running on your cluster, on the Core and Task Instance Fleets. These would the be Spark executors and the Spark Driver.\
 * MemoryAllocatedMB & MemoryAvailableMB - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.\
 
 ### Using Ganglia and YARN ResourceManager	
@@ -34,15 +34,15 @@ Normally you would not run EMR in a public subnet and open TCP access to the mas
 {{% /notice %}}
 
 To allow access to your IP address to reach the EMR web interfaces via EC2 Security Groups:\
-1. In your EMR cluster page, in the AWS Management Console, go to the Summary tab\
+1. In your EMR cluster page, in the AWS Management Console, go to the **Summary** tab\
 2. Click on the ID of the security under **Security groups for Master**\
 3. Check the Security Group with the name **ElasticMapReduce-master**\
-4. In the lower pane, click the **Inbound tab** and click the Edit button\
+4. In the lower pane, click the **Inbound tab** and click the **Edit**\
 5. Click **Add Rule**. Under Type, select **All Traffic**, under Source, select **My IP**\
-6. Click **Save**.
+6. Click **Save**
 
 {{% notice note %}}
-While the Ganglia web interface uses TCP port 80, the YARN ResourceManager web interface uses TCP port 8088 which is not allowed for outbound traffic on every Internet connection. If you are using a network connection that blocks TCP 8088 (or in other words, doesn't allow non-well known ports) then you will not be able to reach the YARN ResourceManager web interface. You can either skip that part of the workshop, or consider using the more complex method of SSH tunneling described [here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html)
+While the Ganglia web interface uses TCP port 80, the YARN ResourceManager web interface uses TCP port 8088 which might not allowed for outbound traffic on your Internet connection. If you are using a network connection that blocks TCP 8088 (or in other words, doesn't allow non-well known ports) then you will not be able to reach the YARN ResourceManager web interface. You can either skip that part of the workshop, or consider using the more complex method of SSH tunneling described [here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html)
 {{% /notice %}}
 
 Go back to the Summary tab in your EMR cluster page, and you will see links to tools in the **Connections** section (you might need to refresh the page).\

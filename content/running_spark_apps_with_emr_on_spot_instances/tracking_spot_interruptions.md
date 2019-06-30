@@ -6,7 +6,7 @@ weight: 100
 Now we're in the process of getting started with adopting Spot Instances for our EMR clusters. We're still not sure that our jobs are fully resilient and what would actually happen if some of the EC2 Spot Instances in our EMR clusters get interrupted, when EC2 needs the capacity back for On-Demand.
 
 {{% notice note %}}
-In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions as our applications should be built to handle them gracefully without any impact to performance or availability, but when we get started with EMR jobs this could be useful.
+In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions as our applications should be built to handle them gracefully without any impact to performance or availability, but when we get started with EMR jobs this could be useful, as our organization can use these to correlate to possible EMR job failures or prolonged execution times, in case Spot Instances were interrupted during Spark run time.
 {{% /notice %}}
 
 
@@ -32,7 +32,7 @@ aws sns subscribe --topic-arn <topic-arn> --protocol email --notification-endpoi
 1. On the right side of the console, click **Add Target**, scroll down and select **SNS topic** -> select your topic name, Your result should look like this: 
 ![tags](/images/running-emr-spark-apps-on-spot/cloudwatcheventsrule.png)
 1. Click **Configure Details** in the  bottom right corner.
-1. Give a name to your CloudWatch Events rule and click **Create rule**.
+1. Provide a name to your CloudWatch Events rule and click **Create rule**.
 
 #### Verifying that the notification works
 
@@ -50,4 +50,4 @@ The only way to simulate a Spot Interruption Notification is to use Spot Fleet. 
 
 Go ahead and terminate the fleet request itself by checking the fleet, click actions -> **Cancel Spot request** -> **Confirm**.
 
-
+From now on, any EC2 Spot interruption in the account/region that you set this up in will alert you via email. Disable or delete the CloudWatch Event rule if you are not interested in the notifications.
