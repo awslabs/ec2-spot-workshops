@@ -1,0 +1,12 @@
+{
+    "fileLocations": [
+        {
+            "URIPrefixes": [
+                "s3://<YOUR_S3_BUCKET_NAME>/"
+            ]
+        }
+    ],
+    "globalUploadSettings": {
+        "format": "CSV"
+    }
+}
