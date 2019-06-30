@@ -43,7 +43,12 @@ Outputs:
     Description: The name of the Spot Fleet
     Value:
       Ref: spotFleet
-
+  cloud9Environment:
+    Description: Cloud9 environment
+    Value:
+      Fn::GetAtt:
+      - cloud9Environment
+      - Name
 Parameters:
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the EC2 instances
