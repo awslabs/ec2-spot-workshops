@@ -78,33 +78,33 @@ The CloudFormation template deployed a web server that will serve as the user in
 
 5. Now that we have messages on the queue, lets spin up some workers on EC2 spot instances.
 
-#### Create the Spot Worker Fleet
-1. From the EC2 Console, select **Spot Requests** and click **Request Spot Instances**.
 
-2. Select **Request and Maintain** to create a fleet of Spot Instances.
+#### Create the Launch Template
+1. From the EC2 Console, select **Launch Template** and click **Create Launch Template**
 
-3. For **Total target Capacity**, type **2**
+1. Leave **Create New Template**. Name the template `MonteCarlo-Workshop-Template`, and use the same for the 
+template version description
 
-4. Leave the Amazon Linux AMI as the Default.
+1. In the *Launch template content* section, click on the **Search for AMI** and select the default 
+Amazon Linux 2 HVM 64-bit(x86) AMI
 
-5. Each EC2 Instance type and family has it's own independent Spot Market price. Under **Instance type(s)**, click **Select** and pick a few instance types (e.g. *c3.xlarge*, *c3.2xlarge*, and *c4.xlarge*) to diversify our fleet. Click **Select** again to return to the previous screen.
+1. For **Key pair name**, choose the SSH Key Pair that you specified in the CloudFormation template. 
 
-6. For **Network**, pick the VPC we created for the Spot Monte Carlo Workshop.
+1. Select the VPC with name **VPC for Spot Monte Carlo Simulation Workshop**, Under **Security groups** 
+select the name with the prefix *spot-montecarlo workshop*.
+![Launch Template](/images/monte-carlo-on-ec2-spot-fleet/launch_template.png)
 
-7. Under **Availability Zone**, check the box next to the first two AZs. The Network Subnet should auto-populate. If the subnet dropdown box says *"No subnets in this zone*, uncheck and select another AZ
-![Spot Request](/images/monte-carlo-on-ec2-spot-fleet/request_spot_configuration.png)
+1. Leave the rest to default, at the bottom of the page click on **Advanced Details**, In the IAM instance profile
+select the one with the prefix *spot-montecarlo workshop*. 
 
-8. For **Key pair name**, choose the SSH Key Pair that you specified in the CloudFormation template. 
-
-9. Under **Security groups** and  **IAM instance profile**, select the name with the prefix *spot-montecarlo workshop*.
-
-10. We will use User Data to bootstrap our work nodes. Copy and paste the [spotlabworker.sh](./templates/spotlabworker.sh) code from the repo We recommend using grabbing the latest code from the repo, but you can review the script below.
+1. Finally in the **User Data** content copy the following:
 
 ```bash
 #!/bin/bash
 # Install Dependencies
-yum -y install git python-numpy python-matplotlib python-scipy python-pip
-pip install --upgrade pandas-datareader fix_yahoo_finance scipy boto3 awscli
+yum -y install git python3 python-pip3 
+pip3 install --upgrade pandas-datareader yfinance scipy boto3 awscli matplotlib scipy numpy pandas boto3
+rm /bin/python; ln -s /usr/bin/python3 /bin/python
 
 #Populate Variables
 echo 'Populating Variables'
@@ -124,21 +124,34 @@ echo 'Starting the worker processor'
 python /home/ec2-user/spotlabworker/queue_processor.py --region $REGION> stdout.txt 2>&1
 ```
 
-11. Under **Instance tags**, click on **Add new tag**. Enter **Name** for *Key*. Enter **WorkerNode** for *Value*.
-![Spot Request](/images/monte-carlo-on-ec2-spot-fleet/spot_config_2.png)
+1. Save the template
 
-12. We will accept the rest of the defaults, but take a moment at look at the options that you can configure for your Spot Fleet
-	* **Health Checks**
-	* **Interruption behavior**
-	* **Load Balancer Configuration**
-	* **EBS Optimized**
-	* **Maximum Price**
+#### Create the Spot Worker Fleet
 
-13. Click **Launch**.
+1. From the EC2 Console, select **Spot Requests** and click **Request Spot Instances**. Then Select **Flexible Instances**
 
-14. Wait until the request is fulfilled, capacity shows the specified number of Spot instances, and the status is Active.
+1. Select the Launch Template **MonteCarlo-Workshop-Template** 
 
-15. Once the workers come up, they should start processing the SQS messages automatically. Feel free to create some more jobs from the webpage.
+1. In the Network section, select the VPC with name **VPC for Spot Monte Carlo Simulation Workshop**, and select 
+the two subnets available
+![Spot Flexible Instances](/images/monte-carlo-on-ec2-spot-fleet/spot_fleet_flexible_instances_1.png)
+
+1. click on **Maintain Target Capacity** and leave the interruption behaviour to the default "Terminate"
+
+1. Expand the **Advanced Configuration** and select the **Health Check : Replace unhealthy instances**
+
+1. For **Total target Capacity**, type **2**
+
+1. Check the *Fleet request settings* and check the fleet that has been selected. Notice how each entry has
+a different Spot price. Feel free to untick the **Apply Recommendations** and change the components in the fleet using: 
+c4.large, c5.large, m4.large, m5.large, t2.large, t3.large. Leave "Diversified" as the allocation strategy.
+![Instance Fleet Selection](/images/monte-carlo-on-ec2-spot-fleet/spot_fleet_flexible_instances_2.png)
+
+1. Click **Launch**.
+
+1. Wait until the request is fulfilled, capacity shows the specified number of Spot instances, and the status is Active.
+
+1. Once the workers come up, they should start processing the SQS messages automatically. Feel free to create some more jobs from the webpage. Check out the S3 bucket to confirm the results are being processed.
 
 
 #### Optional: Auto-scale the Worker Fleet on EC2 Spot
