@@ -7,7 +7,7 @@ Hopefully you've enjoyed the workshop and learned a few new things. Now follow t
 
 1. In the EC2 Console > Spot Requests, click **Cancel Spot request** under **Actions**. Make sure **Terminate instances** is checked.
 
-1. In the EC2 Console > Launch Template, click in the template **MonteCarlo-Workshop-Template** and then on **Actions > Delete telplate**.
+1. In the EC2 Console > Launch Template, click in the template **MonteCarlo-Workshop-Template** and then on **Actions > Delete Template**.
 
 1. In the SQS Console, delete the queue that you created earlier. This is located under **Queue Actions**.
 
