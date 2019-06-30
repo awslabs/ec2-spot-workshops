@@ -23,7 +23,7 @@ Some notable metrics:
 
 * AppsRunning - you should see 1 since we only submitted one step to the cluster.\
 * ContainerAllocated - this represents the number of container Spark executors that are running on your cluster, on the Core and Task Instance Fleets.\
-* MemoryAllocatedMB * MemoryAvailableMB - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.\
+* MemoryAllocatedMB & MemoryAvailableMB - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.\
 
 ### Using Ganglia and YARN ResourceManager	
 The recommended approach to connect to the web interfaces running on our EMR cluster is to use SSH tunneling. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.\
