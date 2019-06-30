@@ -40,7 +40,7 @@ import numpy as np
 import datetime , time
 from math import sqrt
 from scipy.stats import norm
-import fix_yahoo_finance as yf
+import yfinance as yf
 
 
 import argparse
