@@ -285,7 +285,7 @@ Resources:
                 yum -y install aws-cli git emacs nano aws-cfn-bootstrap python-numpy python-matplotlib python-zmq nodejs
                 yum update -y
                 yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-                pip install pandas-datareader yfinance
+                pip install pandas_datareader yfinance
                 aws configure set default.region ${AWS::Region}
                 start amazon-ssm-agent
 
@@ -322,7 +322,7 @@ Resources:
                 #Start Web and Jupyter
                 cd $WORKSHOPDIR
                 node web/bin/www > stdout.txt 2>&1 &
-                jupyter notebook --allow-root --no-browser --port ${JupyterPort} &
+                jupyter notebook --allow-root --no-browser --ip 0.0.0.0 --port ${JupyterPort} &
                 aws ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=montecarlo-workshop
 
                 /opt/aws/bin/cfn-signal -s true -i $INSTANCE_ID "${spotFleetWaitConditionHandle}"
