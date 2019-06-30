@@ -244,6 +244,15 @@ Resources:
       VpcId:
         Ref: vpc
     Type: AWS::EC2::SecurityGroup
+  cloud9Environment:
+    DependsOn:
+    - publicSubnet1
+    Properties:
+      Description: Monte-Carlo EC2 Spot Fleet - Cloud9 environment
+      InstanceType: t2.micro
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::Cloud9::EnvironmentEC2
   spotFleet:
     DependsOn:
     - spotFleetRole
@@ -291,7 +300,7 @@ Resources:
 
                 # Clone the workshop code
                 cd /home/ec2-user
-                git clone https://github.com/ruecarlo/ec2-spot-workshops.git && break
+                git clone https://github.com/ruecarlo/ec2-spot-workshops.git
                 WORKSHOPDIR=/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src
 
                 # Configure Web Client
