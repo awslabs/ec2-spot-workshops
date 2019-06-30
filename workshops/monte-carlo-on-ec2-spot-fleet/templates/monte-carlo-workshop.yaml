@@ -285,7 +285,7 @@ Resources:
                 yum -y install aws-cli git emacs nano aws-cfn-bootstrap python-numpy python-matplotlib python-zmq nodejs
                 yum update -y
                 yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-                pip install pandas_datareader yfinance
+                pip3 install pandas_datareader yfinance
                 aws configure set default.region ${AWS::Region}
                 start amazon-ssm-agent
 
