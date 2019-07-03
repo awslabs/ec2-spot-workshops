@@ -1,21 +1,16 @@
 ---
 title: "Launch a cluster - Step 2"
 weight: 70
+draft: true
 ---
 
-Under "**Instance group configuration**", select Instance Fleets. Under Network, select the VPC that you deployed using the CloudFormation template earlier in the workshop, and select all subnets in the VPC. When you select multiple subnets, the EMR cluster will still be started in a single Availability Zone, but EMR Instance Fleets will make the best instance type selection based on available capacity and price across the multiple availability zones that you specified.
+Under "**Instance group configuration**", select Instance Fleets. Under Network, select the VPC where you want to run the cluster, and select all subnets in the VPC. When you select multiple subnets, the EMR cluster will still be started in a single Availability Zone, but EMR Instance Fleets will make the best instance type selection based on available capacity and price across the multiple availability zones that you specified.
 ![FleetSelection1](/images/running-emr-spark-apps-on-spot/emrinstancefleetsnetwork.png)
-
-
-### Setting up our EMR Master node, and Core / Task Instance Fleets
-{{% notice note %}}
-The workshop focuses on running Spot Instances across all the cluster node types for cost savings. If you want to dive deeper into when to use On-Demand and Spot in your EMR clusters, [click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-instances-guidelines.html#emr-plan-spot-instances)
-{{% /notice %}}
-
+Let's discuss the right setup for each of our node types:\
 #### **Master node**:
 Unless your cluster is very short-lived and the runs are cost-driven, avoid running your Master node on a Spot Instance. We suggest this because a Spot interruption on the Master node terminates the entire cluster. \
 For the purpose of this workshop, we will run the Master node on a Spot Instance as we simulate a relatively short lived job running on a transient cluster. There will not be business impact if the job fails due to a Spot interruption and later re-started.\
-Click **Add / remove instance types to fleet** and select two relatively small and cheap instance types - i.e c4.large and m4.large and check Spot under target capacity. EMR will only provision one instance, but will select the best instance type for the Master node based on price and available capacity.
+Click **Add / remove instance types to fleet** and select two relatively small and cheap instance types - i.e c4.large and m4.large and check Spot under target capacity. EMR will only provision one instance, but will select the best instance type for the Master node.
 ![FleetSelection1](/images/running-emr-spark-apps-on-spot/emrinstancefleets-master.png)
 
 
@@ -28,14 +23,8 @@ Under the core node type, Click **Add / remove instance types to fleet** and sel
 #### **Task Instance Fleet**:
 Our task nodes will only run Spark executors and no HDFS DataNodes, so this is a great fit for scaling out and increasing the parallelization of our application's execution, to achieve faster execution times.
 Under the task node type, Click **Add / remove instance types to fleet** and select the 5 instance types you noted before as suitable for our executor size and that had suitable interruption rates in the Spot Instance Advisor.\
-Since our executor size is 4 vCPUs, and each instance counts as the number of its vCPUs towards the total units, let's specify **40 Spot units** in order to run 10 executors, and allow EMR to select the best instance type in the Task Instance Fleet to run the executors on. In this example, it will either start 10 * r4.xlarge / r5.xlarge / i3.xlarge **or** 5 * r5.2xlarge / r4.2xlarge in EMR Task Instance Fleet.
-![FleetSelection3](/images/running-emr-spark-apps-on-spot/emrinstancefleets-task2.png)
-
-{{% notice warning %}}
-If you are using a new AWS account, or an account where Spot Instances were never launched in, your ability to launch Spot Instances will be limited. To overcome this, please make sure you launch no more than 3 instances in the Task Instance Fleet. You can do this, for example, by only providing instances that count as 8 units, and specify 24 for Spot units.\
-If your Task Instance Fleet is stuck on provisioning, try lowering the number of requested instances further.
-Your Spark application should still complete successfully, but it might take longer due to having less executors in the cluster.
-{{% /notice %}}
+Since our executor size is 4 vCPUs, and each instance counts as the number of its vCPUs towards the total units, let's specify **80 Spot units** in order to run 20 executors, and allow EMR to select the best instance type in the Task Instance Fleet to run the executors on. In this example, it will either start 20 * r4.xlarge / r5.xlarge / i3.xlarge **or** 10 * r5.2xlarge / r4.2xlarge.
+![FleetSelection3](/images/running-emr-spark-apps-on-spot/emrinstancefleets-task1.png)
 
 click **Next** to continue to the next steps of launching your EMR cluster.
 
