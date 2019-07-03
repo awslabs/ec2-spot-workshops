@@ -6,7 +6,7 @@ weight = 130
 Now that you have an MXNet image ready to go, the next step is to create a task definition. A task defintion specifies parameters and requirements used by ECS to run your container, e.g. the Docker image, cpu/memory resource requirements, host:container port mappings. You'll notice that the parameters in the task definition closely match options passed to a Docker run command. Task definitions are very flexible and can be used to deploy multiple containers that are linked together- for example, an application server and database. In this workshop, we will focus on deploying a single container.
 
 \
-1. Open the EC2 Container Service dashboard, click on **Task Definitions** in the left menu, and click **Create new Task Definition**.
+1. Open the EC2 Container Service dashboard, click on **Task Definitions** in the left menu, and click **Create new Task Definition**. Then select **EC2** as launch type compatibility.
 
 *Note: You'll notice there's a task definition already there in the list. Ignore this until you reach lab 5.*
 
