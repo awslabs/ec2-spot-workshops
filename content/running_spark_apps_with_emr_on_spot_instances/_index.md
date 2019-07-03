@@ -5,8 +5,6 @@ weight: 60
 pre: "<b>⁃ </b>"
 ---
 
-## This workshop is still under construction. ping ranshein@amazon.com if you have any concerns.
-
 ## Overview
 
 Welcome! In this workshop you will assume the role of a data engineer, tasked with cost optimizing the organization's costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.\
