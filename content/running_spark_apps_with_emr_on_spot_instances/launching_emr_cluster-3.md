@@ -1,7 +1,6 @@
 ---
 title: "Launch a cluster - Steps 3&4"
 weight: 80
-draft: true
 ---
 
 Under "**Tags**", tag your instance with a recognizable Name tag so that you'll be able to see it later in the cost reports. For example:\
