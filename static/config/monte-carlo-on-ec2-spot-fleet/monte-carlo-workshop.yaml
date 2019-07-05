@@ -392,6 +392,7 @@ Resources:
                   - ec2:CreateTags
                   - ec2:AssociateAddress
                   - cloudformation:Describe*
+                  - cloudformation:List*
                   - logs:*
       Path: /
     Type: AWS::IAM::Role

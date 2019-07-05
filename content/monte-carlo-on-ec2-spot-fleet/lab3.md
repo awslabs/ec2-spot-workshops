@@ -102,9 +102,8 @@ select the one with the prefix *spot-montecarlo workshop*.
 ```bash
 #!/bin/bash
 # Install Dependencies
-yum -y install git python3 python-pip3 
+yum -y install git python3 python-pip3 jq
 pip3 install --upgrade pandas-datareader yfinance scipy boto3 awscli matplotlib scipy numpy pandas boto3
-rm /bin/python; ln -s /usr/bin/python3 /bin/python
 
 #Populate Variables
 echo 'Populating Variables'
@@ -112,7 +111,9 @@ REGION=`curl http://169.254.169.254/latest/dynamic/instance-identity/document|gr
 mkdir /home/ec2-user/spotlabworker
 chown ec2-user:ec2-user /home/ec2-user/spotlabworker
 cd /home/ec2-user/spotlabworker
-WEBURL=$(aws cloudformation --region $REGION describe-stacks --query 'Stacks[0].Outputs[?OutputKey==`WebInterface`].OutputValue' --output text)
+STACK_NAME=$(aws cloudformation --region eu-west-1 list-stacks | jq -r '.StackSummaries[] | select(.TemplateDescription == "Environment for running EC2 Spot Monte Carlo Workshop"  and .StackStatus == "CREATE_COMPLETE").StackName')
+WEBURL=$(aws cloudformation --region $REGION describe-stacks --stack-name $STACK_NAME | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "WebInterface" ).OutputValue ')
+	
 echo 'Region is '$REGION
 echo 'URL is '$WEBURL
 
@@ -121,7 +122,7 @@ wget $WEBURL/static/queue_processor.py
 wget $WEBURL/static/worker.py
 
 echo 'Starting the worker processor'
-python /home/ec2-user/spotlabworker/queue_processor.py --region $REGION> stdout.txt 2>&1
+python3 /home/ec2-user/spotlabworker/queue_processor.py --region $REGION> stdout.txt 2>&1
 ```
 
 1. Save the template

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import boto3
 import time
 import subprocess
@@ -26,7 +28,7 @@ def runSimulation(stock_symbol,short,longVa,days,iterVa,ukey,s3Bucket):
     # use Subprocess to call code str.find(str, beg=0, end=len(string))
     try:
         output_value = 0
-        subprocess.check_output(['python','worker.py','--stock', stock_symbol,'--short_window_days',short, '--long_window_days', longVa, '--trading_days', days, '--id', ukey])
+        subprocess.check_output(['python3','worker.py','--stock', stock_symbol,'--short_window_days',short, '--long_window_days', longVa, '--trading_days', days, '--id', ukey])
         return output_value
     except subprocess.CalledProcessError as e:
         return e.returncode
