@@ -5,6 +5,9 @@ weight: 110
 pre: "<b>⁃ </b>"
 ---
 
+The contents of this labs were originally created by [oak2272](https://github.com/oak2278), [James Siri](https://github.com/jamesiri) and [Anuj Sharma](https://github.com/anshrma), all credits go to them for this high quality workshop! This workshop was hosted in the following github repo: https://github.com/aws-samples/ec2-spot-montecarlo-workshop.
+
+
 ## Overview 
 The goal of this workshop is not to become financial gurus. I doubt we'll be rich at the end, but hopefully we'll have learned different ways to build batch processing pipelines using AWS services and save up to 90% using [EC2 Spot Fleets](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html).
 
