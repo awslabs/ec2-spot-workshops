@@ -26,8 +26,8 @@ Mappings:
       AMI: ami-0faaeebada3dc9afb
 Outputs:
   Jupyter:
-    Description: URL to access Jupyter in Lab 2
-    Value: !Sub https://${workstationElasticIp}:${JupyterPort}
+    Description: URL to access Jupyter in Lab 2 (Use the password used in the stack JupyterPassword parameter)
+    Value: !Sub https://${workstationElasticIp}:${JupyterPort}/notebooks/monte-carlo-workshop.ipynb
   WebInterface:
     Description: URL to access the Web Interface in Lab 3
     Value: !Sub http://${workstationElasticIp}
@@ -43,6 +43,12 @@ Outputs:
     Description: The name of the Spot Fleet
     Value:
       Ref: spotFleet
+  cloud9Environment:
+    Description: Cloud9 environment
+    Value:
+      Fn::GetAtt:
+      - cloud9Environment
+      - Name
 Parameters:
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the EC2 instances
@@ -53,7 +59,6 @@ Parameters:
     Type: String
     AllowedPattern: '.+'
     NoEcho: true
-
   JupyterPort:
     Description: Port to connect to Jupyter Notebook. Leave as 8888 unless you have Firewall/VPN issues.
     Default: 8888
@@ -243,6 +248,15 @@ Resources:
       VpcId:
         Ref: vpc
     Type: AWS::EC2::SecurityGroup
+  cloud9Environment:
+    DependsOn:
+    - publicSubnet1
+    Properties:
+      Description: Running Amazon EC2 Workloads at Scale - Cloud9 environment
+      InstanceType: t2.micro
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::Cloud9::EnvironmentEC2
   spotFleet:
     DependsOn:
     - spotFleetRole
