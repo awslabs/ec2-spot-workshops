@@ -44,6 +44,9 @@ def parseArguments():
     
     if os.getenv("BATCH_MODE") == "true":
         drain_queue = True
+
+    if os.getenv("BATCH_ITERATIONS") is not None:
+        drain_queue_iterations = os.getenv("BATCH_ITERATIONS")
         
 
     return queue, region, sleep_time_insecs, drain_queue, drain_queue_iterations
@@ -143,8 +146,8 @@ def inLoop(drain_queue=False, drain_queue_iterations=[10]):
 # send them to the simulation if found and deletes from queue once complete.
 def main(argv):
     message_count = 0
-    queue_name, region, sleep_time_insecs, drain_queue, drain_queue_iterations = parseArguments()
-    drain_queue_iterations = [drain_queue_iterations]
+    queue_name, region, sleep_time_insecs, drain_queue, max_drain_queue_iterations = parseArguments()
+    drain_queue_iterations = [max_drain_queue_iterations]
 
     while inLoop(drain_queue, drain_queue_iterations):
         # Get the SQS service resource and the queue
@@ -166,10 +169,12 @@ def main(argv):
             if simStatus == 0:
                 storeResults(simulation_parameters)
                 
-                # delete the processed message
+                # delete the processed message and re-setting the drain_queue iterations 
                 print('Telling SQS message was successfully processed')
                 message.delete()
+                drain_queue_iterations = [max_drain_queue_iterations]
                 print('Messages processed: {0}'.format(message_count))
+
             print('Simulation {0}: stock={1}, short={2}, long={3}, days={4}, iterations={5}, id={6}, bucket={7}'.format(
                 "success" if simStatus ==0 else "failure",
                 simulation_parameters.stock,

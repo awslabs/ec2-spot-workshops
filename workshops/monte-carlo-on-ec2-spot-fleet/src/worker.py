@@ -105,8 +105,6 @@ mu = cagr
 stock_df['Returns'] = stock_df['Adj Close'].pct_change()
 vol = stock_df['Returns'].std()*sqrt(trading_days)
 
-
-
 # Set up empty list to hold our ending values for each simulated price series
 sim_result = []
 
