@@ -143,14 +143,13 @@ def inLoop(drain_queue=False, drain_queue_iterations=[10]):
 # send them to the simulation if found and deletes from queue once complete.
 def main(argv):
     message_count = 0
-    queue, region, sleep_time_insecs, drain_queue, drain_queue_iterations = parseArguments()
+    queue_name, region, sleep_time_insecs, drain_queue, drain_queue_iterations = parseArguments()
     drain_queue_iterations = [drain_queue_iterations]
 
-    # Get the SQS service resource and the queue
-    sqs = boto3.resource('sqs', region_name=region)
-    queue = sqs.get_queue_by_name(QueueName=queue)
-
     while inLoop(drain_queue, drain_queue_iterations):
+        # Get the SQS service resource and the queue
+        sqs = boto3.resource('sqs', region_name=region)
+        queue = sqs.get_queue_by_name(QueueName=queue_name)
         # Get message attributes and call simulation
         for message in queue.receive_messages(MessageAttributeNames=['All']):
             simulation_parameters = SimulationParameters.extractSimulationParameters(message)
@@ -158,8 +157,11 @@ def main(argv):
 
             # run simulations and get results
             print('Starting simulation')
+            start_time = time.monotonic()
             simStatus = runSimulation(simulation_parameters)
-            print('Simulation Returned: {0}'.format(simStatus))
+            print('Simulation took {0:.4f} secs and exit with status : {1}'.format(
+                (time.monotonic()-start_time),
+                simStatus))
 
             if simStatus == 0:
                 storeResults(simulation_parameters)
