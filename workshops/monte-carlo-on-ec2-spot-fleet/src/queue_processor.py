@@ -9,9 +9,12 @@ import os
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--queue', dest='queue',default='workshop', help='Amazon SQS')
 parser.add_argument('--region', dest='region',default=None, help='Region')
+parser.add_argument('--drain-queue-mode', dest='drain_queue_mode', default=False, help='Stop the queue has been drained')
+
 args = parser.parse_args()
 QUEUE = args.queue
 REGION = args.region
+DRAIN_QUEUE = args.drain_queue_mode
 
 try:
     if REGION is None:
@@ -20,7 +23,7 @@ except:
     raise "Must pass region as environment variable or argument"
 
 
-sleepTime = 5
+sleepTimeInSecs = 5
 
 # takes inputs, runs simulations and returns CSV output
 def runSimulation(stock_symbol,short,longVa,days,iterVa,ukey,s3Bucket):
@@ -45,20 +48,19 @@ def saveToS3(bucket_name,filename):
 # Checks the queue for new messages, 
 # send them to the simulation if found and deletes from queue once complete.
 def main():
+    MessageCount = 0
+
+    # Get the SQS service resource
+    sqs = boto3.resource('sqs', region_name=REGION)
+
+    # Get the queue
+    queue = sqs.get_queue_by_name(QueueName=QUEUE)
+
     while True:
-        # Get the SQS service resource
-        sqs = boto3.resource('sqs', region_name=REGION)
-
-        # Get the queue
-        queue = sqs.get_queue_by_name(QueueName=QUEUE)
-
-        MessageCount = 0
 
         # Get message attributes and call simulation
         for message in queue.receive_messages(MessageAttributeNames=['All']):
-            
             MessageCount = MessageCount + 1
-
             # Get the  message attributes
             stock_symbol = ''
             short = ''
@@ -109,12 +111,7 @@ def main():
             else:
                 print('Simulation failed: stock={0}, short={1}, long={2}, days={3}, iterations={4}, id={5}, bucket={6}'.format(stock_symbol,short,longVa,days,iterVa,ukey,s3Bucket))
                 
-    
-            
-            
-            
-        
-        print('pausing for {0} seconds.'.format(sleepTime))
-        time.sleep(sleepTime)
+        print('pausing for {0} seconds.'.format(sleepTimeInSecs))
+        time.sleep(sleepTimeInSecs)
 
 main()

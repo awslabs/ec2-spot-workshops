@@ -431,10 +431,6 @@ Resources:
     Properties:
       Description: Running Amazon EC2 Workloads at Scale - Cloud9 environment
       InstanceType: t2.micro
-      OwnerArn: 
-        Fn::GetAtt:
-        - spotFleetInstanceRole
-        - Arn
       SubnetId:
         Ref: publicSubnet1
     Type: AWS::Cloud9::EnvironmentEC2
