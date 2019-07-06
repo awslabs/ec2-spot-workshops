@@ -4,7 +4,7 @@
 ver 0.1, namera@ , initial-release, Oct26'17
 ver 0.2, namera@ , included execution id for traceability, Nov3'17
 ver 0.3, shawo@  , Corrected typos in variable names, Apr23'18
-
+ver 0.4, ruecarlo@ , corrected and added the right iterations July'19
 
 Hedge Your Own Funds: Running Monte Carlo Simulations on EC2 Spot
 =================================================================
@@ -64,6 +64,9 @@ parser.add_argument('--long_window_days', dest='long_window_days',default=40, ty
 parser.add_argument('--trading_days', dest='trading_days',default=252, type=int,
                    help='Number of trading days (default=252)')
 
+parser.add_argument('--initial_capital', dest='initial_capital',default=100000.0, type=float,
+                   help='Initial Capital (default=$100000)')
+
 parser.add_argument('-n', '--stocks-list', default=['AAPL','AMZN','MSFT','INTC'], nargs='+')
 
 parser.add_argument('--id', dest='exec_id',default="None",
@@ -78,6 +81,8 @@ trading_days = args.trading_days
 sim_num = args.iterations
 portfolio_stocks_list = args.stocks_list
 file_prepend_str = args.exec_id
+# Set the initial capital
+initial_capital = args.initial_capital
 
 # create output files (CSV) unique string to preapend 
 if (file_prepend_str == 'None'):
@@ -86,7 +91,7 @@ if (file_prepend_str == 'None'):
 
 # Import stock information to dataframe. ADDED 04/2018 - Fix for yahoo finance
 yf.pdr_override()
-stock_df = pdr.get_data_yahoo(STOCK,start=datetime.datetime(2006, 10, 1), end=datetime.datetime(2017, 10, 1))
+stock_df = pdr.get_data_yahoo(STOCK,start=datetime.datetime(2006, 10, 1), end=datetime.datetime(2019, 7, 1))
 
 # Calculate the compound annual growth rate (CAGR) which 
 # will give us our mean return input (mu) 
@@ -98,10 +103,9 @@ mu = cagr
 # the annual volatility of returns. Generally, the higher the volatility, 
 # the riskier the investment in that stock, which results in investing in one over another.
 stock_df['Returns'] = stock_df['Adj Close'].pct_change()
-vol = stock_df['Returns'].std()*sqrt(252)
+vol = stock_df['Returns'].std()*sqrt(trading_days)
 
-# Set the initial capital
-initial_capital= float(100000.0)
+
 
 # Set up empty list to hold our ending values for each simulated price series
 sim_result = []
@@ -185,7 +189,6 @@ df2.to_csv(file_prepend_str + "_" + STOCK + "_portfolio_total.csv")
 
 # Create one data frame and write to file.
 result = pd.concat([df1, df2], axis=1, join_axes=[df1.index])
-
 result.to_csv(file_prepend_str + "_" + STOCK + "_MonteCarloSimResult.csv")
 
 
@@ -196,7 +199,7 @@ result.to_csv(file_prepend_str + "_" + STOCK + "_MonteCarloSimResult.csv")
 
 portfolio_data = pdr.get_data_yahoo(portfolio_stocks_list, 
                           start=datetime.datetime(2015, 1, 1), 
-                          end=datetime.datetime(2017, 1, 1))['Adj Close']
+                          end=datetime.datetime(2019, 7, 1))['Adj Close']
 
 #convert daily stock prices into daily returns
 returns = portfolio_data.pct_change()
@@ -216,8 +219,8 @@ for i in range(sim_num):
     weights /= np.sum(weights)
  
     #calculate portfolio return and volatility
-    portfolio_return = np.sum(mean_daily_returns * weights) * 252
-    portfolio_std_dev = np.sqrt(np.dot(weights.T,np.dot(cov_matrix, weights))) * np.sqrt(252)
+    portfolio_return = np.sum(mean_daily_returns * weights) * trading_days
+    portfolio_std_dev = np.sqrt(np.dot(weights.T,np.dot(cov_matrix, weights))) * np.sqrt(trading_days)
  
     #store results in results array
     results[0,i] = portfolio_return
@@ -229,6 +232,3 @@ for i in range(sim_num):
 results_frame = pd.DataFrame(results.T,columns=['ret','stdev','sharpe'])
 
 results_frame.to_csv(file_prepend_str + "_PortfolioRiskAssessment.csv")
-
-
-
