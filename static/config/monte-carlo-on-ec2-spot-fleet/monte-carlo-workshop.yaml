@@ -323,10 +323,11 @@ Resources:
                 ALLOCATION_ID=${workstationElasticIp.AllocationId}
                 aws ec2 associate-address --instance-id $INSTANCE_ID --allocation-id $ALLOCATION_ID
 
+                #Download node_modules
+                cd $WORKSHOPDIR/web
+                npm install 
+
                 #Start Web and Jupyter
-                # FIXME: Perhaps for consideration, instead of committing node_modules to github
-                # this could run npm install before running the "node" process. The trade-off
-                # is taht sometimes there might be glitches during labs when things may fail.
                 cd $WORKSHOPDIR
                 node web/bin/www > stdout.txt 2>&1 &
                 jupyter notebook --allow-root --no-browser --ip 0.0.0.0 --port ${JupyterPort} &
