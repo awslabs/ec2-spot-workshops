@@ -65,7 +65,10 @@ echo "${MONTE_CARLO_IMAGE} image ready for use"
 You are now ready to use the generated docker image within AWS Batch. If you are already familiar 
 with docker you can try to run the docker image on cloud9 as an optional exercise.
 
-{{%expand "Click to reveal detailed instructions (Optional)" %}}
+
+<details>
+<summary><strong>Click to reveal detailed instructions (Optional)</strong></summary><p>
+
 1. First let's ensure our cloud9 instance has the right role to query SQS
     1. Go to the **EC2 Console** and click on **instances**
     1. Select the cloud9 instance we are using for this lab
@@ -78,10 +81,8 @@ on the **cloudformation -> monte-carlo stack -> Outputs -> WebInterface**
 docker run -it -e BATCH_MODE=true -e REGION=$REGION ${MONTE_CARLO_IMAGE}
 ```
 
-This should display how the process consumes SQS messages from the queue and exits after a few iterations waiting
-if there are no more messages queued.
-
-{{% /expand%}}
+This should display how the process consumes SQS messages from the queue and exits after a few iterations waiting if there are no more messages queued.
+</details>
 
 ## Leveraging AWS Batch
 ![Lab 4 Architecture](/images/monte-carlo-on-ec2-spot-fleet/lab4_arch.png) 
@@ -142,9 +143,7 @@ This process may take 2-3 minutes. When you refresh the screen, you will see the
 #### Evaluate the Results
 1. Once the job reaches **Running** state, check your S3 Bucket. In a few minutes you should see results start appearing the bucket.
 1. If you monitor the SQS queue for messages you should see them being picked up by the worker container.
-1. Once the job is completed, check the **AWS Batch -> Jobs Dashboard** and click on the job to display the job summary
-showing the number of attempts and link to the logs.
-![AWS Batch Job Attempts&Success](/images/monte-carlo-on-ec2-spot-fleet/aws_batch_job_success.png)
+1. Once the job is completed, check the **AWS Batch -> Jobs Dashboard** and click on the job to display the job summary showing the number of attempts and link to the logs. Click on **View Logs**
 1. Click on the links to the logs and confirm everthing went as expected
 ![AWS Batch Job Logs](/images/monte-carlo-on-ec2-spot-fleet/aws_batch_logs.png)
 
