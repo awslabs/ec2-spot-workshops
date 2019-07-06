@@ -33,7 +33,7 @@ Please make sure you are using the Cloud9 environment created by the workshop Cl
 1. On the terminal run the following commands. This will download the repository of code we will
 use to build our image.
 ```
-git clone https://github.com/ruecarlo/ec2-spot-workshops.git
+git clone https://github.com/awslabs/ec2-spot-workshops.git
 cd ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet
 ```
 
