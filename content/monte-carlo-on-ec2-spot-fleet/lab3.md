@@ -165,11 +165,11 @@ In the previous step, we specified two Spot instances, but what if we need to pr
 3. Scroll down and select **ApproximateNumberOfMessagesVisible**. Click **Next**
 ![CW Alarm](/images/monte-carlo-on-ec2-spot-fleet/spot_cw_alarm.png)
 
-4. We will create a threshold for scaling up. Name the alarm, set the threshold for **>= 2** messages for **2** consecutive periods. Delete the default notification actions and hit **Create**.
+4. We will create a threshold for scaling up. Name the alarm, set the threshold for **>= 2** messages for **2** consecutive periods. Delete the default notification actions. Hit **Next** and write a description and a unique name like `Scale Up Spot Fleet`, click on **Create Alarm**.
 
 ![CW Alarm](/images/monte-carlo-on-ec2-spot-fleet/spot_cw_alarmfinal.png)
 
-5. Repeat these steps for the scale down policy. Name the alarm appropriately. Set the threshold for **<= 1** message for **3** consecutive periods.
+5. Repeat these steps for the scale down policy, use the unique name `Scale Down Spot Fleet` and set the threshold for **<= 1** message for **3** consecutive periods.
 
 6. Return to **Spot Requests** in the EC2 Console.
 

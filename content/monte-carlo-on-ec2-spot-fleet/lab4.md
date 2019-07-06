@@ -27,19 +27,26 @@ weight = 40
 3. Click **Create** . It will take less than one minute for the setup to complete. Once complete, click on **View Dashboard**
 4. Go to **Job Definition** , hit **Create** and enter the following details
     * **Job definition name** :  montecarlo-queue-processor
+    * **Job Attempts** : 3
+    * **Execution timeout** : 120 
     * **Job role** :  Select the one that appears in drop down, as created during setup
     * **Container image** :  ruecarlo/montecarlo-workshop-worker:latest
     
     > We have created a docker container image containing the required libraries and the Worker code that we used in the previous lab. This container image is stored on [Dockerhub](https://hub.docker.com/r/ruecarlo/montecarlo-workshop-worker/). This is the image that we are pulling for our batch job.
     
+    * **vCPUs** : 2
+    * **Memory (MiB)** : 512
     * **Environment variables (Key)**  : REGION
     * **Environment variables (Value)**  : Name the region you are using, example us-east-1
     * Leave everything as default and click **Create job Definition**
+
+
 5. Now we are ready to submit a job (with the definition created above) and run it against the compute environment created above.
 Go to Jobs, select **Submit job** and enter the following details
     * **Job name** :  montecarlo-batch-first-run
     * **Job definition** :  Select the one created above
     * **Job queue** :  Select the one created above
+    * **Job Type** : Select Single
     * Leave everything as default and click **Submit Job**
 
 This will create the EC2 Instances using Spot price as bid during creating the compute environment.
