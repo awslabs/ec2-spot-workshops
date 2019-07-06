@@ -7,7 +7,7 @@ weight = 10
 
 #### Create an SSH Key   
 
-First, you'll need to select a [region](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). For this lab, you will need to choose either the Oregon or Ohio Region.
+First, you'll need to select a [region](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). For this lab, you will need to choose either the North Virginia, Ohio, Oregon, Dublin, Tokyo, Seoul or Sydney Regions.
 
 <details>
 <summary><strong>SSH Key Pair Instructions (expand for details)</strong></summary><p>
