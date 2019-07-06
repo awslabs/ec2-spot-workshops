@@ -248,15 +248,6 @@ Resources:
       VpcId:
         Ref: vpc
     Type: AWS::EC2::SecurityGroup
-  cloud9Environment:
-    DependsOn:
-    - publicSubnet1
-    Properties:
-      Description: Running Amazon EC2 Workloads at Scale - Cloud9 environment
-      InstanceType: t2.micro
-      SubnetId:
-        Ref: publicSubnet1
-    Type: AWS::Cloud9::EnvironmentEC2
   spotFleet:
     DependsOn:
     - spotFleetRole
@@ -433,4 +424,15 @@ Resources:
       - Key: Name
         Value: VPC for Spot Monte Carlo Simulation Workshop
     Type: AWS::EC2::VPC
+  cloud9Environment:
+    DependsOn:
+    - publicSubnet1
+    - spotFleetInstanceRole
+    Properties:
+      Description: Running Amazon EC2 Workloads at Scale - Cloud9 environment
+      InstanceType: t2.micro
+      OwnerArn: Ref spotFleetInstanceRole
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::Cloud9::EnvironmentEC2
 ...
