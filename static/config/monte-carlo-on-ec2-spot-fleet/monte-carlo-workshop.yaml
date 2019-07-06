@@ -433,7 +433,7 @@ Resources:
       InstanceType: t2.micro
       OwnerArn: 
         Fn::GetAtt:
-        - spotFleetInstanceProfile
+        - spotFleetInstanceRole
         - Arn
       SubnetId:
         Ref: publicSubnet1
