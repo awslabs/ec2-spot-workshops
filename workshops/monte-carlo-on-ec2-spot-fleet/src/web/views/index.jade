@@ -1,0 +1,82 @@
+extends layout
+
+
+
+
+block content
+
+  div(class="content-section-b")
+    div(class="container")
+        div(class="row")
+            div(class="col-md-4 col-lg-offset-2")
+                div(class="clearfix")
+                h2(class="section-heading") Lab 3: Execute Stock Strategy
+                form(action="/" method="post")
+                    div(class="form-group row")
+                        label(for="stock" class="col-sm-4 col-form-label") Stock
+                        div(class="col-sm-8")
+                            input(type="text" class="form-control" id="stock" name="stock" placeholder="Stock Symbol" value='#{stock || ""}')
+                    div(class="form-group row")
+                        label(for="short" class="col-sm-4 col-form-label") Short Window
+                        div(class="col-sm-8")
+                            input(type="text" class="form-control" id="short" name="short" placeholder="Short Window (in days)" value='#{short || ""}')
+                    div(class="form-group row")
+                        label(for="long" class="col-sm-4 col-form-label") Long Window
+                        div(class="col-sm-8")
+                            input(type="text" class="form-control" id="long" name="long" placeholder="Long Window (in days)" value='#{long || ""}')
+                    div(class="form-group row")
+                        label(for="days" class="col-sm-4 col-form-label") Trading Days
+                        div(class="col-sm-8")
+                            input(type="text" class="form-control" id="days" name="days" placeholder="Trading Days (in days)" value='#{days || ""}')
+                    div(class="form-group row")
+                        label(for="iter" class="col-sm-4 col-form-label") Iterations
+                        div(class="col-sm-8")
+                            input(type="text" class="form-control" id="iter" name="iter" placeholder="Iterations" value='#{iter || ""}')
+                    div(class="form-group row")
+                        label(for="iter" class="col-sm-4 col-form-label") Preview Only
+                        div(class="col-sm-8")
+                            input(type="checkbox" id="isPreview" name="isPreview")
+                    //- div(class="form-group row")
+                        label(for="startTime" class="col-sm-4 col-form-label") Start
+                        div(class="col-sm-8" id="startTime-container")
+                            div(class="input-group date")
+                                input(name="startTime" id="startTime" type="text" class="form-control")
+
+                            script $('#startTime-container input').datepicker({todayHighlight: true});
+                    //- div(class="form-group row")
+                        label(for="endTime" class="col-sm-4 col-form-label") End
+                        div(class="col-sm-8" id="endTime-container")
+                            div(class="input-group date")
+                                input(name="endTime" id="endTime" type="text" class="form-control")
+
+                            script $('#endTime-container input').datepicker({todayHighlight: true});
+
+                    //- div(class="form-group row")
+                        label(for="algorithm" class="col-sm-4 col-form-label") Algorithm
+                        div(class="col-sm-8")
+                            select(name="algorithm" id="algorithm" class="form-control form-control-sm")
+                                option Basic
+                                option Monte Carlo
+                                option Option 3
+                    button(type="submit" class="btn btn-primary") Submit
+
+          if (errors)
+            div(class="col-md-4 col-lg-offset-2" style="padding-top: 10px; color: rgb(200, 0, 0)") Error List:
+                ul
+                each er in errors
+                    if er.msg
+                        li= er.msg
+                    if er.message
+                        li= er.message
+          if (sqs)
+            div(class="col-md-4 col-lg-offset-2" style="padding-top: 10px; color: rgb(0, 200, 0)")=sqs
+        if (previewParams)
+            div(class="row")
+                div(class="col-md-4 col-lg-offset-2" style="padding-top: 10px;")='Json preview'
+            div(class="row")
+                div(class="col-md-4 col-lg-offset-2" style="padding-top: 10px; color: rgb(0, 200, 0)")=JSON.stringify(previewParams)
+
+  <!-- /.container -->
+
+  </div>
+  <!-- /.content-section-b -->

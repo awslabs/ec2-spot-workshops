@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/landing-page.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/datepicker/css/bootstrap-datepicker3.min.css')
+    script(src='https://code.jquery.com/jquery-1.9.1.min.js')
+    script(src='/stylesheets/datepicker/js/bootstrap-datepicker.min.js')
+  body
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+    <div class="container topnav">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand topnav" href="/">Spot Stock Trading Lab</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+    <li>
+    <a href="/">Home</a>
+    </li>
+    <li>
+    <a href="/config">Configuration</a>
+    </li>
+    </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+    </nav>
+
+    block content
+
+    <!-- Footer -->
+    div(class="container")
+      div(class="row")
+        div(class="col" align="right")
+            img(src="/images/aws_logo_smile_sm.png" width="100")

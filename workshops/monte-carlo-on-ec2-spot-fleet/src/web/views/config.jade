@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    div(class="content-section-b")
+        div(class="container")
+            div(class="row")
+                div(class="col-md-6 col-lg-offset-2")
+                    div(class="clearfix")
+                    h2(class="section-heading") Lab3 Configuration
+                    form(action="/config" method="post")
+                        div(class="form-group row")
+                            label(for="sqs" class="col-sm-4 col-form-label") SQS URL
+                            div(class="col-sm-20")
+                                input(type="text" class="form-control" id="sqs" name="sqs" placeholder="SQS URL" value=sqs)
+                        div(class="form-group row")
+                                    label(for="bucket" class="col-sm-4 col-form-label") S3 bucket
+                                    div(class="col-sm-20")
+                                        input(type="text" class="form-control" id="bucket" name="bucket" placeholder="S3 Bucket Name" value=s3)
+                        div(class="form-group row")
+                            label(for="bucket" class="col-sm-4 col-form-label") AWS Region
+                            div(class="col-sm-20")
+                                input(type="text" class="form-control" id="region" name="region" placeholder="AWS Region Code: like us-east-2" value=awsRegion)
+
+                        button(type="submit" class="btn btn-primary") Submit
+
+            if (feedback)
+                div(class="col-md-4 col-lg-offset-2" style="padding-top: 10px; color: rgb(100, 100, 100)") Feedback:
+                    ul
+                    each item in feedback
+                        li= item

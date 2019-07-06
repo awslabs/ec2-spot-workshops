@@ -1,0 +1,440 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Environment for running EC2 Spot Monte Carlo Workshop
+Mappings:
+  CidrMappings:
+    public-subnet-1:
+      CIDR: 10.0.1.0/24
+    public-subnet-2:
+      CIDR: 10.0.2.0/24
+    vpc:
+      CIDR: 10.0.0.0/16
+  DeepLearningAmi:
+    ap-northeast-1:
+      AMI: ami-0c1c7f04b4a0792d5
+    ap-northeast-2:  
+      AMI: ami-03293a3b93252b842
+    ap-southeast-2:
+      AMI: ami-0f6777438177dd7ec
+    eu-west-1:
+      AMI: ami-0c971caf926cf2589
+    us-east-1:
+      AMI: ami-0c509141570009bb5
+    us-east-2:
+      AMI: ami-072ab8ae3a4ed1d23
+    us-west-2:
+      AMI: ami-0faaeebada3dc9afb
+Outputs:
+  Jupyter:
+    Description: URL to access Jupyter in Lab 2 (Use the password used in the stack JupyterPassword parameter)
+    Value: !Sub https://${workstationElasticIp}:${JupyterPort}/notebooks/monte-carlo-workshop.ipynb
+  WebInterface:
+    Description: URL to access the Web Interface in Lab 3
+    Value: !Sub http://${workstationElasticIp}
+  awsRegionName:
+    Description: The name of the AWS Region where your template was launched
+    Value:
+      Ref: AWS::Region
+  resultsBucketName:
+    Description: The name of the Results S3 Bucket.
+    Value:
+      Ref: resultsBucket
+  spotFleetName:
+    Description: The name of the Spot Fleet
+    Value:
+      Ref: spotFleet
+  cloud9Environment:
+    Description: Cloud9 environment
+    Value:
+      Fn::GetAtt:
+      - cloud9Environment
+      - Name
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the EC2 instances
+    Type: AWS::EC2::KeyPair::KeyName
+    MinLength: 1
+  JupyterPassword:
+    Description: This password will be used to connect to the Jupyter Notebook Lab 2. Must contain only alphanumeric characters, cannot be empty
+    Type: String
+    AllowedPattern: '.+'
+    NoEcho: true
+  JupyterPort:
+    Description: Port to connect to Jupyter Notebook. Leave as 8888 unless you have Firewall/VPN issues.
+    Default: 8888
+    Type: String
+  SourceCidr:
+    Default: 0.0.0.0/0
+    Description: Optional - CIDR/IP range for instance SSH/Jupyter access - defaults to 0.0.0.0/0
+    Type: String
+Resources:
+  workstationElasticIp:
+    Properties:
+      Domain: vpc
+    Type: AWS::EC2::EIP
+  workstationElasticNetworkInterface:
+    DependsOn:
+    - publicSubnet1
+    Properties:
+      GroupSet:
+      - Ref: securityGroup
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::EC2::NetworkInterface 
+  attachGateway:
+    DependsOn:
+    - vpc
+    - internetGateway
+    Properties:
+      InternetGatewayId:
+        Ref: internetGateway
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::VPCGatewayAttachment
+  cloudWatchLogsGroup:
+    Properties:
+      RetentionInDays: 7
+    Type: AWS::Logs::LogGroup
+  inputBucket:
+    Type: AWS::S3::Bucket
+  internetGateway:
+    DependsOn:
+    - vpc
+    Type: AWS::EC2::InternetGateway
+  resultsBucket:
+    Type: AWS::S3::Bucket
+  publicRoute:
+    DependsOn:
+    - publicRouteTable
+    - attachGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: internetGateway
+      RouteTableId:
+        Ref: publicRouteTable
+    Type: AWS::EC2::Route
+  publicRouteTable:
+    DependsOn:
+    - vpc
+    - attachGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value: Public Route Table
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::RouteTable
+  publicSubnet1:
+    DependsOn: attachGateway
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+        - 0
+        - Fn::GetAZs:
+            Ref: AWS::Region
+      CidrBlock:
+        Fn::FindInMap:
+        - CidrMappings
+        - public-subnet-1
+        - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value: Public Subnet 1
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::Subnet
+  publicSubnet1RouteTableAssociation:
+    DependsOn:
+    - publicRouteTable
+    - publicSubnet1
+    - attachGateway
+    Properties:
+      RouteTableId:
+        Ref: publicRouteTable
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::EC2::SubnetRouteTableAssociation
+  publicSubnet2:
+    DependsOn: attachGateway
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+        - 1
+        - Fn::GetAZs:
+            Ref: AWS::Region
+      CidrBlock:
+        Fn::FindInMap:
+        - CidrMappings
+        - public-subnet-2
+        - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value: Public Subnet 2
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::Subnet
+  publicSubnet2RouteTableAssociation:
+    DependsOn:
+    - publicRouteTable
+    - publicSubnet2
+    - attachGateway
+    Properties:
+      RouteTableId:
+        Ref: publicRouteTable
+      SubnetId:
+        Ref: publicSubnet2
+    Type: AWS::EC2::SubnetRouteTableAssociation
+  scalableTarget:
+    DependsOn:
+    - spotFleet
+    - spotFleetAutoscaleRole
+    Properties:
+      MaxCapacity: 2
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - /
+        - - spot-fleet-request
+          - Ref: spotFleet
+      RoleARN:
+        Fn::GetAtt:
+        - spotFleetAutoscaleRole
+        - Arn
+      ScalableDimension: ec2:spot-fleet-request:TargetCapacity
+      ServiceNamespace: ec2
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+  scalingPolicy:
+    Properties:
+      PolicyName:
+        Fn::Join:
+        - '-'
+        - - Ref: AWS::StackName
+          - StepPolicy
+      PolicyType: StepScaling
+      ScalingTargetId:
+        Ref: scalableTarget
+      StepScalingPolicyConfiguration:
+        AdjustmentType: PercentChangeInCapacity
+        Cooldown: 30
+        MetricAggregationType: Average
+        StepAdjustments:
+        - MetricIntervalLowerBound: 0
+          ScalingAdjustment: 100
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  securityGroup:
+    Properties:
+      GroupDescription: Monte Carlo Workstation Security Group
+      SecurityGroupIngress:
+      - CidrIp:
+          Ref: SourceCidr
+        FromPort: 22
+        IpProtocol: tcp
+        ToPort: 22
+      - CidrIp:
+          Ref: SourceCidr
+        FromPort: 
+          Ref: JupyterPort
+        IpProtocol: tcp
+        ToPort: 
+          Ref: JupyterPort
+      - CidrIp:
+          Ref: SourceCidr
+        FromPort: 80
+        IpProtocol: tcp
+        ToPort: 80
+      VpcId:
+        Ref: vpc
+    Type: AWS::EC2::SecurityGroup
+  spotFleet:
+    DependsOn:
+    - spotFleetRole
+    - spotFleetInstanceProfile
+    Properties:
+      SpotFleetRequestConfigData:
+        AllocationStrategy: diversified
+        IamFleetRole:
+          Fn::GetAtt:
+          - spotFleetRole
+          - Arn
+        LaunchSpecifications:
+        - IamInstanceProfile:
+            Arn:
+              Fn::GetAtt:
+              - spotFleetInstanceProfile
+              - Arn
+          ImageId:
+            Fn::FindInMap:
+            - DeepLearningAmi
+            - Ref: AWS::Region
+            - AMI
+          InstanceType: m4.large
+          KeyName:
+            Ref: KeyName
+          Monitoring:
+            Enabled: true
+          SecurityGroups:
+          - GroupId:
+              Ref: securityGroup
+          SubnetId: !Ref publicSubnet1
+          UserData:
+             Fn::Base64: !Sub | 
+                #!/bin/bash
+
+                # Update and Install dependencies
+                curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -                          
+                yum -y --security update
+                yum -y install aws-cli git emacs nano aws-cfn-bootstrap python-numpy python-matplotlib python-zmq nodejs
+                yum update -y
+                yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+                pip3 install pandas_datareader yfinance
+                aws configure set default.region ${AWS::Region}
+                start amazon-ssm-agent
+
+                # Clone the workshop code
+                cd /home/ec2-user
+                git clone https://github.com/awslabs/ec2-spot-workshops.git
+                WORKSHOPDIR=/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src
+
+                # Configure Web Client
+                cp -rf $WORKSHOPDIR/*.py $WORKSHOPDIR/web/public/static/
+                sed -i "s/REGION_NAME/${AWS::Region}/g" $WORKSHOPDIR/web/config.json
+
+                #Configure Jupyter Notebook Password
+                mkdir $WORKSHOPDIR/keys
+                openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mykey.key -out /home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mycert.pem  -subj "/C=US/ST=CA/L=SF/O=spot/OU=workshop/CN=example.com"
+                jupyter-notebook --generate-config --allow-root
+                sed -i "s_#c.NotebookApp.certfile = ''_c.NotebookApp.certfile = u'/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mycert.pem'_g" /root/.jupyter/jupyter_notebook_config.py
+                sed -i "s_#c.NotebookApp.keyfile = ''_c.NotebookApp.keyfile = u'/home/ec2-user/ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet/src/keys/mykey.key'_g" /root/.jupyter/jupyter_notebook_config.py
+                sed -i "s/#c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/g" /root/.jupyter/jupyter_notebook_config.py
+                PASSWORD=${JupyterPassword}
+                python -c "from notebook.auth import passwd;print(passwd('$PASSWORD') if '$PASSWORD' != '' else 'sha1:c6bd96fb0824:6654e9eabfc54d0b3d0715ddf9561bed18e09b82')" > $WORKSHOPDIR/password_temp
+                sed -i "s/#c.NotebookApp.password = ''/c.NotebookApp.password = '$(cat $WORKSHOPDIR/password_temp)'/g" /root/.jupyter/jupyter_notebook_config.py
+                cp /root/.jupyter/jupyter_notebook_config.py /home/ec2-user/.jupyter/jupyter_notebook_config.py
+                chown ec2-user:ec2-user $WORKSHOPDIR
+                rm $WORKSHOPDIR/password_temp
+
+                #Assign Elastic IP
+                INSTANCE_ID=$(curl 169.254.169.254/latest/meta-data/instance-id 2>/dev/null)
+                echo $INSTANCE_ID
+                ENI_ID=${workstationElasticNetworkInterface}
+                ALLOCATION_ID=${workstationElasticIp.AllocationId}
+                aws ec2 associate-address --instance-id $INSTANCE_ID --allocation-id $ALLOCATION_ID
+
+                #Start Web and Jupyter
+                # FIXME: Perhaps for consideration, instead of committing node_modules to github
+                # this could run npm install before running the "node" process. The trade-off
+                # is taht sometimes there might be glitches during labs when things may fail.
+                cd $WORKSHOPDIR
+                node web/bin/www > stdout.txt 2>&1 &
+                jupyter notebook --allow-root --no-browser --ip 0.0.0.0 --port ${JupyterPort} &
+                aws ec2 create-tags --resources $INSTANCE_ID --tags Key=Name,Value=montecarlo-workshop
+
+                /opt/aws/bin/cfn-signal -s true -i $INSTANCE_ID "${spotFleetWaitConditionHandle}"
+               
+        TargetCapacity: 1
+        TerminateInstancesWithExpiration: true
+    Type: AWS::EC2::SpotFleet
+  spotFleetAutoscaleRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - application-autoscaling.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetAutoscaleRole
+      Path: /
+    Type: AWS::IAM::Role
+  spotFleetInstanceProfile:
+    DependsOn:
+    - spotFleetInstanceRole
+    Properties:
+      Path: /
+      Roles:
+      - Ref: spotFleetInstanceRole
+    Type: AWS::IAM::InstanceProfile
+  spotFleetInstanceRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+            - ecs-tasks.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+      Policies:
+        - PolicyName: !Sub ${AWS::Region}-${AWS::StackName}
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Resource: "*"
+                Effect: Allow
+                Action:
+                  - ec2:AttachNetworkInterface
+                  - ec2:CreateTags
+                  - ec2:AssociateAddress
+                  - cloudformation:Describe*
+                  - cloudformation:List*
+                  - logs:*
+      Path: /
+    Type: AWS::IAM::Role
+  spotFleetRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - spotfleet.amazonaws.com
+        Version: 2012-10-17
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetRole
+    Type: AWS::IAM::Role
+  spotFleetWaitCondition:
+    DependsOn: spotFleetWaitConditionHandle
+    Properties:
+      Count: 1
+      Handle:
+        Ref: spotFleetWaitConditionHandle
+      Timeout: 900
+    Type: AWS::CloudFormation::WaitCondition
+  spotFleetWaitConditionHandle:
+    Type: AWS::CloudFormation::WaitConditionHandle
+  vpc:
+    Properties:
+      CidrBlock:
+        Fn::FindInMap:
+        - CidrMappings
+        - vpc
+        - CIDR
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+      - Key: Name
+        Value: VPC for Spot Monte Carlo Simulation Workshop
+    Type: AWS::EC2::VPC
+  cloud9Environment:
+    DependsOn:
+    - publicSubnet1
+    - spotFleetInstanceRole
+    Properties:
+      Description: Running Amazon EC2 Workloads at Scale - Cloud9 environment
+      InstanceType: t2.micro
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::Cloud9::EnvironmentEC2
+...
