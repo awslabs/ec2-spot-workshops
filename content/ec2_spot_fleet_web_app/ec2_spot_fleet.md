@@ -14,7 +14,7 @@ In this section, we'll launch an EC2 Spot Fleet and have the Spot Instances auto
 
 3\. Leave the default selection **Load balancing workloads** under **Tell us your application or task need**. 
 
-4\. Under the **Configure your instances** section, leave the **default** values for **AMI** (Amazon Linux 2 AMI (HVM)) and **Minimum compute unit** (c3.large). The console will use this value to create a default set of capacity pools as we will see later on. 
+4\. Under the **Configure your instances** section, leave the **default** values for **AMI** (Amazon Linux 2 AMI (HVM)) and **Minimum compute unit** (c3.large). The console will use this value to generate a diverse recommendation of instance types matching the minimum compute unit as we will see later on. 
 
 5\. Under the **Network** section, select the **VPC** that has been created by the Cloudformation template, named **EC2 Spot Fleet web app workshop**. Then, under the **Availability Zone** section, select the same Availability Zones and **Subnets** you selected when creating the Application Load Balancer.
 
@@ -52,7 +52,7 @@ Example Target group ARN:
 11.\ You will find a default set of recommended capacity pools under **Fleet request settings**. Uncheck the **Apply recommendations** checkbox on the right side to customize the capacity pools. Feel free to add additional instance types by clicking **Select instance types**. 
 
 {{% notice note %}}
-The default instance type selection will include t2.medium, t3.medium, t2.large and t3.large which are a great fit for this workshop as we will not be bursting over the baseline level of CPU provided by t2 and t3 instances. In a production scenario, if your application is going to be consistently bursting over baseline CPU performance, consider replacing t2 and t3 instances to fixed performance instance types. You can find more details about burstable performance instances [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html) as well as Spot instance considerations for t2 and t3 instances [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-limits.html#t3-spot-instances)
+The default instance type selection will include **t2.medium**, **t3.medium**, **t2.large** and **t3.large** which are a great fit for this workshop as we will not be bursting over the baseline level of CPU provided by t2 and t3 instances. In a **production** scenario, if your application is going to be consistently **bursting over baseline CPU performance**, consider replacing t2 and t3 instances to **fixed performance instance types**. You can find more details about burstable performance instances **[here]**(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html) as well as Spot instance considerations for t2 and t3 instances **[here]**(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-limits.html#t3-spot-instances)
 {{% /notice %}}
 
 12.\ On the **Fleet allocation strategy** leave the default **Diversified across x instance pools in my fleet (recommended)**. This will launch a diversified set of instances, which helps avoiding widespread concurrent interruptions. 
