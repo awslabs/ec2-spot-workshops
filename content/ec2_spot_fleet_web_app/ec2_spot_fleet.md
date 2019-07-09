@@ -12,25 +12,17 @@ In this section, we'll launch an EC2 Spot Fleet and have the Spot Instances auto
 
 2\. Click on **Request Spot Instances**.
 
-3\. Select **Request and Maintain** under **Request type**. This requests a fleet of Spot instances to maintain your target capacity.
- 
-4\. Under **Amount**, set the **Total target capacity** = *2*, and leave the **Optional On-Demand portion** = *0*.
+3\. Leave the default selection **Load balancing workloads** under **Tell us your application or task need**. 
 
-5\. We'll make a few changes under **Requirements**. First, leave the **AMI** with the default **Amazon Linux AMI**.
+4\. Under the **Configure your instances** section, leave the **default** values for **AMI** (Amazon Linux 2 AMI (HVM)) and **Minimum compute unit** (c3.large). The console will use this value to create a default set of capacity pools as we will see later on. 
 
-6\. Let's add an additional Instance type by clicking **Select**, and then checking both **c3.large** and **c4.large**. This will allow the Spot Fleet to be flexible across both instance types when it is requesting Spot capacity. Click **Select** to save your changes.
+5\. Under the **Network** section, select the **VPC** that has been created by the Cloudformation template, named **EC2 Spot Fleet web app workshop**. Then, under the **Availability Zone** section, select the same Availability Zones and **Subnets** you selected when creating the Application Load Balancer.
 
-7\. For **Network**, make sure to select the same **VPC** you used when creating the Application Load Balancer.
+6\. Select a **Key pair** name if you'd like to enable ssh access to your instances *(not required for this workshop)*.
 
-8\. Then check the same **Availability Zones** and **Subnets** you selected when creating the Application Load Balancer.
+7\. Click on the **Additional configurations** section to expand it. Under **Security groups** check the **default** security group. 
 
-9\. Check **Replace unhealthy instances** at **Health check**.
-
-10\. Check the **default** Security group.
-
-11\. Select a **Key pair** name if you'd like to enable ssh access to your instances *(not required for this workshop)*.
-
-12\. In the **User data** field, enter the following data as text:
+9\. On the **User data** field, enter the following data as text:
 
 ```bash
 #!/bin/bash
@@ -42,7 +34,8 @@ echo "hello from $instanceid" > /var/www/html/index.html
 service httpd start
 ```
 
-13\. You'll need to add an **instance tag** that includes the name of the load balancer target group ARN created in the load balancer creation step earlier. Click **add new tag** and set **key** = *loadBalancerTargetGroup*, **value** = *[FULL-TARGET-GROUP-ARN]*
+
+9\. You'll need to add an **Instance tag** that includes the name of the load balancer target group ARN created in the load balancer creation step earlier. Click **Add new tag** and set **Key** = *loadBalancerTargetGroup*, **Value** = *[FULL-TARGET-GROUP-ARN]*
 
 {{% notice info %}}
 For this next step, you'll need the full Target group ARN you noted earlier in the previous section **Deploy the Application Load Balancer**, point 16
@@ -54,15 +47,25 @@ Example Target group ARN:
 
 
 
+10\. Under **Tell us how much capacity you need** section, set the **Total target capacity** = *2*, and then leave the **Optional On-demand portion** = *0*. Also, click on the **Mantain target capacity** checkbox and leave the default **Interruption behavior** to **Terminate**.
 
+11.\ You will find a default set of recommended capacity pools under **Fleet request settings**. Uncheck the **Apply recommendations** checkbox on the right side to customize the capacity pools. Feel free to add additional instance types by clicking **Select instance types**. 
 
-14\. Under **Load balancing**, check the **Load balancing** box to receive traffic from one or more load balancers. Select the Target group you created in the earlier step of creating the Application Load Balancer.
+{{% notice note %}}
+The default instance type selection will include t2.medium, t3.medium, t2.large and t3.large which are a great fit for this workshop as we will not be bursting over the baseline level of CPU provided by t2 and t3 instances. In a production scenario, if your application is going to be consistently bursting over baseline CPU performance, consider replacing t2 and t3 instances to fixed performance instance types. You can find more details about burstable performance instances [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html) as well as Spot instance considerations for t2 and t3 instances [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-limits.html#t3-spot-instances)
+{{% /notice %}}
 
-15\. Under **Spot request fulfillment**, change **Allocation strategy** to **Diversified**, and leave the rest of the settings as **default** options.
+12.\ On the **Fleet allocation strategy** leave the default **Diversified across x instance pools in my fleet (recommended)**. This will launch a diversified set of instances, which helps avoiding widespread concurrent interruptions. 
+
+13.\ On the **Additional request details** section, uncheck the **Apply defaults** checkbox on the right side to configure the instances to register with the Application Load Balancer we created earlier.
 
 {{% notice note %}}
 When you use the Amazon EC2 console to create a Spot Fleet, it creates a role named **aws-ec2-spot-fleet-tagging-role** that grants the Spot Fleet permission to request, launch, terminate, and tag instances on your behalf. This role is selected when you create your Spot Fleet request. 
 {{% /notice %}}
+
+14.\ Leave all the default values, until the **Load Balancing** section. Check the **Receive traffic from one or more load balancers**. On the **Target Groups** dropdown, select the target group you created before. 
+
+15.\ At this stage, at the bottom of the page, you will see the **Your fleet request at a glance** section, which summarizes your spot capacity request, the strength of the fleet and the estimated price and savings compared to on-demand. Optionally, click on the **JSON config** button to download a JSON file with your fleet configuration and take a look at it, you could use this to launch the Spot fleet you configured using the AWS CLI. 
 
 16\. Click **Launch**.
 
