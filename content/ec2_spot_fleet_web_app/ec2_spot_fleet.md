@@ -55,17 +55,17 @@ Example Target group ARN:
 The default instance type selection will include **t2.medium**, **t3.medium**, **t2.large** and **t3.large** which are a great fit for this workshop as we will not be bursting over the baseline level of CPU provided by t2 and t3 instances. In a **production** scenario, if your application is going to be consistently **bursting over baseline CPU performance**, consider replacing t2 and t3 instances to **fixed performance instance types**. You can find more details about burstable performance instances [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-credits-baseline-concepts.html) as well as Spot instance considerations for t2 and t3 instances [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-limits.html#t3-spot-instances)
 {{% /notice %}}
 
-12.\ On the **Fleet allocation strategy** leave the default **Diversified across x instance pools in my fleet (recommended)**. This will launch a diversified set of instances, which helps avoiding widespread concurrent interruptions. 
+12\. On the **Fleet allocation strategy** leave the default **Diversified across x instance pools in my fleet (recommended)**. This will launch a diversified set of instances, which helps avoiding widespread concurrent interruptions. 
 
-13.\ On the **Additional request details** section, uncheck the **Apply defaults** checkbox on the right side to configure the instances to register with the Application Load Balancer we created earlier.
+13\. On the **Additional request details** section, uncheck the **Apply defaults** checkbox on the right side to configure the instances to register with the Application Load Balancer we created earlier.
 
 {{% notice note %}}
 When you use the Amazon EC2 console to create a Spot Fleet, it creates a role named **aws-ec2-spot-fleet-tagging-role** that grants the Spot Fleet permission to request, launch, terminate, and tag instances on your behalf. This role is selected when you create your Spot Fleet request. 
 {{% /notice %}}
 
-14.\ Leave all the default values, until the **Load Balancing** section. Check the **Receive traffic from one or more load balancers**. On the **Target Groups** dropdown, select the target group you created before. 
+14\. Leave all the default values, until the **Load Balancing** section. Check the **Receive traffic from one or more load balancers**. On the **Target Groups** dropdown, select the target group you created before. 
 
-15.\ At this stage, at the bottom of the page, you will see the **Your fleet request at a glance** section, which summarizes your spot capacity request, the strength of the fleet and the estimated price and savings compared to on-demand. Optionally, click on the **JSON config** button to download a JSON file with your fleet configuration and take a look at it, you could use this to launch the Spot fleet you configured using the AWS CLI. 
+15\. At this stage, at the bottom of the page, you will see the **Your fleet request at a glance** section, which summarizes your spot capacity request, the strength of the fleet and the estimated price and savings compared to on-demand. Optionally, click on the **JSON config** button to download a JSON file with your fleet configuration and take a look at it, you could use this to launch the Spot fleet you configured using the AWS CLI. 
 
 16\. Click **Launch**.
 
