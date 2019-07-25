@@ -24,28 +24,7 @@ popd
 hugo serve -D
 ```
 
-### Docker
-For local development a docker image can be build and use.
-
-#### Build
-
-In order to build the image, just run a normal docker build command.
-
-```
-$ docker build -t myuser/ec2-spot-workshops:dev .
-Sending build context to Docker daemon   84.4MB
-Step 1/16 : FROM golang:alpine AS build
-*snip*
-Successfully tagged myuser/ec2-spot-workshops:dev
-```
-
-The image exposes the static website via port 1313.
-
-```
-$ docker service create --name ec2-spot --publish=1313:1313 myuser/ec2-spot-workshops:dev
-```
-
-#### Development
+### Containerized Development
 
 The image can also serve as a development enviornment using [docker-compose](https://docs.docker.com/compose/).
 The following command will spin up a container exposing the website at [localhost:1313](http://localhost:1313) and mount `config.toml` and the directories `./content`, `./layouts` and `./static`, so that local changes will automatically be picked up by the development container.
