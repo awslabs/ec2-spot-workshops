@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  hugo:
+    image: awslabs/ec2-spot-workshops:build
+    build:
+      context: .
+    ports:
+      - 1313:1313
+    volumes:
+      - ./content:/www/content
+      - ./static:/www/static
+      - ./layouts:/www/layouts
+      - ./config.toml:/www/config.toml
+    command: ["--buildDrafts", "--buildFuture", "--watch"]
