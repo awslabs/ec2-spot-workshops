@@ -48,7 +48,7 @@ $ docker service create --name ec2-spot --publish=1313:1313 myuser/ec2-spot-work
 #### Development
 
 The image can also serve as a development enviornment using [docker-compose](https://docs.docker.com/compose/).
-The following command will spin up a container mounting `config.toml` and the directories `./content`, `./layouts` and `./static`, so that local changes will be picked up by the development container.
+The following command will spin up a container exposing the website at [localhost:1313](http://localhost:1313) and mount `config.toml` and the directories `./content`, `./layouts` and `./static`, so that local changes will automatically be picked up by the development container.
 
 ```
 $ docker-compose up -d  ## To see the logs just drop '-d'
