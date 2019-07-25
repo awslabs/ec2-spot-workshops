@@ -4,7 +4,6 @@ services:
     image: awslabs/ec2-spot-workshops:build
     build:
       context: .
-      target: build
     ports:
       - 1313:1313
     volumes:
@@ -12,3 +11,4 @@ services:
       - ./static:/www/static
       - ./layouts:/www/layouts
       - ./config.toml:/www/config.toml
+    command: ["--buildDrafts", "--buildFuture", "--watch"]
