@@ -10,6 +10,7 @@ COPY . /www/
 CMD ["hugo", "server", "-D", "--bind", "0.0.0.0", "--watch"]
 
 FROM alpine
+## TODO: Are all those headers really neccessary?
 RUN apk --no-cache --update add gcc g++ musl-dev ca-certificates
 COPY --from=build /go/bin/hugo /hugo
 COPY --from=build /www/themes/learn /www/themes/learn
