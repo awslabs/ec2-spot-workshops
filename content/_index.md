@@ -35,12 +35,12 @@ Amazon EC2 capacity at scale in a cost optimized architecture.
 {{% /card %}}
 
 {{% card important_workshop 
-    "amazon-ec2-spot-cicd-workshop"
-    "CI/CD and Test Workloads with EC2 Spot Instances"
+    "running_spark_apps_with_emr_on_spot_instances"
+    "Running Spark apps with EMR on Spot instances"
     "Amazon-EC2_Instances_light-bg.png" 
 %}}
-In this workshop you will get hands-on with Amazon EC2 Spot and discover architectural best 
-practices through the lens of DevOps and CI/CD.
+In this workshop you will assume the role of a data engineer, tasked with cost optimizing the organization’s 
+costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.
 {{% /card %}}
 
 {{% card workshop 
