@@ -604,6 +604,63 @@
       "Metadata": {
         "aws:cdk:path": "runningAmazonEC2WorkloadsAtScale/LOADBALANCERSECURITYGROUP/from runningAmazonEC2WorkloadsAtScaleLOADBALANCERSECURITYGROUPA49376D6:80"
       }
+    },
+    "INSTANCEROLEF87281DA": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "ec2.",
+                      {
+                        "Ref": "AWS::URLSuffix"
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "runningAmazonEC2WorkloadsAtScale/INSTANCEROLE/Resource"
+      }
+    },
+    "INSTANCEPROFILE": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "INSTANCEROLEF87281DA"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "runningAmazonEC2WorkloadsAtScale/INSTANCEPROFILE"
+      }
     }
   },
   "Outputs": {
@@ -638,6 +695,14 @@
     "loadBalancerSecurityGroup": {
       "Value": {
         "Ref": "LOADBALANCERSECURITYGROUP921CA989"
+      }
+    },
+    "instanceProfile": {
+      "Value": {
+        "Fn::GetAtt": [
+          "INSTANCEPROFILE",
+          "Arn"
+        ]
       }
     }
   }

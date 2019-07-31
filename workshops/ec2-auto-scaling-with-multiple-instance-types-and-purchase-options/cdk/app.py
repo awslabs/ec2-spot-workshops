@@ -3,6 +3,7 @@
 from aws_cdk import (
   aws_ec2 as ec2,
   aws_cloud9 as cloud9,
+  aws_iam as iam,
   core
 )
 
@@ -46,6 +47,23 @@ class runningAmazonEC2WorkloadsAtScaleStack(core.Stack):
 
     connection.allow_default_port_internally()
     connection.allow_default_port_from_any_ipv4()
+
+    instanceRole = iam.Role(
+      self,
+      "INSTANCEROLE",
+      assumed_by = iam.ServicePrincipal('ec2.amazonaws.com'),
+      managed_policies = [
+        iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AmazonEC2RoleforSSM")
+        ]
+      )
+
+    instanceProfile = iam.CfnInstanceProfile(
+      self,
+      "INSTANCEPROFILE",
+      roles = [
+        instanceRole.role_name
+        ]
+      )
     
     core.CfnOutput(
       self,
@@ -83,38 +101,11 @@ class runningAmazonEC2WorkloadsAtScaleStack(core.Stack):
       value = loadBalancerSecurityGroup.security_group_name
       )
 
-
-
-
-
-
-#class LoadBalancerStack(core.Stack):
-#  def __init__(self, app: core.App, id: str) -> None:
-#    super().__init__(app, id)
-
-#    vpc = ec2.Vpc(self, "VPC")
-
-#    asg = autoscaling.AutoScalingGroup(
-#      self,
-#      "ASG",
-#      vpc=vpc,
-#      instance_type=ec2.InstanceType.of(
-#        ec2.InstanceClass.BURSTABLE2, ec2.InstanceSize.MICRO
-#        ),
-#      machine_image=ec2.AmazonLinuxImage(),
-#      )
-
-#    lb = elbv2.ApplicationLoadBalancer(
-#      self, "LB",
-#      vpc=vpc,
-#      internet_facing=True)
-
-#    listener = lb.add_listener("Listener", port=80)
-#    listener.add_targets("Target", port=80, targets=[asg])
-#    listener.connections.allow_default_port_from_any_ipv4("Open to the world")
-
-#    asg.scale_on_request_count("AModestLoad", target_requests_per_second=1)
-
+    core.CfnOutput(
+      self,
+      "instanceProfile",
+      value = instanceProfile.attr_arn
+      )
 
 app = core.App()
 runningAmazonEC2WorkloadsAtScaleStack(app, "runningAmazonEC2WorkloadsAtScale")
