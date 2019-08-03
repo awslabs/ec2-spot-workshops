@@ -42,7 +42,7 @@ Prior to launching a stack, be aware that a few of the resources launched need t
 2. Navigate one of the supported Cloudformation regions: 
     - **[North Virginia - us-east-1](https://console.aws.amazon.com/cloudformation/home?region=us-east-1)**
 	- **[Ohio - us-east-2](https://console.aws.amazon.com/cloudformation/home?region=us-east-2)**
-	- **[Oregon - us-west-2](https://console.aws.amazon.com/cloudformation/home?region=uus-west-2)**
+	- **[Oregon - us-west-2](https://console.aws.amazon.com/cloudformation/home?region=us-west-2)**
 	- **[Dublin - eu-west-1](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1)**
 	- **[Tokyo - ap-northeast-1](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-1)**
 	- **[Seoul - ap-northeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2)**

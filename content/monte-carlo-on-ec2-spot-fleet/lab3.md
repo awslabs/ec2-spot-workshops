@@ -100,26 +100,32 @@ select the one with the prefix *spot-montecarlo workshop*.
 1. Finally in the **User Data** content copy the following:
 
 ```bash
-#!/bin/bash
+#!/bin/bash -e
 # Install Dependencies
 yum -y install git python3 python-pip3 jq
 pip3 install --upgrade pandas-datareader yfinance scipy boto3 awscli matplotlib scipy numpy pandas boto3
 
 #Populate Variables
 echo 'Populating Variables'
-REGION=`curl http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}'`
-mkdir /home/ec2-user/spotlabworker
+REGION=`curl -s http://169.254.169.254/latest/dynamic/instance-identity/document|grep region|awk -F\" '{print $4}'`
+mkdir -p /home/ec2-user/spotlabworker
 chown ec2-user:ec2-user /home/ec2-user/spotlabworker
 cd /home/ec2-user/spotlabworker
-STACK_NAME=$(aws cloudformation --region $REGION list-stacks | jq -r '.StackSummaries[] | select(.TemplateDescription == "Environment for running EC2 Spot Monte Carlo Workshop"  and .StackStatus == "CREATE_COMPLETE").StackName')
+STACK_NAME=$(aws cloudformation --region $REGION list-stacks | jq -r '.StackSummaries[] | select(.TemplateDescription == "Environment for running EC2 Spot Monte Carlo Workshop"  and .StackStatus ==  ("CREATE_COMPLETE", "UPDATE_COMPLETE")).StackName')
 WEBURL=$(aws cloudformation --region $REGION describe-stacks --stack-name $STACK_NAME | jq -r '.Stacks[0].Outputs[] | select(.OutputKey == "WebInterface" ).OutputValue ')
+
+if [[ -z $WEBURL || -z $STACK_NAME ]]; then
+  echo "URL: $WEBURL or Stack $STACK_NAME not defined"
+  exit 1 
+else
+    echo 'Region is '$REGION
+    echo 'URL is '$WEBURL
+fi
 	
-echo 'Region is '$REGION
-echo 'URL is '$WEBURL
 
 echo "Downloading worker code"
-wget $WEBURL/static/queue_processor.py
-wget $WEBURL/static/worker.py
+wget -q $WEBURL/static/queue_processor.py || { echo 'wget failed' ; exit 1; }
+wget -q $WEBURL/static/worker.py || { echo 'wget failed' ; exit 1; }
 
 echo 'Starting the worker processor'
 python3 /home/ec2-user/spotlabworker/queue_processor.py --region $REGION> stdout.txt 2>&1
