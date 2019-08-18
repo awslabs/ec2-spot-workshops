@@ -17,10 +17,7 @@ fleet capacity within each purchasing model.
 **To create a new EC2 Fleet using the command line, run the following**
 
 ```bash
-$ aws ec2 create-fleet --launch-template-configs
-LaunchTemplateSpecification="{LaunchTemplateName=TemplateForSpot,Version=1}"
---target-capacity-specification
-TotalTargetCapacity=4,OnDemandTargetCapacity=1,DefaultTargetCapacityType=spot
+$ aws ec2 create-fleet --launch-template-configs LaunchTemplateSpecification="{LaunchTemplateName=TemplateForSpot,Version=1}" --target-capacity-specification TotalTargetCapacity=4,OnDemandTargetCapacity=1,DefaultTargetCapacityType=spot
 ```
 
 **Example return**

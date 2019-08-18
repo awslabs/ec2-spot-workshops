@@ -11,6 +11,10 @@ In this optional step, you will re-run the cluster and the Spark application, an
 This is an optional step that will take approximately 20 minutes more than the original running time of the workshop. Feel free to skip this step and go directly to the **Conclusions and cleanup** step.
 {{% /notice %}}
 
+{{% notice info %}}
+[Click here] (https://aws.amazon.com/blogs/big-data/spark-enhancements-for-elasticity-and-resiliency-on-amazon-emr/) For an in-depth blog post about Spark's resiliency in EMR 
+{{% /notice %}}
+
 #### Step objectives:\
 1. Observe that EMR replenishes the target capacity if some EC2 Instances failed, were terminated/stopped, or received an EC2 Spot Interruption.
 2. Observe that the Spark application running in your EMR cluster still completes successfully, despite losing executors due to instance terminations.
