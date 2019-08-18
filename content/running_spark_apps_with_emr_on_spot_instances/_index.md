@@ -7,7 +7,7 @@ pre: "<b>⁃ </b>"
 
 ## Overview
 
-Welcome! In this workshop you will assume the role of a data engineer, tasked with cost optimizing the organization's costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.\
+Welcome! In this workshop you will assume the role of a data engineer, tasked with optimizing the organization's costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.\
 
 {{% notice info %}} The **estimated time** for completing the workshop is 60-90 minutes and the **estimated cost** for running the workshop's resources in your AWS account is less than $2.\
 The **learning objective** for the workshop is to become familiar with the best practices and tooling that are available to you for cost optimizing your EMR clusters running Spark applications, using Spot Instances. {{% /notice %}}
