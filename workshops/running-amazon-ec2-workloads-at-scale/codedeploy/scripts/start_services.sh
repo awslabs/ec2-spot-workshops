@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 cd /var/www/koel && php artisan koel:init
 
