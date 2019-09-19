@@ -11,4 +11,4 @@ To complete this workshop, have access to an AWS account with administrative per
 
 You can start the workshop by heading to [**Setup with CloudFormation**](/running-amazon-ec2-workloads-at-scale/launch_cloudformation.html)
 
-{{% children %}}
+To avoid unwanted costs in your account, don't forget to go through the [**Cleanup step**](/running-amazon-ec2-workloads-at-scale/cleanup.html) when you finish the workshop, or if you deploy the CloudFormation template but don't complete the workshop.
