@@ -17,9 +17,10 @@ In this workshop we will configure Cluster Autoscaler to scale using the Autosca
 We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal.
 
 ```bash
-mkdir ~/environment/cluster-autoscaler
-cd ~/environment/cluster-autoscaler
-wget https://eksworkshop.com/scaling/deploy_ca.files/cluster_autoscaler.yml
+mkdir -p ~/environment/cluster-autoscaler
+curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/scaling/deploy_ca.files/cluster_autoscaler.yml
+sed -i 's/--AWS_REGION--/${AWS_REGION}/g' ~/environment/cluster-autoscaler/cluster_autoscaler.yml
+
 ```
 
 ### Configure the ASG
