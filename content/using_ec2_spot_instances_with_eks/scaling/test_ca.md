@@ -64,8 +64,8 @@ Try to answer the following questions:
  - Could you predict what should happen if we increase the number of replicas to 13 ? 
  - How would you scale up the replicas to 13 ? 
  - If you are expecting a new node, which size will it be: (a) 4vCPU's 16GB RAM or (b) 8vCPU's 32GB RAM ?
- - Which AWS instance type you would expect to be selected ?   
- - How would you confirm your prediction ?
+ - Which AWS instance type you would expect to be selected ?
+ - How would you confirm your predictions ?
 
 {{%expand "Show me the answers" %}}
 To scale up the number of replicas run:
@@ -117,11 +117,11 @@ workshop at a AWS event or with limited time, we recommend to come back to this 
 completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * How would you scale down the number of pods in the replica back to the default 3 ? How would the pods be removed ? From which nodes ?
+ * How would you scale down the number of pods in the replica back to the default 3 ? How would the pods be removed? From which nodes?
 
- * How would and when you expect Cluster Autoscaler to Scale in the cluster ?  
+ * How would and when you expect Cluster Autoscaler to Scale in the cluster?  
 
- * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM ? What's Cluster Autoscaler log looking like in this case ? 
+ * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case? 
 
- * At the moment auto-scaling group is setup to use the [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy and using 4 pools. Can you think of a different alternative allocation strategy to help reduce the frequency of interruptions on EC2 Spot nodes ?
+ * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy, using the 4 cheapest pools in each AZ. Can you think of a different alternative **allocation strategy** to help reduce the frequency of interruptions on EC2 Spot nodes ? Why would it be beneficial to run such strategy in a production system ?
 

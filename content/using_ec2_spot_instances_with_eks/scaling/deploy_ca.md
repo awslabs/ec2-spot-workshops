@@ -14,73 +14,59 @@ We will start by deploying [Cluster Autoscaler](https://github.com/kubernetes/au
 In this workshop we will configure Cluster Autoscaler to scale using the Autoscaling groups associated with the nodegroups that we created in the [Adding Spot Workers with eksctl]({{< ref "/using_ec2_spot_instances_with_eks/spotworkers/workers_eksctl.md" >}}) section.
 
 ### Configure the Cluster Autoscaler (CA)
-We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal.
+We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal. 
 
 ```bash
 mkdir -p ~/environment/cluster-autoscaler
 curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/scaling/deploy_ca.files/cluster_autoscaler.yml
-sed -i 's/--AWS_REGION--/${AWS_REGION}/g' ~/environment/cluster-autoscaler/cluster_autoscaler.yml
+sed -i "s/--AWS_REGION--/${AWS_REGION}/g" ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 
 ```
 
 ### Configure the ASG
-We will need to provide the names of the Autoscaling Groups that we want CA to manipulate. 
+We will need to provide the names of the Autoscaling Groups that we want CA to manipulate.  
 
-Collect the names of the Auto Scaling Groups (ASGs) containing your Spot worker nodes. Record the names somewhere. We will use this later in the manifest file.
+Your next task is to collect the names of the Auto Scaling Groups (ASGs) containing your Spot worker nodes. Record the names somewhere. We will use this later in the manifest file.
 
 You can find the names in the console by following this [link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details). 
 
 ![ASG](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-spot-groups.png)
 
-You will need to note both names.
+You will need to save both ASG names for the next section.
 
 ### Configure the Cluster Autoscaler
 
-Using the file browser on the left, open **cluster-autoscaler/cluster_autoscaler.yml** and ammend the file:
+Using the file browser on the left, open **cluster-autoscaler/cluster_autoscaler.yml** and amend the file:
 
- * Update the image to use CA v1.13.7. Search for the line containing `- image: k8s.gcr.io/cluster-autoscaler:v1.2.2` and replace the version with **v1.13.7**
+ * Search for the block in the file containing this two lines.
+ ```bash
+            - --nodes=1:5:<AUTOSCALING GROUP NAME 4vCPUS 16GB RAM>
+            - --nodes=1:5:<AUTOSCALING GROUP NAME 8vCPUS 32GB RAM>
+ ```
 
- * Search for `command:` and within this block, replace the placeholder text `<AUTOSCALING GROUP NAME>` with the ASG name using 4vCPUs and 16GB of Ram. Duplicate the line this time using the ASG  name for the 8vCPUs and 32GB nodegroup.
- 
- * In the lines that we just changed, modify the numbers from **2:8** to **1:5** insted. This are
- The min and max nodes for the ASG in each group. 
-
- * Update AWS_REGION value to reflect the region you are using.
+ * Replace the content **<AUTOSCALING GROUP NAME xVPUS xxGB RAM>** with the actual names of the two nodegroups. The following shows an example configuration.
+ ```bash
+            - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1V6PX51MY0KGP
+            - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-S0A0UGWAH5N1
+ ```
 
  * **Save** the file
 
-The file should look similar to the following.
-```bash
-command:
-  - ./cluster-autoscaler
-  - --v=4
-  - --stderrthreshold=info
-  - --cloud-provider=aws
-  - --skip-nodes-with-local-storage=false
-  - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1V6PX51MY0KGP
-  - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-S0A0UGWAH5N1
-env:
-  - name: AWS_REGION
-    value: us-east-1
-```
-This command contains all of the configuration for the Cluster Autoscaler. Each `--nodes` entry defines a new Autoscaling Group mapping to a Cluster Autoscaler nodegroup to be consider when scaling the cluster. The syntax of the line is minimum nodes **(1)**, max nodes **(5)** and **ASG Name**.
-
-Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods.
-
-
-
+This command contains all of the configuration for the Cluster Autoscaler. Each `--nodes` entry defines a new Autoscaling Group mapping to a Cluster Autoscaler nodegroup. Cluster Autoscaler will consider the nodegroups selected when scaling the cluster. The syntax of the line is minimum nodes **(1)**, max nodes **(5)** and **ASG Name**.
 
 ### Deploy the Cluster Autoscaler
+
+Cluster Autoscaler gets deploy like any other pod. In this case we will use the **[kube-system namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)**, similar to what we do with other management pods.
 
 ```
 kubectl apply -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 ```
 
-Watch the logs
+To watch Cluster Autoscaler logs we can use the following command:
 ```
 kubectl logs -f deployment/cluster-autoscaler -n kube-system --tail=10
 ```
 
-#### We are now ready to scale our cluster
+#### We are now ready to scale our cluster !!
 
 {{%attachments title="Related files" pattern=".yml"/%}}

@@ -140,7 +140,7 @@ spec:
             - --expander=random
             - --expendable-pods-priority-cutoff=-10
             - --scale-down-unneeded-time=2m0s
-            - --scale-down-unready-time=5m0s
+            - --scale-down-unready-time=3m0s
             - --scale-down-delay-after-add=2m0s
             - --scale-down-utilization-threshold=0.7
             - --balance-similar-node-groups
