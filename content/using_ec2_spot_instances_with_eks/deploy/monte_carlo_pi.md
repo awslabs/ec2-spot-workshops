@@ -60,11 +60,9 @@ EoF
 
 ```
 
-This should create a `monte-carlo-pi-service.yml` file that defines a Service and a Deployment:
+This should create a `monte-carlo-pi-service.yml` file that defines a **Service** and a **Deployment**. The configuration instruct the cluster to deploy 2 replicas of a pod with a single container, that sets up [Resource request and limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) to a fixed value 1vCPU and 512Mi of RAM. You can read more about the differences between Resource requests and limits [here](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html).
 
-The application deploys 2 replicas of a pod with a single container that sets up [Resource request and limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) to a fixed value 1vCPU and 512Mi of RAM. You can read more about the differences between Resource requests and limits [here](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html).
-
-The deployment does not include any toleration or affinities. If deployed as is, it will be scheduled in the on-demand nodes that we created during the cluster creation phase.
+The deployment does not include any toleration or affinities. If deployed as is, it will be scheduled to the on-demand nodes that we created during the cluster creation phase!
 
 
 {{% notice note %}}
@@ -72,7 +70,7 @@ There are a few best practices for managing multi-tenant dynamic clusters. One o
 {{% /notice %}}
 
 
-Before we deploy and start scaling our application there are two requirements that we should apply:
+Before we deploy our application and start scaling it, there are two requirements that we should apply and implement in the configuration file:
 
  1.- The first requirement is for the application to be deployed only on nodes that have been labeled with `intent: apps`
  

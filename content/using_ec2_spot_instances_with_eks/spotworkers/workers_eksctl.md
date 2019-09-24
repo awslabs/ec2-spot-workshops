@@ -5,11 +5,9 @@ weight: 30
 draft: false
 ---
 
-In this section we will use the instance types that we previously selected and request nodegroups that adhere to Spot diversification best practices. For that we will use [eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/). We will use eksctl configuration files to deploy the configuration.
+In this section we will deploy the instance types we selected and request nodegroups that adhere to Spot diversification best practices. For that we will use **[eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/)** and eksctl configuration files to add the new nodes to the cluster.
 
-
-
-We will create first our configuration file:
+Let's first create the configuration file:
 ```
 cat <<EoF > ~/environment/spot_nodegroups.yml
 apiVersion: eksctl.io/v1alpha5
@@ -59,7 +57,7 @@ nodeGroups:
 EoF
 ```
 
-This will create a `spot_nodegroups.yml` file that we can use to instruct eksctl to create two new node groups, both with a diversified configuration.
+This will create a `spot_nodegroups.yml` file that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
 
 ```bash
 eksctl create nodegroup -f spot_nodegroups.yml
@@ -71,17 +69,16 @@ The creation of the workers will take about 3 minutes.
 
 There are a few things to note in the configuration that we just used to create these nodegroups.
 
- * We did set up `onDemandPercentageAboveBaseCapacity` and `onDemandPercentageAboveBaseCapacity` both to 0. which implies all nodes in the
- nodegroup would be Spot instances.
- * We did set up a `lifecycle: Ec2Spot` label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSlectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
- * We did also add an extra label `intent: apps`. We will use this label to force a hard partition
+ * We did set up **onDemandPercentageAboveBaseCapacity** and **onDemandPercentageAboveBaseCapacity** both to **0**. which implies all nodes in the nodegroup would be **Spot instances**.
+ * We did set up a **lifecycle: Ec2Spot** label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSlectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
+ * We did also add an extra label **intent: apps**. We will use this label to force a hard partition
  of the cluster for our applications. During this workshop we will deploy control applications on
- nodes that have been labeled with `intent: control-apps` while our applications get deployed to nodes labeled with `intent: apps`.
- * We are also applying a [Taint](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) using `spotInstance: "true:PreferNoSchedule"`.  **PreferNoSchedule** is used to indicate we prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
+ nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
+ * We are also applying a **[Taint](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)** using `spotInstance: "true:PreferNoSchedule"`.  **PreferNoSchedule** is used to indicate we prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
 
 ### Confirm the Nodes
 
-Confirm that the new nodes joined the cluster correctly. You should see 2-3 more nodes added to the cluster.
+Confirm that the new nodes joined the cluster correctly. You should see the nodes added to the cluster.
 
 ```bash
 kubectl get nodes
@@ -93,7 +90,7 @@ You can use the node-labels to identify the lifecycle of the nodes
 kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
 ```
 
-The output of this command should return 2 nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**
+The output of this command should return **Ec2Spot** nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**
 
 ![Spot Output](/images/using_ec2_spot_instances_with_eks/spotworkers/spot_get_spot.png)
 
@@ -117,28 +114,23 @@ Explore your cluster using kube-ops-view and find out the nodes that have just b
 
 ### On-Demand and Spot mixed worker groups
 
-When deploying nodegroups, [eksctl](https://eksctl.io/usage/managing-nodegroups/) creates a CloudFormation template that deploys a 
-[LaunchTemplate](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html)
-and an [Autoscaling Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html) with the settings 
-we provided in the configuration.  Autoscaling groups using LaunchTemplate support not only mixed instance types but also purchasing options within the group. You can
+When deploying nodegroups, [eksctl](https://eksctl.io/usage/managing-nodegroups/) creates a CloudFormation template that deploys a [LaunchTemplate](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html) and an [Autoscaling Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html) with the settings we provided in the configuration. Autoscaling groups using LaunchTemplate support not only mixed instance types but also purchasing options within the group. You can
 mix **On-Demand, Reserved Instances, and Spot** within the same nodegroup. 
 
 #### Label and Taint strategies on mixed workers 
 
-The example above shows how to create diversified instance group with Spot instances. We have attached to the group a `lifecycle: Ec2Spot` Label and
-`spotInstance: "true:PreferNoSchedule"` taint. When using a mix of On-demand and Spot instances we need to implement conditional logic on the back 
-of the instance attribute "InstanceLifecycle", and set the labels and taints accordingly.
+The configuration we have used creates two diversified instance group with just Spot instances. We have attached to the all the nodes in the group the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle"** and set the labels and taints accordingly.
 
 This can be achieved in multiple ways by extending the bootstrapping sequence.
 
- * **[eksctl_mixed_workers_bootstrap.yml](spotworkers.files/eksctl_mixed_workers_bootstrap.yml)** Provides an example file for [overriding eksctl boostrap process](https://github.com/weaveworks/eksctl/issues/929). Note you may need to change the region details when using this example.
+ * **[eksctl_mixed_workers_bootstrap.yml](spotworkers.files/eksctl_mixed_workers_bootstrap.yml)** Provides an example file for [overriding eksctl boostrap process](https://github.com/weaveworks/eksctl/issues/929) in eksctl nodegroups. Note you may need to change the region details when using this example.
 
 
 * **[cloudformation_mixed_workers.yml](spotworkers.files/cloudformation_mixed_workers.yml)** Provides a cloudformation template
 to set up an autoscaling group with mixed on-demand and spot workers and insert bootstrap parameters to each depending on the node "InstanceLifecycle".
 
 
-### Optional Exercises
+### Optional Exercise
 
  * Delete the current configuration and instead create 2 nodegroups one with 4vCPU's and 16GB ram and another one with 8vCPU's and 32GB of ram. The nodegroups must implement a set of mixed instances balanced at 50% between on-demand and spot. On-Demand instances must have a label `lifecycle: OnDemand`. Spot instances must have a label `lifecycle: Ec2Spot` and a taint `spotInstance: "true:PreferNoSchedule"`
 

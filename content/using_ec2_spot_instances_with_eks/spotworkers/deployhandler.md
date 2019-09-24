@@ -5,11 +5,13 @@ weight: 40
 draft: false
 ---
 
-When new On-Demand instances are requested from a pool if the available On-Demand capacity of the pool is depleted, the system will select a set of spot instances from the pool to be terminated. A A Spot instance pool is a set of unused EC2 instances with the same instance type (for example, m5.large), operating system, Availability Zone. The Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things. We will deploy a pod on each spot instance to detect and redeploy applications elsewhere in the cluster.
+When users requests On-Demand instances from a pool to the point that the pool is depleted, the system will select a set of spot instances from the pool to be terminated. A Spot instance pool is a set of unused EC2 instances with the same instance type (for example, m5.large), operating system and Availability Zone. The Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things. 
 
-The first thing that we need to do is deploy the Spot Interrupt Handler on each Spot Instance. This will monitor the EC2 metadata service on the instance for a interruption notice.
+We will deploy a pod on each spot instance to detect the instance termination notification signal so that we can both terminate gracefully any pod that was running on that node, drain from load balancers and redeploy applications elsewhere in the cluster.
 
-The workflow can be summarized as:
+To deploy Spot Interrupt Handler on each Spot Instance we will use a [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/). This will monitor the EC2 metadata service on the instance for a interruption notice.
+
+Within the Spot Interrupt Handler DaemonSet, the workflow can be summarized as:
 
 * Identify that a Spot Instance is being reclaimed.
 * Use the 2-minute notification window to gracefully prepare the node for termination.
@@ -22,7 +24,7 @@ We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per
 ```bash
 mkdir ~/environment/spot
 pushd ~/environment/spot
-wget https://eksworkshop.com/spot/managespot/deployhandler.files/spot-interrupt-handler-example.yml
+wget https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/spotworkers/deployhandler.files/spot-interrupt-handler-example.yml
 popd 
 ```
 
@@ -30,7 +32,7 @@ As written, the manifest will deploy pods to all nodes including On-Demand, whic
 
 Use a `nodeSelector` to constrain our deployment to spot instances. View this [**link**](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) for more details.
 
-#### Challenge
+### Challenge
 
 **Configure our Spot Handler to use nodeSelector**
 {{% expand "Expand here to see the solution"%}}
@@ -43,7 +45,10 @@ Place this at the end of the DaemonSet manifest under Spec.Template.Spec.nodeSel
 
 {{% /expand %}}
 
-Deploy the DaemonSet
+
+### Deploy the DaemonSet
+
+Once that you have added the nodeSelector section to your file, deploy the DaemonSet using the following line on the console:
 
 ```bash
 kubectl apply -f ~/environment/spot/spot-interrupt-handler-example.yml

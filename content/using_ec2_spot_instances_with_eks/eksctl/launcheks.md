@@ -33,18 +33,16 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 ### Create an EKS cluster
 
 The following command will create an eks cluster with the name `eksworkshop-eksctl`
-and create 2 nodes. We will use these two on-demand nodes to deploy
+.It will also create a nodegroup with 2 on-demand instances.
 
 ```
-eksctl create cluster --name=eksworkshop-eksctl --nodes=1 --alb-ingress-access --region=${AWS_REGION} --node-labels="lifecycle=OnDemand,intent=control-apps" --asg-access
+eksctl create cluster --version=1.13 --name=eksworkshop-eksctl --nodes=2 --alb-ingress-access --region=${AWS_REGION} --node-labels="lifecycle=OnDemand,intent=control-apps" --asg-access
 ```
+
+eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster eksctl does also allow us to create a nodegroup. The nodegroup will have one single node and it will bootstrap with the labels **lifecycle=OnDemand** and **intent=control-apps**.
 
 {{% notice info %}}
-Launching EKS and all the dependencies will take approximately 15 minutes
+Launching EKS and all the dependencies will take approximately **15 minutes**
 {{% /notice %}}
 
-{{% notice note %}}
-eksctl allows us to pass parameters to initialize the cluster and a nodegroup. 
-The nodegroup will have one single node and it will bootstrap with the labels **lifecycle=OnDemand** and **intent=control-apps**.
-{{% /notice %}}
 

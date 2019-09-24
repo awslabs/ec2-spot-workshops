@@ -3,8 +3,9 @@ title: "Deploying the Application"
 date: 2018-08-07T08:30:11-07:00
 weight: 30
 ---
-
-Before proceeding check that your file `~/environment/monte-carlo-pi-service.yml` looks like:  **[monte-carlo-pi-service-final.yml](tolerations_and_affinity.files/monte-carlo-pi-service-final.yml)**
+{{% notice warning %}}
+Before proceeding, check that your file `~/environment/monte-carlo-pi-service.yml` looks like: **[monte-carlo-pi-service-final.yml](tolerations_and_affinity.files/monte-carlo-pi-service-final.yml)**
+{{% /notice %}}
 
 To deploy the application we just need to run:
 ```bash
@@ -16,11 +17,11 @@ service/monte-carlo-pi-service created
 deployment.apps/monte-carlo-pi-service created
 ```
 
-### Checking the deployment
+### Challenge: Checking the deployment
 
 Before we test our application, we should check our replicas are running on the right nodes.
 
-**Challenge** : Confirm the replicas are running in the right nodes. You can use [Kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources) as a reference.
+Your next task is to confirm the replicas of the **monte-carlo-pu-service** are running in the right nodes. You can use [Kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources) as a reference.
 
 {{%expand "Show me a hint for implementing this." %}}
 
@@ -38,9 +39,7 @@ for node in $nodes; do echo $node; kubectl describe nodes $node | grep "monte-ca
 
 ### Testing the application
 
-Once the application has been deployed we can use the following line to find out the external url to access the Monte Carlo Pi approximation service
-
-To get the url of the service
+Once the application has been deployed we can use the following line to find out the external url to access the Monte Carlo Pi approximation service. To get the url of the service: 
 ```bash
 kubectl get svc monte-carlo-pi-service | tail -n 1 | awk '{ print "monte-carlo-pi-service URL = http://"$4 }'
 ```

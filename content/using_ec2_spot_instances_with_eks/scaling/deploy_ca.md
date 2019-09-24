@@ -16,7 +16,7 @@ In this workshop we will configure Cluster Autoscaler to scale using the Autosca
 ### Configure the Cluster Autoscaler (CA)
 We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal.
 
-```
+```bash
 mkdir ~/environment/cluster-autoscaler
 cd ~/environment/cluster-autoscaler
 wget https://eksworkshop.com/scaling/deploy_ca.files/cluster_autoscaler.yml
@@ -46,7 +46,7 @@ Using the file browser on the left, open **cluster-autoscaler/cluster_autoscaler
 
  * Update AWS_REGION value to reflect the region you are using.
 
- *  **Save** the file
+ * **Save** the file
 
 The file should look similar to the following.
 ```bash
@@ -65,6 +65,9 @@ env:
 This command contains all of the configuration for the Cluster Autoscaler. Each `--nodes` entry defines a new Autoscaling Group mapping to a Cluster Autoscaler nodegroup to be consider when scaling the cluster. The syntax of the line is minimum nodes **(1)**, max nodes **(5)** and **ASG Name**.
 
 Although Cluster Autoscaler is the de facto standard for automatic scaling in K8s, it is not part of the main release. We deploy it like any other pod in the kube-system namespace, similar to other management pods.
+
+
+
 
 ### Deploy the Cluster Autoscaler
 
