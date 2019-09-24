@@ -39,7 +39,11 @@ In this case with Spot Instance Advisor we can create a 4vCPUs_16GB nodegroup wi
 Spot Instance interruption rates are dynamic, the above just provides a real world example from a specific time and would probably be different when you are performing this workshop. Note also that not all the instances are available in all the regions.
 {{% /notice %}}
 
-**Challenge** : Find out another group that adheres to a 1vCPU:4GB, this time using for example instances with 8vCPU's and 32GB of RAM.
+{{% notice warning %}}
+Your workload may have other constraints that you should consider when selecting instances types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate in CPU bounded workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is very sensitive to numerical differences (i.e: risk calculations, industrial simulations) mixing these instance types might not appropriate.
+{{% /notice %}}
+
+**Challenge** : Find out another group that adheres to a 1vCPU:4GB ratio, this time using instances with 8vCPU's and 32GB of RAM.
 
 {{%expand "Expand this for an example on the list of instances" %}}
 That should be easy. 

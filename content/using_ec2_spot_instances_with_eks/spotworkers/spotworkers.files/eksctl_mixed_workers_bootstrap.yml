@@ -16,6 +16,8 @@ nodeGroups:
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 50
         spotInstancePools: 4
+      labels:
+        intent: apps
       iam:
         withAddonPolicies:
           autoScaler: true
@@ -77,6 +79,8 @@ nodeGroups:
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 50
         spotInstancePools: 4
+      labels:
+        intent: apps
       iam:
         withAddonPolicies:
           autoScaler: true

@@ -5,8 +5,9 @@ weight: 30
 draft: false
 ---
 
-In this section we will use the instance types that we previously selected and request nodegroups that adhere to Spot diversification best practices.
-For that we will use [eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/). We will use a configuration file to deploy the configuration.
+In this section we will use the instance types that we previously selected and request nodegroups that adhere to Spot diversification best practices. For that we will use [eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/). We will use eksctl configuration files to deploy the configuration.
+
+
 
 We will create first our configuration file:
 ```
@@ -28,6 +29,7 @@ nodeGroups:
         spotInstancePools: 4
       labels:
         lifecycle: Ec2Spot
+        intent: apps
       taints:
         spotInstance: "true:PreferNoSchedule"
       iam:
@@ -46,6 +48,7 @@ nodeGroups:
         spotInstancePools: 4
       labels:
         lifecycle: Ec2Spot
+        intent: apps
       taints:
         spotInstance: "true:PreferNoSchedule"
       iam:
@@ -71,6 +74,9 @@ There are a few things to note in the configuration that we just used to create 
  * We did set up `onDemandPercentageAboveBaseCapacity` and `onDemandPercentageAboveBaseCapacity` both to 0. which implies all nodes in the
  nodegroup would be Spot instances.
  * We did set up a `lifecycle: Ec2Spot` label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSlectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
+ * We did also add an extra label `intent: apps`. We will use this label to force a hard partition
+ of the cluster for our applications. During this workshop we will deploy control applications on
+ nodes that have been labeled with `intent: control-apps` while our applications get deployed to nodes labeled with `intent: apps`.
  * We are also applying a [Taint](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) using `spotInstance: "true:PreferNoSchedule"`.  **PreferNoSchedule** is used to indicate we prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
 
 ### Confirm the Nodes
