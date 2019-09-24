@@ -10,8 +10,8 @@ clusters with Amazon EKS at any scale on Spot Instances to architect for optimiz
 We dive deep using hands-on material to provision and scale worker nodes, handle 
 interruptions, and design for fault tolerance.
 
-This worksop is originally based on AWS [EKS Workshop](https://eksworkshop.com/) where you can find 
-more modules and learn more about Amazon Elastic Kubernetes Service best practices.
+This worksop is originally based on AWS [EKS Workshop](https://eksworkshop.com/). You can find 
+there more modules and learn about other Amazon Elastic Kubernetes Service best practices.
 
 ![EKS](images/using_ec2_spot_instances_with_eks/3-service-animated.gif)
 
