@@ -1,50 +1,115 @@
 ---
-title: "Scale an Application with HPA"
+title: "Scale the Application"
 date: 2018-08-07T08:30:11-07:00
 weight: 50
 ---
 
-### Deploy a Sample App
+We are now ready to test the Horizontal Pod Autoscaler ! As a bonus we will also see the interaction between Cluster Autoscaler and Horizontal Pod Autoscaler.
 
-We will deploy an application and expose as a service on TCP port 80. The application is a custom-built image based on the php-apache image. The index.php page performs calculations to generate CPU load. More information can be found [here](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#run-expose-php-apache-server)
+### Deploying the Stress CLI to Cloud 9
 
-```
-kubectl run php-apache --image=k8s.gcr.io/hpa-example --requests=cpu=200m --expose --port=80
-```
-
-### Create an HPA resource
-
-This HPA scales up when CPU exceeds 50% of the allocated container resource.
+To help us stress the application we will install a python helper app. The python helper application just calls in parallel on multiple process request to the monte-carlo-pi-service. This should generate load in our pods, which should also trigger the Horizontal Pod Autoscaler action for scaling the monte-carlo-pi-service replicaset.
 
 ```
-kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+mkdir -p ~/environment/submit_mc_pi_k8s_requests/
+curl -o ~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py https://raw.githubusercontent.com/ruecarlo/eks-workshop-sample-api-service-go/master/stress_test_script/submit_mc_pi_k8s_requests.py
+chmod +x ~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py
+curl -o ~/environment/submit_mc_pi_k8s_requests/requirements.txt https://raw.githubusercontent.com/ruecarlo/eks-workshop-sample-api-service-go/master/stress_test_script/requirements.txt
+sudo python3 -m pip install -r ~/environment/submit_mc_pi_k8s_requests/requirements.txt
+URL=$(kubectl get svc monte-carlo-pi-service | tail -n 1 | awk '{ print $4 }')
+~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py -p 1 -r 1 -i 1 -u "http://${URL}"
 ```
 
-View the HPA using kubectl. You probably will see `<unknown>/50%` for 1-2 minutes and then you should be able to see `0%/50%`
-
+The output of this command should show something like:
 ```
-kubectl get hpa
-```
-### Generate load to trigger scaling
-
-Open a new terminal in the Cloud9 Environment and run the following command to drop into a shell on a new container
-
-```
-kubectl run -i --tty load-generator --image=busybox /bin/sh
-```
-Execute a while loop to continue getting http:///php-apache
-
-```
-while true; do wget -q -O - http://php-apache; done
+Total processes: 1
+Len of queue_of_urls: 1
+content of queue_of_urls: ab79391edde2d11e9874706fbc6bc60f-1090433505.eu-west-1.elb.amazonaws.com/?iterations=1
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00, 8905.10it/s]
 ```
 
-In the previous tab, watch the HPA with the following command
+### Scaling our Application and Cluster
 
+{{% notice note %}}
+Before starting the stress test, think what should be the expected outcome. Use **kube-ops-view** to verify that the changes you were expecting will
+happen over time. 
+{{% /notice %}}
+{{%expand "Show me how to get kube-ops-view url" %}}
+Execute the following command on Cloud9 terminal
+```bash
+kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
+```
+{{% /expand %}}
+
+Run the stress test ! This time around we will run 2000 requests each expected to take ~1.3sec or so.
+```
+time ~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py -p 100 -r 20 -i 30000000 -u "http://${URL}"
+```
+
+### Challenge 
+
+While the application is running, can you answer the following questions ?
+
+ * How can we track the status of the Horizontal Pod Autoscheduler rule that was set up in the previous section ?
+
+ * How about the nodes or pods  ? 
+
+Feel free to use [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) to find out your responses.
+
+ {{% expand "Show answers" %}}
+ To display the progress of the rule was setup in Horizontal Pod Autoscaler we can run:
 ```
 kubectl get hpa -w
 ```
-You will see HPA scale the pods from 1 up to our configured maximum (10) until the CPU average is below our target (50%)
+This should show the current progress and target pods, and refresh a new line every few seconds.
+```
+:~/environment $ kubectl get hpa -w
+NAME                     REFERENCE                           TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100       4        33m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100       4        34m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   100%/50%    4         100       4        35m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   100%/50%    4         100       8        35m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   94%/50%     4         100       8        36m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   94%/50%     4         100      16        36m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   92%/50%     4         100      16        37m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   92%/50%     4         100      19        37m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   94%/50%     4         100      19        38m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   85%/50%     4         100      19        39m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   85%/50%     4         100      29        39m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   54%/50%     4         100      29        40m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      29        41m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      29        45m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      12        46m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      12        47m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100       4        48m
+```
 
-![Scale Up](/images/scaling-hpa-results.png)
 
-You can now stop (Ctrl + C) load test that was running in the other terminal. You will notice that HPA will slowly bring the replica count to min number based on its configuration. You should also get out of load testing application by pressing Ctrl + D
+To display the node or pod you can use
+```
+kubectl top nodes
+```
+
+or 
+```
+kubectl top pods
+```
+ {{% /expand %}} 
+
+
+### Optional Exercises
+
+{{% notice warning %}}
+Some of this exercises will take time for Horizontal Pod Autoscaler and Cluster Autoscaler to scale up and down. If you are running this
+workshop at a AWS event or with limited time, we recommend to come back to this section once you have completed the workshop, and before getting into the **cleanup** section.
+{{% /notice %}}
+
+ * While kube-ops-view is great to get an intuition of how the cluster status is at a specific point in time, it is not great to see changes over time. Run through the **[MONITORING USING PROMETHEUS AND GRAFANA](https://eksworkshop.com/monitoring/)** module in the https://eksworkshop.com. Install grafana public dashboard [#6417](https://grafana.com/grafana/dashboards/6417). Re-run the same scaling exercise and see how available resources and requested resources evolve.
+
+ * Check the `~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py`. Comment line 18 and uncomment line 19. This will display requests timeouts. Re-run the test starting from the original setup and see what's the impact and how many timeouts we had. 
+
+ * Scaling operations can be a bit slow; Could you explain why those operations are slow ? ([hint](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-fast-is-hpa-when-combined-with-ca)) As we have seen on the completion of the previous exercise, this can also cause requests to timeout. Could you think of any technique or configuration that would help you palliate this scenario ?
+
+ * One technique to manage a "buffer of capacity" to avoid timeouts, is to **overprovision** the cluster. Read about how to [configure overprovisioning with Cluster Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-can-i-configure-overprovisioning-with-cluster-autoscaler). 
+
+ * On the topic of monitoring and reporting: Take a look at the instructions on how to setup [CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-EKS.html) on EKS. You can skip the CloudWatch policy creation section. All the nodes that we have created in the cluster already do have already a CloudWatch write policy attached: Could you explain how and when this was done ?  Inspect the metrics that [CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-metrics-EKS.html) provide in the dashboard and inspect the monte-carlo-pi-service logs.

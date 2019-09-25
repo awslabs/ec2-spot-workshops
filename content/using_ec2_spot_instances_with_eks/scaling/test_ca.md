@@ -108,6 +108,11 @@ The Autoscaling group selected by Cluster Autoscaler, will invoke the lowest-pri
 
 {{% /expand %}}
 
+After you've completed the exercise, scale down your replicas back down in preparation for the configuration of Horizontal Pod Autoscheduler.
+```
+kubectl scale deployment/monte-carlo-pi-service --replicas=4
+```
+
 
 ### Optional Exercises
 
@@ -117,7 +122,7 @@ workshop at a AWS event or with limited time, we recommend to come back to this 
 completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * How would you scale down the number of pods in the replica back to the default 3 ? How would the pods be removed? From which nodes?
+ * How where the pod removed when scaling down? From which nodes?
 
  * How would and when you expect Cluster Autoscaler to Scale in the cluster?  
 
