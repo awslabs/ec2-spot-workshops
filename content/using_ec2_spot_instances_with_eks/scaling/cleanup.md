@@ -4,10 +4,17 @@ date: 2018-08-07T08:30:11-07:00
 weight: 60
 ---
 
+## Cleaning up HPA, CA, and Monte Carlo pi microservice
+
 ```
+kubectl delete hpa monte-carlo-pi-service
 kubectl delete -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
-kubectl delete -f ~/environment/cluster-autoscaler/nginx.yaml
-kubectl delete hpa,svc php-apache
-kubectl delete deployment php-apache load-generator
-rm -rf ~/environment/cluster-autoscaler
+kubectl delete -f monte-carlo-pi-service.yml
+```
+
+
+## Removing eks Spot nodes from the cluster
+
+```
+eksctl delete nodegroup -f spot_nodegroups.yml --approve
 ```
