@@ -32,3 +32,6 @@ as an IAM user with administrator access to the AWS account:
 
 1. Take note of the login URL and save:
 ![Login URL](/images/using_ec2_spot_instances_with_eks/prerequisites/iam-4-save-url.png)
+
+
+Once you have completed the step above, **you can head straight to [Create a Workspace]({{<  relref "workspace.md"  >}})**

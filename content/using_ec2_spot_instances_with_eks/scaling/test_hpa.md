@@ -36,7 +36,7 @@ happen over time.
 {{% /notice %}}
 {{%expand "Show me how to get kube-ops-view url" %}}
 Execute the following command on Cloud9 terminal
-```bash
+```
 kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
 ```
 {{% /expand %}}

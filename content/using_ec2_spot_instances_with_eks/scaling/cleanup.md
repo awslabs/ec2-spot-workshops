@@ -4,8 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 60
 ---
 
-## Cleaning up HPA, CA, and Monte Carlo pi microservice
-
+## Cleaning up HPA, CA, and the Microservice
 ```
 kubectl delete hpa monte-carlo-pi-service
 kubectl delete -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml

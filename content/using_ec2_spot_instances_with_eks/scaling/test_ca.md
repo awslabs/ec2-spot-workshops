@@ -12,7 +12,7 @@ During this section we recommend arranging your window so that you can see Cloud
 
 {{%expand "Show me how to get kube-ops-view url" %}}
 Execute the following command on Cloud9 terminal
-```bash
+```
 kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
 ```
 {{% /expand %}}
@@ -20,7 +20,7 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 
 {{%expand "Show me how to tail Cluster Autoscaler logs" %}}
 Execute the following command on Cloud9 terminal
-```bash
+```
 kubectl logs -f deployment/cluster-autoscaler -n kube-system --tail=10
 ```
 {{% /expand %}}
@@ -33,7 +33,7 @@ kubectl scale deployment/monte-carlo-pi-service --replicas=10
 ```
 
 You can confirm the state of the pods using
-```bash
+```
 kubectl get pods --watch
 ```
 
@@ -69,12 +69,12 @@ Try to answer the following questions:
 
 {{%expand "Show me the answers" %}}
 To scale up the number of replicas run:
-```bash
+```
 kubectl scale deployment/monte-carlo-pi-service --replicas=13
 ```
 
 When the number of replicas scales up, there will be a few pods pending. You can confirm which pods are pending running the command below. 
-```bash
+```
 kubectl get pods --watch
 ```
 
@@ -90,7 +90,7 @@ you will notice Cluster Autoscaler events similar to:
 
 
 To confirm which type of node has been added you can either use kube-ops-view or execute:
-```bash
+```
 kubectl get node --selector=intent=apps --show-labels
 ```
 
@@ -122,11 +122,11 @@ workshop at a AWS event or with limited time, we recommend to come back to this 
 completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * How where the pod removed when scaling down? From which nodes?
+ * How would you expect Cluster Autoscaler to Scale-in the cluster ? How about scaling out ? How much time you'll expect for it to take ?
 
- * How would and when you expect Cluster Autoscaler to Scale in the cluster?  
+ * How will pods be removed when scaling down? From which nodes they will be removed? What is the effect of adding [Pod Disruption Budget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) to this mix ? 
 
  * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case? 
 
- * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy, using the 4 cheapest pools in each AZ. Can you think of a different alternative **allocation strategy** to help reduce the frequency of interruptions on EC2 Spot nodes ? Why would it be beneficial to run such strategy in a production system ?
+ * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy, using the 4 cheapest pools in each AZ. Can you think of a different alternative **allocation strategy** to help reduce the frequency of interruptions on EC2 Spot nodes? What would be the pros and cons of using a different allocation strategy on a front-end production system ?
 

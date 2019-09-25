@@ -21,7 +21,7 @@ Within the Spot Interrupt Handler DaemonSet, the workflow can be summarized as:
 
 We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per node.
 
-```bash
+```
 mkdir ~/environment/spot
 pushd ~/environment/spot
 wget https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/spotworkers/deployhandler.files/spot-interrupt-handler-example.yml
@@ -50,7 +50,7 @@ Place this at the end of the DaemonSet manifest under Spec.Template.Spec.nodeSel
 
 Once that you have added the nodeSelector section to your file, deploy the DaemonSet using the following line on the console:
 
-```bash
+```
 kubectl apply -f ~/environment/spot/spot-interrupt-handler-example.yml
 ```
 
@@ -60,7 +60,7 @@ If you receive an error deploying the DaemonSet, there is likely a small error i
 
 View the pods. There should be one for each spot node.
 
-```bash
+```
 kubectl get daemonsets
 ```
 

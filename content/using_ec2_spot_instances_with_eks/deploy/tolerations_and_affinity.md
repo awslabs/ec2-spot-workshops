@@ -18,7 +18,7 @@ the objective is to add the following section to the `monte-carlo-pi-service.yml
 
 The following toleration must be added at the *spec.template.spec* level
 
-```bash
+```
       tolerations: 
       - key: "spotInstance" 
         operator: "Equal" 
@@ -48,7 +48,7 @@ As per the [Assign Pods to Nodes](https://kubernetes.io/docs/concepts/configurat
 
 The following affinities must be added at the *spec.template.spec* level
 
-```bash
+```
       affinity: 
         nodeAffinity: 
           preferredDuringSchedulingIgnoredDuringExecution: 

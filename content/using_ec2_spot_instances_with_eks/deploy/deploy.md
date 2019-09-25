@@ -8,11 +8,11 @@ Before proceeding, check that your file `~/environment/monte-carlo-pi-service.ym
 {{% /notice %}}
 
 To deploy the application we just need to run:
-```bash
+```
 kubectl apply -f ~/environment/monte-carlo-pi-service.yml 
 ```
 This should prompt:
-```bash
+```
 service/monte-carlo-pi-service created
 deployment.apps/monte-carlo-pi-service created
 ```
@@ -21,7 +21,7 @@ deployment.apps/monte-carlo-pi-service created
 
 Before we test our application, we should check our replicas are running on the right nodes.
 
-Your next task is to confirm the replicas of the **monte-carlo-pu-service** are running in the right nodes. You can use [Kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources) as a reference.
+Your next task is to confirm the replicas of the **monte-carlo-pi-service** are running in the right nodes. You can use [Kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#viewing-finding-resources) as a reference.
 
 {{%expand "Show me a hint for implementing this." %}}
 
@@ -30,7 +30,7 @@ As an alternative you can use kube-ops-view and confirm visually the pods for ou
 {{% /notice %}}
 
 Use the get node selector to confirm the nodes.
-```bash
+```
 nodes=$(kubectl get nodes --selector=intent=apps | tail -n +2 |  awk '{print $1}')
 for node in $nodes; do echo $node; kubectl describe nodes $node | grep "monte-carlo-pi-service"; done 
 ```
@@ -40,7 +40,7 @@ for node in $nodes; do echo $node; kubectl describe nodes $node | grep "monte-ca
 ### Testing the application
 
 Once the application has been deployed we can use the following line to find out the external url to access the Monte Carlo Pi approximation service. To get the url of the service: 
-```bash
+```
 kubectl get svc monte-carlo-pi-service | tail -n 1 | awk '{ print "monte-carlo-pi-service URL = http://"$4 }'
 ```
 
@@ -59,7 +59,7 @@ monte carlo process, this can be useful to increase the CPU demand on each reque
 {{% /notice %}}
 
 You can also execute a request with the additional parameter from the console:
-```bash
+```
 URL=$(kubectl get svc monte-carlo-pi-service | tail -n 1 | awk '{ print $4 }')
 time curl ${URL}/?iterations=100000000
 ```

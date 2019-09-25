@@ -9,12 +9,12 @@ that will help with understanding our cluster setup in a visual way. The first o
 
 The following line updates the stable helm repository and then installs kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
-```bash
+```
 helm repo update
 helm install stable/kube-ops-view --name kube-ops-view --set service.type=LoadBalancer --set rbac.create=True
 ```
 
-The execution above installs kube-ops-view using exposing it through a Service using the LoadBalancer type.
+The execution above installs kube-ops-view  exposing it through a Service using the LoadBalancer type.
 A successful execution of the command will display the set of resources created and will prompt some advice asking you to use `kubectl proxy` and a local URL for the service. Given we are using the type LoadBalancer for our service, we can disregard this; Instead we will point our browser to the external load balancer.
 
 {{% notice warning %}}
@@ -23,19 +23,19 @@ Monitoring and visualization shouldn't be typically be exposed publicly unless t
 
 To check the chart was installed successfully:
 
-```bash
+```
 helm list
 ```
 
 should display : 
-```bash
+```
 NAME            REVISION        UPDATED                         STATUS          CHART                   APP VERSION     NAMESPACE
 kube-ops-view   1               Sun Sep 22 11:47:31 2019        DEPLOYED        kube-ops-view-1.1.0     0.11            default  
 ```
 
 With this we can explore kube-ops-view output by checking the details about the newly service created. 
 
-```bash
+```
 kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
 ```
 

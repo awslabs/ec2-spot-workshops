@@ -16,11 +16,10 @@ In this workshop we will configure Cluster Autoscaler to scale using the Autosca
 ### Configure the Cluster Autoscaler (CA)
 We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal. 
 
-```bash
+```
 mkdir -p ~/environment/cluster-autoscaler
 curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/scaling/deploy_ca.files/cluster_autoscaler.yml
 sed -i "s/--AWS_REGION--/${AWS_REGION}/g" ~/environment/cluster-autoscaler/cluster_autoscaler.yml
-
 ```
 
 ### Configure the ASG
@@ -28,7 +27,7 @@ We will need to provide the names of the Autoscaling Groups that we want CA to m
 
 Your next task is to collect the names of the Auto Scaling Groups (ASGs) containing your Spot worker nodes. Record the names somewhere. We will use this later in the manifest file.
 
-You can find the names in the console by following this [link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details). 
+You can find the names in the console by **[following this link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details)**. 
 
 ![ASG](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-spot-groups.png)
 
@@ -39,13 +38,13 @@ You will need to save both ASG names for the next section.
 Using the file browser on the left, open **cluster-autoscaler/cluster_autoscaler.yml** and amend the file:
 
  * Search for the block in the file containing this two lines.
- ```bash
+ ```
             - --nodes=1:5:<AUTOSCALING GROUP NAME 4vCPUS 16GB RAM>
             - --nodes=1:5:<AUTOSCALING GROUP NAME 8vCPUS 32GB RAM>
  ```
 
  * Replace the content **<AUTOSCALING GROUP NAME xVPUS xxGB RAM>** with the actual names of the two nodegroups. The following shows an example configuration.
- ```bash
+ ```
             - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1V6PX51MY0KGP
             - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-S0A0UGWAH5N1
  ```

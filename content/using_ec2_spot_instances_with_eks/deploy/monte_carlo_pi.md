@@ -8,7 +8,7 @@ weight: 10
 
 We will use this base configuration to deploy our application:
 
-```bash
+```
 cat <<EoF > ~/environment/monte-carlo-pi-service.yml
 ---
 apiVersion: v1 

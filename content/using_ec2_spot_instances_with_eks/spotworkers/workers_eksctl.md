@@ -17,7 +17,6 @@ metadata:
     region: $AWS_REGION
 nodeGroups:
     - name: dev-4vcpu-16gb-spot
-      availabilityZones: ["${AWS_REGION}a","${AWS_REGION}b","${AWS_REGION}c"]
       minSize: 1
       maxSize: 5
       instancesDistribution:
@@ -36,7 +35,6 @@ nodeGroups:
           cloudWatch: true
           albIngress: true
     - name: dev-8vcpu-32gb-spot
-      availabilityZones: ["${AWS_REGION}a","${AWS_REGION}b","${AWS_REGION}c"]
       minSize: 1
       maxSize: 5
       instancesDistribution:
@@ -59,7 +57,7 @@ EoF
 
 This will create a `spot_nodegroups.yml` file that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
 
-```bash
+```
 eksctl create nodegroup -f spot_nodegroups.yml
 ```
 
@@ -76,7 +74,15 @@ There are a few things to note in the configuration that we just used to create 
  nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
  * We are also applying a **[Taint](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)** using `spotInstance: "true:PreferNoSchedule"`.  **PreferNoSchedule** is used to indicate we prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
 
+{{% notice info %}}
+If you are wondering at this stage: *Where is spot bidding price ?* you are missing some of the changes EC2 Spot instances had since 2017! Since November 2017 [EC2 Spot price changes infrequently](https://aws.amazon.com/blogs/compute/new-amazon-ec2-spot-pricing/) based on long term supply and demand of spare capacity in each pool independently. You can still set up a **maxPrice** in scenarios where you have maximum budget. By default *maxPrice* is set to the On-Demand price; Regardless of the *maxPrice* spot instances will still be charged at the spot market price.
+{{% /notice %}}
+
 ### Confirm the Nodes
+
+{{% notice tip %}}
+Aside from familiarizing yourself with the kubectl commands below to obtain the cluster information information you should also explore your cluster using **kube-ops-view** and find out the nodes that have just been created.
+{{% /notice %}}
 
 Confirm that the new nodes joined the cluster correctly. You should see the nodes added to the cluster.
 
@@ -131,6 +137,12 @@ to set up an autoscaling group with mixed on-demand and spot workers and insert 
 
 
 ### Optional Exercise
+
+{{% notice warning %}}
+It will take time to provision and decommision capacity. If you are running this
+workshop at a AWS event or with limited time, we recommend to come back to this section once you have 
+completed the workshop, and before getting into the **cleanup** section.
+{{% /notice %}}
 
  * Delete the current configuration and instead create 2 nodegroups one with 4vCPU's and 16GB ram and another one with 8vCPU's and 32GB of ram. The nodegroups must implement a set of mixed instances balanced at 50% between on-demand and spot. On-Demand instances must have a label `lifecycle: OnDemand`. Spot instances must have a label `lifecycle: Ec2Spot` and a taint `spotInstance: "true:PreferNoSchedule"`
 
