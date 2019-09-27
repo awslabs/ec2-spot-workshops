@@ -18,7 +18,7 @@ The execution above installs kube-ops-view  exposing it through a Service using 
 A successful execution of the command will display the set of resources created and will prompt some advice asking you to use `kubectl proxy` and a local URL for the service. Given we are using the type LoadBalancer for our service, we can disregard this; Instead we will point our browser to the external load balancer.
 
 {{% notice warning %}}
-Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view using a Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`
+Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view using a Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`. Kube-ops-view does also [support Oauth 2](https://github.com/hjacobs/kube-ops-view#configuration) 
 {{% /notice %}}
 
 To check the chart was installed successfully:
@@ -49,3 +49,11 @@ As this workshop moves along and you create Spot workers, and perform scale up a
 {{% notice note %}}
 You may need to refresh the page and clean your browser cache. The creation and setup of the LoadBalancer may take a few minutes; usually in two minutes you should see kub-ops-view. 
 {{% /notice %}}
+
+{{% notice tip %}}
+Spend some time checking the state and properties of your EKS cluster. 
+{{% /notice %}}
+
+![kube-ops-view](/images/using_ec2_spot_instances_with_eks/helm/kube-ops-view-legend.png)
+
+
