@@ -81,7 +81,7 @@ If you are wondering at this stage: *Where is spot bidding price ?* you are miss
 ### Confirm the Nodes
 
 {{% notice tip %}}
-Aside from familiarizing yourself with the kubectl commands below to obtain the cluster information information you should also explore your cluster using **kube-ops-view** and find out the nodes that have just been created.
+Aside from familiarizing yourself with the kubectl commands below to obtain the cluster information, you should also explore your cluster using **kube-ops-view** and find out the nodes that were just created.
 {{% /notice %}}
 
 Confirm that the new nodes joined the cluster correctly. You should see the nodes added to the cluster.
