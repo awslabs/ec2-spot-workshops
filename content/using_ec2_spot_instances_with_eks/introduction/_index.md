@@ -11,14 +11,8 @@ A walkthrough of basic Kubernetes concepts.
 
 ![Title Image](/images/using_ec2_spot_instances_with_eks/introduction/eks-product-page.png)
 
-Welcome to the Using EC2 Spot Instances with EKS Workshop!
+Welcome to the Using EC2 Spot Instances with EKS Workshop! The intent of this workshop is to educate users about how to use EC2 Spot instances on Amazon EKS. Background in EKS, Kubernetes, Docker, and container workflows are not required, but they are recommended.
 
-The intent of this workshop is to educate users about how to use EC2 Spot isntances on Amazon EKS.
-
-Background in EKS, Kubernetes, Docker, and container workflows are not required, but they are recommended.
-
-This chapter will introduce you to the basic workings of Kubernetes, laying the foundation for the hands-on portion of the workshop.
-
-Specifically, we will walk you through the following topics:
+This chapter will introduce you to the basic workings of Kubernetes, laying the foundation for the hands-on portion of the workshop. Specifically, we will walk you through the following topics:
 
 {{% children showhidden="false" %}}

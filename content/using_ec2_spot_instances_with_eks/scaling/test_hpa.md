@@ -4,11 +4,11 @@ date: 2018-08-07T08:30:11-07:00
 weight: 50
 ---
 
-We are now ready to test the Horizontal Pod Autoscaler ! As a bonus we will also see the interaction between Cluster Autoscaler and Horizontal Pod Autoscaler.
+We are now ready to test the Horizontal Pod Autoscaler! As a bonus we will also see the interaction between Cluster Autoscaler and Horizontal Pod Autoscaler.
 
 ### Deploying the Stress CLI to Cloud 9
 
-To help us stress the application we will install a python helper app. The python helper application just calls in parallel on multiple process request to the monte-carlo-pi-service. This should generate load in our pods, which should also trigger the Horizontal Pod Autoscaler action for scaling the monte-carlo-pi-service replicaset.
+To help us stress the application we will install a python helper app. The python helper application just calls in parallel on multiple process request to the monte-carlo-pi-service. This will generate load in our pods, which will also trigger the Horizontal Pod Autoscaler action for scaling the monte-carlo-pi-service replicaset.
 
 ```
 mkdir -p ~/environment/submit_mc_pi_k8s_requests/
@@ -31,8 +31,7 @@ content of queue_of_urls: ab79391edde2d11e9874706fbc6bc60f-1090433505.eu-west-1.
 ### Scaling our Application and Cluster
 
 {{% notice note %}}
-Before starting the stress test, think what should be the expected outcome. Use **kube-ops-view** to verify that the changes you were expecting will
-happen over time. 
+Before starting the stress test, predict what would be the expected outcome. Use **kube-ops-view** to verify that the changes you were expecting to happen, do in fact happen over time. 
 {{% /notice %}}
 {{%expand "Show me how to get kube-ops-view url" %}}
 Execute the following command on Cloud9 terminal
@@ -54,7 +53,11 @@ While the application is running, can you answer the following questions ?
 
  * How about the nodes or pods  ? 
 
-Feel free to use [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) to find out your responses.
+{{% notice tip %}}
+Feel free to use [kubectl cheat sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/) to find out your responses. You can open multiple tabs on Cloud9.
+{{% /notice %}}
+
+
 
  {{% expand "Show answers" %}}
  To display the progress of the rule was setup in Horizontal Pod Autoscaler we can run:
@@ -108,7 +111,7 @@ workshop at a AWS event or with limited time, we recommend to come back to this 
 
  * Check the `~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py`. Comment line 18 and uncomment line 19. This will display requests timeouts. Re-run the test starting from the original setup and see what's the impact and how many timeouts we had. 
 
- * Scaling operations can be a bit slow; Could you explain why those operations are slow ? ([hint](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-fast-is-hpa-when-combined-with-ca)) As we have seen on the completion of the previous exercise, this can also cause requests to timeout. Could you think of any technique or configuration that would help you palliate this scenario ?
+ * Scaling operations can be a bit slow; Could you explain why those operations are slow ? ([hint](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-fast-is-hpa-when-combined-with-ca)) As we have seen on the completion of the previous exercise, this can also cause requests to timeout. Could you think of any technique or configuration that would help you palliate this scenario?
 
  * One technique to manage a "buffer of capacity" to avoid timeouts, is to **overprovision** the cluster. Read about how to [configure overprovisioning with Cluster Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-can-i-configure-overprovisioning-with-cluster-autoscaler). 
 

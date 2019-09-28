@@ -26,15 +26,15 @@ We can diversify Spot instance pools using two strategies:
  
  - By Implementing instance diversification within the nodegroups, by selecting a mix of instances types and families from different Spot instance pools that meet the same vCPU's and memory criteria.
 
-Our goal in this workshop, is to create at least 2 diversified groups of instances that adhere the 1vCPU:4GB RAM ratio. We can use [Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/) page to find the relevant instances types and families with sufficient number of vCPUs and RAM, and use this to also select instance types with low interruption rates.
+Our goal in this workshop, is to create at least 2 diversified groups of instances that adhere the 1vCPU:4GB RAM ratio. We can use **[Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/)** page to find the relevant instances types and families with sufficient number of vCPUs and RAM, and use this to also select instance types with low interruption rates.
+
+{{% notice note %}}
+ The frequency of Spot Instance interruptions reflected in *Spot Instance Advisor* may change over time. Savings compared to On-Demand are calculated over the last 30 days. The above just provides a real world example from a specific time and will probably be different when you are performing this workshop. Note also that not all the instances are available in all the regions.
+{{% /notice %}}
 
 ![Selecting Instance Type with 4vCPU and 16GB](/images/using_ec2_spot_instances_with_eks/spotworkers/4cpu_16_ram_instances.png)
 
 In this case with Spot Instance Advisor we can create a 4vCPUs_16GB nodegroup with the following diversified instances: **m5.xlarge, m5d.xlarge, m4.xlarge, m5a.xlarge, t2.xlarge, t3.xlarge, t3a.xlarge**
-
-{{% notice note %}}
-Just like spot market prices, Spot Instance interruption rates are dynamic. The above just provides a real world example from a specific time and would probably be different when you are performing this workshop. Note also that not all the instances are available in all the regions.
-{{% /notice %}}
 
 {{% notice warning %}}
 Your workload may have other constraints that you should consider when selecting instances types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate for CPU bound workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is sensitive to numerical differences (i.e: financial risk calculations, industrial simulations) mixing these instance types might not be appropriate.

@@ -12,7 +12,7 @@ weight: 70
 * Ensures a pod properly runs to completion
 
 ### [Service](https://kubernetes.io/docs/concepts/services-networking/service/)
-* Maps a fixed IP address to a logical group of pods
+* An abstract way to expose an application running on a set of Pods as a network service
 
 ### [Label](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
-* Key/Value pairs used for association and filtering
+* Key/Value pair used for association and filtering

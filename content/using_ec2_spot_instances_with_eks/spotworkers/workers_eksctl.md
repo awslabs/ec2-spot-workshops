@@ -75,7 +75,7 @@ There are a few things to note in the configuration that we just used to create 
  * We are also applying a **[Taint](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)** using `spotInstance: "true:PreferNoSchedule"`.  **PreferNoSchedule** is used to indicate we prefer pods not be scheduled on Spot Instances. This is a “preference” or “soft” version of **NoSchedule** – the system will try to avoid placing a pod that does not tolerate the taint on the node, but it is not required.
 
 {{% notice info %}}
-If you are wondering at this stage: *Where is spot bidding price ?* you are missing some of the changes EC2 Spot instances had since 2017! Since November 2017 [EC2 Spot price changes infrequently](https://aws.amazon.com/blogs/compute/new-amazon-ec2-spot-pricing/) based on long term supply and demand of spare capacity in each pool independently. You can still set up a **maxPrice** in scenarios where you have maximum budget. By default *maxPrice* is set to the On-Demand price; Regardless of the *maxPrice* spot instances will still be charged at the spot market price.
+If you are wondering at this stage: *Where is spot bidding price ?* you are missing some of the changes EC2 Spot instances had since 2017. Since November 2017 [EC2 Spot price changes infrequently](https://aws.amazon.com/blogs/compute/new-amazon-ec2-spot-pricing/) based on long term supply and demand of spare capacity in each pool independently. You can still set up a **maxPrice** in scenarios where you want to set maximum budget. By default *maxPrice* is set to the On-Demand price; Regardless of what the *maxPrice* value, spot instances will still be charged at the current spot market price.
 {{% /notice %}}
 
 ### Confirm the Nodes
@@ -125,7 +125,7 @@ mix **On-Demand, Reserved Instances, and Spot** within the same nodegroup.
 
 #### Label and Taint strategies on mixed workers 
 
-The configuration we have used creates two diversified instance group with just Spot instances. We have attached to the all the nodes in the group the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle"** and set the labels and taints accordingly.
+The configuration we used creates two diversified instance group with just Spot instances. We have attached to the all the nodes in the group the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-Demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle** and set the labels and taints accordingly.
 
 This can be achieved in multiple ways by extending the bootstrapping sequence.
 

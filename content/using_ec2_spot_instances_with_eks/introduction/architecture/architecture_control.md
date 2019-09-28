@@ -29,7 +29,7 @@ kubectl{kubectl}
   class kubectl orange;
 {{< /mermaid >}}
 
-* One or More API Servers: Entry point for REST / kubectl
+* One or more API servers: Entry point for REST / kubectl
 
 * etcd: Distributed key/value store
 

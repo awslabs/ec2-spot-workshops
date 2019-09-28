@@ -5,7 +5,7 @@ weight: 40
 draft: false
 ---
 
-When users requests On-Demand instances from a pool to the point that the pool is depleted, the system will select a set of spot instances from the pool to be terminated. A Spot instance pool is a set of unused EC2 instances with the same instance type (for example, m5.large), operating system and Availability Zone. The Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things. 
+When users requests On-Demand instances from a pool to the point that the pool is depleted, the system will select a set of spot instances from the pool to be terminated. A Spot instance pool is a set of unused EC2 instances with the same instance type (for example, m5.large), operating system, Availability Zone, and network platform. The Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things. 
 
 We will deploy a pod on each spot instance to detect the instance termination notification signal so that we can both terminate gracefully any pod that was running on that node, drain from load balancers and redeploy applications elsewhere in the cluster.
 
@@ -23,9 +23,7 @@ We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per
 
 ```
 mkdir ~/environment/spot
-pushd ~/environment/spot
-wget https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/spotworkers/deployhandler.files/spot-interrupt-handler-example.yml
-popd 
+curl -o ~/environment/spot/spot-interrupt-handler-example.yml https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/eks_workshop/content/using_ec2_spot_instances_with_eks/spotworkers/deployhandler.files/spot-interrupt-handler-example.yml
 ```
 
 As written, the manifest will deploy pods to all nodes including On-Demand, which is a waste of resources. We want to edit our DaemonSet to only be deployed on Spot Instances. Let's use the labels to identify the right nodes.
@@ -63,5 +61,9 @@ View the pods. There should be one for each spot node.
 ```
 kubectl get daemonsets
 ```
+
+{{% notice note %}}
+Use **kube-ops-view** to confirm the *spot-interrupt-handler-example* DaemonSet has been deployed only to EC2 Spot nodes. 
+{{% /notice %}}
 
 {{%attachments title="Related files" pattern=".yml"/%}}
