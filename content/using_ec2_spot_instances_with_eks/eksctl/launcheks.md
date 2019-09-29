@@ -13,6 +13,14 @@ weight: 20
 **How do I check the IAM role on the workspace?**
 
 {{%expand "Expand here to see the solution" %}}
+
+Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
+
+```
+aws sts get-caller-identity
+
+```
+
 {{% notice note %}}
 **Select the tab** and and validate the assumed role…
 {{% /notice %}}
