@@ -25,41 +25,41 @@ applications and workloads.
 
 Select a workshop from the left panel or just click and explore the workshops hightlighted below.
 
-{{% card important_workshop 
+{{< card important_workshop 
     "running-amazon-ec2-workloads-at-scale" 
     "Running EC2 Workloads at Scale with EC2 Auto Scaling"
     "Amazon-EC2_Auto-Scaling_light-bg.png" 
-%}}
+>}}
 This workshop is designed to get you familiar with best practices for requesting 
 Amazon EC2 capacity at scale in a cost optimized architecture.
-{{% /card %}}
+{{< /card >}}
 
-{{% card important_workshop 
+{{< card important_workshop 
     "running_spark_apps_with_emr_on_spot_instances"
     "Running Spark apps with EMR on Spot instances"
     "Amazon-EC2_Instances_light-bg.png" 
-%}}
+>}}
 In this workshop you will assume the role of a data engineer, tasked with cost optimizing the organization’s 
 costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.
-{{% /card %}}
+{{< /card >}}
 
-{{% card workshop 
+{{< card workshop 
     "launching_ec2_spot_instances"
     "Launching EC2 Spot Instances"
     "Amazon-EC2_Spot-Instance_light-bg.png" 
-%}}
+>}}
 In this workshop you will explore different ways of requesting Amazon EC2 Spot requests
 and understand how to qualify workloads for EC2 Spot.
-{{% /card %}}
+{{< /card >}}
 
-{{% card workshop 
+{{< card workshop 
     "ec2_spot_fleet_web_app"
     "EC2 Spot Fleet Web App"
     "AWS-Lambda_Lambda-Function_light-bg.png" 
-%}}
+>}}
 This workshop is designed to understand how to take advantage of Amazon EC2 
 Spot instance interruption notices using lambda functions.
-{{% /card %}}
+{{< /card >}}
 
 
 

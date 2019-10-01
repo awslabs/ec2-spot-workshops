@@ -189,7 +189,7 @@ div.cards p {
     font-size: 1rem;
     margin-top: 0rem;
     margin-bottom: 0rem;
-    color: #666;
+    color: #888;
 }
 
 div.cards.important_workshop p.header {
@@ -212,6 +212,7 @@ div.cards.important_workshop div.content {
     min-height: 100px;
     margin: 0px;
     padding: 0px;
+    color: #333; 
 }
 
 div.cards.workshop p.header {
@@ -227,5 +228,6 @@ div.cards.workshop div.content {
     min-height: 100px;
     margin: 0px;
     padding: 0px;
+    color: #333;
 }
 

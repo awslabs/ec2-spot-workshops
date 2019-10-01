@@ -5,11 +5,13 @@ weight: 50
 pre: "<b>⁃ </b>"
 ---
 
-To get hands-on experience with running EC2 Spot Instances with EKS and Kuberentes clusters, please visit the Spot module on http://eksworkshop.com : 
-## https://eksworkshop.com/spotworkers/ 
+In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes 
+clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale. 
+We dive deep using hands-on material to provision and scale worker nodes, handle 
+interruptions, and design for fault tolerance.
 
+This worksop is originally based on AWS [EKS Workshop](https://eksworkshop.com/). You can find 
+there more modules and learn about other Amazon Elastic Kubernetes Service best practices.
 
-Please note that the preceding modules in the EKS workshop are prerequisites for the Spot module:\
-"Launch using eksctl"\
-"Deploy the Kubernetes Dashboard" (recommended but not mandatory)\
-"Deploy the Example Microservices"\
+![EKS](images/using_ec2_spot_instances_with_eks/3-service-animated.gif)
+
