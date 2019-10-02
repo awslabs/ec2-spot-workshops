@@ -34,12 +34,31 @@ Use a `nodeSelector` to constrain our deployment to spot instances. View this [*
 
 **Configure our Spot Handler to use nodeSelector**
 {{% expand "Expand here to see the solution"%}}
-Place this at the end of the DaemonSet manifest under Spec.Template.Spec.nodeSelector
+Place this at the end of the DaemonSet manifest under **spec.template.spec.**nodeSelector
 
 ```
       nodeSelector:
         lifecycle: Ec2Spot
 ```
+
+If you need a reference of where those two lines should be inserted, check the highlighted text and line numbers in the section below. Note the syntax in the hierarchy maps with **spec.template.spec.**nodeSelector.
+
+{{< highlight bash "linenos=table,hl_lines=11-12,linenostart=56" >}}
+spec:
+  selector:
+    matchLabels:
+      app: spot-interrupt-handler
+  template:
+    metadata:
+      labels:
+        app: spot-interrupt-handler
+    spec:
+      serviceAccountName: spot-interrupt-handler
+      nodeSelector:
+        lifecycle: Ec2Spot
+      containers:
+      - name: spot-interrupt-handler
+{{< / highlight >}}
 
 {{% /expand %}}
 
