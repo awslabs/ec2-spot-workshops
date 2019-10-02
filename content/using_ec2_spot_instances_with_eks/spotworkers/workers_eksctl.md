@@ -125,7 +125,7 @@ mix **On-Demand, Reserved Instances, and Spot** within the same nodegroup.
 
 #### Label and Taint strategies on mixed workers 
 
-The configuration we used creates two diversified instance group with just Spot instances. We have attached to the all the nodes in the group the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-Demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle** and set the labels and taints accordingly.
+The configuration we used creates two diversified instance groups with just Spot instances. We have attached to all nodes in both groups the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-Demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle** and set the labels and taints accordingly.
 
 This can be achieved in multiple ways by extending the bootstrapping sequence.
 

@@ -43,7 +43,7 @@ aws sts get-caller-identity
 ```
 
 {{% notice note %}}
-**Select the tab** and and validate the assumed role…
+**Select the tab** and validate the assumed role…
 {{% /notice %}}
 {{< tabs name="Region" >}}
     {{< tab name="...ON YOUR OWN" include="on_your_own_validaterole.md" />}}
