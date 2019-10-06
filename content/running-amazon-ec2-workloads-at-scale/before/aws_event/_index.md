@@ -19,7 +19,7 @@ If you are at an AWS event, an AWS acccount was created for you to use throughou
 3. In the User Dashboard screen, click **AWS Console** 
 4. In the popup page, click **Open Console** 
 
-You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workhop run time.
+You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 You can now start the workshop by heading to [**Setup with CloudFormation**](/running-amazon-ec2-workloads-at-scale/launch_cloudformation.html)
 
 {{% children %}}
