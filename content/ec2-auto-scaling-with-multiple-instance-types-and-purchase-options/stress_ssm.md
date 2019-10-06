@@ -18,3 +18,6 @@ You will now emulate CPU stress on the instances in your automatic scaling group
 1. Browse to the [CloudWatch console](https://console.aws.amazon.com/cloudwatch/home?#alarm:alarmFilter=ANY) to monitor the status of your alarms configured by the target tracking policy.
 
 1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and watch the activity history. Notice that in a few minutes, it will begin to scale up the instances according to the CloudWatch alarms the target tracking policy has configured for you (check the **Activity History** tab and the **Instances** tab).
+{{% notice info %}}
+If your account is new, or if you are using an account that was created for you within an AWS-led event, then your EC2 Auto Scaling group might be unable to scale out to the desired instance count due to hitting EC2 Spot instance count limits. The functionality of this step in the workshop still works despite launching a smaller number of instances, so you can simply ignore these errors.
+{{% /notice %}}
