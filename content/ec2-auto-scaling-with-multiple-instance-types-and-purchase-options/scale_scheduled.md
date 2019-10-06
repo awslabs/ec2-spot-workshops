@@ -18,3 +18,6 @@ To configure your Auto Scaling group to scale based on a schedule, you create a 
 This command will not return any output if it is successful.
 {{% /notice %}}
 1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scheduled scaling action in the **Scheduled Actions** tab. Wait for the time you chose, and take a look at the instances it has deployed by checking the **Activity History** tab and the **Instances** tab.
+{{% notice info %}}
+If your account is new, or if you are using an account that was created for you within an AWS-led event, then your EC2 Auto Scaling group might be unable to scale out to the desired instance count due to hitting EC2 Spot instance count limits. The functionality of this step in the workshop still works despite launching a smaller number of instances, so you can simply ignore these errors.
+{{% /notice %}}
