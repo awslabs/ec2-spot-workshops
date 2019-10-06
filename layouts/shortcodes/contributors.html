@@ -40,7 +40,7 @@ Two things to note:
   {{ $filterList := .Get 2 }}
   {{ range getJSON $url }}
     {{ if in $filterList .login }}
-    {{else}}
+    {{ else }}
       <div class="contributor_entry">
         <img src="{{.avatar_url}}" class="inline" width="32" height="32" style="height: 32px;height: 32px;margin-bottom:.25em; vertical-align:middle; ">
         <label><a href="{{.html_url}}">@{{.login}}</a></label>
@@ -48,6 +48,6 @@ Two things to note:
           <span class="contributions">{{.contributions}} commits</span>
         {{ end }}
       </div>      
-    {{end}}
+    {{ end }}
   {{ end }}
 </div>
