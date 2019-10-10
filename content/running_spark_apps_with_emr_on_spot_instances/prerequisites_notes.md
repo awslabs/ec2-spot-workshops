@@ -9,7 +9,7 @@ weight: 10
 
 
 #### Preparation steps:\
-Select the corret tab, depending on where you are running the workshop:
+Select the correct tab, depending on where you are running the workshop:
 {{< tabs name="EventorOwnAccount" >}}
     {{< tab name="In an AWS event" include="initial_event.md" />}}
     {{< tab name="In your own account" include="initial_ownaccount.md" />}}

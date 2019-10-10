@@ -5,7 +5,7 @@ weight: 145
 
 In this section we will use AWS Cost explorer to look at the costs of our EMR cluster, including the underlying EC2 Spot Instances.
 
-Select the corret tab, depending on where you are running the workshop:
+Select the correct tab, depending on where you are running the workshop:
 {{< tabs name="EventorOwnAccount" >}}
     {{< tab name="In an AWS event" include="costs_event.md" />}}
     {{< tab name="In your own account" include="costs_ownaccount" />}}
