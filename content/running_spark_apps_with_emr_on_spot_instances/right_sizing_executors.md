@@ -29,5 +29,5 @@ So we can conclude that if we decrease our executor size to ~18GB, we'll be able
 
 ![tags](/images/running-emr-spark-apps-on-spot/sparkmemory.png)
 
-Our conclusion is that in order to use R family instances with the flexibility of also using the smallest supported instance types, we will use **"--executor-memory=18GB --executor cores=4"** for our Spark application submission.
+Our conclusion is that in order to use R family instances with the flexibility of also using the smallest supported instance types, we will use **"--executor-memory=18GB --executor-cores=4"** for our Spark application submission.
 

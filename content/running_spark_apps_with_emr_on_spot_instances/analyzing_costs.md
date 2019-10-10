@@ -4,11 +4,14 @@ weight: 145
 ---
 
 In this section we will use AWS Cost explorer to look at the costs of our EMR cluster, including the underlying EC2 Spot Instances.
-{{% notice note %}}
-It will take 24-48 hours for your usage to appear in Cost Explorer, so you can plan to come back to this step later to check the costs of running the workshop. If your organization administrator has not granted you access to Billing information, then you will not be able to access Cost Explorer, but you can look at the examples provided below.
-{{% /notice %}}
 
-In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=**Name**, Value=**EMRTransientCluster1**. This tag can be used to identify resources in your AWS accounts, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here] (https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
+Select the corret tab, depending on where you are running the workshop:
+{{< tabs name="EventorOwnAccount" >}}
+    {{< tab name="In an AWS event" include="costs_event.md" />}}
+    {{< tab name="In your own account" include="costs_ownaccount" />}}
+{{< /tabs >}}
+
+In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=**Name**, Value=**EMRTransientCluster1**. This tag can be used to identify resources in your AWS account, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here] (https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
 
 
 ### Analyzing costs with AWS Cost Explorer
