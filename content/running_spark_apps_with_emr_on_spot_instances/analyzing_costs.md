@@ -7,8 +7,8 @@ In this section we will use AWS Cost explorer to look at the costs of our EMR cl
 
 Select the correct tab, depending on where you are running the workshop:
 {{< tabs name="EventorOwnAccount" >}}
-    {{< tab name="In an AWS event" include="costs_event.md" />}}
     {{< tab name="In your own account" include="costs_ownaccount" />}}
+    {{< tab name="In an AWS event" include="costs_event.md" />}}
 {{< /tabs >}}
 
 In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=**Name**, Value=**EMRTransientCluster1**. This tag can be used to identify resources in your AWS account, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here] (https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
