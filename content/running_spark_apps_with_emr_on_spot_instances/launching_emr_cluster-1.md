@@ -20,7 +20,7 @@ To launch the cluster, follow these steps:\
 ```
 --executor-memory 18G --executor-cores 4
 ```
-* **Application location**: here we will configure the location of our Spark application. Save the following python code to a file (or download it from the Attachment box) and upload it to your S3 bucket using the AWS console or AWS CLI: **aws s3 cp script.py s3://\<your-bucket-name\>**
+* **Application location**: here we will configure the location of our Spark application. Save the following python code to a file (or download it from the Attachment box) and upload it to your S3 bucket using the AWS management console. You can refer to the [S3 Getting Started guide] (https://docs.aws.amazon.com/AmazonS3/latest/gsg/PuttingAnObjectInABucket.html) for detailed instructions
 
 ```python
 import sys
