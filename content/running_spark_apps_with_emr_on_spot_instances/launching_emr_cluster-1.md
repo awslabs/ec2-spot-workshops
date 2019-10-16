@@ -3,9 +3,9 @@ title: "Launch a cluster - Step 1"
 weight: 60
 ---
 
-In this step we'll launch our first cluster. This will be a transient cluster that will be shut down after it finishes running the application we submit to it at cluster creation time, and will run solely on Spot Instances. The application is a simple wordcount that will run against a public data set of Amazon product reviews, located in an Amazon S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here] (https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
+In this step we'll launch our first cluster, which will run solely on Spot Instances. We will also submit an EMR step for a simple wordcount Spark application which will run against a public dataset of Amazon product reviews, located in an Amazon S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here] (https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
 {{% notice note %}}
-Normally our dataset on S3 would be located on the same region where we are going to run our EMR clusters. In this workshop, for educational purposes, it is fine if you are running EMR in a different region, and the Spark application will work against the dataset which is located in the N. Virginia region.
+Normally our dataset on S3 would be located in the same region where we are going to run our EMR clusters. In this workshop, it is fine if you are running EMR in a different region, and the Spark application will work against the dataset which is located in the N. Virginia region. This will be negligible in terms of price and performance.
 {{% /notice %}}
 
 To launch the cluster, follow these steps:\
@@ -40,10 +40,11 @@ Then add the location of the file under the **Application location** field, i.e:
 
 ![sparksubmit](/images/running-emr-spark-apps-on-spot/sparksubmitstep1.png)
 
-Check the **Auto-terminate cluster after the last step is completed** option. Since we are looking to run a transient cluster just for running our Spark application, this will terminate the cluster once our submitted step (Spark Application) has completed.
+Do no check the **Auto-terminate cluster after the last step is completed** option. Since we are looking to examine the cluster during and after the Spark application run, we might end up with a terminated cluster before we complete the next steps in the workshop.
 
 {{% notice note %}}
-If you are not running through the workshop in one sitting, then don't use **Auto-terminate cluster after the last step is completed**, otherwise your cluster will be terminated before you examine it, later in the workshop.
+**Auto-terminate cluster after the last step is completed** is a powerful EMR feature that is used for running transient clusters. This is an effective model for clusters that perform periodic processing tasks, such as a daily data processing run, event-driven ETL workloads, etc.
+We will not be running a transient cluster, since it might terminate before we complete some of the next steps in the workshop.
 {{% /notice %}}
 
 Click **Next** to continue setting up the EMR cluster and move from "**Step 1: Software and steps**"" to "**Step 2: Hardware**".
