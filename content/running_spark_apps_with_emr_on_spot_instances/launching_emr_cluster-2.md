@@ -30,7 +30,7 @@ Our task nodes will only run Spark executors and no HDFS DataNodes, so this is a
 Under the task node type, Click **Add / remove instance types to fleet** and select the 5 instance types you noted before as suitable for our executor size and that had suitable interruption rates in the Spot Instance Advisor.\
 Since our executor size is 4 vCPUs, and each instance counts as the number of its vCPUs towards the total units, let's specify **40 Spot units** in order to run 10 executors, and allow EMR to select the best instance type in the Task Instance Fleet to run the executors on. In this example, it will either start 10 * r4.xlarge / r5.xlarge / i3.xlarge **or** 5 * r5.2xlarge / r4.2xlarge in EMR Task Instance Fleet.
 {{% notice warning %}}
-If you are attending an AWS event and using an account that was created for you, your ability to launch Spot Instances will be limited. To overcome this, **please make sure you launch no more than 3 instances in the Task Instance Fleet**. You can do this, for example, by only specifying instance types that count as 8 units, and launch 24 Spot units in the EMR Instance Fleet capacity .\
+If you are attending an AWS event and using an account that was created for you, your ability to launch Spot Instances will be limited. To overcome this, **please make sure you launch no more than 3 instances in the Task Instance Fleet**. You can do this, for example, by only specifying instance types that count as 8 units, and requesting 24 Spot units for the EMR Instance Fleet capacity .\
 {{% /notice %}}
 
 ![FleetSelection3](/images/running-emr-spark-apps-on-spot/emrinstancefleets-task2.png)

@@ -6,7 +6,7 @@ weight: 100
 Now we're in the process of getting started with adopting Spot Instances for our EMR clusters. We're still not sure that our jobs are fully resilient and what would actually happen if some of the EC2 Spot Instances in our EMR clusters get interrupted, when EC2 needs the capacity back for On-Demand.
 
 {{% notice note %}}
-In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions as our applications should be built to handle them gracefully without any impact to performance or availability, but when we get started with EMR jobs this could be useful, as our organization can use these to correlate to possible EMR job failures or prolonged execution times, in case Spot Instances were interrupted during Spark run time.
+In most cases, when running fault-tolerant workloads, we don't really need to track the Spot interruptions as our applications should be built to handle them gracefully without any impact to performance or availability. However, when we get started with running our EMR jobs on Spot Instances this could be useful, as our organization can use these to correlate to possible EMR job failures or prolonged execution times, in case Spot Instances were interrupted during Spark run time.
 {{% /notice %}}
 
 
