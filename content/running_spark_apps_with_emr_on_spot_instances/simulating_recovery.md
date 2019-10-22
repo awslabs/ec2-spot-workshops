@@ -31,4 +31,4 @@ This is an optional step that will take approximately 20 minutes more than the o
 
 #### Verify that EMR replenished the capacity, and that the step completed successfully
 1. Within 2-3 minutes, refresh the EC2 console as well as the Task Fleet in the EMR console under the Hardware tab, and you should see new Task Fleet instances created by EMR to replenish the capacity, after you terminated the previous instances.
-2. In the EMR console, go to the Steps tab. refresh the tab until your application has reached the **Completed status**. Because some instances were terminated mid-run, the Step will still complete, but will take longer than you previously observed in the workshop, because Spark had to repeat some of the work.
+2. In the EMR console, go to the Steps tab. Refresh the tab until your application has reached the **Completed** status. Because some instances were terminated mid-run, the Step will still complete, but will take longer than you previously observed in the workshop, because Spark had to repeat some of the work.
