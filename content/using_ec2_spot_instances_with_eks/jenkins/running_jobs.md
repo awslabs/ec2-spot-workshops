@@ -4,7 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 70
 ---
 
-We now have a dedicated Spot nodegroup with the capacity-optimized allocation strategy that should decrease the chances of Spot Instances being interrupted, and we configured Jenkins to run jobs on those EC2 Spot Instances. We also configured the Naginator plugin to retry jobs in case they fail. 
+We now have a dedicated Spot nodegroup with the capacity-optimized allocation strategy that should decrease the chances of Spot Instances being interrupted, and we configured Jenkins to run jobs on those EC2 Spot Instances. We also installed the Naginator plugin which will allow us to retry failed jobs.
 
 #### Creating a Jenkins job
 1. On the Jenkins dashboard, in the left pane, click **New Item**
