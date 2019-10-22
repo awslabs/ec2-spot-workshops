@@ -55,35 +55,6 @@ The creation of the workers will take about 3 minutes.
 ![Jenkins Login](/images/jenkinslabels.png)
 
 
-Now, when Jenkins creates new pods, these will be created with a Node Selector that instructs the kube-scheduler to only deploy the pods on nodes with the above mentioned labels, which only exist in the dedicated Jenkins nodegroup.
+Now, when Jenkins creates new pods (=agents), these will be created with a Node Selector that instructs the kube-scheduler to only deploy the pods on nodes with the above mentioned labels, which only exist in the dedicated Jenkins nodegroup.
 
 Move to the next step in the workshop to learn how to increase the resilience of your Jenkins jobs.
-
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-
-# probably will not be included
-
-
-
-#### Configuring a new Kubernetes namespace 
-
-```bash
-kubectl create namespace jenkins-agents
-```
-
-#### pointing the Jenkins agents to run within the new dedicated namespace
-
-1. From the Jenkins home screen, click **Manage Jenkins** and go to **Configure System** 
-2. Scroll down in the page, and under the Cloud -> Kubernetes section, find the **Kubernetes Namespace** field
-3. Replace **default** with **jenkins-agents**
-4. Click **Save** at the bottom of the dashboard.

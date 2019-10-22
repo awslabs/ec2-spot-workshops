@@ -38,8 +38,8 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 7\. Back on the Jenkins Dashboard, In the left pane, click **Build History** and click the console icon next to the latest build. When the job finishes, you should see the following console output:\
 
 ```
-Building remotely on default-bwtmp (cicd-jenkins-slave) in workspace /home/jenkins/agent/workspace/Sleep-3m
-[Sleep-3m] $ /bin/sh -xe /tmp/jenkins365818066752916558.sh
+Building remotely on default-bwtmp (cicd-jenkins-slave) in workspace /home/jenkins/agent/workspace/Sleep-2m
+[Sleep-2m] $ /bin/sh -xe /tmp/jenkins365818066752916558.sh
 + sleep 2m
 + echo Job finished successfully
 Job finished successfully
@@ -55,3 +55,5 @@ Now that we ran our job successfully on Spot Instances, let's test the failure s
 4. Run `aws ec2 terminate-instances --instance-ids <instance ID from last command>`
 5. Back in the Jenkins dashboard, under the **Build History** page, you should now see the Sleep-2m job as broken. You can click the Console button next to the failed run, to see the JNLP errors that indicate that the Jenkins agent was unable to communicate to the Master, due to the termination of the EC2 Instance.
 6. Within 1-3 minutes, the EC2 Auto Scaling group will launch a new replacement instance, and once it has joined the cluster, the sleep-2m job will be retried on the new node. You should see see the sleep-2m job succeed in the Build History page or Project page.
+
+Now that we successfully ran a job on a Spot Instance, and automatically restarted a job due to a simulated node failure, let's move to the next step in the workshop and autoscale our Jenkins nodes.
