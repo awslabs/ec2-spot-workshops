@@ -19,7 +19,7 @@ disableSearch = false
 disableAssetsBusting = false
 disableLanguageSwitchingButton = true
 disableShortcutsTitle = false
-
+disableInlineCopyToClipBoard = true
 
 [outputs]
 home = [ "HTML", "AMP", "RSS", "JSON"]
