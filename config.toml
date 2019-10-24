@@ -21,8 +21,6 @@ disableLanguageSwitchingButton = true
 disableShortcutsTitle = false
 disableInlineCopyToClipBoard = true
 
-
-
 [outputs]
 home = [ "HTML", "AMP", "RSS", "JSON"]
 page = [ "HTML", "AMP"]

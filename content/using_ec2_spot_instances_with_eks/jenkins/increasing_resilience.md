@@ -35,10 +35,10 @@ If you are using CloudFormation or Terraform for your production EKS clusters (o
 2\. With the Jenkins ASG checked, click **Actions** -> **Edit**\
 3\. Scroll down, and under **Spot Allocation Strategy** Modify the selection to **Launch Spot Instances optimally based on the available Spot capacity per Availability Zone**, click **Save**
 
-**Note**: There's already one instance type running in the ASG, let's terminate it and let the ASG provision a new instance using the new allocation strategy.
+**Note**: There's already one EC2 instance running in the ASG, let's terminate it and let the ASG provision a new instance using the new allocation strategy.
 \
 
-4\. Still in the ASG console, in the bottom page, click the **Instances** tab -> click the Instance ID.\
+4\. Still in the ASG console, in the bottom pane, click the **Instances** tab -> click the Instance ID.\
 5\. In the EC2 console, with the Instance selected, click **Actions** -> **Instance State** -> **Terminate**.\
 6\. Within 1-2 minutes, ASG will run a new instance to meet the desired capacity of 1.\
 
