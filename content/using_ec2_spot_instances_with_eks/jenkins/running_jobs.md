@@ -22,7 +22,7 @@ Since this workshop module focuses on resilience and cost optimization for Jenki
 
 #### Running the Jenkins job
 1\. On the project page for Sleep-2m, in the left pane, click the **Build Now** button\
-2\. Browse to the Kube-ops-view tool, and check that a new pod was deployed with a name that starts with `default-``\
+2\. Browse to the Kube-ops-view tool, and check that a new pod was deployed with a name that starts with `jenkins-agent-`\
 
 {{%expand "Show me how to get kube-ops-view url" %}}
 Execute the following command on Cloud9 terminal
@@ -38,7 +38,7 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 7\. Back on the Jenkins Dashboard, In the left pane, click **Build History** and click the console icon next to the latest build. When the job finishes, you should see the following console output:\
 
 ```
-Building remotely on default-bwtmp (cicd-jenkins-slave) in workspace /home/jenkins/agent/workspace/Sleep-2m
+Building remotely on jenkins-agent-bwtmp (cicd-jenkins-slave) in workspace /home/jenkins/agent/workspace/Sleep-2m
 [Sleep-2m] $ /bin/sh -xe /tmp/jenkins365818066752916558.sh
 + sleep 2m
 + echo Job finished successfully

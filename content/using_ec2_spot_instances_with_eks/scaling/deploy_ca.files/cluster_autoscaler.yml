@@ -119,6 +119,8 @@ spec:
         app: cluster-autoscaler
     spec:
       serviceAccountName: cluster-autoscaler
+      nodeSelector:
+        intent: control-apps       
       containers:
         - image: k8s.gcr.io/cluster-autoscaler:v1.13.7
           name: cluster-autoscaler
@@ -135,8 +137,9 @@ spec:
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
-            - --nodes=1:5:<AUTOSCALING GROUP NAME 4vCPUS 16GB RAM>
-            - --nodes=1:5:<AUTOSCALING GROUP NAME 8vCPUS 32GB RAM>
+            - --nodes=1:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-16XJ6GMZCT3XQ
+            - --nodes=1:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1RBXH0I6585MX
+            - --nodes=1:5:eksctl-eksworkshop-eksctl10-nodegroup-jenkins-agents-2vcpu-8gb-spot-2-NodeGroup-7GE4LS6B34DK
             - --expander=random
             - --expendable-pods-priority-cutoff=-10
             - --scale-down-unneeded-time=2m0s
@@ -149,7 +152,7 @@ spec:
             - --max-empty-bulk-delete=30
           env:
             - name: AWS_REGION
-              value: --AWS_REGION--
+              value: eu-west-1
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt

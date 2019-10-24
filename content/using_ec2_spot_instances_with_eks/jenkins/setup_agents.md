@@ -4,7 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 40
 ---
 
-We now have our Jenkins Master running inside our EKS cluster, and we can reach the Jenkins dashboard via an ELB. We can create jobs which will be executed by Jenkins agents in pods within our cluster, but before we do that, let's create a dedicated Spot based nodegroup for our Jenkins agents, which will be slightly different from our existing nodegroups.
+We now have our Jenkins Master running inside our EKS cluster, and we can reach the Jenkins dashboard via an ELB. We can create jobs which will be executed by Jenkins agents in pods within our cluster, but before we do that, let's create a dedicated Spot based nodegroup for our Jenkins agents, which will be slightly different from our existing nodegroups. In the next section in the workshop, **Increasing Resilience**, you will understand why we're creating a new nodegroup which is different than our existing nodegroups, dedicated to the Jenkins agent pods.
 
 #### Creating a new Spot Instances nodegroup for our Jenkins agent pods
 Earlier in the workshop, in the **Adding Spot Workers with eksctl** step, we created nodegroups that run a diversified set of Spot Instances to run our applications.
@@ -56,5 +56,15 @@ The creation of the workers will take about 3 minutes.
 
 
 Now, when Jenkins creates new pods (=agents), these will be created with a Node Selector that instructs the kube-scheduler to only deploy the pods on nodes with the above mentioned labels, which only exist in the dedicated Jenkins nodegroup.
+
+
+#### Providing a unique name to the Jenkins agent pods
+The last step is to change the default pod name for the Jenkins agents, because we want to be able to identify the pods that are running in our clusters by name.
+1. In the Jenkins Dashboard, go to **Manage Jenkins** -> **Configure System** -> Scroll down to the **Kubernetes Pod Template** and change the **Name** field from `defualt` to `jenkins-agent`
+2. Click Save
+
+\
+\
+
 
 Move to the next step in the workshop to learn how to increase the resilience of your Jenkins jobs.
