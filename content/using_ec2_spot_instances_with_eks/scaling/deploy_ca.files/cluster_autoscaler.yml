@@ -119,6 +119,8 @@ spec:
         app: cluster-autoscaler
     spec:
       serviceAccountName: cluster-autoscaler
+      nodeSelector:
+        intent: control-apps      
       containers:
         - image: k8s.gcr.io/cluster-autoscaler:v1.13.7
           name: cluster-autoscaler
