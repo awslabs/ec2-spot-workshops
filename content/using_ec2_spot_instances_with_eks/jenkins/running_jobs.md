@@ -11,7 +11,7 @@ We now have a dedicated Spot nodegroup with the capacity-optimized allocation st
 2. Enter an item name: **Sleep-2m**, select **Freestyle project** and click **OK**
 3. Scroll down to the **Build** section, and click **Add build step** -> **Execute shell**
 4. For the Command, enter `sleep 2m; echo "Job finished successfully"`
-5. In the Post-build Actions section, click **Add post-build action** -> **Retry build fater failure**. These are the options that were added by the Naginator plugin.
+5. In the Post-build Actions section, click **Add post-build action** -> **Retry build after failure**. These are the options that were added by the Naginator plugin.
 6. Check the **Fixed** box and enter `20` for Fixed delay
 7. Under **Maximum number of successive failed builds** enter `3`
 8. Click **Save**
