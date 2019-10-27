@@ -28,7 +28,7 @@ If we replicate our existing Sleep-2m job and run it 5 times, that should be eno
 4\. In the job configuration page, click **Save**\
 5\. Repeat steps 1-4 until you have 5 identical jobs with different names\
 6\. In the Jenkins main dashboard page, click the "**Schedule a build for Sleep-2m-***" on all 5 jobs, to schedule all our jobs at the same time\
-7\. Monitor `kubectl get pods -w` and see pods with `default-abcdef` name starting up, until some of them are stuck in `pending` state. You can also use the Kube-ops-view for that purpose.\
+7\. Monitor `kubectl get pods -w` and see pods with `jenkins-agent-abcdef` name starting up, until some of them are stuck in `pending` state. You can also use the Kube-ops-view for that purpose.\
 8\. Check the cluster-autoscaler log by running `kubectl logs -f deployment/cluster-autoscaler -n kube-system`\
 9\. The following lines would indicate that cluster-autoscaler successfully identified the pending Jenkins agent pods, detremined that the nodegroups that we created in the previous workshop module are not suitable due to the node selectors, and finally increased the size of the Jenkins dedicated nodegroup in order to have the kube-scheduler schedule these pending pods on new EC2 Instances in our EC2 Auto Scaling group.\
 ```
