@@ -59,8 +59,8 @@ Now, when Jenkins creates new pods (=agents), these will be created with a Node 
 
 
 #### Providing a unique name to the Jenkins agent pods
-The last step is to change the default pod name for the Jenkins agents, because we want to be able to identify the pods that are running in our clusters by name.
-1. In the Jenkins Dashboard, go to **Manage Jenkins** -> **Configure System** -> Scroll down to the **Kubernetes Pod Template** and change the **Name** field from `defualt` to `jenkins-agent`
+The last step is to change the default pod name for the Jenkins agents, because we want to be able to identify the pods that are running in our clusters by name.\
+1. In the Jenkins Dashboard, go to **Manage Jenkins** -> **Configure System** -> Scroll down to the **Kubernetes Pod Template** and change the **Name** field from `defualt` to `jenkins-agent`\
 2. Click Save
 
 \
