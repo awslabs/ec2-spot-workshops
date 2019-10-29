@@ -68,7 +68,7 @@ The following affinities must be added at the *spec.template.spec* level
                 - apps 
 ```
 
-If you are still struggling with the implementation, the solution file is available here : **[monte-carlo-pi-service-final.yml](deploy_app.files/monte-carlo-pi-service-final.yml)**
+If you are still struggling with the implementation, the solution file is available here : **[monte-carlo-pi-service-final.yml](tolerations_and_affinity.files/monte-carlo-pi-service-final.yml)**
 
 {{% /expand %}}
 
