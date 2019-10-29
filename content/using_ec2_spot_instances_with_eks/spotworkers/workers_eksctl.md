@@ -67,7 +67,7 @@ The creation of the workers will take about 3 minutes.
 
 There are a few things to note in the configuration that we just used to create these nodegroups.
 
- * We did set up **onDemandPercentageAboveBaseCapacity** and **onDemandPercentageAboveBaseCapacity** both to **0**. which implies all nodes in the nodegroup would be **Spot instances**.
+ * We did set up **onDemandBaseCapacity** and **onDemandPercentageAboveBaseCapacity** both to **0**. which implies all nodes in the nodegroup would be **Spot instances**.
  * We did set up a **lifecycle: Ec2Spot** label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSlectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
  * We did also add an extra label **intent: apps**. We will use this label to force a hard partition
  of the cluster for our applications. During this workshop we will deploy control applications on
