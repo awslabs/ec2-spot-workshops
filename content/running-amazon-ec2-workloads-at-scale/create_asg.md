@@ -15,7 +15,7 @@ Examining the asg.json configuration file, can you determine what would be the d
 How many On-Demand and Spot Instances would be deployed?\
 Which On-Demand and Spot Instances would be selected from the list of Overrides, and why?
 
-Hint: take a look at the [API reference for `InstancesDistribution`] (https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html) in the AWS CLI documentation to understand these different configuration options.
+Hint: take a look at the [API reference for `InstancesDistribution`] (https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html) in the AWS API reference to understand these different configuration options.
 
 {{%expand "Click here for the answer" %}}
 With an `OnDemandBaseCapacity` of 2, `OnDemandPercentageAboveBaseCapacity` of 0, and `DesiredCapacity` of 4, initially the ASG is going to contain 2 On-Demand instances and 2 Spot Instances.\
