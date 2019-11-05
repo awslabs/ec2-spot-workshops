@@ -53,21 +53,21 @@ When AWS CloudFormation has successfully created the stack, you will see the **C
 
 In this workshop, you'll need to reference the resources created by the CloudFormation stack. You can see the resources that have been created on the [AWS Cloudformation console](https://console.aws.amazon.com/cloudformation). On the **Resources** pane you can see the whole list of resources that have been created. The template does also have a list **Outputs" with resource identifiers that will be used throughout the workshop. To avoid having you copy'ing and pasting them we will load those values as environment variables. 
 
-	```
-        export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
-        export stack_name=runningAmazonEC2WorkloadsAtScale
-        export code_deploy_bucket=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`codeDeployBucket`].OutputValue' --output text)
-        export file_system=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`fileSystem`].OutputValue' --output text)
-        export instance_profile=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`instanceProfile`].OutputValue' --output text)
-        export event_rule=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`eventRule`].OutputValue' --output text)
-        export vpc=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`vpc`].OutputValue' --output text)
-        export instance_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`instanceSecurityGroup`].OutputValue' --output text)
-        export db_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`dbSecurityGroup`].OutputValue' --output text)
-        export lb_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`loadBalancerSecurityGroup`].OutputValue' --output text)
-        export lambda_function=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`lambdaDunction`].OutputValue' --output text)
-        export sns_topic=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`snsTopic`].OutputValue' --output text)
-        export public_subnet1=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`publicSubnet1`].OutputValue' --output text)
-        export public_subnet2=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`publicSubnet2`].OutputValue' --output text)
-        export db_subnet_group=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`dbSubnetGroup`].OutputValue' --output text)
-        export code_deploy_service_role=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`codeDeployServiceRole`].OutputValue' --output text)
-    ```
+```
+export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+export stack_name=runningAmazonEC2WorkloadsAtScale
+export code_deploy_bucket=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`codeDeployBucket`].OutputValue' --output text)
+export file_system=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`fileSystem`].OutputValue' --output text)
+export instance_profile=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`instanceProfile`].OutputValue' --output text)
+export event_rule=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`eventRule`].OutputValue' --output text)
+export vpc=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`vpc`].OutputValue' --output text)
+export instance_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`instanceSecurityGroup`].OutputValue' --output text)
+export db_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`dbSecurityGroup`].OutputValue' --output text)
+export lb_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`loadBalancerSecurityGroup`].OutputValue' --output text)
+export lambda_function=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`lambdaDunction`].OutputValue' --output text)
+export sns_topic=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`snsTopic`].OutputValue' --output text)
+export public_subnet1=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`publicSubnet1`].OutputValue' --output text)
+export public_subnet2=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`publicSubnet2`].OutputValue' --output text)
+export db_subnet_group=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`dbSubnetGroup`].OutputValue' --output text)
+export code_deploy_service_role=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`codeDeployServiceRole`].OutputValue' --outputext)
+```
