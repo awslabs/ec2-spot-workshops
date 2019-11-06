@@ -4,7 +4,6 @@ chapter: false
 weight: 30
 ---
 
-
 1. Within JupyterLab (Which you opened in the previous steps), navigate to the ***/ec2-spot-labs/ec2-spot-sagemaker-managed-spot-training/*** folder.
 
 2. Double-click on a Notebook and complete each step outlined in the Notebook.
