@@ -18,9 +18,9 @@ You will create a launch template to specify configuration parameters for launch
     ```
     sed -i.bak -e "s/%awsRegionId%/$AWS_REGION/g" -e "s/%fileSystem%/$file_system/g" user-data.txt
     ```
-2. Take a moment to look at the user data script to see the bootstrapping actions that is performing. 
+1. Take a moment to look at the user data script to see the bootstrapping actions that is performing. 
 
-3. Execute the below command to update the **launch-template-data.json** file with the base64 encoded user data script, the resource ids created by the CloudFormation template and the latest Amazon Linux 2 AMI. 
+1. Execute the below command to update the **launch-template-data.json** file with the base64 encoded user data script, the resource ids created by the CloudFormation template and the latest Amazon Linux 2 AMI. 
 
     ```
     # First, this command looks up the latest Amazon Linux 2 AMI
@@ -29,7 +29,7 @@ You will create a launch template to specify configuration parameters for launch
     sed -i.bak -e "s#%instanceProfile%#$instance_profile#g" -e "s/%instanceSecurityGroup%/$instance_sg/g" -e "s#%ami-id%#$ami_id#g" -e "s#%UserData%#$(cat user-data.txt | base64 --wrap=0)g"   launch-template-data.json
     ```
 
-4. Take the time to look at the launch-template-data.json file; and then execute the below command to create the Launch template from the configuration file you have updated.
+1. Take the time to look at the launch-template-data.json file; and then execute the below command to create the Launch template from the configuration file you have updated.
 
     ```
     aws ec2 create-launch-template --launch-template-name runningAmazonEC2WorkloadsAtScale --version-description dev --launch-template-data file://launch-template-data.json
