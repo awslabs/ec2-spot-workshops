@@ -1,0 +1,165 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: >
+    This template deploys a VPC and a Amazon SageMaker Notebook Instance
+
+Parameters:
+  VpcName:
+    Default: EC2SpotSageMakerWorkshop
+    Type: String
+
+  VpcCIDR:
+    Default: 10.215.0.0/16
+    Type: String
+
+  Subnet1CIDR:
+    Default: 10.215.10.0/24
+    Type: String
+
+  Subnet2CIDR:
+    Default: 10.215.20.0/24
+    Type: String
+
+  DefaultCodeRepository:
+    Default: https://github.com/awslabs/ec2-spot-labs.git
+    Type: String
+
+Resources:
+
+# VPC ----------------------------------------------------------
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      Tags:
+        - Key: Name
+          Value: !Ref VpcName
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref VpcName
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs ]
+      MapPublicIpOnLaunch: true
+      CidrBlock: !Ref Subnet1CIDR
+      Tags:
+        - Key: Name
+          Value: !Sub ${VpcName} (Public)
+
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZs ]
+      MapPublicIpOnLaunch: true
+      CidrBlock: !Ref Subnet2CIDR
+      Tags:
+        - Key: Name
+          Value: !Sub ${VpcName} (Public)
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Ref VpcName
+
+  DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref Subnet1
+
+  Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref Subnet2
+
+# END VPC ------------------------------------------------------
+
+# NOTEBOOK -----------------------------------------------------
+  NotebookInstance:
+    Type: AWS::SageMaker::NotebookInstance
+    Properties:
+      InstanceType: "ml.t2.medium"
+      RoleArn: !GetAtt ExecutionRole.Arn
+      SubnetId: !Ref Subnet1
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      DefaultCodeRepository: !Ref DefaultCodeRepository
+  
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Notebook Instance Security Group
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - FromPort: '443'
+          IpProtocol: tcp
+          ToPort: '443'
+          CidrIp: 0.0.0.0/0
+
+  ExecutionRole: 
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "sagemaker.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
+      Policies: 
+        - 
+          PolicyName: "root"
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - 
+                Effect: "Allow"
+                Action: "*"
+                Resource: "*"
+        - 
+          PolicyName: "s3_access"
+          PolicyDocument: 
+            Version: "2012-10-17"
+            Statement: 
+              - 
+                Effect: "Allow"
+                Action: 
+                  - "s3:PutPolicy"
+                  - "s3:DeleteBucket"
+                Resource: "*"                
+# END NOTEBOOK -------------------------------------------------
+
+Outputs:
+
+  NotebookInstance:
+    Value: !GetAtt NotebookInstance.NotebookInstanceName
