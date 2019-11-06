@@ -51,7 +51,7 @@ When AWS CloudFormation has successfully created the stack, you will see the **C
 
 #### Use your stack resources
 
-In this workshop, you'll need to reference the resources created by the CloudFormation stack. You can see the resources that have been created on the [AWS Cloudformation console](https://console.aws.amazon.com/cloudformation). On the **Resources** pane you can see the whole list of resources that have been created. The template does also have a list **Outputs" with resource identifiers that will be used throughout the workshop. To avoid having you copy'ing and pasting them we will load those values as environment variables. 
+In this workshop, you'll need to reference the resources created by the CloudFormation stack. You can see the resources that have been created on the [AWS Cloudformation console](https://console.aws.amazon.com/cloudformation). On the **Resources** pane you can see the whole list of resources that have been created. The template does also have a list **Outputs**"** with resource identifiers that will be used throughout the workshop. To avoid having you copy'ing and pasting them we will load those values as environment variables. 
 
 ```
 export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
