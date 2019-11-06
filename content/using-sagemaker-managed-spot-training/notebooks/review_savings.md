@@ -4,7 +4,7 @@ chapter: false
 weight: 40
 ---
 
-When you completed training jobs, and reviewed the achieved cost savings with Managed Spot Training you should have seen output similar to the following in your Notebook execution.
+As you were working through the example notebooks, and running your training jobs, you may have reviewed the achieved cost savings with Managed Spot Training and seen output similar to the following in your Notebook execution.
 
 
 ```
@@ -19,3 +19,7 @@ In addition to viewing within the context of a Notebook, you can view each train
 2. Navigate to the "***Training jobs***" link located under "***Training***" in the menu bar on the left hand side of the console. ![SageMaker Training Jobs](/images/using-sagemaker-managed-spot-training/cost-1.png)
 3. Click on a completed training job. ![SageMaker Training Jobs](/images/using-sagemaker-managed-spot-training/cost-2.png)
 4. View the achieved cost savings over On-Demand by leveraging Managed Spot Training and running your training jobs on EC2 Spot Instances. ![SageMaker Training Jobs](/images/using-sagemaker-managed-spot-training/cost-3.png)
+
+Additionally, you can leverage AWS Cost Explorer to generate a report that shows the savings over On-Demand.
+
+TBD - Show Steps for Cost Explorer Report
