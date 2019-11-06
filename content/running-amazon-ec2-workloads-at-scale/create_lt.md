@@ -7,7 +7,9 @@ EC2 Launch Templates reduce the number of steps required to create an instance b
 
 You can create a launch template that contains the configuration information to launch an instance. Launch templates enable you to store launch parameters so that you do not have to specify them every time you launch an instance. For example, a launch template can contain the AMI ID, instance type, and network settings that you typically use to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, or a command line tool, you can specify the launch template to use. 
 
-A Launch Template is similar to a launch configuration, in that it specifies instance configuration information; however they provide additional features like versioning and enable you to use the latest features of Amazon EC2 and Auto Scaling Groups with multiple instance types and purchase options.  You can learn more about Launch Templates [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)
+{{% notice note %}}
+You might be wondering how a Launch Template is different from a Launch Configuration. They are similar in that they both specify instance configuration information; however Launch Templates provide additional features like versioning and enable you to use the latest features of Amazon EC2 and Auto Scaling Groups with multiple instance types and purchase options.  You can learn more about Launch Templates [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)
+{{% /notice %}}
 
 You will create a launch template to specify configuration parameters for launching instances in this workshop. 
 
@@ -34,7 +36,7 @@ You will create a launch template to specify configuration parameters for launch
     ```
 
     You should see an output similar to the following:
-    
+
     ```
     {
         "LaunchTemplate": {
