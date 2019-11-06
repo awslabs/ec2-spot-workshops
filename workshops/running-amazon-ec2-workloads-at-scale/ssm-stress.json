@@ -17,7 +17,7 @@
     "Comment": "runningAmazonEC2WorkloadsAtScale stress",
     "Parameters": {
         "commands": [
-            "stress-ng --matrix 0 -t 15m"
+            "stress-ng --matrix 0 -t 30m"
         ]
     }
 }
