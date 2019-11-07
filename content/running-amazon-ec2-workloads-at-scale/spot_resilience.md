@@ -39,7 +39,7 @@ Now our infrastructure is ready to respond to Spot Interruptions. We can't simul
       "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
       "detail-type": "EC2 Spot Instance Interruption Warning",
       "source": "aws.ec2",
-      "account": "243662944502",
+      "account": "123456789012",
       "time": "2019-11-05T11:03:11Z",
       "region": "eu-west-1",
       "resources": [
@@ -66,7 +66,7 @@ Now our infrastructure is ready to respond to Spot Interruptions. We can't simul
 Great result! by leveraging the EC2 Spot Instance Interruption Warning, the Lambda Function detached the instance from the Auto Scaling group and the ELB Target Group, thus draining existing connections before the instance is terminated and launching a replacement instance before the current instance is terminated.
 
   {{% notice warning %}}
-  In a real scenario, EC2 would terminate the instance after two minutes, however in this case we simply mocked up the interruption so the EC2 instance will keep running outside the Auto Scaling group. Go to he EC2 console and terminate the instance that you used on the mock up event yourself.
+  In a real scenario, EC2 would terminate the instance after two minutes. However, in this case, we simply mocked up the interruption so the EC2 instance will keep running outside the Auto Scaling group. Go to he EC2 console and terminate the instance that you used on the mock up event.
   {{% /notice %}}
 \
 \
