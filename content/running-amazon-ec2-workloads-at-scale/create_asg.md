@@ -5,7 +5,7 @@ weight = 100
 
 Amazon EC2 Auto Scaling helps you maintain application availability and allows you to dynamically scale your Amazon EC2 capacity up or down automatically according to conditions you define. You can use Amazon EC2 Auto Scaling for fleet management of EC2 instances to help maintain the health and availability of your fleet and ensure that you are running your desired number of Amazon EC2 instances. You can also use Amazon EC2 Auto Scaling for dynamic scaling of EC2 instances in order to automatically increase the number of Amazon EC2 instances during demand spikes to maintain performance and decrease capacity during lulls to reduce costs. Amazon EC2 Auto Scaling is well suited both to applications that have stable demand patterns or that experience hourly, daily, or weekly variability in usage.
 
-1. Edit **asg.json** update the values of the Target Group created on the previous step, as well as the subnets created by the CloudFormation template..
+1. Edit **asg.json** update the values of the Target Group created on the previous step, as well as the subnets created by the CloudFormation template. Browse the file on the Cloud9 editor to understand the Auto Scaling group configuration.
 
 	```
 	sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s#%publicSubnet1%#$public_subnet1#g" -e "s#%publicSubnet2%#$public_subnet2#g" asg.json
@@ -27,16 +27,16 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 
 1. Create the auto scaling group running:
 
-   ```
-   aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
-   ```
+ 	```
+ 	aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
+ 	```
 
-   {{% notice note %}}
-   This command will not return any output if it is successful.
-   {{% /notice %}}
+ 	{{% notice note %}}
+ 	This command will not return any output if it is successful.
+ 	{{% /notice %}}
 
 	
-1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created Auto Scaling group. Go to the EC2 Instances console and check how many On-Demand instances and how many Spot Instances were deployed - you can do so by using the filter option and selecting Lifecycle = Normal or Spot.
+1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created Auto Scaling group. Go to the EC2 Instances console and check how many On-Demand instances and how many Spot Instances were deployed - you can do so by using the filter option and selecting Lifecycle = Normal or clicking on the "gear" icon on the top-right corner of the console and marking the "Lifecycle" checkbox on the "Instance Attributes" section.
 
 #### Challenge
 Since you deployed one Spot Instance in each Availability Zone, can you verify that the Auto Scaling group selected the lowest-priced Spot Instance in each Availability Zone?\
