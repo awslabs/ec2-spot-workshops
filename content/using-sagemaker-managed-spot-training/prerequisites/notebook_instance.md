@@ -57,4 +57,4 @@ In this workshop, you'll need to reference the resources created by the CloudFor
 
 1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
 
-1. In the stack details pane, click the **Outputs** tab. The only Output of this stack is the name of the SageMaker Notebook Instance you will be connecting to and running a series of example notebooks from. ![CloudFormation Outputs](/images/using-sagemaker-managed-spot-training/1.png)
+1. In the stack details pane, click the **Outputs** tab. The only Output of this stack is the name of the SageMaker Notebook Instance you will be connecting to and running a series of example notebooks from. ![CloudFormation Outputs](/images/using-sagemaker-managed-spot-training/prereq-1.png)

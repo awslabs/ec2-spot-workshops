@@ -8,6 +8,6 @@ weight: 30
 
 2. Double-click on a Notebook and complete each step outlined in the Notebook.
 
-![SageMaker Notebook Instance](/images/using-sagemaker-managed-spot-training/4.png)
+![SageMaker Notebook Instance](/images/using-sagemaker-managed-spot-training/jupyter-3.png)
 
 Each available lab comes in the form of a separate Notebook. Locate the labs you are interested in running and complete each step documented in the notebook. 
