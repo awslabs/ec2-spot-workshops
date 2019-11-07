@@ -42,6 +42,8 @@ When enabling Managed Spot Training, the relevant configuration options are:
     checkpoint_s3_uri="[S3_CHECKPOINT_PATH]",
 ```
 
+### Options Explained
+
 * train_use_spot_instances - Specifies whether to use SageMaker Managed Spot instances for training. If enabled then the train_max_wait arg should also be set.
 * train_max_wait -  Timeout in seconds waiting for spot training instances (default: None). After this amount of time Amazon SageMaker will stop waiting for Spot instances to become available
 * train_max_run - Timeout in seconds for training (default: 24 * 60 * 60). After this amount of time Amazon SageMaker terminates the job regardless of its current status.
