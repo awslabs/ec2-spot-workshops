@@ -1,7 +1,7 @@
 ---
 title: "Understanding and Reporting on Savings"
 chapter: false
-weight: 40
+weight: 50
 ---
 
 As you were working through the example notebooks, and running your training jobs, you may have reviewed the achieved cost savings with Managed Spot Training and seen output similar to the following in your Notebook execution.
