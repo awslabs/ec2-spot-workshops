@@ -27,6 +27,9 @@ If you're running in your own account, make sure you run through these steps to 
 	aws rds delete-db-instance --db-instance-identifier runningAmazonEC2WorkloadsAtScale --skip-final-snapshot
 	
 	aws ec2 delete-launch-template --launch-template-name runningAmazonEC2WorkloadsAtScale
+
+	aws cloudformation delete-stack --stack-name spotinterruptionhandler
+	
 	```
 	
 1. Finally, delete the CloudFormation stack itself.
