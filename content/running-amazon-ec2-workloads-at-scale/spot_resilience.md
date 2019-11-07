@@ -18,39 +18,38 @@ To save time, we will use a CloudFormation template to deploy the Lambda functio
 
 1. Take some time to review the template CloudFormation template and understand what will be launched. Then, execute the following command to deploy the template: 
 
-  ```
-  aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler   
-  --capabilities CAPABILITY_IAM
-  ```
-
+    ```
+    aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler   
+    --capabilities CAPABILITY_IAM
+    ```
 
 1. When the CloudFormation deployment completes (under 2 minutes), open the [AWS Lambda console] (https://console.aws.amazon.com/lambda/home) and click on the newly deployed Function name.\
 1. Feel free to examine the code in the Inline code editor.\
 
-  We can't simulate a real EC2 Spot Interruption, but we can invoke the Lambda Function passing a mocked up CloudWatch event for an EC2 Spot Instance Interruption Warning, and see the result.\
+    We can't simulate a real EC2 Spot Interruption, but we can invoke the Lambda Function passing a mocked up CloudWatch event for an EC2 Spot Instance Interruption Warning, and see the result.\
 
 1. In the top right corner, click the dropdown menu **Select a test event** -> **Configure test events**\
 1. With **Create a new test event** selected, provide an Event name (i.e TestSpotInterruption)\
 1. In the event text box, paste the following:
 
-  ```json
-  {
-    "version": "0",
-    "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
-    "detail-type": "EC2 Spot Instance Interruption Warning",
-    "source": "aws.ec2",
-    "account": "243662944502",
-    "time": "2019-11-05T11:03:11Z",
-    "region": "eu-west-1",
-    "resources": [
-      "arn:aws:ec2:eu-west-1b:instance/<instance-id>"
-    ],
-    "detail": {
-      "instance-id": "<instance-id>",
-      "instance-action": "terminate"
+    ```json
+    {
+      "version": "0",
+      "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
+      "detail-type": "EC2 Spot Instance Interruption Warning",
+      "source": "aws.ec2",
+      "account": "243662944502",
+      "time": "2019-11-05T11:03:11Z",
+      "region": "eu-west-1",
+      "resources": [
+        "arn:aws:ec2:eu-west-1b:instance/<instance-id>"
+      ],
+      "detail": {
+        "instance-id": "<instance-id>",
+        "instance-action": "terminate"
+      }
     }
-  }
-  ```
+    ```
 1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the Instances tab in the bottom pane of the [EC2 Auto Scaling groups console] (console.aws.amazon.com/ec2/autoscaling/home).\
 
 1. Click **Create**\
