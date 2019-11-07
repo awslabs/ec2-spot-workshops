@@ -48,26 +48,3 @@ The **Events** tab displays each major step in the creation of the stack sorted 
 The **CREATE\_IN\_PROGRESS** event is logged when AWS CloudFormation reports that it has begun to create the resource. The **CREATE_COMPLETE** event is logged when the resource is successfully created.
 
 When AWS CloudFormation has successfully created the stack, you will see the **CREATE_COMPLETE** event at the top of the Events tab:
-
-#### Use your stack resources
-
-In this workshop, you'll need to reference the resources created by the CloudFormation stack. The stack has a list of **Outputs** with the resource identifiers. The below command loads the CloudFormation stack outputs into environment variables; you will use these to update configuration files with sed commands as you configure the infrastructure. 
-
-```
-export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
-export stack_name=runningAmazonEC2WorkloadsAtScale
-export code_deploy_bucket=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`codeDeployBucket`].OutputValue' --output text)
-export file_system=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`fileSystem`].OutputValue' --output text)
-export instance_profile=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`instanceProfile`].OutputValue' --output text)
-export event_rule=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`eventRule`].OutputValue' --output text)
-export vpc=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`vpc`].OutputValue' --output text)
-export instance_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`instanceSecurityGroup`].OutputValue' --output text)
-export db_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`dbSecurityGroup`].OutputValue' --output text)
-export lb_sg=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`loadBalancerSecurityGroup`].OutputValue' --output text)
-export lambda_function=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`lambdaDunction`].OutputValue' --output text)
-export sns_topic=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`snsTopic`].OutputValue' --output text)
-export public_subnet1=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`publicSubnet1`].OutputValue' --output text)
-export public_subnet2=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`publicSubnet2`].OutputValue' --output text)
-export db_subnet_group=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`dbSubnetGroup`].OutputValue' --output text)
-export code_deploy_service_role=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`codeDeployServiceRole`].OutputValue' --outputext)
-```

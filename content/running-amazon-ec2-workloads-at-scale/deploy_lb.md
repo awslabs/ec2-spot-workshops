@@ -47,12 +47,12 @@ Each target group routes requests to one or more registered targets, such as EC2
 	tg_arn=$(aws elbv2 describe-target-groups --names runningAmazonEC2WorkloadsAtScale --query TargetGroups[].TargetGroupArn --output text)
 	```
 
-1. Edit **modify-target-group.json** and update the value of **%TargetGroupArn%** with the ARN. Save the file. 
+1. Edit **modify-target-group.json** and update the value of **%TargetGroupArn%** with the ARN.  
 	```
 	sed -i.bak -e "s#%TargetGroupArn%#$tg_arn#g" modify-target-group.json
 	```
 
-1. Modify the target group to set the deregistration_delay_timeout to 2 minutes to match the interruption notification time (default is 5 minutes):
+1. Modify the target group to set the deregistration_delay_timeout to 2 minutes to match the Spot interruption notification time (default is 5 minutes):
 
 	```
 	aws elbv2 modify-target-group-attributes --cli-input-json file://modify-target-group.json

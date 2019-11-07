@@ -17,7 +17,7 @@ You will now deploy your application to the EC2 instances launched by the auto s
 
 1. Take a moment to browse and view the CodeDeploy structure for your application, located in the **codedeploy** directory.
 
-1. You'll need to modify the CodeDeploy deployment scripts in order to implement using the RDS database instance. Edit **codedeploy/scripts/configure_db.sh**. Replace **%endpoint%** with the **Endpoint** of the database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com**
+1. You'll need to modify the CodeDeploy deployment scripts in order to implement using the RDS database instance. Edit **codedeploy/scripts/configure_db.sh**. Replace **%endpoint%** with the **Endpoint** of the database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com** running the following command.
 ). 
 
 	```
@@ -70,7 +70,7 @@ You will get output similiar to the following. This is normal and correct:
 	
 1. Find the value of **codeDeployBucket** in the CloudFormation stack outputs (or run $ echo $code_deploy_bucket). This is the bucket you're using for your code deployments. Browse to the [S3 console](https://s3.console.aws.amazon.com/s3/home) and click on the bucket. You should see your application deployment bundle inside the bucket.
 
-1. Create the CodeDeploy deployment group by editing **deployment-group.json** and replacing the value of **%codeDeployServiceRole%** from the CloudFormation stack outputs with the below command, and then running:
+1. Edit **deployment-group.json** and replace the value of **%codeDeployServiceRole%** from the CloudFormation stack outputs with the below command, and then create the deployment group:
 
 	```
 	cd ..

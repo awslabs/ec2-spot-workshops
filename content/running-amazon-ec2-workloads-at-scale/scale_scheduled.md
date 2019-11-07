@@ -1,6 +1,7 @@
 +++
 title = "Using Scheduled Scaling in ASG"
 weight = 130
+hidden = true
 +++
 
 Scaling based on a schedule allows you to scale your application in response to predictable load changes. For example, every week the traffic to your web application starts to increase on Wednesday, remains high on Thursday, and starts to decrease on Friday. You can plan your scaling activities based on the predictable traffic patterns of your web application.
