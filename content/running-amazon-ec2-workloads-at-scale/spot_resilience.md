@@ -7,20 +7,20 @@ weight = 155
 When EC2 needs the capacity back in a specific capacity pool (a combination of an instance type in an Availability Zone) it could start interrupting the Spot Instances that are running in that AZ, by sending a 2 minute interruption notification, and then terminating the instance. The 2 minute interruption notification is delivered via [EC2 instance meta-data] (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices) as well as CloudWatch Events. 
 
 Let's deploy a Lambda function that would catch the CloudWatch event for `EC2 Spot Instance Interruption Warning` and automatically detach the soon-to-be-terminated instance from the EC2 Auto Scaling group. By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html) API you achieve two things:
-1. You can specify on the API call whether to keep the current desired capacity on the Auto Scaling group, or decrementing it by the number of instances bieng detached. By keeping the same desired capacity, Auto Scaling will immediately launch a replacement instance.
+  1. You can specify on the API call whether to keep the current desired capacity on the Auto Scaling group, or decrementing  it by the number of instances bieng detached. By keeping the same desired capacity, Auto Scaling will immediately launch a   replacement instance.
 
-1. If the Auto Scaling group has a Load Balancer or a Target Group attached (as it's our case), the instance is the instance is deregistered from it. Also, if connection draining is enabled for your load balancer (or target group), Amazon EC2 Auto Scaling waits for in-flight requests to complete (up to the configured timeout; which we have set up to 120 sec)
+  1. If the Auto Scaling group has a Load Balancer or a Target Group attached (as it's our case), the instance is the   instance is deregistered from it. Also, if connection draining is enabled for your load balancer (or target group), Amazon  EC2 Auto Scaling waits for in-flight requests to complete (up to the configured timeout; which we have set up to 120 sec)
 
-You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
+You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/ autoscaling/ec2/userguide/detach-instance-asg.html).
 
 
-To save time, we will use a CloudFormation template to deploy the Lambda function to handle interruptions and the CloudWatch event rule to catch Spot Interruption notifications and subscribe the Lambda function to it. Take some time to review the template. 
+To save time, we will use a CloudFormation template to deploy the Lambda function to handle interruptions and the CloudWatch event rule to catch Spot Interruption notifications and subscribe the Lambda function to it. 
+
+1. Take some time to review the template CloudFormation template and understand what will be launched. Then, execute the following command to deploy the template: 
 
   ```
-  
   aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler   
   --capabilities CAPABILITY_IAM
-  
   ```
 
 
