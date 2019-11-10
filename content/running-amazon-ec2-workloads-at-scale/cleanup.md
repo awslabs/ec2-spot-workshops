@@ -8,6 +8,7 @@ If you're running in an account that was created for you as part of an AWS event
 If you're running in your own account, make sure you run through these steps to make sure you don't encounter unwanted costs.
 {{% /notice %}}
 
+1. If you haven't already, terminate the EC2 instance that was detached from the EC2 Auto Scaling group in the previous step.
 
 1. Delete all manually created resources.
 
@@ -18,7 +19,7 @@ If you're running in your own account, make sure you run through these steps to 
 	
 	aws deploy delete-application --application-name koelApp
 	
-	aws s3 rm s3://%codeDeployBucket% --recursive
+	aws s3 rm s3://$code_deploy_bucket --recursive
 		
 	aws elbv2 delete-load-balancer --load-balancer-arn %loadBalancerArn%
 	
@@ -27,6 +28,9 @@ If you're running in your own account, make sure you run through these steps to 
 	aws rds delete-db-instance --db-instance-identifier runningAmazonEC2WorkloadsAtScale --skip-final-snapshot
 	
 	aws ec2 delete-launch-template --launch-template-name runningAmazonEC2WorkloadsAtScale
+
+	aws cloudformation delete-stack --stack-name spotinterruptionhandler
+	
 	```
 	
 1. Finally, delete the CloudFormation stack itself.

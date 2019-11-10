@@ -26,7 +26,7 @@ You will create a launch template to specify configuration parameters for launch
     # First, this command looks up the latest Amazon Linux 2 AMI
     export ami_id=$(aws ec2 describe-images --owners amazon --filters 'Name=name,Values=amzn2-ami-hvm-2.0.????????-x86_64-gp2' 'Name=state,Values=available' --output json | jq -r '.Images |   sort_by(.CreationDate) | last(.[]).ImageId')
 
-    sed -i.bak -e "s#%instanceProfile%#$instance_profile#g" -e "s/%instanceSecurityGroup%/$instance_sg/g" -e "s#%ami-id%#$ami_id#g" -e "s#%UserData%#$(cat user-data.txt | base64 --wrap=0)g"   launch-template-data.json
+    sed -i.bak -e "s#%instanceProfile%#$instance_profile#g" -e "s/%instanceSecurityGroup%/$instance_sg/g" -e "s#%ami-id%#$ami_id#g" -e "s#%UserData%#$(cat user-data.txt | base64 --wrap=0)#g" launch-template-data.json
     ```
 
 1. Take the time to look at the launch-template-data.json file; and then execute the below command to create the Launch template from the configuration file you have updated.

@@ -6,7 +6,7 @@ pre: "<b>⁃ </b>"
 ---
 
 ## Overview 
-This workshop is designed to get you familiar with the concepts and best practices for requesting Amazon EC2 capacity at scale in a cost optimized architecture.
+This workshop is designed to get you familiar with the concepts and best practices for requesting Amazon EC2 capacity at scale in a cost optimized architecture, leveraging Amazon EC2 Spot instances and EC2 Auto Scaling groups with mixed instance types and purchase options.
 
 ## Setting
 You've been tasked with deploying a next-generation music streaming service. You do extensive research, and determine that [Koel](https://koel.phanan.net/)- a personal music streaming server (*that works)- is the perfect fit.
