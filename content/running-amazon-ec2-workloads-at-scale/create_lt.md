@@ -15,7 +15,7 @@ You will create a launch template to specify configuration parameters for launch
 
 1. Execute the following command to update the file **user-data.txt** with the resources created by the CloudFormation template. The file contains the [User Data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) with the [cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html) directives that will be executed upon instance launch. 
 
-    ```
+    ```bash
     sed -i.bak -e "s/%awsRegionId%/$AWS_REGION/g" -e "s/%fileSystem%/$file_system/g" user-data.txt
     ```
 1. Take a moment to look at the user data script to see the bootstrapping actions that is performing. 
