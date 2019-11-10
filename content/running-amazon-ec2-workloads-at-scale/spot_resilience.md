@@ -55,7 +55,7 @@ Now our infrastructure is ready to respond to Spot Interruptions by detaching Sp
 8\. Click **Create**\
 9\. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.\
 10\. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Instance i-01234567890123456 belongs to AutoScaling Group runningAmazonEC2WorkloadsAtScale. Detaching instance..."\
-11\. Go back to the [EC2 Auto Scaling groups console] (https://console.aws.amazon.com/ec2/autoscaling/home), and under the **Activity History** tab in the bottom pane, you should see a **Detaching EC2 instance** activity, followed shortly after by a **Launching a new EC2 instance** activity.\
+11\. Go back to the [EC2 Auto Scaling groups console] (https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), and under the **Activity History** tab in the bottom pane, you should see a **Detaching EC2 instance** activity, followed shortly after by a **Launching a new EC2 instance** activity.\
 12\. Go to the [EC2 ELB Target Groups console] (https://console.aws.amazon.com/ec2/v2/home?1#TargetGroups:sort=targetGroupName) and click on the **runningAmazonEC2WorkloadsAtScale** Target Group, go to the Targets tab in the bottom pane, you should see the instance in `draining` mode.\
 
 Great result! by leveraging the EC2 Spot Instance Interruption Warning, the Lambda Function detached the instance from the Auto Scaling group and the ELB Target Group, thus draining existing connections, and launching a replacement instance before the current instance is terminated.
