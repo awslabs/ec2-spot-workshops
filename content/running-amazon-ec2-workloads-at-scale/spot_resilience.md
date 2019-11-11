@@ -39,7 +39,7 @@ Now our infrastructure is ready to respond to Spot Interruptions by detaching Sp
   "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
   "detail-type": "EC2 Spot Instance Interruption Warning",
   "source": "aws.ec2",
-  "account": "243662944502",
+  "account": "123456789012",
   "time": "2019-11-05T11:03:11Z",
   "region": "eu-west-1",
   "resources": [
