@@ -29,31 +29,29 @@ To save time, we will use a CloudFormation template to deploy the Lambda Functio
  1. Feel free to examine the code in the Inline code editor.
 
 
-Now our infrastructure is ready to respond to Spot Interruptions by detaching Spot Instances from the Auto Scaling group when they receive a Spot interruption notification. We can't simulate an EC2 Spot Interruption, but we can invoke the Lambda Function with a simulation of a CloudWatch event for an EC2 Spot Instance Interruption Warning, and see the result.\
+Now our infrastructure is ready to respond to Spot Interruptions by detaching Spot Instances from the Auto Scaling group when they receive a Spot interruption notification. We can't simulate an EC2 Spot Interruption, but we can invoke the Lambda Function with a simulation of a CloudWatch event for an EC2 Spot Instance Interruption Warning, and see the result.
 
-  1. In the top right corner of the AWS Lambda console, click the dropdown menu **Select a test event** -> **Configure test events**\
-  1. With **Create a new test event** selected, provide an Event name (i.e TestSpotInterruption). In the event text box, paste the following:\
-
-  ```json
-  {
-    "version": "0",
-    "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
-    "detail-type": "EC2 Spot Instance Interruption Warning",
-    "source": "aws.ec2",
-    "account": "123456789012",
-    "time": "2019-11-05T11:03:11Z",
-    "region": "eu-west-1",
-    "resources": [
-      "arn:aws:ec2:eu-west-1b:instance/<instance-id>"
-    ],
-  "detail": {
-    "instance-id": "<instance-id>",
-    "instance-action": "terminate"
+  1. In the top right corner of the AWS Lambda console, click the dropdown menu **Select a test event** -> **Configure test events**
+  1. With **Create a new test event** selected, provide an Event name (i.e TestSpotInterruption). In the event text box, paste the following:
+    ```json
+    {
+      "version": "0",
+      "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
+      "detail-type": "EC2 Spot Instance Interruption Warning",
+      "source": "aws.ec2",
+      "account": "123456789012",
+      "time": "2019-11-05T11:03:11Z",
+      "region": "eu-west-1",
+      "resources": [
+        "arn:aws:ec2:eu-west-1b:instance/<instance-id>"
+      ],
+    "detail": {
+      "instance-id": "<instance-id>",
+      "instance-action": "terminate"
+      }
     }
-  }
-  ```
-  
-  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the Instances tab in the bottom pane of the [EC2 Auto Scaling groups console] (console.aws.amazon.com/ec2/autoscaling/home).\
+    ```
+  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the Instances tab in the bottom pane of the [EC2 Auto Scaling groups console] (console.aws.amazon.com/ec2/autoscaling/home).
   1. Click **Create**
   1. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.
   1. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Instance i-01234567890123456 belongs to AutoScaling Group runningAmazonEC2WorkloadsAtScale. Detaching instance..."
