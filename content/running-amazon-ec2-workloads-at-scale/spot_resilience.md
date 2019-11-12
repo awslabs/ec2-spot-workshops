@@ -20,9 +20,9 @@ To save time, we will use a CloudFormation template to deploy the Lambda Functio
 
   1. Take some time to review the CloudFormation template and understand what will be launched. Then, execute the following command to deploy the template: 
 
-  ```
-  aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler --capabilities CAPABILITY_IAM
-  ```
+    ```
+    aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler --capabilities CAPABILITY_IAM
+    ```
 
   1. When the CloudFormation deployment completes (under 2 minutes), open the [AWS Lambda console](https://console.aws.amazon.com/lambda/home) and click on the newly deployed Function name.
  
