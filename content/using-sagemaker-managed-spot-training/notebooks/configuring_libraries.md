@@ -1,5 +1,5 @@
 ---
-title: "Configuring Frameworks for Managed Spot Training"
+title: "Configuring Libraries for Managed Spot Training"
 chapter: false
 weight: 40
 ---
