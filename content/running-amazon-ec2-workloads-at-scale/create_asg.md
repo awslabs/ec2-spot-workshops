@@ -7,9 +7,9 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 
 1\. Edit **asg.json** update the values of the Target Group created on the previous step, as well as the subnets created by the CloudFormation template..
 
-	```
-	sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s#%publicSubnet1%#$public_subnet1#g" -e "s#%publicSubnet2%#$public_subnet2#g" asg.json
-	```
+```
+sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s#%publicSubnet1%#$public_subnet1#g" -e "s#%publicSubnet2%#$public_subnet2#g" asg.json
+```
 
 #### Challenge
 The EC2 Auto Scaling group that you are going to deploy supports [multiple purchase options (On-Demand and Spot Instances) and EC2 instance types] (https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/). \
