@@ -21,9 +21,9 @@ If you're running in your own account, make sure you run through these steps to 
 	
 	aws s3 rm s3://$code_deploy_bucket --recursive
 		
-	aws elbv2 delete-load-balancer --load-balancer-arn %loadBalancerArn%
+	aws elbv2 delete-load-balancer --load-balancer-arn $alb_arn
 	
-	aws elbv2 delete-target-group --target-group-arn %targetGroupArn%
+	aws elbv2 delete-target-group --target-group-arn $tg_arn
 	
 	aws rds delete-db-instance --db-instance-identifier runningAmazonEC2WorkloadsAtScale --skip-final-snapshot
 	
