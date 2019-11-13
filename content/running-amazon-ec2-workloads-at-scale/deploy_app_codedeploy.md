@@ -17,8 +17,7 @@ You will now deploy your application to the EC2 instances launched by the auto s
 
 1. Take a moment to browse and view the CodeDeploy structure for your application, located in the **codedeploy** directory.
 
-1. You'll need to modify the CodeDeploy deployment scripts in order to implement using the RDS database instance. Edit **codedeploy/scripts/configure_db.sh**. Replace **%endpoint%** with the **Endpoint** of the database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com** running the following command.
-). 
+1. You'll need to modify the CodeDeploy deployment scripts in order to implement using the RDS database instance. Edit **codedeploy/scripts/configure_db.sh**. Replace **%endpoint%** with the **Endpoint** of the database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com**) running the following command. 
 
 	```
 	# Grab the RDS endpoint
@@ -61,21 +60,21 @@ The CodeDeploy console will not default to your current region. Please make sure
 1. Next, push the application to the CodeDeploy S3 bucket (which you initially loaded on the $code_deploy_bucket environment variable):
 
 	```
-	aws deploy push --application-name koelApp --s3-location s3://$code_deploy_bucket/koelApp.zip --no-ignore-hidden-files
+	aws deploy push --application-name koelApp --s3-location s3://$codeDeployBucket/koelApp.zip --no-ignore-hidden-files
 	```
 {{% notice note %}}
 You will get output similiar to the following. This is normal and correct:	
 *To deploy with this revision, run: aws deploy create-deployment --application-name koelApp --s3-location bucket=runningamazonec2workloadsatscale-codedeploybucket-11wv3ggxcni40,key=koelApp.zip,bundleType=zip,eTag=870b90e201bdca3a06d1b2c6cfcaab11-2 --deployment-group-name <deployment-group-name> --deployment-config-name <deployment-config-name> --description <description>*
 {{% /notice %}}
 	
-1. Find the value of **codeDeployBucket** in the CloudFormation stack outputs (or run $ echo $code_deploy_bucket). This is the bucket you're using for your code deployments. Browse to the [S3 console](https://s3.console.aws.amazon.com/s3/home) and click on the bucket. You should see your application deployment bundle inside the bucket.
+1. Find the value of **codeDeployBucket** in the CloudFormation stack outputs (or run $ echo $codeDeployBucket). This is the bucket you're using for your code deployments. Browse to the [S3 console](https://s3.console.aws.amazon.com/s3/home) and click on the bucket. You should see your application deployment bundle inside the bucket.
 
 1. Edit **deployment-group.json** and replace the value of **%codeDeployServiceRole%** from the CloudFormation stack outputs with the below command, and then create the deployment group:
 
 	```
 	cd ..
 
-	sed -i.bak -e "s#%codeDeployServiceRole%#$code_deploy_service_role#g" deployment-group.json
+	sed -i.bak -e "s#%codeDeployServiceRole%#$codeDeployServiceRole#g" deployment-group.json
 	
 	aws deploy create-deployment-group --cli-input-json file://deployment-group.json
 	```
@@ -89,7 +88,7 @@ The CodeDeploy console will not default to your current region. Please make sure
 1. Finally, edit the application by editing **deployment.json** and replacing the value of **%codeDeployBucket%** from the CloudFormation stack outputs.
 
 	```
-	sed -i.bak -e "s#%codeDeployBucket%#$code_deploy_bucket#g" deployment.json
+	sed -i.bak -e "s#%codeDeployBucket%#$codeDeployBucket#g" deployment.json
 	```
 
 1. Take look at the configuration file and then create a deployment running:

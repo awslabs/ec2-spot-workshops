@@ -23,7 +23,7 @@ Make sure you are in AWS Region designated by the facilitators of the workshop
 
 1. Click **Next**.
 
-1. In the **Specify stack details** section, enter *runningAmazonEC2WorkloadsAtScale* as **Stack name**. (You can use a different name if you want to, but make sure you update it when setting the $stack_name environment variable below. NOTE: The stack name cannot contain spaces.)
+1. In the **Specify stack details** section, enter *runningAmazonEC2WorkloadsAtScale* as **Stack name**. 
 
 1. [Optional] In the **Parameters** section, optionally change the **sourceCidr** to restrict instance ssh/http access and load balancer http access.
 

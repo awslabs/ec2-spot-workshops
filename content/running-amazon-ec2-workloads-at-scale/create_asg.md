@@ -8,7 +8,7 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 1\. Edit **asg.json** update the values of the Target Group created on the previous step, as well as the subnets created by the CloudFormation template..
 
 ```
-sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s#%publicSubnet1%#$public_subnet1#g" -e "s#%publicSubnet2%#$public_subnet2#g" asg.json
+sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" asg.json
 ```
 
 #### Challenge
