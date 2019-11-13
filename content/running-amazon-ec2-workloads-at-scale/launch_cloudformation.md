@@ -23,7 +23,7 @@ Make sure you are in AWS Region designated by the facilitators of the workshop
 
 1. Click **Next**.
 
-1. In the **Specify stack details** section, enter a **Stack name**. For example, use *runningAmazonEC2WorkloadsAtScale*. The stack name cannot contain spaces.
+1. In the **Specify stack details** section, enter *runningAmazonEC2WorkloadsAtScale* as **Stack name**. 
 
 1. [Optional] In the **Parameters** section, optionally change the **sourceCidr** to restrict instance ssh/http access and load balancer http access.
 
@@ -48,13 +48,3 @@ The **Events** tab displays each major step in the creation of the stack sorted 
 The **CREATE\_IN\_PROGRESS** event is logged when AWS CloudFormation reports that it has begun to create the resource. The **CREATE_COMPLETE** event is logged when the resource is successfully created.
 
 When AWS CloudFormation has successfully created the stack, you will see the **CREATE_COMPLETE** event at the top of the Events tab:
-
-#### Use your stack resources
-
-In this workshop, you'll need to reference the resources created by the CloudFormation stack.
-
-1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
-
-1. In the stack details pane, click the **Outputs** tab.
-
-It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.

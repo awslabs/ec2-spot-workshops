@@ -44,7 +44,7 @@
       "SpotInstancePools": 4
     }
   },
-  "MinSize": 2,
+  "MinSize": 4,
   "MaxSize": 12,
   "DesiredCapacity": 4,
   "TargetGroupARNs": [
