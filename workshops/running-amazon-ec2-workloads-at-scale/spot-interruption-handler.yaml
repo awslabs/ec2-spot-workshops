@@ -22,11 +22,12 @@ Resources:
               # Describe tags for the instance that will be interrupted
               try:
                   ec2client = boto3.client('ec2')
-                  describeTags = ec2client.describe_tags(Filters=[{'Name': 'resource-id','Values':[instanceId]}])
+                  describeInstance = ec2client.describe_instances(InstanceIds=[instanceId])
+                  describeTags = describeInstance['Reservations'][0]['Instances'][0]
               except Exception as e:
                   print("No action being taken. Unable to describe tags for instance id:", instanceId)
                   print(e)
-                  return
+                  raise
           
               # Check if the instance belongs to ASG
               asg=''
@@ -46,7 +47,8 @@ Resources:
                   except Exception as e:
                       print("No action taken. Unable to detach instance {id} from AutoScaling Group {asg_name}".format(id=instanceId,asg_name=asg))
                       print(e)
-                      return
+                      raise
+
               print(response['Activities'][0]['Cause'])
               return
       Runtime: python3.7
@@ -85,7 +87,7 @@ Resources:
           - Effect: Allow
             Action:
             - autoscaling:DetachInstances
-            - ec2:DescribeTags
+            - ec2:DescribeInstances
             Resource: '*'
   
   ClodudWatchEventRule:
