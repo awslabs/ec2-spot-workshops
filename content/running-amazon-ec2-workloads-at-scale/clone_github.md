@@ -22,7 +22,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 
 
 1. As you will neeed to modify the configuration files to refer to the identifiers of the resources created by the CloudFormation stack, run the following command to load the CloudFormation **Outputs** to environment variables. You will use these environment variables throughout the workshop to edit the files with *[sed](https://linux.die.net/man/1/sed)*.
-	```
+	```bash
 	export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
 	export stack_name=runningAmazonEC2WorkloadsAtScale
 
