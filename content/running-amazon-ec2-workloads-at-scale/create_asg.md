@@ -48,4 +48,9 @@ Hint: Use the [Spot Instance Pricing History] (https://docs.aws.amazon.com/AWSEC
 1. In the [EC2 Instances console page] (https://console.aws.amazon.com/ec2/v2/home?#Instances), find your Spot Instances by filtering for Lifecycle=Spot.
 2. Determine which Spot Instance type was deployed in each AZ.
 3. In the [EC2 Spot Instances console] (https://console.aws.amazon.com/ec2sp/v1/spot/home), click the Price History button and check the current Spot price for the Spot Instance that you deployed. You can compare it to the other instance types in the list of Overrides in your asg.json configuration.
+
+
+Example of the Spot Price History tool in the EC2 Spot console, showing the current Spot price for m5.large in the eu-west-1 region.
+![spotpricehistory](/images/running-amazon-ec2-workloads-at-scale/spotpricehistory.png)
+
 {{% /expand %}}
