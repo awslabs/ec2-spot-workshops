@@ -75,7 +75,7 @@ In a previous step in this workshop, you learned that the EC2 Auto Scaling group
 How can you increase the resilience of the Koel music streaming application that you deployed in this workshop, when using EC2 Spot Instances?
 
 {{%expand "Click here for the answer" %}}
-1. Add an Availability Zone - the EC2 Auto Sclaing groups is currently deployed in two AZs. By adding an AZ to your application, you will tap into more EC2 Spot capacity pools, further diversifying your usage and decreasing the blast radius in case a Spot interruption occurs in one of the Spot capacity pools.
+1. Add an Availability Zone - the EC2 Auto Scaling group is currently deployed in two AZs. By adding an AZ to your application, you will tap into more EC2 Spot capacity pools, further diversifying your usage and decreasing the blast radius in case a Spot interruption occurs in one of the Spot capacity pools.
 2. Add Instance Types - the 9 instance types that are configured in the Auto Scaling group have small performance variability, so it's possible to run all these instance types in a single ASG and scale on the same dynamic scaling policy. Are there any other instance types that can be added?
 3. Increase SpotInstancePools - The ASG is configured to fulfill the 4 lowest-priced instance types. Increase this number to further diversify the usage of capacity pools and decrease the blast radius.
 {{% /expand %}}
