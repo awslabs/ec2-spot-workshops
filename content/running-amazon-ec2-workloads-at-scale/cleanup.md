@@ -22,6 +22,8 @@ If you're running in your own account, make sure you run through these steps to 
 	aws s3 rm s3://$codeDeployBucket --recursive
 		
 	aws elbv2 delete-load-balancer --load-balancer-arn $alb_arn
+
+	sleep 5
 	
 	aws elbv2 delete-target-group --target-group-arn $tg_arn
 	
