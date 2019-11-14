@@ -11,7 +11,6 @@ To save time on the initial setup, a CloudFormation template will be used to cre
 
 1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/using-sagemaker-managed-spot-trraining/sagemaker-workshop.yaml).
 
-REMOVE ME BEFORE PUBLISH TEMPORARY DRAFT: You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/horsfieldsa/ec2-spot-workshops/workshop-sagemaker-managed-spot-training/workshops/using-sagemaker-managed-spot-training/sagemaker-workshop.yaml).
                                                                             
 1. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 
