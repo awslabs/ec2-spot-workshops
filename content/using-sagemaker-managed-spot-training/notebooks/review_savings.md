@@ -23,3 +23,9 @@ In addition to viewing within the context of a Notebook, you can view each train
 2. Navigate to the "***Training jobs***" link located under "***Training***" in the menu bar on the left hand side of the console. ![SageMaker Training Jobs](/images/using-sagemaker-managed-spot-training/cost-1.png)
 3. Click on a completed training job. ![SageMaker Training Jobs](/images/using-sagemaker-managed-spot-training/cost-2.png)
 4. View the achieved cost savings over On-Demand by leveraging Managed Spot Training and running your training jobs on EC2 Spot Instances. ![SageMaker Training Jobs](/images/using-sagemaker-managed-spot-training/cost-3.png)
+
+### Manually
+
+You can calculate the savings from using managed spot training using the formula (1 - BillableTimeInSeconds / TrainingTimeInSeconds) * 100. 
+
+For example, if BillableTimeInSeconds is 100 and TrainingTimeInSeconds is 500, the savings is 80%.

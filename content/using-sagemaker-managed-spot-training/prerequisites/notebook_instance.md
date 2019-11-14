@@ -1,6 +1,6 @@
 ---
 title: "Create an Amazon SageMaker Notebook Instance"
-weight: 10
+weight: 20
 ---
 
 ### Launch the CloudFormation stack

@@ -104,7 +104,7 @@ Resources:
   NotebookInstance:
     Type: AWS::SageMaker::NotebookInstance
     Properties:
-      InstanceType: "ml.t2.medium"
+      InstanceType: "ml.t2.large"
       RoleArn: !GetAtt ExecutionRole.Arn
       SubnetId: !Ref Subnet1
       SecurityGroupIds:
