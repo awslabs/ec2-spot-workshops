@@ -93,9 +93,7 @@ Snapshots are saved to an Amazon S3 location you specify. You can configure the 
 
 To enable checkpoints, provide an Amazon S3 location. You can optionally provide a local path and choose to use a shared folder.
 
-### Timeouts
-
-Add Explaination Here
+Be aware that not all algorithms support checkpointing. SageMaker built-in algorithms and marketplace algorithms that do not checkpoint are currently limited to a MaxWaitTimeInSeconds of 3600 seconds (60 minutes)
 
 ### Additional Learning
 
