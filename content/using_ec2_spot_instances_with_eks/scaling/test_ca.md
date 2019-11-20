@@ -34,7 +34,7 @@ Execute the following command:
 kubectl scale deployment/monte-carlo-pi-service --replicas=0
 ```
 
-**Challenge:** Can you predict what would be the result of scaling down to 0 replicas ?
+**Question:** Can you predict what would be the result of scaling down to 0 replicas ?
 
 {{%expand "Show me the answer" %}}
 The configuration that we applied to procure our nodegroups states that the minimum number of instances in the 
@@ -47,15 +47,30 @@ By setting the number of replicas to 0, Cluster Autoscaler will detect that the 
 I1120 00:22:37.204988       1 static_autoscaler.go:382] ip-192-168-54-241.eu-west-1.compute.internal is unneeded since 2019-11-20 00:21:16.651612719 +0000 UTC m=+4789.747568996 duration 1m20.552551794s
 ```
 
+After some time, you should be able to confirm that running `kubectl get nodes` return only our 2 initial nodes:
+
+```
+$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-22-131.eu-west-1.compute.internal   Ready    <none>   46m   v1.14.7-eks-1861c5
+ip-192-168-37-80.eu-west-1.compute.internal    Ready    <none>   46m   v1.14.7-eks-1861c5
+```
+
+{{% notice tip %}}
+Check in the AWS console that both auto-scaling groups have now the Desired capacity set to 0. You can **[follow this link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details)** to get into the Auto Scaling Group AWS console.
+{{% /notice %}}
+
+
+
 {{% /expand %}}
 
 
 
 ### Scale our ReplicaSet
 
-OK, let's now scale out the replicaset to 10
+OK, let's now scale out the replicaset to 3 
 ```
-kubectl scale deployment/monte-carlo-pi-service --replicas=10
+kubectl scale deployment/monte-carlo-pi-service --replicas=3
 ```
 
 You can confirm the state of the pods using
@@ -68,19 +83,12 @@ NAME                                     READY   STATUS    RESTARTS   AGE
 monte-carlo-pi-service-584f6ddff-fk2nj   1/1     Running   0          20m21s
 monte-carlo-pi-service-584f6ddff-fs9x6   1/1     Running   0          103s
 monte-carlo-pi-service-584f6ddff-jst55   1/1     Running   0          103s
-monte-carlo-pi-service-584f6ddff-mncqv   1/1     Running   0          103s
-monte-carlo-pi-service-584f6ddff-n5qvk   1/1     Running   0          103s
-monte-carlo-pi-service-584f6ddff-nfnqx   1/1     Running   0          103s
-monte-carlo-pi-service-584f6ddff-p8ghf   1/1     Running   0          2m29s
-monte-carlo-pi-service-584f6ddff-q8ckn   1/1     Running   0          20m21s
-monte-carlo-pi-service-584f6ddff-t9tdr   1/1     Running   0          103s
-monte-carlo-pi-service-584f6ddff-zlg8b   1/1     Running   0          103s
 ```
 You should also be able to visualize the scaling action using kube-ops-view. Kube-ops-view provides an option to highlight pods meeting a regular expression. All pods in green are **monte-carlo-pi-service** pods.
 ![Scaling up to 10 replicas](/images/using_ec2_spot_instances_with_eks/scaling/scaling-kov-10-replicas.png)
 
 {{% notice info %}}
-So far Cluster Autoscaler did not scale the cluster. Note how the pods deployed by the replicaset ended up distributed in the two available nodes. Kube-ops-view does also display a bar on the left of each node, showing the node capacity status. Both nodes appear to be under capacity pressure !
+Given we started from 0 capacity in both Ec2Spot nodegroups, this should trigger a scaling event for Cluster Autoscaler. Can you predict which size (and type!) of node will be provided ? 
 {{% /notice %}}
 
 #### Challenge
@@ -89,9 +97,10 @@ Try to answer the following questions:
 
  - Could you predict what should happen if we increase the number of replicas to 13 ? 
  - How would you scale up the replicas to 13 ? 
- - If you are expecting a new node, which size will it be: (a) 4vCPU's 16GB RAM or (b) 8vCPU's 32GB RAM ?
+ - If you are expecting a new node, which size will it be: (a) 4vCPU's 16GB RAM or (b) 8vCPU's 32GB RAM ? 
  - Which AWS instance type you would expect to be selected ?
  - How would you confirm your predictions ?
+ - Would you consider the selection of nodes by Cluster Autoscaler as optimal ? 
 
 {{%expand "Show me the answers" %}}
 To scale up the number of replicas run:
@@ -148,11 +157,11 @@ workshop at a AWS event or with limited time, we recommend to come back to this 
 completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * How would you expect Cluster Autoscaler to Scale-in the cluster ? How about scaling out ? How much time you'll expect for it to take ?
+ * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
+
+ * How would you expect Cluster Autoscaler to Scale in the cluster ? How about scaling out ? How much time you'll expect for it to take ?
 
  * How will pods be removed when scaling down? From which nodes they will be removed? What is the effect of adding [Pod Disruption Budget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) to this mix ? 
-
- * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case? 
 
  * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy, using the 4 cheapest pools in each AZ. Can you think of a different alternative **allocation strategy** to help reduce the frequency of interruptions on EC2 Spot nodes? What would be the pros and cons of using a different allocation strategy on a front-end production system ?
 
