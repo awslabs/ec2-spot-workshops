@@ -13,11 +13,16 @@ kubectl edit deployment cluster-autoscaler -n kube-system
 ```
 2\. Under the two `--nodes=` lines where you configured your EC2 Auto Scaling group names in the previous module, add another line with the name of the new Jenkins dedicated nodegroup, so your file looks like this (but with different ASG names which you collected from the EC2 Management Console)\
 ```
---nodes=1:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-16XJ6GMZCT3XQ
---nodes=1:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1RBXH0I6585MX
---nodes=1:5:eksctl-eksworkshop-eksctl10-nodegroup-jenkins-agents-2vcpu-8gb-spot-2-NodeGroup-7GE4LS6B34DK
+--nodes=0:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-16XJ6GMZCT3XQ
+--nodes=0:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1RBXH0I6585MX
+--nodes=0:5:eksctl-eksworkshop-eksctl10-nodegroup-jenkins-agents-2vcpu-8gb-spot-2-NodeGroup-7GE4LS6B34DK
 ```
 3\. Once you save/quit the file with `:x!`, the new configuration will apply\
+
+{{% notice tip %}}
+CI/CD workloads can benefit of Cluster Autoscaler ability to scale down to 0! Capacity will 
+be provided just when needed, which increases further cost savings.
+{{% /notice %}}
 
 #### Running multiple Jenkins jobs to reach a Pending pods state
 If we replicate our existing Sleep-2m job and run it 5 times, that should be enough for the EC2 Instance in the Jenkins dedicated nodegroup to run out of resources (CPU/Mem), triggering a Scale Up activity from cluster-autoscaler to increase the size of the EC2 Auto Scaling group.\

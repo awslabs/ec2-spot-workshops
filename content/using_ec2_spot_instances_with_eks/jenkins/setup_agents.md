@@ -20,8 +20,9 @@ metadata:
     region: $AWS_REGION
 nodeGroups:
     - name: jenkins-agents-2vcpu-8gb-spot
-      minSize: 1
+      minSize: 0
       maxSize: 5
+      desiredCapacity: 1
       instancesDistribution:
         instanceTypes: ["m5.large", "m5d.large", "m4.large","t3.large","t3a.large","m5a.large","t2.large"] 
         onDemandBaseCapacity: 0
@@ -31,6 +32,7 @@ nodeGroups:
         lifecycle: Ec2Spot
         intent: jenkins-agents
       tags:
+          k8s.io/cluster-autoscaler/node-template/label/lifecycle: Ec2Spot
           k8s.io/cluster-autoscaler/node-template/label/intent: jenkins-agents
 EoF
 ```

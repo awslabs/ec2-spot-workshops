@@ -43,21 +43,22 @@ Place this at the end of the DaemonSet manifest under **spec.template.spec.**nod
 
 If you need a reference of where those two lines should be inserted, check the highlighted text and line numbers in the section below. Note the syntax in the hierarchy maps with **spec.template.spec.**nodeSelector.
 
-{{< highlight bash "linenos=table,hl_lines=11-12,linenostart=56" >}}
+{{< highlight bash "linenos=table,hl_lines=10-11,linenostart=74" >}}
 spec:
   selector:
     matchLabels:
-      app: spot-interrupt-handler
+      app: node-termination-handler
   template:
     metadata:
       labels:
-        app: spot-interrupt-handler
+        app: node-termination-handler
     spec:
-      serviceAccountName: spot-interrupt-handler
       nodeSelector:
         lifecycle: Ec2Spot
       containers:
-      - name: spot-interrupt-handler
+      - env:
+        - name: NODE_NAME
+          valueFrom:
 {{< / highlight >}}
 
 {{% /expand %}}
@@ -78,7 +79,7 @@ If you receive an error deploying the DaemonSet, there is likely a small error i
 View the pods. There should be one for each spot node.
 
 ```
-kubectl get daemonsets
+kubectl get daemonsets --all-namespaces
 ```
 
 {{% notice note %}}

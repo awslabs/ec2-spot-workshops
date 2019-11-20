@@ -7,7 +7,7 @@ weight: 30
 #### Install Jenkins
 
 ```
-helm install stable/jenkins --set rbac.create=true,master.servicePort=80 --name cicd
+helm install stable/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer --name cicd
 ```
 
 The output of this command will give you some additional information such as the

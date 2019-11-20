@@ -7,7 +7,7 @@ weight: 60
 
 #### Challenge
 
-As oppose to the stateless web application that we deployed previously in the workshop, Jenkins jobs are not fault-tolerant, meaning that an EC2 Spot interruption on an instance that is running a job, will cause the job to fail. 
+As opposed to the stateless web application that we deployed previously in the workshop, Jenkins jobs are not fault-tolerant, meaning that an EC2 Spot interruption on an instance that is running a job, will cause the job to fail. 
 Is there anything we can do to decrease the chances of having Spot interruptions, when EC2 needs the capacity back?\
 Hint: read or skim through the following [article] (https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)
 
