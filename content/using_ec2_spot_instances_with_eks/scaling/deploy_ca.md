@@ -39,14 +39,14 @@ Using the file browser on the left, open **cluster-autoscaler/cluster_autoscaler
 
  * Search for the block in the file containing this two lines.
  ```
-            - --nodes=1:5:<AUTOSCALING GROUP NAME 4vCPUS 16GB RAM>
-            - --nodes=1:5:<AUTOSCALING GROUP NAME 8vCPUS 32GB RAM>
+            - --nodes=0:5:<AUTOSCALING GROUP NAME 4vCPUS 16GB RAM>
+            - --nodes=0:5:<AUTOSCALING GROUP NAME 8vCPUS 32GB RAM>
  ```
 
  * Replace the content **<AUTOSCALING GROUP NAME xVPUS xxGB RAM>** with the actual names of the two nodegroups. The following shows an example configuration.
  ```
-            - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1V6PX51MY0KGP
-            - --nodes=1:5:eksctl-eksworkshop-eksctl-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-S0A0UGWAH5N1
+            - --nodes=0:5:eksctl-eksworkshop-eksctl-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1V6PX51MY0KGP
+            - --nodes=0:5:eksctl-eksworkshop-eksctl-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-S0A0UGWAH5N1
  ```
 
  * **Save** the file

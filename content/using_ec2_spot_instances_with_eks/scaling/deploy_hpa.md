@@ -46,7 +46,7 @@ status:
 We will set up a rule to scales up when CPU exceeds 50% of the allocated container resource.
 
 ```
-kubectl autoscale deployment monte-carlo-pi-service --cpu-percent=50 --min=4 --max=50
+kubectl autoscale deployment monte-carlo-pi-service --cpu-percent=50 --min=3 --max=100
 ```
 
 View the HPA using kubectl. You probably will see `<unknown>/50%` for 1-2 minutes and then you should be able to see `0%/50%`

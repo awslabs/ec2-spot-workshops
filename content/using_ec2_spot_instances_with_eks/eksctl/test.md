@@ -4,10 +4,10 @@ date: 2018-08-07T13:36:57-07:00
 weight: 30
 ---
 #### Test the cluster:
-Confirm your Nodes:
+Confirm your Nodes, if we see our 2 nodes, we know we have authenticated correctly:
 
 ```
-kubectl get nodes # if we see our 1 nodes, we know we have authenticated correctly
+kubectl get nodes 
 ```
 
 Export the Worker Role Name for use throughout the workshop
@@ -23,3 +23,7 @@ echo "export INSTANCE_PROFILE_ARN=${INSTANCE_PROFILE_ARN}" >> ~/.bash_profile
 #### Congratulations!
 
 You now have a fully working Amazon EKS Cluster that is ready to use!
+
+{{% notice tip %}}
+Explore the Elastic Kubernetes Service (EKS) section in the AWS Console and the properties of the newly created EKS cluster.
+{{% /notice %}}

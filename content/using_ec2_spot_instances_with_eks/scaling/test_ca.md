@@ -25,9 +25,35 @@ kubectl logs -f deployment/cluster-autoscaler -n kube-system --tail=10
 ```
 {{% /expand %}}
 
+### Scaling down to 0
+
+Before we scale up our cluster let's explore what would happen when set up 0 replicas. 
+Execute the following command: 
+
+```
+kubectl scale deployment/monte-carlo-pi-service --replicas=0
+```
+
+**Challenge:** Can you predict what would be the result of scaling down to 0 replicas ?
+
+{{%expand "Show me the answer" %}}
+The configuration that we applied to procure our nodegroups states that the minimum number of instances in the 
+auto scaling group is 0 for both nodegroups. Starting from 1.14 version Cluster Autoscaler does support 
+scaling down to 0. 
+
+By setting the number of replicas to 0, Cluster Autoscaler will detect that the current instances are idle and can be removed. This may take up to 3 minutes. Cluster autoscaler will log lines such as the one below flagging that the instance is unneeded. 
+
+```
+I1120 00:22:37.204988       1 static_autoscaler.go:382] ip-192-168-54-241.eu-west-1.compute.internal is unneeded since 2019-11-20 00:21:16.651612719 +0000 UTC m=+4789.747568996 duration 1m20.552551794s
+```
+
+{{% /expand %}}
+
+
+
 ### Scale our ReplicaSet
 
-OK, let's scale out the replicaset to 10
+OK, let's now scale out the replicaset to 10
 ```
 kubectl scale deployment/monte-carlo-pi-service --replicas=10
 ```
@@ -110,7 +136,7 @@ The Autoscaling group selected by Cluster Autoscaler, will invoke the lowest-pri
 
 After you've completed the exercise, scale down your replicas back down in preparation for the configuration of Horizontal Pod Autoscheduler.
 ```
-kubectl scale deployment/monte-carlo-pi-service --replicas=4
+kubectl scale deployment/monte-carlo-pi-service --replicas=3
 ```
 
 
