@@ -115,7 +115,7 @@ The CodeDeploy console will not default to your current region. Please make sure
 	```
 	mkdir -p ~/environment/media
 
-	sudo mount -t efs $file_system:/ ~/environment/media
+	sudo mount -t efs $fileSystem:/ ~/environment/media
 	
 	sudo chown ec2-user. ~/environment/media
 	
