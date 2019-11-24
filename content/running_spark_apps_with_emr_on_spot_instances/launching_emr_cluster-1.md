@@ -14,7 +14,7 @@ To launch the cluster, follow these steps:\
 1. Click "**Create Cluster**"\
 1. Click "**Go to advanced options**"\
 1. Select the latest EMR release, and in the list of components, only leave **Hadoop** checked and also check **Spark** and **Ganglia** (we will use it later to monitor our cluster)\
-1. Under "**Add steps (Optional)**" -> Step type drop down menu, select "**Spark application**" and click **Configure**, then add the following details in the Add step dialog window:\
+1. Under "**Steps (Optional)**" -> Step type drop down menu, select "**Spark application**" and click **Add step**, then add the following details in the Add step dialog window:\
 
 * **Spark-submit options**: here we will configure the memory and core count for each executor, as described in the previous section. Use these settings (make sure you have two '-' chars):\
 ```
@@ -40,7 +40,7 @@ Then add the location of the file under the **Application location** field, i.e:
 
 ![sparksubmit](/images/running-emr-spark-apps-on-spot/sparksubmitstep1.png)
 
-Do no check the **Auto-terminate cluster after the last step is completed** option. Since we are looking to examine the cluster during and after the Spark application run, we might end up with a terminated cluster before we complete the next steps in the workshop.
+In the **After last step completes** selection, make sure that the "**Clusters enters waiting state**" option is checked. Since we are looking to examine the cluster during and after the Spark application run, we might end up with a terminated cluster before we complete the next steps in the workshop, if we opt to auto-terminate the cluster after our step is completed.
 
 {{% notice note %}}
 **Auto-terminate cluster after the last step is completed** is a powerful EMR feature that is used for running transient clusters. This is an effective model for clusters that perform periodic processing tasks, such as a daily data processing run, event-driven ETL workloads, etc.
