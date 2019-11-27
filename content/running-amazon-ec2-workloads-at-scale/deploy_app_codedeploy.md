@@ -57,7 +57,7 @@ The CodeDeploy console will not default to your current region. Please make sure
 {{% /notice %}}
 
 
-1. Next, push the application to the CodeDeploy S3 bucket (which you initially loaded on the $code_deploy_bucket environment variable):
+1. Next, push the application to the CodeDeploy S3 bucket (which you initially loaded on the $codeDeployBucket environment variable):
 
 	```
 	aws deploy push --application-name koelApp --s3-location s3://$codeDeployBucket/koelApp.zip --no-ignore-hidden-files
