@@ -284,9 +284,10 @@ Resources:
                 #!/bin/bash
 
                 # Update and Install dependencies
-                curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -                          
+                curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - 
+                yum -y install nodejs
                 yum -y --security update
-                yum -y install aws-cli git emacs nano aws-cfn-bootstrap python-numpy python-matplotlib python-zmq nodejs
+                yum -y install aws-cli git emacs nano aws-cfn-bootstrap python-numpy python-matplotlib python-zmq 
                 yum update -y
                 yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
                 pip3 install pandas_datareader yfinance
