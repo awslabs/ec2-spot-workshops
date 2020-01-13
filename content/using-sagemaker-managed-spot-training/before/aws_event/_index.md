@@ -7,7 +7,7 @@ weight = 5
 ### Running the workshop at an AWS Event
 
 {{% notice warning %}}
-Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own](/running-amazon-ec2-workloads-at-scale/before/self_paced.html).
+Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own](/using-sagemaker-managed-spot-training/before/self_paced.html)
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal

@@ -52,7 +52,7 @@ When AWS CloudFormation has successfully created the stack, you will see the **C
 
 #### Use your stack resources
 
-In this workshop, you'll need to reference the resources created by the CloudFormation stack.
+In this workshop, you'll need to reference the Notebook Instance created by the CloudFormation stack.
 
 1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
 

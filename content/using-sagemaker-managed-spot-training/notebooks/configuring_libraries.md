@@ -1,15 +1,15 @@
 ---
 title: "Configuring Libraries for Managed Spot Training"
 chapter: false
-weight: 40
+weight: 30
 ---
 
-Multiple libraries and SDKs such as the AWS Python SDK (boto) and the Amazon SageMaker Python SDK support executing training jobs with Spot Instances. This workshop provides example notebooks that leverage multiple popular libraries and SDKs so that when working through the workshop you can choose to gain experience with those most relevant to your workload, or you can execute all of them as time permits to become familiar with various alternatives.
+Multiple libraries and SDKs such as the AWS Python SDK (boto3) and the Amazon SageMaker Python SDK support executing training jobs with Spot Instances. This workshop provides example notebooks that leverage multiple popular libraries and SDKs so that when working through the workshop you can choose to gain experience with those most relevant to your workload, or you can execute all of them as time permits to become familiar with various alternatives.
 
 ## Available Notebooks
 
 * sagemaker-deepar.ipynb - Example notebook for training and hosting a DeepAR model with the SageMaker Python SDK
-* sagemaker-xgboost.ipynb - Example notebook for single instance and distributed training of an XGBoost model with the AWS Python SDK (boto)
+* sagemaker-xgboost.ipynb - Example notebook for single instance and distributed training of an XGBoost model with the AWS Python SDK (boto3)
 
 ## SageMaker Python SDK
 
@@ -57,9 +57,9 @@ When enabling Managed Spot Training, the relevant configuration options are:
 * checkpoint_s3_uri - The S3 URI in which to persist checkpoints that the algorithm persists (if any) during training
 
 
-## AWS Python SDK (boto)
+## AWS Python SDK (boto3)
 
-Some of the example notebooks available in this workshop leverage the AWS Python SDK (boto) to create and execute training jobs. Similar to the SageMaker Python SDK, you can configure your training jobs with the AWS Python SDK (boto) to leverage Spot Instances. The configuration format is different for this SDK, and when creating a training job you provide a JSON input object that defines configuration options.
+Some of the example notebooks available in this workshop leverage the AWS Python SDK (boto3) to create and execute training jobs. Similar to the SageMaker Python SDK, you can configure your training jobs with the AWS Python SDK (boto3) to leverage Spot Instances. The configuration format is different for this SDK, and when creating a training job you provide a JSON input object that defines configuration options.
 
 ### Options Explained
 

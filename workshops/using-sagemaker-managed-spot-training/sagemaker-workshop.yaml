@@ -110,6 +110,7 @@ Resources:
       SecurityGroupIds:
         - !Ref SecurityGroup
       DefaultCodeRepository: !Ref DefaultCodeRepository
+      VolumeSizeInGB: 20
   
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -136,16 +137,9 @@ Resources:
             Action: 
               - "sts:AssumeRole"
       Path: "/"
-      Policies: 
-        - 
-          PolicyName: "root"
-          PolicyDocument: 
-            Version: "2012-10-17"
-            Statement: 
-              - 
-                Effect: "Allow"
-                Action: "*"
-                Resource: "*"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+      Policies:
         - 
           PolicyName: "s3_access"
           PolicyDocument: 
@@ -154,9 +148,9 @@ Resources:
               - 
                 Effect: "Allow"
                 Action: 
-                  - "s3:PutPolicy"
+                  - "s3:PutBucketPolicy"
                   - "s3:DeleteBucket"
-                Resource: "*"                
+                Resource: "arn:aws:s3:::sagemaker-*"                
 # END NOTEBOOK -------------------------------------------------
 
 Outputs:
