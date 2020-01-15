@@ -8,8 +8,11 @@ Multiple libraries and SDKs such as the AWS Python SDK (boto3) and the Amazon Sa
 
 ## Available Notebooks
 
-* sagemaker-deepar.ipynb - Example notebook for training and hosting a DeepAR model with the SageMaker Python SDK
-* sagemaker-xgboost.ipynb - Example notebook for single instance and distributed training of an XGBoost model with the AWS Python SDK (boto3)
+* sagemaker-built-in-deepar - Example notebook for training and hosting a DeepAR model with the SageMaker Python SDK.
+* sagemaker-built-in-xgboost - Example notebook for single instance and distributed training of an XGBoost model with the AWS Python SDK (boto3).
+* sagemaker-built-in-image-classification - Example notebook for single instance training of an image classification model with the AWS Python SDK (boto3). 
+* sagemaker-built-in-object-detection - Example notebook for initial and incremental training of an object detection model with the SageMaker Python SDK.
+* sagemaker-custom-tensorflow - Example notebook for training a cutomer model with your own TensorFlow container with the SageMaker Python SDK.
 
 ## SageMaker Python SDK
 
