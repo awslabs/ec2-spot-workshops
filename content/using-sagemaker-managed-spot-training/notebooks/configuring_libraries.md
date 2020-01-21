@@ -14,7 +14,9 @@ Multiple libraries and SDKs such as the AWS Python SDK (boto3) and the Amazon Sa
 * sagemaker-built-in-object-detection - Example notebook for initial and incremental training of an object detection model with the SageMaker Python SDK.
 * sagemaker-custom-tensorflow - Example notebook for training a cutomer model with your own TensorFlow container with the SageMaker Python SDK.
 
-{{% notice info %}} You can browse all available notebooks in the [EC2 Spot Labs GitHub Repository](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-sagemaker-managed-spot-training) {{% /notice %}}
+{{% notice info %}} 
+You can browse all available notebooks in the [EC2 Spot Labs GitHub Repository](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-sagemaker-managed-spot-training) 
+{{% /notice %}}
 
 ## SageMaker Python SDK
 
@@ -98,7 +100,9 @@ Snapshots are saved to an Amazon S3 location you specify. You can configure the 
 
 To enable checkpoints, provide an Amazon S3 location. You can optionally provide a local path and choose to use a shared folder.
 
-{{% notice info %}} Be aware that not all algorithms support checkpointing. SageMaker built-in algorithms and marketplace algorithms that do not checkpoint are currently limited to a MaxWaitTimeInSeconds of 3600 seconds (60 minutes). {{% /notice %}}
+{{% notice warning %}} 
+Be aware that not all algorithms support checkpointing. SageMaker built-in algorithms and marketplace algorithms that do not checkpoint are currently limited to a MaxWaitTimeInSeconds of 3600 seconds (60 minutes). 
+{{% /notice %}}
 
 ### Additional Learning
 
