@@ -107,7 +107,7 @@ Some of this exercises will take time for Horizontal Pod Autoscaler and Cluster 
 workshop at a AWS event or with limited time, we recommend to come back to this section once you have completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * While kube-ops-view is great to get an intuition of how the cluster status is at a specific point in time, it is not great to see changes over time. Run through the **[MONITORING USING PROMETHEUS AND GRAFANA](https://eksworkshop.com/monitoring/)** module in the https://eksworkshop.com. Install grafana public dashboard [#6417](https://grafana.com/grafana/dashboards/6417). Re-run the same scaling exercise and see how available resources and requested resources evolve.
+ * While kube-ops-view is great to get an intuition of how the cluster status is at a specific point in time, it is not great to see changes over time. Run through the **[MONITORING USING PROMETHEUS AND GRAFANA](https://eksworkshop.com/intermediate/240_monitoring/)** module in the https://eksworkshop.com. Install grafana public dashboard [#6417](https://grafana.com/grafana/dashboards/6417). Re-run the same scaling exercise and see how available resources and requested resources evolve.
 
  * Check the `~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py`. Comment line 18 and uncomment line 19. This will display requests timeouts. Re-run the test starting from the original setup and see what's the impact and how many timeouts we had. 
 
