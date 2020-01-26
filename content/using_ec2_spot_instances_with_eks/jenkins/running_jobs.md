@@ -50,7 +50,7 @@ Finished: SUCCESS
 Now that we ran our job successfully on Spot Instances, let's test the failure scenario. Since we cannot simulate an EC2 Spot Interruption on instances that are running in an EC2 Auto Scaling group, we will demonstrate a similar effect by simply terminating the instance that our job/pod is running on.
 
 1. Go back to the Sleep-2m project page in Jenkins, and click **Build Now**
-2. Run `kubectl get po --selector jenkins=slave -o wide` to find the Jenkins agent pod and the node on which it is running
+2. Run `kubectl get po --selector jenkins/cicd-jenkins-slave=true -o wide` to find the Jenkins agent pod and the node on which it is running
 3. Run `kubectl describe node <node name from the last command>` to find the node's EC2 Instance ID under the `alpha.eksctl.io/instance-id` label
 4. Run `aws ec2 terminate-instances --instance-ids <instance ID from last command>`
 5. Back in the Jenkins dashboard, under the **Build History** page, you should now see the Sleep-2m job as broken. You can click the Console button next to the failed run, to see the JNLP errors that indicate that the Jenkins agent was unable to communicate to the Master, due to the termination of the EC2 Instance.
