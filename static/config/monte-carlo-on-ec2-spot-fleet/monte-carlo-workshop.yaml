@@ -433,7 +433,7 @@ Resources:
     - publicSubnet1
     - spotFleetInstanceRole
     Properties:
-      Description: Running Amazon EC2 Workloads at Scale - Cloud9 environment
+      Description: MonteCarlo Workshop - Cloud9 environment
       InstanceType: t2.micro
       SubnetId:
         Ref: publicSubnet1
