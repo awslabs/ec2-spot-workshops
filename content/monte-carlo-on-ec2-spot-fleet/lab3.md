@@ -151,8 +151,11 @@ the two subnets available
 
 1. Check the *Fleet request settings* and check the fleet that has been selected. Notice how each entry has
 a different Spot price. Feel free to untick the **Apply Recommendations** and change the components in the fleet using: 
-c4.large, c5.large, m4.large, m5.large, t2.large, t3.large. Leave "Diversified" as the allocation strategy.
+c4.large, c5.large, m4.large, m5.large, t2.large, t3.large. Leave "Capacity Optimized" as the allocation strategy. 
 ![Instance Fleet Selection](/images/monte-carlo-on-ec2-spot-fleet/spot_fleet_flexible_instances_2.png)
+{{% notice info %}}
+You can read about **[Capacity Optimized](https://aws.amazon.com/about-aws/whats-new/2019/08/new-capacity-optimized-allocation-strategy-for-provisioning-amazon-ec2-spot-instances/)** and find out what are the last 30 days average for the frequency of interruptions on the selected instance types using **[Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/)**
+{{% /notice %}}
 
 1. Click **Launch**.
 

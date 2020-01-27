@@ -11,19 +11,19 @@ Mappings:
       CIDR: 10.0.0.0/16
   DeepLearningAmi:
     ap-northeast-1:
-      AMI: ami-0c1c7f04b4a0792d5
+      AMI: ami-0f7912d4a98edaa3d
     ap-northeast-2:  
-      AMI: ami-03293a3b93252b842
+      AMI: ami-088d1075e1f3e9005
     ap-southeast-2:
-      AMI: ami-0f6777438177dd7ec
+      AMI: ami-0c69f8de8ac863285
     eu-west-1:
-      AMI: ami-0c971caf926cf2589
+      AMI: ami-0c25aaf5533c8d846
     us-east-1:
-      AMI: ami-0c509141570009bb5
+      AMI: ami-08e68326c36bf3710
     us-east-2:
-      AMI: ami-072ab8ae3a4ed1d23
+      AMI: ami-0ca8d6784b6bf9ef6
     us-west-2:
-      AMI: ami-0faaeebada3dc9afb
+      AMI: ami-0389181a045a628d2
 Outputs:
   Jupyter:
     Description: URL to access Jupyter in Lab 2 (Use the password used in the stack JupyterPassword parameter)
