@@ -33,6 +33,7 @@ Please make sure you are using the Cloud9 environment created by the workshop Cl
 1. On the terminal run the following commands. This will download the repository of code we will
 use to build our image.
 ```
+sudo yum install -y jq
 git clone https://github.com/awslabs/ec2-spot-workshops.git
 cd ec2-spot-workshops/workshops/monte-carlo-on-ec2-spot-fleet
 ```
@@ -45,7 +46,7 @@ $(aws ecr get-login --region $REGION --no-include-email)
 
 1. Create a repository named **monte-carlo-workshop**.
 ```
-MONTE_CARLO_REGISTRY=$(aws ecr create-repository --repository-name monte-carlo-workshop | grep "repositoryUri" | awk '{split($0,a,":"); print a[2]}' | sed 's/"//g')
+MONTE_CARLO_REGISTRY=$(aws ecr create-repository --repository-name monte-carlo-workshop | jq --raw-output '.["repository"].repositoryUri')
 MONTE_CARLO_IMAGE=${MONTE_CARLO_REGISTRY}:latest
 echo "Monte carlo repository created at :$MONTE_CARLO_REGISTRY"
 echo "Monte carlo image name : $MONTE_CARLO_IMAGE"
