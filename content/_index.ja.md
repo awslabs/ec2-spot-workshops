@@ -11,26 +11,18 @@ draft: false
 
 [Amazon EC2 スポットインスタンス](https://aws.amazon.com/ec2/spot/)はAWSの空きキャパシティを活用した、オンデマンドインスタンスに比べて大幅な割引でお使いいただけるEC2インスタンスの購入オプションのひとつです。スポットインスタンスを活用することでAWSの使用コストを最適化し、アプリケーションの対費用スループットを10倍にも高めることができます。
 
+EC2サービスがキャパシティを必要とし、戻してもらう必要がある場合、スポットインスタンスは2分前の中断通知とともに中断されることがあります。アプリケーションが耐障害性を持ち、また柔軟であるほど、中断の可能性と大幅な割引とい特徴に沿う形でうスポットインスタンスを大いに活用することができます。このようなワークロードの例には、ビッグデータ分析、コンテナ化されたアプリケーション、大規模計算(High Performance Computing, HPC), ステートレスナウェブサーバー、CG等のグラフィックレンダリング処理、CI/CDを含むテスト・ビルド処理などが挙げられます。
 
-Spot Instances can be interrupted by EC2 with two minutes of notification when EC2 needs the capacity 
-back. You can use Spot Instances for various fault-tolerant and flexible applications, such as 
-big data, containerized workloads, high-performance computing (HPC), stateless web servers, rendering, 
-CI/CD and other test & development workloads. 
+このワークショップサイトでは、EC2スポットインスタンスを活用することのできる様々なシナリオを、ハンズオン形式で自習することができます。ワークショップ内ではそれぞれのワークロードに応じたベストプラクティスを実践形式で紹介しています。
 
-This website contains a set of workshops designed for you to get familiar with EC2
-Spot Instances and how to use them in different scenarios. The workshops highlight 
-best practices to follow when using EC2 Spot instances in your 
-applications and workloads.
-
-Select a workshop from the left panel or just click and explore the workshops hightlighted below.
+左メニューから興味のあるワークショップを選択し、スポットインスタンスの様々な活用シーンに触れてみてください。以下に示した概要からも、それぞれのワークショップに進むことができます。
 
 {{< card important_workshop 
-    "running-amazon-ec2-workloads-at-scale" 
-    "Running EC2 Workloads at Scale with EC2 Auto Scaling"
+    "/ja/running-amazon-ec2-workloads-at-scale" 
+    "EC2 Auto Scalingによる自動スケール (日本語版)"
     "Amazon-EC2_Auto-Scaling_light-bg.png" 
 >}}
-This workshop is designed to get you familiar with best practices for requesting 
-Amazon EC2 capacity at scale in a cost optimized architecture.
+このワークショップでは、スケールするワークロードに対してコストを最適化しながらAmazon EC2を活用する方法を学びます。
 {{< /card >}}
 
 {{< card important_workshop 
