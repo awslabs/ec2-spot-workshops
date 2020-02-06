@@ -19,65 +19,19 @@ Within the Spot Interrupt Handler DaemonSet, the workflow can be summarized as:
 * [**Drain**](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) connections on the running pods.
 * Replace the pods on remaining nodes to maintain the desired capacity.
 
-We have provided an example K8s DaemonSet manifest. A DaemonSet runs one pod per node.
+By default, the **[aws-node-termination-handler](https://github.com/aws/aws-node-termination-handler)** will run on all of your nodes (on-demand and spot). If your spot instances are labeled, you can configure `aws-node-termination-handler` to only run on your labeled spot nodes. If you're using the tag `lifecycle=Ec2Spot`, you can run the following to apply our spot-node-selector overlay.
+
 
 ```
-mkdir ~/environment/spot
-curl -o ~/environment/spot/spot-interrupt-handler-example.yml https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/spotworkers/deployhandler.files/spot-interrupt-handler-example.yml
+helm repo add eks https://aws.github.io/eks-charts
+helm install --name aws-node-termination-handler \
+             --namespace kube-system \
+             --set nodeSelector.lifecycle=Ec2Spot \
+             eks/aws-node-termination-handler
 ```
 
-As written, the manifest will deploy pods to all nodes including On-Demand, which is a waste of resources. We want to edit our DaemonSet to only be deployed on Spot Instances. Let's use the labels to identify the right nodes.
 
-Use a `nodeSelector` to constrain our deployment to spot instances. View this [**link**](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) for more details.
-
-### Challenge
-
-**Configure our Spot Handler to use nodeSelector**
-{{% expand "Expand here to see the solution"%}}
-Place this at the end of the DaemonSet manifest under **spec.template.spec.**nodeSelector
-
-```
-      nodeSelector:
-        lifecycle: Ec2Spot
-```
-
-If you need a reference of where those two lines should be inserted, check the highlighted text and line numbers in the section below. Note the syntax in the hierarchy maps with **spec.template.spec.**nodeSelector.
-
-{{< highlight bash "linenos=table,hl_lines=10-11,linenostart=74" >}}
-spec:
-  selector:
-    matchLabels:
-      app: node-termination-handler
-  template:
-    metadata:
-      labels:
-        app: node-termination-handler
-    spec:
-      nodeSelector:
-        lifecycle: Ec2Spot
-      containers:
-      - env:
-        - name: NODE_NAME
-          valueFrom:
-{{< / highlight >}}
-
-{{% /expand %}}
-
-
-### Deploy the DaemonSet
-
-Once that you have added the nodeSelector section to your file, deploy the DaemonSet using the following line on the console:
-
-```
-kubectl apply -f ~/environment/spot/spot-interrupt-handler-example.yml
-```
-
-{{% notice tip %}}
-If you receive an error deploying the DaemonSet, there is likely a small error in the YAML file. We have provided a solution file at the bottom of this page that you can use to compare.
-{{% /notice %}}
-
-View the pods. There should be one for each spot node.
-
+Verify that the pods are only running on node with label `lifecycle=Ec2Spot`
 ```
 kubectl get daemonsets --all-namespaces
 ```
