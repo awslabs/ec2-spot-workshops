@@ -27,7 +27,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 	export stack_name=runningAmazonEC2WorkloadsAtScale
 
 	# load outputs to env vars
-	for output in $(aws cloudformation describe-stacks --stack-name runningAmazonEC2WorkloadsAtScale --query 'Stacks[].Outputs[].OutputKey' --output text)
+	for output in $(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[].OutputKey' --output text)
 	do
 	    export $output=$(aws cloudformation describe-stacks --stack-name $stack_name --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
 	    eval "echo $output : \"\$$output\""

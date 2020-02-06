@@ -53,7 +53,7 @@ Now our infrastructure is ready to respond to Spot Interruptions by detaching Sp
     }
     ```
     
-  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the Instances tab in the bottom pane of the [EC2 Auto Scaling groups console](console.aws.amazon.com/ec2/autoscaling/home). You don't need to change any of the other parameters in the event json.
+  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the Instances tab in the bottom pane of the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) ). You don't need to change any of the other parameters in the event json.
   1. Click **Create**
   1. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.
   1. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Instance i-01234567890123456 belongs to AutoScaling Group runningAmazonEC2WorkloadsAtScale. Detaching instance..."

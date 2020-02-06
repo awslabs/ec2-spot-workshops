@@ -12,7 +12,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 1. Execute the following command to edit **application-load-balancer.json** and update the values with the resources created by Cloudformation.
 
 	```
-	sed -i.bak -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" -e "s#%loadBalancerSecurityGroup%#$lb_sg#g" application-load-balancer.json
+	sed -i.bak -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" -e "s#%loadBalancerSecurityGroup%#$loadBalancerSecurityGroup#g" application-load-balancer.json
 	```
 
 1. Take a look at the configuration file and then create the application load balancer:
@@ -24,7 +24,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 1. Add the Load Balancer ARN to an environment variable as it will be used in an upcoming step:
 
 	```
-	alb_arn=$(aws elbv2 describe-load-balancers --names runningAmazonEC2WorkloadsAtScale --query LoadBalancers[].LoadBalancerArn --output text)
+	export alb_arn=$(aws elbv2 describe-load-balancers --names runningAmazonEC2WorkloadsAtScale --query LoadBalancers[].LoadBalancerArn --output text)
 	```
 
 1. Browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName) to check out your newly created load balancer.
@@ -44,7 +44,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 1. Add the Target Group ARN to an environment variable as it will be used in an upcoming step. 
 
 	```
-	tg_arn=$(aws elbv2 describe-target-groups --names runningAmazonEC2WorkloadsAtScale --query TargetGroups[].TargetGroupArn --output text)
+	export tg_arn=$(aws elbv2 describe-target-groups --names runningAmazonEC2WorkloadsAtScale --query TargetGroups[].TargetGroupArn --output text)
 	```
 
 1. Edit **modify-target-group.json** and update the value of **%TargetGroupArn%** with the ARN.  
