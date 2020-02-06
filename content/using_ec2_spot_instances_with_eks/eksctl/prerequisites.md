@@ -6,11 +6,7 @@ weight: 10
 
 For this module, we need to download the [eksctl](https://eksctl.io/) binary:
 ```
-<<<<<<< HEAD
 export EKSCTL_VERSION=0.13.0
-=======
-export EKSCTL_VERSION=0.9.0
->>>>>>> master
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
 sudo mv -v /tmp/eksctl /usr/local/bin
 ```
