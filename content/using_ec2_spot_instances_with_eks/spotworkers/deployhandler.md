@@ -30,46 +30,6 @@ helm install --name aws-node-termination-handler \
              eks/aws-node-termination-handler
 ```
 
-<<<<<<< HEAD
-=======
-If you need a reference of where those two lines should be inserted, check the highlighted text and line numbers in the section below. Note the syntax in the hierarchy maps with **spec.template.spec.**nodeSelector.
-
-{{< highlight bash "linenos=table,hl_lines=10-11,linenostart=74" >}}
-spec:
-  selector:
-    matchLabels:
-      app: node-termination-handler
-  template:
-    metadata:
-      labels:
-        app: node-termination-handler
-    spec:
-      nodeSelector:
-        lifecycle: Ec2Spot
-      containers:
-      - env:
-        - name: NODE_NAME
-          valueFrom:
-{{< / highlight >}}
-
-{{% /expand %}}
-
-
-### Deploy the DaemonSet
-
-Once that you have added the nodeSelector section to your file, deploy the DaemonSet using the following line on the console:
-
-```
-kubectl apply -f ~/environment/spot/spot-interrupt-handler-example.yml
-```
-
-{{% notice tip %}}
-If you receive an error deploying the DaemonSet, there is likely a small error in the YAML file. We have provided a solution file at the bottom of this page that you can use to compare.
-{{% /notice %}}
-
-View the pods. There should be one for each spot node.
->>>>>>> master
-
 Verify that the pods are only running on node with label `lifecycle=Ec2Spot`
 ```
 kubectl get daemonsets --all-namespaces
