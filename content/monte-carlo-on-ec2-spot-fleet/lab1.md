@@ -48,7 +48,7 @@ Prior to launching a stack, be aware that a few of the resources launched need t
 	- **[Seoul - ap-northeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-northeast-2)**
 	- **[Sydney - ap-southeast-2](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2)**
 
-1. Click on **Create Stack**, select **Upload Template** and use the **Chose File** to select the local 
+1. Click on **Create Stack**, select **Upload Template** and use the **Choose File** to select the local 
 copy of the cloudformation template that was just downloaded. 
     Create Stack
 	![Create Stack](/images/monte-carlo-on-ec2-spot-fleet/cf-create-stack.png)
