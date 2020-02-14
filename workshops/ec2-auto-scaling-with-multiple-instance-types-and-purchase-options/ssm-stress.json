@@ -11,7 +11,7 @@
     "Comment": "myEC2Workshop stress",
     "Parameters": {
         "commands": [
-            "stress-ng --matrix 0 -t 15m"
+            "yum -y update; yum -y install epel-release; yum -y install stress-ng; stress-ng --matrix 0 -t 15m"
         ]
     }
 }
