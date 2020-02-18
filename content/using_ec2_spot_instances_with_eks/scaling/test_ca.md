@@ -149,8 +149,7 @@ kubectl scale deployment/monte-carlo-pi-service --replicas=3
 ```
 
 {{% notice info %}}
-It is a recommended to use **[capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)** as an allocation strategy for your mixed instances EC2 Spot nodegroups. Although it has been
-described as an optional exercise in this workshop, you are encouraged to complete that exercise and understand the effects of using "capacity-optimized".
+It is a recommended to use **[capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)** as an allocation strategy for your mixed instances EC2 Spot nodegroups. Although it has been described as an optional exercise in this workshop, you are encouraged to complete that exercise and understand the effects of using "capacity-optimized".
 {{% /notice %}}
 
 ### Optional Exercises
