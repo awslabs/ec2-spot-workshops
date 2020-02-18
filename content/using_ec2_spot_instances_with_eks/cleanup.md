@@ -21,13 +21,16 @@ kubectl delete -f monte-carlo-pi-service.yml
 helm delete --purge kube-ops-view metrics-server
 ```
 
-## Removing eks nodegroups and eks cluster
+## Removing eks nodegroups
 ```
 eksctl delete nodegroup -f spot_nodegroups.yml --approve
 od_nodegroup=$(eksctl get nodegroup --cluster eksworkshop-eksctl | tail -n 1 | awk '{print $2}')
 eksctl delete nodegroup --cluster eksworkshop-eksctl --name $od_nodegroup
-eksctl delete cluster --name eksworkshop-eksctl
+```
 
+## Removing the cluster
+```
+eksctl delete cluster --name eksworkshop-eksctl
 ```
 
 
