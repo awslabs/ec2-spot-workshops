@@ -8,7 +8,7 @@
       },
       "Overrides": [
         {
-          "InstanceType": "c4.large"
+          "InstanceType": "m5.large"
         },
         {
           "InstanceType": "c5.large"
@@ -17,13 +17,13 @@
           "InstanceType": "m4.large"
         },
         {
-          "InstanceType": "m5.large"
+          "InstanceType": "c4.large"
         },
         {
-          "InstanceType": "t2.medium"
+          "InstanceType": "r5.large"
         },
         {
-          "InstanceType": "t3.medium"
+          "InstanceType": "r4.large"
         }
       ]
     },
