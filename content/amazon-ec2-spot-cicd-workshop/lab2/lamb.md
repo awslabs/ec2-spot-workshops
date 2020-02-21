@@ -40,7 +40,7 @@ var actions = {
           }
         ],
         RoleARN: '${SpotCICDWorkshop.IAMRoleTestEnvironmentCloudFormation.Arn}',
-        TemplateURL: 'https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop_game-of-life.yaml'
+        TemplateURL: '{{< siteurl >}}config/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop_game-of-life.yaml'
       };
       cfn.createStack(cfn_params, function(err, cfn_data) {
         if (err) { return reject(err); }

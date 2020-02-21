@@ -79,7 +79,7 @@ The **deploy** action within the function starts from line 4:
 
 * Lines 9-35 contain the CloudFormation parameters that are passed on to the CloudFormation template. These parameters were generated based on the outputs of the initial CloudFormation template that you deployed in the Workshop Preparation;
 * Line 36 defines the IAM role that is assumed when deploying the template - again, this role was deployed as a part of the initial CloudFormation template defined in the Workshop Preparation;
-* Line 37 contains the URL of the CloudFormation template that is going to be launched by the function: [https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop_game-of-life.yaml](https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop_game-of-life.yaml)
+* Line 37 contains the URL of the CloudFormation template that is going to be launched by the function: [amazon-ec2-spot-cicd-workshop_game-of-life.yaml](/config/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop_game-of-life.yaml)
 * Line 39 attempts to deploy the stack; and
 * If the request to deploy the stack was successful, lines 43-56 store some metadata (including the CloudFormation Stack ID) into a DynamoDB table that was created by the initial CloudFormation template.
 
