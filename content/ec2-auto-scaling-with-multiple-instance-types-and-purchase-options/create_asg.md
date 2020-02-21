@@ -16,7 +16,7 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 		* OnDemandPercentageAboveBaseCapacity is set to 0, meaning that all the additional instance swill be launched as Spot Instances
 		* SpotAllocationStrategy is lowest-price, which instructs AutoScaling to pick the cheapest instance type.
 		* SpotInstancePools is 4, which tells AutoScaling to launch instances across the 4 cheapest instance types on each Availability Zone for the list of instances provided in the overrides; hence acquiring capacity from multiple *Spot pools*. 
-	{% /expand %}}
+	{{% /expand %}}
 
 1. You will notice there are placeholder values for **%TargetGroupArn%**, **%publicSubnet1%** and **%publicSubnet2%**. To update the configuration file with the values of the Target Group you created previously and the outputs from the CloudFormation template, execute the following command:
 
