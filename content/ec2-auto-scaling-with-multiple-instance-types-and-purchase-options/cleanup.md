@@ -19,6 +19,9 @@ If you're running in your own account, make sure you run through these steps to 
 	aws elbv2 delete-target-group --target-group-arn %targetGroupArn%
 	
 	aws ec2 delete-launch-template --launch-template-name myEC2Workshop
+
+	aws cloudformation delete-stack --stack-name spotinterruptionhandler
+	
 	```
 	
 1. Finally, delete the CloudFormation stack itself.
