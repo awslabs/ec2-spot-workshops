@@ -69,7 +69,7 @@ In a real scenario, EC2 would terminate the instance after two minutes, however 
 
 ### Increasing the application's resilience when using Spot Instances
 
-In a previous step in this workshop, you learned that the EC2 Auto Scaling group is configured to fulfill the 4 lowest-priced instance types (out of a list of 9 types) in each Availability Zone. Since Spot is spare EC2 capacity, its supply and demand vary. By diversifying your usage of capacity pools (a combination of an instance type in an Availability Zone), you increase your chances of getting the desired capacity, and decrease the potential number of interrupted instances in case Spot Instances are interrupted (when EC2 needs the capacity back for On-Demand).
+In a previous step in this workshop, you learned that the EC2 Auto Scaling group is configured to fulfill the 4 lowest-priced instance types, out of a list of 9 types, in each Availability Zone. Since Spot is spare EC2 capacity, its supply and demand vary. By diversifying your usage of capacity pools (which are a combination of an instance type in an Availability Zone), you increase your chances of getting the desired capacity, and decrease the potential number of interruptions in case Spot Instances are interrupted when EC2 needs the capacity back for On-Demand.
 
 #### Knowledge check
 How can you increase the resilience of the web application that you deployed in this workshop, when using EC2 Spot Instances?
@@ -82,13 +82,13 @@ How can you increase the resilience of the web application that you deployed in 
 
 #### Challenges 
 * What other Spot allocation strategy can you choose, would it be suitable for this workload? if not, when will you use it?\
-Hint: read or skim through the following [article] (https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)
+Hint: read through the following [article] (https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)
 
 {{%expand "Click here for the answer" %}}
 If you have workloads that are not stateless and fault-tolerant like the Web application that you deployed in this workshop, you can use the capacity-optimized allocation strategy, in order to instruct the ASG to launch instances in the capacity pools which are least likely to be interrupted.
 {{% /expand %}}
 
-* By default, a Target Group linked to an Application Load Balancer distributes the requests across its registered instances using a Round Robin load balancing algorithm. Is there anything you could do to spread the load more evenly if you have backend instances from different instance families that may have slight differences on processing power? Take a look at [this](https://aws.amazon.com/about-aws/whats-new/2019/11/application-load-balancer-now-supports-least-outstanding-requests-algorithm-for-load-balancing-requests/) article.
+* By default, a Target Group linked to an Application Load Balancer distributes the requests across its registered instances using a Round Robin load balancing algorithm. Is there anything you could do to spread the load more efficiently if you have backend instances from different instance families that may have slight differences on processing power? Take a look at [this](https://aws.amazon.com/about-aws/whats-new/2019/11/application-load-balancer-now-supports-least-outstanding-requests-algorithm-for-load-balancing-requests/) article.
 
 {{%expand "Click here for the answer" %}}
 If your web application is sensitive to differences in processing power of different instance types you can use the Least Outstanding Requests load balancing algorithm. With this algorithm, as the new request comes in, the load balancer will send it to the target with least number of outstanding requests. Targets processing long-standing requests or having lower processing capabilities are not burdened with more requests and the load is evenly spread across targets. This also helps the new targets to effectively take load off of overloaded targets. You can configure the routing algorithm on the [Target Group section](https://console.aws.amazon.com/ec2/v2/home?#TargetGroups:sort=targetGroupName) within the EC2 console selecting your target group and clicking *Actions* -> *Edit Attributes*
