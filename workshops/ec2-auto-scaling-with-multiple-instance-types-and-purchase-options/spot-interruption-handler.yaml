@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  Author:
+    Description: Isaac Vallhonrat <ivallhon@amazon.com>
+  License:
+    Description: 'Copyright 2019 Amazon.com, Inc. and its affiliates. All Rights Reserved.
+      Licensed under the Amazon Software License (the "License"). You may not use this file
+      except in compliance with the License. A copy of the License is located at
+      http://aws.amazon.com/asl/
+      or in the "license" file accompanying this file. This file is distributed on an "AS IS"
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+      License for the specific language governing permissions and limitations under the License.'
+Resources:
+  SpotInterruptionHandlerFunction:
+    Type: AWS::Lambda::Function
+    DependsOn:
+    - LambdaFunctionRole
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LambdaFunctionRole.Arn
+      Code:
+        ZipFile: !Sub |
+          import boto3
+
+          def handler(event, context):
+          
+              instanceId = event['detail']['instance-id']
+              instanceAction = event['detail']['instance-action']
+              
+              print("Handling spot instance interruption notification for instance {id}".format(id=instanceId))
+              
+              # Describe tags for the instance that will be interrupted
+              try:
+                  ec2client = boto3.client('ec2')
+                  describeInstance = ec2client.describe_instances(InstanceIds=[instanceId])
+                  describeTags = describeInstance['Reservations'][0]['Instances'][0]
+              except Exception as e:
+                  print("No action being taken. Unable to describe tags for instance id:", instanceId)
+                  print(e)
+                  raise
+          
+              # Check if the instance belongs to ASG
+              asg=''
+              for tag in describeTags['Tags']:
+                  if tag['Key'] =='aws:autoscaling:groupName':
+                      asg=tag['Value']
+          
+              if asg=='':
+                  print("No action taken. Instance {id} does not belong to an AutoScaling group.".format(id=instanceId))
+                  return
+              else:
+                  print("Instance {id} belongs to AutoScaling Group {asg_name}. Detaching instance...".format(id=instanceId,asg_name=asg))
+                  try:
+                      # detach instance from ASG
+                      asgclient = boto3.client('autoscaling')
+                      response = asgclient.detach_instances(InstanceIds=[instanceId],AutoScalingGroupName=asg,ShouldDecrementDesiredCapacity=False)
+                  except Exception as e:
+                      print("No action taken. Unable to detach instance {id} from AutoScaling Group {asg_name}".format(id=instanceId,asg_name=asg))
+                      print(e)
+                      raise
+
+              print(response['Activities'][0]['Cause'])
+              return
+      Runtime: python3.7
+
+  LambdaFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: lambdaExecution-SpotInterruptHandlerPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:log-group:/aws/lambda/*SpotInterruptionHandlerFunction*:*
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            Resource: '*'
+      - PolicyName: lambda-SpotInterruptHandlerPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - autoscaling:DetachInstances
+            - ec2:DescribeInstances
+            Resource: '*'
+  
+  ClodudWatchEventRule:
+    DependsOn:
+    - SpotInterruptionHandlerFunction
+    Properties:
+      Description: Events rule for EC2 Spot Instance Interruption Notices
+      EventPattern:
+        detail-type:
+        - EC2 Spot Instance Interruption Warning
+        source:
+        - aws.ec2
+      State: ENABLED
+      Targets:
+      - Arn:
+          Fn::GetAtt:
+          - SpotInterruptionHandlerFunction
+          - Arn
+        Id:
+          Ref: SpotInterruptionHandlerFunction
+    Type: AWS::Events::Rule
