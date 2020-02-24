@@ -13,9 +13,10 @@ You might be wondering how a [Launch Template](https://docs.aws.amazon.com/AWSEC
 
 You'll use a launch template to specify configuration parameters for launching instances in this workshop.
 	
-1. Open **launch-template-data.json** on the Cloud9 editor and examine the configuration, you will notice some of the parameters have a placeholder test **%variableName%**: %instanceProfile%, %instanceSecurityGroup% and %ami-id%.
+1. Open **launch-template-data.json** on the Cloud9 editor and examine the configuration, you will notice some of the parameters have a placeholder value **%variableName%**: %instanceProfile%, %instanceSecurityGroup% and %ami-id%.
+![Cloud9 Editor](/images/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options/cloud9-editor.jpg)
 
-1. The variable %ami-id% should contain the latest Amazon Linux 2 AMI, and instanceProfile and instanceSecurityGroup need to be populated from your CloudFormation template outputs. To update your configuration file run the following command: 
+1. The variable %ami-id% should contain the latest Amazon Linux 2 AMI, and instanceProfile and instanceSecurityGroup need to be populated with the resources created by your CloudFormation stack; which are available as Stack Outputs. We can pull the latest Amazon Linux 2 AMI with the AWS CLI, and as we have loaded our CloudFormation stack outputs as environment variables on a previous step, for convenience we can use the following commands to update your configuration file:
 
     ```bash
     # First, this command looks up the latest Amazon Linux 2 AMI

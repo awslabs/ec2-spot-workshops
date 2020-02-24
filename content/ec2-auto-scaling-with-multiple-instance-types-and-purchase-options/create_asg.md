@@ -9,13 +9,13 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 {{%expand "Help me understand the AutoScaling configuration" %}}
 The **Overrides** configuration block provides EC2 AutoScaling the list of instance types your workload can run on. As Spot instances are **spare** EC2 capacity, your workloads should be flexible to run on multiple instance types and multiple availability zones; hence leveraging multiple *spot capacity pools* and making the most out of the available spare capacity. To select a list of instance types for your workload you can use [Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/) which will help you filtering suitable instances by number of vCPUs and amount of memory and also provide you data about the interruption rate during the last 30 days for each instance type, so you can pick a list of best-suited instance types with low interruption rates.
 
-Then, the InstancesDistribution configuration block determines how EC2 AutoScaling picks the instance types to use, while at the same time it keeps a balanced number of EC2 instances per Availability Zone.
+Then, the *InstancesDistribution* configuration block determines how EC2 AutoScaling picks the instance types to use, while at the same time it keeps a balanced number of EC2 instances per Availability Zone.
 
-* The *prioritized* allocation strategy for on-demand instances will make AutoScaling try to use the first instance type of your list; this is particularly useful if you have Reserved Instances for your baseline capacity, so AutoScaling launches instance types matching your reservations. 
-* OnDemandBaseCapacity is set to 2, meaning the first two EC2 instances launched by EC2 AutoScaling will be on-demand.
-* OnDemandPercentageAboveBaseCapacity is set to 0, meaning that all the additional instance swill be launched as Spot Instances
-* SpotAllocationStrategy is lowest-price, which instructs AutoScaling to pick the cheapest instance type.
-* SpotInstancePools is 4, which tells AutoScaling to launch instances across the 4 cheapest instance types on each Availability Zone for the list of instances provided in the overrides; hence acquiring capacity from multiple *Spot pools*. 
+* The **prioritized** allocation strategy for on-demand instances makes AutoScaling try to launch the first instance type of your list and skip to the next instance type if for any reason it's unable to launch it (e.g. temporary unavailability of capacity). This is particularly useful if you have Reserved Instances for your baseline capacity, so AutoScaling launches the instance type matching your reservations. 
+* **OnDemandBaseCapacity** is set to 2, meaning the first two EC2 instances launched by EC2 AutoScaling will be on-demand.
+* **OnDemandPercentageAboveBaseCapacity** is set to 0 so all the additional instances will be launched as Spot Instances
+* **SpotAllocationStrategy** is lowest-price, which instructs AutoScaling to pick the cheapest instance type on each Availability Zone.
+* **SpotInstancePools** is 4, which tells AutoScaling to launch instances across the 4 cheapest instance types on each Availability Zone for the list of instances provided on the overrides; diversifying our fleet acquiring capacity from multiple *Spot pools* and reducing the likelihood of a large portion of our fleet to be interrupted in a short period of time. 
 {{% /expand %}}
 
 1. You will notice there are placeholder values for **%TargetGroupArn%**, **%publicSubnet1%** and **%publicSubnet2%**. To update the configuration file with the values of the Target Group you created previously and the outputs from the CloudFormation template, execute the following command:
