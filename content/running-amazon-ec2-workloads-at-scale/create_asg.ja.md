@@ -18,13 +18,13 @@ Overridesのセクションに列挙されたインスタンスタイプ一覧�
 
 ヒント: EC2 Auto ScalingのAPIドキュメントから、[`InstancesDistribution`] (https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html)のセクションを読んでみてください。
 
-##### 考え方の一例
+{{%expand "考え方の一例" %}}
 
 まず`OnDemandBaseCapacity`(ベースのオンデマンド部分)に2が指定され、`OnDemandPercentageAboveBaseCapacity`(オンデマンドの割合)に0, `DesiredCapacity`(希望する容量)に4が指定されています。このとき、EC2 Auto ScalingがこのAuto Scalingグループを作成するタイミングで、2台のオンデマンドインスタンスと2台のスポットインスタンスを起動します。
 
 `SpotAllocationStrategy`に`lowest-price`が指定されているため、スポットインスタンスとしては、アベイラビリティゾーンごとに最も価格の安いインスタンスタイプが選択されます。また`SpotInstancePools`に4が指定されているため、今後このAuto Scalingグループがスケールアウトし、追加のスポットインスタンスが起動されるとき、アベイラビリティゾーンごとに上から4番目までに安いインスタンスタイプが選択されます。
 
-
+{{% /expand %}}
 
 
 2\. 次のコマンドを発行し、Auto Scalingグループを作成します。
@@ -44,7 +44,8 @@ Overridesのセクションに列挙されたインスタンスタイプ一覧�
 各アベイラビリティゾーンに1台ずつスポットインスタンスを起動しました。このとき選択されたインスタンスタイプは、実際にそのアベイラビリティゾーンで最安値のものになっているでしょうか。\
 ヒント: [スポットインスタンスの価格履歴] (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html)を参照してみましょう。
 
-##### 考え方の一例
+{{%expand "考え方の一例" %}}
+
 1. [EC2インスタンスコンソール] (https://console.aws.amazon.com/ec2/v2/home?#Instances)からスポットインスタンスを選択します。追加表示させたライフサイクル属性を確認し、値がSpotであるものを選択します。
 2. それぞれのスポットインスタンスがどのアベイラビリティゾーンに起動されたかを確認します。
 3. [EC2スポットインスタンスコンソール Spot Instances console] (https://console.aws.amazon.com/ec2sp/v1/spot/home)を開き、「価格設定履歴」ボタンを押して起動されたスポットインスタンスのインスタンスタイプに設定された現在の価格を確認します。そして**asg.json**に定義した他のインスタンスタイプと価格を比較します。
@@ -53,3 +54,4 @@ Overridesのセクションに列挙されたインスタンスタイプ一覧�
 
 ![spotpricehistory](/images/running-amazon-ec2-workloads-at-scale/spotpricehistory.png)
 
+{{% /expand %}}
