@@ -13,6 +13,7 @@ To check our setup we will run nextflow on the Cloud9 instance, submitting jobs 
 
 
 ```
+cd ~/environment/nextflow-tutorial
 nextflow run script7.nf -profile batch -w s3://${BUCKET_NAME}
 ```
 

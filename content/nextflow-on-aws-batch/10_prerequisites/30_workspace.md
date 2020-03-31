@@ -25,6 +25,7 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 {{< tabs name="Region" >}}
     {{< tab name="Oregon" include="30_us-west-2.md" />}}
     {{< tab name="Ireland" include="30_eu-west-1.md" />}}
+    {{< tab name="N. Virginia" include="30_us-east-1.md" />}}
     {{< tab name="Ohio" include="30_us-east-2.md" />}}
     {{< tab name="Singapore" include="30_ap-southeast-1.md" />}}
 {{< /tabs >}}

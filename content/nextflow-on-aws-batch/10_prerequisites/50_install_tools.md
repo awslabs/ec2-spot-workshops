@@ -48,3 +48,10 @@ To create svg we need to install graphviz.
 ```
 sudo yum install -y graphviz jq
 ```
+
+### AWS Region
+
+```
+export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+echo "AWS_REGION=${AWS_REGION}" |tee -a ~/.bashrc
+```

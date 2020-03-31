@@ -19,7 +19,26 @@ The example workflow implements a simple RNA-seq pipeline which:
    4. creates a MultiQC report
 
 ```
-$ nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
+docker pull nextflow/rnaseq-nf
+nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
+```
+
+The output will look like this.
+
+```
+TeamRole:~/environment/nextflow-tutorial (master) $ docker pull nextflow/rnaseq-nf
+Using default tag: latest
+latest: Pulling from nextflow/rnaseq-nf
+b8f262c62ec6: Pull complete 
+fa9712f20293: Pull complete 
+6ec1e76960c6: Pull complete 
+fe231f126300: Pull complete 
+b5060e108b58: Pull complete 
+ba0e69f9489f: Pull complete 
+248da7e19707: Pull complete 
+Digest: sha256:0ac11ff903d39ad7db18e63c8958fb11864192840b3d9ece823007a54f3703e0
+Status: Downloaded newer image for nextflow/rnaseq-nf:latest
+TeamRole:~/environment/nextflow-tutorial (master) $ nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
 N E X T F L O W  ~  version 20.01.0
 Launching `script7.nf` [admiring_edison] - revision: ce58523d1d
 R N A S E Q - N F   P I P E L I N E    

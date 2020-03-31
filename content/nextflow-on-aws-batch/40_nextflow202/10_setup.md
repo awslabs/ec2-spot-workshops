@@ -20,7 +20,7 @@ profiles {
     aws.region = 'us-east-1'
     aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
     process.executor = 'awsbatch'
-    process.queue = 'job-q'
+    process.queue = 'job-queue'
   }
 }
 EOF
