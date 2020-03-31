@@ -63,7 +63,7 @@ The report can be previewed within Cloud9.
 With more elaborate output nextflow can create more reports.
 
 ```
-$ nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png 
+nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png 
 ```
 
 This creates a bnuch more reports about the workflow. E.g.

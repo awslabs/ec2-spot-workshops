@@ -17,6 +17,7 @@ profiles {
   }
 
   batch {
+    workDir = BUCKET
     aws.region = 'us-east-1'
     aws.batch.cliPath = '/home/ec2-user/miniconda/bin/aws'
     process.executor = 'awsbatch'
@@ -31,5 +32,6 @@ EOF
 ```
 export BUCKET_NAME=nextflow-spot-batch-$(date +%s)
 aws s3 mb s3://${BUCKET_NAME}
+sed -i -e "s#workDir =.*#workDir = 's3://${BUCKET_NAME}'#" $HOME/.nextflow/config
 ```
 

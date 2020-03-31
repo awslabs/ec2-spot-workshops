@@ -13,7 +13,7 @@ The workshop will use two queues to submit and execute jobs.
 
 ### workflow queue
 
-As the nextflow process is supervising the execution of a job it needs to run continuesly. Thus, a workflow queue will hold this job and executes them on rather small instances with 2vCPUs (**need to change the workflow-CE creation**).
+As the nextflow process is supervising the execution of a job it needs to run continuesly. Thus, a workflow queue will hold this job and executes them on rather small instances with 2vCPUs.
 
 ### job queue
 

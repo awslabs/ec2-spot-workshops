@@ -6,12 +6,16 @@ weight: 20
 
 To get started with Nextflow we are going to run a little example workflow locally.
 
-We will use the example Genomics workflow of the nextflow-tutorial. You should already be in the directory after we setup the workshop in the previous session.
+
+## Clone nextflow-tutorial
+
+We will use the example Genomics workflow of the nextflow-tutorial. 
 
 ```
-$ pwd
-/home/ec2-user/environment/nextflow-tutorial
+git clone https://github.com/seqeralabs/nextflow-tutorial.git 
+cd nextflow-tutorial
 ```
+
 
 ## Nextflow Config
 

@@ -10,7 +10,7 @@ TO run the actual genomics tasks, we create a compute environment (CE) using EC2
 
 ![](/images/nextflow-on-aws-batch/batch/4_create_ce_0.png?classes=shadow)
 
-In the first section we **choose the name 'spot-ce' [1]** and the **IAM roles [2] & [3]**. The latter are created for us, so we do not have to bother.
+In the first section we **choose the name 'spot-ce' [1]**, let the wizard create a **new service role [2]** and select the previously **created admin role [3]**.
 
 ![](/images/nextflow-on-aws-batch/batch/4_create_ce_1.png)
 

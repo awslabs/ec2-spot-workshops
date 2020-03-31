@@ -4,13 +4,6 @@ chapter: false
 weight: 50
 ---
 
-## Clone nextflow-tutorial
-
-```
-git clone https://github.com/seqeralabs/nextflow-tutorial.git 
-cd nextflow-tutorial
-```
-
 ## Install Java and Nextflow
 
 ### Amazon Corretto
@@ -35,7 +28,7 @@ java --version
 Installing Nextflow using the online installer.
 
 ```
-curl https://get.nextflow.io | bash
+curl -s https://get.nextflow.io | bash
 sudo mv nextflow /usr/local/bin/
 ```
 

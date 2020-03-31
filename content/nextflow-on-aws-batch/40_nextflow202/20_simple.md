@@ -14,7 +14,7 @@ To check our setup we will run nextflow on the Cloud9 instance, submitting jobs 
 
 ```
 cd ~/environment/nextflow-tutorial
-nextflow run script7.nf -profile batch -w s3://${BUCKET_NAME}
+nextflow run script7.nf -profile batch
 ```
 
 ```
@@ -36,3 +36,17 @@ Duration    : 2m 51s
 CPU hours   : (a few seconds)
 Succeeded   : 4
 ```
+
+### Debug Job 
+
+The AWS Batch Job dashboard shows how jobs are passing through stages.
+
+![](/images/nextflow-on-aws-batch/nextflow202/job_dash.png)
+
+Using CloudWatch one can check the logs.
+
+![](/images/nextflow-on-aws-batch/nextflow202/job_logs.png)
+
+At the end four jobs should have passed.
+
+![](/images/nextflow-on-aws-batch/nextflow202/job_dash_end.png)
