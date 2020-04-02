@@ -5,22 +5,20 @@ weight: 80
 pre: "<b>⁃ </b>"
 ---
 
-The content of this labs were orgininally created by the nice folks at [Seqera Labs](https://github.com/seqeralabs/nextflow-tutorial), all credits go to them!
+The content of this workshop are derived from a tutorial created by the nice folks at [Seqera Labs](https://github.com/seqeralabs/nextflow-tutorial), kudos to them!
 
 
 ## Overview 
-During this tutorial you will implement a proof of concept of a RNA-seq pipeline. The goal of this workshop is not te become a Bioinformatician nor a Nextflow guru.
-
-
+During this workshop you will implement a proof of concept of a RNA-seq pipeline. The goal of this workshop is not te become a Bioinformatician nor a Nextflow guru, but to get familiar with the concepts of nextflow and AWS Batch.
 
 {{% notice info %}}
-The estimated cost for running this **2.5 hour** workshop will be less than **$5**.
+The estimated cost for running this **Y hour** workshop will be less than **$X**.
 {{% /notice %}}
 
 ## Introduction
 
 ### Conventions:  
-Throughout this labs, we provide commands for you to run in the terminal.  These commands will look like this: 
+Throughout this workshop, we provide commands for you to run in the terminal.  These commands will look like this: 
 
 <pre>
 $ ssh -i PRIVATE_KEY.PEM ec2-user@EC2_PUBLIC_DNS_NAME
