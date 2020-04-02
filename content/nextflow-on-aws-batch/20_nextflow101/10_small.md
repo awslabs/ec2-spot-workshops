@@ -18,8 +18,17 @@ The example workflow implements a simple RNA-seq pipeline which:
    3. performs quantification
    4. creates a MultiQC report
 
+
+### Pull Image and run
+
+As nextflow will run the image `nextflow/rnaseq-nf` and thus needs to download almost 3GB without advancing, we will first download the image so that we can see what docker is doing.
 ```
 docker pull nextflow/rnaseq-nf
+```
+
+Afterwards we can start the script, which will subsequently start a container using the just pulled image.
+
+```
 nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
 ```
 
@@ -55,7 +64,7 @@ Done! Open the following report in your browser --> results/multiqc_report.html
 $ 
 ```
 
-The report can be previewed within Cloud9.
+The report can be previewed within Cloud9. Right-click (**[1]**) on the file and choose `Preview` (**[2]**) from the context menue.
 
 ![](/images/nextflow-on-aws-batch/nextflow101/multiqc_report.png)
 
@@ -66,7 +75,7 @@ With more elaborate output nextflow can create more reports.
 nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png 
 ```
 
-This creates a bnuch more reports about the workflow. E.g.
+This creates a bunch more reports about the workflow. E.g.:
 
 ![](/images/nextflow-on-aws-batch/nextflow101/dag.png) 
 ![](/images/nextflow-on-aws-batch/nextflow101/timeline.png) 

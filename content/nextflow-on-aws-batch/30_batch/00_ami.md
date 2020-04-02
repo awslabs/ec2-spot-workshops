@@ -1,10 +1,10 @@
 ---
-title: "Create AMI"
+title: "Create Custom AMI"
 chapter: false
 weight: 01
 ---
 
-AWS Batch uses ECS as an execution host and as such uses the official ECS-optimized image as a default.
+AWS Batch uses Amazon ECS to schedule the container and as such uses the official ECS-optimized image as a default.
 As the nextflow container needs to run the AWS-Cli we need to update the AMI so that we have everything we need.
 
 <!--
@@ -18,10 +18,10 @@ Click [1] to copy the credentials in your clipboard and paste them into your Clo
 
 ## Install Packer
 
-To update the image we use Hashicorps [packer]().
+To update the image we use [Hashicorp packer](https://packer.io/). First we install the tool `bsdtar` to download and unzip the file in one go, before we change the permissions so that it can be executed.
 
 ```
-sudo yum install -y bsdtar jq
+sudo yum install -y bsdtar
 curl -sLo - \
       https://releases.hashicorp.com/packer/1.5.4/packer_1.5.4_linux_amd64.zip \
       | sudo bsdtar xfz - -C /usr/bin/
@@ -30,29 +30,18 @@ sudo chmod +x /usr/bin/packer
 
 ### Build image
 
-First we need to fetch the source AMI-ID.
+We need to fetch the AMI-ID of the official ecs-optimized image and store the ID in an environment variable for later use.
 
 ```
-export SOURCE_AMI=$(aws ec2 --region=us-east-1 describe-images --owners amazon \
+export SOURCE_AMI=$(aws ec2 --region=${$AWS_REGION} describe-images --owners amazon \
         --filters 'Name=name,Values=amzn-ami-????.??.???????-amazon-ecs-optimized ' 'Name=state,Values=available' \
         --query 'reverse(sort_by(Images, &CreationDate))[:1].ImageId' --output text)
 echo $SOURCE_AMI
 ```
 
+After that we create a `packer.json` file with the instruction on how to update the source AMI.
 
-```
-mkdir packer
-cd packer
-cat << \EOF > install-tools.sh
-#!/bin/bash
-set -x
-yum install -y wget
-wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash ./Miniconda3-latest-Linux-x86_64.sh -b -f -p /home/ec2-user/miniconda
-/home/ec2-user/miniconda/bin/conda install -c conda-forge awscli
-/home/ec2-user/miniconda/bin/aws --version
-EOF
-```
+**Please CHECK: Changed to inline, to reduce the number of manual steps...**
 
 ```
 cat << \EOF > packer.json
@@ -68,8 +57,13 @@ cat << \EOF > packer.json
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
-      "script": "install-tools.sh"
+      "inline": [
+        "yum install -y wget",
+        "wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh",
+        "bash ./Miniconda3-latest-Linux-x86_64.sh -b -f -p /home/ec2-user/miniconda",
+        "/home/ec2-user/miniconda/bin/conda install -c conda-forge awscli",
+        "/home/ec2-user/miniconda/bin/aws --version"
+      ]
     }
   ],
   "builders": [{
@@ -86,15 +80,11 @@ cat << \EOF > packer.json
 }
 EOF
 ```
+Once the file is created we overwrite the `source_ami` with the gathered AMI-ID and start a build.
+This process will take 5 to 10 minutes.
 
 ```
 packer build -var "source_ami=${SOURCE_AMI}" packer.json
 ```
 
-Fetch the AMI-ID.
-
-```
-aws ec2 --region=us-east-1 describe-images --owners $(aws sts get-caller-identity |jq -r '.Account') \
-        --filters 'Name=name,Values=ecs-batch-ami*' \
-        --query 'reverse(sort_by(Images, &CreationDate))[:1].ImageId' --output text
-```
+Please copy the resulting AMI-ID and into your clipboard; we will need it in the next step.

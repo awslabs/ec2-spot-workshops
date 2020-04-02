@@ -1,12 +1,12 @@
 ---
-title: "ComputeEnv: Spot"
+title: "Spot"
 chapter: false
-weight: 30
+weight: 10
 ---
 
 ## Create EC2 Spot Compute Environment
 
-TO run the actual genomics tasks, we create a compute environment (CE) using EC2 Spot instances. 
+To run the actual genomics tasks, we create a compute environment (CE) using EC2 Spot instances. 
 
 ![](/images/nextflow-on-aws-batch/batch/4_create_ce_0.png?classes=shadow)
 

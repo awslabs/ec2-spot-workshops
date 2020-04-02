@@ -4,17 +4,15 @@ chapter: true
 weight: 30
 ---
 
-# Setup AWS Batch as a Backend
+# Setup AWS Batch
 
+Nextflow uses **process** definitions to define what script or command to execute, an executor is used to determine **how** the process is executed on the target system.
 
-## Architecture
+The [nextflow documentation](https://www.nextflow.io/docs/latest/basic.html#execution-abstraction) exmplains it nicely:
 
-The workshop will use two queues to submit and execute jobs.
+> In other words, Nextflow provides an abstraction between the pipeline's functional logic and the underlying execution system. Thus it is possible to write a pipeline once and to seamlessly run it on your computer, a grid platform, or the cloud, without modifying it, by simply defining the target execution platform in the configuration file.
 
-### workflow queue
+> In other words, Nextflow provides an abstraction between the pipeline's functional logic and the underlying execution system. Thus it is possible to write a pipeline once and to seamlessly run it on your computer, a grid platform, or the cloud, without modifying it, by simply defining the target execution platform in the configuration file.
 
-As the nextflow process is supervising the execution of a job it needs to run continuesly. Thus, a workflow queue will hold this job and executes them on rather small instances with 2vCPUs.
+Within this workshop we already used a local **Docker** executor in the small example - for the remainder of the workshop we are going to use the [awsbatch executor](https://www.nextflow.io/docs/latest/awscloud.html#aws-batch) to submit jobs to [AWS Batch](https://aws.amazon.com/batch/).
 
-### job queue
-
-The nextflow process will compute a execution flow and submit jobs for individual tasks into the *job-queue*. Those tasks do the actual computation.

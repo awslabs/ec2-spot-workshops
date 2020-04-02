@@ -1,12 +1,12 @@
 ---
-title: "Job Queue"
+title: "Create Job Queues"
 chapter: false
 weight: 40
 ---
 
 ## Create Job Queue
 
-Two queues need to be created. Both are created via the consol.
+Two queues need to be created. Both are created via the console.
 ![](/images/nextflow-on-aws-batch/batch/5_queue_workflow_0.png)
 
 To create both queues we choose a name (**workflow-queue** / **job-queue**) a priority of 1 and the map them to the correct compute environment.

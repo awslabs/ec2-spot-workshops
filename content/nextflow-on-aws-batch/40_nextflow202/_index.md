@@ -4,8 +4,10 @@ chapter: true
 weight: 40
 ---
 
-Now that we setup AWS Batch we can use Nextflow to submit jobs we are getting closer to our architecture.
-To aproach it slowly we will do two steps here.
+# Nextflow on AWS Batch
+
+Now that we setup AWS Batch we can use Nextflow to submit jobs we are getting closer to our architecture.<br>
+To approach it slowly we will do two steps here.
 
 ### Local Run
 
