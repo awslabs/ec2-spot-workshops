@@ -1,17 +1,21 @@
 ---
 title: "Install Kube-ops-view"
 date: 2018-08-07T08:30:11-07:00
-weight: 20
+weight: 30
 ---
 
 Now that we have helm installed, we are ready to use the stable helm catalog and install tools 
-that will help with understanding our cluster setup in a visual way. The first of those tools that we are going to install is [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from Henning Jacobs.
+that will help with understanding our cluster setup in a visual way. The first of those tools that we are going to install is [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from **[Henning Jacobs](https://github.com/hjacobs)**.
 
 The following line updates the stable helm repository and then installs kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
 ```
 helm repo update
-helm install stable/kube-ops-view --name kube-ops-view --set service.type=LoadBalancer --set rbac.create=True
+helm install stable/kube-ops-view \
+--name kube-ops-view \
+--set service.type=LoadBalancer \
+--set nodeSelector.intent=control-apps \
+--set rbac.create=True
 ```
 
 The execution above installs kube-ops-view  exposing it through a Service using the LoadBalancer type.
@@ -55,5 +59,44 @@ Spend some time checking the state and properties of your EKS cluster.
 {{% /notice %}}
 
 ![kube-ops-view](/images/using_ec2_spot_instances_with_eks/helm/kube-ops-view-legend.png)
+
+### Optional Exercise
+ 
+{{% notice info %}}
+In this exercise we will install and explore another great tool, **[kube-resource-report](https://github.com/hjacobs/kube-resource-report)** by [Henning Jacob](https://github.com/hjacobs). Kube-resource-report generates a utilization report and associates a cost to namespaces, applications and pods. Kube-resource-report does also take into consideration the Spot savings. It uses the [describe-spot-price-history](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSpotPriceHistory.html) average value of the reported in the last three days to provide an estimate for the cost of EC2 Spot nodes.  
+{{% /notice %}}
+
+ * Now that we have a way to visualize our cluster with kube-ops-view, how about visualizing the estimated cost used by our cluster  namespaces, applications and pods? Follow the instructions described at **[kube-resource-report](https://github.com/hjacobs/kube-resource-report)** github repository and figure out how to deploy the helm chart with the right required parameters. Note: To identify EC2 Spot nodes we will use the label **is_spot**. (links to hints: [1](https://helm.sh/docs/chart_template_guide/values_files/), [2](https://github.com/hjacobs/kube-resource-report/blob/master/chart/kube-resource-report/values.yaml), [3](https://github.com/hjacobs/kube-resource-report/blob/master/chart/kube-resource-report/templates/deployment.yaml), [4](https://github.com/hjacobs/kube-resource-report/blob/master/chart/kube-resource-report/templates/service.yaml))
+
+
+{{%expand "Show me the solution" %}}
+Execute the following command in your Cloud9 terminal
+```
+git clone https://github.com/hjacobs/kube-resource-report
+helm install --name kube-resource-report \
+--set service.type=LoadBalancer \
+--set service.port=80 \
+--set env.NODE_LABEL_SPOT=is_spot \
+--set env.OBJECT_LABEL_APPLICATION=intent \
+--set container.port=80 \
+--set rbac.create=true \
+--set nodeSelector.intent=control-apps \
+kube-resource-report/chart/kube-resource-report
+```
+
+This will install the chart with the right setup, ports and the identification of the label *is_spot*, that when is defined on a resource, will be used to extract EC2 Spot historic prices associated with the resource. Note that during the rest of the workshop we will still use the `lifecycle` label to identify Spot instances, and only use `is_spot` to showcase the integration with kube-resource-report. 
+
+Once installed, you should be able to get the Service/Loadbalancer URL using:
+```
+kubectl get svc kube-resource-report | tail -n 1 | awk '{ print "Kube-resource-report URL = http://"$4 }'
+```
+{{% notice note %}}
+You may need to refresh the page and clean your browser cache. The creation and setup of the LoadBalancer may take a few minutes; usually in four minutes or so you should see kube-resource-report. 
+{{% /notice %}}
+
+{{% /expand %}}
+
+The result of this exercise should show kube-resource-report estimated cost of your cluster as well as the utilization of different components.
+
 
 

@@ -28,6 +28,7 @@ nodeGroups:
       labels:
         lifecycle: Ec2Spot
         intent: apps
+        aws.amazon.com/spot: Ec2Spot
       taints:
         spotInstance: "true:PreferNoSchedule"
       tags:
@@ -51,6 +52,7 @@ nodeGroups:
       labels:
         lifecycle: Ec2Spot
         intent: apps
+        aws.amazon.com/spot: Ec2Spot
       taints:
         spotInstance: "true:PreferNoSchedule"
       tags:
@@ -138,6 +140,11 @@ mix **On-Demand, Reserved Instances, and Spot** within the same nodegroup.
 #### Label and Taint strategies on mixed workers 
 
 The configuration we used creates two diversified instance groups with just Spot instances. We have attached to all nodes in both groups the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-Demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle** and set the labels and taints accordingly.
+
+{{% notice warning %}}
+Note that for [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-key-best-practices-for-running-cluster-autoscaler) all nodes within the same node group should have the same capacity and  labels, for it to predict which nodegroup to increase the capacity on.
+{{% /notice %}}
+
 
 This can be achieved in multiple ways by extending the bootstrapping sequence.
 
