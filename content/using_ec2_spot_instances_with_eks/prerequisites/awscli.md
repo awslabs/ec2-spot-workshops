@@ -2,7 +2,6 @@
 title: "Update to the latest AWS CLI"
 chapter: false
 weight: 45
-draft: true
 comment: default install now includes aws-cli/1.15.83
 ---
 
