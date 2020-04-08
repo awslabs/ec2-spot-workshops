@@ -134,12 +134,10 @@ You can verify in AWS Management Console to confirm that the Auto Scaling groups
 ![Scale Up](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-up.png)
 
 {{% notice info %}}
-Cluster Autoscaler expands capacity according to the [Expander](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) configuration. By default, Cluster Autoscaler uses the **random** expander. This means that there is equal probability of cluster autoscaler selecting the 4vCPUs 16GB RAM group or the 8vCPUs 32GB RAM group. 
+Cluster Autoscaler expands capacity according to the [Expander](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) configuration. By default, Cluster Autoscaler uses the **random** expander. This means that there is equal probability of cluster autoscaler selecting the 4vCPUs 16GB RAM group or the 8vCPUs 32GB RAM group. You may consider also using other expanders like **least-waste**, or the **priority** expander.
 {{% /notice %}}
 
-As for the node that was selected, by default the Autoscaling Groups that we created with eksctl use [lowest-price allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) and are configured to distribute across the lowest 4 spot Instance Pools (out from the ones that we defined).  
-
-The Autoscaling group selected by Cluster Autoscaler, will invoke the lowest-price allocation strategy and pick an instance from the cheapest pools. 
+As for the node that was selected, by default the Autoscaling Groups that we created with eksctl use [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies), this makes the Auto Scaling Group procure capacity from the pools that has less chances of interruptions.  
 
 {{% /expand %}}
 
@@ -149,7 +147,7 @@ kubectl scale deployment/monte-carlo-pi-service --replicas=3
 ```
 
 {{% notice info %}}
-It is a recommended to use **[capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)** as an allocation strategy for your mixed instances EC2 Spot nodegroups. Although it has been described as an optional exercise in this workshop, you are encouraged to complete that exercise and understand the effects of using "capacity-optimized".
+It is a recommended to use **[capacity-optimized](https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)** as an allocation strategy for your mixed instances EC2 Spot nodegroups. Other Strategies like *[Lowest Price](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html)* might be still considered for nodes that just process [Kubernetes retriable Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/)
 {{% /notice %}}
 
 ### Optional Exercises
@@ -160,7 +158,7 @@ workshop at a AWS event or with limited time, we recommend to come back to this 
 completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy, using the 4 cheapest pools in each AZ. Can you think of a different alternative **allocation strategy** to help reduce the frequency of interruptions on EC2 Spot nodes? What would be the pros and cons of using a different allocation strategy on a front-end production system ?
+ * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies). What do you think is the trade-off when you switch to [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy ? 
 
  * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
 
@@ -170,5 +168,5 @@ completed the workshop, and before getting into the **cleanup** section.
 
  * Scheduling in Kubernetes is the process of binding pending pods to nodes, and is performed by a component of Kubernetes called [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling/kube-scheduler/). When running on Spot the cluster is expected to be dynamic; the state is expected to change over time; The original scheduling decision may not be adequate after the state changes. Could you think or research for a project that could help address this? ([hint_1](https://github.com/kubernetes-sigs/descheduler)) [hint_2](https://github.com/pusher/k8s-spot-rescheduler). If so apply the solution and see what is the impact on scale-in operations.
 
- * During the workshop, we did use nodegroups that expand across multiple AZ's; There are scenarios where might create issues. Could you think which scenarios ? ([hint](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws#common-notes-and-gotchas)). Could you think of ways of palliating the risk in those scenarios ? ([hint 1](https://github.com/aws-samples/amazon-k8s-node-drainer), [hint 2](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler))
+ * During the workshop, we did use nodegroups that expand across multiple AZ's; There are scenarios where might create issues. Could you think which scenarios ? ([hint](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws#common-notes-and-gotchas)). Could you think of ways of mitigating the risk in those scenarios ? ([hint 1](https://github.com/aws-samples/amazon-k8s-node-drainer), [hint 2](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler))
 

@@ -24,16 +24,17 @@ nodeGroups:
         instanceTypes: ["m5.xlarge", "m5d.xlarge", "m4.xlarge","t3.xlarge","t3a.xlarge","m5a.xlarge","t2.xlarge"] 
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 0
-        spotInstancePools: 4
+        spotAllocationStrategy: capacity-optimized
       labels:
         lifecycle: Ec2Spot
         intent: apps
-        aws.amazon.com/spot: Ec2Spot
+        aws.amazon.com/spot: "true"
       taints:
         spotInstance: "true:PreferNoSchedule"
       tags:
         k8s.io/cluster-autoscaler/node-template/label/lifecycle: Ec2Spot
         k8s.io/cluster-autoscaler/node-template/label/intent: apps
+        k8s.io/cluster-autoscaler/node-template/label/aws.amazon.com/spot: "true"
         k8s.io/cluster-autoscaler/node-template/taint/spotInstance: "true:PreferNoSchedule"
       iam:
         withAddonPolicies:
@@ -48,16 +49,17 @@ nodeGroups:
         instanceTypes: ["m5.2xlarge", "m5d.2xlarge", "m4.2xlarge","t3.2xlarge","t3a.2xlarge","m5a.2xlarge","t2.2xlarge"] 
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 0
-        spotInstancePools: 4
+        spotAllocationStrategy: capacity-optimized
       labels:
         lifecycle: Ec2Spot
         intent: apps
-        aws.amazon.com/spot: Ec2Spot
+        aws.amazon.com/spot: "true"
       taints:
         spotInstance: "true:PreferNoSchedule"
       tags:
         k8s.io/cluster-autoscaler/node-template/label/lifecycle: Ec2Spot
         k8s.io/cluster-autoscaler/node-template/label/intent: apps
+        k8s.io/cluster-autoscaler/node-template/label/aws.amazon.com/spot: "true"
         k8s.io/cluster-autoscaler/node-template/taint/spotInstance: "true:PreferNoSchedule"
       iam:
         withAddonPolicies:
@@ -82,6 +84,7 @@ There are a few things to note in the configuration that we just used to create 
  * We did set up **minSize** to 0, **maxSize** to 5 and **desiredCapacity** to 1. Nodegroups can be scaled down to 0.
  * We did set up **onDemandBaseCapacity** and **onDemandPercentageAboveBaseCapacity** both to **0**. which implies all nodes in the nodegroup would be **Spot instances**.
  * We did set up a **lifecycle: Ec2Spot** label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSlectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
+ * We did specify **spotAllocationStrategy** pointing it to use **[Capacity Optimized](https://aws.amazon.com/about-aws/whats-new/2019/08/new-capacity-optimized-allocation-strategy-for-provisioning-amazon-ec2-spot-instances/)**. This will ensure the capacity we provision in our nodegroups is procured from the pools that will have less chances of being interrupted.
  * We did also add an extra label **intent: apps**. We will use this label to force a hard partition
  of the cluster for our applications. During this workshop we will deploy control applications on
  nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.

@@ -51,7 +51,8 @@ Using the file browser on the left, open **cluster-autoscaler/cluster_autoscaler
 
  * **Save** the file
 
-This command contains all of the configuration for the Cluster Autoscaler. Each `--nodes` entry defines a new Autoscaling Group mapping to a Cluster Autoscaler nodegroup. Cluster Autoscaler will consider the nodegroups selected when scaling the cluster. The syntax of the line is minimum nodes **(1)**, max nodes **(5)** and **ASG Name**.
+This command contains all of the configuration for the Cluster Autoscaler. Each `--nodes` entry defines a new Autoscaling Group mapping to a Cluster Autoscaler nodegroup. Cluster Autoscaler will consider the nodegroups selected when scaling the cluster. The syntax of the line is minimum nodes **(0)**, max nodes **(5)** and **ASG Name**.
+
 
 ### Deploy the Cluster Autoscaler
 
