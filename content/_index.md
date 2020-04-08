@@ -43,13 +43,12 @@ In this workshop you will assume the role of a data engineer, tasked with cost o
 costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.
 {{< /card >}}
 
-{{< card workshop 
-    "launching_ec2_spot_instances"
-    "Launching EC2 Spot Instances"
-    "Amazon-EC2_Spot-Instance_light-bg.png" 
+{{< card important_workshop 
+    "using_ec2_spot_instances_with_eks"
+    "Using Spot Instances with EKS"
+    "Amazon-Elastic-Container-Service-for-Kubernetes.svg" 
 >}}
-In this workshop you will explore different ways of requesting Amazon EC2 Spot requests
-and understand how to qualify workloads for EC2 Spot.
+In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale.
 {{< /card >}}
 
 {{< card workshop 

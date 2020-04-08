@@ -44,6 +44,10 @@ If you are using CloudFormation or Terraform for your production EKS clusters (o
 
 **Question**: Is the new instance type in the ASG different than the one that existed before? if so, it means that the previous instance type was selected as the cheapest option, while the new instance type was selected from the capacity pool which is least likely to be interrupted.
 
+{{% notice info %}}
+While in this exercise we have manually modified the allocation strategy through the EC2 Management Console, starting from 0.16.0 EKSCTL supports **capacity-optimized** allocation strategy. In fact you can go back to the original nodegroups that we created and see how this was implemented with eksctl.
+{{% /notice %}}
+
 
 #### Increasing resilience: Automatic Jenkins job retries
 We can configure Jenkins to automatically retry running jobs in case of failures. One possible failure would be when a Jenkins agent is running a job on an EC2 Spot Instance that is going to be terminated due to an EC2 Spot Interruption, when EC2 needs the capacity back. To configure automatic retries for jobs, follow these steps:

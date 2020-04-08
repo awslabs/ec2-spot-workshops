@@ -17,7 +17,10 @@ aws --version
 
 1. Update to the latest version:
 ```
-pip install --user --upgrade awscli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+. ~/.bash_profile
 ```
 
 1. Confirm you have a newer version:
