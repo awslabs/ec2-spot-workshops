@@ -60,7 +60,7 @@ Spend some time checking the state and properties of your EKS cluster.
 
 ![kube-ops-view](/images/using_ec2_spot_instances_with_eks/helm/kube-ops-view-legend.png)
 
-### Optional Exercise
+### Exercise
  
 {{% notice info %}}
 In this exercise we will install and explore another great tool, **[kube-resource-report](https://github.com/hjacobs/kube-resource-report)** by [Henning Jacob](https://github.com/hjacobs). Kube-resource-report generates a utilization report and associates a cost to namespaces, applications and pods. Kube-resource-report does also take into consideration the Spot savings. It uses the [describe-spot-price-history](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSpotPriceHistory.html) average value of the reported in the last three days to provide an estimate for the cost of EC2 Spot nodes.  
