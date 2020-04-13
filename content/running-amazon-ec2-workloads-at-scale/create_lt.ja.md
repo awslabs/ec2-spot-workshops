@@ -13,7 +13,7 @@ EC2起動テンプレートを活用することにより、EC2インスタン�
 
 このワークショップに必要な起動テンプレートを定義していきます。
 
-1. 作成されたリソース名で**user-data.txt**を更新するため、次のコマンドを実行します。この内容には、EC2インスタンス起動時に自動実行される[cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html)命令を含んだ[ユーザーデータ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)が含まれます
+1. 作成されたリソース名で**user-data.txt**を更新するため、次のコマンドを実行します。この内容には、EC2インスタンス起動時に自動実行される[cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html)命令を含んだ[ユーザーデータ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html)が含まれます。
     ```bash
     sed -i.bak -e "s/%awsRegionId%/$AWS_REGION/g" -e "s/%fileSystem%/$fileSystem/g" user-data.txt
     ```
