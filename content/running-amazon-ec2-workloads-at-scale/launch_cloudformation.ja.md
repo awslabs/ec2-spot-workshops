@@ -34,7 +34,7 @@ weight = 30
 
 1. 「**次へ (Next)**」をクリックします。
 
-1. スタックの構成内容を確認します。**Capabilities**の下、画面最下部では、**I acknowledge that AWS CloudFormation might create IAM resources** にチェックを入れます。設定内容に問題がなければ「**スタックの作成 (Create stack)**」をクリックします。
+1. スタックの構成内容を確認します。画面最下部の「**機能**」では、**「AWS CloudFormation によって IAM リソースが作成される場合があることを承認します。」(I acknowledge that AWS CloudFormation might create IAM resources)** にチェックを入れます。設定内容に問題がなければ「**スタックの作成 (Create stack)**」をクリックします。
 
 #### スタックの進捗確認
 
