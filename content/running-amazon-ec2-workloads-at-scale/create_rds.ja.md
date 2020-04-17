@@ -15,4 +15,4 @@ Amazon Relational Database Service (Amazon RDS)はリレーショナルデータ
 	aws rds create-db-instance --cli-input-json file://rds.json
 	```
 	
-1. [Amazon RDS console](https://console.aws.amazon.com/rds/home?#dbinstances:)を開き、作成したRDS DBインスタンスが起動する様子を確認します。データベースの作成には数分かかります。これを待つ間に次のステップに進むこともできます。また後ほどデータベースが作成されたことを確認してください。
+1. [Amazon RDSマネジメントコンソール](https://console.aws.amazon.com/rds/home?#dbinstances:)を開き、作成したRDS DBインスタンスが起動する様子を確認します。データベースの作成には数分かかります。これを待つ間に次のステップに進むこともできます。また後ほどデータベースが作成されたことを確認してください。

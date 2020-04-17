@@ -16,7 +16,7 @@ AWS Cloud9はsudo権限のあるターミナルとセットアップ済みのAWS
 
 1. **Your environments**から**Open IDE**を開きます。
 {{% notice note %}}
-改めて、今回このワークショップで作成したCloud9環境にアクセスしていることを確認してください。
+特に複数Cloud9環境がある場合、今回このワークショップで作成したCloud9環境にアクセスしていることを確認してください。"Description"に"Running Amazon EC2 Workloads at Scale - Cloud9 environment"と記載されているのが今回のワークショップ用環境です。
 {{% /notice %}}
 
-1. 今回がCloud9に触れる初めての機会である場合、すこし時間を取ってCloud9環境に慣れ親しんでください。Cloud9の[クイックツアー](https://docs.aws.amazon.com/cloud9/latest/user-guide/tutorial.html#tutorial-tour-ide)を通読することもできます。
+1. 今回がCloud9に触れる初めての機会である場合、すこし時間を取ってCloud9環境に慣れ親しんでください。Cloud9の[クイックツアー](https://docs.aws.amazon.com/ja_jp/cloud9/latest/user-guide/tutorial.html#tutorial-tour-ide)を通読しても良いでしょう。

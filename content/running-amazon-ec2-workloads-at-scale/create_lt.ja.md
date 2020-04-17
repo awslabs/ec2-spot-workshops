@@ -47,7 +47,7 @@ EC2起動テンプレートを活用することにより、EC2インスタン�
     }
     ```
 
-作成された起動テンプレートを[EC2起動テンプレートマネジメントコンソール](https://console.aws.amazon.com/ec2/v2/home?#LaunchTemplates:sort=launchTemplateId)から確認します。正常に作成されたことを次のコマンドで確かめてください。
+作成された起動テンプレートを[EC2起動テンプレートマネジメントコンソール](https://console.aws.amazon.com/ec2/v2/home?#LaunchTemplates:sort=launchTemplateId)もしくはCLIから確認します。CLIから確認する場合、正常に作成されたことを次のコマンドで確かめてください。
 
 
 * 起動テンプレートの定義が正しいことを確認します。

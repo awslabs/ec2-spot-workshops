@@ -24,7 +24,7 @@ weight = 30
 
 1. 「**次へ (Next)**」をクリックします。
 
-1. 「**スタックの詳細指定 (Specify stack details)**」で、「**スタック名 (Stack name)**」に　*runningAmazonEC2WorkloadsAtScale* を指定します。
+1. 「**スタックの詳細指定 (Specify stack details)**」で、「**スタック名 (Stack name)**」に *runningAmazonEC2WorkloadsAtScale* を指定します。
 
 1. (オプション) **パラメータ (Parameters)**で **sourceCidr** を変更することで、EC2インスタンスへのSSHおよびHTTPアクセス、またロードバランサへのHTTPアクセスの接続元を限定することができます。
 

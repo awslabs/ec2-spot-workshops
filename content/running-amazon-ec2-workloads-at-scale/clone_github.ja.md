@@ -19,7 +19,7 @@ weight = 60
 
 1. 内容を確認します。ディレクトリ構造の確認にはターミナルからだけでなく、**Environment** タブのファイルツリーを活用できます。ファイルをダブルクリックすることで編集も可能です。
 
-1. お使いのアカウントでクローンしたワークショップのアプリケーションを稼働させるため、提供されたファイル群に対して具体的なAWSリソース名を指定する必要があります。以降のステップでは、手元にクローンしたファイル群に対し、CloudFormation経由で作成されたリソース名を指定していきます。この作業を省力化する目的で、事前にCloudFormationの **Outputs** の出力をbashの環境変数に格納するよう、次のコマンド群を発行します。 なお実際のファイル編集は、このそれぞれの環境変数を用い、 *[sed](https://linux.die.net/man/1/sed)* コマンドで行なっていきます。
+1. このワークショップのアプリケーションをお使いのアカウントで稼働させるため、設定ファイル群を編集し、先ほどCloudFormationで作成した具体的なAWSリソース名を指定する必要があります。個別にファイルを編集しても良いのですが、今回は *[sed](https://linux.die.net/man/1/sed)* を使って作業を省力化してみましょう。このために、ここでは事前にCloudFormationの **Outputs** の出力をbashの環境変数に格納します。以下のコマンドを発行し、それぞれの意味も考えてみてください。
 	```bash
 	export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
 	export stack_name=runningAmazonEC2WorkloadsAtScale

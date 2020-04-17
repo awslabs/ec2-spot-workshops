@@ -10,7 +10,7 @@ AppSpecファイルは、ファイルで定義されている一連のライフ�
 
 ここまでのステップが完了すると、Auto Scalingグループ内のEC2インスタンスにアプリケーションをデプロイできるようになっています。
 
-1. **codedeploy**ディレクトリに移動し、これからデプロイするアプリケーションの構造を確認します。
+1. **codedeploy**ディレクトリの内容を参照し、これからデプロイするアプリケーションの構造を確認します。
 
 1. CodeDeployデプロイスクリプトを編集し、RDS DBインスタンス名を更新します。
 次のコマンドを発行して**codedeploy/scripts/configure_db.sh**を更新し、**%endpoint%**をRDS DBインスタンスのエンドポイントの値で置き換えます。
@@ -95,7 +95,7 @@ CodeDeployコンソールに遷移したタイミングで、リージョンが�
 	aws deploy create-deployment --cli-input-json file://deployment.json
 	```
 {{% notice note %}}
-**deploymentId**をメモしてください。
+**deploymentId** をメモしてください。
 {{% /notice %}}
 	
 1. [AWS CodeDeployコンソール](https://console.aws.amazon.com/codesuite/codedeploy/deployments)を開き、再度リージョンが正しいことを確認してから対象のデプロイIDをクリックし、デプロイ状況を確認します。下部のデプロイイベントに対象となるEC2インスタンスが表示されていることを確認します。個々のインスタンスへのデプロイ状況は「イベントの表示」から確認できます。
@@ -104,13 +104,13 @@ CodeDeployコンソールに遷移したタイミングで、リージョンが�
 CodeDeployコンソールに遷移したタイミングで、リージョンが変更されている可能性があります。右上のリージョン情報が異なっている場合、正しいリージョンを改めて選択してください。
 {{% /notice %}}
 
-1. アプリケーションが正しくインスタンスにデプロイされると、ターゲットグループのヘルスチェックが正常としてマークされます。[ターゲットグループコンソール](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName)からヘルスチェック結果を確認します。
+1. アプリケーションが正しくインスタンスにデプロイされると、ターゲットグループのヘルスチェックが正常としてマークされます。[ターゲットグループコンソール](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName)からTargetsタブを選択し、ヘルスチェック結果を確認します。
 
 1. 最低1つのインスタンスが正常とマークされたら、[ロードバランサコンソール](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName)から作成したロードバランサを選択します。
 
 1. **DNS名**をコピーし、URLとしてブラウザからアクセスします。ログインページが表示されたらば、ユーザー名に'**admin@example.com**', パスワードに'**admin-pass**'を指定してログインします。
 
-1. 各インスタンスにはマウントポイント**/var/www/media**があり、ここにEFSファイルシステムがマウントされており、オーディオファイルが格納される想定となっています。mp3ファイルをいくつかコピーするため、Cloud9環境からEFSファイルシステムをマウントします。CloudFormationスタックの出力から控えた**%fileSystem**の値に置き換えた上で、次のコマンドを実行します。
+1. 各インスタンスにはマウントポイント**/var/www/media**があり、ここにEFSファイルシステムがマウントされており、オーディオファイルが格納される想定となっています。mp3ファイルをいくつかコピーするため、Cloud9環境からEFSファイルシステムをマウントします。CloudFormationスタックの出力から控えた **$fileSystem** の値に置き換えた上で、次のコマンドを実行します。
 
 	```
 	mkdir -p ~/environment/media

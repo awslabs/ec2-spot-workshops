@@ -17,10 +17,10 @@ AWS Systems Manager は、AWS でご利用のインフラストラクチャを�
 
 1. [CloudWatchコンソール](https://console.aws.amazon.com/cloudwatch/home?#alarm:alarmFilter=ANY)を開き、ターゲット追跡ポリシーに設定したアラームが発火するのを待ちます。
 
-1. [Auto Scalingコンソール](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details)を開き、対象Auto Scalingグループの「アクティビティ履歴」および「いんすたんす」タブを確認します。コマンド投入から数分でターゲット追跡ポリシーに設定したCPU使用率アラームが閾値に達し、スケールアウトが実行されます。
+1. [Auto Scalingコンソール](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details)を開き、対象Auto Scalingグループの「アクティビティ履歴」および「インスタンス」タブを確認します。コマンド投入から数分でターゲット追跡ポリシーに設定したCPU使用率アラームが閾値に達し、スケールアウトが実行されます。
 
 {{% notice info %}}
-AWSアカウントを作って間もない場合、もしくはスポットインスタンスをこれまでに起動したことがない場合、作成したAuto Scalingグループが希望容量までスケールアウトできないことがあります。ワークショップのこのステップ自体はインスタンス台数が少なかったとしても構わないものですので、「アクティビティ履歴」にエラーがあった場合も無視して構いません。
+AWSアカウントを作って間もない場合、もしくはスポットインスタンスをこれまでに起動したことがない場合、作成したAuto Scalingグループが希望容量までスケールアウトできないことがあります。このステップはインスタンス台数が少なかったとしてもワークショップの進行に影響しないため、「アクティビティ履歴」にスケールアウト失敗のメッセージがあった場合には無視して構いません。
 {{% /notice %}}
 
 1. [AWS CodeDeployコンソール](https://console.aws.amazon.com/codesuite/codedeploy/deployments)を開き、画面右上のリージョン設定を確認した上で、新規起動されたインスタンスに正しくアプリケーションがデプロイされることを確認します。

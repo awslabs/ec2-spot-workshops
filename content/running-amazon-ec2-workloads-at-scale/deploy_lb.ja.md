@@ -15,7 +15,7 @@ weight = 90
 	sed -i.bak -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" -e "s#%loadBalancerSecurityGroup%#$loadBalancerSecurityGroup#g" application-load-balancer.json
 	```
 
-1. 更新されたjsonファイルの内容を確認します。問題がなければ次のコマンドでロードバランサを作成します。
+1. 更新されたjsonファイルの内容を確認し、次のコマンドでロードバランサを作成します。
 
 	```
 	aws elbv2 create-load-balancer --cli-input-json file://application-load-balancer.json
@@ -51,7 +51,7 @@ weight = 90
 	sed -i.bak -e "s#%TargetGroupArn%#$tg_arn#g" modify-target-group.json
 	```
 
-1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。
+1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。この設定項目の理解を深めるには、Elastic Load BalancingのApplication Load Balancerユーザーガイドの[登録解除の遅延](https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay)の記述を参照してください。
 
 	```
 	aws elbv2 modify-target-group-attributes --cli-input-json file://modify-target-group.json
