@@ -10,15 +10,21 @@ Confirm your Nodes, if we see our 2 nodes, we know we have authenticated correct
 kubectl get nodes 
 ```
 
-Export the Worker Role Name for use throughout the workshop
+Export the Managed Group Worker Role Name for use throughout the workshop.
+
+{{% notice tip %}}
+Some of the optional exercises may require you to add extra IAM policies to the managed group role
+for the nodes to get access to services like Cloudwatch, AppMesh, X-Ray. You can always com back to this section or the environment variable `$ROLE_NAME` to refer to the role.
+{{% /notice %}}
 
 ```
-STACK_NAME=$(eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq -r '.[].StackName')
-INSTANCE_PROFILE_ARN=$(aws cloudformation describe-stacks --stack-name $STACK_NAME | jq -r '.Stacks[].Outputs[] | select(.OutputKey=="InstanceProfileARN") | .OutputValue')
-ROLE_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME | jq -r '.Stacks[].Outputs[] | select(.OutputKey=="InstanceRoleARN") | .OutputValue' | cut -f2 -d/)
+NODE_GROUP_NAME=$(eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq -r '.[].Name')
+ROLE_NAME=$(aws eks describe-nodegroup --cluster-name eksworkshop-eksctl --nodegroup-name $NODE_GROUP_NAME | jq -r '.nodegroup["nodeRole"]' | cut -f2 -d/)
 echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
-echo "export INSTANCE_PROFILE_ARN=${INSTANCE_PROFILE_ARN}" >> ~/.bash_profile
 ```
+
+
+
 
 #### Congratulations!
 
