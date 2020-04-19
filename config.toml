@@ -17,7 +17,7 @@ showVisitedLinks = true
 description = "EC2 Spot Workshops"
 disableSearch = false
 disableAssetsBusting = false
-disableLanguageSwitchingButton = true
+disableLanguageSwitchingButton = false
 disableShortcutsTitle = false
 disableInlineCopyToClipBoard = true
 
@@ -63,3 +63,12 @@ weight = 20
 name = "<i class='fas fa-envelope'></i> Feedback / Questions?"
 url = "mailto:ec2-spot-workshops@amazon.com"
 weight = 30
+
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    weight = 1
+  [languages.ja]
+    languageName = "Japanese"
+    weight = 2
