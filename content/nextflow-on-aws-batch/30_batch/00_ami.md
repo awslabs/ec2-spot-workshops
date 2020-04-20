@@ -33,7 +33,7 @@ sudo chmod +x /usr/bin/packer
 We need to fetch the AMI-ID of the official ecs-optimized image and store the ID in an environment variable for later use.
 
 ```
-export SOURCE_AMI=$(aws ec2 --region=${$AWS_REGION} describe-images --owners amazon \
+export SOURCE_AMI=$(aws ec2 --region=${AWS_REGION} describe-images --owners amazon \
         --filters 'Name=name,Values=amzn-ami-????.??.???????-amazon-ecs-optimized ' 'Name=state,Values=available' \
         --query 'reverse(sort_by(Images, &CreationDate))[:1].ImageId' --output text)
 echo $SOURCE_AMI
