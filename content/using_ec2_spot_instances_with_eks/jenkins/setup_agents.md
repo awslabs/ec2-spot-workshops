@@ -4,12 +4,10 @@ date: 2018-08-07T08:30:11-07:00
 weight: 40
 ---
 
-We now have our Jenkins Master running inside our EKS cluster, and we can reach the Jenkins dashboard via an ELB. We can create jobs which will be executed by Jenkins agents in pods within our cluster, but before we do that, let's create a dedicated Spot based nodegroup for our Jenkins agents, which will be slightly different from our existing nodegroups. In the next section in the workshop, **Increasing Resilience**, you will understand why we're creating a new nodegroup which is different than our existing nodegroups, dedicated to the Jenkins agent pods.
+We now have our Jenkins Master running inside our EKS cluster, and we can reach the Jenkins dashboard via an ELB. We can create jobs which will be executed by Jenkins agents in pods within our cluster, but before we do that, let's create a dedicated Spot based nodegroup for our Jenkins agents, which will be slightly different from our existing nodegroups. 
 
 #### Creating a new Spot Instances nodegroup for our Jenkins agent pods
-Earlier in the workshop, in the **Adding Spot Workers with eksctl** step, we created nodegroups that run a diversified set of Spot Instances to run our applications.
-
-Let's create a new eksctl nodegroup configuration file called `spot_nodegroup_jenkins.yml`. The Jenkins default resource requirements (Request and Limit CPU/Memory) are 512m (~0.5 vCPU) and 512Mi (~0.5 GB RAM), and since we are not going to perform any large build jobs in this workshop, we can stick to the defaults and also choose relatively small instance types that can accommodate the Jenkins agent pods.
+Earlier in the workshop, in the **Adding Spot Workers with eksctl** step, we created nodegroups that run a diversified set of Spot Instances to run our applications.Let's create a new eksctl nodegroup configuration file called `spot_nodegroup_jenkins.yml`. The Jenkins default resource requirements (Request and Limit CPU/Memory) are 512m (~0.5 vCPU) and 512Mi (~0.5 GB RAM), and since we are not going to perform any large build jobs in this workshop, we can stick to the defaults and also choose relatively small instance types that can accommodate the Jenkins agent pods.
 
 ```
 cat <<EoF > ~/environment/spot_nodegroup_jenkins.yml
@@ -27,7 +25,7 @@ nodeGroups:
         instanceTypes: ["m5.large", "m5d.large", "m4.large","t3.large","t3a.large","m5a.large","t2.large"] 
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 0
-        spotInstancePools: 4
+        spotAllocationStrategy: capacity-optimized
       labels:
         lifecycle: Ec2Spot
         intent: jenkins-agents
@@ -40,6 +38,8 @@ EoF
 ```
 
 This will create a `spot_nodegroup_jenkins.yml` file that we will use to instruct eksctl to create one nodegroup (EC2 Auto Scaling group), with the labels `intent: jenkins-agents` and `lifecycle: Ec2Spot`. The ASG will also have a custom tag key `k8s.io/cluster-autoscaler/node-template/label/intent` with the value `jenkins-agents` - This is in order for Kubernetes cluster-autoscaler to respect the node selector configuration that we will apply later in the module.
+
+Since Jenkins job oriented workloads are not fault-tolerant and an EC2 Spot interruption would cause the build job to fail, we can choose the **capacity-optimized** allocation strategy which will provision Spot Instances for us from the capacity pools that have the lowest chances of being interrupted. This way, we increase the chances of successfully completing our Jenkins jobs when running on Spot Instances.
 
 ```
 eksctl create nodegroup -f spot_nodegroup_jenkins.yml
