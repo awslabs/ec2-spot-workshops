@@ -58,7 +58,7 @@ cat << \EOF > packer.json
     {
       "type": "shell",
       "inline": [
-        "yum install -y wget",
+        "sudo yum install -y wget",
         "wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh",
         "bash ./Miniconda3-latest-Linux-x86_64.sh -b -f -p /home/ec2-user/miniconda",
         "/home/ec2-user/miniconda/bin/conda install -c conda-forge awscli",
