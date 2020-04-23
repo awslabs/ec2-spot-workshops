@@ -44,7 +44,7 @@ NF_SCRIPT=${NF_SCRIPT:-main.nf}
 NF_OPTS=${NF_OPTS}
 
 if [[ "${PIPELINE_URL}" =~ ^s3://.* ]]; then
-    aws s3 cp --recusrive ${PIPELINE_URL} /scratch
+    aws s3 cp --recursive ${PIPELINE_URL} /scratch
 else
     # Assume it is a git repository
     git clone ${PIPELINE_URL} /scratch
