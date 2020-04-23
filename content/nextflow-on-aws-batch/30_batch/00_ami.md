@@ -2,6 +2,7 @@
 title: "Create Custom AMI"
 chapter: false
 weight: 01
+hidden: true
 ---
 
 AWS Batch uses Amazon ECS to schedule the container and as such uses the official ECS-optimized image as a default.
@@ -21,6 +22,8 @@ Click [1] to copy the credentials in your clipboard and paste them into your Clo
 To update the image we use [Hashicorp packer](https://packer.io/). First we install the tool `bsdtar` to download and unzip the file in one go, before we change the permissions so that it can be executed.
 
 ```
+mkdir -p ~/environment/nextflow-tutorial/packer
+cd ~/environment/nextflow-tutorial/packer
 sudo yum install -y bsdtar
 curl -sLo - \
       https://releases.hashicorp.com/packer/1.5.4/packer_1.5.4_linux_amd64.zip \
@@ -87,4 +90,4 @@ This process will take 5 to 10 minutes.
 packer build -var "source_ami=${SOURCE_AMI}" packer.json
 ```
 
-Please copy the resulting AMI-ID and into your clipboard; we will need it in the next step.
+Please **copy the resulting AMI-ID and into your clipboard**; we will need it in the next step.

@@ -30,7 +30,8 @@ Finally we define environment variables to control which pipeline to run **[2]**
 
 Please set 2 environement variables:
 
- - Key: `PIPELINE_URL` and Value: `https://github.com/seqeralabs/nextflow-tutorial.git` 
- - Key: `NF_SCRIPT` and Value `script7.nf`.
+ - Key: `PIPELINE_URL` and value: `https://github.com/seqeralabs/nextflow-tutorial.git`
+ - Key: `BUCKET_NAME` and value of the environment variable `BUCKET_NAME_RESULTS`: `s3://nextflow-workshop-XXXYYZZZ`
+ - Key: `NF_SCRIPT` and value `script7.nf`.
 
 ![](/images/nextflow-on-aws-batch/nextflow202/create_jobdef_2.png)
