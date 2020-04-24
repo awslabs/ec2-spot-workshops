@@ -8,30 +8,44 @@ weight: 10
 
 Now that we have created queues and compute environments, we can wire them into Nextflow.
 
-```
+
+{{% notice info %}}
+Please note that we are creating a config that does not hold a container name nor a AWS_REGION. We are going to change those values using `sed`.
+{{% /notice %}}
+
+
+```bash
+cd ~/environment/nextflow-tutorial/
 cat << \EOF > $HOME/.nextflow/config
 profiles {
   standard {
-    process.container = 'nextflow/rnaseq-nf'
+    process.container = ''
     docker.enabled = true
   }
 
   batch {
-    aws.region = 'us-east-1'
+    aws.region = ''
+    process.container = ''
     process.executor = 'awsbatch'
     process.queue = 'job-queue'
   }
 }
 EOF
-sed -i -e "s/aws.region =.*/aws.region = '${AWS_REGION}'/" $HOME/.nextflow/config
+sed -i -e "s/aws.region =.*/aws.region = '${AWS_REGION}'/g" $HOME/.nextflow/config
+sed -i -e "s#process.container =.*#process.container = '${RNASEQ_REPO_URI}:${IMG_TAG}'#g"  $HOME/.nextflow/config nextflow.config
 ```
 
+{{% notice info %}}
+Please note, that we change two files with the second `sed` command. Nextflow will evaluate a `nextflow.config` file next to the script we are executing (which would be the file in the current directory) and also fall back to `$HOME/.nextflow/config` for additional configuration. As we are going to use the latter one when using AWS Batch squared we are changing both.
+{{% /notice %}}
+
+Please make sure to **copy the complete image name (registry+name+tag) into your clipboard** for later use.
 
 ## Create S3 Bucket
 
-```
-export BUCKET_NAME=nextflow-spot-batch--${RANDOM}-$(date +%s)
-aws --region ${AWS_REGION} s3 mb s3://${BUCKET_NAME}
+```bash
+echo ${BUCKET_NAME_RESULTS}
 export BUCKET_NAME_TEMP=nextflow-spot-batch-temp-${RANDOM}-$(date +%s)
 aws --region ${AWS_REGION} s3 mb s3://${BUCKET_NAME_TEMP}
+echo ${BUCKET_NAME_TEMP}
 ```

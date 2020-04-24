@@ -18,39 +18,44 @@ The example workflow implements a simple RNA-seq pipeline which:
    3. performs quantification
    4. creates a MultiQC report
 
-
 ### Pull Image and run
 
 As nextflow will run the image `nextflow/rnaseq-nf` and thus needs to download almost 3GB without advancing, we will first download the image so that we can see what docker is doing.
-```
+
+```bash
 docker pull nextflow/rnaseq-nf
+```
+
+Outut will look like this:
+
+```bash
+$ docker pull nextflow/rnaseq-nf
+Using default tag: latest
+latest: Pulling from nextflow/rnaseq-nf
+b8f262c62ec6: Pull complete
+fa9712f20293: Pull complete
+6ec1e76960c6: Pull complete
+fe231f126300: Pull complete
+b5060e108b58: Pull complete
+ba0e69f9489f: Pull complete
+248da7e19707: Pull complete
+Digest: sha256:0ac11ff903d39ad7db18e63c8958fb11864192840b3d9ece823007a54f3703e0
+Status: Downloaded newer image for nextflow/rnaseq-nf:latest
 ```
 
 Afterwards we can start the script, which will subsequently start a container using the just pulled image.
 
-```
+```bash
 nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
 ```
 
 The output will look like this.
 
-```
-TeamRole:~/environment/nextflow-tutorial (master) $ docker pull nextflow/rnaseq-nf
-Using default tag: latest
-latest: Pulling from nextflow/rnaseq-nf
-b8f262c62ec6: Pull complete 
-fa9712f20293: Pull complete 
-6ec1e76960c6: Pull complete 
-fe231f126300: Pull complete 
-b5060e108b58: Pull complete 
-ba0e69f9489f: Pull complete 
-248da7e19707: Pull complete 
-Digest: sha256:0ac11ff903d39ad7db18e63c8958fb11864192840b3d9ece823007a54f3703e0
-Status: Downloaded newer image for nextflow/rnaseq-nf:latest
-TeamRole:~/environment/nextflow-tutorial (master) $ nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
+```bash
+$ nextflow run script7.nf --reads 'data/ggal/*_{1,2}.fq'
 N E X T F L O W  ~  version 20.01.0
 Launching `script7.nf` [admiring_edison] - revision: ce58523d1d
-R N A S E Q - N F   P I P E L I N E    
+R N A S E Q - N F   P I P E L I N E
 ===================================
 transcriptome: /home/ec2-user/environment/nextflow-tutorial/data/ggal/transcriptome.fa
 reads        : data/ggal/*_{1,2}.fq
@@ -61,21 +66,20 @@ executor >  local (8)
 [86/c377f4] process > fastqc         [100%] 3 of 3 ✔
 [08/3c2c49] process > multiqc        [100%] 1 of 1 ✔
 Done! Open the following report in your browser --> results/multiqc_report.html
-$ 
+$
 ```
 
 The report can be previewed within Cloud9. Right-click (**[1]**) on the file and choose `Preview` (**[2]**) from the context menue.
 
-![](/images/nextflow-on-aws-batch/nextflow101/multiqc_report.png)
-
+![multiqc_report](/images/nextflow-on-aws-batch/nextflow101/multiqc_report.png)
 
 With more elaborate output nextflow can create more reports.
 
-```
+```bash
 nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png 
 ```
 
 This creates a bunch more reports about the workflow. E.g.:
 
-![](/images/nextflow-on-aws-batch/nextflow101/dag.png) 
-![](/images/nextflow-on-aws-batch/nextflow101/timeline.png) 
+![dag](/images/nextflow-on-aws-batch/nextflow101/dag.png) 
+![timeline](/images/nextflow-on-aws-batch/nextflow101/timeline.png) 

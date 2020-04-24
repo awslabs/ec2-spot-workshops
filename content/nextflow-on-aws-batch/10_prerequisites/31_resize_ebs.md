@@ -11,7 +11,7 @@ Thus, let us resize the EBS volume used by the Cloud9 instance.
 
 To change the EBS volume, please do
 
-   1. Select the Cloud9 instance in the EC2 console
+   1. Select the Cloud9 instance in the EC2 console [deep link to get there](https://console.aws.amazon.com/ec2/v2/home)
    2. Click the root-device link
    3. click on the EBS-ID in the box appearing
 

@@ -4,8 +4,6 @@ chapter: true
 weight: 50
 ---
 
-# Congratulations!
-
 First, you did great! Let us go over what we learned today...
 
 <div style="text-align:left;font-size: 1.2rem">
@@ -13,7 +11,6 @@ With this workshop, we learned how to install and configure Nextflow for genomic
 
 Let's see how cost efficient is to use Spot for Nextflow Genomic pipelines 
 </div>
-
 
 ## Cost Optimisation
 
