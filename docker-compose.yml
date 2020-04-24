@@ -3,7 +3,7 @@ services:
   hugo:
     build:
       context: .
-      target: hugo
+      target: build
     ports:
       - 1313:1313
     volumes:
