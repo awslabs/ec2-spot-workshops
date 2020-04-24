@@ -110,7 +110,7 @@ kubectl get nodes
 You can use the node-labels to identify the lifecycle of the nodes
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
+kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot | grep Ec2Spot
 ```
 
 The output of this command should return **Ec2Spot** nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**
@@ -121,7 +121,7 @@ Now we will show all nodes with the **lifecycle=OnDemand**. The output of this c
 creating the cluster).
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=OnDemand
+kubectl get nodes --show-labels --selector=lifecycle=OnDemand | grep OnDemand
 ```
 
 ![OnDemand Output](/images/using_ec2_spot_instances_with_eks/spotworkers/spot_get_od.png)
@@ -182,12 +182,4 @@ your cluster is running and create the nodegroups using the following command:
 eksctl create nodegroup -f eksctl_mixed_workers_bootstrap.yml
 ```
 {{% /expand %}}
-
-
-
-
-
-
-
-
 
