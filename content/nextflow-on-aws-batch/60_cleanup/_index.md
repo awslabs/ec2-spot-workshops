@@ -4,7 +4,7 @@ chapter: true
 weight: 60
 ---
 
-## Clean Up!
+## Clean Up
 
 ### At an AWS event
 
@@ -20,7 +20,7 @@ for b in $(aws s3 ls |awk '/nextflow-spot-batch/{print $3}' |xargs); do echo "# 
 
 #### ECR
 
-```
+```bash
 for x in $(aws ecr --region=${AWS_REGION}  describe-repositories |jq -r '.repositories[] | .repositoryName' |xargs);do echo "# aws ecr --region=${AWS_REGION} delete-repository --force --repository-name=$x" ; aws ecr --region=${AWS_REGION} delete-repository --force --repository-name=$x;done
 ```
 

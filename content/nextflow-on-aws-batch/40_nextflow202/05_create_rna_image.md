@@ -8,7 +8,6 @@ weight: 05
 
 In order to run the RNA-Seq pipeline while using the AWS-Cli incapsulated within the image, we are going to derive an image from the tutorial image.
 
-
 ### ECR
 
 #### Login
@@ -21,7 +20,7 @@ $(aws ecr get-login --no-include-email)
 #### Create Repo
 
 ```bash
-aws ecr create-repository --repository-name nextflow-rna-seq 
+aws ecr create-repository --repository-name nextflow-rna-seq
 ```
 
 Extract the URI and set an environment variable.
@@ -60,7 +59,7 @@ EOF
 ```
 
 {{% notice info %}}
-If you are not familiar with [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds), please take a moment to let it sink in. :)<br>
+If you are not familiar with [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds), please take a moment to let it sink in. :)
 What we are doing with the above Dockerfile is creating a `build` stage that installs all the dependencies to run `pip install` and subsequently installing `awscli`. Notice, that we use a different target.
 Without that pip would install everything in the already masive `/opt/conda/` directory. In the final stage we are setup up the environment to pick up `aws` and its libraries.
 {{% /notice %}}
@@ -98,11 +97,12 @@ Step 7/7 : COPY --from=build /opt/pip/ /opt/pip/
 Successfully built 6d8816bb059c
 Successfully tagged 470217903628.dkr.ecr.us-east-1.amazonaws.com/nextflow-rna-seq:2020-04-24.1
 ```
+
 Please make sure to **copy the complete image name (registry+name+tag) into your clipboard** for later use.
 
 Finally, push the image to ECR:
 
-```
+```bash
 docker push $RNASEQ_REPO_URI:${IMG_TAG}
 ```
 
@@ -111,13 +111,13 @@ Output:
 ```bash
  $ docker push $RNASEQ_REPO_URI:${IMG_TAG}
 The push refers to repository [470217903628.dkr.ecr.us-east-1.amazonaws.com/nextflow-rna-seq]
-a8dbdc0c687a: Layer already exists 
-86700d53ba3b: Layer already exists 
-26763a0357b1: Layer already exists 
-b24b12a76720: Layer already exists 
-535e8d4012de: Layer already exists 
-78db50750faa: Layer already exists 
-805309d6b0e2: Layer already exists 
-2db44bce66cd: Layer already exists 
+a8dbdc0c687a: Layer already exists
+86700d53ba3b: Layer already exists
+26763a0357b1: Layer already exists
+b24b12a76720: Layer already exists
+535e8d4012de: Layer already exists
+78db50750faa: Layer already exists
+805309d6b0e2: Layer already exists
+2db44bce66cd: Layer already exists
 2020-04-24.1: digest: sha256:dbfdba0419527cafc64dce52d176d1b1e415f926a270be1efac0c2ba2e113af7 size: 2005
 ```

@@ -6,7 +6,6 @@ weight: 10
 
 ## Local Run
 
-
 Nextflow allows the execution of any command or user script by using a process definition.
 
 A process is defined by providing three main declarations: the process [inputs](https://www.nextflow.io/docs/latest/process.html#inputs), the process [outputs](https://www.nextflow.io/docs/latest/process.html#outputs) and finally the command [script](https://www.nextflow.io/docs/latest/process.html#script).
@@ -76,10 +75,10 @@ The report can be previewed within Cloud9. Right-click (**[1]**) on the file and
 With more elaborate output nextflow can create more reports.
 
 ```bash
-nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png 
+nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png
 ```
 
 This creates a bunch more reports about the workflow. E.g.:
 
-![dag](/images/nextflow-on-aws-batch/nextflow101/dag.png) 
-![timeline](/images/nextflow-on-aws-batch/nextflow101/timeline.png) 
+![dag](/images/nextflow-on-aws-batch/nextflow101/dag.png)
+![timeline](/images/nextflow-on-aws-batch/nextflow101/timeline.png)

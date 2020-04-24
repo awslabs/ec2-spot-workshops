@@ -21,7 +21,7 @@ Click [1] to copy the credentials in your clipboard and paste them into your Clo
 
 To update the image we use [Hashicorp packer](https://packer.io/). First we install the tool `bsdtar` to download and unzip the file in one go, before we change the permissions so that it can be executed.
 
-```
+```bash
 mkdir -p ~/environment/nextflow-tutorial/packer
 cd ~/environment/nextflow-tutorial/packer
 sudo yum install -y bsdtar
@@ -35,7 +35,7 @@ sudo chmod +x /usr/bin/packer
 
 We need to fetch the AMI-ID of the official ecs-optimized image and store the ID in an environment variable for later use.
 
-```
+```bash
 export SOURCE_AMI=$(aws ec2 --region=${AWS_REGION} describe-images --owners amazon \
         --filters 'Name=name,Values=amzn-ami-????.??.???????-amazon-ecs-optimized ' 'Name=state,Values=available' \
         --query 'reverse(sort_by(Images, &CreationDate))[:1].ImageId' --output text)
@@ -46,7 +46,7 @@ After that we create a `packer.json` file with the instruction on how to update 
 
 **Please CHECK: Changed to inline, to reduce the number of manual steps...**
 
-```
+```bash
 cat << \EOF > packer.json
 {
   "variables": {
@@ -83,10 +83,11 @@ cat << \EOF > packer.json
 }
 EOF
 ```
+
 Once the file is created we overwrite the `source_ami` with the gathered AMI-ID and start a build.
 This process will take 5 to 10 minutes.
 
-```
+```bash
 packer build -var "source_ami=${SOURCE_AMI}" packer.json
 ```
 

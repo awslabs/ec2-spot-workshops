@@ -4,38 +4,36 @@ chapter: false
 weight: 20
 ---
 
-
-## Run pipeline 
+## Run pipeline
 
 To check our setup we will run nextflow on the Cloud9 instance, submitting jobs to AWS Batch.
 
 ![nextflow-test-arch](/images/nextflow-on-aws-batch/nextflow202/nextflow-test-arch.png)
 
-
 ### Run AWS Batch Jobs with Nextflow locally
 
-The first use of AWS Batch is upon us. We are going to start nextflow using the batch profile. 
+The first use of AWS Batch is upon us. We are going to start nextflow using the batch profile.
 
 ```bash
 cd ~/environment/nextflow-tutorial
-cat ${HOME}/.nextflow/config  |grep -A5 batch                                                                                                                                                              
-nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS} 
+cat ${HOME}/.nextflow/config  |grep -A5 batch
+nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS}
 ```
 
 The output is going to look similar to this:
 
 ```bash
-$ cat ../.nextflow/config  |grep -A5 batch                                                                                                                                                              
+$ cat ../.nextflow/config  |grep -A5 batch
   batch {
     aws.region = 'us-east-1'
     process.executor = 'awsbatch'
     process.queue = 'job-queue'
   }
 }
-$ nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS} 
+$ nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS}
 N E X T F L O W  ~  version 20.01.0
 Launching `script7.nf` [jovial_jones] - revision: ce58523d1d
-R N A S E Q - N F   P I P E L I N E    
+R N A S E Q - N F   P I P E L I N E
 ===================================
 transcriptome: /home/ec2-user/environment/nextflow-tutorial/data/ggal/transcriptome.fa
 reads        : /home/ec2-user/environment/nextflow-tutorial/data/ggal/gut_{1,2}.fq

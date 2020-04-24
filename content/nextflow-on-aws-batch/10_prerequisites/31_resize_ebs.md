@@ -15,20 +15,19 @@ To change the EBS volume, please do
    2. Click the root-device link
    3. click on the EBS-ID in the box appearing
 
-![](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_0.png)
+![resize_ebs_0](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_0.png)
 
 Afterward modify the EBS volume.
 
-![](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_1.png)
+![resize_ebs_1](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_1.png)
 
 And chose a new volume size (e.g. 100GB).
 
-![](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_2.png)
+![resize_ebs_2](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_2.png)
 
 {{% notice info %}}
 Please make sure that the changes went through and the EBS volume now reflects the new size of the volume.
 {{% /notice %}}
-
 
 ## Resize FS
 

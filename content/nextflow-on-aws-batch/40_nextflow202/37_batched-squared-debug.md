@@ -4,7 +4,6 @@ chapter: false
 weight: 37
 ---
 
-
 If you want to debug what is going on you may start a container similar to what is started within the `workflow-queue`.
 
 ```bash
@@ -23,7 +22,7 @@ $ docker run -ti --rm -e AWS_REGION=${AWS_REGION} \
 >                     -e BUCKET_NAME_RESULTS=${BUCKET_NAME_RESULTS} \
 >                     -e AWS_BATCH_JOB_ID=${RANDOM} \
 >                     ${REPO_URI}:${IMG_TAG} bash
-bash-4.2# entrypoint.sh 
+bash-4.2# entrypoint.sh
 + PIPELINE_URL=https://github.com/seqeralabs/nextflow-tutorial.git
 + NF_SCRIPT=script7.nf
 + NF_OPTS=
@@ -50,7 +49,7 @@ make_bucket: nextflow-spot-batch-temp-12183
 + nextflow run script7.nf -profile batch -bucket-dir s3://nextflow-spot-batch-temp-12183 --output s3://nextflow-spot-batch-result-23641-1587713021/12183
 N E X T F L O W  ~  version 20.01.0
 Launching `script7.nf` [zen_allen] - revision: ce58523d1d
-R N A S E Q - N F   P I P E L I N E    
+R N A S E Q - N F   P I P E L I N E
 ===================================
 transcriptome: /scratch/data/ggal/transcriptome.fa
 reads        : /scratch/data/ggal/gut_{1,2}.fq

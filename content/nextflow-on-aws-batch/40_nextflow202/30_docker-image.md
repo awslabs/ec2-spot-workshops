@@ -4,8 +4,6 @@ chapter: false
 weight: 30
 ---
 
-
-
 To check our setup we will run nextflow on the Cloud9 instance, submitting jobs to AWS Batch.
 
 ![nextflow-workshop-arch](/images/nextflow-on-aws-batch/nextflow-workshop-arch.png)
@@ -15,7 +13,7 @@ To check our setup we will run nextflow on the Cloud9 instance, submitting jobs 
 ### Create Repo
 
 ```bash
-aws ecr create-repository --repository-name nextflow-head 
+aws ecr create-repository --repository-name nextflow-head
 ```
 
 Extract the URI and set an environment variable.

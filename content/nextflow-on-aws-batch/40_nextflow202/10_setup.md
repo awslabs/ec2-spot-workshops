@@ -8,11 +8,9 @@ weight: 10
 
 Now that we have created queues and compute environments, we can wire them into Nextflow.
 
-
 {{% notice info %}}
 Please note that we are creating a config that does not hold a container name nor a AWS_REGION. We are going to change those values using `sed`.
 {{% /notice %}}
-
 
 ```bash
 cd ~/environment/nextflow-tutorial/
