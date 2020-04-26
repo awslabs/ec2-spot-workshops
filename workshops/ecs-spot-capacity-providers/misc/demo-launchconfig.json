@@ -1,0 +1,24 @@
+{
+    "LaunchConfigurationName": "demo-launchconfig2",
+    "ImageId": "ami-097e3d1cdb541f43e",
+    "SecurityGroups": [
+        "sg-4f3f0d1e"
+    ],
+    "InstanceType": "t2.micro",
+    "BlockDeviceMappings": [
+        {
+            "DeviceName": "/dev/xvdcz",
+            "Ebs": {
+                "VolumeSize": 22,
+                "VolumeType": "gp2",
+                "DeleteOnTermination": true,
+                "Encrypted": true
+                }
+        }
+    ],
+    "InstanceMonitoring": {
+        "Enabled": false
+    },
+    "IamInstanceProfile": "arn:aws:iam::000474600478:instance-profile/ecsInstanceRole",
+    "AssociatePublicIpAddress": true
+}
