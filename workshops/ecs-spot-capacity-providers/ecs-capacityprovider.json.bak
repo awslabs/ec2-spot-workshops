@@ -1,0 +1,13 @@
+{
+    "name": "spot-capacity_provider", 
+    "autoScalingGroupProvider": {
+    "autoScalingGroupArn": "arn:aws:autoscaling:us-east-1:000474600478:autoScalingGroup:dd7a67e0-4df0-4cda-98d7-7e13c36dec5b:autoScalingGroupName/ecs-spot-workshop-asg-spot",
+            "managedScaling": {
+                "status": "ENABLED",
+                "targetCapacity": %TARGET_CAPACITY%,
+                "minimumScalingStepSize": 1,
+                "maximumScalingStepSize": 10
+            },
+            "managedTerminationProtection": "ENABLED"
+    }
+}
