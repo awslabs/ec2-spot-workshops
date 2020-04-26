@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo ECS_CLUSTER=ECS_FARGATE_CLLUSTER_NAME >> /etc/ecs/ecs.config
+echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config

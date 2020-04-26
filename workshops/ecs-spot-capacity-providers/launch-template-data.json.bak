@@ -1,0 +1,41 @@
+{
+  "IamInstanceProfile": {
+    "Arn": "arn:aws:iam::000474600478:instance-profile/ecslabinstanceprofile"
+  },
+  "ImageId": "%ami-id%",
+  "SecurityGroupIds": [
+    "sg-4f3f0d1e"
+  ],
+  "InstanceType": "t3.micro",
+  "BlockDeviceMappings": [
+        {
+            "DeviceName": "/dev/xvdcz",
+            "Ebs": {
+                "VolumeSize": 22,
+                "VolumeType": "gp2",
+                "DeleteOnTermination": true,
+                "Encrypted": true
+                }
+        }
+    ],
+  "TagSpecifications": [
+    {
+      "ResourceType": "instance",
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "ecs-spot-workshop"
+        },
+        {
+          "Key": "Env",
+          "Value": "Test"
+        }
+      ]
+    }
+  ],
+  "Monitoring": {
+    "Enabled": true
+  },
+  
+  "UserData": "%UserData%"
+}
