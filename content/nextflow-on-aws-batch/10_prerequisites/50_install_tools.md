@@ -16,24 +16,23 @@ Amazon Corretto is a no-cost, multiplatform, production-ready distribution of th
 
 To [install Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/generic-linux-install.html), we are adding the repository first.
 
-```
+```bash
 sudo rpm --import https://yum.corretto.aws/corretto.key 
 sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
 ```
 
 Afterwards install java-11 and check the installation.
 
-```
+```bash
 sudo yum install -y java-11-amazon-corretto-devel
 java --version
 ```
-
 
 ### Graphviz
 
 Nextflow is able to render graphs for which it needs `graphviz` to be installed. `jq` will help us deal with JSON files.
 
-```
+```bash
 sudo yum install -y graphviz jq
 ```
 
@@ -41,7 +40,7 @@ sudo yum install -y graphviz jq
 
 Even though we are depending on an IAM Role and not local permissions some tools  depend on having the `AWS_REGION` defined as environment variable - let's add it to our login shell configuration.
 
-```
+```bash
 export AWS_REGION=$(curl --silent http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
 echo "AWS_REGION=${AWS_REGION}" |tee -a ~/.bashrc
 ```

@@ -30,6 +30,7 @@ profiles {
 }
 EOF
 ```
+
 Nextflow will evaluate a `nextflow.config` file next to the script we are executing (which would be the file in the current directory) and also fall back to `$HOME/.nextflow/config` for additional configuration. As we are going to use the latter one when using AWS Batch squared we are changing both.
 Thus, we are going to change the nextflow configuration files.
 
@@ -37,7 +38,6 @@ Thus, we are going to change the nextflow configuration files.
 sed -i -e "s/aws.region =.*/aws.region = '${AWS_REGION}'/g" $HOME/.nextflow/config
 sed -i -e "s#process.container =.*#process.container = '${RNASEQ_REPO_URI}:${IMG_TAG}'#g"  $HOME/.nextflow/config nextflow.config
 ```
-
 
 Please make sure to **copy the complete image name (registry+name+tag) into your clipboard** for later use.
 
