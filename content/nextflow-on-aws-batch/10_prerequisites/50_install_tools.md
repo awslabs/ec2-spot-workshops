@@ -8,6 +8,10 @@ weight: 50
 
 The nextflow command-line tool uses the JVM. Thus, we will install AWS open-source variant [Amazon Corretto](https://docs.aws.amazon.com/corretto).
 
+{{% notice info %}}
+Amazon Corretto is a no-cost, multiplatform, production-ready distribution of the Open Java Development Kit (OpenJDK). Corretto comes with long-term support that will include performance enhancements and security fixes. Amazon runs Corretto internally on thousands of production services and Corretto is certified as compatible with the Java SE standard. With Corretto, you can develop and run Java applications on popular operating systems, including Linux, Windows, and macOS.
+{{% /notice %}}
+
 ### Amazon Corretto
 
 To [install Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/generic-linux-install.html), we are adding the repository first.
@@ -24,14 +28,6 @@ sudo yum install -y java-11-amazon-corretto-devel
 java --version
 ```
 
-### Nextflow
-
-Installing Nextflow using the online installer.
-The snippet creates the nextflow launcher in the current directory. So we just move the command to `/usr/local/bin` to have it ready to be executed anywhere.
-```
-curl -s https://get.nextflow.io | bash
-sudo mv nextflow /usr/local/bin/
-```
 
 ### Graphviz
 

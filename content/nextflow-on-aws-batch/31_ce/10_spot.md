@@ -14,7 +14,7 @@ In the first section we **choose the name 'spot-ce' [1]**, let the wizard create
 
 ![](/images/nextflow-on-aws-batch/batch/4_create_ce_1.png)
 
-In the second section we select **Spot [1]** as the provisioning model, leave most of the defaults, set the minimal and desired vCPUs to 4 **[2]** and paste in the AMI-ID we just created with packer **[3]**.
+In the second section we select **Spot [1]** as the provisioning model, leave most of the defaults and set the minimal/desired vCPUs to 4 **[2]**.
 
 ![](/images/nextflow-on-aws-batch/batch/4_create_ce_2.png)
 
@@ -23,7 +23,7 @@ In a production environment we might want to choose 0 as a minimum to scale down
 When conducting a workshop we keep the CE from scale down to zero, as a scale out takes a couple of minutes.
 {{% /notice %}}
 
-We keep the defaults in the third section and click **create [1]**.
+We keep the defaults, add a tag so that we can identify the compute-environment in the third section and click **create [1]**.
 
 ![](/images/nextflow-on-aws-batch/batch/4_create_ce_3.png)
 

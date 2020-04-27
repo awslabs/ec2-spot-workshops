@@ -20,7 +20,7 @@ $(aws ecr get-login --no-include-email)
 #### Create Repo
 
 ```bash
-aws ecr create-repository --repository-name nextflow-rna-seq
+aws ecr create-repository --tags Key=nextflow-workshop,Value=true --repository-name nextflow-rna-seq
 ```
 
 Extract the URI and set an environment variable.

@@ -8,6 +8,12 @@ weight: 10
 Only complete this section if you are running the workshop on your own. If you are at an AWS hosted event (such as re:Invent, Kubecon, Immersion Day, etc), go to [Start the workshop at an AWS event]({{< relref "aws_event.md" >}}).
 {{% /notice %}}
 
+### Prepare for CleanUp
+
+{{% notice warning %}}
+In order to be able to clean up after the workshop is done, we will tag every resource with a tag **nextflow-workshop** and no value. This will allow us to filter for those resources and remove tehm savely.
+{{% /notice %}}
+
 ### Running the workshop on your own
 
 {{% notice warning %}}

@@ -17,7 +17,7 @@ The first use of AWS Batch is upon us. We are going to start nextflow using the 
 ```bash
 cd ~/environment/nextflow-tutorial
 cat ${HOME}/.nextflow/config  |grep -A5 batch
-nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS}
+nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS}/batch
 ```
 
 The output is going to look similar to this:
@@ -30,7 +30,7 @@ $ cat ../.nextflow/config  |grep -A5 batch
     process.queue = 'job-queue'
   }
 }
-$ nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS}
+$ nextflow run script7.nf -profile batch -bucket-dir s3://${BUCKET_NAME_TEMP} --outdir=s3://${BUCKET_NAME_RESULTS}/batch
 N E X T F L O W  ~  version 20.01.0
 Launching `script7.nf` [jovial_jones] - revision: ce58523d1d
 R N A S E Q - N F   P I P E L I N E
@@ -44,7 +44,7 @@ executor >  awsbatch (4)
 [f0/a87531] process > quantification [100%] 1 of 1 ✔
 [08/014db2] process > fastqc         [100%] 1 of 1 ✔
 [a1/ced1b8] process > multiqc        [100%] 1 of 1 ✔
-Done! Open the following report in your browser --> s3://nextflow-spot-batch-result-23641-1587713021/multiqc_report.html
+Done! Open the following report in your browser --> s3://nextflow-spot-batch-result-23641-1587713021/batch/multiqc_report.html
 Completed at: 24-Apr-2020 08:15:40
 Duration    : 2m 42s
 CPU hours   : (a few seconds)

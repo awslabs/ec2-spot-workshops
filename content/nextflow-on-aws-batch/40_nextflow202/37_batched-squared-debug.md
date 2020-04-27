@@ -11,7 +11,7 @@ docker run -ti --rm -e AWS_REGION=${AWS_REGION} \
                     -e NF_SCRIPT=script7.nf \
                     -e BUCKET_NAME_RESULTS=${BUCKET_NAME_RESULTS} \
                     -e AWS_BATCH_JOB_ID=${RANDOM} \
-                    ${REPO_URI}:${IMG_TAG}:2020-04-24.1 bash
+                    ${REPO_URI}:${IMG_TAG} bash
 ```
 
 That allows you to run the entrypoint script on your own and see what is happening.
