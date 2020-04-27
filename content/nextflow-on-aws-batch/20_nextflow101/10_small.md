@@ -41,7 +41,7 @@ log.info """\
          .stripIndent()
 
 /*
- * define the `index` process that create a binary index 
+ * define the `index` process that create a binary index
  * given the transcriptome file
  */
 process index {
