@@ -26,7 +26,7 @@ Click on 'get started' and skip the wizard.
 
 ![wizard](/images/nextflow-on-aws-batch/batch/2_wizard.png)
 
-Now we are at the AWS Batch Dashboard, which allows us to create 
+Now we are at the AWS Batch Dashboard, which allows us to create:
 
    1. **Job Definitions** Description of what application (Docker Image), how to use it (stroage, resource requirements) and what IAM persmissions are granted to the job execution.
    1. **Job Queues** Logical queue holding jobs. A queue uses Compute Environments to execute jobs. A queue can be linked to multiple Compute Environments with different priorities to use a second queue in case a Compute Environment has insufficient capacity (e.g. reached its configured maximum capacity)

@@ -40,8 +40,7 @@ log.info """\
          """
          .stripIndent()
 
- 
-/* 
+/*
  * define the `index` process that create a binary index 
  * given the transcriptome file
  */
