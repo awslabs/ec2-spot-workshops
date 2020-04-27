@@ -17,7 +17,7 @@ Amazon Corretto is a no-cost, multiplatform, production-ready distribution of th
 To [install Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/generic-linux-install.html), we are adding the repository first.
 
 ```bash
-sudo rpm --import https://yum.corretto.aws/corretto.key 
+sudo rpm --import https://yum.corretto.aws/corretto.key
 sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
 ```
 

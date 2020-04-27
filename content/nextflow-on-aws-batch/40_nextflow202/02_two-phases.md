@@ -1,4 +1,3 @@
-
 ---
 title: "Local and Detached Run"
 chapter: false

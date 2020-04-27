@@ -43,8 +43,16 @@ Please make sure to **copy the complete image name (registry+name+tag) into your
 
 ## Create S3 Bucket
 
+We already have a S3 bucket that keeps the results `BUCKET_NAME_RESULTS`.
+
 ```bash
-echo ${BUCKET_NAME_RESULTS}
+$ echo ${BUCKET_NAME_RESULTS}
+nextflow-spot-batch-result-20033-1587976463
+```
+
+When running job in a batch environment hte intermediate files are stored within a S3 bucket so that work can be picked up if it gets interrupted.
+
+```bash
 export BUCKET_NAME_TEMP=nextflow-spot-batch-temp-${RANDOM}-$(date +%s)
 aws --region ${AWS_REGION} s3 mb s3://${BUCKET_NAME_TEMP}
 aws s3api put-bucket-tagging --bucket ${BUCKET_NAME_TEMP} --tagging="TagSet=[{Key=nextflow-workshop,Value=true}]"

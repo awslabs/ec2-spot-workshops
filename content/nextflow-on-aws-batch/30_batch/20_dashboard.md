@@ -18,7 +18,7 @@ A typical AWS Batch workload might be triggered by input data being uploaded to 
 
 ## AWS Batch Dashboard
 
-Follow this [deep link to get to AWS Batch ](https://console.aws.amazon.com/batch/home) you will be greated by the landing page.
+Follow this [deep link to get to AWS Batch](https://console.aws.amazon.com/batch/home) you will be greated by the landing page.
 
 ![landingpage](/images/nextflow-on-aws-batch/batch/1_landingpage.png)
 

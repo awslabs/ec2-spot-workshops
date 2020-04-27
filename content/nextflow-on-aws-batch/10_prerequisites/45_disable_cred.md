@@ -8,7 +8,7 @@ weight: 45
 
 To not have Cloud9 overwrite the IAM roles with temporary crendentials, we will disable temporary crendential management within Cloud9.
 
-![](/images/nextflow-on-aws-batch/prerequisites/disable_cred.png)
+![disable_cred](/images/nextflow-on-aws-batch/prerequisites/disable_cred.png)
 
 Please verify that your IAM role is providing your identity by executing the following command:
 
