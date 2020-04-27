@@ -4,8 +4,7 @@ chapter: false
 weight: 30
 ---
 
-To check our setup we will run nextflow on the Cloud9 instance, submitting jobs to AWS Batch.
-
+Now, we are build an image to be used to submit AWS Batch jobs from a headnode Nextflow AWS Batch job; some referr to it as 'AWS Batch Squared'.
 ![nextflow-workshop-arch](/images/nextflow-on-aws-batch/nextflow-workshop-arch.png)
 
 ## ECR

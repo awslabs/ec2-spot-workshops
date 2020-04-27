@@ -14,7 +14,7 @@ docker run -ti --rm -e AWS_REGION=${AWS_REGION} \
                     ${REPO_URI}:${IMG_TAG} bash
 ```
 
-That allows you to run the entrypoint script on your own and see what is happening.
+That allows you to run the entrypoint script `entrypoint.sh` on your own and see what is happening.
 
 ```bash
 $ docker run -ti --rm -e AWS_REGION=${AWS_REGION} \

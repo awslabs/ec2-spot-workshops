@@ -1,12 +1,12 @@
 ---
-title: "Spot"
+title: "EC2 Spot"
 chapter: false
 weight: 10
 ---
 
 ## Create EC2 Spot Compute Environment
 
-To run the actual genomics tasks, we create a compute environment (CE) using EC2 Spot instances. 
+To run the actual genomics tasks, we create a compute environment (CE) using EC2 Spot instances.
 
 ![4_create_ce_0](/images/nextflow-on-aws-batch/batch/4_create_ce_0.png?classes=shadow)
 
@@ -19,7 +19,7 @@ In the second section we select **Spot [1]** as the provisioning model, leave mo
 ![4_create_ce_2](/images/nextflow-on-aws-batch/batch/4_create_ce_2.png)
 
 {{% notice info %}}
-In a production environment we might want to choose 0 as a minimum to scale down to no compute at all in case no work is to be done. 
+In a production environment we might want to choose 0 as a minimum to scale down to no compute at all in case no work is to be done.
 When conducting a workshop we keep the CE from scale down to zero, as a scale out takes a couple of minutes.
 {{% /notice %}}
 

@@ -19,7 +19,7 @@ After we chose the CE the form will look like this:
 
 ![](/images/nextflow-on-aws-batch/batch/5_queue_workflow_1-1.png)
 
-### Spot Queue
+### EC2 Spot Queue
 
 Please create a second queue called **job-queue** that links to the spot compute environment (**spot-ce**)
 

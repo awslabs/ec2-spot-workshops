@@ -17,6 +17,49 @@ The example workflow implements a simple RNA-seq pipeline which:
    3. performs quantification
    4. creates a MultiQC report
 
+### Nextflow DSL
+
+Even though this is not a deep dive into Nextflow's DSL - please have a look at how the Nextflow script is structured and appreciate the UNIX resemblance having an `input`, `output` and a `script`.
+You can dive deeper by going through the [Nextflow documentation](https://www.nextflow.io/docs/latest/getstarted.html) and tutorials ([nextflow-camp tutorial](https://github.com/nextflow-io/nfcamp-tutorial), [DSL-2](https://www.nextflow.io/docs/edge/dsl2.html)).
+
+```ruby
+/* 
+ * pipeline input parameters 
+ */
+params.reads = "$baseDir/data/ggal/gut_{1,2}.fq"
+params.transcript = "$baseDir/data/ggal/transcriptome.fa"
+params.multiqc = "$baseDir/multiqc"
+params.outdir = "results"
+
+log.info """\
+         R N A S E Q - N F   P I P E L I N E    
+         ===================================
+         transcriptome: ${params.transcript}
+         reads        : ${params.reads}
+         outdir       : ${params.outdir}
+         """
+         .stripIndent()
+
+ 
+/* 
+ * define the `index` process that create a binary index 
+ * given the transcriptome file
+ */
+process index {
+    
+    input:
+    path transcriptome from params.transcript
+     
+    output:
+    path 'index' into index_ch
+
+    script:       
+    """
+    salmon index --threads $task.cpus -t $transcriptome -i index
+    """
+}
+```
+
 ### Pull Image and run
 
 As nextflow will run the image `nextflow/rnaseq-nf` and thus needs to download almost 3GB without advancing, we will first download the image so that we can see what docker is doing.
@@ -71,14 +114,3 @@ $
 The report can be previewed within Cloud9. Right-click (**[1]**) on the file and choose `Preview` (**[2]**) from the context menue.
 
 ![multiqc_report](/images/nextflow-on-aws-batch/nextflow101/multiqc_report.png)
-
-With more elaborate output nextflow can create more reports.
-
-```bash
-nextflow run script7.nf -with-report -with-trace -with-timeline -with-dag dag.png
-```
-
-This creates a bunch more reports about the workflow. E.g.:
-
-![dag](/images/nextflow-on-aws-batch/nextflow101/dag.png)
-![timeline](/images/nextflow-on-aws-batch/nextflow101/timeline.png)
