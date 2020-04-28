@@ -79,7 +79,7 @@ helm install --name kube-resource-report \
 --set container.port=8080 \
 --set rbac.create=true \
 --set nodeSelector.intent=control-apps \
-kube-resource-report/chart/kube-resource-report
+kube-resource-report/unsupported/chart/kube-resource-report
 ```
 
 This will install the chart with the right setup, ports and the identification of the label *aws.amazon.com/spot*, that when is defined on a resource, will be used to extract EC2 Spot historic prices associated with the resource. Note that during the rest of the workshop we will still use the `lifecycle` label to identify Spot instances, and only use `aws.amazon.com/spot` to showcase the integration with kube-resource-report. 
