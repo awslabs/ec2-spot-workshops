@@ -46,7 +46,7 @@ eksctl create cluster --version=1.15 --name=eksworkshop-eksctl --node-private-ne
 
 eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
 
-The managed nodegroup will have two m5.large nodes and it will bootstrap with the labels **lifecycle=OnDemand** and **intent=control-apps**. Note the managed nodegroup
+The managed nodegroup will have two m5.large nodes and it will bootstrap with the labels **lifecycle=OnDemand** and **intent=control-apps**. 
 
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately **15 minutes**
