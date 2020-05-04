@@ -32,7 +32,7 @@ https://aws.amazon.com/getting-started/hands-on/amazon-eks-with-spot-instances/
 ##### Deep dive into Fargate Spot to run your ECS Tasks for up to 70% less
 https://aws.amazon.com/blogs/compute/deep-dive-into-fargate-spot-to-run-your-ecs-tasks-for-up-to-70-less/
 
-## ML/AI
+## AI/ML
 
 ##### Getting started tutorial: Optimizing and Scaling Machine Learning Training with Managed Spot Training for Amazon SageMaker
 https://aws.amazon.com/getting-started/hands-on/managed-spot-training-sagemaker/
