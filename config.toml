@@ -60,6 +60,11 @@ url = "/authors.html"
 weight = 20
 
 [[menu.shortcuts]]
+name = "<i class='fas fa-envelope'></i> Resources"
+url = "/resources.html"
+weight = 40
+
+[[menu.shortcuts]]
 name = "<i class='fas fa-envelope'></i> Feedback / Questions?"
 url = "mailto:ec2-spot-workshops@amazon.com"
 weight = 30
