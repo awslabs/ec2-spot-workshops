@@ -50,7 +50,7 @@ page = [ "HTML", "AMP"]
 
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-bookmark'></i> Amazon EC2 Spot Instances"
+name = "<i class='fas fa-external-link-alt'></i> Amazon EC2 Spot Instances"
 url = "https://aws.amazon.com/ec2/spot/"
 weight = 10
 
@@ -60,7 +60,7 @@ url = "/authors.html"
 weight = 20
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-envelope'></i> Resources"
+name = "<i class='fas fa-info-circle'></i> Resources"
 url = "/resources.html"
 weight = 40
 
