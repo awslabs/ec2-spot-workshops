@@ -34,6 +34,9 @@ https://aws.amazon.com/blogs/big-data/best-practices-for-running-apache-spark-ap
 ##### Getting started tutorial: Optimizing Amazon EMR clusters for cost and scale with EC2 Spot Instances and Amazon EMR
 https://aws.amazon.com/getting-started/hands-on/optimize-amazon-emr-clusters-with-ec2-spot/
 
+##### AWS re:Invent 2019: Run big data workloads faster and cheaper (20 minute demo - EMR Instance Fleets)
+https://www.youtube.com/watch?v=WbrGF56oeCY
+
 ## Containers
 
 ##### Getting started tutorial: Run Kubernetes clusters for less with Amazon EKS and Spot Instances
