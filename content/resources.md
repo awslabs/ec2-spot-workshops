@@ -3,7 +3,7 @@ disableToc: true
 ---
 
 <div> 
-    <h1> </i> Spot related blog posts & tutorials</i></h1>
+    <h1> </i> Spot related blog posts, tutorials & videos</i></h1>
 </div>
 
 ## General guidance and Web applications running on EC2
