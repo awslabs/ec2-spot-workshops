@@ -6,7 +6,7 @@ hidden: true
 ---
 
 AWS Batch uses Amazon ECS to schedule the container and as such uses the official ECS-optimized image as a default.
-As the nextflow container needs to run the AWS-Cli we need to update the AMI so that we have everything we need.
+As the Nextflow container needs to run the AWS-Cli we need to update the AMI so that we have everything we need.
 
 <!--
 ## Paste Credentials

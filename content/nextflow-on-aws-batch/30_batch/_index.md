@@ -1,10 +1,10 @@
 ---
-title: "Setup AWS Batch"
+title: "AWS Batch"
 chapter: true
 weight: 30
 ---
 
-## Setup AWS Batch
+## AWS Batch
 
 Nextflow uses **process** definitions to define what script or command to execute. An executor is used to determine **how** the process is executed on the target system.
 

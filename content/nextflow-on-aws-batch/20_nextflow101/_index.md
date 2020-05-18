@@ -8,10 +8,14 @@ To get started with Nextflow we are going to run a little example workflow local
 
 ## Clone nextflow-tutorial
 
-We will use the example Genomics workflow of the nextflow-tutorial. 
+We will use the example Genomics workflow of the Nextflow tutorial.
 
 ```bash
+<<<<<<< HEAD
 git clone https://github.com/seqeralabs/nextflow-tutorial.git 
+=======
+git clone https://github.com/seqeralabs/nextflow-tutorial.git
+>>>>>>> aturpin feedback incorperated
 cd nextflow-tutorial
 ```
 
