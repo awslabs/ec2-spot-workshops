@@ -8,7 +8,7 @@ weight: 10
 
 Now that we have created queues and compute environments, we can wire them into Nextflow.
 
-Nextflow will evaluate a `nextflow.config` file next to the script we are executing (which would be the file in the current directory) and also fall back to `$HOME/.nextflow/config` for additional configuration. As we are going to use the latter one when using AWS Batch squared we are changing both.
+Nextflow will evaluate a `nextflow.config` file next to the script we are executing (which would be the file in the current directory) and also fall back to `$HOME/.nextflow/config` for additional configuration. As we are going to use the latter one when using *AWS Batch Squared* we are changing both.
 
 Firstly, the user-specific nextflow configuration file.
 
