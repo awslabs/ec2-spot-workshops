@@ -1,11 +1,12 @@
 ---
-title: "Nextflow on AWS Batch"
+title: "AWS Batch Squared"
 chapter: true
 weight: 40
 ---
 
-## Nextflow on AWS Batch
+## Detached Nextflow Run
 
-Now that we setup AWS Batch we can use Nextflow to submit jobs we are getting closer to our architecture.
+To decouple the supervision we are going to start the process within a second AWS Batch queue, so that it will stick around as long as the execution takes.
+Some call this scenario **AWS Batch Squared** because it uses a queue to submit to a queue.
 
-To approach it slowly we will do two steps here.
+![nextflow-workshop-arch](/images/nextflow-on-aws-batch/nextflow-workshop-arch.png)

@@ -1,5 +1,5 @@
 ---
-title: "Batch Sqared Config"
+title: "Create Job-Definition"
 chapter: false
 weight: 35
 ---

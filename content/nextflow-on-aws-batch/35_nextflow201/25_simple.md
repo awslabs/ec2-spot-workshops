@@ -1,7 +1,7 @@
 ---
 title: "Local Run"
 chapter: false
-weight: 20
+weight: 25
 ---
 
 ## Run pipeline
