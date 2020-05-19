@@ -1,18 +1,18 @@
 ---
 title: "Local Run"
 chapter: false
-weight: 20
+weight: 25
 ---
 
 ## Run pipeline
 
-To check our setup we will run nextflow on the Cloud9 instance, submitting jobs to AWS Batch.
+To check our setup we will run Nextflow on the Cloud9 instance, submitting jobs to AWS Batch.
 
 ![nextflow-test-arch](/images/nextflow-on-aws-batch/nextflow202/nextflow-test-arch.png)
 
 ### Run AWS Batch Jobs with Nextflow locally
 
-The first use of AWS Batch is upon us. We are going to start nextflow using the batch profile.
+The first use of AWS Batch is upon us. We are going to start Nextflow using the batch profile.
 
 ```bash
 cd ~/environment/nextflow-tutorial

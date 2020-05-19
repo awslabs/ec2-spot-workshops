@@ -1,7 +1,7 @@
 ---
 title: "Create RNA-Seq Docker Image"
 chapter: false
-weight: 05
+weight: 15
 ---
 
 ## Build RNA-Seq Image
@@ -61,7 +61,7 @@ EOF
 {{% notice info %}}
 If you are not familiar with [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds), please take a moment to let it sink in. :)
 What we are doing with the above Dockerfile is creating a `build` stage that installs all the dependencies to run `pip install` and subsequently installing `awscli`. Notice, that we use a different target.
-Without that pip would install everything in the already masive `/opt/conda/` directory. In the final stage we are setup up the environment to pick up `aws` and its libraries.
+Without that, pip would install everything in the already masive `/opt/conda/` directory. In the final stage we are copying over the pip-path of the build stage and setting up the environment to pick up `aws` and its libraries.
 {{% /notice %}}
 
 Let's go ahead and build that image.

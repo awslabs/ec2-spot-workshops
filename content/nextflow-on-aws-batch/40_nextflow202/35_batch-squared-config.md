@@ -1,5 +1,5 @@
 ---
-title: "Batch Sqared Config"
+title: "Create Job Definition"
 chapter: false
 weight: 35
 ---
@@ -24,7 +24,7 @@ Now that we have everything, we need to create a job definition. For that click 
 ### Security and Environment
 
 - **Security** user: `root`  
-Since the nextflow config is placed in the `$HOME` directory of root, we run the process within the container as `root` (**[1]**).
+Since the Nextflow config is placed in the `$HOME` directory of root, we run the process within the container as `root` (**[1]**).
 - **Environement variables**
 Finally we define environment variables to control which pipeline to run (**[2]**) and create the job definition (**[3]**).
 

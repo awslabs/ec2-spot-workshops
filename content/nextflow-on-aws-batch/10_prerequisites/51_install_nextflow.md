@@ -12,7 +12,7 @@ Furthermore it allows the use of a lot of traditional and modern execution engin
 ### Install Nextflow
 
 Installing Nextflow using the online installer.
-The snippet creates the nextflow launcher in the current directory. So we just move the command to `/usr/local/bin` to have it ready to be executed anywhere.
+The snippet creates the Nextflow launcher in the current directory. So we just move the command to `/usr/local/bin` to have it ready to be executed anywhere.
 
 ```bash
 curl -s https://get.nextflow.io | bash

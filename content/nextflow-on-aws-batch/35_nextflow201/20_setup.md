@@ -1,7 +1,7 @@
 ---
 title: "Configure Nextflow"
 chapter: false
-weight: 10
+weight: 20
 ---
 
 ## Update Configuration
@@ -10,7 +10,7 @@ Now that we have created queues and compute environments, we can wire them into 
 
 Nextflow will evaluate a `nextflow.config` file next to the script we are executing (which would be the file in the current directory) and also fall back to `$HOME/.nextflow/config` for additional configuration. As we are going to use the latter one when using *AWS Batch Squared* we are changing both.
 
-Firstly, the user-specific nextflow configuration file.
+Firstly, the user-specific Nextflow configuration file.
 
 ```bash
 cd ~/environment/nextflow-tutorial/
@@ -31,7 +31,8 @@ profiles {
 EOF
 ```
 
-Secondly, we are going to change the nextflow configuration files.
+Nextflow will evaluate a `nextflow.config` file next to the script we are executing (which would be the file in the current directory) and also fall back to `$HOME/.nextflow/config` for additional configuration. As we are going to use the latter one when using AWS Batch squared we are changing both.
+Thus, we are going to change the Nextflow configuration files.
 
 ```bash
 cat > nextflow.config << EOF

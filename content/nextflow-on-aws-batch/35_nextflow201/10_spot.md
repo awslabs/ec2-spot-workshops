@@ -1,5 +1,5 @@
 ---
-title: "EC2 Spot"
+title: "Spot Compute Environment"
 chapter: false
 weight: 10
 ---

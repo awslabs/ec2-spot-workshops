@@ -4,8 +4,7 @@ chapter: false
 weight: 30
 ---
 
-Now, we are build an image to be used to submit AWS Batch jobs from a headnode Nextflow AWS Batch job; some referr to it as 'AWS Batch Squared'.
-![nextflow-workshop-arch](/images/nextflow-on-aws-batch/nextflow-workshop-arch.png)
+Now, we are build an image to be used to submit AWS Batch jobs from a headnode Nextflow AWS Batch job.
 
 ## ECR
 
@@ -76,7 +75,7 @@ Now, we build and push the Docker image holding nextflow to run the execution ta
 # make sure we are in the right directory and have the correct NF config
 cd ~/environment/nextflow-tutorial/docker/headless
 cp ~/.nextflow/config config
-# write DOckerfile
+# write Dockerfile
 cat << \EOF > Dockerfile
 FROM amazoncorretto:8
 
