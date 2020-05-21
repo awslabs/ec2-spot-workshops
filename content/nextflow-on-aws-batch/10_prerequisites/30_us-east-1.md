@@ -1,5 +1,5 @@
 ---
-title: "N. Virgina"
+title: "N. Virginia"
 chapter: false
 disableToc: true
 hidden: true

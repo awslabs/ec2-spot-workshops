@@ -160,7 +160,7 @@ completed the workshop, and before getting into the **cleanup** section.
 
  * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies). What do you think is the trade-off when you switch to [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy ? 
 
- * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expandeded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
+ * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 13 ? What happens if we increase the number of replicas to 20? Can you predict which group of node will be expanded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
 
  * How would you expect Cluster Autoscaler to Scale in the cluster ? How about scaling out ? How much time you'll expect for it to take ?
 

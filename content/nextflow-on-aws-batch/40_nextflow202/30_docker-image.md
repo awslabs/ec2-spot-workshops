@@ -63,7 +63,7 @@ EOF
 chmod +x entrypoint.sh
 ```
 
-Following container best practice we are using a unique contianer image tag and not just `:latest`.
+Following container best practice we are using a unique container image tag and not just `:latest`.
 
 ```bash
 export IMG_TAG=$(date +%F).1

@@ -18,7 +18,7 @@ Head to the EC2 Dashboard and find the Spot Request section.
 
 ![ec2_spot_req](/images/nextflow-on-aws-batch/learnings/ec2_spot_req.png)
 
-Here you can check how much you safed throughout the workshop by running the job-queue on EC2 Spot instances.
+Here you can check how much you saved throughout the workshop by running the job-queue on EC2 Spot instances.
 
 ![savings_summary](/images/nextflow-on-aws-batch/learnings/savings_summary.png)
 

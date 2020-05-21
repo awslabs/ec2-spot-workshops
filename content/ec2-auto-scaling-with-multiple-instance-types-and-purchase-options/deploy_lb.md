@@ -62,7 +62,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 	sed -i.bak -e "s#%LoadBalancerArn%#$LoadBalancerArn#g" -e "s#%TargetGroupArn%#$TargetGroupArn#g" listener.json
 	```
 
-1. Create the listener wiht the following command:
+1. Create the listener with the following command:
 
 	```
 	aws elbv2 create-listener --cli-input-json file://listener.json

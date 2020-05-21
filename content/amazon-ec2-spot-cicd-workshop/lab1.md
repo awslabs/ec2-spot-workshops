@@ -50,7 +50,7 @@ When configuring the plugin, think about how you could force build processes to 
 {{%expand "Click to reveal detailed instructions" %}}
 1. From the Jenkins home screen, click on the **Manage Jenkins** link on the left side menu, and then the **Configure System** link;
 2. Scroll all the way down to the bottom of the page and under the **Cloud** section, click on the **Add a new cloud button**, followed by the **Amazon SpotFleet** option;
-3. Under the Spot Fleet Configuration section, click on the **Add** button next to the AWS Crendentials [sic] dropdown, then click on the **Jenkins** option. This will pop up a new **Jenkins Credentials Provider: Jenkins** sub-form. Fill out the form as follows:
+3. Under the Spot Fleet Configuration section, click on the **Add** button next to the AWS Credentials [sic] dropdown, then click on the **Jenkins** option. This will pop up a new **Jenkins Credentials Provider: Jenkins** sub-form. Fill out the form as follows:
     1. Change the Kind to **AWS Credentials**;
     2. Change the Scope to **System (Jenkins and nodes only)** – you don’t want your builds to have access to these credentials!
     3. At the ID field, enter **SpotCICDWorkshopJenkins**;
@@ -66,7 +66,7 @@ When configuring the plugin, think about how you could force build processes to 
     4. For the Private Key, select the **Enter directly** radio button. Open the .pem file that you downloaded during the workshop setup in a text editor and copy the contents of the file to the Key field including the BEGIN RSA PRIVATE KEY and END RSA PRIVATE KEY fields;
     5. Click on the **Add** button.
 8. Select the ec2-user option from the Credentials dropdown;
-9. Given that Spot instances will have a random SSH host fingerpint, select the **Non verifying Verification Strategy** option from the Host Key Verification Strategy dropdown;
+9. Given that Spot instances will have a random SSH host fingerprint, select the **Non verifying Verification Strategy** option from the Host Key Verification Strategy dropdown;
 10. Mark the **Connect Private** checkbox to ensure that your Jenkins Master will always communicate with the Agents via their internal VPC IP addresses (in real-world scenarios, your build agents would likely not be publicly addressable);
 11. Change the Label field to be **spot-agents** - you'll shortly reconfigure your build job to run on slave instances featuring this label;
 12. Set the Max Idle Minutes Before Scaledown to **5**. As AWS launched per-second billing in 2017, there's no need to keep a build agent running for too much longer than it's required;
@@ -82,7 +82,7 @@ As alluded to in the previous section, you'll need to reconfigure your build job
 {{%expand "Click to reveal detailed instructions" %}}
 1. Go back to the Jenkins home screen and **repeat the following for each of the five Apache build projects** that are configured in your Jenkins deployment:
     1. Click on the title of the build job and then click on the **Configure** link toward the left side of the screen;
-    2. In the General section, click on the **Execute concurrent builds if necessary** checkbox and the **Restrict where this project can be run** checkbox. Next, enter **spot-agents** as the Label Expression (Note: if you select the auto-complete option instead of typing out the full label, Jenkins will add a space to the end of the label - be sure to remove any trailling spaces from the label before proceeding);
+    2. In the General section, click on the **Execute concurrent builds if necessary** checkbox and the **Restrict where this project can be run** checkbox. Next, enter **spot-agents** as the Label Expression (Note: if you select the auto-complete option instead of typing out the full label, Jenkins will add a space to the end of the label - be sure to remove any trailing spaces from the label before proceeding);
     3. Click on the **Save** button towards the bottom of the screen.
 {{% /expand%}}
 

@@ -13,7 +13,7 @@ Running the workshop at an AWS Event
 
 ### Login to the AWS Workshop Portal
 
-If you are at an AWS event, an AWS acccount was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
+If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
 
 1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/).
 2. Enter the Hash in the text box, and click **Proceed** 

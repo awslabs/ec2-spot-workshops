@@ -23,7 +23,7 @@ Spot Instances and how to use them in different scenarios. The workshops highlig
 best practices to follow when using EC2 Spot instances in your 
 applications and workloads.
 
-Select a workshop from the left panel or just click and explore the workshops hightlighted below.
+Select a workshop from the left panel or just click and explore the workshops highlighted below.
 
 {{< card important_workshop 
     "running-amazon-ec2-workloads-at-scale" 

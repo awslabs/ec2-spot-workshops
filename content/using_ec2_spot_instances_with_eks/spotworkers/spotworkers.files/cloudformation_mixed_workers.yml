@@ -185,7 +185,7 @@ Parameters:
 
   InstanceTypesOverride:
     Type: String
-    Description: "multiple spot instances to override(seperated by comma)"
+    Description: "multiple spot instances to override(separated by comma)"
     Default: "m4.large,c4.large,c5.large"
 
   UseExistingNodeSecurityGroups:

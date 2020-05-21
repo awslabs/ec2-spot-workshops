@@ -15,5 +15,5 @@ prices.
 
 This workshop is designed to get you familiar with EC2 Spot Instances by 
 learning how to deploy a simple web app on an EC2 Spot Fleet behind an Elastic 
-Load Balanacing Application Load Balancer and enable automatic scaling to allow 
+Load Balancing Application Load Balancer and enable automatic scaling to allow 
 it to handle peak demand, as well as handle Spot Instance interruptions.

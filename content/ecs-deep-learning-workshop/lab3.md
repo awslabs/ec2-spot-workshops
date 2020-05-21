@@ -3,7 +3,7 @@ title = "Lab-3 Deploy the MXNet Container with ECS"
 weight = 130
 +++
 
-Now that you have an MXNet image ready to go, the next step is to create a task definition. A task defintion specifies parameters and requirements used by ECS to run your container, e.g. the Docker image, cpu/memory resource requirements, host:container port mappings. You'll notice that the parameters in the task definition closely match options passed to a Docker run command. Task definitions are very flexible and can be used to deploy multiple containers that are linked together- for example, an application server and database. In this workshop, we will focus on deploying a single container.
+Now that you have an MXNet image ready to go, the next step is to create a task definition. A task definition specifies parameters and requirements used by ECS to run your container, e.g. the Docker image, cpu/memory resource requirements, host:container port mappings. You'll notice that the parameters in the task definition closely match options passed to a Docker run command. Task definitions are very flexible and can be used to deploy multiple containers that are linked together- for example, an application server and database. In this workshop, we will focus on deploying a single container.
 
 \
 1. Open the EC2 Container Service dashboard, click on **Task Definitions** in the left menu, and click **Create new Task Definition**. Then select **EC2** as launch type compatibility.
@@ -20,7 +20,7 @@ Provide a name for your container, e.g. "mxnet". Note: This name is functionally
 
 The image field is the container image that you will be deploying. The format is equivalent to the registry/repository:tag format used in lab 2, step 6, i.e. **AWS_ACCOUNT_ID**.dkr.ecr.**AWS_REGION**.amazonaws.com/**ECR_REPOSITORY**:latest.
 
-Finallly, set the Memory Limits to be a Soft Limit of "2048" and map the host port 80 to the container port 8888. Port 8888 is the listening port for the Jupter notebook configuration, and we map it to port 80 to reduce running into issues with proxies or firewalls blocking port 8888 during the workshop. You can leave all other fields as default. Click **Add** to save this configuration and add it to the task defintion. Click **Create** to complete the task definition creation step.
+Finally, set the Memory Limits to be a Soft Limit of "2048" and map the host port 80 to the container port 8888. Port 8888 is the listening port for the Jupyter notebook configuration, and we map it to port 80 to reduce running into issues with proxies or firewalls blocking port 8888 during the workshop. You can leave all other fields as default. Click **Add** to save this configuration and add it to the task definition. Click **Create** to complete the task definition creation step.
 
 ![](/images/ecs-deep-learning-workshop/task-def.png)
 
