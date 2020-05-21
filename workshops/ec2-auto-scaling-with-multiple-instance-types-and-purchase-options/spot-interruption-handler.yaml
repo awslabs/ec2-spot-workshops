@@ -100,7 +100,7 @@ Resources:
             - ec2:DescribeInstances
             Resource: '*'
   
-  ClodudWatchEventRule:
+  CloudWatchEventRule:
     DependsOn:
     - SpotInterruptionHandlerFunction
     Properties:
