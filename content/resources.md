@@ -37,6 +37,8 @@ disableToc: true
 
 ##### [ - [AWS re:Invent 2019 Talk] Run big data workloads faster and cheaper (20 minute demo - EMR Instance Fleets)](https://www.youtube.com/watch?v=WbrGF56oeCY)
 
+##### [ - [AWS Online Tech Talks]: Best Practices for Running Spark Applications Using Spot Instances on EMR](https://www.youtube.com/watch?v=u5dFozl1fW8)
+
 
 ## Containers
 
