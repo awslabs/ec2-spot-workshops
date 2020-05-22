@@ -1,5 +1,5 @@
 +++
-title = "Lab-5 Wrap Image Classfication in an ECS Task"
+title = "Lab-5 Wrap Image Classification in an ECS Task"
 weight = 150
 +++
 
@@ -38,7 +38,7 @@ Next you'll configure logging to CloudWatch Logs. Scroll down to the **Log confi
 
 If you are using GPU instances, you will need to check the box for **Privileged** in the **Security** section. Since we're using CPU instances, leave the box unchecked.
 
-Click **Add** to save this configuration and add it to the task defintion. Click **Create** to complete the task defintion creation step.
+Click **Add** to save this configuration and add it to the task definition. Click **Create** to complete the task definition creation step.
 
 \
 4. Now you're ready to test your task definition. Select **Run Task** from the **Actions** drop down. Refresh the task list to confirm the task enters the Running state.
@@ -74,7 +74,7 @@ Configure the **Log configuration** section as you did for the training task. Se
 
 If you are using GPU instances, you will need to check the box for **Privileged** in the **Security** section. Since we're using CPU instances, leave the box unchecked.
 
-Click **Add** to save this configuration and add it to the task defintion. Click **Create** to complete the task defintion creation step.
+Click **Add** to save this configuration and add it to the task definition. Click **Create** to complete the task definition creation step.
 
 \
 4. Run the predict task and check both CloudWatch Logs and the S3 output bucket for related log output.

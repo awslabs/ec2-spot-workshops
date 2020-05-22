@@ -58,7 +58,7 @@ Resources:
     DependsOn: 
     - DynamoDBTestEnvironmentTable
     - IAMRoleTestEnvironmentCloudFormation
-    # DependedOn: TestEnvironmentLambdaFuntion
+    # DependedOn: TestEnvironmentLambdaFunction
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17

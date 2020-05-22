@@ -28,5 +28,5 @@ If you are running this workshop from a corporate IT environment, contact your S
 * If you cannot establish SSH connections to Internet hosts (and do not have a suitable workaround), you will not be able to complete Labs 3 & 4;
 * If you can establish SSH connections to Internet hosts, obtain from your Systems Administrator the source IP address CIDR block that connections will be established from. 
 
-If you access the Intenet through a transparent proxy server running in your corporate IT environment and this proxy server uses a different source address than where SSH connections come from, additional configuration of AWS Security Groups will need to be carried out. The lab guide will indicate the configuration steps required when appropriate. 
+If you access the Internet through a transparent proxy server running in your corporate IT environment and this proxy server uses a different source address than where SSH connections come from, additional configuration of AWS Security Groups will need to be carried out. The lab guide will indicate the configuration steps required when appropriate. 
 

@@ -17,7 +17,7 @@ These labs are designed to be completed in sequence. If you are reading this at 
 
 **Lab 4:** Image Classification with MXNet
 
-**Lab 5:** Wrap Image Classfication in an ECS Task
+**Lab 5:** Wrap Image Classification in an ECS Task
 -->
 
 
@@ -28,5 +28,5 @@ These labs are designed to be completed in sequence. If you are reading this at 
 | **Lab-2**	   | Build an MXNet Docker Image		|
 | **Lab-3**	   | Deploy the MXNet Container with ECS	|
 | **Lab-4**	   | Image Classification with MXNet		|
-| **Lab-5**	   | Wrap Image Classfication in an ECS Task	|
+| **Lab-5**	   | Wrap Image Classification in an ECS Task	|
 

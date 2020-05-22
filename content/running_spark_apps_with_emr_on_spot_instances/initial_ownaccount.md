@@ -12,7 +12,7 @@ Refer to the **Create a Bucket** page in the [Amazon S3 Getting Started Guide] (
 a. Open the ["Modular and Scalable VPC Architecture Quick stage page"] (https://aws.amazon.com/quickstart/architecture/vpc/) and go to the "How to deploy" tab, Click the ["Launch the Quick Start"] (https://fwd.aws/mm853) link.\
 b. Select your desired region to run the workshop from the top right corner of the AWS Management Console and click **Next**.\
 c. Provide a name for the stack or leave it as **Quick-Start-VPC**.\
-d. Under **Availability Zones**, select three availabliity zones from the list, and set the **Number of Availabliity Zones** to **3**.\
+d. Under **Availability Zones**, select three availability zones from the list, and set the **Number of Availability Zones** to **3**.\
 e. Under **Create private subnets** select **false**.\
 f. click **Next** and again **Next** in the next screen.\
 g. Click **Create stack**.\

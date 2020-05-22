@@ -49,7 +49,7 @@ Go back to the Summary tab in your EMR cluster page, and you will see links to t
 ### Using CloudWatch Metrics
 EMR emits several useful metrics to CloudWatch metrics. You can use the AWS Management Console to look at the metrics in two ways:\
 1. In the EMR console, under the Monitoring tab in your Cluster's page\
-2. By browsing to the CloudWatch service, and under Metrics, searching for the name of your cluster (copy it from the EMR Management Conosle) and clicking **EMR > Job Flow Metrics**
+2. By browsing to the CloudWatch service, and under Metrics, searching for the name of your cluster (copy it from the EMR Management Console) and clicking **EMR > Job Flow Metrics**
 
 {{% notice note %}}
 The metrics will take a few minutes to populate.

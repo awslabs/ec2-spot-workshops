@@ -25,10 +25,10 @@ Now that we have everything, we need to create a job definition. For that click 
 
 - **Security** user: `root`  
 Since the Nextflow config is placed in the `$HOME` directory of root, we run the process within the container as `root` (**[1]**).
-- **Environement variables**
+- **Environment variables**
 Finally we define environment variables to control which pipeline to run (**[2]**) and create the job definition (**[3]**).
 
-Please set 2 environement variables:
+Please set 2 environment variables:
 
 - Key: `PIPELINE_URL` and value: `https://github.com/seqeralabs/nextflow-tutorial.git`
 - Key: `BUCKET_NAME_RESULTS` and value of the environment variable `BUCKET_NAME_RESULTS`: `nextflow-workshop-XXXYYZZZ`

@@ -1,5 +1,5 @@
 ---
-title: "Batch Sqared Run"
+title: "Batch Squared Run"
 chapter: false
 weight: 36
 ---

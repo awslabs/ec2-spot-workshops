@@ -33,7 +33,7 @@ It is not recommended to use build-time variables for passing secrets like githu
 This process will take a couple of minutes because MXNet and some dependencies are being installed during the container build process. If you're new to Docker, you can take this opportunity to review the Dockerfile to understand what's going on or take a quick break to grab some coffee/tea.
 
 \
-5. Now that you've built your local Docker image, you'll need to tag and push the MXNet Docker image to ECR. You'll reference this image when you deploy the container using ECS in the next lab. Find your respository URI in the EC2 Container Service Dashboard; click on Repositories in the left menu and click on the repository name that matches the ecrRepository output from CloudFormation. The Repository URI will be listed at the top of the screen.
+5. Now that you've built your local Docker image, you'll need to tag and push the MXNet Docker image to ECR. You'll reference this image when you deploy the container using ECS in the next lab. Find your repository URI in the EC2 Container Service Dashboard; click on Repositories in the left menu and click on the repository name that matches the ecrRepository output from CloudFormation. The Repository URI will be listed at the top of the screen.
 
 ![](/images/ecs-deep-learning-workshop/ecr-uri.png)
 

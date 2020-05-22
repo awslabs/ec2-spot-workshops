@@ -1,5 +1,5 @@
 ---
-title: "Batch Sqared Debug"
+title: "Batch Squared Debug"
 chapter: false
 weight: 37
 ---

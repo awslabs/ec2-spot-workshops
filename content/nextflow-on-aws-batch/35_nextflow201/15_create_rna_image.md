@@ -6,7 +6,7 @@ weight: 15
 
 ## Build RNA-Seq Image
 
-In order to run the RNA-Seq pipeline while using the AWS-Cli incapsulated within the image, we are going to derive an image from the tutorial image.
+In order to run the RNA-Seq pipeline while using the AWS-cli incapsulated within the image, we are going to derive an image from the tutorial image.
 
 ### ECR
 
@@ -30,13 +30,13 @@ export RNASEQ_REPO_URI=$(aws ecr describe-repositories --repository-names=nextfl
 echo $RNASEQ_REPO_URI
 ```
 
-Following container best practice we are using a unique contianer image tag and not just `:latest`.
+Following container best practice we are using a unique container image tag and not just `:latest`.
 
 ```bash
 export IMG_TAG=$(date +%F).1
 ```
 
-Now, we create a Dockerfile that installs the aws-cli using pip in a separat directory and in a subsequent stage copies the path without installing the dependecies.
+Now, we create a Dockerfile that installs the aws-cli using pip in a separate directory and in a subsequent stage copies the path without installing the dependencies.
 
 ```bash
 cd ~/environment/nextflow-tutorial
@@ -61,7 +61,7 @@ EOF
 {{% notice info %}}
 If you are not familiar with [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds), please take a moment to let it sink in. :)
 What we are doing with the above Dockerfile is creating a `build` stage that installs all the dependencies to run `pip install` and subsequently installing `awscli`. Notice, that we use a different target.
-Without that, pip would install everything in the already masive `/opt/conda/` directory. In the final stage we are copying over the pip-path of the build stage and setting up the environment to pick up `aws` and its libraries.
+Without that, pip would install everything in the already massive `/opt/conda/` directory. In the final stage we are copying over the pip-path of the build stage and setting up the environment to pick up `aws` and its libraries.
 {{% /notice %}}
 
 Let's go ahead and build that image.

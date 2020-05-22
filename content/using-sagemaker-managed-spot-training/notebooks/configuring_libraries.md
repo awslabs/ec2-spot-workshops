@@ -10,9 +10,9 @@ Multiple libraries and SDKs such as the AWS Python SDK (boto3) and the Amazon Sa
 
 * sagemaker-built-in-deepar - Example notebook for training and hosting a DeepAR model with the SageMaker Python SDK.
 * sagemaker-built-in-xgboost - Example notebook for single instance and distributed training of an XGBoost model with the AWS Python SDK (boto3).
-* sagemaker-built-in-image-classification - Example notebook for single instance training of an image classification model with the AWS Python SDK (boto3). 
+* sagemaker-built-in-image-classification - Example notebook for single instance training of an image classification model with the AWS Python SDK (boto3).
 * sagemaker-built-in-object-detection - Example notebook for initial and incremental training of an object detection model with the SageMaker Python SDK.
-* sagemaker-custom-tensorflow - Example notebook for training a cutomer model with your own TensorFlow container with the SageMaker Python SDK.
+* sagemaker-custom-tensorflow - Example notebook for training a customer model with your own TensorFlow container with the SageMaker Python SDK.
 
 {{% notice info %}} 
 You can browse all available notebooks in the [EC2 Spot Labs GitHub Repository](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-sagemaker-managed-spot-training) 
@@ -24,7 +24,7 @@ Some of the example notebooks available in this workshop leverage the Amazon Sag
 
 With the SDK, you can train and deploy models using popular deep learning frameworks, algorithms provided by Amazon, or your own algorithms built into SageMaker-compatible Docker images.
 
-When using the SageMaker Python SDK, it's simple to take advantage of Managed Spot Training by passing a couple additional configuraton parameters to an Estimator. An Estimator is a high-level interface for defining a SageMaker training job.
+When using the SageMaker Python SDK, it's simple to take advantage of Managed Spot Training by passing a couple additional configuration parameters to an Estimator. An Estimator is a high-level interface for defining a SageMaker training job.
 
 The following example configuration when instantiating an estimator demonstrates how Managed Spot Training can be enabled.
 
@@ -106,6 +106,6 @@ Be aware that not all algorithms support checkpointing. SageMaker built-in algor
 
 ### Additional Learning
 
-More datails on the configuration options for the Estimator can be found here: [Amazon SageMaker Python SDK - Estimator Documentation](https://sagemaker.readthedocs.io/en/stable/estimators.html)
+More details on the configuration options for the Estimator can be found here: [Amazon SageMaker Python SDK - Estimator Documentation](https://sagemaker.readthedocs.io/en/stable/estimators.html)
 
 More details on Managed Spot Training including the Manage Spot Training Lifecycle can be found here: [Managed Spot Training](https://docs.aws.amazon.com/sagemaker/latest/dg/model-managed-spot-training.html)

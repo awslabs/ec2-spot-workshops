@@ -6,7 +6,7 @@ Website for this workshops is available at https://ec2spotworkshops.com
 
 ## Building the Workshop site
 
-The content of the workshops is built using [hugo](https://gohugo.io/). 
+The content of the workshops is built using [hugo](https://gohugo.io/).
 
 ### Local Build
 To build the content
@@ -26,7 +26,7 @@ hugo serve -D
 
 ### Containerized Development
 
-The image can also serve as a development enviornment using [docker-compose](https://docs.docker.com/compose/).
+The image can also serve as a development environment using [docker-compose](https://docs.docker.com/compose/).
 The following command will spin up a container exposing the website at [localhost:1313](http://localhost:1313) and mount `config.toml` and the directories `./content`, `./layouts` and `./static`, so that local changes will automatically be picked up by the development container.
 
 ```

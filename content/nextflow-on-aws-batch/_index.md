@@ -6,7 +6,7 @@ pre: "<b>⁃ </b>"
 ---
 
 The content of this workshop is derived from a tutorial created by the nice folks at [Seqera Labs](https://github.com/seqeralabs/nextflow-tutorial), kudos to them!
-We won't create or own pipelines and tweak code, but rather jump right in with a small proof-of-concept piepline, which we will run locally in containers, submit locally to AWS Batch and run a batch job that submits to AWS Batch.
+We won't create or own pipelines and tweak code, but rather jump right in with a small proof-of-concept pipeline, which we will run locally in containers, submit locally to AWS Batch and run a batch job that submits to AWS Batch.
 
 ## Overview
 

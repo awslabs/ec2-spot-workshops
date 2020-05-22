@@ -5,7 +5,7 @@ weight: 40
 pre: "<b>⁃ </b>"
 ---
 <!-- FIXME: 
-This workshop is still refering to the original github repo at
+This workshop is still referring to the original github repo at
 https://github.com/aws-samples/ecs-deep-learning-workshop
 
 All the references should be pointing to the new repository where

@@ -16,6 +16,6 @@ Currently, the following AWS regions support Cloud9 and the EC2 instance types t
 
 4\. During this workshop, you will install software (and dependencies) on the Amazon EC2 instances launched in your account. The software packages and/or sources you will install will be from the [Amazon Linux 2](https://aws.amazon.com/amazon-linux-2/) distribution as well as from third party repositories and sites. Please review and decide your comfort with installing these before continuing.
 
-## Acknolwedgements
+## Acknowledgements
 
 A big thank you to [Phan An](https://www.phanan.net/) for creating and maintaining [Koel](https://koel.phanan.net/) and for allowing Koel to be used in this workshop.

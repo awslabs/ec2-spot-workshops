@@ -11,7 +11,7 @@ Only complete this section if you are running the workshop on your own. If you a
 ### Prepare for CleanUp
 
 {{% notice warning %}}
-In order to be able to clean up after the workshop is done, we will tag every resource with a tag **nextflow-workshop** and no value. This will allow us to filter for those resources and remove tehm savely.
+In order to be able to clean up after the workshop is done, we will tag every resource with a tag **nextflow-workshop** and no value. This will allow us to filter for those resources and remove them safely.
 {{% /notice %}}
 
 ### Running the workshop on your own

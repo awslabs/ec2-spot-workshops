@@ -27,7 +27,7 @@ By deploying the Auto Scaling Group in this manner, you can configure a placemen
 2. Select the launch template with the Launch Template Name of **ECSLaunchTemplate**. Toward the bottom of the lower pane, expand the **Advanced details** section and click on the **View user data** link;
 3. Inspect the User Data defined in the Launch Template:
     1. First, the Instance ID needs is obtained by polling the instance metadata;
-    2. Once the Instance ID has been obtained, the user data script issues an EC2 descibe-instances call to obtain the Instance Lifecycle. If the instance that this call refers to is a Spot instance, the Instance Lifecycle will be **spot**, otherwise it will be **null**;
+    2. Once the Instance ID has been obtained, the user data script issues an EC2 describe-instances call to obtain the Instance Lifecycle. If the instance that this call refers to is a Spot instance, the Instance Lifecycle will be **spot**, otherwise it will be **null**;
     3. Finally, the ECS\_INSTANCE\_ATTRIBUTES configuration directive is added to the /etc/ecs/ecs.config file, defining the **lifecycle** custom attribute. When the user data has been processed, the ECS agent will start and register this custom variable with the ECS service.
 {{% /expand%}}
 
@@ -40,7 +40,7 @@ While the CloudFormation template that was deployed during the Workshop Preparat
 4. At the Configure Auto Scaling group details step of the wizard:
     1. Give the Group a name of **Spot CICD Workshop ECS Auto Scaling Group**;
     2. Change the Fleet Composition to **Combine purchase options and instances** - Selecting this option should reveal additional choices. The Launch Template selected previously does not specify what purchasing model should be used for these instances and the default option will see on-demand instances launched;
-    3. At the Intance Types section, add **t3.large**, **t2.medium** and **t2.large** instance types to the Auto Scaling Group configuration;
+    3. At the Instance Types section, add **t3.large**, **t2.medium** and **t2.large** instance types to the Auto Scaling Group configuration;
     4. Remove the tick from the **Instances Distribution** checkbox so that you can explore the additional configuration options;
     5. As you don't have a specific price objective to meet for your ECS cluster, leave the Maximum Spot Price using default bidding. Also leave the Spot Allocation Strategy so that instances are diversified across the 2 lowest priced instances types per Availability Zone (this will typically ensure that the medium-sized instances will almost always be used when instances are launched, but the large instances are able to be used if something unexpected happens to the availability or market price of the medium instances);
     6. While you could run the entire Auto Scaling Group using Spot instances, it might be more desirable to have a portion of the Auto Scaling Group running on-demand instances, to provide a little more assurance that the container running your Jenkins server will always be running. In order to do this, set the Optional On-Demand Base such that you designate the first **1** instance as On-Demand, and then change the On-Demand Percentage Above Base to be **0%** On-Demand and 100% Spot;

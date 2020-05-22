@@ -63,7 +63,7 @@ The CodeDeploy console will not default to your current region. Please make sure
 	aws deploy push --application-name koelApp --s3-location s3://$codeDeployBucket/koelApp.zip --no-ignore-hidden-files
 	```
 {{% notice note %}}
-You will get output similiar to the following. This is normal and correct:	
+You will get output similar to the following. This is normal and correct:	
 *To deploy with this revision, run: aws deploy create-deployment --application-name koelApp --s3-location bucket=runningamazonec2workloadsatscale-codedeploybucket-11wv3ggxcni40,key=koelApp.zip,bundleType=zip,eTag=870b90e201bdca3a06d1b2c6cfcaab11-2 --deployment-group-name <deployment-group-name> --deployment-config-name <deployment-config-name> --description <description>*
 {{% /notice %}}
 	
