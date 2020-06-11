@@ -186,7 +186,7 @@ df2 = pd.DataFrame(portfolio_total, columns=["portfolioTotal"])
 df2.to_csv(file_prepend_str + "_" + STOCK + "_portfolio_total.csv")
 
 # Create one data frame and write to file.
-result = pd.concat([df1, df2], axis=1, join_axes=[df1.index])
+result = pd.concat([df1, df2], axis=1)
 result.to_csv(file_prepend_str + "_" + STOCK + "_MonteCarloSimResult.csv")
 
 
