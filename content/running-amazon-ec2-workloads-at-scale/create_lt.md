@@ -27,7 +27,7 @@ You will create a launch template to specify configuration parameters for launch
 
     ```bash
     # First, this command looks up the latest Amazon Linux 2 AMI
-    export ami_id=$(aws ec2 describe-images --owners amazon --filters 'Name=name,Values=amzn2-ami-hvm-2.0.????????-x86_64-gp2' 'Name=state,Values=available' --output json | jq -r '.Images |   sort_by(.CreationDate) | last(.[]).ImageId')
+    export ami_id=$(aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2 --query Parameters[0].Value --output text)
 
     sed -i.bak -e "s#%instanceProfile%#$instanceProfile#g" -e "s/%instanceSecurityGroup%/$instanceSecurityGroup/g" -e "s/%ami-id%/$ami_id/g" -e "s/%UserData%/$(cat user-data.txt | base64 --wrap=0)/g" launch-template-data.json
     ```
