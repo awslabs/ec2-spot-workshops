@@ -43,8 +43,8 @@ It will take roughly 5 minutes for the stack creation to complete.
 
 1. In the stack details pane, click the **Events** tab. You can click the refresh button to update the events in the stack creation.
  
-The **Events** tab displays each major step in the creation of the stack sorted by the time of each event, with latest events on top.
-
-The **CREATE\_IN\_PROGRESS** event is logged when AWS CloudFormation reports that it has begun to create the resource. The **CREATE_COMPLETE** event is logged when the resource is successfully created.
-
-When AWS CloudFormation has successfully created the stack, you will see the **CREATE_COMPLETE** event at the top of the Events tab:
+   The **Events** tab displays each major step in the creation of the stack sorted by the time of each event, with latest events on top.
+   
+   The **CREATE\_IN\_PROGRESS** event is logged when AWS CloudFormation reports that it has begun to create the resource. The **CREATE_COMPLETE** event is logged when the resource is successfully  created.
+   
+   When AWS CloudFormation has successfully created the stack, you will see the **CREATE_COMPLETE** event at the top of the Events tab:

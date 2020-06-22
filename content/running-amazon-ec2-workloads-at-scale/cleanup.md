@@ -10,6 +10,8 @@ If you're running in your own account, make sure you run through these steps to 
 
 1. If you haven't already, terminate the EC2 instance that was detached from the EC2 Auto Scaling group in the previous step.
 
+1. Delete the CloudFormation template for the Spot Instance Interruption Handler: `serverlessrepo-ec2-spot-interruption-handler`. 
+
 1. Delete all manually created resources.
 
 	```
