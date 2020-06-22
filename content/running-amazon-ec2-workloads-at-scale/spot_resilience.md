@@ -4,7 +4,7 @@ weight = 155
 +++
 
 ### Handling Spot Interruptions
-When EC2 needs the capacity back in a specific capacity pool (a combination of an instance type in an Availability Zone) it could start interrupting the Spot Instances that are running in that AZ, by sending a 2 minute interruption notification, and then terminating the instance. The 2 minute interruption notification is delivered via [EC2 instance meta-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices) as well as CloudWatch Events. 
+When EC2 needs the capacity back in a specific capacity pool (a combination of an instance type and Operating System in an Availability Zone) it could start interrupting the Spot Instances that are running in that AZ, by sending a 2 minute interruption notification, and then terminating the instance. The 2 minute interruption notification is delivered via [EC2 instance meta-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices) as well as CloudWatch Events. 
 
 Let's deploy a Lambda function that would catch the CloudWatch event for `EC2 Spot Instance Interruption Warning` and automatically detach the soon-to-be-terminated instance from the EC2 Auto Scaling group. 
 By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html) API you achieve two things:
@@ -15,21 +15,26 @@ By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/API
 
     You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
 
+We provide you with a sample EC2 Spot Interruption handler [here](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-interruption-handler) that you can easily deploy via the Serverless Application Repository.
 
-To save time, we will use a CloudFormation template to deploy the Lambda Function that will handle EC2 Spot interruptions, and the CloudWatch event rule to catch the Spot Interruption notifications, and subscribe the Lambda Function to it. 
+  1. Go o the `Available applications` section of the [Serverless Application Repository console](https://console.aws.amazon.com/serverlessrepo/home#/available-applications)
 
-  1. Take some time to review the CloudFormation template and understand what will be launched. Then, execute the following command to deploy the template: 
+  1. Under `Public applications` section, mark the checkbox *Show apps that create custom IAM roles or resource policies* and type `ec2-spot-interruption-handler`, then click on the application. You can also access the application directly clicking [this link](https://eu-west-1.console.aws.amazon.com/lambda/home?#/create/app?applicationId=arn:aws:serverlessrepo:eu-west-1:310006123715:applications/ec2-spot-interruption-handler)
 
-    ```
-    aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler --capabilities CAPABILITY_IAM
-    ```
+  1. Scroll to the bottom and on the `Application settings`section, leave the default settings and mark the checkbox *I acknowledge that this app creates custom IAM roles and resource policies*. Then click `Deploy`.
 
-  1. When the CloudFormation deployment completes (under 2 minutes), open the [AWS Lambda console](https://console.aws.amazon.com/lambda/home) and click on the newly deployed Function name.
- 
- 1. Feel free to examine the code in the Inline code editor.
+  1. Allow a couple of minutes for the application to be deployed. Feel free to take this time to browse the solution details on [GitHub](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-interruption-handler).
 
 
-Now our infrastructure is ready to respond to Spot Interruptions by detaching Spot Instances from the Auto Scaling group when they receive a Spot interruption notification. We can't simulate an EC2 Spot Interruption, but we can invoke the Lambda Function with a simulation of a CloudWatch event for an EC2 Spot Instance Interruption Warning, and see the result.
+The serverless application has configured the following resources:
+
+* An AWS Lambda function that receives Spot Interruption notifications, checks if the instance is part of an Auto Scaling group (and if it's been tagged with Key: `SpotInterruptionHandler/enabled` Value: `true`) and calls the [DetachInstances API](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html) of EC2 Auto Scaling to start connection draining and launch a replacement instance. Feel free to go to the [AWS Lambda console](https://eu-west-1.console.aws.amazon.com/lambda/home#/functions) and inspect the `SpotInterruptionHandler` function.
+* An Amazon EventBridge event rule to capture Spot Instance interruption notifications and trigger the above Lambda function. Feel free to go to the [Amazon EventBridge console](https://console.aws.amazon.com/events/home#/rules) to inspect the rule.
+* An IAM role for the Lambda function to be able to call the AWS API.
+
+If you check the Auto Scaling group instances, you will see they've been already tagged appropriately for SpotInterruptionHandler to take actions if one of its Spot Instance is interrupted (check the asg.json file and you'll see the tag there). At this stage, our infrastructure is ready to respond to Spot Interruptions. 
+
+We can't simulate an actual EC2 Spot Interruption, but we can invoke the Lambda Function with a simulated EC2 Spot Instance Interruption Warning event for one of or Auto Scaling group instances, and see the result.
 
   1. In the top right corner of the AWS Lambda console, click the dropdown menu **Select a test event** -> **Configure test events**
   1. With **Create a new test event** selected, provide an Event name (i.e TestSpotInterruption). In the event text box, paste the following:
@@ -53,12 +58,12 @@ Now our infrastructure is ready to respond to Spot Interruptions by detaching Sp
     }
     ```
     
-  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the Instances tab in the bottom pane of the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) ). You don't need to change any of the other parameters in the event json.
+  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the `Instance management` tab in the bottom pane of the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home) ). You don't need to change any of the other parameters in the event json.
   1. Click **Create**
   1. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.
-  1. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Instance i-01234567890123456 belongs to AutoScaling Group runningAmazonEC2WorkloadsAtScale. Detaching instance..."
-  1. Go back to the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), and under the **Activity History** tab in the bottom pane, you should see a **Detaching EC2 instance** activity, followed shortly after by a **Launching a new EC2 instance** activity.
-  1. Go to the [EC2 ELB Target Groups console](https://console.aws.amazon.com/ec2/v2/home?1#TargetGroups:sort=targetGroupName) and click on the **runningAmazonEC2WorkloadsAtScale** Target Group, go to the Targets tab in the bottom pane, you should see the instance in `draining` mode.
+  1. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Interruption response actions completed for instance i-0156bedcef61187e8 belonging to runningAmazonEC2WorkloadsAtScale"
+  1. Go back to the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home), click on the runningAmazonEC2WorkloadsAtScale Auto Scaling group and under the **Activity** tab in the bottom pane, you should see a **Detaching EC2 instance** activity, followed shortly after by a **Launching a new EC2 instance** activity. Notice the status `WaitingForELBConnectionDraining` on the detached instance. You will find the deregistration timeout configured on the `modify-target-group.json` file.
+  1. Go to the [EC2 ELB Target Groups console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName) and click on the **runningAmazonEC2WorkloadsAtScale** Target Group, go to the Targets tab in the bottom pane, you should see the instance in `draining` status.
 
 Great result! by leveraging the EC2 Spot Instance Interruption Warning, the Lambda Function detached the instance from the Auto Scaling group and the ELB Target Group, thus draining existing connections, and launching a replacement instance before the current instance is terminated.
 
@@ -69,21 +74,21 @@ In a real scenario, EC2 would terminate the instance after two minutes, however 
 
 ### Increasing the application's resilience when using Spot Instances
 
-In a previous step in this workshop, you learned that the EC2 Auto Scaling group is configured to fulfill the 4 lowest-priced instance types (out of a list of 9 types) in each Availability Zone. Since Spot is spare EC2 capacity, its supply and demand vary. By diversifying your usage of capacity pools (a combination of an instance type in an Availability Zone), you increase your chances of getting the desired capacity, and decrease the potential number of interrupted instances in case Spot Instances are interrupted (when EC2 needs the capacity back for On-Demand).
+In this workshop, you learned that the EC2 Auto Scaling group is configured to fulfill the instance type with the most available spare capacity on each Availability Zone (out of a list of 9 types). Since Spot instances are spare EC2 capacity, its supply and demand vary. By being flexible to use multiple instance types you're allocating Spot instances from the optimal capacity pools (a combination of an instance type and Operating system in an Availability Zone) based on available spare capacity, you increase your chances of getting the desired capacity, and decrease the potential number of interrupted instances in case EC2 needs to reclaim Spot instances. 
+
+In case of interruption or scale-out, Auto Scaling will launch a replacement Spot Instance from the optimal instance type based on available spare capacity at that time. This means that over time you'll keep provisioning capacity from optimal pools. You can learn how customers like Mobileye and Skyscanner have benefited of the capacity-optimized Spot Allocation strategy [here](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/).
 
 #### Knowledge check
 How can you increase the resilience of the Koel music streaming application that you deployed in this workshop, when using EC2 Spot Instances?
 
 {{%expand "Click here for the answer" %}}
-1. Add an Availability Zone - the EC2 Auto Scaling group is currently deployed in two AZs. By adding an AZ to your application, you will tap into more EC2 Spot capacity pools, further diversifying your usage and decreasing the blast radius in case a Spot interruption occurs in one of the Spot capacity pools.
-2. Add Instance Types - the 9 instance types that are configured in the Auto Scaling group have small performance variability, so it's possible to run all these instance types in a single ASG and scale on the same dynamic scaling policy. Are there any other instance types that can be added?
-3. Increase SpotInstancePools - The ASG is configured to fulfill the 4 lowest-priced instance types. Increase this number to further diversify the usage of capacity pools and decrease the blast radius.
+  1. Add an Availability Zone - the EC2 Auto Scaling group is currently deployed in two AZs. By adding an AZ to your application, you will tap into more EC2 Spot capacity pools, further diversifying  your usage and decreasing the blast radius in case a Spot interruption occurs in one of the Spot capacity pools. 
+
+  2. Add Instance Types - the 9 instance types that are configured in the Auto Scaling group have small performance variability, so it's possible to run all these instance types in a single ASG and scale on the same dynamic scaling policy. Are there any other instance types that can be added?
 {{% /expand %}}
 
-#### Challenge 
-What other Spot allocation strategy can you choose, would it be suitable for this workload? if not, when will you use it?\
-Hint: read or skim through the following [article] (https://aws.amazon.com/blogs/compute/introducing-the-capacity-optimized-allocation-strategy-for-amazon-ec2-spot-instances/)
+#### Check your Savings
 
-{{%expand "Click here for the answer" %}}
-If you have workloads that are not stateless and fault-tolerant like the Web application that you deployed in this workshop, you can use the capacity-optimized allocation strategy, in order to instruct the ASG to launch instances in the capacity pools which are least likely to be interrupted.
-{{% /expand %}}
+Now that you have learnt how to use Spot Instances and deployed an application, you can very easily check the savings you have achieved. To do so, go to the Spot Requests section of the EC2 console, and click on the `Savings summary` button. You'll see something similar to the below picture.
+
+![Spot Savings](/images/running-amazon-ec2-workloads-at-scale/spot-savings-summary.png)

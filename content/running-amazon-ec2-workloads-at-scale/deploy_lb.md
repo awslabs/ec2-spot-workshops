@@ -12,7 +12,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 1. Execute the following command to edit **application-load-balancer.json** and update the values with the resources created by Cloudformation.
 
 	```
-	sed -i.bak -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" -e "s#%loadBalancerSecurityGroup%#$loadBalancerSecurityGroup#g" application-load-balancer.json
+	sed -i.bak -e "s/%publicSubnet1%/$publicSubnet1/g" -e "s/%publicSubnet2%/$publicSubnet2/g" -e "s/%loadBalancerSecurityGroup%/$loadBalancerSecurityGroup/g" application-load-balancer.json
 	```
 
 1. Take a look at the configuration file and then create the application load balancer:
@@ -27,12 +27,12 @@ Each target group routes requests to one or more registered targets, such as EC2
 	export alb_arn=$(aws elbv2 describe-load-balancers --names runningAmazonEC2WorkloadsAtScale --query LoadBalancers[].LoadBalancerArn --output text)
 	```
 
-1. Browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName) to check out your newly created load balancer.
+1. Browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home/LoadBalancers:sort=loadBalancerName) to check out your newly created load balancer.
 
 1. 	Execute the following command to edit the **target-group.json** file and update it with the values of the resources created by the CloudFormation stack.
 
 	```
-	sed -i.bak -e "s#%vpc%#$vpc#g" target-group.json
+	sed -i.bak -e "s/%vpc%/$vpc/g" target-group.json
 	```
 
 1.  Create the target group:
@@ -58,7 +58,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 	aws elbv2 modify-target-group-attributes --cli-input-json file://modify-target-group.json
 	```
 
-1. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName) to check out your newly created target group.
+1. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home/TargetGroups:sort=targetGroupName) to check out your newly created target group.
 
 1. Edit **listener.json** and update the values of **%LoadBalancerArn%** and **%TargetGroupArn%** from the previous steps. 
 	```

@@ -13,23 +13,28 @@ You might be wondering how a [Launch Template](https://docs.aws.amazon.com/AWSEC
 
 You will create a launch template to specify configuration parameters for launching instances in this workshop. 
 
+1. On the left-side pane of the Cloud9 environment, navigate to the folder `cloud9Environment-*/ec2-spot-workshops/workshops/running-amazon-ec2-workloads-at-scale`. Here you will find all the configuration files that will be used during the workshop. You can use the Cloud9 text editor to open and visualize them as you execute commands to update the files. 
+    ![Cloud9 Editor](/images/running-amazon-ec2-workloads-at-scale/cloud9-editor.png)
+
 1. Execute the following command to update the file **user-data.txt** with the resources created by the CloudFormation template. The file contains the [User Data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html) with the [cloud-init](https://cloudinit.readthedocs.io/en/latest/index.html) directives that will be executed upon instance launch. 
 
     ```bash
     sed -i.bak -e "s/%awsRegionId%/$AWS_REGION/g" -e "s/%fileSystem%/$fileSystem/g" user-data.txt
     ```
-1. Take a moment to look at the user data script to see the bootstrapping actions that is performing. 
+1. Take a moment to look at the user data script to understand the bootstrapping actions that will be performed during instance launch. 
 
 1. Execute the below command to update the **launch-template-data.json** file with the base64 encoded user data script, the resource ids created by the CloudFormation template and the latest Amazon Linux 2 AMI. 
 
-    ```
+    ```bash
     # First, this command looks up the latest Amazon Linux 2 AMI
     export ami_id=$(aws ec2 describe-images --owners amazon --filters 'Name=name,Values=amzn2-ami-hvm-2.0.????????-x86_64-gp2' 'Name=state,Values=available' --output json | jq -r '.Images |   sort_by(.CreationDate) | last(.[]).ImageId')
 
-    sed -i.bak -e "s#%instanceProfile%#$instanceProfile#g" -e "s/%instanceSecurityGroup%/$instanceSecurityGroup/g" -e "s#%ami-id%#$ami_id#g" -e "s#%UserData%#$(cat user-data.txt | base64 --wrap=0)#g" launch-template-data.json
+    sed -i.bak -e "s#%instanceProfile%#$instanceProfile#g" -e "s/%instanceSecurityGroup%/$instanceSecurityGroup/g" -e "s/%ami-id%/$ami_id/g" -e "s/%UserData%/$(cat user-data.txt | base64 --wrap=0)/g" launch-template-data.json
     ```
 
-1. Take the time to look at the launch-template-data.json file; and then execute the below command to create the Launch template from the configuration file you have updated.
+1. Take the time to look at the launch-template-data.json file. You will see that IamInstanceProfile Arn, SecurityGroupIds and UserData have been populated with your own details. 
+
+1. Execute the below command to create the Launch template from the configuration file you have updated.
 
     ```
     aws ec2 create-launch-template --launch-template-name runningAmazonEC2WorkloadsAtScale --version-description dev --launch-template-data file://launch-template-data.json

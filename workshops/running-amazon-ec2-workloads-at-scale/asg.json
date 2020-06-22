@@ -8,7 +8,7 @@
       },
       "Overrides": [
         {
-          "InstanceType": "c4.large"
+          "InstanceType": "m5.large"
         },
         {
           "InstanceType": "c5.large"
@@ -20,7 +20,7 @@
           "InstanceType": "m4.large"
         },
         {
-          "InstanceType": "m5.large"
+          "InstanceType": "c4.large"
         },
         {
           "InstanceType": "m5d.large"
@@ -40,8 +40,7 @@
       "OnDemandAllocationStrategy": "prioritized",
       "OnDemandBaseCapacity": 2,
       "OnDemandPercentageAboveBaseCapacity": 0,
-      "SpotAllocationStrategy": "lowest-price",
-      "SpotInstancePools": 4
+      "SpotAllocationStrategy": "capacity-optimized"
     }
   },
   "MinSize": 4,
@@ -51,5 +50,12 @@
     "%TargetGroupARN%"
   ],
   "HealthCheckType": "EC2",
-  "VPCZoneIdentifier": "%publicSubnet1%,%publicSubnet2%"
+  "VPCZoneIdentifier": "%publicSubnet1%,%publicSubnet2%",
+  "Tags": [
+    {
+      "Key": "SpotInterruptionHandler/enabled",
+      "Value": "true",
+      "PropagateAtLaunch": true
+    }
+  ]
 }

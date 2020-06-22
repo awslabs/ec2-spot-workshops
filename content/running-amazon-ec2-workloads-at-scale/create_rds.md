@@ -8,7 +8,7 @@ Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate
 1. Execute the following command to update the file **rds.json** with the resource ids created by the Cloudformation template.
 
 	```
-	sed -i.bak -e "s#%dbSecurityGroup%#$dbSecurityGroup#g" -e "s#%dbSubnetGroup%#$dbSubnetGroup#g" rds.json 
+	sed -i.bak -e "s/%dbSecurityGroup%/$dbSecurityGroup/g" -e "s/%dbSubnetGroup%/$dbSubnetGroup/g" rds.json 
 	```
 
 1. Take a look at the configuration file that you just modified and then create the RDS instance:

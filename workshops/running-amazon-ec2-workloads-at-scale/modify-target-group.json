@@ -3,11 +3,11 @@
   "Attributes": [
     {
       "Key": "deregistration_delay.timeout_seconds",
-      "Value": "120"
+      "Value": "90"
     },
     {
       "Key": "stickiness.enabled",
-      "Value": "false"
+      "Value": "true"
     }
   ]
 }
