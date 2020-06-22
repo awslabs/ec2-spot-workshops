@@ -55,6 +55,6 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 	codeDeployServiceRole : arn:aws:iam::123456789101:role/running-at-scale-codeDeployServiceRole-AFUU6QGYXOQH
 	```
 
-	{{% notice info %}}
-	All the configuration files edit automation in this workshop is designed to make your experience smooth and avoid excessive copy-pasting. The commands that will be given use sed to update placeholder values on the file like `%placeholder-value%` with the resource ids created by CloudFormation. However, make sure you detailedly look at each of the configuration files on each step to understand the changes and configurations applied. 
-	{{% /notice %}}
+{{% notice info %}}
+All the configuration files edit automation in this workshop is designed to make your experience smooth and avoid excessive copy-pasting. The commands that will be given use sed to update placeholder values on the file like `%placeholder-value%` with the resource ids created by CloudFormation. However, make sure you detailedly look at each of the configuration files on each step to understand the changes and configurations applied. 
+{{% /notice %}}
