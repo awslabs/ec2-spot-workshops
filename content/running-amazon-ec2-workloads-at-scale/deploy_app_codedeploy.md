@@ -104,6 +104,7 @@ The CodeDeploy console will not default to your current region. Please make sure
 1. The EFS file system is mounted on every instance at **/var/www/media** in order to create a shared location for your audio files. Mount the EFS file system in the Cloud9 environment and copy some mp3s to the file system. The EFS file system id created by CloudFormation is loaded on the **$fileSystem** environment variable.
     ```bash
     mkdir -p ~/environment/media
+	
     sudo mount -t efs $fileSystem:/ ~/environment/media
     
     sudo chown ec2-user. ~/environment/media
