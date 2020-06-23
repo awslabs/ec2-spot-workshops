@@ -56,5 +56,5 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 	```
 
 {{% notice info %}}
-All the configuration files edit automation in this workshop is designed to make your experience smooth and avoid excessive copy-pasting. The commands that will be given use sed to update placeholder values on the file like `%placeholder-value%` with the resource ids created by CloudFormation. However, make sure you detailedly look at each of the configuration files on each step to understand the changes and configurations applied. 
+The automation to edit configuration files in this workshop is designed avoid excessive copy-pasting. The instructions provide commands that use **[sed](https://en.wikipedia.org/wiki/Sed)** to update placeholder values like this `%placeholder-value%` with the resource identifications (ids) created by the output of CloudFormation.  Regardless of the automation you are encouraged to read and understand the configuration files and confirm the changes applied.
 {{% /notice %}}
