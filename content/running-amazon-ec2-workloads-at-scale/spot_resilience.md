@@ -4,14 +4,14 @@ weight = 155
 +++
 
 ### Handling Spot Interruptions
-When EC2 needs the capacity back in a specific capacity pool (a combination of an instance type and Operating System in an Availability Zone) it could start interrupting the Spot Instances that are running in that AZ, by sending a 2 minute interruption notification, and then terminating the instance. The 2 minute interruption notification is delivered via [EC2 instance meta-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices) as well as CloudWatch Events. 
+When EC2 needs the capacity back in a specific capacity pool (a combination of an instance type and Operating System in an Availability Zone) it could start interrupting the Spot Instances that are running in that AZ, by sending a 2 minute interruption notification, and then terminating the instance. The 2 minute interruption notification is delivered via [EC2 instance meta-data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices) as well as Amazon EventBridge (Amazon EventBridge builds upon and extends CloudWatch Events. It uses the same service API and endpoint, and the same underlying service infrastructure. You can find more details [here](https://aws.amazon.com/eventbridge/faqs/)). 
 
-Let's deploy a Lambda function that would catch the CloudWatch event for `EC2 Spot Instance Interruption Warning` and automatically detach the soon-to-be-terminated instance from the EC2 Auto Scaling group. 
+Let's deploy a Lambda function that would catch the event for `EC2 Spot Instance Interruption Warning` and automatically detach the soon-to-be-terminated instance from the EC2 Auto Scaling group. 
 By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html) API you achieve two things:
 
   1. You can specify on the API call whether to keep the current desired capacity on the Auto Scaling group, or decrement it by the number of instances being detached. By keeping the same desired capacity, Auto Scaling will immediately launch a replacement instance.
 
-  1. If the Auto Scaling group has a Load Balancer or a Target Group attached (as we have in this workshop), the instance is deregistered from it. Also, if connection draining is enabled for your Load Balancer (or Target Group), the Auto Scaling group waits for in-flight requests to complete (up to the configured timeout, which we have set up to 120 sec).
+  1. If the Auto Scaling group has a Load Balancer or a Target Group attached (as we have in this workshop), the instance is deregistered from it. Also, if a [deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay) is configured for your Load Balancer (or Target Group), the Auto Scaling group waits the configured time to allow in-flight requests to complete (up to the configured timeout, which we have set up to 90 sec).
 
     You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
 
@@ -28,7 +28,7 @@ We provide you with a sample EC2 Spot Interruption handler [here](https://github
 
 The serverless application has configured the following resources:
 
-* An AWS Lambda function that receives Spot Interruption notifications, checks if the instance is part of an Auto Scaling group (and if it's been tagged with Key: `SpotInterruptionHandler/enabled` Value: `true`) and calls the [DetachInstances API](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html) of EC2 Auto Scaling to start connection draining and launch a replacement instance. Feel free to go to the [AWS Lambda console](https://eu-west-1.console.aws.amazon.com/lambda/home#/functions) and inspect the `SpotInterruptionHandler` function.
+* An AWS Lambda function that receives Spot Interruption notifications, checks if the instance is part of an Auto Scaling group (and if it's been tagged with Key: `SpotInterruptionHandler/enabled` Value: `true`) and to then call the [DetachInstances API](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html) of EC2 Auto Scaling to start connection draining and launch a replacement instance. Feel free to go to the [AWS Lambda console](https://eu-west-1.console.aws.amazon.com/lambda/home#/functions) and inspect the `SpotInterruptionHandler` function.
 * An Amazon EventBridge event rule to capture Spot Instance interruption notifications and trigger the above Lambda function. Feel free to go to the [Amazon EventBridge console](https://console.aws.amazon.com/events/home#/rules) to inspect the rule.
 * An IAM role for the Lambda function to be able to call the AWS API.
 
