@@ -1,5 +1,5 @@
 +++
-title = "Resilience with Spot Instances"
+title = "Increasing resilience when using Spot Instances"
 weight = 155
 +++
 
@@ -17,7 +17,7 @@ By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/API
 
 We provide you with a sample EC2 Spot Interruption handler [here](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-interruption-handler) that you can easily deploy via the Serverless Application Repository.
 
-  1. Go o the `Available applications` section of the [Serverless Application Repository console](https://console.aws.amazon.com/serverlessrepo/home#/available-applications)
+  1. Go to the `Available applications` section of the [Serverless Application Repository console](https://console.aws.amazon.com/serverlessrepo/home#/available-applications)
 
   1. Under `Public applications` section, mark the checkbox *Show apps that create custom IAM roles or resource policies* and type `ec2-spot-interruption-handler`, then click on the application. You can also access the application directly clicking [this link](https://eu-west-1.console.aws.amazon.com/lambda/home?#/create/app?applicationId=arn:aws:serverlessrepo:eu-west-1:310006123715:applications/ec2-spot-interruption-handler)
 
@@ -87,8 +87,3 @@ How can you increase the resilience of the Koel music streaming application that
   2. Add Instance Types - the 9 instance types that are configured in the Auto Scaling group have small performance variability, so it's possible to run all these instance types in a single ASG and scale on the same dynamic scaling policy. Are there any other instance types that can be added?
 {{% /expand %}}
 
-#### Check your Savings
-
-Now that you have learnt how to use Spot Instances and deployed an application, you can very easily check the savings you have achieved. To do so, go to the Spot Requests section of the EC2 console, and click on the `Savings summary` button. You'll see something similar to the below picture.
-
-![Spot Savings](/images/running-amazon-ec2-workloads-at-scale/spot-savings-summary.png)

@@ -9,22 +9,26 @@ Amazon EC2 Auto Scaling helps you maintain application availability and allows y
 ```bash
 sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s/%publicSubnet1%/$publicSubnet1/g" -e "s/%publicSubnet2%/$publicSubnet2/g" asg.json
 ```
-\
-**Challenge**\
-The EC2 Auto Scaling group that you are going to deploy supports [multiple purchase options (On-Demand and Spot Instances) and EC2 instance types](https://docs.aws.amazon.com/autoscaling/ec2/serguide/asg-purchase-options.html). \
-* Examining the asg.json configuration file, can you determine what would be the different configuration options in the deployed ASG?\
-* How many On-Demand and Spot Instances would be deployed?\
+
+**Challenge**
+
+The EC2 Auto Scaling group that you are going to deploy supports [multiple purchase options (On-Demand and Spot Instances) and EC2 instance types](https://docs.aws.amazon.com/autoscaling/ec2/serguide/asg-purchase-options.html). 
+
+* Examining the asg.json configuration file, can you determine what would be the different configuration options in the deployed ASG?
+* How many On-Demand and Spot Instances would be deployed?
 * Which On-Demand and Spot Instances would be selected from the list of Overrides, and why?
-\
-\
-*Hint:* take a look at the [API reference for `InstancesDistribution`] (https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html) to understand the different arameters in the asg.json configuration file.
-\
+
+
+*Hint:* take a look at the [API reference for `InstancesDistribution`] (https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html) to understand the different parameters in the asg.json configuration file.
+
 {{%expand "Click here for the answer" %}}
-With an `OnDemandBaseCapacity` of 2, `OnDemandPercentageAboveBaseCapacity` of 0, and `DesiredCapacity` of 4, initially the ASG is going to contain 2 On-Demand instances and 2 Spot Instances.\
-The instance type of the On-Demand instances will be the first of the list of `Overrides`.\
+With an `OnDemandBaseCapacity` of 2, `OnDemandPercentageAboveBaseCapacity` of 0, and `DesiredCapacity` of 4, initially the ASG is going to contain 2 On-Demand instances and 2 Spot Instances.
+
+The On-Demand instance type will be the first on the list of `Overrides`.
+
 The `capacity-optimized` `SpotAllocationStrategy` will pick the instance types that have the most availability of spare capacity in each Availability Zone at launch time. 
 {{% /expand %}}
-\
+
 2\. Create the auto scaling group by running:
 ```
 aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
