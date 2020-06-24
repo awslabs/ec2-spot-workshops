@@ -42,6 +42,8 @@ disableToc: true
 
 ## Containers
 
+##### [ - [Blog post] Building for Cost optimization and Resilience for EKS with Spot Instances](https://aws.amazon.com/blogs/compute/cost-optimization-and-resilience-eks-with-spot-instances/)
+
 ##### [ - [Tutorial] Getting started tutorial: Run Kubernetes clusters for less with Amazon EKS and Spot Instances](https://aws.amazon.com/getting-started/hands-on/amazon-eks-with-spot-instances/)
 
 
