@@ -27,6 +27,8 @@ disableToc: true
 
 ##### [ - [Blog post] Running Web Applications on Amazon EC2 Spot Instances](https://aws.amazon.com/blogs/compute/running-web-applications-on-amazon-ec2-spot-instances/)
 
+##### [ - [Tutorial] Amazon EC2 Auto Scaling with EC2 Spot Instances](https://aws.amazon.com/getting-started/hands-on/ec2-auto-scaling-spot-instances/)
+
 ##### [ - [AWS Online Tech Talks]: How to Build Scalable Web Based Applications for Less with Amazon EC2 Spot Instances](https://www.youtube.com/watch?v=9psCsCcbfFM)
 
 ## Big-data and analytics
