@@ -10,9 +10,8 @@ that will help with understanding our cluster setup in a visual way. The first o
 The following line updates the stable helm repository and then installs kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
 ```
-helm repo update
-helm install stable/kube-ops-view \
---name kube-ops-view \
+helm install kube-ops-view \
+stable/kube-ops-view \
 --set service.type=LoadBalancer \
 --set nodeSelector.intent=control-apps \
 --set rbac.create=True
@@ -60,6 +59,18 @@ Spend some time checking the state and properties of your EKS cluster.
 
 ![kube-ops-view](/images/using_ec2_spot_instances_with_eks/helm/kube-ops-view-legend.png)
 
+<!--  
+
+# I'm commenting this section temporarily The ClusterRole associated with
+# the chart does not provide all the permissions for kube-report-ops
+# to work well and instead we are getting an error at the moment on EKS 1.16
+# this will require either a change in the kube-report-ops or changes to modify
+# The clusterrole once the helm chart is installed;
+
+
+
+
+
 ### Exercise
  
 {{% notice info %}}
@@ -73,7 +84,7 @@ In this exercise we will install and explore another great tool, **[kube-resourc
 Execute the following command in your Cloud9 terminal
 ```
 git clone https://github.com/hjacobs/kube-resource-report
-helm install --name kube-resource-report \
+helm install kube-resource-report \
 --set service.type=LoadBalancer \
 --set service.port=80 \
 --set container.port=8080 \
@@ -101,4 +112,4 @@ Kube-resource-reports will keep track in time of the cluster. Further more, it i
 The result of this exercise should show kube-resource-report estimated cost of your cluster as well as the utilization of different components.
 
 
-
+-->

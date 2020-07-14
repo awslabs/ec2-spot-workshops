@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/kubectl
 
 #### Install JQ and envsubst
 ```
-sudo yum -y install jq gettext
+sudo yum -y install jq gettext bash-completion
 ```
 
 #### Verify the binaries are in the path and executable
