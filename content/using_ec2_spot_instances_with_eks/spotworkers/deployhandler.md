@@ -21,25 +21,22 @@ Within the Node Termination Handler DaemonSet, the workflow can be summarized as
 * [**Drain**](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) connections on the running pods.
 * Replace the pods on remaining nodes to maintain the desired capacity.
 
-By default, **[aws-node-termination-handler](https://github.com/aws/aws-node-termination-handler)** will run on all of your nodes (on-demand and spot). If your spot instances are labeled, you can configure `aws-node-termination-handler` to only run on your labeled spot nodes. If you're using the tag `lifecycle=Ec2Spot`, you can run the following to apply our spot-node-selector overlay.
+By default, **[aws-node-termination-handler](https://github.com/aws/aws-node-termination-handler)** will run on all of your nodes (on-demand and spot).
+This also is our recommendation. Remember the termination handler does also handle maintenance events that can impact OnDemand instances!
 
 
 ```
 helm repo add eks https://aws.github.io/eks-charts
-helm install --name aws-node-termination-handler \
+helm install aws-node-termination-handler \
              --namespace kube-system \
-             --set nodeSelector.lifecycle=Ec2Spot \
              eks/aws-node-termination-handler
 ```
 
-Verify that the pods are only running on node with label `lifecycle=Ec2Spot`
+Verify that the pods are running on all nodes: 
 ```
 kubectl get daemonsets --all-namespaces
 ```
 
-Use **kube-ops-view** to confirm *AWS Node Termination Handler* DaemonSet has been deployed only to EC2 Spot nodes.
+Use **kube-ops-view** to confirm *AWS Node Termination Handler* DaemonSet has been deployed to all nodes.
 
-{{% notice warning %}}
-Although in this workshop we deployed the *AWS Node Termination Handler* only to EC2 Spot nodes, our recommendation is to run the AWS Node Termination handler also on nodes where you would like to capture other termination events such as [maintenance events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html) or in the future Auto Scaling AZ Balancing events
-{{% /notice %}}
 

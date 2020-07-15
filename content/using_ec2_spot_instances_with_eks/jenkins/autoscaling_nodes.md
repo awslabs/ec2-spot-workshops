@@ -4,24 +4,13 @@ date: 2018-08-07T08:30:11-07:00
 weight: 80
 ---
 
-In a previous module in this workshop, we saw that we can use Kubernetes cluster-autoscaler to automatically increase the size of our nodegroups (EC2 Auto Scaling groups) when our Kubernetes deployment scaled out, and some of the pods remained in `pending` state due to lack of resources on the cluster. Let's implement the same concept for our Jenkins worker nodes and see this in action.
+In a previous module in this workshop, we saw that we can use Kubernetes cluster-autoscaler to automatically increase the size of our nodegroups (EC2 Auto Scaling groups) when our Kubernetes deployment scaled out, and some of the pods remained in `pending` state due to lack of resources on the cluster. Let's check the same concept applies for our Jenkins worker nodes and see this in action.
 
-#### Configuring cluster-autoscaler to use our new Jenkins dedicated nodegroup
-1\. Edit the cluster-autoscaler deployment configuration\
-```bash
-kubectl edit deployment cluster-autoscaler -n kube-system
-```
-2\. Under the two `--nodes=` lines where you configured your EC2 Auto Scaling group names in the previous module, add another line with the name of the new Jenkins dedicated nodegroup, so your file looks like this (but with different ASG names which you collected from the EC2 Management Console)\
-```
---nodes=0:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-8vcpu-32gb-spot-NodeGroup-16XJ6GMZCT3XQ
---nodes=0:5:eksctl-eksworkshop-eksctl10-nodegroup-dev-4vcpu-16gb-spot-NodeGroup-1RBXH0I6585MX
---nodes=0:5:eksctl-eksworkshop-eksctl10-nodegroup-jenkins-agents-2vcpu-8gb-spot-2-NodeGroup-7GE4LS6B34DK
-```
-3\. Once you save/quit the file with `:x!`, the new configuration will apply\
+If you recall, Cluster Autoscaler was configured to Auto-Discover Auto Scaling groups created with the tags : k8s.io/cluster-autoscaler/enabled, and k8s.io/cluster-autoscaler/eksworkshop-eksctl. You can find out in the AWS Console section for **EC2 -> Auto Scaling Group**, that the new jenkins node group does indeed have the right tags defined.
+
 
 {{% notice tip %}}
-CI/CD workloads can benefit of Cluster Autoscaler ability to scale down to 0! Capacity will 
-be provided just when needed, which increases further cost savings.
+CI/CD workloads can benefit of Cluster Autoscaler ability to scale down to 0! Capacity will be provided just when needed, which increases further cost savings.
 {{% /notice %}}
 
 #### Running multiple Jenkins jobs to reach a Pending pods state
