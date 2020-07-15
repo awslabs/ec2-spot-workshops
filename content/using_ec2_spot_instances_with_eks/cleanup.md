@@ -18,7 +18,7 @@ Before you clean up the resources and complete the workshop, you may want to rev
 kubectl delete hpa monte-carlo-pi-service
 kubectl delete -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 kubectl delete -f monte-carlo-pi-service.yml
-helm delete --purge kube-ops-view kube-resource-report metrics-server
+helm delete kube-ops-view metrics-server
 ```
 
 ## Removing eks nodegroups
