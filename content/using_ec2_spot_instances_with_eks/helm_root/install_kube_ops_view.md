@@ -65,11 +65,8 @@ Spend some time checking the state and properties of your EKS cluster.
 # the chart does not provide all the permissions for kube-report-ops
 # to work well and instead we are getting an error at the moment on EKS 1.16
 # this will require either a change in the kube-report-ops or changes to modify
-# The clusterrole once the helm chart is installed;
-
-
-
-
+# The clusterrole once the helm chart is installed; I'll contribute this to the
+# upstream project and then get this section enabled back again.
 
 ### Exercise
  
@@ -110,6 +107,5 @@ Kube-resource-reports will keep track in time of the cluster. Further more, it i
 {{% /expand %}}
 
 The result of this exercise should show kube-resource-report estimated cost of your cluster as well as the utilization of different components.
-
 
 -->
