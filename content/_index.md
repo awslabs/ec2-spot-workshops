@@ -35,6 +35,14 @@ Amazon EC2 capacity at scale in a cost optimized architecture.
 {{< /card >}}
 
 {{< card important_workshop 
+    "using_ec2_spot_instances_with_eks"
+    "Using Spot Instances with EKS"
+    "Amazon-Elastic-Container-Service-for-Kubernetes.svg" 
+>}}
+In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale.
+{{< /card >}}
+
+{{< card important_workshop 
     "running_spark_apps_with_emr_on_spot_instances"
     "Running Spark apps with EMR on Spot instances"
     "Amazon-EC2_Instances_light-bg.png" 
@@ -44,20 +52,11 @@ costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.
 {{< /card >}}
 
 {{< card important_workshop 
-    "using_ec2_spot_instances_with_eks"
-    "Using Spot Instances with EKS"
-    "Amazon-Elastic-Container-Service-for-Kubernetes.svg" 
+    "using-sagemaker-managed-spot-training"
+    "Using Amazon SageMaker Managed Spot Training"
+    "Amazon-SageMaker_Model_light-bg.png" 
 >}}
-In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale.
-{{< /card >}}
-
-{{< card workshop 
-    "ec2_spot_fleet_web_app"
-    "EC2 Spot Fleet Web App"
-    "AWS-Lambda_Lambda-Function_light-bg.png" 
->}}
-This workshop is designed to understand how to take advantage of Amazon EC2 
-Spot instance interruption notices using lambda functions.
+In this workshop, you will learn how to leverage Managed Spot Training with Amazon SageMaker to save up to 70-90% on your Amazon SageMaker Training Jobs.
 {{< /card >}}
 
 
