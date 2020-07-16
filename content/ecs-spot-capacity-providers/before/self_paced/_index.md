@@ -1,5 +1,5 @@
 +++
-title = "...On your own"
+title = "...On your own(Self-paced)"
 chapter = true
 weight = 5
 +++
