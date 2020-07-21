@@ -19,7 +19,7 @@ ECS is also deeply integrated into the rest of the AWS ecosystem.
 
 In this section, we’ll cover the following topics:
 
-* [Cluster] (https://ecsworkshop.com/introduction/ecs_basics/cluster/)
+* Cluster
 * Task Definitions
 * Tasks and Scheduling
 * Services

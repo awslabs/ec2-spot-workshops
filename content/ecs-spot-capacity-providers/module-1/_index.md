@@ -3,8 +3,7 @@ title: "Module-1: Setup the workshop environment on AWS"
 chapter: true
 weight: 15
 ---
-
-## Preparation steps:
+# Module1: Setup the Workspace Environment
 
 Launch the CloudFormation stack 
 ---
