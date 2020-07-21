@@ -4,11 +4,12 @@ chapter: true
 weight: 2
 ---
 
-###  Create ECS Fargate Services
+Create ECS Fargate Services
+---
 
 In this section, we will create a ECS service to deploy tasks on FARGATE and FARGATE_SPOT capacity providers using a custom strategy. We will use a assign a weight of 1 to FARGATE_SPOT and 3 to FARGATE.  In this case. for every task on FARGATE_SPOT, 3 tasks will be placed on FARGATE.
 
-We will be creating the ECS services and tasks in the new VPC we created using the CFN stack  in the Module-1.
+We will be creating the ECS services and tasks in the new VPC we created earlier using the CFN stack.
 
 
 Please note that at the beginning of the workshop we loaded Cloudformation Outputs to Environment variables to make running the workshop easier; you'll be able to see the outputs on the Cloudformation console.
@@ -29,7 +30,7 @@ The output from above command looks like below.
 subnet-0207bed3b4fea0f8a,subnet-06d1fea4f304ee224
 ```
 
-The environment variable *vpc *contains the vpc id created in the CFN template. Check its value using below command.
+The environment variable *vpc* contains the vpc id created in the CFN template. Check its value using below command.
 
 ```
 echo $vpc
@@ -58,7 +59,7 @@ The output from above command looks like below.
 Default Security group is sg-0db37aac5427520c1
 ```
 
-Deploy the service  *fargate-service-split** *using below command
+Deploy the service  *fargate-service-split* using below command
 
 ```
 aws ecs create-service \
@@ -97,5 +98,7 @@ The output of the above command should display a table like this below.
 
 As you see 3 tasks were placed on FARGATE and 1 is placed on FARGATE_SPOT Capacity Providers as per the Capacity Providers Strategy.
 
-Optional Exercise:
+***Optional Exercise:***
 Try changing the Capacity Provider Strategy by assigning different weightrs to FARGATE and FARGATE_SPOT Capacity Providers and update the service.
+
+***Congratulations !!!*** you have successfully completed Module-1, you may proceed to Module-2.

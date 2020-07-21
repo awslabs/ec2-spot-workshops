@@ -1,10 +1,11 @@
 ---
 title: "Attach the IAM role to your Workspace"
 chapter: true
-weight: 20
+weight: 10
 ---
 
-### Attach the IAM role for your Workspace
+Attach the IAM role for your Workspace
+---
 
 In order to work with ECS from our workstation, we will need the appropriate permissions for our developer workstation instance.
 
@@ -37,4 +38,4 @@ The output assumed-role name should contain:
     "Arn": "arn:aws:sts::000474600478:assumed-role/EcsSpotWorkshop-Cloud9InstanceRole/i-0eedc304975256fac"
 }
 ```
-Now you completed the prerequisites needed to start the workshop, Now you can proceed to next steps.
+

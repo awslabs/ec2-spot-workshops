@@ -1,7 +1,7 @@
 ---
 title: "Creating a Capacity Provider using ASG with EC2 On-demand instances."
 chapter: true
-weight: 6
+weight: 11
 ---
 
 Creating a Capacity Provider using ASG with EC2 On-demand instances.

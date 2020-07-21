@@ -1,7 +1,7 @@
 ---
 title: "Creating a Capacity Provider using ASG with EC2 Spot instances"
 chapter: true
-weight: 15
+weight: 20
 ---
 
 Creating a Capacity Provider using ASG with EC2 Spot instances.

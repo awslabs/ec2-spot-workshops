@@ -1,23 +1,26 @@
 ---
-title: "Module-4 Spot Interruption Handling"
+title: "Module-3: Spot Interruption Handling"
 chapter: true
 weight: 40
 ---
 
-# Module-4: Spot Interruption Handling
+# Module-3: Spot Interruption Handling
 
 
 Amazon EC2 terminates your Spot Instance when it needs the capacity back. Amazon EC2 provides a Spot Instance interruption notice, which gives the instance a two-minute warning before it is interrupted.
 
-*Spot Interruption Handling on EC2 Spot Instances*
+Spot Interruption Handling on EC2 Spot Instances
+---
 
 When Amazon EC2 is going to interrupt your Spot Instance, the interruption notification will be available in two ways
 
-*Amazon EventBridge Events*
+Amazon EventBridge Events
+---
 
 EC2 service emits an event two minutes prior to the actual interruption. This event can be detected by Amazon CloudWatch Events.
 
-*Instance-action in the MetaData service (IMDS)*
+Instance-action in the MetaData service (IMDS)
+---
 
 If your Spot Instance is marked to be stopped or terminated by the Spot service, the instance-action item is present in your instance metadata.
 
@@ -42,12 +45,12 @@ if SpotInt.status_code == 200:
     response += "<h1>This Spot Instance Got Interruption and Termination Date is {} </h1> <hr/>".format(SpotInt.text)
 ```
 
-In the second method, it listens to the SIGTERM signal. The ECS container agent calls StopTask API to stop all the tasks running on the Spot Instance.
+In the second method, it listens to the **SIGTERM** signal. The ECS container agent calls StopTask API to stop all the tasks running on the Spot Instance.
 
-When StopTask is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent.
+When StopTask is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a **SIGTERM** value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the **SIGTERM** value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent.
 
 
-The application can listen to the SIGTERM signal and handle the interruption gracefully.
+The application can listen to the **SIGTERM** signal and handle the interruption gracefully.
 
 ```
 class Ec2SpotInterruptionHandler:
@@ -79,4 +82,4 @@ To ensure that your containers exit gracefully before the task stops, the follow
 • A stopTimeout value of 120 seconds or less can be specified in the container definition that the task
 is using. Specifying a stopTimeout value gives you time between the moment the task state change event is received and the point at which the container is forcefully stopped. 
 
-• The SIGTERM signal must be received from within the container to perform any cleanup actions.
+• The **SIGTERM** signal must be received from within the container to perform any cleanup actions.

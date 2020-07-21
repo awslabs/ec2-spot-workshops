@@ -1,7 +1,7 @@
 ---
 title: "ECS Cluster Monitoring using Container Insights"
 chapter: true
-weight: 17
+weight: 30
 ---
 
 ECS Cluster Monitoring using Container Insights

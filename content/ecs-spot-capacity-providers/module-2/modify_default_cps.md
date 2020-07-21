@@ -1,7 +1,7 @@
 ---
 title: "Modify the default capacity provider strategy (CPS)"
 chapter: true
-weight: 16
+weight: 25
 ---
 
 Modify the default capacity provider strategy (CPS)

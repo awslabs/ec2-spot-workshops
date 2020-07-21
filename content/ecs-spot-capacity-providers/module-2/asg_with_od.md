@@ -1,7 +1,7 @@
 ---
 title: "Creating an Auto Scaling Group (ASG) with EC2 On-Demand Instances"
 chapter: true
-weight: 5
+weight: 10
 ---
 
 

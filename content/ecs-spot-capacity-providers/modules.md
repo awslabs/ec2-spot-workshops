@@ -4,7 +4,6 @@ chapter: false
 weight: 13
 ---
 
-# Workshop Modules
 
 This workshop has been broken down into modules.
 

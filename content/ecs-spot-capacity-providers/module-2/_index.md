@@ -1,10 +1,10 @@
 ---
-title: "Module-3: Savings costs using EC2 spot with Auto Scaling Group Capacity Providers"
+title: "Module-2: Savings costs using EC2 spot with Auto Scaling Group Capacity Providers"
 chapter: true
 weight: 30
 ---
 
-# Module-3: Cost Saving using EC2 spot with Auto Scaling Group & Capacity Providers
+# Module-2: Cost Saving using EC2 spot with Auto Scaling Group & Capacity Providers
 
 
 

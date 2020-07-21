@@ -1,7 +1,7 @@
 ---
 title: "Building the webapp container"
 chapter: true
-weight: 18
+weight: 45
 ---
 
 Building the webapp container
@@ -29,11 +29,11 @@ sed -i -e "s#DOCKER_IMAGE_URI#$ECR_REPO_URI:latest#g" ec2-task.json
 
 In this section, we will create a task definition for for tasks to be launched on the Auto Scaling Capacity Providers.
 
-Run the below command to create the task definition
+### Run the below command to create the task definition
 
 ```
 aws ecs register-task-definition --cli-input-json file://ec2-task.json
 ```
-The task will look like this in console
+### The task will look like this in console
 
 ![Task](/images/ecs-spot-capacity-providers/task1.png)

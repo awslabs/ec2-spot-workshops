@@ -4,7 +4,8 @@ chapter: true
 weight: 15
 ---
 
-### Setup AWS CLI and other tools
+Setup AWS CLI and other tools
+---
 
 Make sure the latest version of the AWS CLI is installed by running:
 
@@ -60,4 +61,4 @@ do
 done
 ```
 
-Now you are done with Module-1, Proceed to Module-2 of this workshop.
+***Congratulations !!!*** Now you are done with workspace setup, Proceed to Module-1 of this workshop.
