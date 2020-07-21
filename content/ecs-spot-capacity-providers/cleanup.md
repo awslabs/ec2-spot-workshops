@@ -4,6 +4,8 @@ date: 2018-08-07T08:30:11-07:00
 weight: 100
 ---
 
+# Workshop Cleanup
+
 1. At AWS Event or using facilitator provide AWS Account, you may skip this step. 
 
 1. Running this workshop as self-paced or using your own/organization AWS account, follow instructions as below.

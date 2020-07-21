@@ -1,42 +1,29 @@
 ---
-title: "Module-2: Saving costs using AWS Fargate Spot Capacity Providers"
+title: "Module-3: Savings costs using EC2 spot with Auto Scaling Group Capacity Providers"
 chapter: true
-weight: 20
+weight: 30
 ---
 
-## **Module-2  Saving costs using AWS Fargate Spot Capacity Providers**
+# Module-3: Cost Saving using EC2 spot with Auto Scaling Group & Capacity Providers
 
-### AWS Fargate Capacity Providers
 
-Amazon ECS cluster capacity providers enable you to use both Fargate and Fargate Spot capacity with your Amazon ECS tasks. With Fargate Spot you can run interruption tolerant Amazon ECS tasks at a discounted rate compared to the Fargate price. Fargate Spot runs tasks on spare compute capacity. When AWS needs the capacity back, your tasks will be interrupted with a two-minute warning
 
-### Creating a New ECS Cluster That Uses Fargate Capacity Providers
+Amazon ECS Cluster Auto Scaling
+---
 
-When a new Amazon ECS cluster is created, you specify one or more capacity providers to associate with the cluster. The associated capacity providers determine the infrastructure to run your tasks on. Set the following global variables for the names of resources be created in this workshop
+<p style="text-align: justify;"> 
+Amazon ECS cluster auto scaling enables you to have more control over how you scale tasks within a cluster. Each cluster has one or more capacity providers and an optional default capacity provider strategy. The capacity providers determine the infrastructure to use for the tasks, and the capacity provider strategy determines how the tasks are spread across the capacity providers. When you run a task or create a service, you may either use the cluster's default capacity provider strategy or specify a capacity provider strategy that overrides the cluster's default strategy
+</p>
 
-Run the following command to create a new cluster and associate both the Fargate and Fargate Spot capacity providers with it.
+Amazon ECS Capacity Providers
+---
+<p style="text-align: justify;"> 
+Amazon ECS capacity providers use EC2 Auto Scaling groups to manage the Amazon EC2 instances registered to their clusters.
+</p>
 
-```
-aws ecs create-cluster \
---cluster-name EcsSpotWorkshop \
---capacity-providers FARGATE FARGATE_SPOT \
---region $AWS_REGION \
---default-capacity-provider-strategy capacityProvider=FARGATE,base=1,weight=1
-```
-If the above command fails with below error, run the command again. It should create the cluster now.
+Amazon ECS Capacity Provider - Managed Scaling
+---
 
-```
-“An error occurred (InvalidParameterException) when calling the CreateCluster operation: Unable to assume the service linked role. Please verify that the ECS service linked role exists.“
-```
-
-The ECS cluster will look like below in the AWS Console. Select ECS in **Services** and click on **Clusters** on left panel
-
-![ECS Cluster](/images/ecs-spot-capacity-providers/c1.png)
-
-Note that above ECS cluster create command also specifies a default capacity provider strategy.
-
-The strategy sets FARGATE as the default capacity provider. That means if there is no capacity provider strategy specified during the deployment of Tasks/Services, ECS by default chooses the FARGATE Capacity Provider to launch them.
-
-Click  _***Update Cluster***_ on the top right corner to see default Capacity Provider Strategy. As shown base=1 is set for FARGATE Capacity Provider.
-
-![ECS Cluster](/images/ecs-spot-capacity-providers/c2.png)
+<p style="text-align: justify;"> 
+When creating a capacity provider, you can optionally enable managed scaling. When managed scaling is enabled, Amazon ECS manages the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value you specify. Amazon ECS then associates this scaling plan with your Auto Scaling group. For each of the capacity providers with managed scaling enabled, an Amazon ECS managed CloudWatch metric with the prefix AWS/ECS/ManagedScaling is created along with two CloudWatch alarms. The CloudWatch metrics and alarms are used to monitor the container instance capacity in your Auto Scaling groups and will trigger the Auto Scaling group to scale in and scale out as needed.
+</p>

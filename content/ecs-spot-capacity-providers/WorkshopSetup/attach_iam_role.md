@@ -37,4 +37,4 @@ The output assumed-role name should contain:
     "Arn": "arn:aws:sts::000474600478:assumed-role/EcsSpotWorkshop-Cloud9InstanceRole/i-0eedc304975256fac"
 }
 ```
-Now you are done with Module-1, Proceed to Module-2 of this workshop.
+Now you completed the prerequisites needed to start the workshop, Now you can proceed to next steps.
