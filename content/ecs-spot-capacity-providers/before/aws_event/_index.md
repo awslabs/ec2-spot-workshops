@@ -18,8 +18,7 @@ If you are at an AWS event, an AWS acccount was created for you to use throughou
 2. Enter the Hash in the text box, and click **Proceed** 
 3. In the User Dashboard screen, click **AWS Console** 
 4. In the popup page, click **Open Console** 
+5. Select the AWS Region specified by your facilitator. 
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 You can now start the workshop by heading to [**Modules**](/ecs-spot-capacity-providers/modules.html)
-
-{{% children %}}

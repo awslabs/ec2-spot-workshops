@@ -18,13 +18,20 @@ Run the following command to create a new cluster and associate both the Fargate
 
 ```
 aws ecs create-cluster \
- --cluster-name EcsSpotWorkshopCluster \
- --capacity-providers FARGATE FARGATE\_SPOT \
- --region $AWS\_REGION \
- --default-capacity-provider-strategy capacityProvider=FARGATE,base=1,weight=1
+--cluster-name EcsSpotWorkshop \
+--capacity-providers FARGATE FARGATE_SPOT \
+--region $AWS_REGION \
+--default-capacity-provider-strategy capacityProvider=FARGATE,base=1,weight=1
+```
+If the above command fails with below error, run the command again. It should create the cluster now.
+
+```
+“An error occurred (InvalidParameterException) when calling the CreateCluster operation: Unable to assume the service linked role. Please verify that the ECS service linked role exists.“
 ```
 
 The ECS cluster will look like below in the AWS Console. Select ECS in **Services** and click on **Clusters** on left panel
+
+![ECS Cluster](/images/ecs-spot-capacity-providers/c1.png)
 
 Note that above ECS cluster create command also specifies a default capacity provider strategy.
 
@@ -32,3 +39,4 @@ The strategy sets FARGATE as the default capacity provider. That means if there 
 
 Click  _***Update Cluster***_ on the top right corner to see default Capacity Provider Strategy. As shown base=1 is set for FARGATE Capacity Provider.
 
+![ECS Cluster](/images/ecs-spot-capacity-providers/c2.png)
