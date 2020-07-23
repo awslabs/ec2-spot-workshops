@@ -1,9 +1,5 @@
 +++
-<<<<<<< HEAD
 title = "...On your own(Self-paced)"
-=======
-title = "...On your own"
->>>>>>> upstream/ecs
 chapter = true
 weight = 5
 +++
