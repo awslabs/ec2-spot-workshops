@@ -1,0 +1,50 @@
+{
+  "IamInstanceProfile": {
+    "Arn": "%instanceProfile%"
+  },
+  "ImageId": "%ami-id%",
+  "SecurityGroupIds": [
+    "%instanceSecurityGroup%"
+  ],
+  "InstanceType": "t3.micro",
+  "BlockDeviceMappings": [
+        {
+            "DeviceName": "/dev/xvdcz",
+            "Ebs": {
+                "VolumeSize": 22,
+                "VolumeType": "gp2",
+                "DeleteOnTermination": true,
+                "Encrypted": true
+                }
+        }
+    ],
+  "TagSpecifications": [
+    {
+      "ResourceType": "instance",
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "%workshopName%"
+        },
+        {
+          "Key": "Env",
+          "Value": "Test"
+        }
+      ]
+    }
+  ],
+  "NetworkInterfaces":[
+     {
+     "AssociatePublicIpAddress":true,
+     "DeviceIndex": 0,
+     "Groups":["sg-4f3f0d1e"]
+     }
+    ],
+  "SecurityGroupIds": ["sg-4f3f0d1e"],
+  "SecurityGroups": ["sg-4f3f0d1e"],
+  "Monitoring": {
+    "Enabled": true
+  },
+  
+  "UserData": "%UserData%"
+}

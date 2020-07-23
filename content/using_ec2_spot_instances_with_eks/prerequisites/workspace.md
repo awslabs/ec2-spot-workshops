@@ -23,6 +23,7 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 ### Launch Cloud9 in your closest region:
 
 {{< tabs name="Region" >}}
+    {{< tab name="N. Virginia" include="us-east-1.md" />}}
     {{< tab name="Oregon" include="us-west-2.md" />}}
     {{< tab name="Ireland" include="eu-west-1.md" />}}
     {{< tab name="Ohio" include="us-east-2.md" />}}

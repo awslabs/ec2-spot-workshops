@@ -1,0 +1,2 @@
+#!/bin/bash
+echo ECS_CLUSTER=ECS_FARGATE_CLUSTER_NAME >> /etc/ecs/ecs.config
