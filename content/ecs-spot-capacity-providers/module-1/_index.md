@@ -42,3 +42,4 @@ The strategy sets FARGATE as the default capacity provider. That means if there 
 Click  _***Update Cluster***_ on the top right corner to see default Capacity Provider Strategy. As shown base=1 is set for FARGATE Capacity Provider.
 
 ![ECS Cluster](/images/ecs-spot-capacity-providers/c2.png)
+
