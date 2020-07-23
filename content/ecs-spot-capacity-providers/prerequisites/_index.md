@@ -25,3 +25,4 @@ The command starts after **$**. Words that are ***UPPER_ITALIC_BOLD*** indicate 
  
 1. This workshop is self-paced. The instructions will walk you through achieving the workshop’s goal using the AWS Management Console.
 2. While the workshop provides step by step instructions, *please do take a moment to look around and understand what is happening at each step* as this will enhance your learning experience. The workshop is meant as a getting started guide, but you will learn the most by digesting each of the steps and thinking about how they would apply in your own environment and in your own organization. You can even consider experimenting with the steps to challenge yourself.
+

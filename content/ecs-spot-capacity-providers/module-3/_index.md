@@ -83,3 +83,4 @@ To ensure that your containers exit gracefully before the task stops, the follow
 is using. Specifying a stopTimeout value gives you time between the moment the task state change event is received and the point at which the container is forcefully stopped. 
 
 • The **SIGTERM** signal must be received from within the container to perform any cleanup actions.
+
