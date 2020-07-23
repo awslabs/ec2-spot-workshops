@@ -83,7 +83,7 @@ There are a few things to note in the configuration that we just used to create 
 
  * We did set up **minSize** to 0, **maxSize** to 5 and **desiredCapacity** to 1. Nodegroups can be scaled down to 0.
  * We did set up **onDemandBaseCapacity** and **onDemandPercentageAboveBaseCapacity** both to **0**. which implies all nodes in the nodegroup would be **Spot instances**.
- * We did set up a **lifecycle: Ec2Spot** label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSlectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
+ * We did set up a **lifecycle: Ec2Spot** label so we can identify Spot nodes and use [affinities](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/) and [nodeSelectors](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector) later on.
  * We did specify **spotAllocationStrategy** pointing it to use **[Capacity Optimized](https://aws.amazon.com/about-aws/whats-new/2019/08/new-capacity-optimized-allocation-strategy-for-provisioning-amazon-ec2-spot-instances/)**. This will ensure the capacity we provision in our nodegroups is procured from the pools that will have less chances of being interrupted.
  * We did also add an extra label **intent: apps**. We will use this label to force a hard partition
  of the cluster for our applications. During this workshop we will deploy control applications on
@@ -110,7 +110,7 @@ kubectl get nodes
 You can use the node-labels to identify the lifecycle of the nodes
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot
+kubectl get nodes --show-labels --selector=lifecycle=Ec2Spot | grep Ec2Spot
 ```
 
 The output of this command should return **Ec2Spot** nodes. At the end of the node output, you should see the node label **lifecycle=Ec2Spot**
@@ -121,7 +121,7 @@ Now we will show all nodes with the **lifecycle=OnDemand**. The output of this c
 creating the cluster).
 
 ```bash
-kubectl get nodes --show-labels --selector=lifecycle=OnDemand
+kubectl get nodes --show-labels --selector=lifecycle=OnDemand | grep OnDemand
 ```
 
 ![OnDemand Output](/images/using_ec2_spot_instances_with_eks/spotworkers/spot_get_od.png)
@@ -133,61 +133,3 @@ You can use the `kubectl describe nodes` with one of the spot nodes to see the t
 {{% notice note %}}
 Explore your cluster using kube-ops-view and find out the nodes that have just been created.
 {{% /notice %}}
-
-
-### On-Demand and Spot mixed worker groups
-
-When deploying nodegroups, [eksctl](https://eksctl.io/usage/managing-nodegroups/) creates a CloudFormation template that deploys a [LaunchTemplate](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-launchtemplate.html) and an [Autoscaling Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html) with the settings we provided in the configuration. Autoscaling groups using LaunchTemplate support not only mixed instance types but also purchasing options within the group. You can
-mix **On-Demand, Reserved Instances, and Spot** within the same nodegroup. 
-
-#### Label and Taint strategies on mixed workers 
-
-The configuration we used creates two diversified instance groups with just Spot instances. We have attached to all nodes in both groups the same `lifecycle: Ec2Spot` Label and a `spotInstance: "true:PreferNoSchedule"` taint.  When using a mix of On-Demand and Spot instances within the same nodegroup, we need to implement conditional logic on the back of the instance attribute **InstanceLifecycle** and set the labels and taints accordingly.
-
-{{% notice warning %}}
-Note that for [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-key-best-practices-for-running-cluster-autoscaler) all nodes within the same node group should have the same capacity and  labels, for it to predict which nodegroup to increase the capacity on.
-{{% /notice %}}
-
-
-This can be achieved in multiple ways by extending the bootstrapping sequence.
-
- * **[eksctl_mixed_workers_bootstrap.yml](spotworkers.files/eksctl_mixed_workers_bootstrap.yml)** Provides an example file for [overriding eksctl boostrap process](https://github.com/weaveworks/eksctl/issues/929) in eksctl nodegroups. Note you may need to change the region details when using this example.
-
-
-* **[cloudformation_mixed_workers.yml](spotworkers.files/cloudformation_mixed_workers.yml)** Provides a cloudformation template
-to set up an autoscaling group with mixed on-demand and spot workers and insert bootstrap parameters to each depending on the node "InstanceLifecycle".
-
-
-### Optional Exercise
-
-{{% notice warning %}}
-It will take time to provision and decommision capacity. If you are running this
-workshop at a AWS event or with limited time, we recommend to come back to this section once you have 
-completed the workshop, and before getting into the **cleanup** section.
-{{% /notice %}}
-
- * Delete the current configuration and instead create 2 nodegroups one with 4vCPU's and 16GB ram and another one with 8vCPU's and 32GB of ram. The nodegroups must implement a set of mixed instances balanced at 50% between on-demand and spot. On-Demand instances must have a label `lifecycle: OnDemand`. Spot instances must have a label `lifecycle: Ec2Spot` and a taint `spotInstance: "true:PreferNoSchedule"`
-
-{{%expand "Show me a hint for implementing this." %}}
-You can delete the previous nodegroup created using  
-
-```bash
-eksctl delete nodegroup -f spot_nodegroups.yml
-```
-
-Download the example file [eksctl_mixed_workers_bootstrap.yml](spotworkers.files/eksctl_mixed_workers_bootstrap.yml), change the region to the current one where 
-your cluster is running and create the nodegroups using the following command:
-
-```bash
-eksctl create nodegroup -f eksctl_mixed_workers_bootstrap.yml
-```
-{{% /expand %}}
-
-
-
-
-
-
-
-
-

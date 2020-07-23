@@ -2,7 +2,7 @@
 title = "Workshop Cleanup"
 weight = 60
 +++
-Congratulations, you have completed this workshop! Your next challenge is to remove all of the resources that were provisioned in your account so as to ensure that no additional cost can be incurred. Please note that the steps below should be implemented in order - some later steps have dependancies on earlier ones!
+Congratulations, you have completed this workshop! Your next challenge is to remove all of the resources that were provisioned in your account so as to ensure that no additional cost can be incurred. Please note that the steps below should be implemented in order - some later steps have dependencies on earlier ones!
 
 ## DELETE ALL OBJECTS WITHIN THE S3 BUCKET CREATED BY CLOUDFORMATION
 When you attempt to delete the CloudFormation template that you deployed during the Workshop Preparation, the S3 bucket that it provisioned will not be able to be removed unless it is empty. Delete all objects in this bucket (note, you don't need to remove the bucket itself).
@@ -46,8 +46,8 @@ Having removed all of the Spot Fleets and Auto Scaling groups from the VPC that 
 
 {{%expand "Click to reveal detailed instructions" %}}
 1. Go to the **EC2** console and click on the **Instances** option from the left frame (or [click here](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#Instances:sort=instanceId));
-    * If there is a running instance with a Name of **Jenkins Master (On-Demand)**, mark the checkbox associated with this instance and from the **Actions** dropdown, select **Instance State** > **Terminate**. At the confirmation dialog, clikc on the **Yes, Terminate** button;
-    * If there are running instances with a name of **Jenkins Master (Spot)** or **Jenkins Build Agent**, you still have open Spot Fleet requests - repeat the **Cancel all remaining Spot Requsts** section above;
+    * If there is a running instance with a Name of **Jenkins Master (On-Demand)**, mark the checkbox associated with this instance and from the **Actions** dropdown, select **Instance State** > **Terminate**. At the confirmation dialog, click on the **Yes, Terminate** button;
+    * If there are running instances with a name of **Jenkins Master (Spot)** or **Jenkins Build Agent**, you still have open Spot Fleet requests - repeat the **Cancel all remaining Spot Requests** section above;
     * If there are running instances with a name of **Spot CICD Workshop ECS Instance**, you still have an active Auto Scaling Group - repeat the **Delete all Auto Scaling Groups** section above;
     * If there are running instances with a name of **Game of Life Test Instance**, you still have the test environment that you created in Lab 2 running - it's fine for these instances to be running, though you will have to delete the CloudFormation stack associated with this test environment prior to deleting the main stack in the next section.
 {{% /expand%}}

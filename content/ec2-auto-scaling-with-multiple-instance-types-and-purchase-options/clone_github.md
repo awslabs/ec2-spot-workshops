@@ -20,7 +20,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 
 1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
 
-1. During the workshop, you will neeed to modify the configuration files to refer to the identifiers of the resources created by the CloudFormation stack you deployed. To reduce copy and paste across the CloudFormation console and the Cloud9 environment, we will load the CloudFormation Stack **Outputs** to environment variables. During the workshop the instructions will provide [sed](https://linux.die.net/man/1/sed) commands to populate configuration files. Make sure you open them on the Cloud9 editor to review the files and understand the settings of the resources you will be launching.
+1. During the workshop, you will need to modify the configuration files to refer to the identifiers of the resources created by the CloudFormation stack you deployed. To reduce copy and paste across the CloudFormation console and the Cloud9 environment, we will load the CloudFormation Stack **Outputs** to environment variables. During the workshop the instructions will provide [sed](https://linux.die.net/man/1/sed) commands to populate configuration files. Make sure you open them on the Cloud9 editor to review the files and understand the settings of the resources you will be launching.
 	
 	First, configure the stack_name environment variable with the name of your CloudFormation template. For example, if the name of your stack is **myEC2Workshop** run the following command:
 	```bash
@@ -42,7 +42,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 
 	```
 
-	If successfull, the output should be similar to the following:
+	If successful, the output should be similar to the following:
 
 	```bash
 	awsRegionId : eu-west-1

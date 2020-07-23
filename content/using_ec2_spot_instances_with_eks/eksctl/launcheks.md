@@ -41,12 +41,12 @@ The following command will create an eks cluster with the name `eksworkshop-eksc
 .It will also create a nodegroup with 2 on-demand instances.
 
 ```
-eksctl create cluster --version=1.15 --name=eksworkshop-eksctl --managed --nodes=2 --alb-ingress-access --region=${AWS_REGION} --node-labels="lifecycle=OnDemand,intent=control-apps" --asg-access
+eksctl create cluster --version=1.16 --name=eksworkshop-eksctl --node-private-networking  --managed --nodes=2 --alb-ingress-access --region=${AWS_REGION} --node-labels="lifecycle=OnDemand,intent=control-apps" --asg-access
 ```
 
 eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
 
-The managed nodegroup will have two m5.large nodes and it will bootstrap with the labels **lifecycle=OnDemand** and **intent=control-apps**.
+The managed nodegroup will have two m5.large nodes and it will bootstrap with the labels **lifecycle=OnDemand** and **intent=control-apps**. 
 
 {{% notice info %}}
 Launching EKS and all the dependencies will take approximately **15 minutes**

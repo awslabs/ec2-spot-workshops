@@ -137,7 +137,7 @@ Go to Jobs, select **Submit job** and enter the following details
     * Leave everything as default and click **Submit Job**
 
 This will create the EC2 Instances using Spot price as bid during creating the compute environment.
-This process may take 2-3 minutes. When you refresh the screen, you will see the staus of the job getting transitioned from submitted > pending > runnable > starting > running.
+This process may take 2-3 minutes. When you refresh the screen, you will see the status of the job getting transitioned from submitted > pending > runnable > starting > running.
 
 ![Job Status](/images/monte-carlo-on-ec2-spot-fleet/batch-job-status.png)
 
@@ -145,7 +145,7 @@ This process may take 2-3 minutes. When you refresh the screen, you will see the
 1. Once the job reaches **Running** state, check your S3 Bucket. In a few minutes you should see results start appearing the bucket.
 1. If you monitor the SQS queue for messages you should see them being picked up by the worker container.
 1. Once the job is completed, check the **AWS Batch -> Jobs Dashboard** and click on the job to display the job summary showing the number of attempts and link to the logs. Click on **View Logs**
-1. Click on the links to the logs and confirm everthing went as expected
+1. Click on the links to the logs and confirm everything went as expected
 ![AWS Batch Job Logs](/images/monte-carlo-on-ec2-spot-fleet/aws_batch_logs.png)
 
 #### Extra Credit

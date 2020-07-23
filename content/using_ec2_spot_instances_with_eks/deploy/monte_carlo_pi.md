@@ -66,7 +66,7 @@ The deployment does not include any toleration or affinities. If deployed as is,
 
 
 {{% notice note %}}
-There are a few best practices for managing multi-tenant dynamic clusters. One of those best practices is adding [Admission Controlers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) such as the [ResourceQuota](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#resourcequota) and [LimitRanger](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#limitranger) admission controllers, both [supported by EKS](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html)
+There are a few best practices for managing multi-tenant dynamic clusters. One of those best practices is adding [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/) such as the [ResourceQuota](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#resourcequota) and [LimitRanger](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#limitranger) admission controllers, both [supported by EKS](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html)
 {{% /notice %}}
 
 

@@ -7,7 +7,7 @@ weight: 30
 #### Install Jenkins
 
 ```
-helm install stable/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer --name cicd
+helm install cicd stable/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer
 ```
 
 The output of this command will give you some additional information such as the
@@ -27,7 +27,7 @@ Once the pod status changes to `running`, we can get the load balancer address w
 
 ```
 export SERVICE_IP=$(kubectl get svc --namespace default cicd-jenkins --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
-echo http://$SERVICE_IP/login
+echo "Jenkins running at : http://$SERVICE_IP/login"
 ```
 
 The expected result should be similar to:

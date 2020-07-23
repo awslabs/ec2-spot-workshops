@@ -23,7 +23,7 @@ Spot Instances and how to use them in different scenarios. The workshops highlig
 best practices to follow when using EC2 Spot instances in your 
 applications and workloads.
 
-Select a workshop from the left panel or just click and explore the workshops hightlighted below.
+Select a workshop from the left panel or just click and explore the workshops highlighted below.
 
 {{< card important_workshop 
     "running-amazon-ec2-workloads-at-scale" 
@@ -32,6 +32,14 @@ Select a workshop from the left panel or just click and explore the workshops hi
 >}}
 This workshop is designed to get you familiar with best practices for requesting 
 Amazon EC2 capacity at scale in a cost optimized architecture.
+{{< /card >}}
+
+{{< card important_workshop 
+    "using_ec2_spot_instances_with_eks"
+    "Using Spot Instances with EKS"
+    "Amazon-Elastic-Container-Service-for-Kubernetes.svg" 
+>}}
+In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale.
 {{< /card >}}
 
 {{< card important_workshop 
@@ -44,20 +52,11 @@ costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.
 {{< /card >}}
 
 {{< card important_workshop 
-    "using_ec2_spot_instances_with_eks"
-    "Using Spot Instances with EKS"
-    "Amazon-Elastic-Container-Service-for-Kubernetes.svg" 
+    "using-sagemaker-managed-spot-training"
+    "Using Amazon SageMaker Managed Spot Training"
+    "Amazon-SageMaker_Model_light-bg.png" 
 >}}
-In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale.
-{{< /card >}}
-
-{{< card workshop 
-    "ec2_spot_fleet_web_app"
-    "EC2 Spot Fleet Web App"
-    "AWS-Lambda_Lambda-Function_light-bg.png" 
->}}
-This workshop is designed to understand how to take advantage of Amazon EC2 
-Spot instance interruption notices using lambda functions.
+In this workshop, you will learn how to leverage Managed Spot Training with Amazon SageMaker to save up to 70-90% on your Amazon SageMaker Training Jobs.
 {{< /card >}}
 
 

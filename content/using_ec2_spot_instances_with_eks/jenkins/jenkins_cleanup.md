@@ -14,12 +14,6 @@ If you're running in your own account, make sure you run through these steps to 
 helm delete cicd
 ```
 
-### Removing the Jenkins nodegroup from cluster-autoscaler
-```
-kubectl edit deployment cluster-autoscaler -n kube-system
-```
-Delete the third **\-\-nodes=** line that contains the Jenkins nodegroup name.
-
 ### Removing the Jenkins nodegroup
 ```
 eksctl delete nodegroup -f spot_nodegroup_jenkins.yml --approve

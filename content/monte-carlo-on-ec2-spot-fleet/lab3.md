@@ -36,7 +36,7 @@ Our EC2 instances run with an Instance Profile that contains an IAM role giving 
 4. You should see two attached policies. One will be an inline policy named after the workshop. Click the arrow beside the policy and click **Edit policy**.
 ![IAM Role](/images/monte-carlo-on-ec2-spot-fleet/iam_role.png)
 
-5. Click on **Add additional permisions**. Click on **Choose a service** and select or type **SQS**.
+5. Click on **Add additional permissions**. Click on **Choose a service** and select or type **SQS**.
 ![IAM Role](/images/monte-carlo-on-ec2-spot-fleet/iam_role_1.png)
 
 6. Click on **Select actions**. Under *Manual actions*, check the box beside **All SQS actions (sqs:\*)**. 
