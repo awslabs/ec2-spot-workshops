@@ -1,32 +1,45 @@
 ---
-title: "Module-1: Setup the workshop environment on AWS"
+title: "Module-1: Saving costs using AWS Fargate Spot Capacity Providers"
 chapter: true
-weight: 15
+weight: 20
 ---
 
-## Select Region and Create keypair
+# Module-1: Saving costs using AWS Fargate Spot Capacity Providers
 
-1. First, you’ll need to select a region of your choice. At the top right hand corner of the AWS Console, you’ll see a Support dropdown. To the left of that is the region selection dropdown. For this lab, us-east-1/North Virginia is assumed.
-1. Then you’ll need to create an SSH key pair which will be used to login to the instances once provisioned. Go to the EC2 Dashboard and click on Key Pairs in the left menu under Network & Security. Click Create Key Pair, provide a name (can be anything, make it something memorable) when prompted, and click Create. Once created, the private key in the form of .pem file will be automatically downloaded.
+AWS Fargate Capacity Providers
+---
 
-If you’re using linux or mac, change the permissions of the .pem file to be less open.
+Amazon ECS cluster capacity providers enable you to use both Fargate and Fargate Spot capacity with your Amazon ECS tasks. With Fargate Spot you can run interruption tolerant Amazon ECS tasks at a discounted rate compared to the Fargate price. Fargate Spot runs tasks on spare compute capacity. When AWS needs the capacity back, your tasks will be interrupted with a two-minute warning
 
-    chmod 400 <private_key>.pem
+Creating a New ECS Cluster That Uses Fargate Capacity Providers
+---
 
-If you’re on windows you’ll need to convert the .pem file to .ppk to work with putty. Here is a link to instructions for the file conversion - [Connecting to Your Linux Instance from Windows Using PuTTY] (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/putty.html)
+When a new Amazon ECS cluster is created, you specify one or more capacity providers to associate with the cluster. The associated capacity providers determine the infrastructure to run your tasks on. Set the following global variables for the names of resources be created in this workshop
 
-## Preparation steps: 
+Run the following command to create a new cluster and associate both the Fargate and Fargate Spot capacity providers with it.
 
-Deploy a new VPC that will be used to run your ECS cluster in the workshop.
+```
+aws ecs create-cluster \
+--cluster-name EcsSpotWorkshop \
+--capacity-providers FARGATE FARGATE_SPOT \
+--region $AWS_REGION \
+--default-capacity-provider-strategy capacityProvider=FARGATE,base=1,weight=1
+```
+If the above command fails with below error, run the command again. It should create the cluster now.
 
-1. Open the [Modular and Scalable VPC Architecture Quick stage page] (https://aws.amazon.com/quickstart/architecture/vpc/) and go to the “How to deploy” tab, Click the [Launch the Quick Start] (https://fwd.aws/mm853) link.
-1. Select your desired region to run the workshop from the top right corner of the AWS Management Console and click *Next*.
-1. Provide a name for the stack or leave it as *Quick-Start-VPC*.
-1. Under *Availability Zones*, select three availability zones from the list, and set the *Number of Availability Zones* to *3*.
-1. Under *Create private subnets* select *false*.
-1. click *Next* and again *Next* in the next screen.
-1. Click *Create stack*.
+```
+“An error occurred (InvalidParameterException) when calling the CreateCluster operation: Unable to assume the service linked role. Please verify that the ECS service linked role exists.“
+```
 
- The stack creation should take under 2 minutes and the status of the stack will be *CREATE_COMPLETE*.
+The ECS cluster will look like below in the AWS Console. Select ECS in **Services** and click on **Clusters** on left panel
 
-### ***Congratulations!*** you completed the prerequisites needed to start the workshop, you now have a VPC to run your ECS cluster
+![ECS Cluster](/images/ecs-spot-capacity-providers/c1.png)
+
+Note that above ECS cluster create command also specifies a default capacity provider strategy.
+
+The strategy sets FARGATE as the default capacity provider. That means if there is no capacity provider strategy specified during the deployment of Tasks/Services, ECS by default chooses the FARGATE Capacity Provider to launch them.
+
+Click  _***Update Cluster***_ on the top right corner to see default Capacity Provider Strategy. As shown base=1 is set for FARGATE Capacity Provider.
+
+![ECS Cluster](/images/ecs-spot-capacity-providers/c2.png)
+

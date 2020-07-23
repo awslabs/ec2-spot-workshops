@@ -4,7 +4,7 @@ date: 2020-04-15T08:30:11-07:00
 weight: 4
 ---
 
-**Your Challenge**
+# Your Challenge
 
 Your company hosts an external facing Apache web server serving millions of users across the globe. The web servers are based on the micro service architecture and running as docker containers on AWS ECS Cluster.  The underlying computing platform/dataplane  for the ECS Cluster is completely based on EC2 on-demand instances.  The current auto scale in/out of the EC2 instances is based on the vCPU based metrics. However it is observed that ECS Cluster does not scale fast enough to handle the sudden surge of web traffic during peak hours. And during the scale in, sometimes EC2 instances that are actively running ECS tasks are getting terminated, causing disruption to the web service. 
 

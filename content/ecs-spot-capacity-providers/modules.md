@@ -11,7 +11,7 @@ These modules are designed to be completed in sequence. If you are reading this 
 
 | Modules | Description |
 | --- | --- |
-| **Module-1** | Setup the Workspace Environment |
-| **Module-2** | Saving costs using AWS Fargate Spot Capacity Providers |
-| **Module-3** | Saving costs using EC2 spot with Auto Scaling Group Capacity Providers |
-| **Module-4** | Spot Interruption Handling |
+| **Module-1** | Saving costs using AWS Fargate Spot Capacity Providers |
+| **Module-2** | Saving costs using EC2 spot with Auto Scaling Group Capacity Providers |
+| **Module-3** | Spot Interruption Handling |
+

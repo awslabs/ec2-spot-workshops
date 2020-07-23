@@ -1,0 +1,46 @@
+---
+title: "Create ECS Service"
+chapter: true
+weight: 55
+---
+
+Create ECS Service
+---
+
+In this section, we will create an ECS Service which distributes tasks on CP-OD and CP-SPOT with a custom strategy with CP-OD base=2 weight=1 and CP-SPOT weight=3.  This Capacity Provider Strategy results from the following application requirements
+
+* There should be always at least 2 tasks running all the time for the regular traffic.  The base=2 configuration satisfies this requirement.
+* Any spiky or elastic traffic should be handled by tasks deployed on on-demand and spot instances in the ratio 1:3
+
+
+To create the service, follow these steps:
+
+* Click on the tab *Services*
+* Click on the *Create*
+* For Capacity provider strategy, leave it to default value *Cluster default Strategy*
+* For Task Definition Family, select *ec2-task*
+* For Task Definition Revision, select *1*
+* For Cluster, leave default value *EcsSpotWorkshop*
+* For Service name, *ec2-service-split*
+* For Service type, leave it default *REPLICA*
+* For Number of tasks, enter *10*
+* Leave default values for *Minimum healthy percent* and *Maximum percent*
+* Under Deployments section, leave it to default values
+* Under Task Placement section, for Placement Templates, select *BinPack*
+* Under Configure network section, in  Load balancing, for Service IAM role, leave default value
+* For Load balancer name, select *EcsSpotWorkshop*
+* Under Container to load balance, for Container name : port, click on *add to load balancer*
+* For Production listener port,  Select *HTTP:80* from the dropdown list
+* For Production listener protocol, leave default value of *HTTP*
+* For Target group name, select *EcsSpotWorkshop* from the list
+* Leave default values for *Target group protocol*, *Target type*, *Path pattern*, *Health check path*
+* Click on *Next Step*
+* Under Set Auto Scaling (optional), leave default value for Service Auto Scaling
+* Click on *Next Step*
+* Click on *Create Service*
+* Click on *View Service*
+
+![Service](/images/ecs-spot-capacity-providers/Ser1.png)
+![Service Binpack](/images/ecs-spot-capacity-providers/ser2.png)
+![Service ALB](/images/ecs-spot-capacity-providers/ser5.png)
+![Service ALB Target Group](/images/ecs-spot-capacity-providers/ser6.png)
