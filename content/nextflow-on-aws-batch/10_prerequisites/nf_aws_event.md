@@ -8,7 +8,7 @@ weight: 20
 
 {{% notice warning %}}
 Only complete this section if you are at an AWS hosted event (such as re:Invent,
-Kubecon, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own]({{< relref "self_paced.md" >}}).
+Kubecon, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own]({{< relref "nf_self_paced.md" >}}).
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal

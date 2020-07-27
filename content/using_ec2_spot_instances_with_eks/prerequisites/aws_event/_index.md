@@ -1,6 +1,6 @@
 ---
 title: "...at an AWS event"
-chapter: false
+chapter: true
 weight: 20
 ---
 
@@ -9,7 +9,7 @@ weight: 20
 {{% notice warning %}}
 Only complete this section if you are at an AWS hosted event (such as re:Invent,
 Kubecon, Immersion Day, or any other event hosted by an AWS employee). If you 
-are running the workshop on your own, go to: [Start the workshop on your own]({{< relref "self_paced.md" >}}).
+are running the workshop on your own, go to: [Start the workshop on your own]({{< relref "../self_paced" >}}).
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal
@@ -23,4 +23,4 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
-Once you have completed the step above, **you can head straight to [Create a Workspace]({{< relref "workspace.md" >}})**
+Once you have completed the step above, **you can head straight to [Review the CloudFormation Stack Outputs]({{< relref "review_cnf_outputs.md" >}})**
