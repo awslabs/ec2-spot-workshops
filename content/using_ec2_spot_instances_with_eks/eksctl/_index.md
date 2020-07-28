@@ -1,7 +1,7 @@
 ---
 title: "Launch using eksctl"
 chapter: true
-weight: 90
+weight: 30
 ---
 
 # Launch using [eksctl](https://eksctl.io/)
