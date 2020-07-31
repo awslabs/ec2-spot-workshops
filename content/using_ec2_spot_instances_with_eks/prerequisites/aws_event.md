@@ -1,6 +1,6 @@
 ---
 title: "...at an AWS event"
-chapter: true
+chapter: false
 weight: 20
 ---
 
@@ -23,4 +23,50 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
-Once you have completed the step above, **you can head straight to [Review the CloudFormation Stack Outputs]({{< relref "review_cnf_outputs.md" >}})**
+{{% notice info %}}
+In the interest of time for shorter events we sometimes deploy the resources required as a prerequisite for you. If you were told so, please review the cloudformation outputs of the stack that was deployed by **expanding the instructions below**.
+{{% /notice %}}
+
+{{%expand "Click to reveal detailed instructions" %}}
+
+#### What resources are already deployed {#resources_deployed}
+
+We have deployed the below resources required to get started with the workshop using a CloudFormation Template (**[eks-spot-workshop-quickstarter-cnf.yml] (prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**), Please reference the below  resources created by the stack.
+
++ An [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with
+    - An IAM role created and attached to the workspace with Administrator access
+    - Kubernetes tools installed (kubectl, jq and envsubst)
+    - awscli upgraded to v2
+    - Created and uploaded a SSH key to your AWS region
+    - [eksctl](https://eksctl.io/) installed, The official CLI for Amaon EKS 
+
++ An EKS cluster with the name `eksworkshop-eksctl` and a [EKS managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html)  with 2 on-demand instances.
+
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/eksctl/create_eks_cluster_eksctl_command.md" %}}
+
+
+#### Use your resources 
+
+In this workshop, you'll need to reference the resources created by the CloudFormation stack that we setup for you.
+
+1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
+
+1. In the stack details pane, click the **Outputs** tab.
+
+It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.
+
+#### Launch your Cloud9 workspace
+
+- Click on the url against `Cloud9IDE` from the outputs
+
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/workspace_at_launch.md" %}}
+
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/update_workspace_settings.md" %}}
+
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/validate_workspace_role.md" %}}
+
+
+Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "../eksctl/test.md"  >}})**
+
+{{% /expand%}}
+
