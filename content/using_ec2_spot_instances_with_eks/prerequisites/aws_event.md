@@ -37,8 +37,8 @@ We have deployed the below resources required to get started with the workshop, 
     - An IAM role created and attached to the workspace with Administrator access
     - Kubernetes tools installed (kubectl, jq and envsubst)
     - awscli upgraded to v2
-    - Created and uploaded a SSH key to your AWS region
-    - [eksctl](https://eksctl.io/) installed, The official CLI for Amaon EKS 
+    - Created and imported a key pair to Amazon EC2
+    - [eksctl](https://eksctl.io/) installed, The official CLI for Amazon EKS 
 
 + An EKS cluster with the name `eksworkshop-eksctl` and a [EKS managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html)  with 2 on-demand instances.
 
@@ -49,11 +49,17 @@ We have deployed the below resources required to get started with the workshop, 
 
 In this workshop, you'll need to reference the resources created by the CloudFormation stack that we setup for you.
 
-1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
+1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack name that starts with **mod-** in the list.
 
 1. In the stack details pane, click the **Outputs** tab.
 
+![cnf_output](/images/using_ec2_spot_instances_with_eks/prerequisites/cnf_output.png)
+
 It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.
+
+{{% notice info %}}
+you will notice additional Cloudformation stacks were also deployed which is the result of the stack that starts with **mod-**. One to deploy the Cloud9 Workspace and two other to create the EKS cluster and managed nodegroup.
+{{% /notice %}}
 
 #### Launch your Cloud9 workspace
 
