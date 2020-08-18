@@ -71,7 +71,9 @@ you will notice additional Cloudformation stacks were also deployed which is the
 
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/validate_workspace_role.md" %}}
 
+{{% notice note %}}
 Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "../eksctl/test.md"  >}})**
+{{% /notice %}}
 
 {{% /expand%}}
 
