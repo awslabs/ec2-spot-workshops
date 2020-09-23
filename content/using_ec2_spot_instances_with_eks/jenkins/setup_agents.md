@@ -34,6 +34,9 @@ nodeGroups:
           k8s.io/cluster-autoscaler/node-template/label/lifecycle: Ec2Spot
           k8s.io/cluster-autoscaler/node-template/label/intent: jenkins-agents
           k8s.io/cluster-autoscaler/node-template/label/aws.amazon.com/spot: "true"
+      iam:
+        withAddonPolicies:
+          autoScaler: true            
 EoF
 ```
 
