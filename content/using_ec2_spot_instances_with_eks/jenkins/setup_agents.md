@@ -58,7 +58,6 @@ The creation of the workers will take about 3 minutes.
 1. On the left hand side click on the **Configure Clouds** link. That will take you to the cloud configuration where Kubernetes.
 1. Click on the **Pod Templates...** button to expand the default pod template definition and then click again on **Pod Template Details...*** 
 1. Change the default pod name, attribute **Name** from `defualt` to `jenkins-agent`. We want to be able to identify the pods that are running in our clusters by name.
-1. For the **Command to run** parameter, **remove** the content of the box (/bin/sh -c) - we don't need this custom run command.
 ![Jenkins Pod Setup 1](/images/using_ec2_spot_instances_with_eks/jenkins/jenkinslabels-1.png)
 1. At the bottom of the page, near the end of the Pod template section, for the **Node Selector** parameter , add the following: `intent=jenkins-agents,lifecycle=Ec2Spot` in order to instruct the Jenkins agent pods to run on the dedicated node group.
 ![Jenkins Pod Setup 2](/images/using_ec2_spot_instances_with_eks/jenkins/jenkinslabels-2.png)
