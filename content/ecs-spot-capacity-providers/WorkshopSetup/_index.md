@@ -12,7 +12,7 @@ To save time on the initial setup, a CloudFormation template will be used to cre
 
 To create the stack 
 
-1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/jalawala/ec2-spot-workshops/blob/master/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
+1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
 2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 3. Browse to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation). Make sure you are in AWS Region designated by the facilitators of the workshop
 4. Click *Create stack*.

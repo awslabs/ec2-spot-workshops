@@ -1,5 +1,5 @@
 +++
-title = "Application First Approach"
+title = "Application Scaling"
 chapter = true
 weight = 55
 +++
@@ -33,10 +33,9 @@ Below table shows various example scenarios on how to use weight and base parame
 
 | CP strategy | Total  Tasks | Tasks on CP-OD | Tasks on CP-SPOT | Comments |
 | --- | --- | --- | --- | --- |
-| CP-OD weight=1 |	10 | 10 | 0	| Distribute all the service tasks on CP-OD |
-| CP-SPOT weight=1 | 10 | 0 | 10 | Distribute all the service tasks on CP-SPOT |
-| CP-OD weight=1 
-CP-SPOT weight=3 | 12 | 3 | 9 |For every 1 task on CP-OD, 3 tasks will be placed on CP-SPOT |
-| CP-OD base=2, weight=1 CP-SPOT weight=3 | 10 | 4 | 6 |	First 2 tasks (as per base value) will be placed CP-OD and for the remaining 8 tasks, for every 1 task on CP-OD, 3 will be placed on CP-SPOT. |
+| CP-OD weight=1; CP-SPOT weight=0 |	10 | 10 | 0	| Distribute all the service tasks on CP-OD |
+| CP-SPOT weight=1; CP-OD weight=0 | 10 | 0 | 10 | Distribute all the service tasks on CP-SPOT |
+| CP-OD weight=1; CP-SPOT weight=3 | 12 | 3 | 9 |For every 1 task on CP-OD, 3 tasks will be placed on CP-SPOT |
+| CP-OD base=2 weight=1; CP-SPOT weight=3 | 10 | 4 | 6 |	First 2 tasks (as per base value) will be placed CP-OD and for the remaining 8 tasks, for every 1 task on CP-OD, 3 will be placed on CP-SPOT. |
 
 A CP can be a ASG or fargate or fargate spot. An ECS cluster can have up to 6 CPs.

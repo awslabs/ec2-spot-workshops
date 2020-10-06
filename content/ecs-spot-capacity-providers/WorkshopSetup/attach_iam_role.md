@@ -9,7 +9,8 @@ Attach the IAM role for your Workspace
 
 In order to work with ECS from our workstation, we will need the appropriate permissions for our developer workstation instance.
 
-* Find your Cloud9 EC2 instance from [here] (https://console.aws.amazon.com/cloud9/home?region=us-east-1)
+* Find your Cloud9 EC2 instance from [here] (https://console.aws.amazon.com/ec2/v2/home?#Instances)
+
 * Select the instance, then choose Actions / Instance Settings / Attach/Replace IAM Role
 * Choose **EcsSpotWorkshop-Cloud9InstanceProfile** from the *IAM Role* drop down, and select *Apply*
 
@@ -34,8 +35,8 @@ The output assumed-role name should contain:
 ```
 {
     "UserId": "AROAQAHCJ2QPOAJPQADXV:i-0eedc304975256fac",
-    "Account": "000474600478",
-    "Arn": "arn:aws:sts::000474600478:assumed-role/EcsSpotWorkshop-Cloud9InstanceRole/i-0eedc304975256fac"
+    "Account": "0004746XXXXX",
+    "Arn": "arn:aws:sts::0004746XXXXX:assumed-role/EcsSpotWorkshop-Cloud9InstanceRole/i-0eedc304975256fac"
 }
 ```
 
