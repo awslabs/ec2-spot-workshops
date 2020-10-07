@@ -1,82 +1,42 @@
 ---
-title: "Module-3: Spot Interruption Handling"
+title: "Module-3 (Optional): Saving costs using AWS Fargate Spot Capacity Providers"
 weight: 40
 ---
 
-Amazon EC2 terminates your Spot Instance when it needs the capacity back. Amazon EC2 provides a Spot Instance interruption notice, which gives the instance a two-minute warning before it is interrupted.
-
-Spot Interruption Handling on EC2 Spot Instances
+AWS Fargate Capacity Providers
 ---
 
-When Amazon EC2 is going to interrupt your Spot Instance, the interruption notification will be available in two ways
+Amazon ECS cluster capacity providers enable you to use both Fargate and Fargate Spot capacity with your Amazon ECS tasks. With Fargate Spot you can run interruption tolerant Amazon ECS tasks at a discounted rate compared to the Fargate price. Fargate Spot runs tasks on spare compute capacity. When AWS needs the capacity back, your tasks will be interrupted with a two-minute warning
 
-Amazon EventBridge Events
+Creating a New ECS Cluster That Uses Fargate Capacity Providers
 ---
 
-EC2 service emits an event two minutes prior to the actual interruption. This event can be detected by Amazon CloudWatch Events.
+When a new Amazon ECS cluster is created, you specify one or more capacity providers to associate with the cluster. The associated capacity providers determine the infrastructure to run your tasks on. Set the following global variables for the names of resources be created in this workshop
 
-Instance-action in the MetaData service (IMDS)
----
-
-If your Spot Instance is marked to be stopped or terminated by the Spot service, the instance-action item is present in your instance metadata.
-
-look at the user data section in the Launch template configuration.
+Run the following command to create a new cluster and associate both the Fargate and Fargate Spot capacity providers with it.
 
 ```
-echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
+aws ecs create-cluster \
+--cluster-name EcsSpotWorkshop \
+--capacity-providers FARGATE FARGATE_SPOT \
+--region $AWS_REGION \
+--default-capacity-provider-strategy capacityProvider=FARGATE,base=1,weight=1
 ```
-
-The above configuration enables automatic draining of spot instances at the time of spot interruption notice. The ECS container agent runnining on the ECS container instances handles the interruption using the Instance Metadata service.
-
-If the application can also handle the interruption to implement any checkpointing or saving the data. The web application (app.py) we used to buld docker image in the Module-2 shows two ways to handle the spot interruption within a docker container.
-
-In the first method, it check the instance metadata service for spot interruption and display a message to web page notifying the users.
-
-Note:  The ECS tasks should not be accessing EC2 metadata. For security reasons, this should be blocked this in a Prod environment.
+If the above command fails with below error, run the command again. It should create the cluster now.
 
 ```
-URL = "http://169.254.169.254/latest/meta-data/spot/termination-time"
-SpotInt = requests.get(URL)
-if SpotInt.status_code == 200:
-    response += "<h1>This Spot Instance Got Interruption and Termination Date is {} </h1> <hr/>".format(SpotInt.text)
+“An error occurred (InvalidParameterException) when calling the CreateCluster operation: Unable to assume the service linked role. Please verify that the ECS service linked role exists.“
 ```
 
-In the second method, it listens to the **SIGTERM** signal. The ECS container agent calls StopTask API to stop all the tasks running on the Spot Instance.
+The ECS cluster will look like below in the AWS Console. Select ECS in **Services** and click on **Clusters** on left panel
 
-When StopTask is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a **SIGTERM** value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the **SIGTERM** value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent.
+![ECS Cluster](/images/ecs-spot-capacity-providers/c1.png)
 
+Note that above ECS cluster create command also specifies a default capacity provider strategy.
 
-The application can listen to the **SIGTERM** signal and handle the interruption gracefully.
+The strategy sets FARGATE as the default capacity provider. That means if there is no capacity provider strategy specified during the deployment of Tasks/Services, ECS by default chooses the FARGATE Capacity Provider to launch them.
 
-```
-class Ec2SpotInterruptionHandler:
-  signals = {
-    signal.SIGINT: 'SIGINT',
-    signal.SIGTERM: 'SIGTERM'
-  }
+Click  _***Update Cluster***_ on the top right corner to see default Capacity Provider Strategy. As shown base=1 is set for FARGATE Capacity Provider.
 
-def __init__(self):
-   signal.signal(signal.SIGINT, self.exit_gracefully)
-   signal.signal(signal.SIGTERM, self.exit_gracefully)
-
-def exit_gracefully(self, signum, frame):
-   print("\nReceived {} signal".format(self.signals[signum]))
-   if self.signals[signum] == 'SIGTERM':
-     print("Looks like there is a Spot Interruption. Let's wrap up the processing to avoid forceful killing of the applucation in next 30 sec ...")
-```
-
-Spot Interruption Handling on ECS Fargate Spot
----
-
-When tasks using Fargate Spot capacity are stopped due to a Spot interruption, a two-minute warning is sent before a task is stopped. The warning is sent as a task state change event to Amazon EventBridge
-and a SIGTERM signal to the running task. When using Fargate Spot as part of a service, the service
-scheduler will receive the interruption signal and attempt to launch additional tasks on Fargate Spot if
-capacity is available.
-
-To ensure that your containers exit gracefully before the task stops, the following can be configured:
-
-• A stopTimeout value of 120 seconds or less can be specified in the container definition that the task
-is using. Specifying a stopTimeout value gives you time between the moment the task state change event is received and the point at which the container is forcefully stopped. 
-
-• The **SIGTERM** signal must be received from within the container to perform any cleanup actions.
+![ECS Cluster](/images/ecs-spot-capacity-providers/c2.png)
 

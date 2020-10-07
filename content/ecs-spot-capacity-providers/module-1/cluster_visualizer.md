@@ -124,4 +124,4 @@ The task distribution after the scale in activity looks like below.
 Earlier the task distribution was SPOT1 → 1, SPOT2 → 2, OD1 → 1, OD2 → 2. 
 The new distribution is           SPOT2 → 1, OD1 → 1, OD2 → 2. 
 
-***Congratulations !!!*** you have successfully completed Module-2 and learnt how to create ASG CPs and schedule ECS services across Spot and On-demand CPs.
+***Congratulations !!!*** you have successfully completed Module-1 and learnt how to create ASG CPs and schedule ECS services across Spot and On-demand CPs.

@@ -1,35 +1,32 @@
 ---
-title: "Create a Capacity Provider using ASG with EC2 Spot instances"
-weight: 20
+title: "Creating a Capacity Provider using ASG with EC2 Spot instances"
+weight: 15
 ---
 
-To create the CP, follow these steps:
+A capacity provider is used in association with a cluster to determine the infrastructure that a task runs on.
 
-* Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
-* Click *Clusters*
-* Click [EcsSpotWorkshop] (https://console.aws.amazon.com/ecs/home?region=us-east-1#/clusters/EcsSpotWorkshop)
-* Click on the tab *Capacity Providers*
-* Click on the *Create*
-* For Capacity provider name, enter *CP-SPOT*
-* For Auto Scaling group, select *EcsSpotWorkshop-ASG-SPOT*
-* For Managed Scaling, leave with default selection of *Enabled*
-* For Target capacity %, enter *100*
-* For Managed termination protection, leave with default selection of *Enabled*
-* Click on the *Create* on the right bottom
+Copy the template file  **templates/ecs-capacityprovider.json** to the current directory.
 
-![Capacity Provider on Spot ASG](/images/ecs-spot-capacity-providers/CP_SPOT.png)
+```
+cp -Rfp templates/ecs-capacityprovider.json .
+```
 
-Refresh the tab “*Capacity Providers” *and you will see the CP-SPOT is created and attachd to the cluster.
+Run the following commands to substitute the template with actual values from the global variables
 
-![Capacity Provider on Spot ASG](/images/ecs-spot-capacity-providers/CP_SPOT1.png)
+```
+export CAPACITY_PROVIDER_NAME=ec2spot-capacity_provider
+ sed -i -e "s#%CAPACITY_PROVIDER_NAME%#$CAPACITY_PROVIDER_NAME#g" -e "s#%ASG_ARN%#$ASG_ARN#g"  ecs-capacityprovider.json
+```
+```
+CAPACITY_PROVIDER_ARN=$(aws ecs create-capacity-provider  --cli-input-json file://ecs-capacityprovider.json | jq -r '.capacityProvider.capacityProviderArn')
+ echo "$SPOT_CAPACITY_PROVIDER_NAME  ARN=$CAPACITY_PROVIDER_ARN"
+```
 
-Now you will see that the CP creates a target tracking policy on the EcsSpotWorkshop-ASG-SPOT. Go to the AWS EC2 Console and select this scaling policies tab on this ASG.
+The output of the above command looks like
 
-![Spot ASG](/images/ecs-spot-capacity-providers/ASG2.png)
-
-The ECS cluster should now contain 4 Capacity Providers: 2 from Auto Scaling groups (1 for OD and 1 for Spot), 1 from FARGATE and 1 from FARGATE_SPOT
-
-
+```
+spot-capacity_provider ARN=arn:aws:ecs:us-east-1:000474600478:capacity-provider/ec2spot-capacity_provider
+```
 
 ### Update ECS Cluster with Auto Scaling Capacity Providers
 

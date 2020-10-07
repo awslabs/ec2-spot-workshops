@@ -1,5 +1,5 @@
 ---
-title: "Create a Workspace using Cloud9e"
+title: "Create a Workspace using Cloud9"
 weight: 5
 ---
 
