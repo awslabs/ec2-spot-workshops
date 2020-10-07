@@ -5,8 +5,6 @@ theme = "learn"
 uglyurls = true
 sectionPagesMenu = "main"
 pygmentsCodeFences = true
-googleAnalytics = "UA-136840914-1"
-
 
 [blackfriday]
 hrefTargetBlank = true
@@ -25,28 +23,30 @@ disableInlineCopyToClipBoard = true
 home = [ "HTML", "AMP", "RSS", "JSON"]
 page = [ "HTML", "AMP"]
 
-
+# All privacy options enabled. There should not be 
+# any cookies or privacy  
 [privacy]
   [privacy.disqus]
     disable = false
   [privacy.googleAnalytics]
-    anonymizeIP = false
-    disable = false
+    anonymizeIP = true
+    disable = true
     respectDoNotTrack = true
     useSessionStorage = false
   [privacy.instagram]
-    disable = false
+    disable = true
     simple = false
   [privacy.twitter]
-    disable = false
+    disable = true
     enableDNT = false
     simple = false
   [privacy.vimeo]
-    disable = false
+    disable = true
     simple = false
   [privacy.youtube]
     disable = false
-    privacyEnhanced = false
+    # This is required to avoid cookies on youtube integration
+    privacyEnhanced = true
 
 
 [[menu.shortcuts]]
