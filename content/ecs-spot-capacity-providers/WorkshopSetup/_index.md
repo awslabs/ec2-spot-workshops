@@ -1,9 +1,7 @@
 ---
 title: "Setup the workshop environment on AWS"
-chapter: true
 weight: 15
 ---
-# Setup the Workspace Environment
 
 Launch the CloudFormation stack 
 ---

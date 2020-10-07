@@ -1,11 +1,7 @@
 ---
 title: "Module-3: Spot Interruption Handling"
-chapter: true
 weight: 40
 ---
-
-# Module-3: Spot Interruption Handling
-
 
 Amazon EC2 terminates your Spot Instance when it needs the capacity back. Amazon EC2 provides a Spot Instance interruption notice, which gives the instance a two-minute warning before it is interrupted.
 

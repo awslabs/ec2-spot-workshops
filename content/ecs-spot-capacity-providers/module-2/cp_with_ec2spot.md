@@ -1,15 +1,9 @@
 ---
-title: "Creating a Capacity Provider using ASG with EC2 Spot instances"
-chapter: true
+title: "Create a Capacity Provider using ASG with EC2 Spot instances"
 weight: 20
 ---
 
-Creating a Capacity Provider using ASG with EC2 Spot instances.
----
-
-
 To create the CP, follow these steps:
-
 
 * Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
 * Click *Clusters*

@@ -1,10 +1,6 @@
 ---
-title: "Creating a Capacity Provider using ASG with EC2 On-demand instances."
-chapter: true
+title: "Create a Capacity Provider using ASG with EC2 On-demand instances."
 weight: 11
----
-
-Creating a Capacity Provider using ASG with EC2 On-demand instances.
 ---
 
 To create the CP, follow these steps:

@@ -1,10 +1,7 @@
 ---
 title: "Creating a Capacity Provider using ASG with EC2 Spot instances"
-chapter: true
 weight: 15
 ---
-
-### Creating a Capacity Provider using ASG with EC2 Spot instances.
 
 A capacity provider is used in association with a cluster to determine the infrastructure that a task runs on.
 

@@ -1,11 +1,8 @@
 +++
-title = "Application Scaling"
-chapter = true
+title = "Application Scaling-Infrastructure First Approach"
 weight = 20
 +++
 
-Application Scaling: Infrastructure First Approach
-----
 
 Its estimating how much compute capacity your application might need and provision server components based on it. In other words, your Infrastructure will start first before you application starts which is a notion we call - Infrastructure First. However this has few challenges.
 

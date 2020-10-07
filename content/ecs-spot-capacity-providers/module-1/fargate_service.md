@@ -1,10 +1,6 @@
 ---
 title: "Create ECS Fargate Services"
-chapter: true
 weight: 2
----
-
-Create ECS Fargate Services
 ---
 
 In this section, we will create a ECS service to deploy tasks on FARGATE and FARGATE_SPOT capacity providers using a custom strategy. We will use a assign a weight of 1 to FARGATE_SPOT and 3 to FARGATE.  In this case. for every task on FARGATE_SPOT, 3 tasks will be placed on FARGATE.

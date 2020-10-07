@@ -1,10 +1,7 @@
 ---
-title: "Module-4  Cluster Monitoring and Spot Interruption Handling"
-chapter: true
+title: "Module-4:  Cluster Monitoring and Spot Interruption Handling"
 weight: 40
 ---
-
-## **Module-4  Cluster Monitoring and Spot Interruption Handling**
 
 ### ECS Cluster Monitoring using Container Insights
 

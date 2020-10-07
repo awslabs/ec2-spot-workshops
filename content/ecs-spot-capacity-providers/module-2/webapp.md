@@ -1,10 +1,6 @@
 ---
 title: "Building the webapp container"
-chapter: true
 weight: 45
----
-
-Building the webapp container
 ---
 
 Run the below command to build the container

@@ -1,10 +1,6 @@
 ---
-title: "Explore ECS Service"
-chapter: true
+title: "Explore ECS Service-ECS Cluster visualizer by C3Vis"
 weight: 70
----
-
-ECS Cluster visualizer by C3Vis
 ---
 
 

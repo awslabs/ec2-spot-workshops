@@ -1,13 +1,9 @@
 ---
 title: "Explore ECS Service"
-chapter: true
 weight: 60
 ---
 
-Explore ECS Service
----
-
-Click on this Service in the AWS ECS Console and it looks like below
+Click on this Service in the [AWS ECS Console](https://console.aws.amazon.com/ecs/home?#/clusters) and it looks like below
 
 ![Capacity Provider](/images/ecs-spot-capacity-providers/CP4.png) 
 

@@ -1,11 +1,7 @@
 ---
-title: "Creating an Auto Scaling Group (ASG) with EC2 On-Demand Instances"
-chapter: true
+title: "Create an Auto Scaling Group (ASG) with EC2 On-Demand Instances"
 weight: 10
 ---
-
-
-### Creating an Auto Scaling Group (ASG) with EC2 On-Demand Instances
 
 In this section, we will create an EC2 Auto Scaling Group for On-Demand Instances using the Launch Template created in previous section.
 

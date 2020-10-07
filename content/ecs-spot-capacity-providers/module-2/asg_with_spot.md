@@ -1,10 +1,7 @@
 ---
-title: "Creating an Auto Scaling Group (ASG) with EC2 Spot Instances"
-chapter: true
+title: "Create an Auto Scaling Group (ASG) with EC2 Spot Instances"
 weight: 10
 ---
-
-### Creating an Auto Scaling Group (ASG) with EC2 Spot Instances
 
 In this section, let us create an Auto Scaling group for EC2 Spot Instances using the Launch Template created in previous section. This procedure is exactly same as the previous section except the few changes specific to the  configuration for EC2 Spot instances.
 

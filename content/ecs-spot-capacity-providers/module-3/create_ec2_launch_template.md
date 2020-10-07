@@ -1,10 +1,7 @@
 ---
 title: "Create an EC2 launch template"
-chapter: true
 weight: 1
 ---
-
-### Create an EC2 launch template
 
 EC2 Launch Templates reduce the number of steps required to create an instance by capturing all launch parameters within one resource.
 

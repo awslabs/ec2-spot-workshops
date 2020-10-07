@@ -1,6 +1,5 @@
 ---
 title: "Workshop Modules"
-chapter: false
 weight: 13
 ---
 
@@ -11,8 +10,7 @@ These modules are designed to be completed in sequence. If you are reading this 
 
 | Modules | Description |
 | --- | --- |
-| **Module-1** | Saving costs using AWS Fargate Spot Capacity Providers |
-| **Module-2** | Saving costs using EC2 spot with Auto Scaling Group Capacity Providers |
-| **Module-3** | Spot Interruption Handling |
-| **Module-4** | Cluster Monitoring and Spot Interruption Handling |
-
+| **Module-1** | Saving costs using EC2 spot with Auto Scaling Group Capacity Providers |
+| **Module-2** | Spot Interruption Handling |
+| **Module-3** | Cluster Monitoring and Spot Interruption Handling |
+| **Module-4 (Optional)** | Saving costs using AWS Fargate Spot Capacity Providers |

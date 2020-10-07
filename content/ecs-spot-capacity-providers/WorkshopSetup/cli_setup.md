@@ -1,11 +1,8 @@
 ---
-title: "CLI Setup"
-chapter: true
+title: "Setup AWS CLI and other tools"
 weight: 15
 ---
 
-Setup AWS CLI and other tools
----
 
 Make sure the latest version of the AWS CLI is installed by running:
 

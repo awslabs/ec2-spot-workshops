@@ -1,10 +1,7 @@
 ---
 title: "Create ECS EC2 Services"
-chapter: true
 weight: 25
 ---
-
-###  Create ECS EC2 Services
 
 In this section, we will create 3 ECS Services to show how tasks can be deployed across On-demand and EC2 Spot based Auto Scaling Capacity providers.
 
@@ -80,7 +77,3 @@ To check which task is placed on which instance type (OD or Spot), click on the 
 As shown task Id 0c6ca084-12a4-4469-a3b5-bbb0ad3c7bc3 is placed on OD Capacity Provider
 
 Check the remaining 5 tasks and check if ECS confirms to our Task Placement strategy.
-
-The final view of the Capacity Providers looks like below
-
-Image: TBD

@@ -1,15 +1,10 @@
 ---
-title: "Create a Workspace"
-chapter: true
+title: "Create a Workspace using Cloud9e"
 weight: 5
 ---
 
-Create a Workspace using Cloud9
----
 
-<p style="text-align: justify;">
 If you are running the workshop on your own, the Cloud9 workspace should be built by an IAM user with Administrator privileges, not the root account user. Please ensure you are logged in as an IAM user, not the root account user.
-</p>
 
 We will create a Cloud9 environment first to execute all the commands needed for this workshop.
 

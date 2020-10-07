@@ -1,10 +1,7 @@
 ---
 title: "Module-1: Saving costs using AWS Fargate Spot Capacity Providers"
-chapter: true
 weight: 20
 ---
-
-# Module-1: Saving costs using AWS Fargate Spot Capacity Providers
 
 AWS Fargate Capacity Providers
 ---
