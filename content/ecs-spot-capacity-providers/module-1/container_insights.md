@@ -1,10 +1,6 @@
 ---
 title: "ECS Cluster Monitoring using Container Insights"
-chapter: true
 weight: 30
----
-
-ECS Cluster Monitoring using Container Insights
 ---
 
 Use CloudWatch Container Insights to collect, aggregate, and summarize metrics and logs from your containerized applications and microservices. Container Insights is available for Amazon Elastic Container

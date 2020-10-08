@@ -1,11 +1,8 @@
 ---
-title: "Create Cloudwatch Dashboard"
-chapter: true
+title: "Create Cloudwatch Dashboard to view key metrics of the ECS Cluster"
 weight: 40
 ---
 
-Create Cloudwatch Dashboard to view key metrics of the ECS Cluster
----
 
 Run the below command to create the cloudwatch dashboard to watch key metrics
 

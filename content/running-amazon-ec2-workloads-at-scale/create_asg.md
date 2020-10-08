@@ -12,7 +12,7 @@ sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s/%publicSubnet1%/$publicSubnet
 
 **Challenge**
 
-The EC2 Auto Scaling group that you are going to deploy supports [multiple purchase options (On-Demand and Spot Instances) and EC2 instance types](https://docs.aws.amazon.com/autoscaling/ec2/serguide/asg-purchase-options.html). 
+The EC2 Auto Scaling group that you are going to deploy supports [multiple purchase options (On-Demand and Spot Instances) and EC2 instance types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html). 
 
 * Examining the asg.json configuration file, can you determine what would be the different configuration options in the deployed ASG?
 * How many On-Demand and Spot Instances would be deployed?

@@ -1,11 +1,8 @@
 ---
 title: "Create ECS Service"
-chapter: true
 weight: 55
 ---
 
-Create ECS Service
----
 
 In this section, we will create an ECS Service which distributes tasks on CP-OD and CP-SPOT with a custom strategy with CP-OD base=2 weight=1 and CP-SPOT weight=3.  This Capacity Provider Strategy results from the following application requirements
 

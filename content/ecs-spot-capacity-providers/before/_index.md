@@ -1,10 +1,9 @@
 +++
 title = "Starting the workshop"
-chapter = true
+chapter = false
 weight = 5
 +++
 
-**Starting the Workshop**
 
 To start the workshop, follow one of the following pages, depending on whether you are...
 

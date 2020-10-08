@@ -1,12 +1,7 @@
 +++
 title = "Tasks and Scheduling"
-chapter = true
 weight = 25
 +++
-
-
-***Tasks and Scheduling***
---------------------------
 
 A task is the instantiation of a task definition within a cluster. After you have created a task definition for your application within Amazon ECS, you can specify the number of tasks that will run on your cluster.
 

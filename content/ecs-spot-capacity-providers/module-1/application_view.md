@@ -1,10 +1,6 @@
 ---
-title: "Explore ECS Service"
-chapter: true
+title: "Explore ECS Service-Test web application"
 weight: 65
----
-
-Test web application
 ---
 
 Let’s first check if our application is up and running fine.  Go to the Target Group in the AWS console. check click on the targets. Ensure that all the targets are healthy.

@@ -1,12 +1,7 @@
 +++
 title = "Introduction to Containers"
-chapter = true
 weight = 5
 +++
-
-# Introduction to Containers
-
-
 
 ![Container Ship](/images/ecs-spot-capacity-providers/containership.jpg)
 

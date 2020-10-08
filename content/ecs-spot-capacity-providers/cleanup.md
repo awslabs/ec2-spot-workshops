@@ -1,7 +1,7 @@
 ---
 title: "Workshop Cleanup"
 date: 2018-08-07T08:30:11-07:00
-weight: 100
+weight: 200
 ---
 
 1. At AWS Event or using facilitator provide AWS Account, you may skip this step. 

@@ -1,12 +1,8 @@
 +++
-title = "Fargate"
-chapter = true
+title = "Serverless Compute"
 weight = 35
 +++
 
-
-***Fargate***
-----------------
 
 ![Fargate](/images/ecs-spot-capacity-providers/fargate.png)   
 
