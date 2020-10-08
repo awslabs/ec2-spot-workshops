@@ -20,10 +20,6 @@ The estimated time for completing the workshop is **90 to 120 minutes**. The est
 These labs are designed to be completed in sequence.  If you are reading this at a live AWS event, the workshop attendants will give you a high level run down of the labs.  Then it's up to you to follow the instructions below to complete the labs.  Don't worry if you're embarking on this journey in the comfort of your office or home, this site contains all the materials for you'll need to complete this workshop.
 
 
-
-
-
-
 ### About Spot Instances in Containerized workloads
 
 Many containerized workloads are usually stateless and fault tolerant and are great fit for running them on EC2 Spot. In this workshop we will explore how to run containers on interruptible EC2 Spot instances and save significantly compared to running them on EC2 On-Demand instances.

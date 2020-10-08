@@ -1,12 +1,8 @@
 +++
 title = "Task Definitions"
-chapter = true
 weight = 20
 +++
 
-
-***Task Definitions***
-----------------------
 
 To prepare your application to run on Amazon ECS, you create a task definition. The task definition is a text file, in JSON format, that describes one or more containers, up to a maximum of ten, that form your application.
 
