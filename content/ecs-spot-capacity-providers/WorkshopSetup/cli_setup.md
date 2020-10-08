@@ -58,4 +58,4 @@ do
 done
 ```
 
-***Congratulations !!!*** Now you are done with workspace setup, Proceed to Module-1 of this workshop.
+***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to Module-1 of this workshop.
