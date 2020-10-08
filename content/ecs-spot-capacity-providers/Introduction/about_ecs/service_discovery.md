@@ -10,4 +10,4 @@ AWS Cloud Map is a cloud resource discovery service. With Cloud Map, you can def
 
 Cloud Map natively integrates with ECS, and as we build services in the workshop, will see this firsthand. For more information on service discovery with ECS, please see [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
 
-![Service Discovery](/images/ecs-spot-capacity-providers/cloudmapproduct.png)  
+![Service Discovery](/images/ecs-spot-capacity-providers/cloudmapproduct.png)

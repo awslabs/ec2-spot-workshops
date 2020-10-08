@@ -1,19 +1,17 @@
 ---
-title: "Create ECS Service"
+title: "Create an ECS Service"
 weight: 55
 ---
 
+In this section, we will create an ECS Service which distributes tasks on CP-OD and CP-SPOT with a custom strategy: **CP-OD base=2 & weight=1** and **CP-SPOT weight=3**. This Capacity Provider Strategy is driven by the following application requirements:
 
-In this section, we will create an ECS Service which distributes tasks on CP-OD and CP-SPOT with a custom strategy with CP-OD base=2 weight=1 and CP-SPOT weight=3.  This Capacity Provider Strategy results from the following application requirements
-
-* There should be always at least 2 tasks running all the time for the regular traffic.  The base=2 configuration satisfies this requirement.
-* Any spiky or elastic traffic should be handled by tasks deployed on on-demand and spot instances in the ratio 1:3
-
+* There should be at least a baseline of 2 tasks running for normal traffic - the **base=2** configuration satisfies this requirement.
+* Any spiky traffic should be handled by tasks deployed on On-Demand and Spot Instances in the ratio of 1:3
 
 To create the service, follow these steps:
 
-* Click on the tab *Services*
-* Click on the *Create*
+* Click on the *Services* tab
+* Click on *Create*
 * For Capacity provider strategy, leave it to default value *Cluster default Strategy*
 * For Task Definition Family, select *ec2-task*
 * For Task Definition Revision, select *1*
