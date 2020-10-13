@@ -10,14 +10,9 @@ Amazon EC2 terminates your Spot Instance when it needs the capacity back. Amazon
 
 When Amazon EC2 is going to interrupt your Spot Instance, the interruption notification will be available in two ways
 
-- ***Amazon EventBridge Events***
+1. ***Amazon EventBridge Events:*** EC2 service emits an event two minutes prior to the actual interruption. This event can be detected by Amazon CloudWatch Events.
 
-
-EC2 service emits an event two minutes prior to the actual interruption. This event can be detected by Amazon CloudWatch Events.
-
-- ***Instance-action in the MetaData service (IMDS)***
-
-If your Spot Instance is marked to be stopped or terminated by the Spot service, the instance-action item is present in your instance metadata.
+1. ***Instance-action in the MetaData service (IMDS):*** If your Spot Instance is marked to be stopped or terminated by the Spot service, the instance-action item is present in your instance metadata.
 
 look at the user data section in the Launch template configuration.
 
