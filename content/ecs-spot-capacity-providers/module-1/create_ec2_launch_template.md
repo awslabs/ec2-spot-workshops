@@ -5,9 +5,9 @@ weight: 5
 
 - EC2 Launch Templates reduce the number of steps required to create an instance by capturing all launch parameters within one resource.
 
-- You can create a launch template that contains the configuration information to launch an instance. Launch templates enable you to store launch parameters so that you do not have to specify them every time you launch an instance. For example, a launch template can contain the ECS optimized AMI, instance type, User data section, Instance Profile / Role and network settings that you typically use to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, or a command line tool, you can specify the launch template to use. Instance user data required to bootstrap the instance into the ECS Cluster.
+- For example, a launch template can contain the ECS optimized AMI, instance type, User data section, Instance Profile / Role, and network settings that you typically use to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, a command line tool or an EC2 Auto Scaling group (like we will use in this workshop), you can specify the launch template to use. 
 
-- The Ec2 Launch Template is already created using the CFN stack. Take a moment to see the configuration.  Please note that Launch templates are mandatory to use Mixed Instance Group (i.e. using on-demand and spot purchase options) in an Autoscaling group.
+- The EC2 Launch Template is already created using the CloudFormation stack - you can use the AWS Management Console to see the configuration. Please note that Launch templates are mandatory in order to use EC2 Auto Scaling groups with mixed instances policy (to allow for mixing On-Demand and Spot Instances in an Auto Scaling group, and diversifying the instance type selection)
 
 ![Launch Template](/images/ecs-spot-capacity-providers/c9_6.png)
 

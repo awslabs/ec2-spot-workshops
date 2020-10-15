@@ -1,5 +1,5 @@
 +++
-title = "Serverless Compute"
+title = "Fargate"
 weight = 35
 +++
 
