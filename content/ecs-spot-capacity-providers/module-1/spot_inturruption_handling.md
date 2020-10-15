@@ -1,9 +1,6 @@
 ---
-title: "Module-2: Spot Interruption Handling"
-weight: 40
----
-
-Inturruption Handling On EC2 Spot Instances
+title: "Inturruption Handling On EC2 Spot Instances"
+weight: 80
 ---
 
 Amazon EC2 terminates your Spot Instance when it needs the capacity back. Amazon EC2 provides a Spot Instance interruption notice, which gives the instance a two-minute warning before it is interrupted.
@@ -74,3 +71,5 @@ is using. Specifying a stopTimeout value gives you time between the moment the t
 
 • The **SIGTERM** signal must be received from within the container to perform any cleanup actions.
 
+
+***Congratulations !!!*** you have successfully completed the workshop module and learnt how to create ASG CPs and schedule ECS services across Spot and On-demand CPs. You may proceed to optional module using Fargate Spot Capacity Providers.
