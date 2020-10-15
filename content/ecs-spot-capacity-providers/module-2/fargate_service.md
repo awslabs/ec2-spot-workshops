@@ -97,4 +97,4 @@ As you see 3 tasks were placed on FARGATE and 1 is placed on FARGATE_SPOT Capaci
 ***Optional Exercise:***
 Try changing the Capacity Provider Strategy by assigning different weightrs to FARGATE and FARGATE_SPOT Capacity Providers and update the service.
 
-***Congratulations !!!*** you have successfully completed Module-3.
+***Congratulations !!!*** you have successfully completed the workshop!!!.

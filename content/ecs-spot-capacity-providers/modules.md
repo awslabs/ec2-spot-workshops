@@ -11,5 +11,4 @@ These modules are designed to be completed in sequence. If you are reading this 
 | Modules | Description |
 | --- | --- |
 | **Module-1** | Cost optimizing ECS using Spot Instances with Auto Scaling groups Capacity Providers |
-| **Module-2** | Handling EC2 Spot Interruptions |
-| **Module-3 (Optional)** | Cost optimizing ECS using AWS Fargate Spot |
+| **Module-2 (Optional)** | Cost optimizing ECS using AWS Fargate Spot |
