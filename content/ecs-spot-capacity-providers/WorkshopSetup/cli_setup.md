@@ -53,7 +53,7 @@ cd ec2-spot-workshops/workshops/ecs-spot-capacity-providers
 
 Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
 
-#We should configure our aws cli with our current region as default:
+We should configure our aws cli with our current region as default:
 
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity  --output text --query Account)
@@ -63,7 +63,11 @@ echo "export  AWS_REGION=${AWS_REGION}" >> ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
 aws configure get default.region
 
-#Get the CFN Stack name from Consule and set the right stack name
+```
+Run the below command to set the cloud formation outputs as the environment variables
+
+```
+#Set the cloud formation Stack name
 
 export STACK_NAME=EcsSpotWorkshop
 
@@ -74,5 +78,4 @@ do
     eval "echo $output : \"\$$output\""
 done
 ```
-
 ***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to Module-1 of this workshop.

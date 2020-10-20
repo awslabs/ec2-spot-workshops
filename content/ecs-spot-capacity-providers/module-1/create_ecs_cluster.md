@@ -1,5 +1,5 @@
 ---
-title: "Create an EC2 launch template"
+title: "Create an ECS Cluster"
 weight: 5
 ---
 

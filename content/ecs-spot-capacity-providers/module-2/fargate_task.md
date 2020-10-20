@@ -1,6 +1,6 @@
 ---
 title: "Create ECS Fargate Tasks"
-weight: 1
+weight: 10
 ---
 
 In this section, we will create a task definition for for tasks to be launched on the Fargate Capacity Providers.
