@@ -11,8 +11,8 @@ To save time on the initial setup, a CloudFormation template will be used to cre
 1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
 2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 3. Browse to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation). Make sure you are in AWS region designated by the facilitators of the workshop
-4. Click *Create stack*.
-5. In the *Specify template* section, select *Upload a template file*. Click *Choose file* and, select the template you downloaded in step 1.
+4. Click **Create stack**.
+5. Udner the *Specify template* section, select **EC2 Linux + Networking**. Click *Choose file* and, select the template you downloaded in step 1.
 6. Click *Next*.
 7. In the *Specify stack details* section, enter **ECSSpotWorkshop** as *Stack name*.
 8. [Optional] In the *Parameters* section, optionally change the *sourceCidr* to restrict instance ssh/http access and load balancer http access.

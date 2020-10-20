@@ -21,9 +21,9 @@ To create the CP, follow these steps:
 
 Refresh the *Capacity Providers* tab and you will see the CP-SPOT is created and attached to the cluster.
 
-![Capacity Provider on Spot ASG](/images/ecs-spot-capacity-providers/CP_SPOT1.png)
+![Capacity Provider on Spot ASG](/images/ecs-spot-capacity-providers/CP-SPOT.png)
 
-The CP creates a target tracking policy on the EcsSpotWorkshop-ASG-SPOT. Go to the EC2 Management Console and select the scaling policies tab on this ASG.
+The capacity provider creates a target tracking policy on the EcsSpotWorkshop-ASG-SPOT. Go to the EC2 Management Console and select the scaling policies tab on this ASG.
 
 ![Spot ASG](/images/ecs-spot-capacity-providers/ASG2.png)
 

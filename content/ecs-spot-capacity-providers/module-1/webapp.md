@@ -2,15 +2,24 @@
 title: "Building the webapp container"
 weight: 45
 ---
+In this section, we will build a simple pythin flask based web application and deploy in our ECS Cluster.
 
-Run the below command to build the container which we will run inside an ECS task in our cluster.
+Note the initial cloud formation template already created an ECR registry.  Retrieve an authentication token and authenticate your Docker client to your registry.
 
 ```bash
-cd webapp
-docker build --no-cache  -t ecs-spot-workshop/webapp .
-
 export ECR_REPO_URI=$(aws ecr describe-repositories --repository-names ecs-spot-workshop/webapp | jq -r '.repositories[0].repositoryUri')
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO_URI
+```
+
+Run the below command to build the web app container
+
+```bash
+cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/webapp/
+docker build --no-cache  -t ecs-spot-workshop/webapp .
+```
+ Tag the webapp container and push to this ECR docker registry
+
+```bash
 docker tag ecs-spot-workshop/webapp:latest $ECR_REPO_URI:latest
 docker push $ECR_REPO_URI:latest
 ```

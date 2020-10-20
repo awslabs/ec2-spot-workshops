@@ -1,4 +1,5 @@
-#!/bin/bash 
+eneccccbvglbjgetccgguuntcdtivunekhnnivjjvuvn
+#!/bin/bash
 
 echo "Creating the Infrastructure for ECS_Cluster_Auto_Scaling workshop ..."
 

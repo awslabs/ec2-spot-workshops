@@ -7,10 +7,10 @@ In this section, you create an Auto Scaling group for EC2 Spot Instances using t
 
 One of the best practices for adoption of Spot Instances is to diversify the EC2 instances across different instance types and availability zones, in order to tap into multiple spare capacity pools. 
 
-One key criteria for choosing the instance size can be based on the ECS Task vCPU and Memory limit configuration. For example, look at the ECS task resource limits in the file **webapp-ec2-task.json**:
+One key criteria for choosing the instance size can be based on the ECS Task vCPU and Memory limit configuration. For example, look at the ECS task resource limits in the file **ec2-task.json**:
 
 ```plaintext
-_**"cpu": "256", "memory": "1024"**_
+"cpu": "256", "memory": "1024"
 ```
 
 This means the ratio for vCPU:Memory in our ECS task that would run in the cluster is **1:4**. Ideally, we should select instance types with similar vCPU:Memory ratio, in order to have good utilization of the resources in the EC2 instances. The smallest instance type which would satisfy this critera from the latest generation of x86_64 EC2 instance types is m5.large. To learn more about EC2 instance types click [here](https://aws.amazon.com/ec2/instance-types/)
@@ -26,7 +26,7 @@ We selected 10 different instance types as can seen asg.json, but you can config
 Copy the file **templates/asg.json** for the Auto Scaling group configuration.
 
 ```bash
-cp templates/asg.json ./asg_spot.json
+cp templates/asg.json .
 ```
 
 Take a moment to look at the user asg_spot.json to see various configuration options in the ASG.
@@ -34,15 +34,20 @@ Take a moment to look at the user asg_spot.json to see various configuration opt
 Run the following commands to set variables and substitute them in the template
 
 ```bash
-export ASG_NAME=ecs-spot-workshop-asg-spot
+export ASG_NAME=EcsSpotWorkshop-ASG-SPOT
 export OD_PERCENTAGE=0 # Note that ASG will have 0% On-Demand, 100% Spot
-sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$PUBLIC_SUBNET_LIST#g"  -e "s#%SERVICE_ROLE_ARN%#$SERVICE_ROLE_ARN#g"  asg_spot.json
+```
+
+Run the following command to substitute the template with actual values from the global variables
+
+```bash
+sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" -e "s#%LT_ID%#$LaunchTemplateId#g"  asg.json
 ```
 
 Create the Auto scaling group that will run Spot Instances in our cluster
 
 ```bash
-aws autoscaling create-auto-scaling-group --cli-input-json  file://asg_spot.json
+aws autoscaling create-auto-scaling-group --cli-input-json  file://asg.json
 ASG_ARN=$(aws autoscaling  describe-auto-scaling-groups --auto-scaling-group-name $ASG_NAME | jq -r '.AutoScalingGroups[0].AutoScalingGroupARN')
 echo "$ASG_NAME  ARN=$ASG_ARN"
 ```

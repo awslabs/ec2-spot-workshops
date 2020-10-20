@@ -4,11 +4,28 @@ weight: 15
 ---
 
 
-Make sure the latest version of the AWS CLI is installed by running:
+{{% notice tip %}}
+For this workshop, please ignore warnings about the version of pip being used.
+{{% /notice %}}
 
+1. Run the following command to view the current version of aws-cli:
 ```
-sudo pip install -U awscli  
+aws --version
 ```
+
+1. Update to the latest version:
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+. ~/.bash_profile
+```
+
+1. Confirm you have a newer version:
+```
+aws --version
+```
+
 Install dependencies for use in the workshop by running:
 
 ```
@@ -48,7 +65,7 @@ aws configure get default.region
 
 #Get the CFN Stack name from Consule and set the right stack name
 
-export STACK_NAME=ECSSpotWorkshop
+export STACK_NAME=EcsSpotWorkshop
 
 # load outputs to env vars
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
