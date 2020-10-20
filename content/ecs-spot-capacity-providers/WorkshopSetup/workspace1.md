@@ -1,6 +1,6 @@
 ---
 title: "Create a Workspace using Cloud9"
-weight: 5
+weight: 6
 ---
 
 

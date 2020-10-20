@@ -39,7 +39,7 @@ Resources:
       EnableDnsSupport: true
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop"
+          Value: !Sub "${AWS::StackName}"
 
   internetGateway:
     Type: AWS::EC2::InternetGateway
@@ -49,8 +49,8 @@ Resources:
   attachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     DependsOn:
-      - vpc
-      - internetGateway
+    - vpc
+    - internetGateway
     Properties:
       InternetGatewayId: !Ref internetGateway
       VpcId: !Ref vpc
@@ -69,7 +69,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop publicSubnet1"
+          Value: !Sub "${AWS::StackName}-publicSubnet1"
       VpcId: !Ref vpc
 
   publicSubnet2:
@@ -85,7 +85,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop publicSubnet2"
+          Value: !Sub "${AWS::StackName}-publicSubnet2"
       VpcId: !Ref vpc
 
   publicSubnet3:
@@ -101,7 +101,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop publicSubnet3"
+          Value: !Sub "${AWS::StackName}-publicSubnet3"
       VpcId: !Ref vpc
 
 
@@ -116,7 +116,7 @@ Resources:
       CidrBlock: 10.0.3.0/24
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop privateSubnet1"
+          Value: !Sub "${AWS::StackName}-privateSubnet1"
       VpcId: !Ref vpc
 
 
@@ -131,7 +131,7 @@ Resources:
       CidrBlock: 10.0.4.0/24
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop privateSubnet2"
+          Value: !Sub "${AWS::StackName}-privateSubnet2"
       VpcId: !Ref vpc
 
   privateSubnet3:
@@ -145,7 +145,7 @@ Resources:
       CidrBlock: 10.0.5.0/24
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop privateSubnet3"
+          Value: !Sub "${AWS::StackName}-privateSubnet3"
       VpcId: !Ref vpc
 
 
@@ -157,7 +157,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop Public Route Table"
+          Value: !Sub "${AWS::StackName} Public Route Table"
       VpcId: !Ref vpc
 
   RouteTablePrivate:
@@ -167,7 +167,7 @@ Resources:
       VpcId: !Ref vpc
       Tags:
         - Key: Name
-          Value: "EcsSpotWorkshop Private Route Table"
+          Value: !Sub "${AWS::StackName} Private Route Table"
 
   publicSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -200,7 +200,7 @@ Resources:
       SubnetId: !Ref publicSubnet3
 
 
-  privateSubnet1RouteTableAssociation: # Associate the route table with the first of the three subnets in the VPC...
+  privateSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     DependsOn:
       - RouteTablePrivate
@@ -214,7 +214,6 @@ Resources:
     DependsOn:
       - RouteTablePrivate
       - privateSubnet2
-    # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref privateSubnet2
@@ -224,7 +223,6 @@ Resources:
     DependsOn:
       - RouteTablePrivate
       - privateSubnet3
-    # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref privateSubnet3
@@ -235,7 +233,6 @@ Resources:
     DependsOn:
       - attachGateway
       - vpc
-    # DependedOn: NATGateway
     Properties:
       Domain: vpc
 
@@ -243,7 +240,6 @@ Resources:
     Type: AWS::EC2::NatGateway
     DependsOn:
       - publicSubnet1
-    # DependedOn:
     Properties:
       AllocationId: !GetAtt EIPNATGateway.AllocationId
       SubnetId: !Ref publicSubnet1
@@ -264,7 +260,6 @@ Resources:
     DependsOn:
       - RouteTablePrivate
       - NATGateway
-    # DependedOn: None
     Properties:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref NATGateway
@@ -314,7 +309,7 @@ Resources:
       - publicSubnet2
       - publicSubnet3
     Properties:
-      Name: "EcsSpotWorkshop"
+      Name: !Sub "${AWS::StackName}"
       Scheme: internet-facing
       SecurityGroups:
         - !Ref loadBalancerSecurityGroup
@@ -330,13 +325,13 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 50
       HealthCheckPath: /
-      HealthCheckPort: 80
+      HealthCheckPort: traffic-port
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 45
       HealthyThresholdCount: 2
       Matcher:
         HttpCode: 200
-      Name: "EcsSpotWorkshop"
+      Name: !Sub "${AWS::StackName}"
       Port: 80
       Protocol: HTTP
       UnhealthyThresholdCount: 4
@@ -358,7 +353,7 @@ Resources:
   instanceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: "EcsSpotWorkshop-EcsInstanceRole"
+      RoleName: !Sub "${AWS::StackName}-EcsInstanceRole"
       AssumeRolePolicyDocument:
         Statement:
           - Action:
@@ -376,7 +371,7 @@ Resources:
   Cloud9instanceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: "EcsSpotWorkshop-Cloud9InstanceRole"
+      RoleName: !Sub "${AWS::StackName}-Cloud9InstanceRole"
       AssumeRolePolicyDocument:
         Statement:
           - Action:
@@ -394,7 +389,7 @@ Resources:
     DependsOn:
       - Cloud9instanceRole
     Properties:
-      InstanceProfileName: "EcsSpotWorkshop-Cloud9InstanceProfile"
+      InstanceProfileName: !Sub "${AWS::StackName}-Cloud9InstanceProfile"
       Path: /
       Roles:
         - Ref: Cloud9instanceRole
@@ -402,9 +397,9 @@ Resources:
   instanceProfile:
     Type: AWS::IAM::InstanceProfile
     DependsOn:
-      - instanceRole
+    - instanceRole
     Properties:
-      InstanceProfileName: "EcsSpotWorkshop-InstanceProfile"
+      InstanceProfileName: !Sub "${AWS::StackName}-InstanceProfile"
       Path: /
       Roles:
         - Ref: instanceRole
@@ -421,8 +416,8 @@ Resources:
         IamInstanceProfile:
           Arn:
             Fn::GetAtt:
-              - instanceProfile
-              - Arn
+            - instanceProfile
+            - Arn
 
         SecurityGroupIds:
           - !Ref instanceSecurityGroup
@@ -431,15 +426,15 @@ Resources:
           - ResourceType: instance
             Tags:
               - Key: Name
-                Value: "EcsSpotWorkshop"
+                Value: !Sub "${AWS::StackName}"
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
             echo "ECS_CLUSTER=EcsSpotWorkshop" >> /etc/ecs/ecs.config
             echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
-            echo "ECS_CONTAINER_STOP_TIMEOUT=30s" >> /etc/ecs/ecs.config
+            echo "ECS_CONTAINER_STOP_TIMEOUT=120s" >> /etc/ecs/ecs.config
             echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
-      LaunchTemplateName: "EcsSpotWorkshop"
+      LaunchTemplateName: !Sub "${AWS::StackName}"
 
   ecrRepository:
     Type: AWS::ECR::Repository
@@ -452,9 +447,6 @@ Outputs:
     Value: !Ref AWS::Region
     Export:
       Name: !Sub "${AWS::StackName}-awsRegionId"
-
-
-
 
   instanceRole:
     Description: Instance Role

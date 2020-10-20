@@ -1,6 +1,6 @@
 +++
 title = "...At an AWS event"
-weight = 5
+weight = 4
 +++
 
 {{% notice warning %}}
