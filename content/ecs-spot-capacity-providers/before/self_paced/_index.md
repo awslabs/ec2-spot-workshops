@@ -1,6 +1,6 @@
 +++
 title = "...On your own (self-paced)"
-weight = 3
+weight = 5
 +++
 
 ### Running the workshop self-paced, in your own AWS account
