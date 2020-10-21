@@ -4,11 +4,28 @@ weight: 15
 ---
 
 
-Make sure the latest version of the AWS CLI is installed by running:
+{{% notice tip %}}
+For this workshop, please ignore warnings about the version of pip being used.
+{{% /notice %}}
 
+1. Run the following command to view the current version of aws-cli:
 ```
-sudo pip install -U awscli  
+aws --version
 ```
+
+1. Update to the latest version:
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+. ~/.bash_profile
+```
+
+1. Confirm you have a newer version:
+```
+aws --version
+```
+
 Install dependencies for use in the workshop by running:
 
 ```
@@ -36,7 +53,7 @@ cd ec2-spot-workshops/workshops/ecs-spot-capacity-providers
 
 Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
 
-#We should configure our aws cli with our current region as default:
+We should configure our aws cli with our current region as default:
 
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity  --output text --query Account)
@@ -46,16 +63,38 @@ echo "export  AWS_REGION=${AWS_REGION}" >> ~/.bash_profile
 aws configure set default.region ${AWS_REGION}
 aws configure get default.region
 
-#Get the CFN Stack name from Consule and set the right stack name
+```
 
-export STACK_NAME=ECSSpotWorkshop
+Use below commands to set the cloud formation stack name to an environment variable 
 
-# load outputs to env vars
+* if you created the stack manually
+
+```
+export STACK_NAME=EcsSpotWorkshop
+```
+* if the stack created automatically within the Event Engine
+
+```
+export STACK_NAME=$(aws cloudformation list-stacks | jq -r '.StackSummaries[] | select(.StackName|test("mod.")) | .StackName')
+echo "STACK_NAME=$STACK_NAME"
+```
+The output should look like something below
+
+```
+STACK_NAME=mod-9feefdd1672c4eac
+```
+
+
+
+Run the below command to load cloud formation outputs as the environment variables
+
+```
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
 do
     export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
     eval "echo $output : \"\$$output\""
 done
 ```
+
 
 ***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to Module-1 of this workshop.

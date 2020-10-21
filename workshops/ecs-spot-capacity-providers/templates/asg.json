@@ -3,48 +3,58 @@
   "MixedInstancesPolicy": {
     "LaunchTemplate": {
       "LaunchTemplateSpecification": {
-        "LaunchTemplateName": "%LAUNCH_TEMPLATE_NAME%",
-        "Version": "%LAUNCH_TEMPLATE_VERSION%"
+        "LaunchTemplateId": "%LT_ID%",
+        "Version": "1"
       },
       "Overrides": [
         {
-          "InstanceType": "%INSTANCE_TYPE_1%"
+          "InstanceType": "m5.large"
         },
         {
-          "InstanceType": "%INSTANCE_TYPE_2%"
+          "InstanceType": "m5a.large"
         },
         {
-          "InstanceType": "%INSTANCE_TYPE_3%"
+          "InstanceType": "m5ad.large"
         },
         {
-          "InstanceType": "%INSTANCE_TYPE_4%"
+          "InstanceType": "m5d.large"
         },
         {
-          "InstanceType": "%INSTANCE_TYPE_5%"
+          "InstanceType": "m5dn.large"
         },
         {
-          "InstanceType": "%INSTANCE_TYPE_6%"
+          "InstanceType": "m5n.large"
+        },
+        {
+          "InstanceType": "t3.large"
+        },
+        {
+          "InstanceType": "t3a.large"
+        },
+        {
+          "InstanceType": "m4.large"
+        },
+        {
+          "InstanceType": "t2.large"
         }
       ]
     },
     "InstancesDistribution": {
       "OnDemandAllocationStrategy": "prioritized",
-      "OnDemandBaseCapacity": %OD_BASE%,
+      "OnDemandBaseCapacity": 0,
       "OnDemandPercentageAboveBaseCapacity": %OD_PERCENTAGE%,
-      "SpotAllocationStrategy": "lowest-price",
-      "SpotInstancePools": 4
+      "SpotAllocationStrategy": "capacity-optimized"
     }
   },
-  "MinSize": %MIN_SIZE%,
-  "MaxSize": %MAX_SIZE%,
-  "DesiredCapacity": %DESIREDS_SIZE%,
+  "MinSize": 0,
+  "MaxSize": 20,
+  "DesiredCapacity": 0,
   "DefaultCooldown": 300,
-  "HealthCheckGracePeriod": 300, 
+  "HealthCheckGracePeriod": 300,
   "HealthCheckType": "EC2",
   "VPCZoneIdentifier": "%PUBLIC_SUBNET_LIST%",
-      "TerminationPolicies": [ 
-        "DEFAULT" 
+  "TerminationPolicies": [
+    "DEFAULT"
   ],
-  "NewInstancesProtectedFromScaleIn": true, 
-  "ServiceLinkedRoleARN": "%SERVICE_ROLE_ARN%"
+  "NewInstancesProtectedFromScaleIn": true
 }

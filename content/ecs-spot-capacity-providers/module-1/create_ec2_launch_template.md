@@ -1,6 +1,6 @@
 ---
-title: "Create an EC2 launch template"
-weight: 5
+title: "ECS Config with E   C2 launch template"
+weight: 8
 ---
 
 - EC2 Launch Templates reduce the number of steps required to create an instance by capturing all launch parameters within one resource.

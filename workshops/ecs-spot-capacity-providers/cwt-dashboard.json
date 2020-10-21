@@ -1,0 +1,21 @@
+ {
+        "widgets":[ {
+            "type":"metric",
+            "properties":{
+            "metrics": [
+                [ "AWS/ECS/ManagedScaling", "CapacityProviderReservation", "ClusterName", "EcsSpotWorkshop", "CapacityProviderName", "CP-SPOT" ],
+                [ "...", "CP-OD" ],
+                [ "ECS/ContainerInsights", "ContainerInstanceCount", ".", "." ],
+                [ ".", "TaskCount", ".", "." ],
+                [ ".", "PendingTaskCount", "ServiceName", "ec2-service-split", "ClusterName", "EcsSpotWorkshop" ]
+            ],
+            "view": "timeSeries",
+            "stacked": false,
+            "region": "us-east-1",
+            "stat": "Maximum",
+            "period": 30,
+            "title": "EcsSpotWorkshop2"
+            }
+        } ]
+    }
+ 

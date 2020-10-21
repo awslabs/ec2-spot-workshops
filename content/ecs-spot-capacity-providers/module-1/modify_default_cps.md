@@ -1,5 +1,5 @@
 ---
-title: "Modify the default capacity provider strategy"
+title: "Setup default capacity provider strategy"
 weight: 25
 ---
 
