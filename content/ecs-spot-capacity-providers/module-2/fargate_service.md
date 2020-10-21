@@ -3,7 +3,7 @@ title: "Create ECS Fargate Services"
 weight: 15
 ---
 
-In this section, we will create a ECS service to deploy tasks on FARGATE and FARGATE_SPOT capacity providers using a custom strategy. We will use a assign a weight of 1 to FARGATE_SPOT and 3 to FARGATE.  In this case. for every task on FARGATE_SPOT, 3 tasks will be placed on FARGATE.
+In this section, we will create a ECS service to deploy fargate tasks on FARGATE and FARGATE_SPOT capacity providers using a custom strategy, overriding the  cluster default strategy. We will use a assign a weight of 1 to FARGATE_SPOT and 3 to FARGATE, which is different from the default strategy with equal weight of 1 to both FARGATE_SPOT and FARGATE.  In this case, for every task on FARGATE_SPOT, 3 tasks will be placed on FARGATE.
 
 We will be creating the ECS services and tasks in the new VPC we created earlier using the CFN stack.
 
@@ -12,9 +12,7 @@ Please note that at the beginning of the workshop we loaded Cloudformation Outpu
 
 So let’s first find the default public subnets created in this VPC. You can find the list of public subnet IDs in this VPC using the output variables in the CFN stack.
 
-![Fargate Service](/images/ecs-spot-capacity-providers/c9_4.png)
-
-The environment variable **VPCPublicSubnets** contains this value of list of public subnets. Check its value using below command.
+The environment variable **VPCPublicSubnets** contains this value of list of public subnets. Check its value using below command.  If not, run the command again as shown in the Workspace setup section.
 
 ```
 echo $VPCPublicSubnets
@@ -37,12 +35,7 @@ The output from above command looks like below.
 ```
 vpc-085e8de17baa3996e
 ```
-
-Now let’s find the default security group created in this VPC. You can find it in the AWS console as follows.
-
-![VPC](/images/ecs-spot-capacity-providers/c9_5.png)
-
-You can below command to get the security group id for the default security group
+Rub the below command to get the security group id for the default security group
 
 ```
 export SECURITY_GROUP=$( aws ec2 describe-security-groups --filters Name=vpc-id,Values=$vpc  Name=group-name,Values='default' | jq -r '.SecurityGroups[0].GroupId')
@@ -55,17 +48,19 @@ The output from above command looks like below.
 Default Security group is sg-0db37aac5427520c1
 ```
 
-Deploy the service  *fargate-service-split* using below command
+Deploy the service  **fargate-service-split** using below command
 
 ```
 aws ecs create-service \
---capacity-provider-strategy capacityProvider=FARGATE,weight=3 capacityProvider=FARGATE_SPOT,weight=1 \
+     --capacity-provider-strategy capacityProvider=FARGATE,weight=3 capacityProvider=FARGATE_SPOT,weight=1 \
      --cluster EcsSpotWorkshop \
      --service-name fargate-service-split \
      --task-definition fargate-task:1 \
      --desired-count 4\
      --region $AWS_REGION \
      --network-configuration "awsvpcConfiguration={subnets=[$VPCPublicSubnets],securityGroups=[$SECURITY_GROUP],assignPublicIp="ENABLED"}" 
+
+
 ```
 
 Note the capacity provider strategy used for this service.  It provides a weight of 3 to FARGATE and 1 to FARGATE_SPOT capacity provider. This strategy overrides the default capacity provider strategy which is set to FARGATE capacity provider.
