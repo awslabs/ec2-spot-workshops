@@ -1,5 +1,5 @@
 ---
-title: "Create a Cloudwatch Dashboard to view key metrics of the ECS Cluster"
+title: "Create Cloudwatch Dashboard for ECS Cluster with key metrics"
 weight: 40
 ---
 

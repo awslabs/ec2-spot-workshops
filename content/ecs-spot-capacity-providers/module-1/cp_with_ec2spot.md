@@ -1,5 +1,5 @@
 ---
-title: "Create a Capacity Provider using ASG with EC2 Spot instances"
+title: "Create EC2 Spot ASG Capacity Provider"
 weight: 20
 ---
 

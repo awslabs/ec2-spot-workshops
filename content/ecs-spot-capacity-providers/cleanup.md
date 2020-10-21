@@ -19,16 +19,20 @@ We need to scale down the number of tasks in the ECS service before deleting it.
 Run below commands to delete the ECS Service *fargate-service-split* if you have completed the optional Module-2
 
 ```bash
-aws ecs update-service --cluster EcsSpotWorkshop  --service  fargate-service-split --desired-count 0
-aws ecs delete-service --cluster EcsSpotWorkshop  --service  fargate-service-split  
+aws ecs update-service --cluster EcsSpotWorkshop  \
+                       --service  fargate-service-split --desired-count 0
+aws ecs delete-service --cluster EcsSpotWorkshop  \
+                       --service  fargate-service-split  
 ```
 
 
 Run below commands to delete the ECS Service *ec2-service-split*
 
 ```bash
-aws ecs update-service --cluster EcsSpotWorkshop  --service   ec2-service-split --desired-count 0
-aws ecs delete-service --cluster EcsSpotWorkshop  --service   ec2-service-split   
+aws ecs update-service --cluster EcsSpotWorkshop  \
+                       --service   ec2-service-split --desired-count 0
+aws ecs delete-service --cluster EcsSpotWorkshop \
+                        --service   ec2-service-split   
 ```
 
 Run below commands to the de-associate capacity providers with ECS Cluster first and then delete them
@@ -46,15 +50,10 @@ aws ecs delete-capacity-provider      --capacity-provider CP-SPOT
 Run below commands to delete the both autoscaling groups
 
 ```bash
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EcsSpotWorkshop-ASG-SPOT
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EcsSpotWorkshop-ASG-OD  
-```
-
-Run below commands to delete the both autoscaling groups
-
-```bash
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EcsSpotWorkshop-ASG-SPOT
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EcsSpotWorkshop-ASG-OD  
+aws autoscaling delete-auto-scaling-group \
+              --auto-scaling-group-name EcsSpotWorkshop-ASG-SPOT
+aws autoscaling delete-auto-scaling-group \
+              --auto-scaling-group-name EcsSpotWorkshop-ASG-OD  
 ```
 
 Run below commands to delete the cloud formation stack

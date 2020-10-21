@@ -1,5 +1,5 @@
 ---
-title: "Setup the workshop environment on AWS"
+title: "Setup the Workspace environment"
 weight: 15
 ---
 

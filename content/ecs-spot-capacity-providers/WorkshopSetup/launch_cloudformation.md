@@ -8,18 +8,18 @@ Launch the CloudFormation stack
 
 To save time on the initial setup, a CloudFormation template will be used to create the required resources needed for the workshop.
 
-1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
+1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn-for-aws-console.yaml).
 2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 3. Browse to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation). Make sure you are in AWS region designated by the facilitators of the workshop
 4. Click **Create stack**.
-5. Udner the *Specify template* section, select **EC2 Linux + Networking**. Click *Choose file* and, select the template you downloaded in step 1.
-6. Click *Next*.
+5. Udner the *Specify template* section, select **Upload a template file**. Click **Choose file** and, select the template you downloaded in step 1.
+6. Click **Next**
 7. In the *Specify stack details* section, enter **ECSSpotWorkshop** as *Stack name*.
 8. [Optional] In the *Parameters* section, optionally change the *sourceCidr* to restrict instance ssh/http access and load balancer http access.
-9. Click *Next*.
+9. Click **Next**
 10. In *Configure stack options*, you don’t need to make any changes.
-11. Click *Next*.
-12. Review the information for the stack. At the bottom under *Capabilities*, select *I acknowledge that AWS CloudFormation might create IAM resources*. When you’re satisfied with the settings, click *Create stack*.
+11. Click **Next**
+12. Review the information for the stack. At the bottom under *Capabilities*, select **I acknowledge that AWS CloudFormation might create IAM resources*. When you’re satisfied with the settings, click **Create stack**.
 
 Monitor the progress of stack creation 
 ---
@@ -37,13 +37,18 @@ Take a moment and check out all the resources created by this stack.
 
 ![Cloud Formation Stack](/images/ecs-spot-capacity-providers/stack1.png) 
 
+Note that if you are running this workshop inside an Event Engine, the Cloud formation stack names may look like this 
+
+![Cloud Formation Stack](/images/ecs-spot-capacity-providers/CFN_stacks.png) 
+
+
 The CloudFormation template creates the following resources which we will be using later during the workshop.
 
 
 * One VPC with 3 public and 3 private subnets.
 * Application Load Balancer (ALB) with its own security group.
 * Target Group (TG) and an ALB listener to forward the traffic to this TG.
-* IAM Role for the Cloud9 Environment.
+* Cloud9 Environment and an IAM Role for the Cloud9 Environment.
 * Security Group for the ECS Container Instances.
-* EC2 Launch Template configured with the ECS optimized AMI, and ECS bootstrapping configuration in the user data section to bootstrap the EC2 Instances into the ECS cluster.
+* EC2 Launch Template configured with the necessary ECS config to bootstrapping into the ECS cluster.
 * ECR Repository to host our containers.

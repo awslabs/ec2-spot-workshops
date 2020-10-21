@@ -1,5 +1,5 @@
 ---
-title: "Create an EC2 launch template"
+title: "ECS Config with E   C2 launch template"
 weight: 8
 ---
 

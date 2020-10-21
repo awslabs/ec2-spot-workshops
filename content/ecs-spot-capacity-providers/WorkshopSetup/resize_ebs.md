@@ -1,5 +1,5 @@
 ---
-title: "Resize Root Volume"
+title: "Resize Cloud9 Instnce Root Volume"
 chapter: false
 weight: 7
 ---
@@ -11,19 +11,19 @@ Thus, let us resize the EBS volume used by the Cloud9 instance.
 
 To change the EBS volume, please do
 
-   1. Select the Cloud9 instance in the EC2 console [deep link to get there](https://console.aws.amazon.com/ec2/v2/home)
+   1. Select the Cloud9 instance in the EC2 console [deep link to get there](https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:search=aws-cloud9-EcsSpotWorkshop)
    2. Click the root-device link
    3. click on the EBS-ID in the box appearing
 
-![resize_ebs_0](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_0.png)
+![resize_ebs_0](/images/ecs-spot-capacity-providers/cloud9_instance.png)
 
 Afterward modify the EBS volume.
 
-![resize_ebs_1](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_1.png)
+![resize_ebs_1](/images/ecs-spot-capacity-providers/resize_ebs_1.png)
 
 And chose a new volume size (e.g. 100GB).
 
-![resize_ebs_2](/images/nextflow-on-aws-batch/prerequisites/resize_ebs_2.png)
+![resize_ebs_2](/images/ecs-spot-capacity-providers/resize_ebs_2.png)
 
 {{% notice info %}}
 Please make sure that the changes went through and the EBS volume now reflects the new size of the volume.

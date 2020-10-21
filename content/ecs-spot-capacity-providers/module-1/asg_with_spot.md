@@ -1,5 +1,5 @@
 ---
-title: "Create an Auto Scaling Group (ASG) with EC2 Spot Instances"
+title: "Create EC2 Spot Auto Scaling Group"
 weight: 15
 ---
 

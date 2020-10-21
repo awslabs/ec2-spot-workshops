@@ -1,5 +1,5 @@
 +++
-title = "Application Scaling: Application First Approach"
+title = "Cluster Scaling: Application First Approach"
 weight = 55
 +++
 

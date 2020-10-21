@@ -1,5 +1,5 @@
 ---
-title: "Explore the service"
+title: "Test application and check Task distribution in the Cluster"
 weight: 65
 ---
 

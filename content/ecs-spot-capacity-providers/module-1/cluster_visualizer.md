@@ -1,5 +1,5 @@
 ---
-title: "Explore the ECS service with C3Vis"
+title: "Capacity Provider Instance Termination Protection in Action"
 weight: 70
 ---
 

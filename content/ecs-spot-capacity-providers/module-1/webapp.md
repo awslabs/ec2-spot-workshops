@@ -1,5 +1,5 @@
 ---
-title: "Building the webapp container"
+title: "Build webapp container and Register Task Definition"
 weight: 45
 ---
 In this section, we will build a simple pythin flask based web application and deploy in our ECS Cluster.

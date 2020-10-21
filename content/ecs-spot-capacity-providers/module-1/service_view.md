@@ -1,5 +1,5 @@
 ---
-title: "Managed Scaling in action"
+title: "ECS Managed Scaling(CAS) in action"
 weight: 60
 ---
 

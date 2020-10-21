@@ -1,5 +1,5 @@
 ---
-title: "Module-2 (Optional): Saving costs using ECS Fargate Spot Capacity Providers"
+title: "Module-2 (Optional): Optimizing costs using ECS Fargate Spot Capacity Providers"
 weight: 40
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Create an Auto Scaling group with EC2 On-Demand Instances"
+title: "Create On_demand Auto Scaling group"
 weight: 10
 ---
 

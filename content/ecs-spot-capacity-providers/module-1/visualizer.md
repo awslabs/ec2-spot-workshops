@@ -1,5 +1,5 @@
 ---
-title: "Deploying c3vis (Cloud Container Cluster Visualizer)  Tool"
+title: "Setup c3vis (Cloud Container Cluster Visualizer)  Tool"
 weight: 35
 ---
 

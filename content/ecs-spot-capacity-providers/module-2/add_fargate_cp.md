@@ -1,5 +1,5 @@
 ---
-title: "Add Fargate Capacity Providers to the ECS Cluster"
+title: "Add Fargate Capacity Providers to ECS Cluster"
 weight: 5
 ---
 

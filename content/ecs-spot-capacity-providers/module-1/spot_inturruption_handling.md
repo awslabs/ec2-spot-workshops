@@ -1,5 +1,5 @@
 ---
-title: "Interruption Handling On EC2 Spot Instances"
+title: "EC2 Spot Interruption Handling in ECS"
 weight: 80
 ---
 

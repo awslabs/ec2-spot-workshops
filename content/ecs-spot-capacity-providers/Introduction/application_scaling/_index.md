@@ -1,13 +1,11 @@
 +++
-title = "Application Scaling: Infrastructure First Approach"
+title = "Scaling ECS Workloads"
 weight = 20
 +++
 
 
-The Infrastructure first approach means estimating how much compute capacity your application might need and provision server components (EC2 Instances) based on it. In other words, your Infrastructure will start first before you application starts which is a notion we call - Infrastructure First. 
+There are two kinds of scaling in ECS Workloads
 
-In the existing architecture with EC2 Auto Scaling groups used for your ECS Cluster, you provision the infrastructure first, which will create EC2 instances and then run (schedule) the ECS tasks on this capacity using the EC2 Launch Type. In this case, running any task/service fails if there are no instances in the Auto Scaling group. However, there are few challenges with this approach.
+* **ECS Service / Application Scaling**: This refers to the ability to increase or decrease the desired count of tasks in your Amazon ECS service based on dynamic traffic and load patterns in the workload.  Amazon ECS publishes CloudWatch metrics with your service’s average CPU and memory usage.You can use these and other CloudWatch metrics to scale out your service (add more tasks) to deal with high demand at peak times, and to scale in your service (run fewer tasks) to reduce costs during periods of low utilization. 
 
-1. ECS Cluster Scaling: The EC2 Auto Scaling Group scaling policies typically use metrics related to EC2 Instance vCPU/Memory Utilization. However, these metrics may not correlate well with the vCPU/Memory resource requirements of the ECS Tasks scaled OUT/IN due to ECS Service (Application) Scaling. So there may be a disconnect between ECS Service Scaling and EC2 Instance Scaling. This is because the EC2 Autoscaling groups are not aware of ECS Tasks in the Cluster and vice versa.  Also, the Autoscaling scale OUT/IN polices are based on resource utilization of the already existing EC2 instances in the ECS Cluster, but do not account for the new EC2 tasks resulting from ECS Service Scaling OUT. This may slow down the ECS Cluster Scaling and impact the Application availability. 
-
-2. Instance Termination: During the scaling IN activity, EC2 Autoscaling group may choose (In accordance with the instance termination policy)an Instance which is running tasks since it is not aware of the EC2 tasks in the ECS Cluster.  This may cause disruption to the applications.
+* **ECS Container Instances Scaling**: This refers to the ability to increase or decrease the desired count of EC2 instances in your Amazon ECS luster based on ECS Service / Application scaling. For this kind of scaling, it is typical practice depending upon Autoscaling group level scaling policies. However, ensuring that the number of EC2 instances in your ECS cluster would scale as needed to accommodate your tasks and services could be challenging.  ECS clusters could not always scale out when needed, and scaling in could impact availability unless handled carefully.  The next few sections discuss these challenges in detail and offer solutions to address them.

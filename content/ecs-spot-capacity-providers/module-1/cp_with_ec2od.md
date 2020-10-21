@@ -1,5 +1,5 @@
 ---
-title: "Create a Capacity Provider using ASG with EC2 On-demand instances"
+title: "Create On-demand ASG Capacity Provider"
 weight: 11
 ---
 
