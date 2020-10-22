@@ -1,5 +1,5 @@
 ---
-title: "Module-2 (Optional): Saving costs using AWS Fargate Spot Capacity Providers"
+title: "Saving costs using AWS Fargate Spot Capacity Providers (Optional)"
 weight: 40
 ---
 

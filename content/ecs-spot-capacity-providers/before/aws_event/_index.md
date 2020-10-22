@@ -1,6 +1,6 @@
 +++
 title = "...At an AWS event"
-weight = 5
+weight = 1
 +++
 
 {{% notice warning %}}
@@ -19,7 +19,8 @@ If you are at an AWS event, an AWS acccount was created for you to use throughou
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
-You can now start the workshop by heading to [**Modules**](/ecs-spot-capacity-providers/modules.html)
+You can now proceed to the the workshop steps [**Setup the workshop environment on AWS**](/ecs-spot-capacity-providers/workshopsetup.html)
+
 
 Optional:
-If you want to read through basic concepts on Amazon ECS before doing hands-on Modules, you may go to [**Introduction**](/ecs-spot-capacity-providers/introduction.html)
+If you want to read through basic concepts on Amazon ECS before doing workshop steps, you may go to [**Introduction**](/ecs-spot-capacity-providers/introduction.html)
