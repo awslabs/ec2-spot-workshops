@@ -9,6 +9,4 @@ To start the workshop, follow one of the following pages, depending on whether y
 
 {{% children  %}}
 
-Once you are done with either setup, continue with [**Modules**](/ecs-spot-capacity-providers/modules.html)
-
 

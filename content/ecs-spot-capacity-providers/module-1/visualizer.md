@@ -4,11 +4,11 @@ weight: 35
 ---
 
 
-The [C3vis] (https://github.com/ExpediaDotCom/c3vis) is a useful to show the visual representation of the tasks placements across instances in an ECS Cluster.
+The [C3vis](https://github.com/ExpediaDotCom/c3vis) opensource tool is useful to show the visual representation of the tasks placements across instances in an ECS Cluster.
 
-Run the following commands on a new terminal in the Cloud 9 environment.
+Run the following commands on a new terminal in the Cloud9 environment.
 
-```
+```bash
 git clone https://github.com/ExpediaDotCom/c3vis.git
 cd c3vis 
 docker build -t c3vis .
@@ -28,6 +28,6 @@ Open the application in a new window as follows
 
 ![c3vis](/images/ecs-spot-capacity-providers/c3vis3.png)
 
-The initial screen looks  below since there are no tasks or instances running in the cluster.
+The initial screen will look like the below, since there are no tasks or instances running in the cluster for now.
 
 ![c3vis](/images/ecs-spot-capacity-providers/c3vis2.png)
