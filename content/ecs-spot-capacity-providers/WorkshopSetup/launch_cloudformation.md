@@ -8,7 +8,7 @@ Launch the CloudFormation stack
 
 To save time on the initial setup, a CloudFormation template will be used to create the required resources needed for the workshop.
 
-1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn-for-aws-console.yaml).
+1. You can view and download the CloudFormation template from GitHub [here, Change location before making it live] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
 2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 3. Browse to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation). Make sure you are in AWS region designated by the facilitators of the workshop
 4. Click **Create stack**.

@@ -23,7 +23,7 @@ export OD_PERCENTAGE=100 # Note that ASG will have 100% On-Demand, 0% Spot
 Run the following command to substitute the template with actual values from the global variables
 
 ```bash
-sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" -e "s#%LT_ID%#$LaunchTemplateId#g"  asg.json
+sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g"  asg.json
 ```
 
 Create the ASG for the On-Demand Instances
