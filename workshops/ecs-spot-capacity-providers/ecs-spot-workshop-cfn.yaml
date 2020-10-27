@@ -29,6 +29,14 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id
 
+  EETeamRoleArn:
+    Type: String
+    Default: ''
+
+Conditions:
+  EventEngine:
+    !Not [!Equals [!Ref EETeamRoleArn, '']]
+
 Resources:
 
   vpc:
@@ -39,7 +47,7 @@ Resources:
       EnableDnsSupport: true
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}"
+          Value: "EcsSpotWorkshop"
 
   internetGateway:
     Type: AWS::EC2::InternetGateway
@@ -69,7 +77,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-publicSubnet1"
+          Value: "EcsSpotWorkshop publicSubnet1"
       VpcId: !Ref vpc
 
   publicSubnet2:
@@ -85,7 +93,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-publicSubnet2"
+          Value: "EcsSpotWorkshop publicSubnet2"
       VpcId: !Ref vpc
 
   publicSubnet3:
@@ -101,7 +109,7 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-publicSubnet3"
+          Value: "EcsSpotWorkshop publicSubnet3"
       VpcId: !Ref vpc
 
 
@@ -116,7 +124,7 @@ Resources:
       CidrBlock: 10.0.3.0/24
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-privateSubnet1"
+          Value: "EcsSpotWorkshop privateSubnet1"
       VpcId: !Ref vpc
 
 
@@ -131,7 +139,7 @@ Resources:
       CidrBlock: 10.0.4.0/24
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-privateSubnet2"
+          Value: "EcsSpotWorkshop privateSubnet2"
       VpcId: !Ref vpc
 
   privateSubnet3:
@@ -145,7 +153,7 @@ Resources:
       CidrBlock: 10.0.5.0/24
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-privateSubnet3"
+          Value: "EcsSpotWorkshop privateSubnet3"
       VpcId: !Ref vpc
 
 
@@ -157,7 +165,7 @@ Resources:
     Properties:
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName} Public Route Table"
+          Value: "EcsSpotWorkshop Public Route Table"
       VpcId: !Ref vpc
 
   RouteTablePrivate:
@@ -167,7 +175,7 @@ Resources:
       VpcId: !Ref vpc
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName} Private Route Table"
+          Value: "EcsSpotWorkshop Private Route Table"
 
   publicSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
@@ -309,7 +317,7 @@ Resources:
       - publicSubnet2
       - publicSubnet3
     Properties:
-      Name: !Sub "${AWS::StackName}"
+      Name: "EcsSpotWorkshop"
       Scheme: internet-facing
       SecurityGroups:
         - !Ref loadBalancerSecurityGroup
@@ -331,7 +339,7 @@ Resources:
       HealthyThresholdCount: 2
       Matcher:
         HttpCode: 200
-      Name: !Sub "${AWS::StackName}"
+      Name: "EcsSpotWorkshop"
       Port: 80
       Protocol: HTTP
       UnhealthyThresholdCount: 4
@@ -353,7 +361,7 @@ Resources:
   instanceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub "${AWS::StackName}-EcsInstanceRole"
+      RoleName: "EcsSpotWorkshop-EcsInstanceRole"
       AssumeRolePolicyDocument:
         Statement:
           - Action:
@@ -371,7 +379,7 @@ Resources:
   Cloud9instanceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !Sub "${AWS::StackName}-Cloud9InstanceRole"
+      RoleName: "EcsSpotWorkshop-Cloud9InstanceRole"
       AssumeRolePolicyDocument:
         Statement:
           - Action:
@@ -390,6 +398,8 @@ Resources:
     Properties:
       Name : EcsSpotWorkshop
       Description: ECS Spot Workshop - Cloud9 environment
+      OwnerArn:
+        !If [EventEngine, !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey", !Ref "AWS::NoValue"]
       InstanceType: t3.large
       SubnetId:
         Ref: publicSubnet1
@@ -400,7 +410,7 @@ Resources:
     DependsOn:
       - Cloud9instanceRole
     Properties:
-      InstanceProfileName: !Sub "${AWS::StackName}-Cloud9InstanceProfile"
+      InstanceProfileName: "EcsSpotWorkshop-Cloud9InstanceProfile"
       Path: /
       Roles:
         - Ref: Cloud9instanceRole
@@ -410,7 +420,7 @@ Resources:
     DependsOn:
       - instanceRole
     Properties:
-      InstanceProfileName: !Sub "${AWS::StackName}-InstanceProfile"
+      InstanceProfileName: "EcsSpotWorkshop-InstanceProfile"
       Path: /
       Roles:
         - Ref: instanceRole
@@ -437,7 +447,7 @@ Resources:
           - ResourceType: instance
             Tags:
               - Key: Name
-                Value: !Sub "${AWS::StackName}"
+                Value: "EcsSpotWorkshop"
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
@@ -445,7 +455,7 @@ Resources:
             echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
             echo "ECS_CONTAINER_STOP_TIMEOUT=120s" >> /etc/ecs/ecs.config
             echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
-      LaunchTemplateName: !Sub "${AWS::StackName}"
+      LaunchTemplateName: "EcsSpotWorkshop"
 
   ecrRepository:
     Type: AWS::ECR::Repository
@@ -456,8 +466,6 @@ Outputs:
   awsRegionId:
     Description: The AWS Region ID your template was launched in
     Value: !Ref AWS::Region
-    Export:
-      Name: !Sub "${AWS::StackName}-awsRegionId"
 
   instanceRole:
     Description: Instance Role
@@ -465,8 +473,6 @@ Outputs:
       Fn::GetAtt:
         - instanceRole
         - Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-instanceRole"
 
   instanceProfile:
     Description: Instance profile ARN
@@ -474,8 +480,6 @@ Outputs:
       Fn::GetAtt:
         - instanceProfile
         - Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-instanceProfile"
 
   Cloud9instanceProfile:
     Description: Cloud9 Instance profile ARN
@@ -483,15 +487,10 @@ Outputs:
       Fn::GetAtt:
         - Cloud9instanceProfile
         - Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-Cloud9instanceProfile"
-
 
   instanceSecurityGroup:
     Description: Instance security group
     Value: !Ref instanceSecurityGroup
-    Export:
-      Name: !Sub "${AWS::StackName}-instanceSecurityGroup"
 
   loadBalancerSecurityGroup:
     Description: Load Balancer security group
@@ -560,6 +559,10 @@ Outputs:
   autoScalingServiceLinkedRole:
     Description: The AWS Region ID your template was launched in
     Value: !Ref autoScalingServiceLinkedRole
+
+  EETeamRoleArn:
+    Description: EETeamRoleArn
+    Value: !Ref EETeamRoleArn
 
   cloud9Environment:
     Description: Cloud9 environment

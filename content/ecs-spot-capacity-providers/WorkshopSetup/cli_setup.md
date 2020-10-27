@@ -38,10 +38,6 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 
 In the Cloud9 IDE terminal, run the following command:
 
-(Remove before prod)
-```
-git clone https://github.com/jalawala/ec2-spot-workshops.git 
-```
 ```
 git clone https://github.com/awslabs/ec2-spot-workshops.git
 ```

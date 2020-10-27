@@ -3,10 +3,13 @@
   "MixedInstancesPolicy": {
     "LaunchTemplate": {
       "LaunchTemplateSpecification": {
-        "LaunchTemplateId": "%LT_ID%",
+        "LaunchTemplateName": "EcsSpotWorkshop",
         "Version": "1"
       },
       "Overrides": [
+        {
+          "InstanceType": "m4.large"
+        },
         {
           "InstanceType": "m5.large"
         },
@@ -20,22 +23,13 @@
           "InstanceType": "m5d.large"
         },
         {
-          "InstanceType": "m5dn.large"
-        },
-        {
-          "InstanceType": "m5n.large"
+          "InstanceType": "t2.large"
         },
         {
           "InstanceType": "t3.large"
         },
         {
           "InstanceType": "t3a.large"
-        },
-        {
-          "InstanceType": "m4.large"
-        },
-        {
-          "InstanceType": "t2.large"
         }
       ]
     },
