@@ -1,0 +1,22 @@
+{
+    "family": "ec2-task",
+    "containerDefinitions": [
+        {
+            "name": "ec2-task-container",
+            "image": "DOCKER_IMAGE_URI", 
+            "cpu": 448,
+            "memory": 896,
+            "memoryReservation": 896,            
+            "portMappings": [
+                {
+                    "containerPort": 80, 
+                    "protocol": "tcp"
+                }
+            ], 
+            "essential": true
+        }
+    ], 
+    "requiresCompatibilities": [
+        "EC2"
+    ]
+}

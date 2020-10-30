@@ -21,6 +21,6 @@ You are now logged in to the AWS console in an account that was created for you,
 
 You can now proceed to the the workshop steps [**Setup the workshop environment on AWS**](/ecs-spot-capacity-providers/workshopsetup.html)
 
-
 Optional:
 If you want to read through basic concepts on Amazon ECS before doing workshop steps, you may go to [**Introduction**](/ecs-spot-capacity-providers/introduction.html)
+

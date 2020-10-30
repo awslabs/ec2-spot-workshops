@@ -29,6 +29,14 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id
 
+  EETeamRoleArn:
+    Type: String
+    Default: ''
+
+Conditions:
+  EventEngine:
+    !Not [!Equals [!Ref EETeamRoleArn, '']]
+
 Resources:
 
   vpc:
@@ -200,7 +208,7 @@ Resources:
       SubnetId: !Ref publicSubnet3
 
 
-  privateSubnet1RouteTableAssociation: # Associate the route table with the first of the three subnets in the VPC...
+  privateSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     DependsOn:
       - RouteTablePrivate
@@ -214,7 +222,6 @@ Resources:
     DependsOn:
       - RouteTablePrivate
       - privateSubnet2
-    # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref privateSubnet2
@@ -224,7 +231,6 @@ Resources:
     DependsOn:
       - RouteTablePrivate
       - privateSubnet3
-    # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref privateSubnet3
@@ -235,7 +241,6 @@ Resources:
     DependsOn:
       - attachGateway
       - vpc
-    # DependedOn: NATGateway
     Properties:
       Domain: vpc
 
@@ -243,7 +248,6 @@ Resources:
     Type: AWS::EC2::NatGateway
     DependsOn:
       - publicSubnet1
-    # DependedOn:
     Properties:
       AllocationId: !GetAtt EIPNATGateway.AllocationId
       SubnetId: !Ref publicSubnet1
@@ -264,7 +268,6 @@ Resources:
     DependsOn:
       - RouteTablePrivate
       - NATGateway
-    # DependedOn: None
     Properties:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref NATGateway
@@ -330,7 +333,7 @@ Resources:
     Properties:
       HealthCheckIntervalSeconds: 50
       HealthCheckPath: /
-      HealthCheckPort: 80
+      HealthCheckPort: traffic-port
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 45
       HealthyThresholdCount: 2
@@ -389,6 +392,19 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AdministratorAccess
 
+  cloud9Environment:
+    DependsOn:
+      - publicSubnet1
+    Properties:
+      Name : EcsSpotWorkshop
+      Description: ECS Spot Workshop - Cloud9 environment
+      OwnerArn:
+        !If [EventEngine, !Sub "arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey", !Ref "AWS::NoValue"]
+      InstanceType: t3.large
+      SubnetId:
+        Ref: publicSubnet1
+    Type: AWS::Cloud9::EnvironmentEC2
+
   Cloud9instanceProfile:
     Type: AWS::IAM::InstanceProfile
     DependsOn:
@@ -437,7 +453,7 @@ Resources:
             #!/bin/bash
             echo "ECS_CLUSTER=EcsSpotWorkshop" >> /etc/ecs/ecs.config
             echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
-            echo "ECS_CONTAINER_STOP_TIMEOUT=30s" >> /etc/ecs/ecs.config
+            echo "ECS_CONTAINER_STOP_TIMEOUT=120s" >> /etc/ecs/ecs.config
             echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
       LaunchTemplateName: "EcsSpotWorkshop"
 
@@ -450,11 +466,6 @@ Outputs:
   awsRegionId:
     Description: The AWS Region ID your template was launched in
     Value: !Ref AWS::Region
-    Export:
-      Name: !Sub "${AWS::StackName}-awsRegionId"
-
-
-
 
   instanceRole:
     Description: Instance Role
@@ -462,8 +473,6 @@ Outputs:
       Fn::GetAtt:
         - instanceRole
         - Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-instanceRole"
 
   instanceProfile:
     Description: Instance profile ARN
@@ -471,8 +480,6 @@ Outputs:
       Fn::GetAtt:
         - instanceProfile
         - Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-instanceProfile"
 
   Cloud9instanceProfile:
     Description: Cloud9 Instance profile ARN
@@ -480,15 +487,10 @@ Outputs:
       Fn::GetAtt:
         - Cloud9instanceProfile
         - Arn
-    Export:
-      Name: !Sub "${AWS::StackName}-Cloud9instanceProfile"
-
 
   instanceSecurityGroup:
     Description: Instance security group
     Value: !Ref instanceSecurityGroup
-    Export:
-      Name: !Sub "${AWS::StackName}-instanceSecurityGroup"
 
   loadBalancerSecurityGroup:
     Description: Load Balancer security group
@@ -558,4 +560,14 @@ Outputs:
     Description: The AWS Region ID your template was launched in
     Value: !Ref autoScalingServiceLinkedRole
 
+  EETeamRoleArn:
+    Description: EETeamRoleArn
+    Value: !Ref EETeamRoleArn
+
+  cloud9Environment:
+    Description: Cloud9 environment
+    Value:
+      Fn::GetAtt:
+        - cloud9Environment
+        - Name
 ...
