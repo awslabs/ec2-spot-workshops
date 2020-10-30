@@ -89,6 +89,22 @@ The output of the above command should display a table like this below.
 
 As you see 3 tasks were placed on FARGATE and 1 is placed on FARGATE_SPOT Capacity Providers as per the Capacity Providers Strategy.
 
+Spot Interruption Handling on ECS Fargate Spot
+---
+
+When tasks using Fargate Spot capacity are stopped due to a Spot interruption, a two-minute warning is sent before a task is stopped. The warning is sent as a task state change event to Amazon EventBridge
+and a SIGTERM signal to the running task. When using Fargate Spot as part of a service, the service
+scheduler will receive the interruption signal and attempt to launch additional tasks on Fargate Spot if
+capacity is available.
+
+To ensure that your containers exit gracefully before the task stops, the following can be configured:
+
+• A stopTimeout value of 120 seconds or less can be specified in the container definition that the task
+is using. Specifying a stopTimeout value gives you time between the moment the task state change event is received and the point at which the container is forcefully stopped. 
+
+• The **SIGTERM** signal must be received from within the container to perform any cleanup actions.
+
+
 ***Optional Exercise:***
 Try changing the Capacity Provider Strategy by assigning different weightrs to FARGATE and FARGATE_SPOT Capacity Providers and update the service.
 

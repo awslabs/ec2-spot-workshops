@@ -36,6 +36,11 @@ The output of the above command looks like the below:
 ```plaintext
 EcsSpotWorkshop-ASG-OD ARN=arn:aws:autoscaling:us-east-1:000474600478:autoScalingGroup:1e9de503-068e-4d78-8272-82536fc92d14:autoScalingGroupName/EcsSpotWorkshop-ASG-OD 
 ```
-The above auto scaling group looks like below in the console
+The Ondemand auto scaling group looks like below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-OD?view=details)
+Notice that there is no capacity provisioned i.e. desired capacity is zero. We expect the capacity to be scaled up when we deploy applications later.
 
-![On-demand ASG](/images/ecs-spot-capacity-providers/21.png)
+![On-demand ASG](/images/ecs-spot-capacity-providers/asg_od_initial_view_1.png)
+
+Also notice that there are no scaling policies attached to this auto scaling group
+
+![On-demand ASG](/images/ecs-spot-capacity-providers/asg_od_initial_view_2.png)

@@ -23,6 +23,7 @@ Refresh the *Capacity Providers* tab and you will see the CP-OD is created and a
 
 ![Capacity Provider on OD ASG](/images/ecs-spot-capacity-providers/CP-OD.png)
 
-Now you will see that the capacity provider creates a target tracking policy on the EcsSpotWorkshop-ASG-OD. Go to the AWS EC2 Console and select this scaling policies tab on this ASG.
+Now you will see that the capacity provider creates a target tracking policy on the EcsSpotWorkshop-ASG-OD. 
+Go to the [AWS EC2 Console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-OD?view=scaling) and select the Automatic Scaling tab on this ASG.
 
-![OD ASG](/images/ecs-spot-capacity-providers/ASG1.png)
+![OD ASG](/images/ecs-spot-capacity-providers/asg_od_with_cp_view_1.png)
