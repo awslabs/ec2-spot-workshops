@@ -11,6 +11,7 @@ We have configured the instance diversification in asg.json. We chose instance t
 Copy the file **templates/asg.json** for the Auto Scaling group configuration.
 
 ```bash
+cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
 cp templates/asg.json .
 ```
 
@@ -43,6 +44,11 @@ The output of the above command looks like the below:
 EcsSpotWorkshop-ASG-SPOT ARN=arn:aws:autoscaling:us-east-1:000474600478:autoScalingGroup:dd7a67e0-4df0-4cda-98d7-7e13c36dec5b:autoScalingGroupName/EcsSpotWorkshop-ASG-SPOT
 ```
 
-Your Auto Scaling group should look like this in the AWS Management Console:
+The EC2 Spot auto scaling group looks like below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-SPOT?view=details)
+Notice that there is no capacity provisioned i.e. desired capacity is zero. We expect the capacity to be scaled up when we deploy applications later.
 
-![Spot ASG](/images/ecs-spot-capacity-providers/22.png)
+![EC2 Spot ASG](/images/ecs-spot-capacity-providers/asg_spot_initial_view_1.png)
+
+Also notice that there are no scaling policies attached to this auto scaling group
+
+![EC2 Spot ASG](/images/ecs-spot-capacity-providers/asg_spot_initial_view_2.png)

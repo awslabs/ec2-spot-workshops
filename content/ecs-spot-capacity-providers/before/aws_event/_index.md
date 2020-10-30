@@ -19,7 +19,4 @@ If you are at an AWS event, an AWS acccount was created for you to use throughou
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
-Once you are done with either setup, continue to the [**Setup with CloudFormation**](/running-amazon-ec2-workloads-at-scale/WorkshopSetup/launch_cloudformation.html). If you need an introduction to containers, Amazon ECS and AWS Fargate, continue to the [**Introduction section.**](/ecs-spot-capacity-providers/introduction.html)
-
-Optional:
-If you want to read through basic concepts on Amazon ECS before doing hands-on Modules, you may go to [**Introduction**](/ecs-spot-capacity-providers/introduction.html)
+Once you are done with either setup, continue to the [**Setup with CloudFormation**](/ecs-spot-capacity-providers/WorkshopSetup/launch_cloudformation.html). If you need an introduction to containers, Amazon ECS and AWS Fargate, continue to the [**Introduction.**](/ecs-spot-capacity-providers/introduction.html)

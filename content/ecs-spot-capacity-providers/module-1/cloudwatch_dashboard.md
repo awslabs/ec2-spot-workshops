@@ -7,6 +7,7 @@ Go back to your initial terminal and run the below command to create the cloudwa
 
 ```
 cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
+sed -i -e "s#%AWS_REGION%#$AWS_REGION#g" cwt-dashboard.json
 aws cloudwatch put-dashboard --dashboard-name EcsSpotWorkshop --dashboard-body file://cwt-dashboard.json
 ```
 The output of the command looks like below

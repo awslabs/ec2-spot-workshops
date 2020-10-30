@@ -7,22 +7,24 @@ weight: 7
 Your Challenge
 ---
 
-Your company hosts an external facing Apache web servers serving millions of users across the globe, based on microservice architecture and running inside docker containers on an Amazon ECS Cluster. The underlying compute for the ECS Cluster is completely based on EC2 On-demand Instances. The current auto scale in/out of the EC2 instances is based on the vCPU reservation metrics. However, it is observed that the ECS Cluster does not scale fast enough to handle the sudden surge of web traffic during peak hours. And also, during the scale in, sometimes EC2 instances that are actively running ECS tasks are getting terminated, causing disruption to the web service. 
+Your company hosts an external facing Apache web servers serving millions of users across the globe, based on microservice architecture and running inside docker containers on an Amazon ECS Cluster. The underlying compute for the ECS Cluster completely based on EC2 On-demand Instances. Your company forecasting huge traffic in next couple of months and would like to leverage Amazon EC2 Spot instances for cost optimization. 
 
-Along with faster service response time, the company is also looking to optimize costs. AAs a long term strategy, your company does not want invest resources in undifferentiated heavy lifting such as managing the underlying computing infrastructure. The company also wants to evaluate running some of the containerized workloads on a serverless container platform, to further focus on the application and not the infrastructure.
+Also the current auto scale in/out of the EC2 instances based on the vCPU reservation metrics. However, it is observed that the ECS Cluster does not scale fast enough to handle the sudden surge of web traffic during peak hours. During the scale in, sometimes EC2 instances that are actively running ECS tasks are getting terminated, causing disruption to the web service. 
 
-You were introduced to Amazon EC2 Spot Instances and a few ECS features that can improve auto scaling configuration and efficiency. You were asked by your manager to re-architect the existing the solution with EC2 Spot and explore both EC2 Spot Instances and serverless options such as Fargate and Fargate Spot. Apart from cost optimization, you are also expected to improve the cluster scaling and increase the resilience of the application.
+Also, as a long term strategy, your company does not want invest resources in undifferentiated heavy lifting of managing the underlying computing infrastructure and instead would like to evaluate running some containerized workloads on a serverless container platform, to further focus on the application and not the infrastructure.
 
-What are the various options you have to incorporate Spot Instances in your architecture? 
-How do you decide which one is the right solution for the workload? How do you plan to improve the cluster scaling?
+You were introduced to Amazon EC2 Spot Instances and also few ECS features that can improve cluster scaling and increase the resilience of the applications. You were asked by your manager to build a PoC to test all these features. 
 
-Here is the overall architecture of what you will be building throughout this workshop. By the end of the workshop, you will achieve the following 
+What options do you have to incorporate Spot Instances in your architecture? 
+How do you plan to improve the cluster scaling and resilience of the applications?
+ 
+Well, that is exactly what you will be building in this workshop.
+Here is the overall architecture. By the end of the workshop, you will achieve the following.
 
-1. Explore the serverless computing options such as Fargate and Fargate Spot for the compute platform.
-2. Explore EC2 Spot Instances along with existing EC2 on-demand instances for the compute platform.
-3. Leverage ECS new features to improve the ECS Cluster scaling
-4. Prevent the termination of instances that are running tasks to minimize the service disruption.
+1. Explore the serverless computing options such as Fargate and Fargate Spot
+2. Explore both EC2 Spot and on-demand instances for compute platform.
+3. Leverage ECS new features such capacity providers and cluster autoscaling to improve the scaling and resilience of the applications
 
 
-#### Here is a diagram of the resulting architecture:
-![Overall Architecture](/images/ecs-spot-capacity-providers/architecture.gif)
+#### Amazon ECS Application Architecture:
+![Overall Architecture](/images/ecs-spot-capacity-providers/amazon_ecs_arch.png)

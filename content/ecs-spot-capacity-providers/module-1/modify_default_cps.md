@@ -5,14 +5,14 @@ weight: 25
 
 To modify the CP, follow these steps:
 
-* Click on the *Capacity Providers* tab
-* Click on the *Update Cluster* option on the top right
-* For Capacity Provider name, enter *CP-SPOT*
-* Click on *Add another provider*
-* Click on *Add another provider* one more time
-* For Provider 1, select *CP-OD*, set base value to *2* and leave weight to default value of *1*
-* For Provider 2, select *CP-SPOT*, leave base to default value of *0* and set weight to *3*
-* Click on *Update* on bottom right
+* Click on the **Capacity Providers** tab
+* Click on the **Update Cluster** option on the top right
+* For Capacity Provider name, enter **CP-SPOT**
+* Click on **Add another provider**
+* Click on **Add another provider** one more time
+* For Provider 1, select **CP-OD**, set base value to **2** and weight to **1**
+* For Provider 2, select **CP-SPOT**, leave base to default value of **0** and set weight to **3**
+* Click on **Update** on bottom right
 
 
 ![Capacity Provider Strategy](/images/ecs-spot-capacity-providers/CPS.png)

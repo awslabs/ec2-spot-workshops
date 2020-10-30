@@ -9,7 +9,7 @@ If you are running the workshop on your own, the Cloud9 workspace should be buil
 We will open the Cloud9 environment first to execute all the commands needed for this workshop.
 
 1. Login into AWS console with your account credentials and choose the region where you deployed the CloudFormation template.
-1. Select **Services** and type Cloud9
+1. Select **Services** and type **Cloud9**
 1. Click on  **Your environments**
 1. Select the Cloud9 environment with the name **EcsSpotWorkshop**
 1. Click on **Open IDE**
