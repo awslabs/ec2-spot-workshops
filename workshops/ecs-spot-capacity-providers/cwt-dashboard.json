@@ -11,10 +11,10 @@
             ],
             "view": "timeSeries",
             "stacked": false,
-            "region": "us-east-1",
+            "region": "%AWS_REGION%",
             "stat": "Maximum",
             "period": 30,
-            "title": "EcsSpotWorkshop2"
+            "title": "EcsSpotWorkshop"
             }
         } ]
     }

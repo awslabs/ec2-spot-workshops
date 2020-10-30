@@ -8,6 +8,7 @@ In this section, we will create an EC2 Auto Scaling group (ASG) for On-Demand In
 Copy the file  **templates/asg.json** for the Auto Scaling group configuration.
 
 ```bash
+cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
 cp templates/asg.json .
 ```
 

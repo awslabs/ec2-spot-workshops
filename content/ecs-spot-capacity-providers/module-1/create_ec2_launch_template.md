@@ -13,7 +13,7 @@ weight: 8
 
 Also review the user data section of the Launch Template to see ECS Container agent configuration.
 
-![User Data](/images/ecs-spot-capacity-providers/c9_7.png)
+![User Data](/images/ecs-spot-capacity-providers/ecs_launch_template.png)
 
 - *ECS_CONTAINER_STOP_TIMEOUT*: Time to wait from when a task is stopped before its containers are forcefully stopped if they do not exit normally on their own
 

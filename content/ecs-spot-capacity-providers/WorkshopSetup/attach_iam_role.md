@@ -5,17 +5,18 @@ weight: 10
 
 In order to work with ECS from our new Cloud9 IDE environment, we will need the appropriate permissions.
 
-* Find your Cloud9 EC2 instance [here] (https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#Instances:search=aws-cloud9-EcsSpotWorkshop)
+* Find your Cloud9 EC2 instance [here] (https://console.aws.amazon.com/ec2/v2/home?#Instances:search=aws-cloud9-EcsSpotWorkshop)
 
 * Select the instance, then choose Actions -> Instance Settings -> Attach/Replace IAM Role
 * Choose **EcsSpotWorkshop-Cloud9InstanceProfile** from the *IAM Role* drop down, and select *Apply*
 
-![Attach IAM Role](/images/ecs-spot-capacity-providers/c9_1.png)
+![Attach IAM Role](/images/ecs-spot-capacity-providers/attach_iam_role.png)
+
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/c9_2.png)
 
-* Click on the *Settings* icon on the top right
-* Select *AWS SETTINGS* 
-* Turn off *AWS managed temporary credentials* 
+* Click on the **Settings** icon on the top right
+* Select **AWS SETTINGS** 
+* Turn off **AWS managed temporary credentials** 
 * Close the Preferences tab
 
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/c9_3.png)

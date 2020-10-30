@@ -11,6 +11,7 @@ We have configured the instance diversification in asg.json. We chose instance t
 Copy the file **templates/asg.json** for the Auto Scaling group configuration.
 
 ```bash
+cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
 cp templates/asg.json .
 ```
 

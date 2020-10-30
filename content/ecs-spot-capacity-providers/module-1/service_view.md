@@ -19,7 +19,7 @@ The Capacity Provider Reservation metric value is 200. This indicates the new va
 
 Go to the CloudWatch console and click on the [Alarms section](https://console.aws.amazon.com/cloudwatch/home?#alarmsV2:!alarmStateFilter=ALARM).
 
-![Cloud Watch Alarms](/images/ecs-spot-capacity-providers/cp6.png)
+![Cloud Watch Alarms](/images/ecs-spot-capacity-providers/ecs_service_alarms.png)
 
 These alarms will cause the scale out action on both Autoscaling Groups. 
 

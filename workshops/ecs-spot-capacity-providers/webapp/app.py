@@ -25,7 +25,7 @@ class Ec2SpotInterruptionHandler:
   def exit_gracefully(self, signum, frame):
     print("\nReceived {} signal".format(self.signals[signum]))
     if self.signals[signum] == 'SIGTERM':
-      print("Looks like there is a Spot Interruption. Let's wrap up the processing to avoid forceful killing of the applucation in next 30 sec ...")
+      print("SIGTERM Signal Received due to EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
 
     
     

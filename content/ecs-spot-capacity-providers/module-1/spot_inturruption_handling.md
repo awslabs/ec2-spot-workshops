@@ -17,7 +17,7 @@ echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
 ```
 When Amazon ECS Spot Instance draining is enabled on the instance, ECS container agent receives the Spot Instance interruption notice and places the instance in DRAINING status. When a container instance set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance [Click here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html) to learn more.
 
-The web application (app.py) docker container image we built in Module-1 shows two ways to handle the EC2 Spot interruption within a docker container. This allows you to perform actions such as preventing the processing of new work, checkpointing the progress of a batch job, or gracefully exiting the application to complete tasks.
+The web application (**app.py**) docker container image we built in Module-1 shows two ways to handle the EC2 Spot interruption within a docker container. This allows you to perform actions such as preventing the processing of any new jobs, checkpointing the progress of a current job, or gracefully exiting the application to complete tasks.
 
 In the first method, it polls the instance metadata service for spot interruption and display a message to web page notifying the users (this is, of course, just for demonstration and not for real world scenarios).
 
@@ -35,7 +35,7 @@ if SpotInt.status_code == 200:
 
 In the second method, the application listens to the **SIGTERM** signal. The ECS container agent calls the StopTask API to stop all the tasks running on the Spot Instance.
 
-When StopTask is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a **SIGTERM** value and a default 30-second timeout, after which the SIGKILL value is sent and the containers are forcibly stopped. If the container handles the **SIGTERM** value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is sent.
+When StopTask is called on a task, the equivalent of docker stop issued to the containers running in the task. This results in a **SIGTERM** value, and a default 30-second timeout, after which the SIGKILL value is sent, and the containers forcibly stopped.  If the container handles the **SIGTERM** value gracefully and exits within 30 seconds from receiving it, no SIGKILL value sent. Note that we have configured this time timeout value to 120 sec in the EC2 Launch template to allow the applications to take advantage of full 2 min if required, before the EC2 spot instance termination.
 
 ```python
 class Ec2SpotInterruptionHandler:
@@ -51,6 +51,6 @@ def __init__(self):
 def exit_gracefully(self, signum, frame):
    print("\nReceived {} signal".format(self.signals[signum]))
    if self.signals[signum] == 'SIGTERM':
-     print("Looks like there is a Spot Interruption. Let's wrap up the processing to avoid forceful killing of the applucation in next 30 sec ...")
+     print("SIGTERM Signal Received due to EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
 ```
 
