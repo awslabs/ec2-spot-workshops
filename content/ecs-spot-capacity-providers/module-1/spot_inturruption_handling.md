@@ -54,4 +54,5 @@ def exit_gracefully(self, signum, frame):
      print("SIGTERM Signal Received due to EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
 ```
 
+***Congratulations !!!*** you have successfully completed this workshop. You may continue to **optional** section on how to save costs using ***Fargate Spot*** Capacity Providers.
 

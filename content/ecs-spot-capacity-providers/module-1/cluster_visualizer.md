@@ -93,8 +93,6 @@ The cloud watch alarm  cause the target tracking policy to trigger the scale in 
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp40.png)
 
-***Congratulations !!!*** you have successfully completed this module and learnt how capacity providers instance termination protection feature avoids any disruption to your applications.  You can skip rest of the section and go to the next page.
-
 {{% /expand%}}
 
 Now, let us look at the Cloudwatch dashboard for the changes in the CapacityProviderReservation metric values,
