@@ -1,5 +1,5 @@
 +++
-title = "ECS Cluster Autoscaling (CAS)"
+title = "ECS Cluster Auto scaling"
 weight = 60
 +++
 
@@ -7,7 +7,7 @@ ECS Cluster Auto Scaling (CAS) is a new capability for ECS to manage the scaling
 
 When creating a capacity provider, you can optionally enable managed scaling. When managed scaling is enabled, Amazon ECS manages the scale-in and scale-out actions of the Auto Scaling group. On your behalf, Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scaling policy based on the target capacity value you specify. Amazon ECS then associates this scaling plan with your Auto Scaling group. For each of the capacity providers with managed scaling enabled, an Amazon ECS managed CloudWatch metric with the prefix AWS/ECS/ManagedScaling is created along with two CloudWatch alarms. The CloudWatch metrics and alarms are used to monitor the container instance capacity in your Auto Scaling groups and will trigger the Auto Scaling group to scale in and scale out as needed.
 
- The scaling policy uses a new CloudWatch metric called  CapacityProviderReservation that ECS publishes for every ASG capacity provider that has managed scaling enabled.
+The scaling policy uses a new CloudWatch metric called  CapacityProviderReservation that ECS publishes for every ASG capacity provider that has managed scaling enabled.
 
 The new metric CloudWatch metric CapacityProviderReservation is defined as follows.
 

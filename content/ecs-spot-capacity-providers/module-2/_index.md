@@ -1,5 +1,5 @@
 ---
-title: "Saving costs using AWS Fargate Spot Capacity Providers (Optional)"
+title: "Using AWS Fargate Spot Capacity Providers (Optional)"
 
 weight: 40
 ---

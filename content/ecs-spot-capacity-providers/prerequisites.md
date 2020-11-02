@@ -3,11 +3,11 @@ title: "Prerequisites"
 weight: 3
 ---
 
-To run through this workshop we expect you to have some familiarity with [Docker](https://en.wikipedia.org/wiki/Docker_(software)), AWS, any container orchestration tools such as [Amazon Elastic Container Service (ECS)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html), [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/), [Kubernetes](https://kubernetes.io/). During the workshop you will be using [AWS Cloud9](https://aws.amazon.com/cloud9/) IDE to run [AWS CLI](https://aws.amazon.com/cli/) commands. Use the AWS region that is specified by the facilitator when running this workshop at AWS hosted event. You may use any AWS region while running it self-paced mode on your own AWS account.
+To run through this workshop we expect you to have some familiarity with [Docker](https://en.wikipedia.org/wiki/Docker_(software)), AWS, any container orchestration tools such as [Amazon Elastic Container Service (ECS)](https://aws.amazon.com/ecs), [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/), or [Kubernetes](https://kubernetes.io/). During the workshop you will be using [AWS Cloud9](https://aws.amazon.com/cloud9/) IDE to run [AWS CLI](https://aws.amazon.com/cli/) commands. Use the AWS region that is specified by the facilitator when running this workshop at AWS hosted event. You may use any AWS region that supports Cloud9 (you can check [here](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)) while running it self-paced mode in your own AWS account.
 
 ## Conventions:
 
-Throughout this workshop, we provide commands for you to run in the terminal. These commands will look like this:
+Throughout this workshop, we provide commands for you to run in the Cloud9 terminal (not in your local terminal). These commands will look like this:
 
 <pre>
 $ ssh -i PRIVATE_KEY.PEM ec2-user@EC2_PUBLIC_DNS_NAME

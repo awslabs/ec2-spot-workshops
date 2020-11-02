@@ -45,9 +45,9 @@ Note that if you are running this workshop inside an Event Engine, the Cloud for
 The cloud formation stack creates the following resources for the workshop.
 
 
-* **1 VPC with 3 public and 3 private subnets**
-* **Application Load Balancer (ALB) with its own security group**
-* **Target Group (TG) and an ALB listener**
-* **Cloud9 Environment and it's IAM Role**
-* **EC2 Launch Template with necessary ECS config to bootstrapping into the ECS cluster**
-* **ECR Repository**
+* 1 VPC with 3 public and 3 private subnets
+* Application Load Balancer (ALB) with its own security group
+* Target Group (TG) and an ALB listener
+* Cloud9 Environment and its IAM Role
+* EC2 Launch Template with necessary ECS config for bootstrapping into the ECS cluster
+* ECR Repository
