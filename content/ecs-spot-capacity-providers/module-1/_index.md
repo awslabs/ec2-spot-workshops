@@ -1,5 +1,5 @@
 ---
-title: "Module-1: Cost optimizing using ECS Auto Scaling groups Capacity Providers and EC2 Spot"
+title: "Cost optimizing ECS using Spot Instances with Auto Scaling groups Capacity Providers"
 weight: 20
 ---
 

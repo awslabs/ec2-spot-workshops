@@ -17,7 +17,7 @@ echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
 ```
 When Amazon ECS Spot Instance draining is enabled on the instance, ECS container agent receives the Spot Instance interruption notice and places the instance in DRAINING status. When a container instance set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance [Click here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html) to learn more.
 
-The web application (**app.py**) docker container image we built in Module-1 shows two ways to handle the EC2 Spot interruption within a docker container. This allows you to perform actions such as preventing the processing of any new jobs, checkpointing the progress of a current job, or gracefully exiting the application to complete tasks.
+The web application (app.py) we used to buld docker image shows two ways to handle the EC2 Spot interruption within a docker container. This allows you to perform actions such as preventing the processing of new work, checkpointing the progress of a batch job, or gracefully exiting the application to complete tasks such as ensuring database connections are properly closed
 
 In the first method, it polls the instance metadata service for spot interruption and display a message to web page notifying the users (this is, of course, just for demonstration and not for real world scenarios).
 
@@ -53,4 +53,6 @@ def exit_gracefully(self, signum, frame):
    if self.signals[signum] == 'SIGTERM':
      print("SIGTERM Signal Received due to EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
 ```
+
+***Congratulations !!!*** you have successfully completed this workshop. You may continue to **optional** section on how to save costs using ***Fargate Spot*** Capacity Providers.
 

@@ -92,5 +92,5 @@ do
 done
 ```
 
+***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to next steps of this workshop.
 
-***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to Module-1 of this workshop.

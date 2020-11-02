@@ -16,7 +16,7 @@ Before you clean up the resources and complete the workshop, you may want to rev
 We need to scale down the number of tasks in the ECS service before deleting it.
 
 
-Run below commands to delete the ECS Service *fargate-service-split* if you have completed the optional Module-2
+Run below commands to delete the ECS Service *fargate-service-split* if you have completed the optional Fargate section
 
 ```bash
 aws ecs update-service --cluster EcsSpotWorkshop  \
