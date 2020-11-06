@@ -4,6 +4,7 @@ date: 2020-03-07T08:30:11-07:00
 weight: 20
 ---
 
+
 ### Deploy the Metrics Server
 Metrics Server is a cluster-wide aggregator of resource usage data. These metrics will drive the scaling behavior of the [deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). We will deploy the metrics server using `Helm` configured earlier in this workshop.
 
