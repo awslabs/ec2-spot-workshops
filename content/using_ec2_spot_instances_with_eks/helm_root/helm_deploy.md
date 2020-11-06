@@ -30,12 +30,6 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 helm repo update
 ```
 
-or use this command
-```sh
-helm repo add stable https://charts.helm.sh/stable
-helm repo update
-```
-
 Once this is installed, we will be able to list the charts you can install:
 
 ```sh
