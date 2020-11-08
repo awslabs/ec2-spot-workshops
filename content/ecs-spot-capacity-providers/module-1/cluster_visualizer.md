@@ -1,15 +1,15 @@
 ---
-title: "Capacity Provider Instance Termination Protection in Action"
+title: "capacity provider Instance Termination Protection in Action"
 weight: 70
 ---
 
 
-Refersh the C3Vis page by clicking on the “Roload Server Cache” button and click CPU metric. Your result should be similar to the below:
+Refresh the C3Vis page by clicking on the **Roload Server Cache** button and click CPU metric. Your result should be like the below:
 
 ![Visualize](/images/ecs-spot-capacity-providers/c3vis_cluster_initial_view.png)
 
 {{% notice note %}}
-Please note that the exact distribution of tasks across instances within the Capacity Providers may be different from what is shown above, depending on when the instances were ready for task placement.  The important thing is that ECS will respect the capacity provider strategy and ensure that required the number of tasks to be placed on respective CP-OD and CP-SPOT as per their base and weight configuration.
+Please note that the tasks spread across instances within the capacity providers may differ from what it shows above.  The important thing to note is that ECS ensure that it spread the tasks across CP-OD and CP-SPOT capacity providers according to the capacity provider strategy.
 {{% /notice %}}
 
 
@@ -21,30 +21,28 @@ To check more details on any of the ECS container instance, right click on the I
 ![Visualize](/images/ecs-spot-capacity-providers/c3vis_cluster_instance_view_details.png)
 
 
-{{%expand "Question: Why were 6 tasks launched on CP-Spot and 4 tasks on CP-OD?" %}}
+{{%expand "Question: Why there are 6 tasks launched on CP-SPOT and 4 tasks on CP-OD?" %}}
 
 
-Quick reminder about our Capacity Provider Strategy: CP-OD-base=2,weight=1, CP-SPOT-weight=3
-CP-OD has base=2 which means CP-OD should always have a baseline of 2 tasks running first. This can be transalted to the bare minimum required number of tasks needed to support your business critical application services. So ECS first assigns 2 tasks out of 10 to CP-OD as per the base parameter value.
+Quick reminder about our capacity provider strategy: CP-OD with base=2,weight=1 and CP-SPOT with weight=3.
 
-Then the remaining 8 tasks will be distributed according to the weights. CP-OD weight is 1 and CP-SPOT weight is 3. That means that for every 1 task assigned to CP-OD, 3 will be assigned to CP-SPOT. This is translated to 2 to CP-OD and 6 to CP-SPOT.
+CP-OD has base=2 which means 2 tasks of 10 total tasks, must launch first on CP-OD.  The remaining 8 tasks (10 - 2) spread according to the weights. CP-OD has weight is 1 and CP-SPOT has weight is 3. That means that for every 1 task assigned to CP-OD, ECS will assign 3 to CP-SPOT. That means 2 more tasks on CP-OD and 6 to CP-SPOT.
 
-Now let’s look the new values of Capacity Provider Reservation in the CloudWatch dashboard for these 2 CPs, and also look at the other metrics around number of instances and tasks.
+Now, let us look at the new values of CapacityProviderReservation metric for CP-OD and CP-SPOT capacity providers in the CloudWatch dashboard.
 
 ![CPR](/images/ecs-spot-capacity-providers/cp24.png)
 
-So Why do you think CPR changed from 200 to 100?  As you can guess, the value of M is 4 which is same as N value which is 4, hence Capacity Provider Reservation is 100, which means that all the desired capacity reuqired to run the ECS tasks is fulfilled. You can also notice the graph reflecting the change in number of tasks and instances.
+So Why do you think CapacityProviderReservation changed from 200 to 100?  The value of M is 4 which is same as N, hence CapacityProviderReservation is 100. That means ECS provisioned the required capacity to run all the tasks.
 {{% /expand%}}
 
-As you might have noticed in the C3Visulization tool, one of the EC2 instance is completely empty and does not run any tasks. This should be the ideal candidate when the capacity provider scales down the capacity because selecting any other instance would cause terminating the tasks, causing the application disruption.
+Also, in the C3Vis page, one of the EC2 instance is completely unused and does not run any tasks. This should be the ideal candidate when the capacity provider scales down the ECS cluster because selecting any other instance would cause terminating the tasks, causing the application disruption.
 
 ![CPR](/images/ecs-spot-capacity-providers/c3vis_cluster_initial_view_empty.png)
 
 
+{{%expand "Question: What if your task distribution is different and there is no unused EC2 instance in the ECS cluster?" %}}
 
-{{%expand "Question: But, what if your tasks distribution is different and there is NO empty EC2 instance in the ECS Cluster?" %}}
-
-As mentioned in the Note above, this is possible that there are no empty EC2 instances without any tasks. And to test the Cluster Scale In activity, we need atleast one empty EC2 instance. Then   the capacity provider instance termination protection feature chooses only those instances without running any tasks. So to test this feature, let us manually scale down the ECS Service i.e. reducing number of tasks so that there will be an empty instance without any tasks.
+As mentioned in the Note above, tasks spread across instances within the capacity providers may be different and all the EC2 instances may run at least one task. But, to test the ECS cluster scale-in activity, we need at least one unused EC2 instance. For testing purpose, let us manually scale down the ECS service, i.e. reducing number of tasks so that there will be an unused instance with no tasks. Then the capacity provider instance termination protection feature should ideally choose only those unused instances running no tasks. 
 
 Run the below command to scale down the service by reducing the number of tasks from 10 to 4.
 
@@ -54,9 +52,9 @@ aws ecs update-service --cluster EcsSpotWorkshop \
 --service ec2-service-split --desired-count 4
 ```
 
-Now, guess what would be the distribution of 4 tasks across CP-OD and CP-SPOT?  
+Now, guess what would be the distribution of 4 tasks across CP-OD and CP-SPOT capacity providers?  
 
-Run below command to see the task distribution across the ECS Cluster
+Run below command to see the task spread across the capacity providers.
 
 ```bash
 export cluster_name=EcsSpotWorkshop 
@@ -69,52 +67,53 @@ aws ecs describe-tasks \
 --output table
 ```
 
-The task distribution should look like this
+The task spread should look like this.
 
 
 ![Visualizer](/images/ecs-spot-capacity-providers/tasks_after_scale_in.png)
 
-Can you explain why CP-SPOT has only 1 task and CP-OD has 3 tasks?
-Out of 4, CP-OD will have 2 in accordance with base and remaining 2 (4-2) will be split with 1 on CP-OD and 1 on CP-SPOT. 
+How will you explain that CP-SPOT has only 1 task and CP-OD has 3 tasks?
 
-Then how does the capacity provider metrics values changes as a result of this scale in event?   
+Out of 4 tasks in the ECS service, CP-OD will have 2 due to base=2 and remaining 2 (4-2) splits with 1 on CP-OD and 1 on CP-SPOT. 
 
-Let’s look at the CPR values for both capacity providers
+Then what would be the new values of CapacityProviderReservation for CP-SPOT and CP-OD because of the scale-in event?   
+
+Let us look at the CloudWatch dashboard again.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp28.png)
 
-Did you notice there is no change for CapacityProviderReservation metric value for CP-OD but changed from 100 to 50 for CP-SPOT. The value of 50 indicates the change in the value of M from 2 to 1.
+Did you notice there is no change for CapacityProviderReservation metric value for CP-OD but changed from 100 to 50 for CP-SPOT. The value of 50 indicates the change in the value of M from 2 to 1 in the EC2 SPOT ASG.
 
- This will trigger a cloud watch alarm after 15 mins.
+ This triggers a CloudWatch alarm after 15 mins.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp38.png)
 
-The cloud watch alarm  cause the target tracking policy to trigger the scale in activity on the EcsSpotWorkshop-ASG-SPOT. Go to the AWS EC2 console page and select the EcsSpotWorkshop-ASG-SPOT and select the Activity History.
+The CloudWatch alarm triggers the scale-in activity on the **EcsSpotWorkshop-ASG-SPOT**. Go to the AWS EC2 console page and select the EcsSpotWorkshop-ASG-SPOT and select the Activity History.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp40.png)
 
 {{% /expand%}}
 
-Now, let us look at the Cloudwatch dashboard for the changes in the CapacityProviderReservation metric values,
+Now, let us look at the CloudWatch dashboard for the changes in the CapacityProviderReservation metric values.
  
  ![Visualizer](/images/ecs-spot-capacity-providers/cwt_dashboard_scale_in.png)
 
+Note that the CapacityProviderReservation value for CP-OD changed from 100 to 50 because of the unused EC2 instance in the ECS cluster.
 
-This will trigger the cloud watch alarms for the scale in activity
+This triggers the CloudWatch alarm for the scale-in activity on the **EcsSpotWorkshop-ASG-OD**
 
   ![Visualizer](/images/ecs-spot-capacity-providers/ecs_asg_od_scale_in_alarm.png)
 
-
-You can now see that the Autoscaling group terminates the **empty EC2 instance** without causing any disruption to the application.
+Go to the AWS EC2 console page and select the **EcsSpotWorkshop-ASG-OD** and select the Activity History. You can see that the CP-OD capacity provider terminates the **unused EC2 instance** causing no disruption to the application.
 
 
   ![Visualizer](/images/ecs-spot-capacity-providers/ecs_asg_od_scale_in_activity.png)
 
 
-Let’s look at the C3VIS dashboard again
+Let us look at the C3Vis dashboard again.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/c3vis_after_scale_in.png)
 
-As you see, the instance which does not run any tasks is terminated respecting the instance termination protection.
+Observe, that the unused EC2 instance which is not running any tasks, is selected for termination, causing no disruption to the application.
 
 
