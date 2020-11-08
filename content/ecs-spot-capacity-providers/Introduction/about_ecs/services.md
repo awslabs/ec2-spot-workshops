@@ -1,10 +1,8 @@
 +++
-
-title = “Services”
-
+title = "Services"
 weight = 30
-
 +++
+
 
 Amazon ECS allows you to run and maintain a specified number of instances of a task definition simultaneously in an Amazon ECS cluster. This is called a service. If any of your tasks should fail or stop for any reason, the Amazon ECS service scheduler launches another instance of your task definition to replace it and maintain the desired count of tasks in the service depending on the scheduling strategy used.
 
