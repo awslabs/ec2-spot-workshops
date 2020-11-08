@@ -92,6 +92,10 @@ The CloudWatch alarm triggers the scale-in activity on the **EcsSpotWorkshop-ASG
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp40.png)
 
+In the C3vis page, observe that the unused EC2 instance, which is not running any tasks, selected for termination, causing no disruption to the application.
+
+Now that you verified the ECS cluster scale-in activity, click on the arrow button to move to the next page.
+
 {{% /expand%}}
 
 Now, let us look at the CloudWatch dashboard for the changes in the CapacityProviderReservation metric values.
@@ -114,6 +118,8 @@ Let us look at the C3Vis dashboard again.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/c3vis_after_scale_in.png)
 
-Observe, that the unused EC2 instance which is not running any tasks, is selected for termination, causing no disruption to the application.
+In the C3vis page, observe that the unused EC2 instance, which is not running any tasks, selected for termination, causing no disruption to the application.
+
+Now that you verified the ECS cluster scale-in activity, click on the arrow button to move to the next page.
 
 

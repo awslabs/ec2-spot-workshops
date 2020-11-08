@@ -13,7 +13,8 @@ The new CloudWatch metric CapacityProviderReservation is defined as follows.
 
 CapacityProviderReservation  = (M/N ) x 100
 
-N = The current number of instances in the Auto Scaling group(ASG) that are already running 
+N = The current number of instances in the Auto Scaling group(ASG) that are already running
+ 
 M = The number of instances running in an ASG to meet the needs of the tasks assigned to that ASG, including tasks already running and tasks the customer is trying to run that don’t fit on the existing instances. 
 
 Given this assumption, if N = M, scaling out not required, and scaling in isn’t possible. If N < M, scale out required because you don’t have enough instances.  Last, if N > M, scale in is possible (but not necessarily required) because you have more instances than you need to run all of your ECS tasks.
