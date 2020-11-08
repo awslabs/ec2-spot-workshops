@@ -6,7 +6,7 @@ weight: 55
 In this section, we will create an ECS service which uses the default cluster capacity provider strategy to spread tasks on CP-OD and CP-SPOT: **CP-OD base=2 & weight=1** and **CP-SPOT weight=3**. This capacity provider strategy created based on the following application requirements:
 
 * There should be at least 2 tasks running on On-Demand instances to serve the normal traffic. The **base=2** configuration satisfies this requirement.
-* Any additional traffic should be handled by tasks deployed on On-Demand and Spot Instances in the ratio of 1:3
+* Tasks deployed on On-Demand and Spot Instances in the ratio of 1:3 should handle any additional traffic
 
 To create the service, follow these steps:
 

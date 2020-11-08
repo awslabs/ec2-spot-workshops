@@ -19,4 +19,4 @@ The workshop designed to be completed in sequence. If you are reading this at a 
 
 ### About Spot Instances in Containerized workloads
 
-Many containerized workloads are usually stateless and fault tolerant and are great fit for running on EC2 Spot Instances. In this workshop we will explore how to run containers on interruptable EC2 Spot Instances and achieve significant cost savings.
+Many containerized workloads are usually stateless and fault tolerant and are great fit for running on EC2 Spot Instances. In this workshop we will explore how to run containers on interruptible EC2 Spot Instances and achieve significant cost savings.

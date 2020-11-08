@@ -18,13 +18,13 @@ The CapacityProviderReservation metric value is 200 for both CP-OD and SP-SPOT.
 
 If M > 0 and N = 0, meaning no instances, no running tasks, but at least one provisioning task, then CapacityProviderReservation = 200. (Target tracking scaling has a special case for scaling from zero capacity, where it assumes for the purposes of scaling that the current capacity is one and not zero).
 
- This triggers the CloudWatch alarms associated with the target tracking policy in the Autoscaling Groups.  
+ This triggers the CloudWatch alarms associated with the target tracking policy in the Auto Scaling groups.  
  
  Go to the CloudWatch console and click on the [Alarms section](https://console.aws.amazon.com/cloudwatch/home?#alarmsV2:!alarmStateFilter=ALARM).
 
 ![Cloud Watch Alarms](/images/ecs-spot-capacity-providers/ecs_service_alarms.png)
 
-As a result of this, the scale-out activity triggered to provision instances in both Autoscaling Groups. 
+Because of this, the scale-out activity triggered to provision instances in both Auto Scaling groups. 
 
 Go to EC2 console, select [OnDemand ASG](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-OD?view=activity) and click the Activity tab. You will see two instances are just getting launched.
 

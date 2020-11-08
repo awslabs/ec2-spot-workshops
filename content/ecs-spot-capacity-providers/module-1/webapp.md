@@ -1,5 +1,5 @@
 ---
-title: "Build webapp container and Register ECS Task Definition"
+title: "Build webapp docker image and Register ECS Task Definition"
 weight: 45
 ---
 In this section, we will build a simple python flask based web application and deploy in our ECS cluster.
@@ -27,7 +27,7 @@ docker tag ecs-spot-workshop/webapp:latest $ECR_REPO_URI:latest
 docker push $ECR_REPO_URI:latest
 ```
 
-Copy the template file *templates/ec2-task.json* to the current directory and substitute the template with actual value of the docker image path.
+Copy the template file *templates/ec2-task.json* to the current directory and substitute the template with the actual value of the docker image path.
 
 ```bash
 cd ..

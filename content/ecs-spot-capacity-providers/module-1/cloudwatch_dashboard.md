@@ -36,4 +36,4 @@ For more details on how ECS cluster auto scaling works, refer to this [blog] (ht
 
 {{% /expand%}}
 
-Continue to the next sections in the workshop to start deploying tasks in the cluster, and to see ECS Managed Scaling in action.
+Continue to the next sections in the workshop to deploy tasks in the cluster, and to see ECS Managed Scaling in action.

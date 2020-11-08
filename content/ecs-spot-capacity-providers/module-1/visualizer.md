@@ -3,7 +3,7 @@ title: "Setup C3vis (Cloud Container Cluster Visualizer)  Tool"
 weight: 35
 ---
 
-The [C3vis](https://github.com/ExpediaDotCom/c3vis) opensource tool is useful to show the visual representation of the tasks placements across instances in an ECS Cluster.  
+The [C3vis](https://github.com/ExpediaDotCom/c3vis) open source tool is useful to show the visual representation of the tasks placements across instances in an ECS Cluster.  
 
 Open a new terminal in your Cloud9 Environment.
 

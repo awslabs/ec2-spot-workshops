@@ -7,7 +7,6 @@ import signal
 import time
 import socket
 import sys
-#from ec2_metadata import ec2_metadata
 import boto3
  
 
@@ -25,7 +24,7 @@ class Ec2SpotInterruptionHandler:
   def exit_gracefully(self, signum, frame):
     print("\nReceived {} signal".format(self.signals[signum]))
     if self.signals[signum] == 'SIGTERM':
-      print("SIGTERM Signal Received due to EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
+      print("SIGTERM Signal Received because of EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
 
     
     
@@ -37,7 +36,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 @cross_origin()
 def index():
-    #return render_template("index3.html")
     response = ""
     response +="<head> <title>ECS Spot Workshop</title> </head>"
     response += "<h2>I am a Simple Containerized Web App Running with below Attributes </h2> <hr/>"

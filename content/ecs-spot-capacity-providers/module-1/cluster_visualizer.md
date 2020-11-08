@@ -4,12 +4,12 @@ weight: 70
 ---
 
 
-Refresh the C3Vis page by clicking on the **Roload Server Cache** button and click CPU metric. Your result should be similar to the below:
+Refresh the C3Vis page by clicking on the **Roload Server Cache** button and click CPU metric. Your result should be like the below:
 
 ![Visualize](/images/ecs-spot-capacity-providers/c3vis_cluster_initial_view.png)
 
 {{% notice note %}}
-Please note that the tasks spread across instances within the capacity providers may be different from what is shown above.  The important thing to note is that ECS ensure that the tasks are spread across CP-OD and CP-SPOT capacity providers according to the capacity provider strategy.
+Please note that the tasks spread across instances within the capacity providers may differ from what it shows above.  The important thing to note is that ECS ensure that it spread the tasks across CP-OD and CP-SPOT capacity providers according to the capacity provider strategy.
 {{% /notice %}}
 
 
@@ -26,7 +26,7 @@ To check more details on any of the ECS container instance, right click on the I
 
 Quick reminder about our capacity provider strategy: CP-OD with base=2,weight=1 and CP-SPOT with weight=3.
 
-CP-OD has base=2 which means 2 tasks of 10 total tasks, must be launched first on CP-OD.  The remaining 8 tasks (10 - 2) will be spread according to the weights. CP-OD has weight is 1 and CP-SPOT has weight is 3. That means that for every 1 task assigned to CP-OD, 3 will be assigned to CP-SPOT. That means 2 more tasks on CP-OD and 6 to CP-SPOT.
+CP-OD has base=2 which means 2 tasks of 10 total tasks, must launch first on CP-OD.  The remaining 8 tasks (10 - 2) spread according to the weights. CP-OD has weight is 1 and CP-SPOT has weight is 3. That means that for every 1 task assigned to CP-OD, ECS will assign 3 to CP-SPOT. That means 2 more tasks on CP-OD and 6 to CP-SPOT.
 
 Now, let us look at the new values of CapacityProviderReservation metric for CP-OD and CP-SPOT capacity providers in the CloudWatch dashboard.
 
@@ -40,9 +40,9 @@ Also, in the C3Vis page, one of the EC2 instance is completely unused and does n
 ![CPR](/images/ecs-spot-capacity-providers/c3vis_cluster_initial_view_empty.png)
 
 
-{{%expand "Question: What if your tasks distribution is different and there is no unused EC2 instance in the ECS cluster?" %}}
+{{%expand "Question: What if your task distribution is different and there is no unused EC2 instance in the ECS cluster?" %}}
 
-As mentioned in the Note above, tasks spread across instances within the capacity providers may be different and all the EC2 instances may be running at least one task. But, to test the ECS cluster scale-in activity, we need at least one unused EC2 instance. For testing purpose, let us manually scale down the ECS service i.e. reducing number of tasks so that there will be an unused instance without any tasks. Then the capacity provider instance termination protection feature should ideally choose only those unused instances without running any tasks. 
+As mentioned in the Note above, tasks spread across instances within the capacity providers may be different and all the EC2 instances may run at least one task. But, to test the ECS cluster scale-in activity, we need at least one unused EC2 instance. For testing purpose, let us manually scale down the ECS service, i.e. reducing number of tasks so that there will be an unused instance with no tasks. Then the capacity provider instance termination protection feature should ideally choose only those unused instances running no tasks. 
 
 Run the below command to scale down the service by reducing the number of tasks from 10 to 4.
 
@@ -74,7 +74,7 @@ The task spread should look like this.
 
 How will you explain that CP-SPOT has only 1 task and CP-OD has 3 tasks?
 
-Out of 4 tasks in the ECS service, CP-OD will have 2 in accordance with base=2 and remaining 2 (4-2) will be split with 1 on CP-OD and 1 on CP-SPOT. 
+Out of 4 tasks in the ECS service, CP-OD will have 2 due to base=2 and remaining 2 (4-2) splits with 1 on CP-OD and 1 on CP-SPOT. 
 
 Then what would be the new values of CapacityProviderReservation for CP-SPOT and CP-OD because of the scale-in event?   
 
@@ -88,13 +88,13 @@ Did you notice there is no change for CapacityProviderReservation metric value f
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp38.png)
 
-The CloudWatch alarm in turn triggers the scale-in activity on the **EcsSpotWorkshop-ASG-SPOT**. Go to the AWS EC2 console page and select the EcsSpotWorkshop-ASG-SPOT and select the Activity History.
+The CloudWatch alarm triggers the scale-in activity on the **EcsSpotWorkshop-ASG-SPOT**. Go to the AWS EC2 console page and select the EcsSpotWorkshop-ASG-SPOT and select the Activity History.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp40.png)
 
 {{% /expand%}}
 
-Now, let us look at the CloudWatch dashboard for the changes in the CapacityProviderReservation metric values,
+Now, let us look at the CloudWatch dashboard for the changes in the CapacityProviderReservation metric values.
  
  ![Visualizer](/images/ecs-spot-capacity-providers/cwt_dashboard_scale_in.png)
 
@@ -104,7 +104,7 @@ This triggers the CloudWatch alarm for the scale-in activity on the **EcsSpotWor
 
   ![Visualizer](/images/ecs-spot-capacity-providers/ecs_asg_od_scale_in_alarm.png)
 
-Go to the AWS EC2 console page and select the **EcsSpotWorkshop-ASG-OD** and select the Activity History. You can see that the CP-OD capacity provider terminates the **unused EC2 instance** without causing any disruption to the application.
+Go to the AWS EC2 console page and select the **EcsSpotWorkshop-ASG-OD** and select the Activity History. You can see that the CP-OD capacity provider terminates the **unused EC2 instance** causing no disruption to the application.
 
 
   ![Visualizer](/images/ecs-spot-capacity-providers/ecs_asg_od_scale_in_activity.png)
@@ -114,6 +114,6 @@ Let us look at the C3Vis dashboard again.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/c3vis_after_scale_in.png)
 
-Observe, that the unused EC2 instance which is not running any tasks, is selected for termination, without causing any disruption to the application.
+Observe, that the unused EC2 instance which is not running any tasks, is selected for termination, causing no disruption to the application.
 
 

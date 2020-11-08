@@ -3,7 +3,7 @@ title: "Create EC2 Spot Auto Scaling group"
 weight: 15
 ---
 
-In this section, you create an Auto Scaling group for EC2 Spot Instances using the Launch Template created by the CloudFormation stack. This procedure is exactly same as the previous section except for a few changes specific to the configuration for Spot Instances.
+In this section, you create an Auto Scaling group for EC2 Spot Instances using the Launch Template created by the CloudFormation stack. This procedure is exactly the same as the previous section, except for a few changes specific to the configuration for Spot Instances.
 
 
 We configured the instance diversification in **asg.json**. We chose instance types with similar hardware characteristics in order to have a consistent auto scaling experience.
@@ -46,7 +46,7 @@ EcsSpotWorkshop-ASG-SPOT ARN=arn:aws:autoscaling:us-east-1:0004746XXXX:autoScali
 
 The EC2 Spot auto scaling group looks like below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-SPOT?view=details)
 
-Note that there is no capacity provisioned i.e. desired capacity is zero in the ASG. We expect the capacity to be scaled up automatically when we deploy applications later.
+Note that there is no capacity provisioned i.e. desired capacity is zero in the ASG. We expect the capacity to scale up automatically when we deploy applications later.
 
 ![EC2 Spot ASG](/images/ecs-spot-capacity-providers/asg_spot_initial_view_1.png)
 

@@ -1,15 +1,15 @@
 ---
-title: "Create ECS Fargate Services"
+title: "Create ECS Fargate service"
 weight: 15
 ---n
 
-In this section, we will create an ECS service to deploy fargate tasks on FARGATE and FARGATE_SPOT capacity providers using a custom strategy, overriding the  cluster default capacity provider strategy. We will assign a weight of 1 to FARGATE_SPOT and 3 to FARGATE, which is different from the default strategy with equal weight of 1 to both FARGATE_SPOT and FARGATE.  In this case, for every task on FARGATE_SPOT, 3 tasks will be placed on FARGATE.
+In this section, we will create an ECS service to deploy fargate tasks on FARGATE and FARGATE_SPOT capacity providers using a custom strategy, overriding the cluster default capacity provider strategy. We will assign a weight of 1 to FARGATE_SPOT and 3 to FARGATE, which differs from the default strategy with equal weight of 1 to both FARGATE_SPOT and FARGATE.  Here, for every 1 task on FARGATE_SPOT, ECS places 3 tasks on FARGATE.
 
 We will create a ECS service to place tasks in the new VPC created by the CloudFormation stack.
 
-Recall that at the beginning of the workshop we loaded CloudFormation outputs to environment variable. 
+Recall that at the beginning of the workshop we loaded CloudFormation outputs to the environment variable. 
 
-The environment variable **VPCPublicSubnets** contains the value of list of public subnets created in the new VPC. Run the below command to check.
+The environment variable **VPCPublicSubnets** contains the value of the list of public subnets created in the new VPC. Run the below command to check.
 
 ```
 echo $VPCPublicSubnets
@@ -64,7 +64,7 @@ Note that we override the default cluster capacity provider strategy with a cust
 
 That means ECS splits the total tasks (4 in this case) in 3:1 ratio between FARGATE and FARGATE_SPOT capacity providers. 
 
-But how do you verify if the tasks spread on FARAGTE and FARGATE_SPOT in accordance with the custom strategy? 
+But how do you verify if the tasks spread on FARAGTE and FARGATE_SPOT under the custom strategy? 
 
 Run the below command to see how tasks spread across both capacity providers.
 
@@ -83,14 +83,14 @@ The output of the above command should display a table like this below.
 
 ![Table](/images/ecs-spot-capacity-providers/table1.png) 
 
-Note that 3 tasks placed on FARGATE and 1 task is placed on FARGATE_SPOT capacity providers as expected.
+Note that 3 tasks placed on FARGATE and 1 task on FARGATE_SPOT capacity providers as expected.
 
 Spot Interruption Handling on ECS Fargate Spot
 ---
 
-When tasks using Fargate Spot capacity are stopped due to a Spot interruption, a two-minute warning is sent before a task is stopped. The warning is sent as a task state change event to Amazon EventBridge and a SIGTERM signal to the running task. When using Fargate Spot as part of a service, the service scheduler will receive the interruption signal and attempt to launch additional tasks on Fargate Spot if capacity is available.
+When tasks using Fargate Spot capacity stopped because of a Spot interruption, a two-minute warning sent before a task is stopped. The warning is sent as a task state change event to Amazon EventBridge and a SIGTERM signal to the running task. When using Fargate Spot as part of a service, the service scheduler will receive the interruption signal and attempt to launch additional tasks on Fargate Spot if capacity is available.
 
-To ensure that the application containers exit gracefully before the task stops, the following can be configured:
+To ensure that the application containers exit gracefully before the task stops, you can configure the following:
 
 • A stopTimeout value of 120 seconds or less can be specified in the container definition that the task is using. Specifying a stopTimeout value gives you time between the moment the task state change event is received and the point at which the container is forcefully stopped. 
 
@@ -101,4 +101,4 @@ To ensure that the application containers exit gracefully before the task stops,
 
 Try changing the capacity provider strategy by assigning different weights to FARGATE and FARGATE_SPOT capacity providers and update the service.
 
-***Congratulations !!!*** you have successfully completed the workshop!!!.
+***Congratulations!!!*** you have successfully completed the workshop!!!.

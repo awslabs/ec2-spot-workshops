@@ -3,7 +3,7 @@ title: "Test application and check Task distribution in the Cluster"
 weight: 65
 ---
 
-In this section, let us first check if our web application deployed successfully and working as expected. We will also check if ECS spreads our tasks across CP-OD and CP-SPOT capacity provides in accordance with the strategy we used during the service configuration.
+In this section, let us first check if our web application deployed successfully and working as expected. We will also check if ECS spreads our tasks across CP-OD and CP-SPOT capacity provides under the strategy we used during the service configuration.
 
 Get the DNS name of the Application Load Balancer from the output section of the CloudFormation stack.
 
@@ -30,7 +30,7 @@ aws ecs describe-tasks \
 --output table
 ```
 
-You will see the result in table similar to the below:
+You will see the result in a table similar to the below:
 
 ![Results Table](/images/ecs-spot-capacity-providers/table.png)
 

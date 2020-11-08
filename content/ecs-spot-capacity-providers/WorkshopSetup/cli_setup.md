@@ -47,7 +47,7 @@ Change into the workshop directory:
 cd ec2-spot-workshops/workshops/ecs-spot-capacity-providers
 ```
 
-Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
+Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left and even edit files directly there by double clicking on them.
 
 We should configure our aws cli with our current region as default:
 

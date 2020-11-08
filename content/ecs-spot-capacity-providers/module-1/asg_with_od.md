@@ -40,7 +40,7 @@ EcsSpotWorkshop-ASG-OD ARN=arn:aws:autoscaling:us-east-1:0004746XXXX:autoScaling
 ```
 The On-Demand auto scaling group looks like below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-OD?view=details)
 
-Note that there is no capacity provisioned i.e. desired capacity is zero in the ASG. We expect the capacity to be scaled up automatically when we deploy applications later.
+Note that there is no capacity provisioned i.e. desired capacity is zero in the ASG. We expect the capacity to scale up automatically when we deploy applications later.
 
 ![On-demand ASG](/images/ecs-spot-capacity-providers/asg_od_initial_view_1.png)
 

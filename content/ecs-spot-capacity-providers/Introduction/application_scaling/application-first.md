@@ -14,7 +14,7 @@ The capacity provider configuration includes the following fields.
 
 An *Autoscaling group* to associate with the capacity provider. The Autoscaling group must already be created. 
 
-*Managed scaling*, if enabled, Amazon ECS manages the scale-in and scale-out actions of the Auto Scaling group through the use of AWS Auto Scaling scaling plans. This also means you can scale up your ECS Cluster zero capacity in the Autoscaling group.  
+*Managed scaling*, if enabled, Amazon ECS manages the scale-in and scale-out actions of the Auto Scaling group through the use of AWS Auto Scaling scaling plans. This also means you can scale up your ECS cluster zero capacity in the Auto Scaling group.  
 
 *Target capacity %*, if managed scaling enabled, specify an integer between 1 and 100. This value used as the target value for the CloudWatch metric used in the Amazon ECS-managed target tracking scaling policy. 
 

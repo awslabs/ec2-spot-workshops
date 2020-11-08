@@ -9,7 +9,7 @@ What is a Container?
 ---
 
 * Containers provide a standard way to package your application’s code, configurations, and dependencies into a single object.
-* Containers share an operating system installed on the server and run as resource-isolated processes, ensuring quick, reliable, and consistent deployments, regardless of environment.
+* Containers share an operating system installed on the server and run as a resource-isolated processes, ensuring quick, reliable, and consistent deployments, regardless of environment.
 * Whether you deploy locally on your laptop or to production, the experience will remain the same (Except secrets and other environmental values, of course!).
 
 Why Containers?
@@ -19,4 +19,4 @@ Why Containers?
 Benefits of Containers
 ---
 
-- Containers are a powerful way for developers to package and deploy their applications. They are lightweight and provide a consistent, portable software environment for applications to easily run and scale anywhere. Building and deploying microservices, running batch jobs, for machine learning applications, and moving existing applications into the cloud are just some popular use cases for containers. 
+- Containers are a powerful way for developers to package and deploy their applications. They are lightweight and provide a consistent, portable software environment for applications to easily run and scale anywhere. Building and deploying microservices, running batch jobs, for machine learning applications, and moving existing applications into the cloud is just some popular use cases for containers. 
