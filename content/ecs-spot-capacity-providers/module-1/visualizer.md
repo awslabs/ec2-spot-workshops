@@ -1,5 +1,5 @@
 ---
-title: "Setup c3vis (Cloud Container Cluster Visualizer)  Tool"
+title: "Setup C3vis (Cloud Container Cluster Visualizer)  Tool"
 weight: 35
 ---
 
@@ -9,7 +9,7 @@ Open a new terminal in your Cloud9 Environment.
 
 ![c3vis](/images/ecs-spot-capacity-providers/cloud9_new_terminal.png)
 
-To access the application in your browser, you need to enable port 8080 in the Security Group associated with this Cloud9 Instance.
+To access the application in your browser, you need to enable port 8080 in the Security Group associated with the Cloud9 Instance.
 
 ```bash
 
@@ -23,8 +23,6 @@ aws ec2 authorize-security-group-ingress \
     --cidr 0.0.0.0/0
 
 ```
-
-
 
 Clone the c3vis tool repo 
 
@@ -49,4 +47,4 @@ The initial screen will look like the below, since there are no tasks or instanc
 
 ![c3vis](/images/ecs-spot-capacity-providers/c3vis2.png)
 
-Since our EC Cluster is empty and does not have any instances, the c3vis application shows an empty page.
+Since our ECS cluster is empty and does not have any instances, the c3vis application shows an empty page.

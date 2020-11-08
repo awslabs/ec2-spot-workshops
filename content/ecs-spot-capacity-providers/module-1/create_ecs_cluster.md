@@ -1,11 +1,11 @@
 ---
-title: "Create an ECS Cluster"
+title: "Create an ECS cluster"
 weight: 5
 ---
 
-Let us first create an empty ECS Cluster.
+Let us first create an empty ECS cluster.
 
-To create an ECS Cluster, follow these steps:
+To create an ECS cluster, follow these steps:
 
 * Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
 * Click **Create Cluster**

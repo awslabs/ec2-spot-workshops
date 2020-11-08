@@ -1,5 +1,5 @@
 ---
-title: "ECS: Cost Optimize Container Workloads using Spot"
+title: "ECS: Cost Optimize Container Workloads using EC2 Spot"
 date: 2020-04-15T09:05:54Z
 weight: 39
 pre: "<b>⁃ </b>"
@@ -14,7 +14,7 @@ Welcome! The **learning objective** of this hands-on workshop is to help underst
 The estimated time for completing the workshop is **90 to 120 minutes**. The estimated cost will be less than **$5**.
 {{% /notice %}}
 
-The workshop is designed to be completed in sequence. If you are reading this at a live AWS event, the workshop attendants will give you a high level run down of the workshop. Then it's up to you to follow the instructions below to completion. Don't worry if you're embarking on this journey in the comfort of your office or home, this site contains all the materials for you'll need to complete this workshop.
+The workshop designed to be completed in sequence. If you are reading this at a live AWS event, the workshop attendants will give you a high level run down of the workshop. Then it is up to you to follow the instructions below to completion. Don't worry if you're embarking on this journey in the comfort of your office or home, this site contains all the materials for you'll need to complete this workshop.
 
 
 ### About Spot Instances in Containerized workloads

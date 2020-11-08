@@ -61,30 +61,30 @@ aws configure get default.region
 
 ```
 
-Use below commands to set the cloud formation stack name to an environment variable 
+Use below commands to set the cloud formation stack name to an environment variable. 
 
-* if you created the stack manually
+* if you created the stack manually.
 
-```
+```bash
 export STACK_NAME=EcsSpotWorkshop
 ```
-* if the stack created automatically within the Event Engine
 
-```
+* if the stack created automatically within the Event Engine.
+
+```bash
 export STACK_NAME=$(aws cloudformation list-stacks | jq -r '.StackSummaries[] | select(.StackName|test("mod.")) | .StackName')
 echo "STACK_NAME=$STACK_NAME"
 ```
-The output should look like something below
+The output should look like something below.
 
-```
+```bash
 STACK_NAME=mod-9feefdd1672c4eac
 ```
 
 
+Run the below command to load cloud formation outputs as the environment variables.
 
-Run the below command to load cloud formation outputs as the environment variables
-
-```
+```bash
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
 do
     export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
@@ -92,5 +92,5 @@ do
 done
 ```
 
-***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to next steps of this workshop.
+***Congratulations***, your Cloud9 workspace setup is complete, and you can proceed to next sections of this workshop.
 

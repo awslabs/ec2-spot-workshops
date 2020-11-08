@@ -1,12 +1,12 @@
 ---
-title: "Resize Cloud9 Instnce Root Volume"
+title: "Resize Cloud9 Instance Root Volume"
 chapter: false
 weight: 7
 ---
 
 ## Resize Cloud9 EBS
 
-The default 10GB is quite small when using a docker file for Genomics.
+The default 10GB is may not be enough to build the application docker images.
 Thus, let us resize the EBS volume used by the Cloud9 instance.
 
 To change the EBS volume, please do
@@ -30,7 +30,7 @@ And chose a new volume size (e.g. 100GB).
 ![resize_ebs_2](/images/ecs-spot-capacity-providers/resize_ebs_2.png)
 
 {{% notice info %}}
-Please make sure that the changes went through and the EBS volume now reflects the new size of the volume.
+Please make sure changes went through, and the EBS volume now reflects the new size of the volume.
 {{% /notice %}}
 
 ## Resize FS

@@ -3,15 +3,15 @@ title: "ECS Config with EC2 launch template"
 weight: 8
 ---
 
-- EC2 Launch Templates reduce the number of steps required to create an instance by capturing all launch parameters within one resource.
+- EC2 launch templates reduce the number of steps required to create an instance by capturing all launch parameters within one resource.
 
-- For example, a launch template can contain the ECS optimized AMI, instance type, User data section, Instance Profile / Role, and network settings that you typically use to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, a command line tool or an EC2 Auto Scaling group (like we will use in this workshop), you can specify the launch template to use. 
+- For example, a launch template can contain the ECS optimized AMI, instance type, User data section, Instance Profile / Role, and network settings that you typically used to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, a CLI tool, or an EC2 Auto Scaling group (like we will use in this workshop), you can specify the launch template to use. 
 
-- The EC2 Launch Template is already created using the CloudFormation stack - you can use the AWS Management Console to see the configuration. Please note that Launch templates are mandatory in order to use EC2 Auto Scaling groups with mixed instances policy (to allow for mixing On-Demand and Spot Instances in an Auto Scaling group, and diversifying the instance type selection)
+- The EC2 launch template is pre-created using the CloudFormation stack, You can use the AWS Management Console to see the configuration. Please note that launch templates are mandatory in order to use EC2 Auto Scaling groups with mixed instances policy (to allow for mixing On-Demand and Spot Instances in an Auto Scaling group, and diversifying the instance type selection)
 
 ![Launch Template](/images/ecs-spot-capacity-providers/c9_6.png)
 
-Also review the user data section of the Launch Template to see ECS Container agent configuration.
+Also review the user data section of the EC2 launch template to see ECS Container agent configuration.
 
 ![User Data](/images/ecs-spot-capacity-providers/ecs_launch_template.png)
 
