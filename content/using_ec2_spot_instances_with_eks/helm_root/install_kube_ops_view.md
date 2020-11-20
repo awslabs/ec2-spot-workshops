@@ -14,6 +14,7 @@ helm install kube-ops-view \
 stable/kube-ops-view \
 --set service.type=LoadBalancer \
 --set nodeSelector.intent=control-apps \
+--version 1.2.4 \
 --set rbac.create=True
 ```
 
@@ -32,8 +33,8 @@ helm list
 
 should display : 
 ```
-NAME            REVISION        UPDATED                         STATUS          CHART                   APP VERSION     NAMESPACE
-kube-ops-view   1               Sun Sep 22 11:47:31 2019        DEPLOYED        kube-ops-view-1.1.0     0.11            default  
+NAME            NAMESPACE   REVISION   UPDATED               STATUS     CHART              
+kube-ops-view   default     1          2020-11-20 05:16:47   deployed   kube-ops-view-1.2.4
 ```
 
 With this we can explore kube-ops-view output by checking the details about the newly service created. 

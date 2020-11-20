@@ -26,7 +26,7 @@ Homebrew on macOS.
 Download the `stable` repository so we have something to start with:
 
 ```sh
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+helm repo add stable https://charts.helm.sh/stable/
 helm repo update
 ```
 
