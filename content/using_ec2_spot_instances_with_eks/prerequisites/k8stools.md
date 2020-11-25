@@ -14,8 +14,9 @@ for the download links.](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 {{% /notice %}}
 
 #### Install kubectl
+
 ```
-export KUBECTL_VERSION=v1.16.12
+export KUBECTL_VERSION=v1.18.12
 sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 ```

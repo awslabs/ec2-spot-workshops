@@ -1,4 +1,4 @@
-## Ec2 Spot Workshops
+## EC2 Spot Workshops
 
 Collection of workshops to demonstrate best practices in using Amazon EC2 Spot Instances. https://aws.amazon.com/ec2/spot/
 
