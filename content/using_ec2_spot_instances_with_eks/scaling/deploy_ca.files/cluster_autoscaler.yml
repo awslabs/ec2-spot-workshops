@@ -55,7 +55,7 @@ rules:
   verbs: ["watch","list","get"]
 - apiGroups: ["coordination.k8s.io"]
   resources: ["leases"]
-  verbs: ["get","list","watch","create","update","patch"]
+  verbs: ["get","list","watch","create","update"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -132,7 +132,7 @@ spec:
       nodeSelector:
         intent: control-apps      
       containers:
-        - image: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.18.2
+        - image: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.18.3
           name: cluster-autoscaler
           resources:
             limits:
@@ -160,7 +160,7 @@ spec:
             - --max-empty-bulk-delete=30
           env:
             - name: AWS_REGION
-              value: --AWS_REGION--
+              value: ap-southeast-1
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt
