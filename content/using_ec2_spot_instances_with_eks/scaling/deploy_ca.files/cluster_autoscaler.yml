@@ -160,7 +160,7 @@ spec:
             - --max-empty-bulk-delete=30
           env:
             - name: AWS_REGION
-              value: ap-southeast-1
+              value: --AWS_REGION--
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt
