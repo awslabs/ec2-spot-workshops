@@ -51,10 +51,12 @@ arn:aws:iam::<AWS_Account_Number>:role/<RoleName>
 Edit the ConfigMap **aws-auth** using the below command
 
 ```
-kubectl describe configmap -n kube-system aws-auth
+kubectl edit configmap -n kube-system aws-auth
 ```
 
-Add the below snippet at the end, that will add the IAM role to the **masters** group on EKS cluster RBAC, thereby assigning a **cluster-admin** role on the cluster. Please make sure you replace the `<AWS_Account_Number>` and `<RoleName>` with you AWS Account Number and IAM Role Name respectively
+Add the below snippet at the end, that will add the IAM role to the **masters** group on EKS cluster RBAC, thereby assigning a **cluster-admin** role on the cluster. Please refer the documentation [here](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)
+
+Please make sure to replace the `<AWS_Account_Number>` and `<RoleName>` with your AWS Account Number and IAM Role Name respectively
 
 ```
     - groups:
