@@ -58,15 +58,15 @@ Parameters:
     ConstraintDescription: This is ONLY used Event Engine, dont change this if you are self-deploying the stack
 
 Conditions: 
-  EventEngine: !Not [!Equals [!Ref EETeamRoleArn, NONE]]
+  NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
 
 Resources:
 
 ################## PERMISSIONS AND ROLES #################
   C9Role:
     Type: AWS::IAM::Role
+    Condition: NotEventEngine
     Properties:
-      RoleName: C9-TeamRole
       Tags:
         - Key: Environment
           Value: AWS Example
@@ -148,14 +148,7 @@ Resources:
         Ref: AWS::StackName
       EnvironmentId:
         Ref: C9Instance
-      LabIdeInstanceProfileName:
-        # Ref: C9IAMInstanceProfileName
-        Ref: C9InstanceProfile
-      LabIdeInstanceProfileArn:
-        # !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/${C9IAMInstanceProfileName}'
-        Fn::GetAtt:
-        - C9InstanceProfile
-        - Arn
+      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
 
   C9BootstrapInstanceLambdaFunction:
     Type: AWS::Lambda::Function
@@ -202,8 +195,7 @@ Resources:
 
                       # Create the IamInstanceProfile request object
                       iam_instance_profile = {
-                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn'],
-                          'Name': event['ResourceProperties']['LabIdeInstanceProfileName']
+                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn']
                       }
                       # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
 
@@ -306,6 +298,7 @@ Resources:
 ################## INSTANCE #####################
   C9InstanceProfile:
     Type: AWS::IAM::InstanceProfile
+    Condition: NotEventEngine
     Properties:
       Path: "/"
       Roles:
@@ -322,7 +315,7 @@ Resources:
       Name: 
         Ref: AWS::StackName
       # OwnerArn: !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey'
-      OwnerArn: !If [EventEngine , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey' , !Ref AWS::NoValue]
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
       Tags:
         -
           Key: SSMBootstrap
