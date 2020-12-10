@@ -24,7 +24,7 @@ To create an ECS cluster, follow these steps:
 * Click **View Cluster**
 * Click **Capacity Providers** tab
  
-The new ECS cluster will look like below in the AWS Console.  
+The new ECS cluster will appear as below in the AWS Console.  
 
 ![ECS Cluster](/images/ecs-spot-capacity-providers/ecs_empty_cluster.png)
 

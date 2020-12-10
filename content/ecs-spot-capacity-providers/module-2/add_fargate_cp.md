@@ -7,7 +7,7 @@ Before we deploy tasks on ECS Fargate, let us first add Fargate capacity provide
 
 There are two default ECS Fargate capacity providers i.e. FARGATE and FARGATE_SPOT You just need to attach them to the ECS cluster.
 
-Run the below commands to add FARGATE and FARGATE_SPOT capacity providers to the ECS cluster.
+Run the commands below to add FARGATE and FARGATE_SPOT capacity providers to the ECS cluster.
 
 ```
 aws ecs put-cluster-capacity-providers   \

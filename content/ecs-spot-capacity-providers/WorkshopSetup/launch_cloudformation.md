@@ -9,7 +9,7 @@ Launch the CloudFormation stack
 To save time on the initial setup, a CloudFormation template will be used to create the required resources needed for the workshop.
  
 1. You can view and download the CloudFormation template from GitHub [here] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
-2. Take a moment to review the CloudFormation template, so you understand the resources it will be creating.
+2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 3. Browse to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation). Make sure you are in AWS region designated by the facilitators of the workshop.
 4. Click **Create stack**.
 5. Under the *Specify template* section, select **Upload a template file**. Click **Choose file** and, select the template you downloaded in step 1.
@@ -31,23 +31,23 @@ It will take roughly 5 minutes for the stack creation to complete.
 
 The *Events* tab displays each major step in the stack's creation sorted by the time of each event, with the latest events on top.
 
-The *CREATE_IN_PROGRESS* event logged when AWS CloudFormation reports that it has begun to create the resource. The *CREATE_COMPLETE* event logged when the resources successfully created.
+The *CREATE_IN_PROGRESS* event is logged when AWS CloudFormation reports that it has begun to create the resource. The *CREATE_COMPLETE* event logged when the resources successfully created.
 
 When AWS CloudFormation has successfully created the stack, you will see the *CREATE_COMPLETE* event at the top of the Events tab:
 
 Take a moment and check out all the resources created by this stack.
 
-![Cloud Formation Stack](/images/ecs-spot-capacity-providers/ecs_cfn_stack.png) 
+![CloudFormation Stack](/images/ecs-spot-capacity-providers/ecs_cfn_stack.png) 
 
-Note that if you are running this workshop inside an Event Engine, the Cloud formation stack names may look like this 
+Note that if you are running this workshop inside an Event Engine, the CloudFormation stack names may look like this 
 
-![Cloud Formation Stack](/images/ecs-spot-capacity-providers/CFN_stacks.png) 
-
-
-The cloud formation stack creates the following resources for the workshop.
+![CloudFormation Stack](/images/ecs-spot-capacity-providers/CFN_stacks.png) 
 
 
-* 1 VPC with 3 public and 3 private subnets
+The CloudFormation stack creates the following resources for the workshop.
+
+
+* 1 VPC with 6 subnets; 3 public and 3 private subnets
 * Application Load Balancer (ALB) with its own security group
 * Target Group and an ALB listener
 * Cloud9 Environment and its IAM Role

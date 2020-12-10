@@ -3,7 +3,7 @@ title: "EC2 Spot Interruption Handling in ECS"
 weight: 80
 ---
 
-Amazon EC2 Service interrupts your Spot Instance when it needs the capacity back. It provides a Spot Instance interruption notice, 2 minutes before the instance gets terminated.
+The Amazon EC2 service interrupts your Spot instance when it needs the capacity back. It provides a Spot instance interruption notice, 2 minutes before the instance gets terminated.
 
 The EC2 spot interruption notification is available in two ways:
 
@@ -15,11 +15,11 @@ In the Launch Template configuration, we added:
 ```plaintext
 echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
 ```
-When Amazon ECS Spot Instance draining is enabled on the instance, ECS container agent receives the Spot Instance interruption notice and places the instance in DRAINING status. When a container instance set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance [Click here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html) to learn more.
+When Amazon ECS Spot instance draining is enabled on the instance, the ECS container agent receives the Spot instance interruption notice and places the instance in DRAINING status. When a container instance is set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance [Click here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html) to learn more.
 
-The web application (**app.py**) we used to build docker image shows two ways to handle the EC2 Spot interruption within a docker container. This allows you to perform actions such as preventing the processing of new work, checkpointing the progress of a batch job, or gracefully exiting the application to complete the processing.
+The web application (**app.py**) we used to build Docker image shows two ways to handle the EC2 Spot interruption within a Docker container. This allows you to perform actions such as preventing the processing of new work, checkpointing the progress of a batch job, or gracefully exiting the application to complete the processing.
 
-In the first method, it polls the instance metadata service for spot interruption and display a message to the web page notifying the users (this is, of course, just for demonstration and not for real-world scenarios).
+In the first method, it polls the instance metadata service for spot interruption and displays a message to the web page notifying the users (this is, of course, just for demonstration and not for real-world scenarios).
 
 {{% notice warning %}}
 In a production environment, you should not provide access from the ECS tasks to the IMDS. We do this in this workshop for simplification.
@@ -35,7 +35,7 @@ if SpotInt.status_code == 200:
 
 In the second method, the application listens to the **SIGTERM** signal. The ECS container agent calls the StopTask API to stop all the tasks running on the Spot Instance.
 
-When StopTask is called on a task, the equivalent of docker stop issued to the containers running in the task. This results in a **SIGTERM** value, and a default 30-second timeout, after which the SIGKILL value sent, and the containers forcibly stopped.  If the container handles the **SIGTERM** value gracefully and exits within 30 seconds from receiving it, no SIGKILL value sent. Note that we have configured this time timeout value to 120 sec in the EC2 Launch template to allow the applications to take advantage of full 2 min if required, before the EC2 spot instance termination.
+When StopTask is called on a task, the equivalent of docker stop issued to the containers running in the task. This results in a **SIGTERM** value, and a default 30-second timeout, after which the **SIGKILL** value is sent, and the containers forcibly stopped.  If the container handles the **SIGTERM** value gracefully and exits within 30 seconds from receiving it, no **SIGKILL** value is sent. Note that we have configured this time timeout value to 120 sec in the EC2 Launch template to allow the applications to take advantage of the full 2 minutes if required, before the EC2 spot instance termination.
 
 ```python
 class Ec2SpotInterruptionHandler:
@@ -51,8 +51,8 @@ def __init__(self):
 def exit_gracefully(self, signum, frame):
    print("\nReceived {} signal".format(self.signals[signum]))
    if self.signals[signum] == 'SIGTERM':
-     print("SIGTERM Signal Received because of EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
+     print("SIGTERM Signal Received because of EC2 Spot Interruption. Let's wrap up the work within 2 minutes..")
 ```
 
-***Congratulations !!!*** you have successfully completed the section on *Using Spot Instances with Auto Scaling groups capacity providers*. You may continue to **optional** section on how to save costs using ***Fargate Spot*** capacity providers.
+***Congratulations!*** you have successfully completed the section on *Using Spot Instances with Auto Scaling groups capacity providers*. You may continue to **optional** section on how to save costs using ***Fargate Spot*** capacity providers.
 

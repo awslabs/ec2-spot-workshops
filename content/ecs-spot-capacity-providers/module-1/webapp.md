@@ -2,7 +2,7 @@
 title: "Build webapp docker image and Register ECS Task Definition"
 weight: 45
 ---
-In this section, we will build a simple python flask based web application and deploy in our ECS cluster.
+In this section we will build a simple python flask-based web application and deploy in our ECS cluster.
 
 Note the initial CloudFormation template already created an ECR registry.  
 
@@ -13,7 +13,7 @@ export ECR_REPO_URI=$(aws ecr describe-repositories --repository-names ecs-spot-
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO_URI
 ```
 
-Run the below command to build the webapp docker image.
+Run the command below to build the webapp docker image.
 
 ```bash
 cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/webapp/
@@ -37,7 +37,7 @@ sed -i -e "s#DOCKER_IMAGE_URI#$ECR_REPO_URI:latest#g" ec2-task.json
 
 ## Creating a task definition
 
-Run the below command to register a task definition
+Run the command below to register a task definition
 
 ```bash
 aws ecs register-task-definition --cli-input-json file://ec2-task.json

@@ -43,7 +43,7 @@ Open the preview application in your cloud9 environment and click on the arrow o
 
 ![c3vis](/images/ecs-spot-capacity-providers/c3vs_tool.png)
 
-The initial screen will look like the below, since there are no tasks or instances running in the cluster for now.
+The initial screen will appear as below, since there are no tasks or instances running in the cluster for now.
 
 ![c3vis](/images/ecs-spot-capacity-providers/c3vis2.png)
 

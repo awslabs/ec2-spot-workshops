@@ -8,13 +8,14 @@ In order to work with ECS from our new Cloud9 IDE environment, we need the requi
 * Find your Cloud9 EC2 instance [here] (https://console.aws.amazon.com/ec2/v2/home?#Instances:search=aws-cloud9-EcsSpotWorkshop)
 
 * Select the Instance, then choose Actions -> Security -> Modify IAM Role
-* Choose **EcsSpotWorkshop-Cloud9InstanceProfile** from the *IAM Role* drop down, and select *Apply*
 
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/attach_iam_role.png)
 
+* Choose **EcsSpotWorkshop-Cloud9InstanceProfile** from the *IAM Role* drop down, and select *Apply*
+
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/c9_2.png)
 
-* Click on the **Settings** icon on the top right
+* Return to your Cloud9 instance and click on the **Settings** icon at the top right
 * Select **AWS SETTINGS** 
 * Turn off **AWS managed temporary credentials** 
 * Close the Preferences tab
@@ -27,7 +28,7 @@ Use the [GetCallerIdentity] (https://docs.aws.amazon.com/cli/latest/reference/st
 aws sts get-caller-identity
 ```
 
-The output assumed-role name should contain the name of the role.
+The output assumed-role name should contain the name of the role in the Arn field.
 
 ```
 {

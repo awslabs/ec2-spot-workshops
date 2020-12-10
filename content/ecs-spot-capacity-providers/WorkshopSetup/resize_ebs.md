@@ -21,11 +21,11 @@ To change the EBS volume, please do
 ![resize_ebs_0](/images/ecs-spot-capacity-providers/EBS_volume_id.png)
 
 
-Afterward modify the EBS volume.
+Modify the EBS volume.
 
 ![resize_ebs_1](/images/ecs-spot-capacity-providers/resize_ebs_1.png)
 
-And chose a new volume size (e.g. 100GB).
+Choose a new volume size (e.g. 100GB).
 
 ![resize_ebs_2](/images/ecs-spot-capacity-providers/resize_ebs_2.png)
 

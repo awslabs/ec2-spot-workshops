@@ -9,7 +9,7 @@ draft: false
 
 One of the best practices for successful adoption of Spot instances is to implement **Spot instance diversification** as part of your configuration. Spot instance diversification helps to buy capacity from multiple Spot Instance pools, both for scaling up and for replacing spot instances that may receive a spot instance termination notification. A Spot instance pool is a set of unused EC2 instances with the same instance type (for example, m5.large), Availability Zone.
  
-We can diversify Spot instance pools using below strategy:
+We can diversify Spot instance pools using the strategy below:
 
  - By Implementing instance diversification, by selecting a mix of instances types and families from different Spot instance pools that meet the same vCPU's and memory criteria.
 
@@ -65,9 +65,7 @@ Internally, the ec2-instance-selector is making calls to the [DescribeInstanceTy
  * Instances of current generation (4th gen onwards)
  * Instances that don't meet the regular expression `.*n.*`, so effectively m5n, m5dn. 
 
-{{% notice warning %}}eneccccbvglbjgbjfdbufrdefirgndggktiilfddidjg
-
-Your workload may have other constraints that you should consider when selecting instances types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate for CPU bound workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is sensitive to numerical differences (i.e. financial risk calculations, industrial simulations) mixing these instance types might not be appropriate.
+{{% notice warning %}}Your workload may have other constraints that you should consider when selecting instances types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate for CPU bound workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is sensitive to numerical differences (i.e. financial risk calculations, industrial simulations) mixing these instance types might not be appropriate.
 {{% /notice %}}
 
 {{% notice note %}}

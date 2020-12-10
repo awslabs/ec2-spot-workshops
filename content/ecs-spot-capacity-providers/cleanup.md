@@ -15,7 +15,7 @@ Before you clean up the resources and complete the workshop, you may want to rev
 
 We need to scale down the number of tasks in the ECS service before deleting it.
 
-Run below commands to delete the ECS service *fargate-service-split* if you have completed the optional Fargate section.
+Run the commands below to delete the ECS service *fargate-service-split* if you have completed the optional Fargate section.
 
 ```bash
 aws ecs update-service --cluster EcsSpotWorkshop  \
@@ -25,7 +25,7 @@ aws ecs delete-service --cluster EcsSpotWorkshop  \
 ```
 
 
-Run below commands to delete the ECS service *ec2-service-split*
+Run the commands below to delete the ECS service *ec2-service-split*
 
 ```bash
 aws ecs update-service --cluster EcsSpotWorkshop  \
@@ -34,7 +34,7 @@ aws ecs delete-service --cluster EcsSpotWorkshop \
                         --service   ec2-service-split   
 ```
 
-Run below commands to the de-associate capacity providers with ECS Cluster first and then delete them
+Run the commands below to the de-associate capacity providers with ECS Cluster first and then delete them
 
 ```bash
 aws ecs put-cluster-capacity-providers \
@@ -46,7 +46,7 @@ aws ecs delete-capacity-provider      --capacity-provider CP-OD
 aws ecs delete-capacity-provider      --capacity-provider CP-SPOT 
 ```
 
-Run below commands to delete the both autoscaling groups
+Run the commands below to delete the both autoscaling groups
 
 ```bash
 aws autoscaling delete-auto-scaling-group \
@@ -55,7 +55,7 @@ aws autoscaling delete-auto-scaling-group \
               --auto-scaling-group-name EcsSpotWorkshop-ASG-OD  
 ```
 
-Run below commands to delete the cloud formation stack
+Run the commands below to delete the cloud formation stack
 
 ```bash
 aws cloudformation delete-stack --stack-name EcsSpotWorkshop  

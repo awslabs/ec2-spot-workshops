@@ -17,6 +17,6 @@ To change the ECS cluster default capacity provider strategy, follow these steps
 
 ![Capacity Provider Strategy](/images/ecs-spot-capacity-providers/CPS.png)
 
-Also note the default capacity provider strategy used in the above command. It sets base=2 and weight=1 for CP-OD and weight of 3 for CP-SPOT. That means, ECS first places 2 tasks (since base=2) on CP-OD and split the remaining tasks between CP-OD and CP-SOT in 1:3 ratio, so for every 1 task on CP-OD, 3 tasks placed on CP-SPOT.
+Also note the default capacity provider strategy used in the above command. It sets base=2 and weight=1 for CP-OD and weight of 3 for CP-SPOT. That means, ECS first places 2 tasks (since base=2) on CP-OD and splits the remaining tasks between CP-OD and CP-SOT in 1:3 ratio, so for every 1 task on CP-OD, 3 tasks placed on CP-SPOT.
 
 You can override this default capacity provider strategy and specify a different strategy for each service. 

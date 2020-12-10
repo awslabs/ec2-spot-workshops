@@ -4,7 +4,7 @@ weight: 70
 ---
 
 
-Refresh the C3Vis page by clicking on the **Roload Server Cache** button and click CPU metric. Your result should be like the below:
+Refresh the C3Vis page by clicking on the **Roload Server Cache** button and click CPU metric. Your result should be like below:
 
 ![Visualize](/images/ecs-spot-capacity-providers/c3vis_cluster_initial_view.png)
 
@@ -42,9 +42,9 @@ Also, in the C3Vis page, one of the EC2 instance is completely unused and does n
 
 {{%expand "Question: What if your task distribution is different and there is no unused EC2 instance in the ECS cluster?" %}}
 
-As mentioned in the Note above, tasks spread across instances within the capacity providers may be different and all the EC2 instances may run at least one task. But, to test the ECS cluster scale-in activity, we need at least one unused EC2 instance. For testing purpose, let us manually scale down the ECS service, i.e. reducing number of tasks so that there will be an unused instance with no tasks. Then the capacity provider instance termination protection feature should ideally choose only those unused instances running no tasks. 
+As mentioned in the note above, tasks spread across instances within the capacity providers may be different and all the EC2 instances may run at least one task. But, to test the ECS cluster scale-in activity, we need at least one unused EC2 instance. For testing purpose, let us manually scale down the ECS service by reducing the number of tasks so that there will be an unused instance with no tasks. Then the capacity provider instance termination protection feature should ideally choose only those unused instances running no tasks. 
 
-Run the below command to scale down the service by reducing the number of tasks from 10 to 4.
+Run the command below to scale down the service by reducing the number of tasks from 10 to 4.
 
 
 ```base
@@ -52,9 +52,9 @@ aws ecs update-service --cluster EcsSpotWorkshop \
 --service ec2-service-split --desired-count 4
 ```
 
-Now, guess what would be the distribution of 4 tasks across CP-OD and CP-SPOT capacity providers?  
+Now, guess the distribution of 4 tasks across CP-OD and CP-SPOT capacity providers would be?  
 
-Run below command to see the task spread across the capacity providers.
+Run the command below to see the task spread across the capacity providers.
 
 ```bash
 export cluster_name=EcsSpotWorkshop 
@@ -72,17 +72,17 @@ The task spread should look like this.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/tasks_after_scale_in.png)
 
-How will you explain that CP-SPOT has only 1 task and CP-OD has 3 tasks?
+How would you explain that CP-SPOT has only 1 task and CP-OD has 3 tasks?
 
 Out of 4 tasks in the ECS service, CP-OD will have 2 due to base=2 and remaining 2 (4-2) splits with 1 on CP-OD and 1 on CP-SPOT. 
 
-Then what would be the new values of CapacityProviderReservation for CP-SPOT and CP-OD because of the scale-in event?   
+What would the new values of CapacityProviderReservation for CP-SPOT and CP-OD be after of the scale-in event?   
 
 Let us look at the CloudWatch dashboard again.
 
 ![Visualizer](/images/ecs-spot-capacity-providers/cp28.png)
 
-Did you notice there is no change for CapacityProviderReservation metric value for CP-OD but changed from 100 to 50 for CP-SPOT. The value of 50 indicates the change in the value of M from 2 to 1 in the EC2 SPOT ASG.
+Did you notice there is no change for CapacityProviderReservation metric value for CP-OD but changed from 100 to 50 for CP-SPOT? The value of 50 indicates the change in the value of M from 2 to 1 in the EC2 SPOT ASG.
 
  This triggers a CloudWatch alarm after 15 mins.
 
@@ -93,8 +93,6 @@ The CloudWatch alarm triggers the scale-in activity on the **EcsSpotWorkshop-ASG
 ![Visualizer](/images/ecs-spot-capacity-providers/cp40.png)
 
 In the C3vis page, observe that the unused EC2 instance, which is not running any tasks, selected for termination, causing no disruption to the application.
-
-Now that you verified the ECS cluster scale-in activity, click on the arrow button to move to the next page.
 
 {{% /expand%}}
 

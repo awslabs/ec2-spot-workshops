@@ -7,7 +7,7 @@ weight: 8
 
 - For example, a launch template can contain the ECS optimized AMI, instance type, User data section, Instance Profile / Role, and network settings that you typically used to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, a CLI tool, or an EC2 Auto Scaling group (like we will use in this workshop), you can specify the launch template to use. 
 
-- The EC2 launch template is pre-created using the CloudFormation stack, You can use the AWS Management Console to see the configuration. Please note that launch templates are mandatory in order to use EC2 Auto Scaling groups with mixed instances policy (to allow for mixing On-Demand and Spot Instances in an Auto Scaling group, and diversifying the instance type selection)
+- The EC2 launch template is pre-created using the CloudFormation stack, You can use the AWS Management Console to see the configuration. Please note that launch templates are necessary in order to use EC2 Auto Scaling groups with mixed instances policy (to allow for mixing On-Demand and Spot Instances in an Auto Scaling group, and diversifying the instance type selection)
 
 ![Launch Template](/images/ecs-spot-capacity-providers/c9_6.png)
 
