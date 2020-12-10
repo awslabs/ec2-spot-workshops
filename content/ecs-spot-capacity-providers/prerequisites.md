@@ -7,7 +7,7 @@ To run through this workshop we expect you to have some familiarity with [Docker
 
 ## Conventions:
 
-Throughout this workshop, we provide commands for you to run in the Cloud9 terminal (not in your local terminal). These commands will look like this:
+Throughout this workshop, we provide commands for you to run in the Cloud9 terminal (not in your local terminal). These commands will look like:
 
 <pre>
 $ ssh -i PRIVATE_KEY.PEM ec2-user@EC2_PUBLIC_DNS_NAME

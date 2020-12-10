@@ -38,13 +38,13 @@ ASG_ARN=$(aws autoscaling  describe-auto-scaling-groups --auto-scaling-group-nam
 echo "$ASG_NAME  ARN=$ASG_ARN"
 ```
 
-The output of the above command looks like the below:
+The output of the above command will appear as below:
 
 ```plaintext
 EcsSpotWorkshop-ASG-SPOT ARN=arn:aws:autoscaling:us-east-1:0004746XXXX:autoScalingGroup:dd7a67e0-4df0-4cda-98d7-7e13c36dec5b:autoScalingGroupName/EcsSpotWorkshop-ASG-SPOT
 ```
 
-The EC2 Spot auto scaling group looks like below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-SPOT?view=details)
+The EC2 Spot auto scaling group should appear as below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-SPOT?view=details)
 
 Note that there is no capacity provisioned i.e. desired capacity is zero in the ASG. We expect the capacity to scale up automatically when we deploy applications later.
 

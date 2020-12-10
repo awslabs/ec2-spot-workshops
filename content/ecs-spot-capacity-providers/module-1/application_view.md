@@ -17,7 +17,7 @@ As you keep refreshing the web page, you will notice the content of the page cha
 
 Now let's check if the tasks distributed on On-Demand and Spot capacity providers according to the capacity provider strategy that we configured.
 
-Run below command to see the task distribution across the ECS cluster.
+Run the command below to see the task distribution across the ECS cluster.
 
 ```bash
 export cluster_name=EcsSpotWorkshop 
@@ -30,7 +30,7 @@ aws ecs describe-tasks \
 --output table
 ```
 
-You will see the result in a table similar to the below:
+You will see the result in a table similar to what you see below:
 
 ![Results Table](/images/ecs-spot-capacity-providers/table.png)
 

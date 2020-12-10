@@ -34,11 +34,11 @@ aws autoscaling create-auto-scaling-group --cli-input-json  file://asg.json
 ASG_ARN=$(aws autoscaling  describe-auto-scaling-groups --auto-scaling-group-name $ASG_NAME | jq -r '.AutoScalingGroups[0].AutoScalingGroupARN')
 echo "$ASG_NAME  ARN=$ASG_ARN"
 ```
-The output of the above command looks like the below:
+The output of the above command will appear as below:
 ```plaintext
 EcsSpotWorkshop-ASG-OD ARN=arn:aws:autoscaling:us-east-1:0004746XXXX:autoScalingGroup:1e9de503-068e-4d78-8272-82536fc92d14:autoScalingGroupName/EcsSpotWorkshop-ASG-OD 
 ```
-The On-Demand auto scaling group looks like below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-OD?view=details)
+The On-Demand auto scaling group will appear as below in the [console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-OD?view=details)
 
 Note that there is no capacity provisioned i.e. desired capacity is zero in the ASG. We expect the capacity to scale up automatically when we deploy applications later.
 
