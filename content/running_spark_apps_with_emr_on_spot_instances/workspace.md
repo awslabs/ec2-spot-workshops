@@ -10,8 +10,7 @@ account user.
 {{% /notice %}}
 
 {{% notice info %}}
-If you are at an AWS hosted event (such as re:Invent, Kubecon, Immersion Day, or any other event hosted by 
-an AWS employee) follow the instructions on the region that should be used to launch resources
+If you are at an AWS hosted event, follow the instructions on the region that should be used to launch resources
 {{% /notice %}}
 
 {{% notice tip %}}
@@ -20,15 +19,9 @@ the cloud9 domain, or connecting to the workspace might be impacted.
 Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( https://docs.aws.amazon.com/cloud9/latest/user-guide/troubleshooting.html#troubleshooting-env-loading).
 {{% /notice %}}
 
-### Launch Cloud9 in your closest region:
+### Launch Cloud9:
 
-{{< tabs name="Region" >}}
-    {{< tab name="Oregon" include="us-west-2.md" />}}
-    {{< tab name="Ireland" include="eu-west-1.md" />}}
-    {{< tab name="Ohio" include="us-east-2.md" />}}
-    {{< tab name="Singapore" include="ap-southeast-1.md" />}}
-{{< /tabs >}}
-
+- Go to [Cloud9 Console](https://console.aws.amazon.com/cloud9/home)
 - Select **Create environment**
 - Name it **eksworkshop**, and take all other defaults
 - When it comes up, customize the environment by closing the **welcome tab**
