@@ -7,7 +7,7 @@ pre: "<b>⁃ </b>"
 
 ## Overview
 
-Welcome! The **learning objective** of this hands-on workshop is to help understand the different options to cost optimize container workloads running on **[Amazon ECS](https://aws.amazon.com/ecs/)** using **[EC2 Spot Instances](https://aws.amazon.com/ec2/spot/)** and **[Amazon Fargate Spot](https://aws.amazon.com/fargate/)**. This workshop covers topics such as ECS cluster auto scaling and how to scale efficiently with **[Capacity Providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html)** to spread your tasks across a mix of resources, both on AWS Fargate and AWS Fargate Spot as well as EC2 On-Demand and Spot Instances.
+Welcome! The **learning objective** of this hands-on workshop is to help understand the different options to cost optimize container workloads running on **[Amazon ECS](https://aws.amazon.com/ecs/)** using **[EC2 Spot Instances](https://aws.amazon.com/ec2/spot/)** and **[AWS Fargate Spot](https://aws.amazon.com/fargate/)**. This workshop covers topics such as ECS cluster auto scaling and how to scale efficiently with **[Capacity Providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html)** to spread your tasks across a mix of resources, both on AWS Fargate and AWS Fargate Spot as well as EC2 On-Demand and Spot Instances.
 
 
 {{% notice info %}}
