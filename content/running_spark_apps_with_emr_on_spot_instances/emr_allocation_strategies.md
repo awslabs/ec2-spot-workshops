@@ -9,7 +9,7 @@ As an enhancement to the default EMR instance fleets cluster configuration, the 
 * Spot instances use a capacity-optimized strategy, which launches Spot instances from Spot instance pools that have optimal capacity for the number of instances that are launching.
 
 {{% notice note %}}
-The allocation strategy option also lets you specify up to fifteen EC2 instance types per task node when creating your cluster, as opposed to five maximum allowed by the default EMR cluster instance fleet configuration.
+The allocation strategy option also lets you specify up to 15 EC2 instance types per task node when creating your cluster, as opposed to 5 maximum allowed by the default EMR cluster instance fleet configuration.
 {{% /notice %}}
 
 The capacity-optimized allocation strategy for Spot instances uses real-time capacity data to allocate instances from the Spot instance pools with the optimal capacity for the number of instances that are launching. This allocation strategy is appropriate for workloads that have a higher cost of interruption. Examples include long-running jobs and multi-tenant persistent clusters running Apache Spark, Apache Hive, and Presto. This allocation strategy lets you specify up to 15 EC2 instance types on task instance fleets to diversify your Spot requests and get steep discounts. Previously, instance fleets allowed a maximum of five instance types. You can now diversify your Spot requests across these 15 pools within each Availability Zone and prioritize deploying into a deeper capacity pool to lower the chance of interruptions. With more instance type diversification, Amazon EMR has more capacity pools to allocate capacity from, and chooses the Spot Instances which are least likely to be interrupted.
