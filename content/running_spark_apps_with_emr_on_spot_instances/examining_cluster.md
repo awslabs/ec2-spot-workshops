@@ -64,8 +64,8 @@ Some notable metrics:\
 When you are done examining the cluster and using the different UIs, terminate the EMR cluster from the EMR management console. This is not the end of the workshop though - we still have some interesting steps to go.
 
 #### Number of executors in the cluster
-With 40 Spot Units in the Task Instance Fleet, EMR launched either 10 * xlarge (running one executor) or 5 * 2xlarge instances (running 2 executors), so the Task Instance Fleet provides 10 executors / containers to the cluster.\
+With 32 Spot Units in the Task Instance Fleet, EMR launched either 8 * xlarge (running one executor) or 4 * 2xlarge instances (running 2 executors) or 2 * 4xlarge instances (running 4 executors), so the Task Instance Fleet provides 8 executors / containers to the cluster.\
 The Core Instance Fleet launched one xlarge instance, able to run one executor.
-{{%expand "Question: Did you see more than 11 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
+{{%expand "Question: Did you see more than 9 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
 Your Spark application was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
 {{% /expand%}}
