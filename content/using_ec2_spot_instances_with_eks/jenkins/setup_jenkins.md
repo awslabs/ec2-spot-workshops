@@ -7,14 +7,14 @@ weight: 30
 #### Install Jenkins
 
 ```
-helm install cicd jenkinsci/jenkins --set rbac.create=true,master.servicePort=80,master.serviceType=LoadBalancer,master.JCasC.enabled=false,master.enableXmlConfig=true
+helm install cicd jenkinsci/jenkins --set rbac.create=true,controller.servicePort=80,controller.serviceType=LoadBalancer,controller.JCasC.enabled=false,controller.enableXmlConfig=true
 ```
 
 The output of this command will give you some additional information such as the
 `admin` password and the way to get the host name of the ELB that was
 provisioned.
 
-Let's give this some time to provision and while we do let's watch for Jenkins master pod
+Let's give this some time to provision and while we do let's watch for Jenkins controller pod
 to boot.
 
 ```
@@ -62,4 +62,4 @@ printf $(kubectl get secret --namespace default cicd-jenkins -o jsonpath="{.data
 The output of this command will give you the default password for your `admin`
 user. Log into the Jenkins login screen using these credentials. Make note of this password, because you will need to use it several times throughout the workshop.
 
-Now that our Jenkins master is working, move to the next step in the workshop to set up Jenkins agents.
+Now that our Jenkins controller is working, move to the next step in the workshop to set up Jenkins agents.
