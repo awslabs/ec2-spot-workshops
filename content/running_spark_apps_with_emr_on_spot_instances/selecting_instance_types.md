@@ -31,7 +31,7 @@ For the purpose of this workshop we will select instances based on below criteri
  * Instances which have vCPU to Memory ratio of 1:8, same as R Instance family\
  * Instances with CPU Architecture x86_64 and no GPU Instances\
  * Instances that belong to current generation\ 
- * Instances types that are not supported by EMR such as R5N, R5ad and R5b. Enhanced z, I and D Instance families, which are priced higher that R family. So basically, adding a deny list with the regular expression `.*n.*|.*ad.*|.*b.*|^[zid].*`.
+ * Instances types that are not supported by EMR such as R5N, R5ad and R5b. Enhanced z, I and D Instance families, which are priced higher than R family. So basically, adding a deny list with the regular expression `.*n.*|.*ad.*|.*b.*|^[zid].*`.
 
 {{% notice info %}}
 [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-supported-instance-types.html) to find out the instance types that Amazon EMR supports .
