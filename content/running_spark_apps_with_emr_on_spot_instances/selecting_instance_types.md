@@ -30,7 +30,7 @@ For the purpose of this workshop we will select instances based on below criteri
  * Instances that have minimum 4 vCPUs and maximum 16 vCPUs\
  * Instances which have vCPU to Memory ratio of 1:8, same as R Instance family\
  * Instances with CPU Architecture x86_64 and no GPU Instances\
- * Instances that belong to current generation\ 
+ * Instances that belong to current generation\
  * Instances types that are not supported by EMR such as R5N, R5ad and R5b. Enhanced z, I and D Instance families, which are priced higher than R family. So basically, adding a deny list with the regular expression `.*n.*|.*ad.*|.*b.*|^[zid].*`.
 
 {{% notice info %}}
