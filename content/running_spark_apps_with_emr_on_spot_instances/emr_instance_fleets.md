@@ -15,10 +15,8 @@ While a cluster is running, if Amazon EC2 reclaims a Spot Instance or if an inst
 
 These options do not exist within the default EMR configuration option "Uniform Instance Groups", hence we will be using EMR Instance Fleets only.
 
-As an enhancement to the default EMR instance fleets cluster configuration, the allocation strategy feature is available in EMR version **5.12.1 and later**. With allocation strategy:
-
-* On-Demand instances use a lowest-price strategy, which launches the lowest-priced instances first.
-
+As an enhancement to the default EMR instance fleets cluster configuration, the allocation strategy feature is available in EMR version **5.12.1 and later**. With allocation strategy:  
+* On-Demand instances use a lowest-price strategy, which launches the lowest-priced instances first.  
 * Spot instances use a [capacity-optimized] (https://aws.amazon.com/about-aws/whats-new/2020/06/amazon-emr-uses-real-time-capacity-insights-to-provision-spot-instances-to-lower-cost-and-interruption/) allocation strategy, which allocates instances from most-available Spot Instance pools and lowers the chance of interruptions. This allocation strategy is appropriate for workloads that have a higher cost of interruption such as persistent EMR clusters running Apache Spark, Apache Hive, and Presto. 
 
 {{% notice note %}}
