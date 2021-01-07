@@ -27,7 +27,7 @@ Under the core node type, click **Add / remove instance types to fleet** and sel
 
 #### **Task Instance Fleet**:
 Our task nodes will only run Spark executors and no HDFS DataNodes, so this is a great fit for scaling out and increasing the parallelization of our application's execution, to achieve faster execution times.
-Under the task node type, Click **Add / remove instance types to fleet** and select up to 15 instance types you noted before as suitable for our executor size.\
+Under the task node type, click **Add / remove instance types to fleet** and select **up to 15 instance types** you noted before as suitable for your executor size.\
 Since our executor size is 4 vCPUs, and each instance counts as the number of its vCPUs towards the total units, let's specify **32 Spot units** in order to run 8 executors, and allow EMR to select the best instance type in the Task Instance Fleet to run the executors on.
 
 ![FleetSelection3](/images/running-emr-spark-apps-on-spot/emrinstancefleets-task2.png)
