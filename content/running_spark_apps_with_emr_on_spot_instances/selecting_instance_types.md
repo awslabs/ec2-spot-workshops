@@ -3,40 +3,65 @@ title: "Selecting instance types"
 weight: 50
 ---
 
-Let's use our newly acquired knowledge around Spark executor sizing in order to select the EC2 Instance Types that will be used in our EMR cluster.\
-EMR clusters run Master, Core and Task node types. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html) to read more about the different node types.
+Let's use our newly acquired knowledge around Spark executor sizing in order to select the EC2 Instance Types that will be used in our EMR cluster. We determined that in order to be flexible and allow running on multiple instance types, we will submit our Spark application with **"–executor-memory=18GB –executor-cores=4"**.
 
-We determined that in order to be flexible and allow running on multiple instance types, we will submit our Spark application with **"–executor-memory=18GB –executor-cores=4"**, 
+To apply the instance diversification best practices while meeting the application constraints defined in the previous section, we can add different instances sizes from the current generation, such as R5 and R4. We can even include variants, such as R5d instance types (local NVMe-based SSDs) and R5a instance types (powered by AMD processors).
 
-We can use the [Spot Instance Advisor] (https://aws.amazon.com/ec2/spot/instance-advisor/) page to find the relevant instance types with sufficient number of vCPUs and RAM, and use this opportunity to also select instance types with low interruption rates. \
-For example: r5.2xlarge has 8 vCPUs and 64 GB of RAM, so EMR will automatically run 2 executors that will consume 36 GB of RAM and still leave free RAM for the operating system and other processes.\
-However, at the time of writing, when looking at the EU (Ireland) region in the Spot Instance advisor, the r5.2xlarge instance type is showing an interruption rate of >20%.\
-Instead, we'll focus on instance types with lower interruption rates and suitable vCPU/Memory ratio. As an example, at the time of writing, in the EU (Ireland) region, these could be: r4.xlarge, r4.2xlarge, i3.xlarge, i3.2xlarge, r5d.xlarge
-
-![Spot Instance Advisor](/images/running-emr-spark-apps-on-spot/spotinstanceadvisor1.png)
-
-{{% notice note %}}
-Spot Instance interruption rates are dynamic, the above just provides a real world example from a specific time and would probably be different when you are performing this workshop.
+{{% notice info %}}
+There are over 275 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. **[amazon-ec2-instance-selector](https://github.com/aws/amazon-ec2-instance-selector)** helps you select compatible instance types for your application to run on. The command line interface can be passed resource criteria like vCPUs, memory, network performance, and much more and then return the available, matching instance types.
 {{% /notice %}}
 
-To keep our flexibility in place and be able to provide multiple instance types for our EMR cluster, we need to make sure that our executor size will be under the EMR YARN limitation that we saw in the previous step, 
+We will use **amazon-ec2-instance-selector** to help us select the relevant instance
+types with sufficient number of vCPUs and RAM.
 
-**Your first task**: Find and take note of 5 instance types in the region where you have created your VPC to run your EMR cluster, which will allow running executors with at least 4 vCPUs and 30+ GB of RAM, and also have low Spot interruption rates (maximum 10-15%).
+Let's first install amazon-ec2-instance-selector on Cloud9 IDE:
 
-{{%expand "Click here to see a hint for the task" %}}
-Instance types with sufficient Memory and vCPUs for our executor size, as well as suitable for our desired vCPU:Mem ratio, and are also under the default memory EMR limitations:\
+```
+curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v1.3.0/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
+sudo mv ec2-instance-selector /usr/local/bin/
+ec2-instance-selector --version
+```
 
-**Recommended for the workshop:**\
-- r4.xlarge and larger\
-- r5.xlarge and larger\
-- r5a.xlarge and larger\
-- r5d.xlarge and larger\
-- i3.xlarge and larger\
+Now that you have ec2-instance-selector installed, you can run
+`ec2-instance-selector --help`, to understand how you could use it for selecting
+instances that match your workload requirements.
 
-**Previous generation instance types:**\
-- r3.xlarge and larger\
-- i2.xlarge and larger\
-you will notice that these instance types have double the vCores as they do vCPU, as reflected in the EMR instance selection window - this is an EMR optimization method. Feel free to use these as well, but note that the executor calculations that we're referring to in the workshop will differ. Also, these previous generation instance types will perform slower and the application will take longer to complete.\
-Also note that not all instance types exist in all regions.
-{{% /expand%}}
+For the purpose of this workshop we will select instances based on below criteria:  
+ * Instances that have minimum 4 vCPUs and maximum 16 vCPUs  
+ * Instances which have vCPU to Memory ratio of 1:8, same as R Instance family  
+ * Instances with CPU Architecture x86_64 and no GPU Instances  
+ * Instances that belong to current generation  
+ * Instances types that are not supported by EMR such as R5N, R5ad and R5b. Enhanced z, I and D Instance families, which are priced higher than R family. So basically, adding a deny list with the regular expression `.*n.*|.*ad.*|.*b.*|^[zid].*`.
 
+{{% notice info %}}
+[Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-supported-instance-types.html) to find out the instance types that Amazon EMR supports .
+{{% /notice %}}
+
+Run the following command with above mentioned criteria, to get the list of instances.
+
+```bash
+ec2-instance-selector --vcpus-min 4  --vcpus-max 16  --vcpus-to-memory-ratio 1:8 --cpu-architecture x86_64 --current-generation --gpus 0 --deny-list '.*n.*|.*ad.*|.*b.*|^[zid].*'
+```
+
+Internally ec2-instance-selector is making calls to the [DescribeInstanceTypes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceTypes.html) for the specific region and filtering
+the instances based on the criteria selected in the command line. Above command should display a list like the one that follows (note results might differ depending on the region). We will use this instances as part of our EMR Core and Task Instance Fleets.
+
+```
+r4.2xlarge
+r4.4xlarge
+r4.xlarge
+r5.2xlarge
+r5.4xlarge
+r5.xlarge
+r5a.2xlarge
+r5a.4xlarge
+r5a.xlarge
+r5d.2xlarge
+r5d.4xlarge
+r5d.xlarge         
+```
+
+{{% notice note %}}
+You are encouraged to test what are the options that `ec2-instance-selector` provides and run a few commands with it to familiarize yourself with the tool.
+For example, try running the same commands as you did before with the extra parameter **`--output table-wide`**.
+{{% /notice %}}
