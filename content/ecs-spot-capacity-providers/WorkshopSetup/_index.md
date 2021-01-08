@@ -9,4 +9,4 @@ To start the workshop, follow one of the following pages, depending on whether y
 
 {{% children  %}}
 
-If you need an introduction to containers, Amazon ECS and AWS Fargate, continue to the [**Introduction section.**](/ecs-spot-capacity-providers/introduction.html)
+Once you are done with either setup, continue with [**Introduction section.**](/ecs-spot-capacity-providers/introduction.html)
