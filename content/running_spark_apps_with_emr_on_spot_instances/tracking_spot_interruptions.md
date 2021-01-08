@@ -13,7 +13,7 @@ In most cases, when running fault-tolerant workloads, we don't really need to tr
 Let's set up an email notification for when Spot interruptions occur, so if there are any failures in our EMR applications, we'll be able to check if the failures correlate to a Spot interruption.
 
 #### Creating an SNS topic for the notifications
-1. Create a new SNS topic and subscribe to the topic with your email address\
+1. Create a new SNS topic and subscribe to the topic with your email address  
 For guidance, you can follow steps #1 & #2 in the [Amazon SNS getting started guide] (https://docs.aws.amazon.com/sns/latest/dg/sns-getting-started.html)
 1. You will receive an email with the subject "AWS Notification - Subscription Confirmation". Click the "**Confirm subscription**" link in the email in order to allow SNS to send email to the endpoint (your email).
 

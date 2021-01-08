@@ -8,15 +8,15 @@ In this step we'll launch our first cluster, which will run solely on Spot Insta
 Normally our dataset on S3 would be located in the same region where we are going to run our EMR clusters. In this workshop, it is fine if you are running EMR in a different region, and the Spark application will work against the dataset which is located in the N. Virginia region. This will be negligible in terms of price and performance.
 {{% /notice %}}
 
-To launch the cluster, follow these steps:\
+To launch the cluster, follow these steps:
 
-1. [Open the EMR console] (https://console.aws.amazon.com/elasticmapreduce/home) in the region where you are looking to launch your cluster.\
-1. Click "**Create Cluster**"\
-1. Click "**Go to advanced options**"\
-1. Select the latest EMR release, and in the list of components, only leave **Hadoop** checked and also check **Spark** and **Ganglia** (we will use it later to monitor our cluster)\
-1. Under "**Steps (Optional)**" -> Step type drop down menu, select "**Spark application**" and click **Add step**, then add the following details in the Add step dialog window:\
+1. [Open the EMR console] (https://console.aws.amazon.com/elasticmapreduce/home) in the region where you are looking to launch your cluster.  
+1. Click "**Create Cluster**"  
+1. Click "**Go to advanced options**"  
+1. Select the latest EMR release, and in the list of components, only leave **Hadoop** checked and also check **Spark** and **Ganglia** (we will use it later to monitor our cluster)  
+1. Under "**Steps (Optional)**" -> Step type drop down menu, select "**Spark application**" and click **Add step**, then add the following details in the Add step dialog window:  
 
-* **Spark-submit options**: here we will configure the memory and core count for each executor, as described in the previous section. Use these settings (make sure you have two '-' chars):\
+* **Spark-submit options**: here we will configure the memory and core count for each executor, as described in the previous section. Use these settings (make sure you have two '-' chars):  
 ```
 --executor-memory 18G --executor-cores 4
 ```
@@ -35,7 +35,7 @@ exit()
 
 Then add the location of the file under the **Application location** field, i.e: s3://\<your-bucket-name\>/script.py
 
-* **Arguments**: Here we will configure the location of where Spark will write the results of the job. Enter: s3://\<your-bucket-name\>/results/\
+* **Arguments**: Here we will configure the location of where Spark will write the results of the job. Enter: s3://\<your-bucket-name\>/results/  
 * **Action on failure**: Leave this on *Continue* and click **Add** to save the step.
 
 ![sparksubmit](/images/running-emr-spark-apps-on-spot/sparksubmitstep1.png)
