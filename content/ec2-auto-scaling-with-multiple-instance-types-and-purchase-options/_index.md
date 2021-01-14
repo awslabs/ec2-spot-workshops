@@ -1,7 +1,7 @@
 ---
 title: "EC2 Auto Scaling with multiple instance types and purchase options"
 date: 2019-01-26T00:00:00Z
-weight: 90
+weight: 100
 pre: "<b>⁃ </b>"
 ---
 
