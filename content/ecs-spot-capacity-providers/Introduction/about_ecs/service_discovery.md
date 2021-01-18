@@ -1,6 +1,6 @@
 +++
 title = "Service Discovery"
-weight = 40
+weight = 60
 +++
 
 

@@ -1,6 +1,6 @@
 +++
 title = "Amazon ECS cluster"
-weight = 15
+weight = 10
 +++
 
 

@@ -1,6 +1,6 @@
 +++
 title = "Introduction to ECS"
-weight = 10
+weight = 20
 +++
 
 ![Amazon ECS](/images/ecs-spot-capacity-providers/ecs.png)    
