@@ -1,6 +1,6 @@
 ---
 title: "Create On-Demand ASG capacity provider"
-weight: 11
+weight: 50
 ---
 
 To create a capacity provider, follow these steps:

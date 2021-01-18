@@ -1,6 +1,6 @@
 ---
 title: "Create an ECS cluster"
-weight: 5
+weight: 20
 ---
 
 Let us first create an empty ECS cluster.

@@ -1,6 +1,6 @@
 ---
 title: "Create CloudWatch dashboard for ECS Cluster with key metrics"
-weight: 40
+weight: 110
 ---
 
 Go back to your initial terminal and run the command below to create the CloudWatch dashboard to watch key metrics

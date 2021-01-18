@@ -8,7 +8,7 @@ availabilityZones: [${AWS_AZS}]
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: "1.13"
+  version: "1.18"
 
 nodeGroups:
   - name: gpu-nodegroup

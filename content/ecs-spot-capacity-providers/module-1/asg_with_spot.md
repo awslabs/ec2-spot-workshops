@@ -1,6 +1,6 @@
 ---
 title: "Create EC2 Spot Auto Scaling group"
-weight: 15
+weight: 70
 ---
 
 In this section, you create an Auto Scaling group for EC2 Spot Instances using the Launch Template created by the CloudFormation stack. This procedure is exactly the same as the previous section, except for a few changes specific to the configuration for Spot Instances.

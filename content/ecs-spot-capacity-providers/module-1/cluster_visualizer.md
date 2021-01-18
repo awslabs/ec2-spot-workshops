@@ -1,8 +1,7 @@
 ---
 title: "capacity provider Instance Termination Protection in Action"
-weight: 70
+weight: 160
 ---
-
 
 Refresh the C3Vis page by clicking on the **Roload Server Cache** button and click CPU metric. Your result should be like below:
 

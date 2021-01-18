@@ -1,6 +1,6 @@
 ---
 title: "Create an ECS service"
-weight: 55
+weight: 130
 ---
 
 In this section we will create an ECS service which uses the default cluster capacity provider strategy to spread tasks on CP-OD and CP-SPOT: **CP-OD base=2 & weight=1** and **CP-SPOT weight=3**. This capacity provider strategy created based on the following application requirements:

@@ -1,6 +1,6 @@
 ---
 title: "EC2 Spot Interruption Handling in ECS"
-weight: 80
+weight: 170
 ---
 
 The Amazon EC2 service interrupts your Spot instance when it needs the capacity back. It provides a Spot instance interruption notice, 2 minutes before the instance gets terminated.

@@ -1,7 +1,8 @@
 ---
 title: "Build webapp docker image and Register ECS Task Definition"
-weight: 45
+weight: 120
 ---
+
 In this section we will build a simple python flask-based web application and deploy in our ECS cluster.
 
 Note the initial CloudFormation template already created an ECR registry.  

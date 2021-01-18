@@ -1,6 +1,6 @@
 ---
 title: "Create EC2 Spot ASG capacity provider"
-weight: 20
+weight: 80
 ---
 
 To create the capacity provider, follow these steps:

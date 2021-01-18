@@ -1,12 +1,13 @@
 ---
 title: "Setup Cloud9 Environment"
-weight: 6
+weight: 20
 ---
 
+{{% notice warning %}}
+If you are running the workshop on your own, the Cloud9 workspace should be built by an IAM user with Administrator privileges, not the root account user. 
+{{% /notice %}}
 
-If you are running the workshop on your own, the Cloud9 workspace should be built by an IAM user with Administrator privileges, not the root account user. Please ensure you are logged in as an IAM user.
-
-We will open the Cloud9 environment first to execute all the commands needed for this workshop.
+Please ensure you are logged in as an IAM user. We will open the Cloud9 environment first to execute all the commands needed for this workshop.
 
 1. Login into AWS console with your account credentials and choose the region where you deployed the CloudFormation template.
 1. Select **Services** and type **Cloud9**

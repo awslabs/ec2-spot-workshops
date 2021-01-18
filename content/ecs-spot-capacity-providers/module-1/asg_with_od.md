@@ -1,6 +1,6 @@
 ---
 title: "Create On-Demand Auto Scaling group"
-weight: 10
+weight: 40
 ---
 
 In this section, we will create an EC2 Auto Scaling group (ASG) for On-Demand Instances using the Launch Template created by the CloudFormation stack.

@@ -1,6 +1,6 @@
 ---
 title: "ECS Managed Scaling(CAS) in action"
-weight: 60
+weight: 140
 ---
 
 Click the service name in the [ECS Console](https://console.aws.amazon.com/ecs/home?#/clusters/EcsSpotWorkshop/services/ec2-service-split/details) 

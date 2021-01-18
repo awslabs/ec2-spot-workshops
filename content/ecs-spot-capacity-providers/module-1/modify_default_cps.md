@@ -1,6 +1,6 @@
 ---
 title: "Setup default capacity provider strategy"
-weight: 25
+weight: 90
 ---
 
 To change the ECS cluster default capacity provider strategy, follow these steps:

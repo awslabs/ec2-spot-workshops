@@ -1,7 +1,7 @@
 ---
 title: "Selecting Instance Types"
 date: 2018-08-07T11:05:19-07:00
-weight: 13
+weight: 60
 draft: false
 ---
 

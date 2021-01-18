@@ -1,13 +1,12 @@
 ---
 title: "Attach IAM role to Cloud9 workspace"
-weight: 10
+weight: 40
 ---
 
 In order to work with ECS from our new Cloud9 IDE environment, we need the required permissions.
 
 * Find your Cloud9 EC2 instance [here] (https://console.aws.amazon.com/ec2/v2/home?#Instances:search=aws-cloud9-EcsSpotWorkshop)
-
-* Select the Instance, then choose Actions -> Security -> Modify IAM Role
+* Select the Instance, then choose **Actions** -> **Security** -> **Modify IAM Role**
 
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/attach_iam_role.png)
 

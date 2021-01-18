@@ -19,7 +19,7 @@ If you are at an AWS event, an AWS account created for you to use throughout the
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
-You can now proceed to the workshop steps [**Setup the workshop environment on AWS**]()
+You can now proceed to the workshop steps [**Setup the workshop environment on AWS**](/ecs-spot-capacity-providers/workshopsetup.html)
 
 {{% notice info %}}
 **Optional:**  If you want to read through basic concepts on Amazon ECS before doing workshop steps, you may go to [Introduction](/ecs-spot-capacity-providers/introduction.html")

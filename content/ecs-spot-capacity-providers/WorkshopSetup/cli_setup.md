@@ -1,6 +1,6 @@
 ---
 title: "Setup AWS CLI and other tools"
-weight: 15
+weight: 50
 ---
 
 

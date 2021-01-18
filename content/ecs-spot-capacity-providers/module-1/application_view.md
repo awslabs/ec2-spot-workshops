@@ -1,6 +1,6 @@
 ---
 title: "Test application and check Task distribution in the Cluster"
-weight: 65
+weight: 150
 ---
 
 In this section, let us first check if our web application deployed successfully and working as expected. We will also check if ECS spreads our tasks across CP-OD and CP-SPOT capacity provides under the strategy we used during the service configuration.
