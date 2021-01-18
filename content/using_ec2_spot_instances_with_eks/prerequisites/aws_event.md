@@ -9,7 +9,7 @@ weight: 20
 {{% notice warning %}}
 Only complete this section if you are at an AWS hosted event (such as re:Invent,
 Kubecon, Immersion Day, or any other event hosted by an AWS employee). If you 
-are running the workshop on your own, go to: [Start the workshop on your own]({{< relref "self_paced.md" >}}).
+are running the workshop on your own, go to: [Start the workshop on your own]({{< ref "/using_ec2_spot_instances_with_eks/prerequisites/self_paced.md" >}}).
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal
@@ -81,7 +81,7 @@ aws sts get-caller-identity
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/at_an_aws_validaterole.md" %}}
 
 {{% notice note %}}
-Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "../eksctl/test.md"  >}})**
+Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/eksctl/test.md"  >}})**
 {{% /notice %}}
 
 {{% /expand%}}

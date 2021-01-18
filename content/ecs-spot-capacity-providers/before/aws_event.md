@@ -1,10 +1,10 @@
 +++
 title = "...At an AWS event"
-weight = 1
+weight = 10
 +++
 
 {{% notice warning %}}
-Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own](/ecs-spot-capacity-providers/before/self_paced.html)
+Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own]({{< ref "/ecs-spot-capacity-providers/before/self_paced.md" >}})
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal
@@ -19,8 +19,9 @@ If you are at an AWS event, an AWS account created for you to use throughout the
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
-You can now proceed to the workshop steps [**Setup the workshop environment on AWS**](/ecs-spot-capacity-providers/workshopsetup.html)
+You can now proceed to the workshop steps [**Setup the workshop environment on AWS**]()
 
-Optional:
-If you want to read through basic concepts on Amazon ECS before doing workshop steps, you may go to [**Introduction**](/ecs-spot-capacity-providers/introduction.html)
+{{% notice info %}}
+**Optional:**  If you want to read through basic concepts on Amazon ECS before doing workshop steps, you may go to [Introduction](/ecs-spot-capacity-providers/introduction.html")
+{{% /notice %}}
 

@@ -1,7 +1,6 @@
 ---
 title: "Using AWS Fargate Spot capacity providers (Optional)"
-
-weight: 40
+weight: 60
 ---
 
 In this section, we will learn how to leverage ECS FARGATE and FARGATE_SPOT capacity providers to optimize costs.

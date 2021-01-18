@@ -1,6 +1,6 @@
 ---
 title: "Setup the Workspace environment"
-weight: 15
+weight: 40
 ---
 
 

@@ -3,11 +3,11 @@ title = "Cluster Scaling: Infrastructure First vs Application First"
 weight = 10
 +++
 
-There are different approaches for scaling a system. We will describe them as Infrastructure First vs Application First.
+There are different approaches for scaling a system. In this section we focus in the differences between Infrastructure First and Application First. During the Workshop we will use Application First as the main approach to scale our ECS Cluster.
 
 ## Infrastructure First Approach
 
-In Infrastructure First we estimate how much compute capacity our application might need and provision EC2 Instances (Infrastructure) accordingly. In doing so, the infrastructure will launch and be running before the application gets started, hence the Infrastructure First name. However, ensuring that the number of EC2 instances in our ECS cluster would scale as needed to accommodate our tasks and services could be challenging.  ECS clusters may not always scale out when needed, and scaling in could affect availability unless handled carefully.
+In infrastructure First, we focus on infrastructure metrics and make decissions that drive the scale of our cluster. The application then is started and accomodates to whatever capacity that is provided. For example , we can estimate how much compute capacity our application might need and provision EC2 Instances (Infrastructure) accordingly. In doing so, the infrastructure will launch and be running before the application gets started, hence the *Infrastructure First* name. However, ensuring that the number of EC2 instances in our ECS cluster would scale as needed to accommodate our tasks and services can be challenging in some cases. ECS clusters may not always scale out when needed, and scaling in could affect availability unless handled carefully.
 
 
 ## Application First Approach
