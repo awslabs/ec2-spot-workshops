@@ -18,6 +18,10 @@ To create an ECS cluster, follow these steps:
 * Select the checkbox **Create an empty cluster**
 * Select the checkbox **Enable Container Insights**
 
+{{% notice info %}}
+**CloudWatch Container Insights** collects, aggregates, and summarizes metrics and logs from your containerized applications and microservices. It collects metrics for many resources, such as CPU, memory, disk, and network. Container Insights is available for Amazon Elastic Container Service (Amazon ECS), Amazon Elastic Kubernetes Service (Amazon EKS), and Kubernetes platforms on Amazon EC2. Amazon ECS support includes support for Fargate. You can **[read more about CloudWatch Container Insights here](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html)**. 
+{{% /notice %}}
+
 ![ECS Cluster](/images/ecs-spot-capacity-providers/ecs_create_cluster.png)
 
 * Click **Create**
