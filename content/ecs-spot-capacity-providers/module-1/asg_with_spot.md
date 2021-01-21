@@ -1,6 +1,6 @@
 ---
 title: "Create EC2 Spot Auto Scaling Group and Capacity Provider"
-weight: 70
+weight: 50
 ---
 
 ## Create the Spot Auto Scaling Group
@@ -76,12 +76,11 @@ ECS Cluster has the new **CP-SPOT** Capacity Provider, and check out the configu
 Auto Scaling Group
 {{% /notice %}}
 
-<!-- doesn't add much after we have doen previous exercises
-
 Refresh the *Capacity Providers* tab, and you will see the CP-SPOT is created and attached to the ECS cluster.
 
 ![Capacity Provider on Spot ASG](/images/ecs-spot-capacity-providers/CP-SPOT.png)
 
+<!-- doesn't add much after we have done previous exercises
 Also note, that the capacity provider creates a target tracking policy on the EcsSpotWorkshop-ASG-SPOT. 
 Go to the [AWS EC2 Console](https://console.aws.amazon.com/ec2autoscaling/home?#/details/EcsSpotWorkshop-ASG-SPOT?view=scaling) and select the Automatic Scaling tab on the EcsSpotWorkshop-ASG-SPOT ASG.
 

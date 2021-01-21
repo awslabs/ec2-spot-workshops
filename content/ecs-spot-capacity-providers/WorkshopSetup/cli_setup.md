@@ -1,8 +1,7 @@
 ---
-title: "Setup AWS CLI and other tools"
-weight: 50
+title: "Setup AWS CLI and clone the workshop repo"
+weight: 40
 ---
-
 
 {{% notice tip %}}
 For this workshop, please ignore warnings about the version of pip being used.

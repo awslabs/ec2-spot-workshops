@@ -1,6 +1,6 @@
 ---
-title: "Create On-Demand Auto Scaling group and Capacity Provider"
-weight: 40
+title: "Create On-Demand Auto Scaling Group and Capacity Provider"
+weight: 30
 ---
 
 ## Create the OnDemand Auto Scaling Group

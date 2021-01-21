@@ -10,13 +10,13 @@ import sys
 import boto3
  
 
+def checkSpotTermination():
+    URL = "http://169.254.169.254/latest/meta-data/spot/termination-time"
+    response = requests.get(URL)
+    return (response.status_code == 200)
+
 
 class Ec2SpotInterruptionHandler:
-  signals = {
-    signal.SIGINT: 'SIGINT',
-    signal.SIGTERM: 'SIGTERM'
-  }
-
   def __init__(self):
     signal.signal(signal.SIGINT, self.exit_gracefully)
     signal.signal(signal.SIGTERM, self.exit_gracefully)
@@ -24,10 +24,11 @@ class Ec2SpotInterruptionHandler:
   def exit_gracefully(self, signum, frame):
     print("\nReceived {} signal".format(self.signals[signum]))
     if self.signals[signum] == 'SIGTERM':
-      print("SIGTERM Signal Received because of EC2 Spot Interruption. Let's wrap up the work within 2 mins..")
+      print("SIGTERM Signal Received. Let's wrap up..")
+    if checkSpotTermination():
+      print("The instance got a Spot Notification for termination, this may have")
+    
 
-    
-    
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -41,12 +42,8 @@ def index():
     response += "<h2>I am a Simple Containerized Web App Running with below Attributes </h2> <hr/>"
 
     try:
-      
-      URL = "http://169.254.169.254/latest/meta-data/spot/termination-time"
-      SpotInt = requests.get(URL)
-      if SpotInt.status_code == 200:
-        response += "<h1>This Spot Instance Got Interruption and Termination Date is {} </h1> <hr/>".format(SpotInt.text)
-        
+      if checkSpotTermination():
+        response += "<h1>This Spot Instance got a Spot notification for interruption </h1> <hr/>"
     
       URL = "http://169.254.169.254/latest/dynamic/instance-identity/document"
       InstanceData = requests.get(URL).json()
