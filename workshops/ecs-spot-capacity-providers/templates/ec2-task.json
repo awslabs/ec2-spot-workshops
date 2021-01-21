@@ -4,9 +4,9 @@
         {
             "name": "ec2-task-container",
             "image": "DOCKER_IMAGE_URI", 
-            "cpu": 448,
-            "memory": 896,
-            "memoryReservation": 896,            
+            "cpu": 420,
+            "memory": 1680,
+            "memoryReservation": 1680,            
             "portMappings": [
                 {
                     "containerPort": 80, 

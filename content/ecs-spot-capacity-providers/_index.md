@@ -1,7 +1,7 @@
 ---
 title: "ECS: Cost Optimize Container Workloads using EC2 Spot"
 date: 2020-04-15T09:05:54Z
-weight: 39
+weight: 30
 pre: "<b>⁃ </b>"
 ---
 

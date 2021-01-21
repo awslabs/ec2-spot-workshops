@@ -18,6 +18,7 @@ disableAssetsBusting = false
 disableLanguageSwitchingButton = false
 disableShortcutsTitle = false
 disableInlineCopyToClipBoard = true
+disableLandingPageButton = true
 
 [outputs]
 home = [ "HTML", "AMP", "RSS", "JSON"]

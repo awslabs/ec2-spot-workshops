@@ -1,0 +1,352 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation template to create a Cloud9 environment setup with kubectl, eksctl and an EKS cluster with a managed node group. Please allow ~20min for the EKS cluster to be ready.
+Metadata:
+  Author:
+    Description: Sandeep Palavalasa <palavas@amazon.com>
+  License:
+    Description: 'Copyright 2020 Amazon.com, Inc. and its affiliates. All Rights Reserved.
+
+      Licensed under the Amazon Software License (the "License"). You may not use this file
+      except in compliance with the License. A copy of the License is located at
+
+      http://aws.amazon.com/asl/
+
+      or in the "license" file accompanying this file. This file is distributed on an "AS IS"
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+      License for the specific language governing permissions and limitations under the License.'
+
+Parameters:
+  C9InstanceType:
+    Description: Example Cloud9 instance type
+    Type: String
+    Default: t3.small
+    AllowedValues:
+      - t3.small
+      - t3.medium
+    ConstraintDescription: Must be a valid Cloud9 instance type
+  C9KubectlVersion:
+    Description: Cloud9 instance kubectl version
+    Type: String
+    Default: v1.18.12
+    ConstraintDescription: Must be a valid kubectl version
+  C9KubectlVersionTEST:
+    Description: Cloud9 instance kubectl version
+    Type: String
+    Default: v1.18.12
+    ConstraintDescription: Must be a valid kubectl version
+  C9EKSctlVersion:
+    Description: Cloud9 instance eksctl version
+    Type: String
+    Default: 0.31.0
+    ConstraintDescription: Must be a valid eksctl version
+  EKSClusterVersion:
+    Description: EKS Cluster Vesion
+    Type: String
+    Default: 1.18
+    ConstraintDescription: Must be a valid eks version
+  EKSClusterName:
+    Description: EKS Cluster Name
+    Type: String
+    Default: eksworkshop-eksctl
+    ConstraintDescription: Must be a valid eks version
+  #Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
+  EETeamRoleArn:
+    Description: "ARN of the Team Role"
+    Default: NONE
+    Type: String
+    ConstraintDescription: This is ONLY used Event Engine, dont change this if you are self-deploying the stack
+
+Conditions: 
+  NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
+
+Resources:
+
+################## PERMISSIONS AND ROLES #################
+  C9Role:
+    Type: AWS::IAM::Role
+    Condition: NotEventEngine
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+            - ssm.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AdministratorAccess
+      Path: "/"
+  C9LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName:
+          Fn::Join:
+          - ''
+          - - C9LambdaPolicy-
+            - Ref: AWS::Region
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - cloudformation:DescribeStacks
+            - cloudformation:DescribeStackEvents
+            - cloudformation:DescribeStackResource
+            - cloudformation:DescribeStackResources
+            - ec2:DescribeInstances
+            - ec2:AssociateIamInstanceProfile
+            - ec2:ModifyInstanceAttribute
+            - ec2:ReplaceIamInstanceProfileAssociation
+            - iam:ListInstanceProfiles
+            - iam:PassRole
+            Resource: "*"
+
+################## LAMBDA BOOTSTRAP FUNCTION ################
+
+  C9BootstrapInstanceLambda:
+    Description: Bootstrap Cloud9 instance
+    Type: Custom::C9BootstrapInstanceLambda
+    DependsOn:
+    - C9BootstrapInstanceLambdaFunction
+    - C9Instance
+    - C9LambdaExecutionRole
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      ServiceToken:
+        Fn::GetAtt:
+        - C9BootstrapInstanceLambdaFunction
+        - Arn
+      REGION:
+        Ref: AWS::Region
+      StackName:
+        Ref: AWS::StackName
+      EnvironmentId:
+        Ref: C9Instance
+      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
+
+  C9BootstrapInstanceLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      Handler: index.lambda_handler
+      Role:
+        Fn::GetAtt:
+        - C9LambdaExecutionRole
+        - Arn
+      Runtime: python3.6
+      MemorySize: 256
+      Timeout: '600'
+      Code:
+        ZipFile: |
+          from __future__ import print_function
+          import boto3
+          # import loggings
+          import json
+          import os
+          import time
+          import traceback
+          import cfnresponse
+
+          # logger = logging.getLogger()
+          # logger.setLevel(logging.INFO)
+
+          def lambda_handler(event, context):
+              # logger.info('event: {}'.format(event))
+              # logger.info('context: {}'.format(context))
+              responseData = {}
+
+              if event['RequestType'] == 'Create':
+                  try:
+                      # Open AWS clients
+                      ec2 = boto3.client('ec2')
+
+                      # Get the InstanceId of the Cloud9 IDE
+                      # print(str({'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}))
+                      instance = ec2.describe_instances(Filters=[{'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]
+                      # logger.info('instance: {}'.format(instance))
+
+                      # Create the IamInstanceProfile request object
+                      iam_instance_profile = {
+                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn']
+                      }
+                      # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
+
+                      # Wait for Instance to become ready before adding Role
+                      instance_state = instance['State']['Name']
+                      # logger.info('instance_state: {}'.format(instance_state))
+                      while instance_state != 'running':
+                          time.sleep(5)
+                          instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])
+                          # logger.info('instance_state: {}'.format(instance_state))
+
+                      # attach instance profile
+                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
+                      # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      r_ec2 = boto3.resource('ec2')
+
+                      responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
+
+                  except Exception as e:
+                      # logger.error(e, exc_info=True)
+                      responseData = {'Error': traceback.format_exc(e)}
+                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
+################## SSM BOOTSRAP HANDLER ###############
+  C9OutputBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+
+  C9SSMDocument:
+    Type: AWS::SSM::Document
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      Content: Yaml
+      DocumentType: Command
+      Content:
+        schemaVersion: '2.2'
+        description: Bootstrap Cloud9 Instance
+        mainSteps:
+        - action: aws:runShellScript
+          name: C9bootstrap
+          inputs:
+            runCommand:
+            - "#!/bin/bash"
+            - date
+            - . /home/ec2-user/.bashrc
+            - whoami
+            - !Sub 'echo "export KUBECTL_VERSION=${C9KubectlVersion}"'
+            - sudo -H -u ec2-user aws sts get-caller-identity
+            - echo '=== INSTALL kubectl ==='
+            - !Sub 'export KUBECTL_VERSION=${C9KubectlVersion}'
+            - sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+            - sudo chmod +x /usr/local/bin/kubectl
+            - echo '=== Install JQ and envsubst ==='
+            - sudo yum -y install jq gettext
+            - echo '=== Update to the latest AWS CLI ==='
+            - sudo -H -u ec2-user aws --version
+            - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            - unzip awscliv2.zip
+            - sudo ./aws/install
+            - . /home/ec2-user/.bash_profile
+            - sudo -H -u ec2-user aws --version
+            - echo '=== setup AWS configs ==='
+            - rm -vf /home/ec2-user/.aws/credentials
+            - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+            - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+            - echo "export ACCOUNT_ID=${ACCOUNT_ID}" >> /home/ec2-user/.bash_profile
+            - echo "export AWS_REGION=${AWS_REGION}" >> /home/ec2-user/.bash_profile
+            - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
+            - sudo -H -u ec2-user aws configure get default.region
+            - sudo -H -u ec2-user aws sts get-caller-identity
+            - echo '=== Generate SSH key and import to aws ==='
+            - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
+            - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
+            - echo '=== Install EKSCTL ==='
+            - !Sub 'export EKSCTL_VERSION=${C9EKSctlVersion}'
+            - curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+            - sudo mv -v /tmp/eksctl /usr/local/bin
+            - sudo -H -u ec2-user /usr/local/bin/eksctl version
+            - echo '=== Create EKS Cluster ==='
+            - !Sub 'sudo -H -u ec2-user /usr/local/bin/eksctl create cluster --version=${EKSClusterVersion} --name=${EKSClusterName} --node-private-networking  --managed --nodes=2 --alb-ingress-access --region=${AWS::Region} --node-labels="lifecycle=OnDemand,intent=control-apps" --asg-access'
+            - sudo -H -u ec2-user /usr/local/bin/kubectl get nodes
+
+  C9BootstrapAssociation:
+    Type: AWS::SSM::Association
+    DependsOn:
+    - C9OutputBucket
+    Properties:
+      Name: !Ref C9SSMDocument
+      OutputLocation:
+        S3Location:
+          OutputS3BucketName: !Ref C9OutputBucket
+          OutputS3KeyPrefix: bootstrapoutput
+      Targets:
+        - Key: tag:SSMBootstrap
+          Values:
+          - Active
+
+################## INSTANCE #####################
+  C9InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Condition: NotEventEngine
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: C9Role
+  C9Instance:
+    Description: "-"
+    DependsOn: C9BootstrapAssociation
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      Description: AWS Cloud9 instance for Examples
+      AutomaticStopTimeMinutes: 3600
+      InstanceType:
+        Ref: C9InstanceType
+      Name: 
+        Ref: AWS::StackName
+      # OwnerArn: !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey'
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
+      Tags:
+        -
+          Key: SSMBootstrap
+          Value: Active
+        -
+          Key: Environment
+          Value:
+            Ref: AWS::StackName
+
+Outputs:
+  Cloud9IDE:
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: AWS::Region
+        - ".console.aws.amazon.com/cloud9/ide/"
+        - Ref: C9Instance
+        - "?region="
+        - Ref: AWS::Region
+
+  EKSCluster:
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: AWS::Region
+        - ".console.aws.amazon.com/eks/home"
+        - "?region="
+        - Ref: AWS::Region
+        - "#/clusters/"
+        - Ref: EKSClusterName
+  EKSClusterVersion:
+    Value: !Ref EKSClusterVersion

@@ -1,14 +1,11 @@
 ---
-title: "Setup with CloudFormation"
-weight: 5
----
-
-Launch the CloudFormation stack 
+title: "Deploy CloudFormation Stack"
+weight: 10
 ---
 
 To save time on the initial setup, a CloudFormation template will be used to create the required resources needed for the workshop.
  
-1. You can view and download the CloudFormation template from GitHub [here] (https://github.com/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
+1. You can view and download the CloudFormation template from GitHub [here] (https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/ecs-spot-capacity-providers/ecs-spot-workshop-cfn.yaml).
 2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 3. Browse to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation). Make sure you are in AWS region designated by the facilitators of the workshop.
 4. Click **Create stack**.
@@ -21,8 +18,7 @@ To save time on the initial setup, a CloudFormation template will be used to cre
 11. Click **Next**.
 12. Review the information for the stack. At the bottom under *Capabilities*, select **I acknowledge that AWS CloudFormation might create IAM resources*. When you’re satisfied with the settings, click **Create stack**.
 
-Monitor the progress of stack creation 
----
+### Monitor the progress of stack creation 
 
 It will take roughly 5 minutes for the stack creation to complete.
 
@@ -44,8 +40,7 @@ Note that if you are running this workshop inside an Event Engine, the CloudForm
 ![CloudFormation Stack](/images/ecs-spot-capacity-providers/CFN_stacks.png) 
 
 
-The CloudFormation stack creates the following resources for the workshop.
-
+The CloudFormation stack creates the following resources for the workshop. 
 
 * 1 VPC with 6 subnets; 3 public and 3 private subnets
 * Application Load Balancer (ALB) with its own security group

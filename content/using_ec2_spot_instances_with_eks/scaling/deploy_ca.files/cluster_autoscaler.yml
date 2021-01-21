@@ -53,6 +53,9 @@ rules:
 - apiGroups: ["batch"]
   resources: ["jobs"]
   verbs: ["watch","list","get"]
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get","list","watch","create","update"]
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -129,7 +132,7 @@ spec:
       nodeSelector:
         intent: control-apps      
       containers:
-        - image: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.16.5
+        - image: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.18.3
           name: cluster-autoscaler
           resources:
             limits:
@@ -167,5 +170,3 @@ spec:
         - name: ssl-certs
           hostPath:
             path: "/etc/ssl/certs/ca-bundle.crt"
-
-

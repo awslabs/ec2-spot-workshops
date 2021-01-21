@@ -1,27 +1,26 @@
 ---
 title: "Add Fargate capacity providers to ECS Cluster"
-weight: 5
+weight: 10
 ---
 
-Before we deploy tasks on ECS Fargate, let us first add Fargate capacity providers to the ECS cluster. 
-
-There are two default ECS Fargate capacity providers i.e. FARGATE and FARGATE_SPOT You just need to attach them to the ECS cluster.
-
-Run the commands below to add FARGATE and FARGATE_SPOT capacity providers to the ECS cluster.
+Before we deploy tasks on ECS Fargate, let us first add Fargate capacity providers to the ECS cluster. Unlike with EC2 Auto Scaling Groups
+the Capacity Providers `FARGATE` and `FARGATE_SPOT` are already predefined by default, so the only thing we need to do is attach them
+to our cluster running the following command. 
 
 ```
 aws ecs put-cluster-capacity-providers   \
         --cluster EcsSpotWorkshop \
         --capacity-providers FARGATE FARGATE_SPOT CP-OD CP-SPOT  \
-        --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1   capacityProvider=FARGATE_SPOT,weight=1 \
+        --default-capacity-provider-strategy capacityProvider=FARGATE,weight=1 capacityProvider=FARGATE_SPOT,weight=1 \
         --region $AWS_REGION
 ```
-Note that when you update an ECS Cluster with new capacity providers, ensure that all the existing capacity providers included.
 
-Note that above ECS cluster create command also specifies a default capacity provider strategy.
+{{% notice note %}}
+The command above does not only insert the two capacity providers but has also modified the cluster default capacity provider strategy. 
+In this case we do set both weights to 1. However if you run the command `aws ecs describe-clusters --cluster EcsSpotWorkshop` you 
+will see how the service `ec2-service-split` still holds the initial capacity provider strategy. 
+{{% /notice %}}
 
-The strategy sets a weight of 1 both FARGATE and FARGATE_SPOT as the default capacity provider strategy. That means for equal distribution of tasks on FARGATE and FARGATE_SPOT.
-
-The ECS cluster should now contain 4 capacity providers i.e. CP-OD, CP-SPOT, FARGATE and FARGATE_SPOT.
+The strategy sets a weight of 1 both FARGATE and FARGATE_SPOT as the default capacity provider strategy. That means for equal distribution of tasks on FARGATE and FARGATE_SPOT. The ECS cluster should now contain 4 capacity providers i.e. CP-OD, CP-SPOT, FARGATE and FARGATE_SPOT.
 
 ![Fargate Capacity Providers](/images/ecs-spot-capacity-providers/ecs_fargate_cps.png)

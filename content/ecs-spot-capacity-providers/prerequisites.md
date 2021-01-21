@@ -1,6 +1,6 @@
 ---
 title: "Prerequisites"
-weight: 3
+weight: 10
 ---
 
 To run through this workshop we expect you to have some familiarity with [Docker](https://en.wikipedia.org/wiki/Docker_(software)), AWS, any container orchestration tools such as [Amazon Elastic Container Service (ECS)](https://aws.amazon.com/ecs), [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/), or [Kubernetes](https://kubernetes.io/). During the workshop you will use [AWS Cloud9](https://aws.amazon.com/cloud9/) IDE to run [AWS CLI](https://aws.amazon.com/cli/) commands. Use the AWS region that is specified by the facilitator when running this workshop at AWS hosted event. You may use any AWS region that supports Cloud9 (you can check [here](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)) while running it self-paced mode in your own AWS account.

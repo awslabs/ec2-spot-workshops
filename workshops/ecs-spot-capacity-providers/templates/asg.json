@@ -17,12 +17,6 @@
           "InstanceType": "m5a.large"
         },
         {
-          "InstanceType": "m5ad.large"
-        },
-        {
-          "InstanceType": "m5d.large"
-        },
-        {
           "InstanceType": "t2.large"
         },
         {
