@@ -35,11 +35,11 @@ Instances that match your workload requirements. For this workshop, we need to f
 * Instances don't have a GPUs
 * Instances Architecture is: x86_64 (no ARM instances like A1 or m6g instances, for example)
 * Instances of current generation (4th gen onwards)
-* Instances that don't meet the regular expression `.*n.*|.*d.*`, so effectively m5n, m5dn, m5d.
+* Instances that don't meet the regular expression `.*n.*|.*d.*`, so effectively discard instances such as: m5n, m5dn, m5d.
 
 
 ```bash
-ec2-instance-selector --vcpus-to-memory-ratio 1:4 --vcpus-min 2 --vcpus-max=2 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*|.*d.*'     
+ec2-instance-selector --vcpus-to-memory-ratio 1:4 --vcpus=2 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*|.*d.*'     
 ```
 
 This should display a list like the one that follows (note results might differ depending on the region). We will use these instance types as part or EC2 Auto Scaling groups.
