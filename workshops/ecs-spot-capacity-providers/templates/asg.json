@@ -17,13 +17,13 @@
           "InstanceType": "m5a.large"
         },
         {
-          "InstanceType": "m4.xlarge"
+          "InstanceType": "t2.large"
         },
         {
-          "InstanceType": "m5.xlarge"
+          "InstanceType": "t3.large"
         },
         {
-          "InstanceType": "m5a.xlarge"
+          "InstanceType": "t3a.large"
         }
       ]
     },
