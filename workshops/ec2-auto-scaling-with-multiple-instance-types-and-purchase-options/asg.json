@@ -31,16 +31,23 @@
       "OnDemandAllocationStrategy": "prioritized",
       "OnDemandBaseCapacity": 2,
       "OnDemandPercentageAboveBaseCapacity": 0,
-      "SpotAllocationStrategy": "lowest-price",
-      "SpotInstancePools": 4
+      "SpotAllocationStrategy": "capacity-optimized"
     }
   },
   "MinSize": 2,
   "MaxSize": 12,
   "DesiredCapacity": 4,
+  "CapacityRebalance": true
   "TargetGroupARNs": [
     "%TargetGroupARN%"
   ],
   "HealthCheckType": "EC2",
-  "VPCZoneIdentifier": "%publicSubnet1%,%publicSubnet2%"
+  "VPCZoneIdentifier": "%publicSubnet1%,%publicSubnet2%",
+  "Tags": [
+    {
+      "Key": "SpotInterruptionHandler/enabled",
+      "Value": "true",
+      "PropagateAtLaunch": true
+    }
+  ]
 }
