@@ -16,12 +16,13 @@ If you're running in your own account, make sure you run through these steps to 
 		
 	aws elbv2 delete-load-balancer --load-balancer-arn $LoadBalancerArn
 	
-	aws elbv2 delete-target-group --target-group-arn $TargetGroupArn
-	
 	aws ec2 delete-launch-template --launch-template-name myEC2Workshop
 
-	aws cloudformation delete-stack --stack-name spotinterruptionhandler
+	```
 
+1. Delete the Target Group created (you need to wait until the Application Load Balancer has been completely deleted).
+	```
+	aws elbv2 delete-target-group --target-group-arn $TargetGroupArn
 	```
 	
 1. Finally, delete the CloudFormation stack itself.
