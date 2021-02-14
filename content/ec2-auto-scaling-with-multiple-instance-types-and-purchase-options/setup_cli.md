@@ -5,7 +5,7 @@ weight = 50
 
 1. Uninstall the AWS CLI 1.x by running:
 	```bash
-	sudo pip uninstall
+	sudo pip uninstall -y awscli
 	```
 
 1. Install the AWS CLI 2.0 by running:
@@ -17,9 +17,9 @@ weight = 50
 	```
 
 1. Confirm the CLI version with the following command:
-	'''bash
+	```bash
 	aws --version
-	'''
+	```
 
 1. Install dependencies for use in the workshop by running:
 

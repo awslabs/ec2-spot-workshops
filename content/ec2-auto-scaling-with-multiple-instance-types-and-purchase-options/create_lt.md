@@ -3,15 +3,11 @@ title = "Create an EC2 launch template"
 weight = 70
 +++
 
-EC2 Launch Templates reduce the number of steps required to create an instance by capturing all launch parameters within one resource. 
+A launch template is similar to a [launch configuration](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html), in that it specifies instance configuration information. Included are the ID of the Amazon Machine Image (AMI), the instance type, a key pair, security groups, and the other parameters that you use to launch EC2 instances. However, defining a launch template instead of a launch configuration allows you to have multiple versions of a template. With versioning, you can create a subset of the full set of parameters and then reuse it to create other templates or template versions. For example, you can create a default template that defines common configuration parameters and allow the other parameters to be specified as part of another version of the same template.
 
-You can create a launch template that contains the configuration information to launch an instance. Launch templates enable you to store launch parameters so that you do not have to specify them every time you launch an instance. For example, a launch template can contain the AMI ID, instance type, and network settings that you typically use to launch instances. When you launch an instance using the Amazon EC2 console, an AWS SDK, or a command line tool, you can specify the launch template to use.
+It's recommended that you create Auto Scaling groups from launch templates to ensure that you're accessing the latest features and improvements. Note that not all Auto Scaling group features are available. For example, you cannot create an Auto Scaling group that launches both Spot and On-Demand Instances or that specifies multiple instance types or multiple launch templates. You must use a launch template to configure these features. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html). 
 
-{{% notice note %}}
-You might be wondering how a [Launch Template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) is different from a [Launch Configuration](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html). They are similar in that they both specify instance configuration information; however Launch Templates provide additional features like versioning and enable you to use the latest features of Amazon EC2 and Auto Scaling Groups with multiple instance types and purchase options.  You can learn more about Launch Templates [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)
-{{% /notice %}}
-
-You'll use a launch template to specify configuration parameters for launching instances in this workshop.
+You'll use a Launch Template to specify configuration parameters for launching instances with EC2 Auto Scaling in this workshop.
 	
 1. Open **launch-template-data.json** on the Cloud9 editor and examine the configuration, you will notice some of the parameters have a placeholder value **%variableName%**: %instanceProfile%, %instanceSecurityGroup% and %ami-id%.
 ![Cloud9 Editor](/images/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options/cloud9-editor.jpg)
