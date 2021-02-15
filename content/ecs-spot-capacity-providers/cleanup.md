@@ -39,14 +39,15 @@ Run the commands below to delete the both autoscaling groups
 
 ```bash
 aws autoscaling delete-auto-scaling-group \
-              --auto-scaling-group-name EcsSpotWorkshop-ASG-SPOT
+              --force-delete --auto-scaling-group-name EcsSpotWorkshop-ASG-SPOT
 aws autoscaling delete-auto-scaling-group \
-              --auto-scaling-group-name EcsSpotWorkshop-ASG-OD  
+              --force-delete --auto-scaling-group-name EcsSpotWorkshop-ASG-OD  
 ```
 
 * On the ECS Console, delete the ECS Cluster
 * On the ECS Console, remove the registered tasks
 * On the ECS Console, de-register the tasks
+* On the ECR Console, delete "ecs-spot-workshop/webapp" repository
 
 Run the commands below to delete the cloud formation stack
 
