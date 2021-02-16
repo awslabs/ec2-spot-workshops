@@ -11,6 +11,7 @@ Before we start testing our cluster scaling, let's check out how to visualize th
 cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
 sed -i -e "s#%AWS_REGION%#$AWS_REGION#g" cwt-dashboard.json
 aws cloudwatch put-dashboard --dashboard-name EcsSpotWorkshop --dashboard-body file://cwt-dashboard.json
+
 ```
 The output of the command appears as below.
 
@@ -54,6 +55,7 @@ git clone https://github.com/ExpediaDotCom/c3vis.git
 cd c3vis 
 docker build -t c3vis .
 docker run -e "AWS_REGION=$AWS_REGION" -p 8080:3000 c3vis
+
 ```
 
 Open the preview application in your cloud9 environment and click on the arrow on the top right to open the application in the browser

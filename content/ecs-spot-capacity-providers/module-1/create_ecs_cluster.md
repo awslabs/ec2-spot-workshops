@@ -7,6 +7,7 @@ Let us first create an empty ECS cluster.To create an ECS cluster, follow these 
 
 * Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
 * Click **Create Cluster**
+* Un-select **New ECS Experience** on the top left corner to work on previous ECS console version (Capacity providers not supported on new version)
 * Under *Select cluster template* select **EC2 Linux + Networking**
 
 ![ECS Cluster](/images/ecs-spot-capacity-providers/ecs_cluster_type.png)
@@ -43,7 +44,8 @@ In this case we have pre-created an EC2 launch template when we deployed the Clo
 ![Launch Template](/images/ecs-spot-capacity-providers/c9_6.png)
 
 {{% notice tip %}}
-**Review the user data section** of the EC2 launch template to see ECS Container agent configuration.
+Select launch template and navigate to Advanced Details tab.
+**Review the user data section** of the EC2 launch template to see ECS Container agent configuration. 
 {{% /notice %}}
 
 ![User Data](/images/ecs-spot-capacity-providers/ecs_launch_template.png)
