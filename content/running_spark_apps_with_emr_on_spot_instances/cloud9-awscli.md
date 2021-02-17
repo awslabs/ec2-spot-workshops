@@ -9,12 +9,12 @@ comment: default install now includes aws-cli/1.15.83
 For this workshop, please ignore warnings about the version of pip being used.
 {{% /notice %}}
 
-1. Run the following command to view the current version of aws-cli:
-```
-aws --version
+1. Uninstall the AWS CLI 1.x by running:
+```bash
+sudo pip uninstall -y awscli
 ```
 
-1. Update to the latest version:
+1. Install the AWS CLI 2.x by running the following command:
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
