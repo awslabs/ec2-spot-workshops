@@ -23,7 +23,7 @@ Normally you would not run EMR in a public subnet and open TCP access to the mas
 {{% /notice %}}
 
 To allow access to your IP address to reach the EMR web interfaces via EC2 Security Groups:  
-1. In your EMR cluster page, in the AWS Management Console, go to the **Summary** tab  
+1. In your EMR cluster page, in the AWS Management Console, go to the **Application User Interfaces** tab  
 2. Click on the ID of the security under **Security groups for Master**  
 3. Check the Security Group with the name **ElasticMapReduce-master**  
 4. In the lower pane, click the **Inbound tab** and click the **Edit**  
