@@ -15,35 +15,54 @@ In this step, when you look at the utilization of the EMR cluster, do not expect
 {{% /notice %}}
 
 ### Using Ganglia, YARN ResourceManager and Spark History Server
-The recommended approach to connect to the web interfaces running on our EMR cluster is to use SSH tunneling. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
-For the purpose of this workshop, and since we started our EMR cluster in a VPC public subnet, we can allow access in the EC2 Security Group in order to reach the TCP ports on which the web interfaces are listening on.
+To connect to the web interfaces running on our EMR cluster you need to use SSH tunneling. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
 
-{{% notice warning %}}
-Normally you would not run EMR in a public subnet and open TCP access to the master instance, this faster approach is just used for the purpose of the workshop.
-{{% /notice %}}
-
-To allow access to your IP address to reach the EMR web interfaces via EC2 Security Groups:  
-1. In your EMR cluster page, in the AWS Management Console, go to the **Application User Interfaces** tab  
-2. Click on the ID of the security under **Security groups for Master**  
+First, we need to grant SSH access from the Cloud9 environment to the EMR cluster master node:  
+1. In your EMR cluster page, in the AWS Management Console, go to the **Summary** tab  
+2. Click on the ID of the security group in **Security groups for Master**  
 3. Check the Security Group with the name **ElasticMapReduce-master**  
-4. In the lower pane, click the **Inbound tab** and click the **Edit**  
-5. Click **Add Rule**. Under Type, select **All Traffic**, under Source, select **My IP**  
+4. In the lower pane, click the **Inbound tab** and click the **Edit inbound rules**  
+5. Click **Add Rule**. Under Type, select **SSH**, under Source, select **Custom**. As the Cloud9 environment and the EMR cluster are on the default VPC, introduce the CIDR of your Default VPC (e.g. 172.16.0.0/16). To check your VPC CIDR, go to the [VPC console](https://console.aws.amazon.com/vpc/home?#) and look for the CIDR of the **Default VPC**. 
 6. Click **Save**
 
-{{% notice note %}}
-While the Ganglia web interface uses TCP port 80, the YARN ResourceManager web interface uses TCP port 8088 and the Spark History Server uses TCP port 18080, which might not allowed for outbound traffic on your Internet connection. If you are using a network connection that blocks these ports (or in other words, doesn't allow non-well known ports) then you will not be able to reach the YARN ResourceManager web interface and Spark History Server. You can either skip that part of the workshop, use a different Internet connection (i.e mobile hotspot) or consider using the more complex method of SSH tunneling described [here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html)
-{{% /notice %}}
-
-Go back to the Summary tab in your EMR cluster page, and you will see links to tools in the **Connections** section (you might need to refresh the page).  
-1. Click **Ganglia** to open the web interface.  
-2. Have a look around. Take notice of the heatmap (**Server Load Distribution**). Notable graphs are:  
+At this stage, we'll be able to ssh into the EMR master node. First we will access the Ganglia web interface to look at cluster metrics:
+1. Go to the EMR Management Console, click on your cluster, and open the **Application user interfaces** tab. You'll see the list of on-cluster application interfaces. 
+1. Copy the master node DNS name from one of the interface urls, it will look like ec2.xx-xxx-xxx-xxx.<region>.compute.amazonaws.com
+1. Establish an SSH tunnel to port 80, where Ganglia is bound, executing the below command on your Cloud9 environment (update the command with your master node DNS name): 
+```
+ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:80 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+```
+You'll get a message saying the authenticity of the host can't be established. Type 'yes' and hit enter. The message will look similar to the following:
+```
+The authenticity of host 'ec2-54-195-131-148.eu-west-1.compute.amazonaws.com (172.31.36.62)' can't be established.
+ECDSA key fingerprint is SHA256:Cmv0qkh+e4nm5qir6a9fPN5DlgTUEaCGBN42txhShoI.
+ECDSA key fingerprint is MD5:ee:63:d0:4a:a2:29:8a:c9:41:1b:a1:f0:f6:8e:68:4a.
+Are you sure you want to continue connecting (yes/no)? 
+```
+1. Now, on your Cloud9 environment, click on the "Preview" menu on the top and then click on "Preview Running Application". You'll see a browser window opening on the environment with an Apache test page. on the URL, append /ganglia/ to access the Ganglia Interface. The url will look like https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/ganglia/. 
+![Cloud9-Ganglia](/images/running-emr-spark-apps-on-spot/cloud9-ganglia.png)
+1. Click on the button next to "Browser" (arrow inside a box) to open Ganglia in a dedicated browser page.Have a look around. Take notice of the heatmap (**Server Load Distribution**). Notable graphs are:  
 * **Cluster CPU last hour** - this will show you the CPU utilization that our Spark application consumed on our EMR cluster. you should see that utilization varied and reached around 70%.  
 * **Cluster Memory last hour** - this will show you how much memory we started the cluster with, and how much Spark actually consumed.  
-3. Go back to the Summary page and click the **Resource Manager** link.  
-4. On the left pane, click **Nodes**, and in the node table, you should see the number of containers that each node ran.  
-5. Go back to the Summary page and click the **Spark History Server** link.  
-6. Click on the App ID in the table (where App Name = Amazon reviews word count) and go to the **Executors** tab  
-7. You can again see the number of executors that are running in your EMR cluster under the **Executors table**
+
+Now, let's look at the **Resource Manager** application user interface. 
+1. Go to the Cloud9 terminal where you have established the ssh connection, and press ctrl+c to close it. 
+1. Create an SSH tunnel to the cluster master node on port 8088 by running this command (update the command with your master node DNS name):
+```
+ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:8088 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+```
+1. Now, on your browser, update the URL to "/cluster" i.e. https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/cluster
+1. On the left pane, click Nodes, and in the node table, you should see the number of containers that each node ran.
+
+Now, let's look at **Spark History Server** application user interface:
+1. Go to the Cloud9 terminal where you have established the ssh connection, and press ctrl+c to close it.
+1. Create an SSH tunnel to the cluster master node on port 18080 by running this command (update the command with your master node DNS name):
+```
+ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:18080 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+```
+1. Now, on your browser, go to the base URL of your Cloud9 environment i.e. https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/
+1. Click on the App ID in the table (where App Name = Amazon reviews word count) and go to the **Executors** tab  
+1. You can again see the number of executors that are running in your EMR cluster under the **Executors table**
 
 
 ### Using CloudWatch Metrics

@@ -1,5 +1,5 @@
 ---
-title: "Update to the latest AWS CLI"
+title: "Configure your Cloud9 workspace"
 chapter: false
 weight: 20
 comment: default install now includes aws-cli/1.15.83
@@ -25,4 +25,11 @@ sudo ./aws/install
 1. Confirm you have a newer version:
 ```
 aws --version
+```
+
+1. Create an SSH Key pair so you can then SSH into the EMR cluster
+
+```bash
+aws ec2 create-key-pair --key-name emr-workshop-key-pair --query "KeyMaterial" --output text > emr-workshop-key-pair.pem
+chmod 400 emr-workshop-key-pair.pem
 ```
