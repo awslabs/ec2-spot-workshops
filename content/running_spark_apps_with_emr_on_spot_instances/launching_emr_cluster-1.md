@@ -13,7 +13,7 @@ To launch the cluster, follow these steps:
 1. [Open the EMR console] (https://console.aws.amazon.com/elasticmapreduce/home) in the region where you are looking to launch your cluster.  
 1. Click "**Create Cluster**"  
 1. Click "**Go to advanced options**"  
-1. Select the latest EMR release, and in the list of components, only leave **Hadoop** checked and also check **Spark** and **Ganglia** (we will use it later to monitor our cluster)  
+1. Select the latest EMR 5.x.x release (the console will default to it), and in the list of components, only leave **Hadoop** checked and also check **Spark** and **Ganglia** (we will use it later to monitor our cluster)  
 1. Under "**Steps (Optional)**" -> Step type drop down menu, select "**Spark application**" and click **Add step**, then add the following details in the Add step dialog window:  
 
 * **Spark-submit options**: here we will configure the memory and core count for each executor, as described in the previous section. Use these settings (make sure you have two '-' chars):  

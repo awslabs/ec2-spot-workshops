@@ -8,6 +8,7 @@ Key=Name
 Value (Optional)=EMRTransientCluster1  
 ![tags](/images/running-emr-spark-apps-on-spot/emrtags.png)
 
-Click **Next** to go to **Step 4: Security**
+Click **Next** to go to **Step 4: Security**. On the **EC2 key pair** drop-down, select *emr-workshop-key-pair*.
+![key_pair](/images/running-emr-spark-apps-on-spot/keypair.png)
 
-Leave all the settings as-is and click "**Create cluster**"
+Leave all the other settings as-is and click "**Create cluster**"
