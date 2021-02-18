@@ -31,18 +31,19 @@ At this stage, we'll be able to ssh into the EMR master node. First we will acce
 2. Copy the master node DNS name from one of the interface urls, it will look like ec2.xx-xxx-xxx-xxx.<region>.compute.amazonaws.com
 3. Establish an SSH tunnel to port 80, where Ganglia is bound, executing the below command on your Cloud9 environment (update the command with your master node DNS name): 
 
-```
-ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:80 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
-```
+    ```
+    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:80 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+    ```
 
-You'll get a message saying the authenticity of the host can't be established. Type 'yes' and hit enter. The message will look similar to the following:
+    You'll get a message saying the authenticity of the host can't be established. Type 'yes' and hit enter. The message will look similar to the following:
 
-```
-The authenticity of host 'ec2-54-195-131-148.eu-west-1.compute.amazonaws.com (172.31.36.62)' can't be established.
-ECDSA key fingerprint is SHA256:Cmv0qkh+e4nm5qir6a9fPN5DlgTUEaCGBN42txhShoI.
-ECDSA key fingerprint is MD5:ee:63:d0:4a:a2:29:8a:c9:41:1b:a1:f0:f6:8e:68:4a.
-Are you sure you want to continue connecting (yes/no)? 
-```
+    ```
+    The authenticity of host 'ec2-54-195-131-148.eu-west-1.compute.amazonaws.com (172.31.36.62)' can't be established.
+    ECDSA key fingerprint is SHA256:Cmv0qkh+e4nm5qir6a9fPN5DlgTUEaCGBN42txhShoI.
+    ECDSA key fingerprint is MD5:ee:63:d0:4a:a2:29:8a:c9:41:1b:a1:f0:f6:8e:68:4a.
+    Are you sure you want to continue connecting (yes/no)? 
+    ```
+    
 4. Now, on your Cloud9 environment, click on the "Preview" menu on the top and then click on "Preview Running Application". You'll see a browser window opening on the environment with an Apache test page. on the URL, append /ganglia/ to access the Ganglia Interface. The url will look like https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/ganglia/. 
 ![Cloud9-Ganglia](/images/running-emr-spark-apps-on-spot/cloud9-ganglia.png)
 5. Click on the button next to "Browser" (arrow inside a box) to open Ganglia in a dedicated browser page.Have a look around. Take notice of the heatmap (**Server Load Distribution**). Notable graphs are:  
@@ -53,9 +54,11 @@ Now, let's look at the **Resource Manager** application user interface.
 
 1. Go to the Cloud9 terminal where you have established the ssh connection, and press ctrl+c to close it. 
 1. Create an SSH tunnel to the cluster master node on port 8088 by running this command (update the command with your master node DNS name):
-```
-ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:8088 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
-```
+
+    ```
+    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:8088 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+    ```
+
 1. Now, on your browser, update the URL to "/cluster" i.e. https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/cluster
 1. On the left pane, click Nodes, and in the node table, you should see the number of containers that each node ran.
 
@@ -63,9 +66,11 @@ Now, let's look at **Spark History Server** application user interface:
 
 1. Go to the Cloud9 terminal where you have established the ssh connection, and press ctrl+c to close it.
 1. Create an SSH tunnel to the cluster master node on port 18080 by running this command (update the command with your master node DNS name):
-```
-ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:18080 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
-```
+
+    ```
+    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:18080 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+    ```
+
 1. Now, on your browser, go to the base URL of your Cloud9 environment i.e. https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/
 1. Click on the App ID in the table (where App Name = Amazon reviews word count) and go to the **Executors** tab  
 1. You can again see the number of executors that are running in your EMR cluster under the **Executors table**
