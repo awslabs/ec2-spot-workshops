@@ -26,6 +26,7 @@ First, we need to grant SSH access from the Cloud9 environment to the EMR cluste
 6. Click **Save**
 
 At this stage, we'll be able to ssh into the EMR master node. First we will access the Ganglia web interface to look at cluster metrics:
+
 1. Go to the EMR Management Console, click on your cluster, and open the **Application user interfaces** tab. You'll see the list of on-cluster application interfaces. 
 1. Copy the master node DNS name from one of the interface urls, it will look like ec2.xx-xxx-xxx-xxx.<region>.compute.amazonaws.com
 1. Establish an SSH tunnel to port 80, where Ganglia is bound, executing the below command on your Cloud9 environment (update the command with your master node DNS name): 
