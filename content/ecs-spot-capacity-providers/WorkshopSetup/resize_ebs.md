@@ -38,12 +38,14 @@ To do so head back to the Cloud9 instance and use the following commands.
 ```bash
 sudo growpart /dev/xvda 1
 sudo resize2fs $(df -h |awk '/^\/dev/{print $1}')
+
 ```
 
 The root file-system should now show 99GB.
 
 ```bash
 df --human-readable
+
 ```
 
 ```bash
