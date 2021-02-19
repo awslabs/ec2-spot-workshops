@@ -33,3 +33,36 @@ You now have a fully working Amazon EKS Cluster that is ready to use!
 {{% notice tip %}}
 Explore the Elastic Kubernetes Service (EKS) section in the AWS Console and the properties of the newly created EKS cluster.
 {{% /notice %}}
+
+{{% notice warning %}}
+You might see **Error loading Namespaces** while exploring the cluster on the AWS Console. It could be because the console user role doesnt have necessary permissions on the EKS cluster's RBAC configuration in the control plane. Please expand and follow the below instructions to add necessary permissions. 
+{{% /notice %}}
+
+{{%expand "Click to reveal detailed instructions" %}}
+
+### Add your IAM role Arn as cluster-admin on RBAC
+
+Get the ARN for your IAM role, it should look something like 
+
+```
+arn:aws:iam::<AWS_Account_Number>:role/<RoleName>
+```
+
+Edit the ConfigMap **aws-auth** using the below command
+
+```
+kubectl edit configmap -n kube-system aws-auth
+```
+
+Add the below snippet at the end, that will add the IAM role to the **masters** group on EKS cluster RBAC, thereby assigning a **cluster-admin** role on the cluster. Please refer the documentation [here](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)
+
+Please make sure to replace the `<AWS_Account_Number>` and `<RoleName>` with your AWS Account Number and IAM Role Name respectively
+
+```
+    - groups:
+      - system:masters
+      rolearn: arn:aws:iam::<AWS_Account_Number>:role/<RoleName>
+      username: <RoleName>
+```
+
+{{% /expand%}}

@@ -1,123 +1,103 @@
 ---
-title: "Create ECS Fargate Services"
-chapter: true
-weight: 2
+title: "Create ECS Fargate service"
+weight: 15
 ---
+Now that we have a fargate task registered, let's define a ECS Fargate service to deploy Fargate tasks accross the FARGATE and FARGATE_SPOT
+capacity providers. In this case, we will be overriding the cluster default capacity provider strategy (with FARGATE weight 1 and FARGATE_SPOT weight 1) and instead appply a weight of 1 to FARGATE_SPOT and weight 3 to FARGATE. For every 1 task on FARGATE_SPOT deployed in this service there will be 3 tasks on FARGATE.
 
-###  Create ECS Fargate Services
+We will create an ECS service to place tasks in the new VPC created by the CloudFormation stack. By executing the comand below, we can 
+load all the Outputs from the Cloudformation stack into environment variables. We will need some of the environment variables such as:
+`$VPCPublicSubnets`, `$vpc`, and the default `SECURITY_GROUP` for the vpc.
 
-In this section, we will create 3 ECS Services to show how tasks can be deployed across FARGATE and FARGATE\_SPOT capacity providers(CP).
-
-
-| **Service Name** | **No. of Tasks** | **No. of Tasks on FARGATE CP** | **Number of Tasks on FARGATE_SPOT CP** | **CP Strategy** |
-| --- | --- |--- |--- |--- |
-| **webapp-fargate-service-fargate** | 2 | 2 | 0 | FARGATE Capacity Provider weight =1 |
-| **fargate-service-fargate-spot** | 2 | 0 | 2 | FARGATE_SPOT Capacity Provider weight =1 |
-| **fargate-service-fargate-mix** | 4 | 3 | 1 | FARGATE Capacity Provider weight =3 FARGATE_SPOT Capacity Provider weight =1 |
-
-We will be creating the ECS services and tasks in the new VPC we created in the Module-1 i.e. **Quick-Start-VPC**
-
-So let's first find the default public subnets created in this VPC. You can find the subnet IDs in this VPC in the  AWS console as shown below, under the VPC service.
-
-Alternatively you can run the below command to list all the subnets in this VPC
-
-```
-aws ec2 describe-subnets --filters "Name=tag:aws:cloudformation:stack-name,Values=Quick-Start-VPC" | jq -r '.Subnets[].SubnetId'
-```
-
-The output from above command looks like below.
+```bash
+export STACK_NAME=EcsSpotWorkshop
+for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
+do
+    export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
+    eval "echo $output : \"\$$output\""
+done
+export SECURITY_GROUP=$( aws ec2 describe-security-groups --filters Name=vpc-id,Values=$vpc  Name=group-name,Values='default' | jq -r '.SecurityGroups[0].GroupId')
+echo "SECURITY_GROUP : $SECURITY_GROUP"
 
 ```
-subnet-07a877ee28959daa3
-subnet-015fc3e06f653980a
-subnet-003ef0ebc04c89b2d
-```
 
-Run the below command to set a variable for the subnets. We will use this variable in other steps.
+We can now create the ECS service. We will name it **fargate-service-split**. We will deploy a total of 4 different tasks. Execute the command below:
 
-```
-export PUBLIC\_SUBNET\_LIST="subnet-07a877ee28959daa3,subnet-015fc3e06f653980a,subnet-003ef0ebc04c89b2d"
-```
-
-Now let's find the default security group created in this VPC. You can find it in the AWS console as follows.
-
-You can also run the below command to list the default security group in this VPC
-
-```
-export VPC\_ID=$(aws ec2 describe-vpcs --filters "Name=tag:aws:cloudformation:stack-name,Values=Quick-Start-VPC" | jq -r '.Vpcs[0].VpcId')
- echo "Quick Start VPC ID is $VPC\_ID"
-```
-
-The output from above command looks like below.
-
-```
-Quick Start VPC ID is vpc-0a2fc4f24cbfab696
-```
-
-```
-export SECURITY\_GROUP=$( aws ec2 describe-security-groups --filters "Name=vpc-id,Values=$VPC\_ID" | jq -r '.SecurityGroups[0].GroupId')
- echo "Default Security group is $SECURITY\_GROUP"
-```
-
-The output from above command looks like below.
-
-```
-Default Security group is sg-03ccfca80f9fddf4d
-```
-
-Deploy the service **webapp-fargate-service-fargate** using below command.
-
-```
+```bash
 aws ecs create-service \
-     --capacity-provider-strategy capacityProvider=FARGATE,weight=1 \
-     --cluster EcsSpotWorkshopCluster \
-     --service-name webapp-fargate-service-fargate \
-     --task-definition webapp-fargate-task:1 \
-     --desired-count 2 \
-     --region $AWS\_REGION \
-     --network-configuration "awsvpcConfiguration={subnets=[$PUBLIC\_SUBNET\_LIST],securityGroups=[$SECURITY\_GROUP],assignPublicIp="ENABLED"}"
-
-```
-Note the capacity provider strategy used for this service.  It provides weight only for FARGATE capacity provider. This strategy overrides the default capacity provider strategy which is set to FARGATE capacity provider.
-
-That means ECS schedules all of the tasks (2 in this case) in service on the FARGATE Capacity providers.
-
-Deploy the service **webapp-fargate-service-fargate-spot** using below command
-
-```
-aws ecs create-service \
-	 --capacity-provider-strategy capacityProvider=FARGATE\_SPOT,weight=1 \
-     --cluster EcsSpotWorkshopCluster \
-     --service-name webapp-fargate-service-fargate-spot \
-     --task-definition webapp-fargate-task:1 \
-     --desired-count 2\
-     --region $AWS\_REGION \
-     --network-configuration "awsvpcConfiguration={subnets=[$PUBLIC\_SUBNET\_LIST],securityGroups=[$SECURITY\_GROUP],assignPublicIp="ENABLED"}"
-```
-
-Note the capacity provider strategy used for this service. It provides weight only for FARGATE\_SPOT capacity provider. This strategy overrides the default capacity provider strategy which is set to FARGATE capacity provider.
-
-That means ECS schedules all of the tasks (2 in this case) in service on the FARGATE\_SPOT Capacity providers.
-
-Deploy the service **webapp-fargate-service-fargate-mix** using below command
-
-```
-aws ecs create-service \
-	 --capacity-provider-strategy capacityProvider=FARGATE,weight=3 capacityProvider=FARGATE\_SPOT,weight=1 \
-     --cluster EcsSpotWorkshopCluster \
-     --service-name webapp-fargate-service-fargate-mix \
-     --task-definition webapp-fargate-task:1 \
+     --capacity-provider-strategy capacityProvider=FARGATE,weight=3 capacityProvider=FARGATE_SPOT,weight=1 \
+     --cluster EcsSpotWorkshop \
+     --service-name fargate-service-split \
+     --task-definition fargate-task:1 \
      --desired-count 4\
-     --region $AWS\_REGION \
-     --network-configuration "awsvpcConfiguration={subnets=[$PUBLIC\_SUBNET\_LIST],securityGroups=[$SECURITY\_GROUP],assignPublicIp="ENABLED"}"
+     --region $AWS_REGION \
+     --network-configuration "awsvpcConfiguration={subnets=[$VPCPublicSubnets],securityGroups=[$SECURITY_GROUP],assignPublicIp="ENABLED"}" 
+
+
 ```
 
-Note the capacity provider strategy used for this service.  It provides a weight of 3 to FARGATE and 1 to FARGATE\_SPOT capacity provider. This strategy overrides the default capacity provider strategy which is set to FARGATE capacity provider.
+{{% notice note %}}
+Note how the command we are about to execute uses the environment variables that we just read to define attributes such as 
+in which vpc and subnets Fargate tasks will run as well as the Security group to be used. Also observe how we are overriding the
+capacity provider strategy with the `--capacity-provider-strategy` parameter, just for this specific service. The custom strategy 
+sets a weight of 3 to FARGATE and 1 to FARGATE_SPOT capacity provider. 
+{{% /notice %}}
 
-That means ECS schedules splits the total tasks (4 in this case) in 3:1 ratio between FARGATE and FARGATE\_SPOT Capacity providers.
+**Exercise:  How many tasks are you expecting on FARGATE ? How many on FARGATE_SPOT? Verify the tasks spread on FARAGTE and FARGATE_SPOT under the custom strategy?** 
 
-But how do you verify if ECS really scheduled the tasks in this way?
+{{%expand "Click here to show the answer" %}}
 
-Click on the service  **webapp-fargate-service-fargate-mix** and select Tasks Tab
+Similar to what we did before, we can run the following command to see how tasks spread across capacity providers.
 
-Click on each task and note the Capacity Provider
+```
+aws ecs describe-tasks \
+--tasks $(aws ecs list-tasks --cluster EcsSpotWorkshop \
+--service-name fargate-service-split --query taskArns[*] --output text) \
+--cluster $cluster_name \
+--query 'sort_by(tasks,&capacityProviderName)[*].{TaskArn:taskArn,CapacityProvider:capacityProviderName,Instance:containerInstanceArn,AZ:availabilityZone,Status:lastStatus}' \
+--output table
+```
+
+The output of the above command should display a table as below.
+
+![Table](/images/ecs-spot-capacity-providers/table1.png) 
+
+**3 tasks were placed on FARGATE** and **1 task on FARGATE_SPOT** capacity providers, as expected.
+
+{{% /expand %}}
+
+
+## Spot Interruption Handling on ECS Fargate Spot
+
+When tasks using Fargate Spot capacity are stopped because of a Spot interruption, a two-minute warning is sent before a task is stopped.
+So far this is similar to the EC2 case. There are however a few differences.
+
+* Fargate Spot is configured automatically to capture Spot Interruptions and set the task in DRAINING mode, a **SITERM** is sent to the task 
+and containers and the application is expected to capture the **SIGTERM** signal and proceed in the same terms as in the EC2 case with a
+graceful termination (the implementation is the same to all effects). 
+
+* The container definition can define the `stopTimeout` attribute (30 seconds by default) and increase the value up to 120 seconds. This
+is the value between the **SIGTERM** and the **SIGKILL** termination IPC signal when the task will be forced to finish.
+
+* Finally, Fargate manages serverless containers, as such there is no access to instance metadata or signals for spot terminations that come
+through Cloudwatch/Event Bridge state change for instances. Instead the you can monitor Fargate Spot interruptions with Event Bridge but
+checking for ECS task state changes. Spot interruption change states will show up when the `detail-type` is `ECS Task State Change` and the
+`stoppedReason` is set to `Your Spot Task was interrupted.` You can read more [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html#fargate-capacity-providers-termination)
+
+## Optional Exercises
+
+ {{% notice warning %}}
+ Some of this exercises will take time for CAS to scale up and down. If you are running this workshop at a AWS event or with limited time, 
+ we recommend to come back to this section.
+ {{% /notice %}}
+
+ In this section we propose additional exercises you can do at your own pace to get a better understanding of Capacity Providers and Fargate.
+ Note that we are not providing solutions for this section. You should be able to reach to the solution by using some of your
+ new acquired skills.
+
+
+* Change the default strategy of the cluster to FARGATE weight 4 FARGATE_SPOT weight 1. What is the impact hat you expect on existing services 
+such as `fargate-service-split` and `ec2-service-split` ? 
+
+* Ups, it seems that we miss-configured quite a few things on the service and now we cannot get access to the application ! Is there anyway you can reconfigure the service so customer can get access to the web application?  
+

@@ -29,6 +29,7 @@ This also is our recommendation. Remember the termination handler does also hand
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-node-termination-handler \
              --namespace kube-system \
+             --version 0.12.0 \
              eks/aws-node-termination-handler
 ```
 

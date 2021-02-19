@@ -18,14 +18,14 @@ If we keep approximately the same vCPU:Mem ratio (1:4.5) for our job and avoid g
 EMR by default places limits on executor sizes in two different ways, this is in order to avoid having the executor consume too much memory and interfere with the operating system and other processes running on the instance. 
 
 1. [for each instance type differently] (https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hadoop-task-config.html#emr-hadoop-task-jvm) in the default YARN configuration options. 
-Let's have a look at a few examples of instances that have our approximate vCPU:Mem ratio:\
-r4.xlarge: yarn.scheduler.maximum-allocation-mb	23424\
-r4.2xlarge: yarn.scheduler.maximum-allocation-mb 54272\
-r5.xlarge: yarn.scheduler.maximum-allocation-mb	24576\
+Let's have a look at a few examples of instances that have our approximate vCPU:Mem ratio:  
+r4.xlarge: yarn.scheduler.maximum-allocation-mb	23424  
+r4.2xlarge: yarn.scheduler.maximum-allocation-mb 54272  
+r5.xlarge: yarn.scheduler.maximum-allocation-mb	24576  
 2. With the Spark on YARN configuration option which was [introduced in EMR version 5.22] (https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-whatsnew-history.html#emr-5220-whatsnew): spark.yarn.executor.memoryOverheadFactor and defaults to 0.1875 (18.75% of the spark.yarn.executor.memoryOverhead setting )
 
 
-So we can conclude that if we decrease our executor size to ~18GB, we'll be able to use r4.xlarge and basically any of the R family instance types  (or i3 that have the same vCPU:Mem ratio) as vCPU and Memory grows linearly within family sizes. If EMR will select an r4.2xlarge instance type from the list of supported instance types that we'll provide to EMR Instance Fleets, then it will run more than 1 executor on each instance, due to Spark dynamic allocation being enabled by default.
+So we can conclude that if we decrease our executor size to ~18GB, we'll be able to use r4.xlarge and basically any of the R family instance types (`1:8 vCPU:Mem ratio`) as vCPU and Memory grows linearly within family sizes. If EMR will select an r4.2xlarge instance type from the list of supported instance types that we'll provide to EMR Instance Fleets, then it will run more than 1 executor on each instance, due to Spark dynamic allocation being enabled by default.
 
 ![tags](/images/running-emr-spark-apps-on-spot/sparkmemory.png)
 

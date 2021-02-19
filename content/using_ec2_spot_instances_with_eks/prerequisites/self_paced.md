@@ -5,7 +5,7 @@ weight: 10
 ---
 
 {{% notice warning %}}
-Only complete this section if you are running the workshop on your own. If you are at an AWS hosted event (such as re:Invent, Kubecon, Immersion Day, etc), go to [Start the workshop at an AWS event]({{< relref "aws_event.md" >}}).
+Only complete this section if you are running the workshop on your own. If you are at an AWS hosted event (such as re:Invent, Kubecon, Immersion Day, etc), go to [Start the workshop at an AWS event]({{< ref "/using_ec2_spot_instances_with_eks/prerequisites/aws_event.md" >}}).
 {{% /notice %}}
 
 ### Running the workshop on your own
@@ -34,4 +34,4 @@ as an IAM user with administrator access to the AWS account:
 ![Login URL](/images/using_ec2_spot_instances_with_eks/prerequisites/iam-4-save-url.png)
 
 
-Once you have completed the step above, **you can head straight to [Create a Workspace]({{<  relref "workspace.md"  >}})**
+Once you have completed the step above, **you can head straight to [Create a Workspace]({{<  ref "/using_ec2_spot_instances_with_eks/prerequisites/workspace.md"  >}})**

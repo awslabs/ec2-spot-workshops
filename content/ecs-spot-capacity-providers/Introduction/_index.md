@@ -1,12 +1,12 @@
 +++
 title = "Introduction"
-chapter = true
-weight = 10
+weight = 20
 +++
 
-Introduction to Docker Containers, Amazon ECS, EC2 Spot Instances and Application Scaling
----
 
-This self-paced workshop is designed to educate engineers that might not be familiar with Fargate, ECS, EC2 Spot, and possibly even Docker container workflow.
+If you are already familiar with the concepts below or already have experience with operating ECS clusters, you can skip the introduction and proceed to [**Setup the workspace environment on AWS**](/ecs-spot-capacity-providers/workshopsetup.html) section to start the workshop.
+
+Otherwise, you can read through to get an initial understanding of the services, technologies and features used in this workshop.
+
 
 {{% children  %}}

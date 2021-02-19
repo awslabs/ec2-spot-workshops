@@ -16,6 +16,7 @@ Resources:
     DependsOn:
     - LambdaFunctionRole
     Properties:
+      FunctionName: SpotInterruptionHandler
       Handler: index.handler
       Role: !GetAtt LambdaFunctionRole.Arn
       Code:
@@ -85,7 +86,8 @@ Resources:
             Action:
             - logs:CreateLogStream
             - logs:PutLogEvents
-            Resource: arn:aws:logs:*:*:log-group:/aws/lambda/*SpotInterruptionHandlerFunction*:*
+            Resource: 
+              - !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/SpotInterruptionHandler:*"
           - Effect: Allow
             Action:
             - logs:CreateLogGroup

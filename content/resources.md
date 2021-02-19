@@ -16,9 +16,9 @@ disableToc: true
 
 ##### [ - [Blog post] New – EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/)
 
-
 ##### [ - [Blog post] Capacity-Optimized Spot Instance Allocation in Action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/)
 
+##### [ - [Blog post] Proactively manage the Spot Instance lifecycle using the new Capacity Rebalancing feature for EC2 Auto Scaling](https://aws.amazon.com/blogs/compute/proactively-manage-spot-instance-lifecycle-using-the-new-capacity-rebalancing-feature-for-ec2-auto-scaling/)
 
 ##### [ - [AWS Online Tech Talks]: Optimize AI/ML, Kubernetes and Big Data Workloads at Your Startup](https://www.youtube.com/watch?v=2donGftFSIY)
 
@@ -32,6 +32,8 @@ disableToc: true
 ##### [ - [AWS Online Tech Talks]: How to Build Scalable Web Based Applications for Less with Amazon EC2 Spot Instances](https://www.youtube.com/watch?v=9psCsCcbfFM)
 
 ## Big-data and analytics
+
+##### [ - [Blog post] Optimizing Amazon EMR for resilience and cost with capacity-optimized Spot Instances](https://aws.amazon.com/blogs/big-data/optimizing-amazon-emr-for-resilience-and-cost-with-capacity-optimized-spot-instances/)
 
 ##### [ - [Blog post] Best practices for running Apache Spark applications using Amazon EC2 Spot Instances with Amazon EMR](https://aws.amazon.com/blogs/big-data/best-practices-for-running-apache-spark-applications-using-amazon-ec2-spot-instances-with-amazon-emr/)
 
