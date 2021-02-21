@@ -9,7 +9,7 @@ We will create an ECS service to place tasks in the new VPC created by the Cloud
 load all the Outputs from the Cloudformation stack into environment variables. We will need some of the environment variables such as:
 `$VPCPublicSubnets`, `$vpc`, and the default `SECURITY_GROUP` for the vpc.
 
-```bash
+```
 export STACK_NAME=EcsSpotWorkshop
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
 do
@@ -18,12 +18,11 @@ do
 done
 export SECURITY_GROUP=$( aws ec2 describe-security-groups --filters Name=vpc-id,Values=$vpc  Name=group-name,Values='default' | jq -r '.SecurityGroups[0].GroupId')
 echo "SECURITY_GROUP : $SECURITY_GROUP"
-
 ```
 
 We can now create the ECS service. We will name it **fargate-service-split**. We will deploy a total of 4 different tasks. Execute the command below:
 
-```bash
+```
 aws ecs create-service \
      --capacity-provider-strategy capacityProvider=FARGATE,weight=3 capacityProvider=FARGATE_SPOT,weight=1 \
      --cluster EcsSpotWorkshop \

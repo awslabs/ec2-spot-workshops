@@ -9,7 +9,7 @@ In this section, you create an Auto Scaling group for EC2 Spot Instances using t
 
 Copy the file **templates/asg.json** for the EC2 Auto Scaling group configuration.
 
-```bash
+```
 cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
 cp templates/asg.json spot-asg.json
 ```
@@ -21,7 +21,7 @@ Read the **spot-asg.json** file. We configured the instance diversification in *
 We will now replace the environment variables in the spot-asg.json file with the Spot settings, setting the OnDemand percentage to 0 and substituting the CloudFormation environment variables that we exported earlier.
 
 
-```bash
+```
 export ASG_NAME=EcsSpotWorkshop-ASG-SPOT
 export OD_PERCENTAGE=0 # Note that ASG will have 0% On-Demand, 100% Spot
 sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" spot-asg.json
@@ -29,7 +29,7 @@ sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e
 
 Finally we create the ASG for the Spot Instances and store the ARN for the spot group.
 
-```bash
+```
 aws autoscaling create-auto-scaling-group --cli-input-json  file://spot-asg.json
 ASG_ARN=$(aws autoscaling  describe-auto-scaling-groups --auto-scaling-group-name $ASG_NAME | jq -r '.AutoScalingGroups[0].AutoScalingGroupARN')
 echo "$ASG_NAME  ARN=$ASG_ARN"

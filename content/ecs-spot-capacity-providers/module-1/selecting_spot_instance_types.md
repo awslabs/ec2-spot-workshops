@@ -38,7 +38,7 @@ Instances that match your workload requirements. For this workshop, we need to f
 * Instances that don't meet the regular expression `.*n.*|.*d.*`, so effectively discard instances such as: m5n, m5dn, m5d.
 
 
-```bash
+```
 ec2-instance-selector --vcpus-to-memory-ratio 1:4 --vcpus=2 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*|.*d.*'     
 ```
 
@@ -71,7 +71,7 @@ As a summary of Spot Best practices selection for ECS Auto Scaling Groups and Ca
 Just changing the parameters `vcpus-min` and `vcpus-max` will spread the filtering selection and provide similar instances of larger sizes adjacent
 to the initial selection we made
 
-```bash
+```
 ec2-instance-selector --vcpus-to-memory-ratio 1:4 --vcpus-min 2 --vcpus-max=4 --burst-support=0 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*|.*d.*'     
 ```
 

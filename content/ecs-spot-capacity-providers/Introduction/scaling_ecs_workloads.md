@@ -36,7 +36,7 @@ Amazon ECS creates an AWS Auto Scaling scaling plan with a target tracking scali
 
 The scaling policy uses a new CloudWatch metric called **CapacityProviderReservation** that ECS publishes for every ASG capacity provider that has managed scaling enabled. The new CloudWatch metric CapacityProviderReservation is defined as follows.
 
-```bash
+```ruby
 CapacityProviderReservation  = ( M / N ) x 100
 ```
 

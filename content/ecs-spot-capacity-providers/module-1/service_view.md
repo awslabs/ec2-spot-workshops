@@ -66,9 +66,8 @@ In this section we will simulate a Service Auto Scaling, by changing manually th
 
 Let's increase manually the number of tasks on the service and increase them up to 22. Execute the following on Cloud9
 
-```bash
+```
 aws ecs update-service --cluster EcsSpotWorkshop --service ec2-service-split --desired-count 22 --output table
-
 ```
 
 The change in the numbers of desired tasks should result in a change to the metrics **CapacityProviderReservation** associated 

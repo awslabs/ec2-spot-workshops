@@ -16,7 +16,7 @@ Execute the lines below. This might take a couple of minutes. The lines below:
 - c) build a docker image with the application
 - d) tag the docker image and upload to the ECR repository
 
-```bash
+```
 export ECR_REPO_URI=$(aws ecr describe-repositories --repository-names ecs-spot-workshop/webapp | jq -r '.repositories[0].repositoryUri')
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO_URI
 cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/webapp/
@@ -33,12 +33,13 @@ the resource required (CPU/Memory) and the ports that will be exposed.
 
 Run the following section. This creates a copy the template ECS Task from *templates/ec2-task.json* to the current directory and substitutes the template with the actual value of the docker image path. Finally it registers the task so it can be used by Services or deployed to ECS clusters.
 
-```bash
+```
 cd ~/environment/ec2-spot-workshops/workshops/ecs-spot-capacity-providers/
 cp -Rfp templates/ec2-task.json .
 sed -i -e "s#DOCKER_IMAGE_URI#$ECR_REPO_URI:latest#g" ec2-task.json
 aws ecs register-task-definition --cli-input-json file://ec2-task.json
 ```
+
 The task definition will look like this in the console:
 
 ![Task](/images/ecs-spot-capacity-providers/task1.png)
@@ -109,7 +110,7 @@ Given the split OnDemand Capacity Provider **`Base=2, weight=1`**, Spot Capacity
 
 The tasks should distributed as **OnDemand = 4 tasks** and **Spot =6 tasks**. We can veryfy it by running the following command in the Cloud9 terminal
 
-```bash
+```
 export cluster_name=EcsSpotWorkshop 
 export service_name=ec2-service-split
 aws ecs describe-tasks \

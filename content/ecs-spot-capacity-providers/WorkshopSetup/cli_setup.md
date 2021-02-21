@@ -64,26 +64,27 @@ Use the commands below to set the CloudFormation stack name to an environment va
 
 * If you created the stack manually:
 
-```bash
+```
 export STACK_NAME=EcsSpotWorkshop
 ```
 
 * If the stack created automatically within Event Engine:
 
-```bash
+```
 export STACK_NAME=$(aws cloudformation list-stacks | jq -r '.StackSummaries[] | select(.StackName|test("mod.")) | .StackName')
 echo "STACK_NAME=$STACK_NAME"
 ```
+
 The output should look something like below.
 
-```bash
+```
 STACK_NAME=mod-9feefdd1672c4eac
 ```
 
 
 Run the command below to load CloudFormation outputs as the environment variables.
 
-```bash
+```
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
 do
     export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)

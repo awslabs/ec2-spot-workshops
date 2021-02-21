@@ -49,13 +49,12 @@ The following screenshot shows how to create a new terminal :
 
 The following lines, clone the c3vis tool repository, build the c3is application docker image and run the container.
 
-```bash
+```
 cd ~/environment/
 git clone https://github.com/ExpediaDotCom/c3vis.git
 cd c3vis 
 docker build -t c3vis .
 docker run -e "AWS_REGION=$AWS_REGION" -p 8080:3000 c3vis
-
 ```
 
 Open the preview application in your cloud9 environment and click on the arrow on the top right to open the application in the browser
