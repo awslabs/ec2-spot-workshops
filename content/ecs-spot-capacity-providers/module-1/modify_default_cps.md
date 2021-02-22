@@ -10,9 +10,9 @@ For our default capacity provider we have considered the following application r
 * There should be at least 2 tasks running on On-Demand instances to serve the normal traffic. The **base=2** configuration satisfies this requirement.
 * Tasks deployed to On-Demand and Spot Instances, follow a 1:3 ratio to handle any additional traffic
 
-With this requirements we can set **EcsSpotWorkshopUpdate** cluster default capacity provider strategy, follow these steps:
+With this requirements we can set **EcsSpotWorkshop** cluster default capacity provider strategy, follow these steps:
 
-* Go to the ECS Cluster console and select the **EcsSpotWorkshopUpdate** ECS Cluster.
+* Go to the ECS Cluster console and select the **EcsSpotWorkshop** ECS Cluster.
 * Click on the **Update Cluster** option on the top right, and click **Add Another Provider**
 * For Provider 1: select **CP-OD**, set base value to **2** and weight to **1**
 * Click on **Add another provider** one more time
