@@ -16,7 +16,7 @@ To save time on the initial setup, a CloudFormation template will be used to cre
 9. Click **Next**.
 10. In *Configure stack options*, you don’t need to make any changes.
 11. Click **Next**.
-12. Review the information for the stack. At the bottom under *Capabilities*, select **I acknowledge that AWS CloudFormation might create IAM resources*. When you’re satisfied with the settings, click **Create stack**.
+12. Review the information for the stack. At the bottom under *Capabilities*, select **I acknowledge that AWS CloudFormation might create IAM resources**. When you’re satisfied with the settings, click **Create stack**.
 
 ### Monitor the progress of stack creation 
 
