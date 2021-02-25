@@ -3,12 +3,12 @@ title = "Create an EC2 launch template"
 weight = 70
 +++
 
+{{%expand "You'll use a Launch Template to specify configuration parameters for launching instances with EC2 Auto Scaling in this workshop. Click here to learn more about Launch Templates" %}}
 A launch template specifies EC2 instance configuration information: the ID of the Amazon Machine Image (AMI), the instance type, a key pair, security groups, and the other parameters that you use to launch EC2 instances. This configuration can later be used to launch instances from that template via the EC2 API, via EC2 Auto Scaling groups and other AWS services. Launch Templates are similar to Auto Scaling [launch configurations](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchConfiguration.html); however, defining a launch template instead of a launch configuration allows you to have multiple versions of a template. With versioning, you can create a subset of the full set of parameters and then reuse it to create other templates or template versions. For example, you can create a default template that defines common configuration parameters and allow the other parameters to be specified as part of another version of the same template.
 
 It's recommended that you create Auto Scaling groups from launch templates to ensure that you're accessing the latest features and improvements. Note that not all Auto Scaling group features are available in Launch Configurations. For example, with launch configurations, you cannot create an Auto Scaling group that launches both Spot and On-Demand Instances or that specifies multiple instance types or multiple launch templates. You must use a launch template to configure these features. For more information, see [Auto Scaling groups with multiple instance types and purchase options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html). 
+{{% /expand %}}
 
-You'll use a Launch Template to specify configuration parameters for launching instances with EC2 Auto Scaling in this workshop.
-	
 1. Open **launch-template-data.json** on the Cloud9 editor and examine the configuration, you will notice some of the parameters have a placeholder value **%variableName%**: %instanceProfile%, %instanceSecurityGroup% and %ami-id%.
 ![Cloud9 Editor](/images/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options/cloud9-editor.jpg)
 
