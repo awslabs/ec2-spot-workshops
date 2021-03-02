@@ -3,7 +3,7 @@ title = "Deploy the AWS Elastic Load Balancer"
 weight = 90
 +++
 
-{{%expand "To learn more about AWS Elastic Load Balancer click here" %}}
+{{%expand "You will be deploying a load balancer to push the incoming traffic to your application. To learn more about AWS Elastic Load Balancer click here" %}}
 A load balancer serves as the single point of contact for clients. The load balancer distributes incoming application traffic across multiple targets, such as EC2 instances, in multiple Availability Zones. This increases the availability of your application. You add one or more listeners to your load balancer.
 
 A listener checks for connection requests from clients, using the protocol and port that you configure, and forwards requests to one or more target groups, based on the rules that you define. Each rule specifies a target group, condition, and priority. When the condition is met, the traffic is forwarded to the target group. You must define a default rule for each listener, and you can add rules that specify different target groups based on the content of the request (also known as content-based routing).
