@@ -27,6 +27,11 @@ spec:
       labels: 
         app: monte-carlo-pi-service 
     spec:
+      tolerations: 
+      - key: "spotInstance" 
+        operator: "Equal" 
+        value: "true" 
+        effect: "PreferNoSchedule" 
       affinity: 
         nodeAffinity: 
           preferredDuringSchedulingIgnoredDuringExecution: 
