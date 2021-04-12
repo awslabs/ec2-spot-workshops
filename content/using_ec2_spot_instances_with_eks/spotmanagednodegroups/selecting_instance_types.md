@@ -28,7 +28,7 @@ We can diversify Spot instance pools using two strategies:
 
 Our goal in this workshop, is to create at least 2 diversified groups of instances that adhere the 1vCPU:4GB RAM ratio. 
 
-There are over 270 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. We will use the Instance Selector options flags in `eksctl create nodegroup` command to help you select compatible instance types for your application to run on. The Instance Selector options can filter instances based on vcpu, memory, cpu architecture, and even gpu. The options we will use:
+There are over 270 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. We will use the Instance Selector options flags in `eksctl create nodegroup` command to help you select compatible instance types for your application to run on. The Instance Selector options can filter instances based on vcpu, memory, cpu architecture, and even gpu.  The options we will use:
 
  - `--instance-selector-vcpus` option can be set to an integer value representing the number of vCPUs
  
@@ -38,7 +38,7 @@ There are over 270 different instance types available on EC2 which can make the 
 
  - `--dry-run` option help us skip nodegroup creation and instead generate a ClusterConfig for review.  
 
-You can run `eksctl create nodegroup --help` to understand how you could use the above options for selecting instances that match your workload requirements. For the purpose of this workshop we need to first get a group of instances that meet the 4vCPUs and 16GB of RAM. Run the following command to get the list of instances.
+The main benefit of using Instance Selector is that the selected instances will only include instances matching your selection and supported by EKS (in the region of choice). You can run `eksctl create nodegroup --help` to understand how you could use the above options for selecting instances that match your workload requirements. For the purpose of this workshop we need to first get a group of instances that meet the 4vCPUs and 16GB of RAM. Run the following command to get the list of instances.
 
 ```bash
 eksctl create nodegroup \
