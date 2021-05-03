@@ -47,6 +47,7 @@ disableToc: true
 
 
 ## Containers
+##### [ - [Blog post] Amazon EKS now supports provisioning and managing EC2 Spot Instances in managed node groups](https://aws.amazon.com/blogs/containers/amazon-eks-now-supports-provisioning-and-managing-ec2-spot-instances-in-managed-node-groups/)
 
 ##### [ - [Blog post] Building for Cost optimization and Resilience for EKS with Spot Instances](https://aws.amazon.com/blogs/compute/cost-optimization-and-resilience-eks-with-spot-instances/)
 
