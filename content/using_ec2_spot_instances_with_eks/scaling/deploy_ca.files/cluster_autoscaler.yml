@@ -132,7 +132,7 @@ spec:
       nodeSelector:
         intent: control-apps      
       containers:
-        - image: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.20.0
+        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.19.1
           name: cluster-autoscaler
           resources:
             limits:
@@ -160,7 +160,7 @@ spec:
             - --max-empty-bulk-delete=30
           env:
             - name: AWS_REGION
-              value: us-west-2
+              value: --AWS_REGION--
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt

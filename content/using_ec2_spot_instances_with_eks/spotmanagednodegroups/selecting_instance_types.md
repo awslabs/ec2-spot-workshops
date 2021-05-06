@@ -28,63 +28,57 @@ We can diversify Spot instance pools using two strategies:
 
 Our goal in this workshop, is to create at least 2 diversified groups of instances that adhere the 1vCPU:4GB RAM ratio. 
 
-There are over 350 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. We will use the Instance Selector options flags in `eksctl create nodegroup` command to help you select compatible instance types for your application to run on. The Instance Selector options can filter instances based on vcpu, memory, cpu architecture, and even gpu.  The options we will use:
+We will use **[amazon-ec2-instance-selector](https://github.com/aws/amazon-ec2-instance-selector)** to help us select the relevant instance
+types and familes with sufficient number of vCPUs and RAM. 
 
- - `--instance-selector-vcpus` option can be set to an integer value representing the number of vCPUs
- 
- - `--instance-selector-memory` option can be set to integer value representing the memory.
+There are over 350 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. **[amazon-ec2-instance-selector](https://github.com/aws/amazon-ec2-instance-selector)** helps you select compatible instance types for your application to run on. The command line interface can be passed resource criteria like vcpus, memory, network performance, and much more and then return the available, matching instance types.
 
- - `--instance-selector-cpu-architecture` option can be used to limit the instances to x86 (x86_64) or arm (arm64) architecture. 
+Let's first install **amazon-ec2-instance-selector** :
 
- - `--dry-run` option help us skip nodegroup creation and instead generate a ClusterConfig for review.  
-
-The main benefit of using Instance Selector is that the selected instances will only include instances matching your selection and supported by EKS (in the region of choice). You can run `eksctl create nodegroup --help` to understand how you could use the above options for selecting instances that match your workload requirements. For the purpose of this workshop we need to first get a group of instances that meet the 4vCPUs and 16GB of RAM. Run the following command to get the list of instances.
-
-```bash
-eksctl create nodegroup \
-    --cluster=eksworkshop-eksctl \
-    --region=$AWS_REGION \
-    --dry-run \
-    --managed \
-    --spot \
-    --name=dev-4vcpu-16gb-spot \
-    --instance-selector-vcpus=4 \
-    --instance-selector-memory=16 \
-    --instance-selector-cpu-architecture=x86_64 \
-    --instance-selector-gpus=0
+```
+curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v1.3.0/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
+sudo mv ec2-instance-selector /usr/local/bin/
+ec2-instance-selector --version
 ```
 
-This should display a list in the instanceTypes under managedNodeGroups like the one that follows (note results might differ depending on the region). We will use this instances as part of one of our node groups. Some of the instance types are not supported by EKS and these instances will need to be filtered out. Instances not supported by EKS include *d3en*, *h1*, *m5zn* and *g4dn* Instance Types.
+Now that you have ec2-instance-selector installed, you can run
+`ec2-instance-selector --help` to understand how you could use it for selecting
+instances that match your workload requirements. For the purpose of this workshop
+we need to first get a group of instances that meet the 4vCPUs and 16GB of RAM.
+Run the following command to get the list of instances.
 
 ```bash
-  instanceSelector:
-    cpuArchitecture: x86_64
-    memory: "16"
-    vCPUs: 4
-  instanceTypes:
-  - d3en.xlarge
-  - g4dn.xlarge
-  - m4.xlarge
-  - m5.xlarge
-  - m5a.xlarge
-  - m5ad.xlarge
-  - m5d.xlarge
-  - m5dn.xlarge
-  - m5n.xlarge
-  - m5zn.xlarge
-  - t2.xlarge
-  - t3.xlarge
-  - t3a.xlarge
+ec2-instance-selector --vcpus 4 --memory 16384 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*'      
 ```
 
-Internally the Instance Selector is making calls to the [DescribeInstanceTypes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceTypes.html) for the specific region and filtering the intstances based on the criteria selected in the command line. In our case we did filter for instances that meet the following criteria:
+This should display a list like the one that follows (note results might differ depending on the region). We will use this instances as part of one of our node groups.
 
- - 4 vCPUs and 16GB of Ram
- - x86_64 Architecture (no ARM instances like A1 or m6g instances for example)
- - no GPUs
- 
+```
+m4.xlarge
+m5.xlarge
+m5a.xlarge
+m5d.xlarge
+t2.xlarge
+t3.xlarge
+t3a.xlarge           
+```
+
+Internally ec2-instance-selector is making calls to the [DescribeInstanceTypes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceTypes.html) for the specific region and filtering
+the intstances based on the criteria selected in the command line, in our case 
+we did filter for instances that meet the following criteria:
+ * Instances with no GPUs
+ * of x86_64 Architecture (no ARM instances like A1 or m6g instances for example)
+ * Instances that have 4 vCPUs and 16GB of Ram
+ * Instances of current generation (4th gen onwards)
+ * Instances that don't meet the regular expresion `.*n.*`, so effectively m5n, m5dn. 
+
 {{% notice warning %}}
 Your workload may have other constraints that you should consider when selecting instances types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate for CPU bound workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is sensitive to numerical differences (i.e: financial risk calculations, industrial simulations) mixing these instance types might not be appropriate.
+{{% /notice %}}
+
+{{% notice note %}}
+You are encouraged to test what are the options that `ec2-instance-selector` provides and run a few commands with it to familiarize yourself with the tool.
+For example, try running the same commands as you did before with the extra parameter **`--output table-wide`**.
 {{% /notice %}}
 
 ### Challenge 
@@ -96,45 +90,20 @@ Find out another group that adheres to a 1vCPU:4GB ratio, this time using instan
 That should be easy. You can run the command:  
 
 ```bash
-eksctl create nodegroup \
-    --cluster=eksworkshop-eksctl \
-    --region=$AWS_REGION \
-    --dry-run \
-    --managed \
-    --spot \
-    --name=dev-8vcpu-32gb-spot \
-    --instance-selector-vcpus=8 \
-    --instance-selector-memory=32 \
-    --instance-selector-cpu-architecture=x86_64 \
-    --instance-selector-gpus=0
+ec2-instance-selector --vcpus 8 --memory 32768 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*|.*h.*'   
 ```
 
 which should yield a list as follows 
 
 ```
-  instanceSelector:
-    cpuArchitecture: x86_64
-    memory: "32"
-    vCPUs: 8
-  instanceTypes:
-  - d3en.2xlarge
-  - g4dn.2xlarge
-  - h1.2xlarge
-  - m4.2xlarge
-  - m5.2xlarge
-  - m5a.2xlarge
-  - m5ad.2xlarge
-  - m5d.2xlarge
-  - m5dn.2xlarge
-  - m5n.2xlarge
-  - m5zn.2xlarge
-  - t2.2xlarge
-  - t3.2xlarge
-  - t3a.2xlarge
+m4.2xlarge
+m5.2xlarge
+m5a.2xlarge
+m5d.2xlarge
+t2.2xlarge
+t3.2xlarge
+t3a.2xlarge
 ```
 
 {{% /expand %}}
-
-
-
 
