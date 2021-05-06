@@ -30,7 +30,7 @@ The following command will create an eks cluster with the name `eksworkshop-eksc
 
 eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
 
-The managed nodegroup will have two m5.large nodes (m5.large is the default instance type used if no instance types are mentioned) and it will bootstrap with the label **intent=control-apps**. 
+The managed nodegroup will have two m5.large nodes (m5.large is the default instance type used if no instance types are specified) and it will bootstrap with the label **intent=control-apps**. 
 
 Amazon EKS adds the following Kubernetes label to all nodes in your managed node group: **eks.amazonaws.com/capacityType: ON_DEMAND**. You can use this label to schedule stateful or fault intolerant applications on On-Demand nodes.
 

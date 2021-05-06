@@ -25,8 +25,6 @@ managedNodeGroups:
   - m5a.xlarge
   - m5ad.xlarge
   - m5d.xlarge
-  - m5dn.xlarge
-  - m5n.xlarge
   - t2.xlarge
   - t3.xlarge
   - t3a.xlarge
@@ -56,5 +54,5 @@ managedNodeGroups:
   volumeType: gp3
 metadata:
   name: eksworkshop-eksctl
-  region: us-west-2
+  region: $AWS_REGION
   version: auto

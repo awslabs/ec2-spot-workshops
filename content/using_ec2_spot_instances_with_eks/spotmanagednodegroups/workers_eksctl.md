@@ -5,7 +5,7 @@ weight: 30
 draft: false
 ---
 
-In this section we will deploy the instance types we selected and request nodegroups that adhere to Spot diversification best practices. For that we will use **[eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/)** to generate the ClusterConfig file and save the output. The ClusterConfig file will be edited with additional configuration including filtering the instance types, and use the edited eksctl configuration files to add the new nodes to the cluster.
+In this section we will deploy the instance types we selected and request nodegroups that adhere to Spot diversification best practices. For that we will use **[eksctl create nodegroup](https://eksctl.io/usage/managing-nodegroups/)** to generate the ClusterConfig file and save the output. The ClusterConfig file will be edited with additional configuration and use it to add the new nodes to the cluster.
 
 Let's first create the configuration file:
 
@@ -17,10 +17,7 @@ eksctl create nodegroup \
     --managed \
     --spot \
     --name=dev-4vcpu-16gb-spot \
-    --instance-selector-vcpus=4 \
-    --instance-selector-memory=16 \
-    --instance-selector-cpu-architecture=x86_64 \
-    --instance-selector-gpus=0 \
+    --instance-types m4.xlarge,m5.xlarge,m5a.xlarge,m5ad.xlarge,m5d.xlarge,t2.xlarge,t3.xlarge,t3a.xlarge \
     > ~/environment/spot_nodegroup_4vcpu_16gb.yml
 
 eksctl create nodegroup \
@@ -30,10 +27,7 @@ eksctl create nodegroup \
     --managed \
     --spot \
     --name=dev-8vcpu-32gb-spot \
-    --instance-selector-vcpus=8 \
-    --instance-selector-memory=32 \
-    --instance-selector-cpu-architecture=x86_64 \
-    --instance-selector-gpus=0 \
+    --instance-types m4.2xlarge,m5.2xlarge,m5a.2xlarge,m5ad.2xlarge,m5d.2xlarge,t2.2xlarge,t3.2xlarge,t3a.2xlarge \
     > ~/environment/spot_nodegroup_8vcpu_32gb.yml
 ```
 
@@ -43,8 +37,6 @@ Let's edit the 2 configuration files before using it to create the node groups:
 
 1. Change the **maxSize** to 5 and **minSize** to 1. Leave **desiredCapacity** at 2. 
 
-1. Delete the *d3en*, *h1*, *m5zn* and *g4dn* instances from the **instanceTypes**. Leave in only the Instances from M and T families (except m5zn.large and m5zn.xlarge).
-
 1. In the **labels:** section, add the following labels in a new line: **intent: apps**
 
     We will use this label **intent** to force a hard partition of the cluster for our applications. During this workshop we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
@@ -53,9 +45,9 @@ Let's edit the 2 configuration files before using it to create the node groups:
 
 1. Remove the section **instanceSelector:**.
 
-If you are still struggling with the implementation, the solution files is available here
+If you are still struggling with the implementation, the solution files are available here
 
-Note: The region in the solution files is set to us-west-2. Remember to change the region to *your region* if you are not using us-west-2.
+Note: Remember to change the region *$AWS_REGION* to *your region* before creating the node groups.
 
 {{%attachments title="Related files" pattern=".yml"/%}}
 
@@ -70,7 +62,7 @@ eksctl create nodegroup -f spot_nodegroup_8vcpu_32gb.yml
 ```
 
 {{% notice note %}}
-The creation of the worker nodes will take about 3 minutes.
+The creation of each node group will take about 3 minutes.
 {{% /notice %}}
 
 There are a few things to note in the configuration that we just used to create these nodegroups.
