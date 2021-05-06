@@ -41,9 +41,9 @@ This will create 2 files, `spot_nodegroups_4vcpu_16gb.yml` and `spot_nodegroups_
 
 Let's edit the 2 configuration files before using it to create the node groups:
 
-1. Change the **maxSize** to 5.
+1. Change the **maxSize** to 5 and **minSize** to 1. Leave **desiredCapacity** at 2. 
 
-1. Delete the *d3en*, *h1* and *g4dn* instances from the **instanceTypes**. Leave in only the Instances from M and T families.
+1. Delete the *d3en*, *h1*, *m5zn* and *g4dn* instances from the **instanceTypes**. Leave in only the Instances from M and T families (except m5zn.large and m5zn.xlarge).
 
 1. In the **labels:** section, add the following labels in a new line: **intent: apps**
 
@@ -54,6 +54,8 @@ Let's edit the 2 configuration files before using it to create the node groups:
 1. Remove the section **instanceSelector:**.
 
 If you are still struggling with the implementation, the solution files is available here
+
+Note: The region in the solution files is set to us-west-2. Remember to change the region to *your region* if you are not using us-west-2.
 
 {{%attachments title="Related files" pattern=".yml"/%}}
 
@@ -75,7 +77,7 @@ There are a few things to note in the configuration that we just used to create 
 
  * The configuration setup the nodes under the **managedNodeGroups** section. This is to indicate the node group being created is a managed node group.
  * The configuration setup a configuration **spot: true** to indicate that the node group being created is a Spot managed node group, which implies all nodes in the nodegroup would be **Spot instances**.
- * Notice that the configuration setup a **minSize** to 2, **maxSize** to 2 and **desiredCapacity** to 2. Spot managed nodegroups are created with minimum of 2 nodes.
+ * Notice that the configuration setup a **minSize** to 1, **maxSize** to 5 and **desiredCapacity** to 2. Spot managed nodegroups are created with 2 nodes, but minimum number of instances for managed node group is 1 instance.
  * Notice that the configuration setup 2 node label under **labels** - **alpha.eksctl.io/cluster-name: : eksworkshop-eksctl** to indicate the node label belongs to **eksworkshop-eksctl** cluster, and **alpha.eksctl.io/nodegroup-name: dev-4vcpu-16gb-spot** node group.
 
 {{% notice info %}}
