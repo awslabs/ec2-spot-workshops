@@ -160,8 +160,6 @@ It is a recommended to use **[capacity-optimized](https://aws.amazon.com/blogs/c
 Some of this exercises will take time for Cluster Autoscaler to scale up and down. If you are running this workshop at a AWS event or with limited time, we recommend to come back to this section once you have completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies). What do you think is the trade-off when you switch to [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy ? 
-
  * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 23 ? What happens if we increase the number of replicas to 30? Can you predict which group of node will be expanded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
 
  * How would you expect Cluster Autoscaler to Scale in the cluster ? How about scaling out ? How much time you'll expect for it to take ?
@@ -172,3 +170,6 @@ Some of this exercises will take time for Cluster Autoscaler to scale up and dow
 
  * During the workshop, we did use nodegroups that expand across multiple AZ's; There are scenarios where might create issues. Could you think which scenarios ? ([hint](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws#common-notes-and-gotchas)). Could you think of ways of mitigating the risk in those scenarios ? ([hint 1](https://github.com/aws-samples/amazon-k8s-node-drainer), [hint 2](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler))
 
+ * **Managed Spot node groups only:** AWS auto-scaling groups automatically sets the nodegroups to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies).
+
+ * **Self managed Spot node groups only:** At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies). What do you think is the trade-off when you switch to [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy ? 

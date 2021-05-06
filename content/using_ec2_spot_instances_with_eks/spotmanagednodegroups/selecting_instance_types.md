@@ -28,7 +28,7 @@ We can diversify Spot instance pools using two strategies:
 
 Our goal in this workshop, is to create at least 2 diversified groups of instances that adhere the 1vCPU:4GB RAM ratio. 
 
-There are over 270 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. We will use the Instance Selector options flags in `eksctl create nodegroup` command to help you select compatible instance types for your application to run on. The Instance Selector options can filter instances based on vcpu, memory, cpu architecture, and even gpu.  The options we will use:
+There are over 350 different instance types available on EC2 which can make the process of selecting appropriate instance types difficult. We will use the Instance Selector options flags in `eksctl create nodegroup` command to help you select compatible instance types for your application to run on. The Instance Selector options can filter instances based on vcpu, memory, cpu architecture, and even gpu.  The options we will use:
 
  - `--instance-selector-vcpus` option can be set to an integer value representing the number of vCPUs
  
@@ -54,7 +54,7 @@ eksctl create nodegroup \
     --instance-selector-gpus=0
 ```
 
-This should display a list in the instanceTypes under managedNodeGroups like the one that follows (note results might differ depending on the region). We will use this instances as part of one of our node groups.
+This should display a list in the instanceTypes under managedNodeGroups like the one that follows (note results might differ depending on the region). We will use this instances as part of one of our node groups. Some of the instance types are not supported by EKS and these instances will need to be filtered out. Instances not supported by EKS include *d3en*, *h1*, *m5zn* and *g4dn* Instance Types.
 
 ```bash
   instanceSelector:

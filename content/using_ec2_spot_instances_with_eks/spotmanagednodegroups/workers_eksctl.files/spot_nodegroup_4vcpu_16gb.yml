@@ -27,7 +27,6 @@ managedNodeGroups:
   - m5d.xlarge
   - m5dn.xlarge
   - m5n.xlarge
-  - m5zn.xlarge
   - t2.xlarge
   - t3.xlarge
   - t3a.xlarge
@@ -36,7 +35,7 @@ managedNodeGroups:
     alpha.eksctl.io/nodegroup-name: dev-4vcpu-16gb-spot
     intent: apps
   maxSize: 5
-  minSize: 2
+  minSize: 1
   name: dev-4vcpu-16gb-spot
   privateNetworking: false
   securityGroups:

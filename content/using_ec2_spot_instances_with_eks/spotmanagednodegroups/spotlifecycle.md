@@ -14,7 +14,7 @@ Click on **dev-4vcpu-16gb-spot** group and you can see the instance types set fr
 Click on the Auto Scaling group name in the **Details** tab. Scroll to the Purchase options and instance types settings. Note how Spot best practices are applied out of the box:
 
 * **Capacity Optimized** allocation strategy, which will launch Spot Instances from the most-available spare capacity pools. This results in minimizing the Spot Interruptions.
-* **Capacity Rebalance** helps EKS managed node groups manage the lifecycle of the Spot Instance by proactively replacing instances that are at higher risk of being interrupted. This results in proactively augmenting your fleet with a new Spot Instance before a running instance is interrupted by EC2
+* **Capacity Rebalance** helps EKS managed node groups manage the lifecycle of the Spot Instance by proactively replacing instances that are at higher risk of being interrupted. Node groups use Auto Scaling Group's Capacity Rebalance feature to launch replacement nodes in response to Rebalance Recommendation notice, thus proactively maintaining desired node capacity.
 
 ![Spot Best Practices](/images/using_ec2_spot_instances_with_eks/spotworkers/asg_spot_best_practices.png)
 
