@@ -17,6 +17,11 @@ eksctl create nodegroup \
     --managed \
     --spot \
     --name=dev-4vcpu-16gb-spot \
+    --nodes=2 \
+    --nodes-min=1 \
+    --nodes-max=5 \
+    --node-labels="intent=apps" \
+    --tags="k8s.io/cluster-autoscaler/node-template/label/intent=apps" \
     --instance-types m4.xlarge,m5.xlarge,m5a.xlarge,m5ad.xlarge,m5d.xlarge,t2.xlarge,t3.xlarge,t3a.xlarge \
     > ~/environment/spot_nodegroup_4vcpu_16gb.yml
 
@@ -27,6 +32,11 @@ eksctl create nodegroup \
     --managed \
     --spot \
     --name=dev-8vcpu-32gb-spot \
+    --nodes=2 \
+    --nodes-min=1 \
+    --nodes-max=5 \
+    --node-labels="intent=apps" \
+    --tags="k8s.io/cluster-autoscaler/node-template/label/intent=apps" \
     --instance-types m4.2xlarge,m5.2xlarge,m5a.2xlarge,m5ad.2xlarge,m5d.2xlarge,t2.2xlarge,t3.2xlarge,t3a.2xlarge \
     > ~/environment/spot_nodegroup_8vcpu_32gb.yml
 ```
@@ -34,14 +44,6 @@ eksctl create nodegroup \
 This will create 2 files, `spot_nodegroups_4vcpu_16gb.yml` and `spot_nodegroups_8vcpu_32gb.yml`, that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
 
 Let's edit the 2 configuration files before using it to create the node groups:
-
-1. Change the **maxSize** to 5 and **minSize** to 1. Leave **desiredCapacity** at 2. 
-
-1. In the **labels:** section, add the following labels in a new line: **intent: apps**
-
-    We will use this label **intent** to force a hard partition of the cluster for our applications. During this workshop we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
-
-1. In the  **tags:** section, add the following tags in a new line: **k8s.io/cluster-autoscaler/node-template/label/intent: apps**
 
 1. Remove the section **instanceSelector:**.
 
@@ -68,8 +70,9 @@ The creation of each node group will take about 3 minutes.
 There are a few things to note in the configuration that we just used to create these nodegroups.
 
  * The configuration setup the nodes under the **managedNodeGroups** section. This is to indicate the node group being created is a managed node group.
- * The configuration setup a configuration **spot: true** to indicate that the node group being created is a Spot managed node group, which implies all nodes in the nodegroup would be **Spot instances**.
  * Notice that the configuration setup a **minSize** to 1, **maxSize** to 5 and **desiredCapacity** to 2. Spot managed nodegroups are created with 2 nodes, but minimum number of instances for managed node group is 1 instance.
+ * The configuration setup a configuration **spot: true** to indicate that the node group being created is a Spot managed node group, which implies all nodes in the nodegroup would be **Spot instances**.
+ * We did also add an extra label **intent: apps**. We will use this label to force a hard partition of the cluster for our applications. During this workshop we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
  * Notice that the configuration setup 2 node label under **labels** - **alpha.eksctl.io/cluster-name: : eksworkshop-eksctl** to indicate the node label belongs to **eksworkshop-eksctl** cluster, and **alpha.eksctl.io/nodegroup-name: dev-4vcpu-16gb-spot** node group.
 
 {{% notice info %}}
