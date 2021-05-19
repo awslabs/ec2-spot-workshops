@@ -11,7 +11,7 @@ draft: false
 
 Advantages of running Amazon EKS managed node groups:
 
-* Create, automatically update, or terminate nodes with a single operation using the Amazon EKS console, eksctl, AWS CLI; AWS API, or infrastructure as code tools including AWS CloudFormation.
+* Create, automatically update, or terminate nodes with a single operation using the Amazon EKS console, eksctl, AWS CLI, AWS API, or infrastructure as code tools including AWS CloudFormation.
 * Provisioned nodes run using the latest Amazon EKS optimized AMIs.
 * Nodes provisioned under Managed node group are automatically tagged for auto-discovery by the Kubernetes cluster autoscaler via node labels: **k8s.io/cluster-autoscaler/enabled=true** and **k8s.io/cluster-autoscaler/<cluster-name>**
 * Node updates and terminations automatically and gracefully drain nodes to ensure that your applications stay available.
