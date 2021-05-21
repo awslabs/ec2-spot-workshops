@@ -23,6 +23,7 @@ eksctl create nodegroup \
     --node-labels="intent=apps" \
     --tags="k8s.io/cluster-autoscaler/node-template/label/intent=apps" \
     --instance-types m4.xlarge,m5.xlarge,m5a.xlarge,m5ad.xlarge,m5d.xlarge,t2.xlarge,t3.xlarge,t3a.xlarge \
+    --asg-access \
     > ~/environment/spot_nodegroup_4vcpu_16gb.yml
 
 eksctl create nodegroup \
@@ -38,6 +39,7 @@ eksctl create nodegroup \
     --node-labels="intent=apps" \
     --tags="k8s.io/cluster-autoscaler/node-template/label/intent=apps" \
     --instance-types m4.2xlarge,m5.2xlarge,m5a.2xlarge,m5ad.2xlarge,m5d.2xlarge,t2.2xlarge,t3.2xlarge,t3a.2xlarge \
+    --asg-access \
     > ~/environment/spot_nodegroup_8vcpu_32gb.yml
 ```
 
