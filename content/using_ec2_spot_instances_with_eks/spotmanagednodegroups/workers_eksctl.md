@@ -73,12 +73,12 @@ There are a few things to note in the configuration that we just used to create 
 
  * The configuration setup the nodes under the **managedNodeGroups** section. This is to indicate the node group being created is a managed node group.
  * Notice that the configuration setup a **minSize** to 1, **maxSize** to 5 and **desiredCapacity** to 2. Spot managed nodegroups are created with 2 nodes, but minimum number of instances for managed node group is 1 instance.
- * The configuration setup a configuration **spot: true** to indicate that the node group being created is a Spot managed node group, which implies all nodes in the nodegroup would be **Spot instances**.
+ * The configuration setup a configuration **spot: true** to indicate that the node group being created is a Spot managed node group, which implies all nodes in the nodegroup would be **Spot Instances**.
  * We did also add an extra label **intent: apps**. We will use this label to force a hard partition of the cluster for our applications. During this workshop we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
  * Notice that the configuration setup 2 node label under **labels** - **alpha.eksctl.io/cluster-name: : eksworkshop-eksctl** to indicate the node label belongs to **eksworkshop-eksctl** cluster, and **alpha.eksctl.io/nodegroup-name: dev-4vcpu-16gb-spot** node group.
 
 {{% notice info %}}
-If you are wondering at this stage: *Where is spot bidding price ?* you are missing some of the changes EC2 Spot instances had since 2017. Since November 2017 [EC2 Spot price changes infrequently](https://aws.amazon.com/blogs/compute/new-amazon-ec2-spot-pricing/) based on long term supply and demand of spare capacity in each pool independently. You can still set up a **maxPrice** in scenarios where you want to set maximum budget. By default *maxPrice* is set to the On-Demand price; Regardless of what the *maxPrice* value, spot instances will still be charged at the current spot market price.
+If you are wondering at this stage: *Where is spot bidding price ?* you are missing some of the changes EC2 Spot Instances had since 2017. Since November 2017 [EC2 Spot price changes infrequently](https://aws.amazon.com/blogs/compute/new-amazon-ec2-spot-pricing/) based on long term supply and demand of spare capacity in each pool independently. You can still set up a **maxPrice** in scenarios where you want to set maximum budget. By default *maxPrice* is set to the On-Demand price; Regardless of what the *maxPrice* value, Spot Instances will still be charged at the current spot market price.
 {{% /notice %}}
 
 ### Confirm the Nodes

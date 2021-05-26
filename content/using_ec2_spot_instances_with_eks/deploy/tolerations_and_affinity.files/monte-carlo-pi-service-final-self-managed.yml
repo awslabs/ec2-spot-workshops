@@ -38,10 +38,10 @@ spec:
           - weight: 1 
             preference: 
               matchExpressions: 
-              - key: eks.amazonaws.com/capacityType 
+              - key: lifecycle 
                 operator: In 
                 values: 
-                - SPOT 
+                - Ec2Spot 
           requiredDuringSchedulingIgnoredDuringExecution: 
             nodeSelectorTerms: 
             - matchExpressions: 

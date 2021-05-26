@@ -132,7 +132,7 @@ spec:
       nodeSelector:
         intent: control-apps      
       containers:
-        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.19.1
+        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.20.0
           name: cluster-autoscaler
           resources:
             limits:

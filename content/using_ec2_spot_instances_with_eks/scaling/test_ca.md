@@ -34,7 +34,7 @@ Execute the following command:
 kubectl scale deployment/monte-carlo-pi-service --replicas=0
 ```
 
-**Question:** Can you predict what would be the result of scaling down to 0 replicas ?
+**Question:** Can you predict what would be the result of scaling down to 0 replicas?
 
 {{%expand "Show me the answer" %}}
 The configuration that we applied to procure our nodegroups states that the minimum number of instances in the auto scaling group is 2 for both Spot managed node groups.  
@@ -52,12 +52,12 @@ After some time, you should be able to confirm that running `kubectl get nodes` 
 ```
 $ kubectl get nodes
 NAME                                            STATUS   ROLES    AGE   VERSION
-ip-192-168-100-154.us-west-2.compute.internal   Ready    <none>   87m   v1.19.6-eks-49a6c0
-ip-192-168-186-233.us-west-2.compute.internal   Ready    <none>   87m   v1.19.6-eks-49a6c0
-ip-192-168-33-105.us-west-2.compute.internal    Ready    <none>   69m   v1.19.6-eks-49a6c0
-ip-192-168-37-117.us-west-2.compute.internal    Ready    <none>   17m   v1.19.6-eks-49a6c0
-ip-192-168-73-255.us-west-2.compute.internal    Ready    <none>   73m   v1.19.6-eks-49a6c0
-ip-192-168-85-132.us-west-2.compute.internal    Ready    <none>   69m   v1.19.6-eks-49a6c0
+ip-192-168-100-154.us-west-2.compute.internal   Ready    <none>   87m   v1.20.4-eks-6b7464
+ip-192-168-186-233.us-west-2.compute.internal   Ready    <none>   87m   v1.20.4-eks-6b7464
+ip-192-168-33-105.us-west-2.compute.internal    Ready    <none>   69m   v1.20.4-eks-6b7464
+ip-192-168-37-117.us-west-2.compute.internal    Ready    <none>   17m   v1.20.4-eks-6b7464
+ip-192-168-73-255.us-west-2.compute.internal    Ready    <none>   73m   v1.20.4-eks-6b7464
+ip-192-168-85-132.us-west-2.compute.internal    Ready    <none>   69m   v1.20.4-eks-6b7464
 ```
 
 {{% notice tip %}}
@@ -92,19 +92,19 @@ You should also be able to visualize the scaling action using kube-ops-view. Kub
 ![Scaling up to 10 replicas](/images/using_ec2_spot_instances_with_eks/scaling/scaling-kov-10-replicas.png)
 
 {{% notice info %}}
-Given we started from 2 node capacity in both Spot node groups, this should trigger a scaling event for Cluster Autoscaler. Can you predict which size (and type!) of node will be provided ? 
+Given we started from 2 node capacity in both Spot node groups, this should trigger a scaling event for Cluster Autoscaler. Can you predict which size (and type!) of node will be provided? 
 {{% /notice %}}
 
 #### Challenge
 
 Try to answer the following questions:
 
- - Could you predict what should happen if we increase the number of replicas to 23 ? 
- - How would you scale up the replicas to 23 ? 
- - If you are expecting a new node, which size will it be: (a) 4vCPU's 16GB RAM or (b) 8vCPU's 32GB RAM ? 
- - Which AWS instance type you would expect to be selected ?
- - How would you confirm your predictions ?
- - Would you consider the selection of nodes by Cluster Autoscaler as optimal ? 
+ - Could you predict what should happen if we increase the number of replicas to 23? 
+ - How would you scale up the replicas to 23? 
+ - If you are expecting a new node, which size will it be: (a) 4vCPU's 16GB RAM or (b) 8vCPU's 32GB RAM? 
+ - Which EC2 Instance type you would expect to be selected?
+ - How would you confirm your predictions?
+ - Would you consider the selection of nodes by Cluster Autoscaler as optimal? 
 
 {{%expand "Show me the answers" %}}
 To scale up the number of replicas run:
@@ -160,16 +160,16 @@ It is a recommended to use **[capacity-optimized](https://aws.amazon.com/blogs/c
 Some of this exercises will take time for Cluster Autoscaler to scale up and down. If you are running this workshop at a AWS event or with limited time, we recommend to come back to this section once you have completed the workshop, and before getting into the **cleanup** section.
 {{% /notice %}}
 
- * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 23 ? What happens if we increase the number of replicas to 30? Can you predict which group of node will be expanded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
+ * What will happen when modifying Cluster Autoscaler **expander** configuration from **random**  to **least-waste**. What happens when we increase the replicas back to 23? What happens if we increase the number of replicas to 30? Can you predict which node group will be expanded in each case: (a) 4vCPUs 16GB RAM (b) 8vCPUs 32GB RAM? What's Cluster Autoscaler log looking like in this case?
 
- * How would you expect Cluster Autoscaler to Scale in the cluster ? How about scaling out ? How much time you'll expect for it to take ?
+ * How would you expect Cluster Autoscaler to Scale in the cluster? How about scaling out? How much time you'll expect for it to take?
 
- * How will pods be removed when scaling down? From which nodes they will be removed? What is the effect of adding [Pod Disruption Budget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) to this mix ? 
+ * How will pods be removed when scaling down? From which nodes they will be removed? What is the effect of adding [Pod Disruption Budget](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) to this mix? 
 
  * Scheduling in Kubernetes is the process of binding pending pods to nodes, and is performed by a component of Kubernetes called [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling/kube-scheduler/). When running on Spot the cluster is expected to be dynamic; the state is expected to change over time; The original scheduling decision may not be adequate after the state changes. Could you think or research for a project that could help address this? ([hint_1](https://github.com/kubernetes-sigs/descheduler)) [hint_2](https://github.com/pusher/k8s-spot-rescheduler). If so apply the solution and see what is the impact on scale-in operations.
 
- * During the workshop, we did use nodegroups that expand across multiple AZ's; There are scenarios where might create issues. Could you think which scenarios ? ([hint](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws#common-notes-and-gotchas)). Could you think of ways of mitigating the risk in those scenarios ? ([hint 1](https://github.com/aws-samples/amazon-k8s-node-drainer), [hint 2](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler))
+ * During the workshop, we did use nodegroups that expand across multiple AZ's; There are scenarios where might create issues. Could you think which scenarios? ([hint](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws#common-notes-and-gotchas)). Could you think of ways of mitigating the risk in those scenarios? ([hint 1](https://github.com/aws-samples/amazon-k8s-node-drainer), [hint 2](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#im-running-cluster-with-nodes-in-multiple-zones-for-ha-purposes-is-that-supported-by-cluster-autoscaler))
 
- * **Managed Spot node groups only:** AWS auto-scaling groups automatically sets the nodegroups to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies).
+ * **Managed Spot node groups only:** EC2 Auto Scaling Group automatically sets the node group to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies).
 
- * **Self managed Spot node groups only:** At the moment AWS auto-scaling groups backing up the nodegroups are setup to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies). What do you think is the trade-off when you switch to [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy ? 
+ * **Self managed Spot node groups only:** At the moment EC2 Auto Scaling Group backing up the node group are setup to use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies). What do you think is the trade-off when you switch to [lowest price](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) allocation strategy? 
