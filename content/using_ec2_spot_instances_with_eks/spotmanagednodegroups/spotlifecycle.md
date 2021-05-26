@@ -11,7 +11,7 @@ Use the AWS Management Console to inspect the Spot managed node group deployed i
 
 Click on **dev-4vcpu-16gb-spot** group and you can see the instance types set from the create command.
 
-Click on the Auto Scaling group name in the **Details** tab. Scroll to the Purchase options and instance types settings. Note how Spot best practices are applied out of the box:
+Click on the Auto Scaling Group name in the **Details** tab. Scroll to the Purchase options and instance types settings. Note how Spot best practices are applied out of the box:
 
 * **Capacity Optimized** allocation strategy, which will launch Spot Instances from the most-available spare capacity pools. This results in minimizing the Spot Interruptions.
 * **Capacity Rebalance** helps EKS managed node groups manage the lifecycle of the Spot Instance by proactively replacing instances that are at higher risk of being interrupted. Node groups use Auto Scaling Group's Capacity Rebalance feature to launch replacement nodes in response to Rebalance Recommendation notice, thus proactively maintaining desired node capacity.
@@ -20,11 +20,8 @@ Click on the Auto Scaling group name in the **Details** tab. Scroll to the Purch
 
 ### Interruption Handling in Spot Managed Node Groups
 
-To handle Spot interruptions, you do not need to install any extra automation tools on the cluster such as the AWS Node Termination Handler. The managed node group handles Spot interruptions for you in the following way: the underlying EC2 Auto Scaling group is opted-in to Capacity Rebalancing, which means that when one of the Spot Instances in your node group is at elevated risk of interruption and gets an EC2 instance rebalance recommendation, it will attempt to launch a replacement instance. The more instance types you configure in the managed node group, the more chances EC2 Auto Scaling has of launching a replacement Spot Instance.
-
-When a Spot node receives a rebalance recommendation
-
-* Amazon EKS automatically attempts to launch a new replacement Spot node and waits until it successfully joins the cluster.
+To handle Spot interruptions, you do not need to install any extra automation tools on the cluster such as the AWS Node Termination Handler. The managed node group handles Spot interruptions for you in the following way: the underlying EC2 Auto Scaling Group is opted-in to Capacity Rebalancing, which means that when one of the Spot Instances in your node group is at elevated risk of interruption and gets an EC2 instance rebalance recommendation, it will attempt to launch a replacement instance. The more instance types you configure in the managed node group, the more chances EC2 Auto Scaling Group has of launching a replacement Spot Instance.
+sw replacement Spot node and waits until it successfully joins the cluster.
 * When a replacement Spot node is bootstrapped and in the Ready state on Kubernetes, Amazon EKS cordons and drains the Spot node that received the rebalance recommendation. Cordoning the Spot node ensures that the node is marked as ‘unschedulable’ and kube-scheduler will not schedule any new pods on it. It also removes it from its list of healthy, active Spot nodes. [Draining](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) the Spot node ensures that running pods are evicted gracefully.
 * If a Spot two-minute interruption notice arrives before the replacement Spot node is in a Ready state, Amazon EKS starts draining the Spot node that received the rebalance recommendation.
 

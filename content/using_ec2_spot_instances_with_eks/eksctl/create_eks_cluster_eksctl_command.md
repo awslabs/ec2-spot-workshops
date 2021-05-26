@@ -10,7 +10,7 @@ This markdown file is used as part of another file using 'insert-md-from-file' s
 
 ```bash
 eksctl create cluster \
-    --version=1.19 \
+    --version=1.20 \
     --name=eksworkshop-eksctl \
     --node-private-networking \
     --managed --nodes=2 \
