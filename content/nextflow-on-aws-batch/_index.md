@@ -10,7 +10,7 @@ We won't create or own pipelines and tweak code, but rather jump right in with a
 
 ## Overview
 
-During this workshop you will implement a proof of concept of a RNA-seq pipeline. The goal of this workshop is not te become a Bioinformatician nor a Nextflow guru, but to get familiar with the concepts of nextflow and AWS Batch.
+During this workshop you will implement a proof of concept of a RNA-seq pipeline. The goal of this workshop is not to become a Bioinformatician nor a Nextflow guru, but to get familiar with the concepts of nextflow and AWS Batch.
 
 {{% notice info %}}
 The estimated cost for running this **1.5 hour** workshop will be less than **$5**.

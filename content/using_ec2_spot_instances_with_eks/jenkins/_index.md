@@ -1,7 +1,7 @@
 ---
 title: "(Optional) Running cost optimized and resilient Jenkins jobs"
 chapter: true
-weight: 70
+weight: 80
 ---
 
 # Running Jenkins jobs - optional module

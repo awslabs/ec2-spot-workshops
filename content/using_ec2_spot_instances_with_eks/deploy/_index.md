@@ -1,7 +1,7 @@
 ---
 title: "Deploying the example Microservice"
 chapter: true
-weight: 50
+weight: 60
 ---
 
 # Deploying the example Microservice

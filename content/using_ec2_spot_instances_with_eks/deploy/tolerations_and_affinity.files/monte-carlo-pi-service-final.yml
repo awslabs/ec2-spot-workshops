@@ -27,21 +27,16 @@ spec:
       labels: 
         app: monte-carlo-pi-service 
     spec:
-      tolerations: 
-      - key: "spotInstance" 
-        operator: "Equal" 
-        value: "true" 
-        effect: "PreferNoSchedule" 
       affinity: 
         nodeAffinity: 
           preferredDuringSchedulingIgnoredDuringExecution: 
           - weight: 1 
             preference: 
               matchExpressions: 
-              - key: lifecycle 
+              - key: eks.amazonaws.com/capacityType 
                 operator: In 
                 values: 
-                - Ec2Spot 
+                - SPOT 
           requiredDuringSchedulingIgnoredDuringExecution: 
             nodeSelectorTerms: 
             - matchExpressions: 

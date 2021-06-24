@@ -1,0 +1,7 @@
+Flask==1.1.2
+Flask-Cors
+requests
+signals
+ec2-metadata
+boto3
+
