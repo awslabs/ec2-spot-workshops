@@ -17,5 +17,5 @@ aws configure set default.region ${AWS_REGION}
 aws configure get default.region
 ```
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/validate_workspace_role.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010-prerequisites/validate_workspace_role.md" %}}
 

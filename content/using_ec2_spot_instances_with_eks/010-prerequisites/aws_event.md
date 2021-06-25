@@ -9,7 +9,7 @@ weight: 20
 {{% notice warning %}}
 Only complete this section if you are at an AWS hosted event (such as re:Invent,
 Kubecon, Immersion Day, or any other event hosted by an AWS employee). If you 
-are running the workshop on your own, go to: [Start the workshop on your own]({{< ref "/using_ec2_spot_instances_with_eks/prerequisites/self_paced.md" >}}).
+are running the workshop on your own, go to: [Start the workshop on your own]({{< ref "/using_ec2_spot_instances_with_eks/010-prerequisites/self_paced.md" >}}).
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal
@@ -42,7 +42,7 @@ We have deployed the below resources required to get started with the workshop u
 
 + An EKS cluster with the name `eksworkshop-eksctl` and a [EKS managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html)  with 2 on-demand instances.
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/eksctl/create_eks_cluster_eksctl_command.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020-eksctl/create_eks_cluster_eksctl_command.md" %}}
 
 
 #### Use your resources 
@@ -53,7 +53,7 @@ In this workshop, you'll need to reference the resources created by the CloudFor
 
 1. In the stack details pane, click the **Outputs** tab.
 
-![cnf_output](/images/using_ec2_spot_instances_with_eks/prerequisites/cnf_output.png)
+![cnf_output](/images/using_ec2_spot_instances_with_eks/010-prerequisites/cnf_output.png)
 
 It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.
 
@@ -65,9 +65,9 @@ you will notice additional Cloudformation stacks were also deployed which is the
 
 - Click on the url against `Cloud9IDE` from the outputs
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/workspace_at_launch.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010-prerequisites/workspace_at_launch.md" %}}
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/update_workspace_settings.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010-prerequisites/update_workspace_settings.md" %}}
 
 ### Validate the IAM role {#validate_iam}
 
@@ -78,10 +78,10 @@ aws sts get-caller-identity
 
 ```
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/at_an_aws_validaterole.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010-prerequisites/at_an_aws_validaterole.md" %}}
 
 {{% notice note %}}
-Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/eksctl/test.md"  >}})**
+Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/020-eksctl/test.md"  >}})**
 {{% /notice %}}
 
 {{% /expand%}}
