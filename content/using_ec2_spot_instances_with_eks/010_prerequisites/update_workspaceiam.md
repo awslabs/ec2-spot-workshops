@@ -4,7 +4,7 @@ chapter: false
 weight: 60
 ---
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/update_workspace_settings.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/update_workspace_settings.md" %}}
 
 We should configure our aws cli with our current region as default:
 ```
@@ -17,5 +17,5 @@ aws configure set default.region ${AWS_REGION}
 aws configure get default.region
 ```
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010-prerequisites/validate_workspace_role.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/validate_workspace_role.md" %}}
 

@@ -9,7 +9,7 @@ draft: false
 In this chapter, we will prepare your EKS cluster so that it is integrated with EMR on EKS.
 
 {{% notice note %}}
-If you don't have EKS cluster with Spot Managed Node Groups, please review instructions from [start the workshop](/using_ec2_spot_instances_with_eks/010-prerequisites.html), [launch using eksctl](/using_ec2_spot_instances_with_eks/020-eksctl.html), [create Spot managed node groups](/using_ec2_spot_instances_with_eks/040-spotmanagednodegroups.html) and [deploy cluster auto-scaler](/using_ec2_spot_instances_with_eks/070-scaling/deploy_ca.html) modules.
+If you don't have EKS cluster with Spot Managed Node Groups then please review instructions from **[start the workshop]({{< relref "../010_prerequisites" >}})**, **[launch using eksctl]({{< relref "../020_eksctl" >}})**, **[create Spot managed node groups]({{< relref "../040_spotmanagednodegroups" >}})** and **[deploy cluster autoscaler]({{< relref "../070_scaling/deploy_ca.md" >}})** modules.
 {{% /notice %}}
 
 ### Create namespace and RBAC permissions

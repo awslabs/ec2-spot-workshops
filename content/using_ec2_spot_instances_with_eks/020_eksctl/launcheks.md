@@ -6,7 +6,7 @@ weight: 20
 
 
 {{% notice warning %}}
-**DO NOT PROCEED** with this step unless you have [validated the IAM role]({{< relref "../010-prerequisites/update_workspaceiam.md#validate_iam" >}}) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
+**DO NOT PROCEED** with this step unless you have [validated the IAM role]({{< relref "../010_prerequisites/update_workspaceiam.md#validate_iam" >}}) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
 {{% /notice %}}
 
 #### Challenge:
@@ -14,9 +14,9 @@ weight: 20
 
 {{%expand "Expand here to see the solution" %}}
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010-prerequisites/validate_workspace_role.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/validate_workspace_role.md" %}}
 
-If you do not see the correct role, please go back and **[validate the IAM role]({{< relref "../010-prerequisites/update_workspaceiam.md" >}})** for troubleshooting.
+If you do not see the correct role, please go back and **[validate the IAM role]({{< relref "../010_prerequisites/update_workspaceiam.md" >}})** for troubleshooting.
 
 If you do see the correct role, proceed to next step to create an EKS cluster.
 {{% /expand %}}
@@ -26,7 +26,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 The following command will create an eks cluster with the name `eksworkshop-eksctl`. It will also create a nodegroup with 2 on-demand instances.
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020-eksctl/create_eks_cluster_eksctl_command.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020_eksctl/create_eks_cluster_eksctl_command.md" %}}
 
 eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
 
