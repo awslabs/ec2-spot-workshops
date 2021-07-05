@@ -14,7 +14,7 @@ application’s throughput up to 10X for the same budget.
 
 This lab will walk you through creating an EC2 Launch Template, and then
 using this Launch Template to launch EC2 Spot Instances the following 4
-ways: Amazon EC2 Auto Scaling groups, the EC2 RunInstances API, EC2 Spot Fleet, and 
+ways: Amazon EC2 Auto Scaling groups, the EC2 RunInstances API, EC2 Spot Fleet, and
 EC2 Fleet.
 
 ## So which of these methods should I use in my application?
@@ -23,7 +23,7 @@ When designing your application to run on Amazon EC2, start by looking into EC2 
 
 ## Pre-Requisites for this lab:
 
+ - An AWS account. You will create AWS resources during the workshop.
  - A laptop with Wi-Fi running Microsoft Windows, Mac OS X, or Linux.
- - The AWS CLI installed and configured.
  - An Internet browser such as Chrome, Firefox, Safari, or Edge.
- - An AWS account. You will create AWS resources including IAM roles during the workshop.
+ - An AWS CloudShell configured with your console credentials.
