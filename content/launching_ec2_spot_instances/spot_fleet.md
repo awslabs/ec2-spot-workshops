@@ -1,6 +1,6 @@
 +++
 title = "Launching EC2 Spot Instances via Spot Fleet"
-weight = 40
+weight = 70
 +++
 
 ## Launching EC2 Spot Instances via a Spot Fleet request
@@ -13,7 +13,7 @@ it uses the launch parameters defined in the associated launch template.
 
 1. Open the Spot console at <https://console.aws.amazon.com/ec2spot>.
 
-1. If you are new to Spot, you see a welcome page; choose **Get started**. 
+1. If you are new to Spot, you see a welcome page; choose **Get started**.
 Otherwise, choose **Request Spot Instances**.
 
 1. For **Tell us your application or task need**, choose **Flexible workloads**.
@@ -24,13 +24,13 @@ Otherwise, choose **Request Spot Instances**.
     - For **Network**, select the VPC in which the subnet used in the launch template belongs.
     - Under **Availability Zone**, check all of the availability zones that have an available subnet.
 
-1. Under **Tell us how much capacity you need**, for **Total target capacity**, 
+1. Under **Tell us how much capacity you need**, for **Total target capacity**,
 specify **6 vCPUs**, and for **Optional On-Demand
     portion**, specify **2 vCPUs**.
 
 1. Check the box for **Maintain target capacity**. Leave the **Interruption behavior** as **Terminate**.
 
-1. Review the recommended **Fleet request settings** based on your application or task selection, 
+1. Review the recommended **Fleet request settings** based on your application or task selection,
 and choose **Launch**.
 
 The request type is fleet. When the request is fulfilled, requests of

@@ -1,6 +1,6 @@
 +++
 title = "Clean Up"
-weight = 70
+weight = 100
 +++
 
 ### Delete Your Auto Scaling Group
@@ -9,7 +9,7 @@ weight = 70
 
 1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
 1. On the navigation pane, under **Auto Scaling**, choose **Auto Scaling Groups**.
-1. On the Auto Scaling groups page, select your Auto Scaling group, 
+1. On the Auto Scaling groups page, select your Auto Scaling group,
 and choose **Actions**, **Delete**.
 1. When prompted for confirmation, choose **Yes, Delete**.
 
