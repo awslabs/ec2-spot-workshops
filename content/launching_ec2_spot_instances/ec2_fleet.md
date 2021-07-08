@@ -1,6 +1,6 @@
 +++
 title = "Launching EC2 Spot Instances via an EC2 Fleet"
-weight = 80
+weight = 70
 +++
 
 ## Launching EC2 Spot Instances with On-Demand Instances via an EC2 Fleet

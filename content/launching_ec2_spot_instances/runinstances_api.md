@@ -1,6 +1,6 @@
 +++
 title = "Launching an EC2 Spot Instance via the RunInstances API"
-weight = 60
+weight = 80
 +++
 
 ## Launching an EC2 Spot Instance via the RunInstances API
