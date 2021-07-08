@@ -69,20 +69,24 @@ cat <<EoF > ~/ec2-fleet-config.json
 EoF
 ```
 
-Copy and paste this command to create the EC2 Fleet.
+Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 
 ```bash
-aws ec2 create-fleet -cli-input-json file://ec2-fleet-config.json
-```
-
-**Example return**
-
-```bash
-{
-"FleetId": "fleet-e678bfc6-c2b5-4d9f-8700-03b2db30b183"
-}
+export FLEET_ID=$(aws ec2 create-fleet --cli-input-json file://ec2-fleet-config.json | jq -r '.FleetId')
 ```
 
 ## Monitoring Your EC2 Fleet
 
 **To monitor your EC2 Fleet using the command line**
+
+You can view the configuration parameters of your EC2 Fleet using this command:
+
+```bash
+aws ec2 describe-fleets --fleet-ids "${FLEET_ID}"
+```
+
+You can view the status of the instances provisioned by the EC2 Fleet using the following command:
+
+```bash
+aws ec2 describe-fleet-instances --fleet-id "${FLEET_ID}"
+```
