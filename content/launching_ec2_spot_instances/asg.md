@@ -7,15 +7,15 @@ weight = 50
 
 Amazon EC2 Auto Scaling helps you ensure that you have the correct number of Amazon EC2 instances available to handle the load for your application. You create collections of EC2 instances, called Auto Scaling groups. You can specify the minimum number of instances in each Auto Scaling group, and Amazon EC2 Auto Scaling ensures that your group never goes below this size. You can specify the maximum number of instances in each Auto Scaling group, and Amazon EC2 Auto Scaling ensures that your group never goes above this size.
 
-In most of the cases you should use Auto Scaling groups to launch Spot instances, since it offers a very rich API and some benefits like warm pools, predictive scaling, scale-in protection, lifecycle hooks and rebalance recommendation that we will cover later.
+In most of the cases you should use Auto Scaling groups to launch Spot instances, since it offers a very rich API and some benefits like scale-in protection, lifecycle hooks, rebalance recommendation, warm pools and predictive scaling that we will cover later.
 
 {{% notice note %}}
-Unlike using launch configurations, with launch templates you can also provision capacity across multiple instance types using both On-Demand Instances and Spot Instances to achieve the desired scale, performance, and cost.
+In the past, Auto Scaling groups used Launch Configurations. Applications using Launch Configurations should migrate to Launch Templates. With Launch Templates you can provision capacity across multiple instance types using both On-Demand Instances and Spot Instances to achieve the desired scale, performance, and cost optimization.
 {{% /notice %}}
 
  **To create an Auto Scaling group using a launch template**
-
-In order to select a launch template and define the distribution of On-Demand Instances and Spot Instances, you are going to create a *json* file that will contain the `mixed-instances-policy` information that will be used to create the Auto Scaling Group.
+ 
+To launch a mixed instance Auto Scaling group using Spot and On-demand instances we will create a json file that contains the mixed-instance-policy section where we will provide a set of overrides that implement instance diversification. The configuration of the Auto Scaling group will also refer to the Launch Template that we created in the previous steps.
 
 ```bash
 cat <<EoF > ~/asg-policy.json
