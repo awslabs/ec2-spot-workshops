@@ -94,13 +94,13 @@ diversification?**
 Remember: A Spot pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone. In this case we used 6 instance types and 3 Availability Zones 
 which makes a total of **18 Spot pools**. Increasing the number of Spot pools we diversify on, is key for adopting Spot Best practices.
 
-1. **How many Spot vs On-Demand instances have been requested by the Auto Scaling Group?**
+2. **How many Spot vs On-Demand instances have been requested by the Auto Scaling Group?**
 
 The `desired-capacity` of 6 is below the `max-size` of 10, so 6 instances are provisioned.
 Out of them the first 2 instances are on demand as requested by the `OnDemandBaseCapacity`,
 the rest of the 4 instances up to the desired 6, follow a proportion of 75% Spot and 25% On-Demand according to `OnDemandPercentageAboveBaseCapacity`. Which means there should be 3 Spot instances and 3 On-demand instances
 
-1. **1. How can you confirm which instances have been created within the Auto Scaling Group?**
+2. ** How can you confirm which instances have been created within the Auto Scaling Group?**
 
 To check the instances within the newly created Auto ScalingGroup we can use `describe-auto-scaling-groups`
 
