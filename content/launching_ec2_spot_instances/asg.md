@@ -14,7 +14,7 @@ In the past, Auto Scaling groups used Launch Configurations. Applications using 
 {{% /notice %}}
 
  **To create an Auto Scaling group using a launch template**
- 
+
 To launch a mixed instance Auto Scaling group using Spot and On-demand instances we will create a json file that contains the mixed-instance-policy section where we will provide a set of overrides that implement instance diversification. The configuration of the Auto Scaling group will also refer to the Launch Template that we created in the previous steps.
 
 ```bash
@@ -27,30 +27,35 @@ cat <<EoF > ~/asg-policy.json
       },
       "Overrides":[
          {
-            "InstanceType":"c5.large",
-            "WeightedCapacity":"2"
+            "InstanceType":"c5.large"
          },
          {
-            "InstanceType":"c5.xlarge",
-            "WeightedCapacity":"4"
+            "InstanceType":"m5.large"
          },
          {
-            "InstanceType":"c4.large",
-            "WeightedCapacity":"2"
+            "InstanceType":"r5.large"
+         },
+         {
+            "InstanceType":"c4.large"
+         },
+         {
+            "InstanceType":"m4.large"
+         },
+         {
+            "InstanceType":"r4.large"
          }
       ]
    },
    "InstancesDistribution":{
       "OnDemandBaseCapacity":2,
       "OnDemandPercentageAboveBaseCapacity":20,
-      "SpotAllocationStrategy":"capacity-optimized",
-      "SpotMaxPrice":""
+      "SpotAllocationStrategy":"capacity-optimized"
    }
 }
 EoF
 ```
 
-The properties specified in the `overrides` list will override those same properties in the Launch Template. In the example, you are overriding the instance type that was used to create the Launch Template. Instead, three different instance types are specified to implement a better instance diversification. The attribute `WeightedCapacity` refers to the number of capacity units provided by the instance type.
+In the example, you are overriding the instance type that was used to create the Launch Template. Instead, three different instance types are specified to implement a better instance diversification.
 
 `SpotAllocationStrategy` indicates how to allocate instances across Spot Instance pools. By choosing `capacity-optimized`, the Auto Scaling group launches instances using Spot pools that are optimally chosen based on the available Spot capacity.
 
