@@ -75,6 +75,8 @@ EoF
 
 One of the main differences between Spot Fleet and EC2 Fleet is that you can use the `instant` fleet request type with EC2 Fleets. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
 
+In addition, with EC2 fleet you can specify separetely the target capacity for Spot and On-Demand Instances. The value for `DefaultTargetCapacityType` specifies wheter Spot or On-Demand instances should be used to meet the `TotalTargetCapacity`.
+
 Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 
 ```bash
