@@ -5,6 +5,14 @@ weight = 70
 
 ## Launching EC2 Spot Instances with On-Demand Instances via an EC2 Fleet
 
+EC2 Fleet provides a very rich API that allows to operate and procure capacity
+quite granular controls. Workload that can benefit from this API are among other
+bespoke capacity orchestrator that implement tuned up and optimized logic to provision capacity. The following projects use EC2 Fleet to manage capacity:
+
+* [Karpenter](https://github.com/awslabs/karpenter). Karpenter is Kubernetes Cluster Autoscaler. It manages the node lifecycle. It observes incoming pods and launches the right instances for the situation.
+* [Atlassian Escalator](https://github.com/atlassian/escalator), yet another Kubernetes Cluster Autoscaler. Designed for large batch or job based workloads that cannot be force-drained and moved when the cluster needs to scale down
+
+
 An *EC2 Fleet* contains the configuration information to launch a
 fleet—or group—of instances. In a single API call, a fleet can launch
 multiple instance types across multiple Availability Zones, using the

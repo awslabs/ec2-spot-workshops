@@ -123,7 +123,7 @@ You have now created a Spot Fleet that uses weights and combines Spot and On-Dem
 Given the configuration we used above. **Try to answer the following questions:**
 
 1. How many Spot vs On-Demand instances have been requested by the Spot Fleet?
-2. Which Spot Instances and On-Demand instances will be launched first? Is the value of `Priority` effective for all instances?
+2. For On-Demand Capacity, what does it mean the `Priority` section?
 
 {{%expand "Show me the answers:" %}}
 
