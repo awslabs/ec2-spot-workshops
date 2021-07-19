@@ -5,7 +5,7 @@ weight = 60
 
 ## Launching EC2 Spot Instances via a Spot Fleet request
 
-Spot Fleet is an API ideal workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Blanancers, however if you are thinking about using Load Balancers, Auto Scaling Grups are a better option 
+Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Blanancers, however if you are thinking about using Load Balancers, Auto Scaling Grups are a better option 
 
 Spot Fleet does allow to diversify across different AZ's and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration any best practice to maintain a balance across AZ's, just providing capacity as fast as possible from the eligible pools. Spot Fleet does support types: `maintain`, `request`.  Similar To Auto Scaling Groups, the `maintain` type will preserve the number of instances when one of the instances becomes un-healthy.
 
