@@ -22,18 +22,16 @@ First, you are going to create the configuration file that will be used to launc
 cat <<EoF > ~/ec2-fleet-config.json
 {
    "SpotOptions":{
-      "AllocationStrategy":"capacity-optimized",
-      "InstanceInterruptionBehavior":"terminate",
-      "MaxTotalPrice":"1",
+      "AllocationStrategy": "capacity-optimized",
+      "InstanceInterruptionBehavior": "terminate",
       "MaintenanceStrategies":{
          "CapacityRebalance":{
-            "ReplacementStrategy":"launch"
+            "ReplacementStrategy": "launch"
          }
       }
    },
    "OnDemandOptions":{
-      "AllocationStrategy":"lowest-price",
-      "MaxTotalPrice":"1"
+      "AllocationStrategy": "lowest-price"
    },
    "LaunchTemplateConfigs":[
       {
@@ -43,31 +41,39 @@ cat <<EoF > ~/ec2-fleet-config.json
          },
          "Overrides":[
             {
-               "InstanceType":"c5.large",
-               "WeightedCapacity":2
+               "InstanceType": "c5.large"
             },
             {
-               "InstanceType":"c5.xlarge",
-               "WeightedCapacity":4
+               "InstanceType": "m5.large"
             },
             {
-               "InstanceType":"c4.large",
-               "WeightedCapacity":2
+               "InstanceType": "r5.large"
+            },
+            {
+               "InstanceType": "c4.large"
+            },
+            {
+               "InstanceType":"m4.large"
+            },
+            {
+               "InstanceType":"r4.large"
             }
          ]
       }
    ],
    "TargetCapacitySpecification":{
-      "TotalTargetCapacity":8,
-      "OnDemandTargetCapacity":2,
-      "SpotTargetCapacity":6,
-      "DefaultTargetCapacityType":"spot"
+      "TotalTargetCapacity": 10,
+      "OnDemandTargetCapacity": 2,
+      "SpotTargetCapacity": 8,
+      "DefaultTargetCapacityType": "spot"
    },
-   "Type":"maintain",
+   "Type":"instant",
    "ReplaceUnhealthyInstances":true
 }
 EoF
 ```
+
+One of the main differences between Spot Fleet and EC2 Fleet is that you can use the `instant` fleet request type with EC2 Fleets. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
 
 Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 

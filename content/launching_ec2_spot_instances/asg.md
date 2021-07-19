@@ -56,15 +56,15 @@ cat <<EoF > ~/asg-policy.json
 EoF
 ```
 
-In the example, the override configuration section is used to apply diversification. Choosing as many instances that qualify for your application, in this case we selected a group of 6 instances types that meet the ".large" criteria. 
+In the example, the override configuration section is used to apply diversification. Choosing as many instances that qualify for your application, in this case we selected a group of 6 instances types that meet the ".large" criteria.
 
 With Auto Scaling Groups you can define what is the mix of Spot vs On-Demand instances that makes sense for your workload. `OnDemandBaseCapacity` allows you to set an initial capacity of On-Demand
 instances to use, after that, new capacity will be a mix of Spot and On-Demand as defined by the
-`OnDemandPercentageAboveBaseCapacity` 
+`OnDemandPercentageAboveBaseCapacity`
 
 The configuration above sets the `SpotAllocationStrategy` to `capacity-optimized`. The `Capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of spot instances used. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance Allocation in Action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/)
 
-The following command does  gather the availability zones that we will use when creating the Auto Scaling Group. By extending the Auto Scaling group to multiple availability zones we increase the number of Spot pools used. A Spot pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone. 
+The following command does  gather the availability zones that we will use when creating the Auto Scaling Group. By extending the Auto Scaling group to multiple availability zones we increase the number of Spot pools used. A Spot pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone.
 
 ```bash
 export AZs=$(aws ec2 describe-availability-zones --filters Name=group-name,Values="${AWS_REGION}" Name=zone-type,Values=availability-zone | jq -r '.AvailabilityZones[0].ZoneName + " " + .AvailabilityZones[1].ZoneName + " " + .AvailabilityZones[2].ZoneName')
@@ -91,7 +91,7 @@ diversification ?
 1.) **How may Spot Instance pools does the Auto Scaling Group consider when applying Spot
 diversification?**
 
-Remember: A Spot pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone. In this case we used 6 instance types and 3 Availability Zones 
+Remember: A Spot pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone. In this case we used 6 instance types and 3 Availability Zones
 which makes a total of **18 Spot pools**. Increasing the number of Spot pools we diversify on, is key for adopting Spot Best practices.
 
 2.) **How many Spot vs On-Demand instances have been requested by the Auto Scaling Group?**
@@ -115,7 +115,7 @@ Auto Scaling Group has rich functionality that helps reduce the heavy lifting of
 {{% /notice %}}
 
 
-This are some of the characteristics and functionality that make Amazon EC2 Auto Scaling groups the right choice for most workloads:
+These are some of the characteristics and functionality that make Amazon EC2 Auto Scaling groups the right choice for most workloads:
 
 1. **Instance distribution & Availability Zone rebalancing**: Amazon EC2 Auto Scaling Groups attempt to distribute instances evenly to maximise the High availability of your workloads.
 [Instance Distribution & AZ Rebalancing](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html#AutoScalingBehavior.Rebalancing)
