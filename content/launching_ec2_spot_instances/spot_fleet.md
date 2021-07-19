@@ -7,7 +7,7 @@ weight = 60
 
 Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Blanancers, however if you are thinking about using Load Balancers, Auto Scaling Grups are a better option 
 
-Spot Fleet does allow to diversify across different AZ's and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration the re-balancing of balance across AZ's (use Auto Scaling Groups instead), just providing capacity as fast as possible from the eligible pools. Spot Fleet does support types: `maintain`, `request`.  Similar To Auto Scaling Groups, the `maintain` type will preserve the number of instances when one of the instances becomes un-healthy.
+Spot Fleet does allow to diversify across different AZ's and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration the re-balancing of balance across AZ's (use Auto Scaling Groups instead), just providing capacity as fast as possible from the eligible pools. Spot Fleet does support types: `maintain`, `request`.  Similar To Auto Scaling Groups, the `maintain` type will preserve the number of instances, and provisioning healthy new instances when one of the instances becomes un-healthy.
 
 {{%notice info%}}
 To support mix instances with different instance types and purchasing options, Spot Fleet must use **Launch Templates**. In this exercise, we will re-use the same Launch Template that we created before.
