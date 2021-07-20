@@ -6,16 +6,16 @@ weight: 40
 
 ## Creating a Launch Template
 
-You can create a *Launch Template* that contains the configuration
-information to launch an instance. Launch templates enable you to store
+You can create a Launch Template that contains the configuration
+information to launch an instance. Launch Templates enable you to store
 launch parameters so that you do not have to specify them every time you
-launch an instance. For example, a launch template can contain the AMI
+launch an instance. For example, a Launch Template can contain the AMI
 ID, instance type, and network settings that you typically use to launch
 instances. When you launch an instance using the Amazon EC2 console, an
-AWS SDK, or a command line tool, you can specify the launch template to
+AWS SDK, or a command line tool, you can specify the Launch Template to
 use.
 
-For each launch template, you can create one or more numbered launch template versions. Each version can have different launch parameters. When you launch an instance from a launch template, you can use any version of the launch template. If you do not specify a version, the default version is used. You can set any version of the launch template as the default version.
+For each Launch Template, you can create one or more numbered Launch Template versions. Each version can have different launch parameters. When you launch an instance from a Launch Template, you can use any version of the Launch Template. If you do not specify a version, the default version is used. You can set any version of the Launch Template as the default version.
 
 **Environment variables definition**
 
@@ -25,8 +25,7 @@ You will need to gather some data and store it in environment variables that wil
 If you have deleted your default VPC, find the identifier of the VPC that you want to use and replace the first block of code with this: `export VPC_ID="vpc-id"` where *vpc-id* is the identifier of your VPC.
 {{% /notice %}}
 
-1. **Subnet**: We are going to chose a subnet that belongs to the default VPC.
-    Run the following commands to retrieve your default VPC and then one of its subnets.
+1. **Subnet**: Run the following commands to retrieve your default VPC and then one of its subnets.
     To learn more about these APIs, see [describe vpcs](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html) and [describe subnets](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-subnets.html).
 
     ```bash
@@ -44,7 +43,7 @@ If you have deleted your default VPC, find the identifier of the VPC that you wa
     export AMI_ID=$(aws ec2 describe-images --region "${AWS_REGION}" --filters Name=owner-alias,Values=amazon Name=architecture,Values=x86_64 Name=name,Values=amzn2-ami-hvm* | jq -r '.Images[0].ImageId')
     ```
 
-3. **Instance type**: Similarly, you now have to specify an instance type that is compatible with the chosen AMI. For
+3. **Instance type**: Now you have to specify an instance type that is compatible with the chosen AMI. For
     more information, see [Instance
     Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html).
 
@@ -54,7 +53,7 @@ If you have deleted your default VPC, find the identifier of the VPC that you wa
 
 **Launch template creation**
 
-Once you have gathered the data, create the launch template from the command line as follows (notice how the environment variables are already mapped in the call):
+Create the Launch Template from the command line as follows:
 You can check all the accepted parameters here: [create launch template](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
 
 ```bash
@@ -82,4 +81,4 @@ Finally, you are going to perform an additional API call to retrieve the identif
 export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=TemplateForWebServer | jq -r '.LaunchTemplates[0].LaunchTemplateId')  
 ```
 
-The environment is now ready and you can start using this launch template to deploy EC2 Spot instances in different ways.
+The environment is now ready and you can start using this launch template to launch EC2 Spot instances in different ways.

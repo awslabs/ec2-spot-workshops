@@ -5,16 +5,14 @@ weight = 70
 
 ## Launching EC2 Spot Instances with On-Demand Instances via an EC2 Fleet
 
-EC2 Fleet provides a very rich API that allows to operate and procure capacity
-quite granular controls. Workload that can benefit from this API are among other
-bespoke capacity orchestrator that implement tuned up and optimized logic to provision capacity. The following projects use EC2 Fleet to manage capacity:
+EC2 Fleet provides a very rich API that allows to operate and procure capacity with quite granular controls. Workloads that can benefit from this API are among other
+bespoke capacity orchestrators that implement tuned up and optimized logic to provision capacity. The following projects use EC2 Fleet to manage capacity:
 
 * [Karpenter](https://github.com/awslabs/karpenter). Karpenter is Kubernetes Cluster Autoscaler. It manages the node lifecycle. It observes incoming pods and launches the right instances for the situation.
-* [Atlassian Escalator](https://github.com/atlassian/escalator), yet another Kubernetes Cluster Autoscaler. Designed for large batch or job based workloads that cannot be force-drained and moved when the cluster needs to scale down
-
+* [Atlassian Escalator](https://github.com/atlassian/escalator), yet another Kubernetes Cluster Autoscaler. Designed for large batch or job based workloads that cannot be force-drained and moved when the cluster needs to scale down.
 
 An *EC2 Fleet* contains the configuration information to launch a
-fleet—or group—of instances. In a single API call, a fleet can launch
+fleet or group of instances. In a single API call, a fleet can launch
 multiple instance types across multiple Availability Zones, using the
 On-Demand Instance, Reserved Instance, and Spot Instance purchasing
 models together. Using EC2 Fleet, you can define separate On-Demand and
@@ -24,7 +22,7 @@ fleet capacity within each purchasing model.
 
 **To create a new EC2 Fleet using the command line, run the following**
 
-First, you are going to create the configuration file that will be used to launch the EC2 Fleet. Rn the following:
+First, you are going to create the configuration file that will be used to launch the EC2 Fleet. Run the following:
 
 ```bash
 cat <<EoF > ~/ec2-fleet-config.json
@@ -83,7 +81,7 @@ EoF
 
 One of the main differences between Spot Fleet and EC2 Fleet is that you can use the `instant` fleet request type with EC2 Fleets. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
 
-In addition, with EC2 fleet you can specify separetely the target capacity for Spot and On-Demand Instances. The value for `DefaultTargetCapacityType` specifies wheter Spot or On-Demand instances should be used to meet the `TotalTargetCapacity`.
+In addition, with EC2 fleet you can specify separately the target capacity for Spot and On-Demand Instances. The value for `DefaultTargetCapacityType` specifies whether Spot or On-Demand instances should be used to meet the `TotalTargetCapacity`.
 
 Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 
