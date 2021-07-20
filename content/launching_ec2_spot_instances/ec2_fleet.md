@@ -20,6 +20,10 @@ Spot capacity targets, specify the instance types that work best for
 your applications, and specify how Amazon EC2 should distribute your
 fleet capacity within each purchasing model.
 
+In this part of the workshop we will request an EC2 Fleet using the `instant` fleet request type, which is a feature only available in EC2 Fleet. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
+
+Also, we are going to configure the fleet request so that all the instances are requested of the same type (for example `c5.large`) and in the same Availability Zone. This configuration is suitable for applications that use, for instance, MPI. However, if your use case is different you can remove this constraints from the configuration file, keeping in mind that Auto Scaling Groups is the appropriate solution for most use cases.
+
 **To create a new EC2 Fleet using the command line, run the following**
 
 First, you are going to create the configuration file that will be used to launch the EC2 Fleet. Run the following:
@@ -28,6 +32,9 @@ First, you are going to create the configuration file that will be used to launc
 cat <<EoF > ~/ec2-fleet-config.json
 {
    "SpotOptions":{
+      "SingleInstanceType": true,
+      "SingleAvailabilityZone": true,
+      "MinTargetCapacity": 8,
       "AllocationStrategy": "capacity-optimized",
       "InstanceInterruptionBehavior": "terminate",
       "MaintenanceStrategies":{
@@ -37,7 +44,10 @@ cat <<EoF > ~/ec2-fleet-config.json
       }
    },
    "OnDemandOptions":{
-      "AllocationStrategy": "lowest-price"
+      "AllocationStrategy": "prioritized",
+      "SingleInstanceType": true,
+      "SingleAvailabilityZone": true,
+      "MinTargetCapacity": 2
    },
    "LaunchTemplateConfigs":[
       {
@@ -47,22 +57,28 @@ cat <<EoF > ~/ec2-fleet-config.json
          },
          "Overrides":[
             {
-               "InstanceType": "c5.large"
+               "InstanceType":"c5.large",
+               "Priority": 3.0
             },
             {
-               "InstanceType": "m5.large"
+               "InstanceType":"m5.large",
+               "Priority": 2.0
             },
             {
-               "InstanceType": "r5.large"
+               "InstanceType":"r5.large",
+               "Priority": 1.0
             },
             {
-               "InstanceType": "c4.large"
+               "InstanceType":"c5.xlarge",
+               "Priority": 6.0
             },
             {
-               "InstanceType":"m4.large"
+               "InstanceType":"m5.xlarge",
+               "Priority": 5.0
             },
             {
-               "InstanceType":"r4.large"
+               "InstanceType":"r5.xlarge",
+               "Priority": 4.0
             }
          ]
       }
@@ -79,15 +95,36 @@ cat <<EoF > ~/ec2-fleet-config.json
 EoF
 ```
 
-One of the main differences between Spot Fleet and EC2 Fleet is that you can use the `instant` fleet request type with EC2 Fleets. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
+The EC2 fleet request specifies separately the target capacity for Spot and On-Demand Instances using the `OnDemandTargetCapacity` and `SpotTargetCapacity` fields inside the `TargetCapacitySpecification` structure. The value for `DefaultTargetCapacityType` specifies whether Spot or On-Demand instances should be used to meet the `TotalTargetCapacity`.
 
-In addition, with EC2 fleet you can specify separately the target capacity for Spot and On-Demand Instances. The value for `DefaultTargetCapacityType` specifies whether Spot or On-Demand instances should be used to meet the `TotalTargetCapacity`.
+By setting `SingleInstanceType` and `SingleAvailabilityZone` to true, we are forcing the EC2 Fleet request to provision all the instances in the same Availability Zone and of the same type.  
 
 Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 
 ```bash
 export FLEET_ID=$(aws ec2 create-fleet --cli-input-json file://ec2-fleet-config.json | jq -r '.FleetId')
 ```
+
+Given the configuration we used above. **Try to answer the following questions:**
+
+1. What would happen if the EC2 Fleet is not able to meet the target of Spot or On-Demand instances?
+
+{{%expand "Show me the answers:" %}}
+
+1.) **What would happen if the EC2 Fleet is not able to meet the target capacity of Spot or On-Demand instances?**
+
+We have specified a value for `MinTargetCapacity` inside `SpotOptions` and `OnDemandOptions` structures. This parameter sets the minimum target capacity that needs to be reached. If it is not reached, the fleet launches no instances.
+
+{{% /expand %}}
+
+These are some of the features and characteristics that EC2 Fleet provides, in addition to the ones covered in this section:
+
+1. **MaxPrice**: The maximum price per unit hour that you are willing to pay for a Spot Instance. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
+2. **ValidFrom**: the start date and time of the request. The default behaviour is to start fulfilling the request immediately.
+3. **ValidUntil**: The end date and time of the request. At this point, no new EC2 Fleet requests are placed or able to fulfill the request.
+4. **Instance replacement**: While the fleet is running, if Amazon EC2 reclaims a Spot Instance because of a price increase or instance failure, EC2 Fleet can try to replace the instances with any of the instance types that you specify. This makes it easier to regain capacity during a spike in Spot pricing.
+
+If you want to learn more about EC2 Fleets, you can find more information in the [Amazon EC2 Fleet documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html).
 
 ## Monitoring Your EC2 Fleet
 
