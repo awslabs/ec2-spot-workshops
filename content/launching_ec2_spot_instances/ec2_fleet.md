@@ -119,10 +119,11 @@ We have specified a value for `MinTargetCapacity` inside `SpotOptions` and `OnDe
 
 These are some of the features and characteristics that EC2 Fleet provides, in addition to the ones covered in this section:
 
-1. **MaxPrice**: The maximum price per unit hour that you are willing to pay for a Spot Instance. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
-2. **ValidFrom**: the start date and time of the request. The default behaviour is to start fulfilling the request immediately.
-3. **ValidUntil**: The end date and time of the request. At this point, no new EC2 Fleet requests are placed or able to fulfill the request.
+1. **Max price**: The maximum price per unit hour that you are willing to pay for a Spot Instance. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
+2. **Valid from**: the start date and time of the request. The default behaviour is to start fulfilling the request immediately.
+3. **Valid until**: The end date and time of the request. At this point, no new EC2 Fleet requests are placed or able to fulfill the request.
 4. **Instance replacement**: While the fleet is running, if Amazon EC2 reclaims a Spot Instance because of a price increase or instance failure, EC2 Fleet can try to replace the instances with any of the instance types that you specify. This makes it easier to regain capacity during a spike in Spot pricing.
+5. **Instance weighting**: Inside the list of overrides, you can specify a `WeightedCapacity` value. When you do that, you are specifying the number of units provided by the specified instance type. Typically you would set the value according to number of VCPUs of the instance. By implementing instance weighting, the capacities that you specify in the `TargetCapacitySpecification` structure won't refer to number of instances but to number of capacity units.
 
 If you want to learn more about EC2 Fleets, you can find more information in the [Amazon EC2 Fleet documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html).
 

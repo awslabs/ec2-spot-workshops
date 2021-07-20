@@ -146,6 +146,17 @@ Read about how Spot allocation strategy also supports `capacityOptimizedPrioriti
 The Spot Fleet selects the Spot capacity pools that meet your needs and launches Spot Instances to meet the target capacity for the fleet. By default, Spot Fleets are set to maintain target capacity by launching replacement instances after Spot Instances in the fleet are terminated.
 {{% /notice %}}
 
+These are some of the features and characteristics that Spot Fleet provides, in addition to the ones covered in this section:
+
+1. **Maximum prices**: You can specify separately the maximum price per unit hour that you are willing to pay for a Spot Instance, the maximum amount per hour for On-Demand Instances that you're willing to pay and the maximum amount per hour for Spot Instances that you're willing to pay. If you set a maximum price per hour for the On-Demand Instances and Spot Instances in your request, Spot Fleet will launch instances until it reaches the maximum amount you're willing to pay. When the maximum amount you're willing to pay is reached, the fleet stops launching instances even if it hasn’t met the target capacity.
+2. **Valid from**: the start date and time of the request. The default behaviour is to start fulfilling the request immediately.
+3. **Valid until**: The end date and time of the request. At this point, no new EC2 Fleet requests are placed or able to fulfill the request.
+4. **Replace unhealthy instances**: While the fleet is running, if Amazon EC2 detects that an instance is unhealthy, Spot Fleet will replace it with any of the instance types that you specify.
+5. **Multiple launch templates**: Spot Fleet does allow you to specify multiple Launch Templates in the `LaunchTemplateConfigs` section of the configuration file. By doing so, you can launch a Spot Fleet with instances that vary by instance type, AMI, Availability Zone, or subnet.
+6. **Support for load balancers**: With Spot Fleet you can specify one or more Classic Load Balancers and target groups that will be attached to the Spot Fleet request. To learn more about Classic Load Balancer, visit this page: [Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html).
+
+If you want to learn more about Spot Fleets, you can find more information in the [Amazon Spot Fleet documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html).
+
 ## Monitoring Your Spot Fleet
 
 The Spot Fleet launches Spot Instances when your maximum price exceeds
