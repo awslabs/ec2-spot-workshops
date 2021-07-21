@@ -62,10 +62,16 @@ With Auto Scaling Groups you can define what is the mix of Spot vs On-Demand ins
 
 The configuration above, sets the `SpotAllocationStrategy` to `capacity-optimized`. The `Capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of spot instances used. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance Allocation in Action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/).
 
-Let's create the Auto Scaling Group. In this case the Auto Scaling Group spans across 3 availability zones (the ones used to create the Launch Template), and sets the `min-size` to 2, `max-size` to 10 and `desired-capacity` to 6.
+The following command does gather the availability zones that we will use when creating the Auto Scaling Group. By extending the Auto Scaling Group to multiple availability zones we increase the number of Spot pools used. A Spot pool is a set of unused EC2 instances with the same instance type (for example, m5.large) and Availability Zone.
 
 ```bash
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 1 --max-size 10 --desired-capacity 6 --capacity-rebalance --mixed-instances-policy file://asg-policy.json
+export AZs=$(aws ec2 describe-availability-zones --filters Name=group-name,Values="${AWS_REGION}" Name=zone-type,Values=availability-zone | jq -r '.AvailabilityZones[0].ZoneName + " " + .AvailabilityZones[1].ZoneName + " " + .AvailabilityZones[2].ZoneName')
+```
+
+Let's create the Auto Scaling Group. In this case the Auto Scaling Group spans across 3 availability zones, and sets the `min-size` to 2, `max-size` to 10 and `desired-capacity` to 6.
+
+```bash
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 1 --max-size 10 --desired-capacity 6 --availability-zones "${AZs}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
 
 You have now created a Mixed Instances Auto Scaling Group!

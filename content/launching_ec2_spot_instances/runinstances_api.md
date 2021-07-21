@@ -65,27 +65,33 @@ cat <<EoF > ~/ec2-fleet-replacement-config.json
          "Overrides":[
             {
                "InstanceType":"c5.large",
-               "Priority": 3.0
+               "Priority": 3.0,
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"m5.large",
-               "Priority": 2.0
+               "Priority": 2.0,
+               "SubnetId": "${SUBNET_2}"
             },
             {
                "InstanceType":"r5.large",
-               "Priority": 1.0
+               "Priority": 1.0,
+               "SubnetId": "${SUBNET_3}"
             },
             {
                "InstanceType":"c5.xlarge",
-               "Priority": 6.0
+               "Priority": 6.0,
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"m5.xlarge",
-               "Priority": 5.0
+               "Priority": 5.0,
+               "SubnetId": "${SUBNET_2}"
             },
             {
                "InstanceType":"r5.xlarge",
-               "Priority": 4.0
+               "Priority": 4.0,
+               "SubnetId": "${SUBNET_3}"
             }
          ]
       }

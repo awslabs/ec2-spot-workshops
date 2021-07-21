@@ -53,32 +53,38 @@ cat <<EoF > ~/spot-fleet-request-config.json
             {
                "InstanceType":"c5.large",
                "WeightedCapacity": 2.0,
-               "Priority": 3.0
+               "Priority": 3.0,
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"m5.large",
                "WeightedCapacity": 2.0,
-               "Priority": 2.0
+               "Priority": 2.0,
+               "SubnetId": "${SUBNET_2}"
             },
             {
                "InstanceType":"r5.large",
                "WeightedCapacity": 2.0,
-               "Priority": 1.0
+               "Priority": 1.0,
+               "SubnetId": "${SUBNET_3}"
             },
             {
                "InstanceType":"c5.xlarge",
                "WeightedCapacity": 4.0,
-               "Priority": 6.0
+               "Priority": 6.0,
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"m5.xlarge",
                "WeightedCapacity": 4.0,
-               "Priority": 5.0
+               "Priority": 5.0,
+               "SubnetId": "${SUBNET_2}"
             },
             {
                "InstanceType":"r5.xlarge",
                "WeightedCapacity": 4.0,
-               "Priority": 4.0
+               "Priority": 4.0,
+               "SubnetId": "${SUBNET_3}"
             }
          ]
       }

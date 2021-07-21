@@ -36,7 +36,7 @@ If you have deleted your default VPC, find the identifier of the VPC that you wa
     export SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}")
     export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId')
     export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId')
-    export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[3].SubnetId')
+    export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[2].SubnetId')
     ```
 
 2. **AMI ID**: To retrieve a valid AMI identifier you can perform the following call. It will store the first returned AMI identifier based on some filters.
@@ -60,7 +60,7 @@ Create the Launch Template from the command line as follows:
 You can check all the accepted parameters here: [create launch template](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
 
 ```bash
-aws ec2 create-launch-template --launch-template-name TemplateForWebServer --version-description 1 --launch-template-data "{\"NetworkInterfaces\":[{\"DeviceIndex\":0,\"SubnetId\":\"${SUBNET_1}\"},{\"DeviceIndex\":1,\"SubnetId\":\"${SUBNET_2}\"},{\"DeviceIndex\":2,\"SubnetId\":\"${SUBNET_3}\"}],\"ImageId\":\"${AMI_ID}\",\"InstanceType\":\"${INSTANCE_TYPE}\"}"
+aws ec2 create-launch-template --launch-template-name TemplateForWebServer --version-description 1 --launch-template-data "{\"NetworkInterfaces\":[{\"DeviceIndex\":0,\"SubnetId\":\"${SUBNET_1}\"}],\"ImageId\":\"${AMI_ID}\",\"InstanceType\":\"${INSTANCE_TYPE}\"}"
 ```
 
 **Example return**
