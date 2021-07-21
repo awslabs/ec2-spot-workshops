@@ -54,12 +54,7 @@ cat <<EoF > ~/ec2-fleet-replacement-config.json
    "SpotOptions":{
       "MinTargetCapacity": 5,
       "AllocationStrategy": "capacity-optimized",
-      "InstanceInterruptionBehavior": "terminate",
-      "MaintenanceStrategies":{
-         "CapacityRebalance":{
-            "ReplacementStrategy": "launch"
-         }
-      }
+      "InstanceInterruptionBehavior": "terminate"
    },
    "LaunchTemplateConfigs":[
       {
@@ -99,8 +94,7 @@ cat <<EoF > ~/ec2-fleet-replacement-config.json
       "TotalTargetCapacity": 5,
       "DefaultTargetCapacityType": "spot"
    },
-   "Type":"instant",
-   "ReplaceUnhealthyInstances":true
+   "Type":"instant"
 }
 EoF
 ```

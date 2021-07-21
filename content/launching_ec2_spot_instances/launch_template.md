@@ -25,7 +25,7 @@ You will need to gather some data and store it in environment variables that wil
 If you have deleted your default VPC, find the identifier of the VPC that you want to use and replace the first block of code with this: `export VPC_ID="vpc-id"` where *vpc-id* is the identifier of your VPC.
 {{% /notice %}}
 
-1. **Subnet**: Run the following commands to retrieve your default VPC and then one of its subnets.
+1. **Subnet**: Run the following commands to retrieve your default VPC and then its subnets.
     To learn more about these APIs, see [describe vpcs](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html) and [describe subnets](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-subnets.html).
 
     ```bash
@@ -33,7 +33,10 @@ If you have deleted your default VPC, find the identifier of the VPC that you wa
     ```
 
     ```bash
-    export SUBNET_ID=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}" | jq -r '.Subnets[0].SubnetId')
+    export SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}")
+    export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId')
+    export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId')
+    export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[3].SubnetId')
     ```
 
 2. **AMI ID**: To retrieve a valid AMI identifier you can perform the following call. It will store the first returned AMI identifier based on some filters.
@@ -57,7 +60,7 @@ Create the Launch Template from the command line as follows:
 You can check all the accepted parameters here: [create launch template](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
 
 ```bash
-aws ec2 create-launch-template --launch-template-name TemplateForWebServer --version-description 1 --launch-template-data "{\"NetworkInterfaces\":[{\"DeviceIndex\":0,\"SubnetId\":\"${SUBNET_ID}\"}],\"ImageId\":\"${AMI_ID}\",\"InstanceType\":\"${INSTANCE_TYPE}\",\"TagSpecifications\":[{\"ResourceType\":\"instance\",\"Tags\":[{\"Key\":\"Name\",\"Value\":\"LaunchingEC2SpotInstances\"}]}]}"
+aws ec2 create-launch-template --launch-template-name TemplateForWebServer --version-description 1 --launch-template-data "{\"NetworkInterfaces\":[{\"DeviceIndex\":0,\"SubnetId\":\"${SUBNET_1}\"},{\"DeviceIndex\":1,\"SubnetId\":\"${SUBNET_2}\"},{\"DeviceIndex\":2,\"SubnetId\":\"${SUBNET_3}\"}],\"ImageId\":\"${AMI_ID}\",\"InstanceType\":\"${INSTANCE_TYPE}\"}"
 ```
 
 **Example return**
@@ -78,7 +81,7 @@ aws ec2 create-launch-template --launch-template-name TemplateForWebServer --ver
 Finally, you are going to perform an additional API call to retrieve the identifier of the launch template that was just created and store it in and environment variable:
 
 ```bash
-export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=TemplateForWebServer | jq -r '.LaunchTemplates[0].LaunchTemplateId')  
+export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=TemplateForWebServer | jq -r '.LaunchTemplates[0].LaunchTemplateId')
 ```
 
 The environment is now ready and you can start using this launch template to launch EC2 Spot instances in different ways.

@@ -36,12 +36,7 @@ cat <<EoF > ~/ec2-fleet-config.json
       "SingleAvailabilityZone": true,
       "MinTargetCapacity": 8,
       "AllocationStrategy": "capacity-optimized",
-      "InstanceInterruptionBehavior": "terminate",
-      "MaintenanceStrategies":{
-         "CapacityRebalance":{
-            "ReplacementStrategy": "launch"
-         }
-      }
+      "InstanceInterruptionBehavior": "terminate"
    },
    "OnDemandOptions":{
       "AllocationStrategy": "prioritized",
@@ -89,8 +84,7 @@ cat <<EoF > ~/ec2-fleet-config.json
       "SpotTargetCapacity": 8,
       "DefaultTargetCapacityType": "spot"
    },
-   "Type":"instant",
-   "ReplaceUnhealthyInstances":true
+   "Type":"instant"
 }
 EoF
 ```

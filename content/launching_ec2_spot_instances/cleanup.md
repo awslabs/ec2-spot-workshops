@@ -19,7 +19,7 @@ aws ec2 delete-launch-template --launch-template-id "${LAUNCH_TEMPLATE_ID}"
 **To delete your Auto Scaling group using the CLI**
 
 ```bash
-aws ec2 delete-launch-template --auto-scaling-group-name EC2SpotWorkshopASG --force-delete true
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --force-delete
 ```
 
 ### Canceling your Spot Fleet Request
@@ -36,7 +36,7 @@ until they are interrupted or you terminate them manually.
 **To cancel a Spot Fleet request and terminate the running instances using the CLI**
 
 ```bash
-aws ec2 cancel-spot-fleet-requests --spot-fleet-request-ids "${SPOT_FLEET_REQUEST_ID}" --terminate-instances true
+aws ec2 cancel-spot-fleet-requests --spot-fleet-request-ids "${SPOT_FLEET_REQUEST_ID}" --terminate-instances
 ```
 
 ### Delete your EC2 Fleet
@@ -47,7 +47,7 @@ and terminate all of the running instances.
 **To delete your EC2 Fleet and terminate the running instances using the CLI**
 
 ```bash
-$ aws ec2 delete-fleets --fleet-ids "${FLEET_ID}" --terminate-instances true
+$ aws ec2 delete-fleets --fleet-ids "${FLEET_ID}" --terminate-instances
 ```
 
 ### Terminating a Spot Instance
