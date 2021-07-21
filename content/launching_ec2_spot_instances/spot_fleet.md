@@ -103,18 +103,10 @@ By specifying `maintain` as the request type, Spot Fleet places requests to meet
 
 If you want to learn more about the other configuration parameters, you can review the documentation [here](https://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-fleet.html).
 
-Once that you've read and familiarised yourself with the configuration, copy and paste this command to submit the Spot Fleet request.
+Once that you've read and familiarised yourself with the configuration, copy and paste this command to submit the Spot Fleet request and export its identifier to an environment variable.
 
 ```bash
-aws ec2 request-spot-fleet --spot-fleet-request-config file://spot-fleet-request-config.json
-```
-
-**Example return**
-
-```bash
-{
-    "SpotFleetRequestId": "sfr-cccaf1ea-6922-47e9-99e0-055c635cb63f"
-}
+export SPOT_FLEET_REQUEST_ID=$(aws ec2 request-spot-fleet --spot-fleet-request-config file://spot-fleet-request-config.json | jq -r '.SpotFleetRequestId')
 ```
 
 You have now created a Spot Fleet that uses weights and combines Spot and On-Demand instances to meet the specified target capacity.
