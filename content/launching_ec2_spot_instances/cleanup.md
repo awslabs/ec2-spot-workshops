@@ -47,8 +47,13 @@ and terminate all of the running instances.
 **To delete your EC2 Fleet and terminate the running instances using the CLI**
 
 ```bash
-$ aws ec2 delete-fleets --fleet-ids "${FLEET_ID}" --terminate-instances
+aws ec2 delete-fleets --fleet-ids "${FLEET_ID}" --terminate-instances
 ```
+
+{{% notice note %}}
+If you have created the EC2 Fleet that replaces the RunInstances API call, run as well this command: `aws ec2 delete-fleets --fleet-ids "${REPLACEMENT_FLEET_ID}" --terminate-instances`
+{{% /notice %}}
+
 
 ### Terminating a Spot Instance
 

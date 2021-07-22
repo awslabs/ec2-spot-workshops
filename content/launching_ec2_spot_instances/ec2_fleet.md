@@ -197,8 +197,6 @@ You can view the configuration parameters of your EC2 Fleet using this command:
 aws ec2 describe-fleets --fleet-ids "${FLEET_ID}"
 ```
 
-You can view the status of the instances provisioned by the EC2 Fleet using the following command:
-
-```bash
-aws ec2 describe-fleet-instances --fleet-id "${FLEET_ID}"
-```
+{{% notice info %}}
+Unlike with fleets of type maintain or request, describing the instances of a fleet of type instant is not supported.
+{{% /notice %}}

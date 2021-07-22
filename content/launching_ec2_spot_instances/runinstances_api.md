@@ -53,6 +53,7 @@ cat <<EoF > ~/ec2-fleet-replacement-config.json
 {
    "SpotOptions":{
       "MinTargetCapacity": 5,
+      "SingleAvailabilityZone": true,
       "AllocationStrategy": "capacity-optimized",
       "InstanceInterruptionBehavior": "terminate"
    },
@@ -168,7 +169,7 @@ EoF
 Submit the EC2 Fleet request with this call:
 
 ```bash
-aws ec2 create-fleet --cli-input-json file://ec2-fleet-replacement-config.json
+export REPLACEMENT_FLEET_ID=$(aws ec2 create-fleet --cli-input-json file://ec2-fleet-replacement-config.json | jq -r '.FleetId')
 ```
 
 {{% /expand %}}
