@@ -71,12 +71,12 @@ cat <<EoF > ~/ec2-fleet-replacement-config.json
             {
                "InstanceType":"m5.large",
                "Priority": 2.0,
-               "SubnetId": "${SUBNET_2}"
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"r5.large",
                "Priority": 1.0,
-               "SubnetId": "${SUBNET_3}"
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"c5.xlarge",
@@ -86,7 +86,67 @@ cat <<EoF > ~/ec2-fleet-replacement-config.json
             {
                "InstanceType":"m5.xlarge",
                "Priority": 5.0,
+               "SubnetId": "${SUBNET_1}"
+            },
+            {
+               "InstanceType":"r5.xlarge",
+               "Priority": 4.0,
+               "SubnetId": "${SUBNET_1}"
+            },
+            {
+               "InstanceType":"c5.large",
+               "Priority": 3.0,
                "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"m5.large",
+               "Priority": 2.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"r5.large",
+               "Priority": 1.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"c5.xlarge",
+               "Priority": 6.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"m5.xlarge",
+               "Priority": 5.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"r5.xlarge",
+               "Priority": 4.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"c5.large",
+               "Priority": 3.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"m5.large",
+               "Priority": 2.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"r5.large",
+               "Priority": 1.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"c5.xlarge",
+               "Priority": 6.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"m5.xlarge",
+               "Priority": 5.0,
+               "SubnetId": "${SUBNET_3}"
             },
             {
                "InstanceType":"r5.xlarge",

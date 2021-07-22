@@ -31,6 +31,10 @@ Execute the following command to export the ARN of the Service-Linked role to an
 export EC2_SPOT_ROLE=$(aws iam get-role --role-name AWSServiceRoleForEC2SpotFleet | jq -r '.Role.Arn')
 ```
 
+{{%notice note%}}
+Unlike Auto Scaling Groups, neither Spot Fleet nor EC2 Fleet allow to specify the list of Availability Zones in the API call when placing the request. To increase the number of Spot capacity pools, we have to add one entry per instance type/availability zone in the list of overrides.
+{{% /notice %}}
+
 Copy and paste the following in the AWS CloudShell to generate the configuration file:
 
 ```bash
@@ -60,13 +64,13 @@ cat <<EoF > ~/spot-fleet-request-config.json
                "InstanceType":"m5.large",
                "WeightedCapacity": 2.0,
                "Priority": 2.0,
-               "SubnetId": "${SUBNET_2}"
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"r5.large",
                "WeightedCapacity": 2.0,
                "Priority": 1.0,
-               "SubnetId": "${SUBNET_3}"
+               "SubnetId": "${SUBNET_1}"
             },
             {
                "InstanceType":"c5.xlarge",
@@ -78,7 +82,79 @@ cat <<EoF > ~/spot-fleet-request-config.json
                "InstanceType":"m5.xlarge",
                "WeightedCapacity": 4.0,
                "Priority": 5.0,
+               "SubnetId": "${SUBNET_1}"
+            },
+            {
+               "InstanceType":"r5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 4.0,
+               "SubnetId": "${SUBNET_1}"
+            },
+            {
+               "InstanceType":"c5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 3.0,
                "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"m5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 2.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"r5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 1.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"c5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 6.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"m5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 5.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"r5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 4.0,
+               "SubnetId": "${SUBNET_2}"
+            },
+            {
+               "InstanceType":"c5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 3.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"m5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 2.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"r5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 1.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"c5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 6.0,
+               "SubnetId": "${SUBNET_3}"
+            },
+            {
+               "InstanceType":"m5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 5.0,
+               "SubnetId": "${SUBNET_3}"
             },
             {
                "InstanceType":"r5.xlarge",
@@ -161,12 +237,16 @@ The Spot Fleet launches Spot Instances when your maximum price exceeds
 the Spot price and capacity is available. The Spot Instances run until
 they are interrupted or you terminate them.
 
-**To monitor your Spot Fleet using the console**
+**To monitor your Spot Fleet using the command line**
 
-1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
-2. In the navigation pane, choose **Spot Requests**.
-3. Select your Spot Fleet request. The configuration details are available in the **Description** tab.
-4. To list the Spot Instances for the Spot Fleet, choose the **Instances** tab.
-5.  To view the history for the Spot Fleet, choose the **History** tab.
+You can view the configuration parameters of your Spot Fleet using this command:
 
-![Spot Fleet requests](/images/launching_ec2_spot_instances/SpotFleetRequest.png)
+```bash
+aws ec2 describe-spot-fleet-requests --spot-fleet-request-ids "${SPOT_FLEET_REQUEST_ID}"
+```
+
+You can view the status of the instances provisioned by the EC2 Fleet using the following command:
+
+```bash
+aws ec2 describe-spot-fleet-instances --spot-fleet-request-id "${SPOT_FLEET_REQUEST_ID}"
+```
