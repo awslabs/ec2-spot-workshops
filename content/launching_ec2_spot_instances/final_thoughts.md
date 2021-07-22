@@ -1,6 +1,6 @@
 +++
 title = "Final Thoughts"
-weight = 110
+weight = 120
 +++
 
 {{< youtube id="Q1reO81kqpY" autoplay="true" >}}

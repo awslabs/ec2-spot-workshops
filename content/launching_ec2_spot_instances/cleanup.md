@@ -1,6 +1,6 @@
 +++
 title = "Clean Up"
-weight = 100
+weight = 110
 +++
 
 ### Deleting a Launch Template
