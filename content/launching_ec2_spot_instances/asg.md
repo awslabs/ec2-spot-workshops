@@ -16,7 +16,7 @@ In the past, Auto Scaling Groups used Launch Configurations. Applications using 
  **To create an Auto Scaling Group using a launch template**
 
 We will launch a mixed instance Auto Scaling Group using Spot and On-demand instances.
-Create a *json* that describes a mixed-instance-policy section where we will provide a set of overrides that will drive Spot instance pool diversification. The configuration of the Auto Scaling Group will also refer to the Launch Template that we created in the previous steps.
+Create a *json* file that describes a mixed-instance-policy section where we will provide a set of overrides that will drive Spot instance pool diversification. The configuration of the Auto Scaling Group will also refer to the Launch Template that we created in the previous steps.
 
 ```bash
 cat <<EoF > ~/asg-policy.json
@@ -56,7 +56,7 @@ cat <<EoF > ~/asg-policy.json
 EoF
 ```
 
-In the example, the override configuration section is used to apply diversification. Choosing as many instances that qualify for your application, in this case we selected a group of 6 instances types that meet the ".large" criteria.
+In the example, the override configuration section is used to apply diversification. Choosing as many instances that qualify for your application, in this case we selected a group of 6 instance types that meet the ".large" criteria.
 
 With Auto Scaling Groups you can define what is the mix of Spot vs On-Demand instances that makes sense for your workload. `OnDemandBaseCapacity` allows you to set an initial capacity of On-Demand instances to use, after that, new capacity will be a mix of Spot and On-Demand as defined by the `OnDemandPercentageAboveBaseCapacity`.
 

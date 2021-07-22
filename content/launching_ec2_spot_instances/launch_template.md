@@ -78,10 +78,10 @@ aws ec2 create-launch-template --launch-template-name TemplateForWebServer --ver
 }
 ```
 
-Finally, you are going to perform an additional API call to retrieve the identifier of the launch template that was just created and store it in and environment variable:
+Finally, you are going to perform an additional API call to retrieve the identifier of the launch template that was just created and store it in an environment variable:
 
 ```bash
 export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=TemplateForWebServer | jq -r '.LaunchTemplates[0].LaunchTemplateId')
 ```
 
-The environment is now ready and you can start using this launch template to launch EC2 Spot instances in different ways.
+The environment is now ready and you can start using this Launch Template to launch EC2 Spot instances in different ways.

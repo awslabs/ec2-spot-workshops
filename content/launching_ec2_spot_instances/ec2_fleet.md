@@ -155,6 +155,10 @@ cat <<EoF > ~/ec2-fleet-config.json
 EoF
 ```
 
+{{% notice note %}}
+You may have noticed that we haven't included the `MaintenanceStrategies` structure. The reason for this is that specifying a replacement strategy is only possible when working with fleets of type maintain.
+{{% /notice %}}
+
 The EC2 fleet request specifies separately the target capacity for Spot and On-Demand Instances using the `OnDemandTargetCapacity` and `SpotTargetCapacity` fields inside the `TargetCapacitySpecification` structure. The value for `DefaultTargetCapacityType` specifies whether Spot or On-Demand instances should be used to meet the `TotalTargetCapacity`.
 
 By setting `SingleInstanceType` and `SingleAvailabilityZone` to true, we are forcing the EC2 Fleet request to provision all the instances in the same Availability Zone and of the same type.  

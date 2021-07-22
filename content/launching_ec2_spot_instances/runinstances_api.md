@@ -42,7 +42,7 @@ aws ec2 run-instances --cli-input-json file://runinstances-config.json
 
 If the request is successful, you should see an output with the description of the instances that have been launched.
 
-Now, how would you request 5 Spot instances using EC2 Fleet? With what we have seen in the previous section, try to perform the API call following Spot best practices (diversification, allocation strategy, etc). When you are ready, click on *Show me the answer*.
+Now, how would you request 5 Spot instances using an EC2 Fleet? With what we have seen in the previous sections, try to perform the API call following Spot best practices (diversification, allocation strategy, etc). When you are ready, click on *Show me the answer* to see how you have done.
 
 {{%expand "Show me the answer:" %}}
 
@@ -174,4 +174,4 @@ export REPLACEMENT_FLEET_ID=$(aws ec2 create-fleet --cli-input-json file://ec2-f
 
 {{% /expand %}}
 
-You have now seen that EC2 offers a richer API that allows you to achieve the same results than RunInstances API and on top of that makes it possible to apply more granular configuration parameters and also follow the best Practices associated with Spot. If you want to learn more about RunInstances API, you can find all the documentation [here](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html).
+You have now seen that EC2 offers a richer API that allows you to achieve the same results than RunInstances API and on top of that makes it possible to apply more granular configuration parameters and also follow the best practices associated with Spot. If you want to learn more about RunInstances API, you can find all the documentation [here](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html).

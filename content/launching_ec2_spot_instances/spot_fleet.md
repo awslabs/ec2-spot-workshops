@@ -7,19 +7,19 @@ weight = 60
 
 Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Balancer. However, if you are thinking about using Load Balancers, Auto Scaling Groups are a better option.
 
-Spot Fleet does allow to diversify across different AZs and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration the re-balancing of balance across AZs (use Auto Scaling Groups instead), just providing capacity as fast as possible from the eligible pools. Spot Fleet does support types: `maintain` and `request`. Similar To Auto Scaling Groups, the `maintain` type will preserve the number of instances, and provisioning healthy new instances when one of the instances becomes un-healthy.
+Spot Fleet does allow to diversify across different AZs and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration the re-balancing of balance across AZs (use Auto Scaling Groups instead), just providing capacity as fast as possible from the eligible pools. Spot Fleet does support types: `maintain` and `request`. Similar to Auto Scaling Groups, the `maintain` type will preserve the number of instances, and provisioning healthy new instances when one of the instances becomes un-healthy.
 
 {{%notice info%}}
 To support mix instances with different instance types and purchasing options, Spot Fleet must use **Launch Templates**. In this exercise, we will re-use the same Launch Template that we created before.
 {{% /notice %}}
 
-In this part of the workshop we will provide an example to a scenario that is quite common to see when using Spot Fleet: The use of Weights and Target Capacity. This maps well with the concept of "Compute Slots" in batch workloads. Some batch workloads can have more than one worker process within an instance. The larger the instance, the more worker processes they can run. For example, one worker may consume 1 vCPU: 2GB Ram, which means that on a C5.xlarge (4vCVUs:8GB) instance we should define a weight of 4.
+In this part of the workshop we will provide an example to a scenario that is quite common to see when using Spot Fleet: The use of Weights and Target Capacity. This maps well with the concept of "Compute Slots" in batch workloads. Some batch workloads can have more than one worker process within an instance. The larger the instance, the more worker processes they can run. For example, one worker may consume 1 vCPU: 2GB Ram, which means that on a C5.xlarge (4 vCPUs: 8GB Ram) instance we should define a weight of 4.
 
 By default when we select the Target Capacity for Spot Fleet (note the same weight concept is now available on Auto Scaling Group and EC2 Fleet), the target defines the number of instances that the Spot Fleet will procure. However, when we use Spot Fleet Weights, we associate a custom weight with an instance in the override section and we associate with a "Compute Slot", and the Total Target Capacity is total number of "Compute Slots" or vCPUs that we want on our Spot Fleet.
 
 **To create a Spot Fleet request using Target Capacity & Weights**
 
-You are going to create a *json* that sets a few relevant Spot parameters; One of the parameters is `IamFleetRole`. `IamFleetRole` must be set up to point the ARN of an IAM role that grants the Spot Fleet the permission to request, launch, terminate, and tag instances on your behalf. For this purpose, you are going to first retrieve the ARN of the Service-Linked role named `AWSServiceRoleForEC2SpotFleet`. For more information read the [spot fleet prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites).
+You are going to create a *json* file that sets a few relevant Spot parameters; One of the parameters is `IamFleetRole`. `IamFleetRole` must be set up to point to the ARN of an IAM role that grants the Spot Fleet the permission to request, launch, terminate, and tag instances on your behalf. For this purpose, you are going to first retrieve the ARN of the Service-Linked role named `AWSServiceRoleForEC2SpotFleet`. For more information read the [spot fleet prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites).
 
 {{%notice warning%}}
 If you have never launched a Spot Fleet, the AWSServiceRoleForEC2SpotFleet won't exist in your account. To create it run the following command in the AWS CloudShell: `aws iam create-service-linked-role --aws-service-name spotfleet.amazonaws.com`
@@ -32,7 +32,7 @@ export EC2_SPOT_ROLE=$(aws iam get-role --role-name AWSServiceRoleForEC2SpotFlee
 ```
 
 {{%notice note%}}
-Unlike Auto Scaling Groups, neither Spot Fleet nor EC2 Fleet allow to specify the list of Availability Zones in the API call when placing the request. To increase the number of Spot capacity pools, we have to add one entry per instance type/availability zone in the list of overrides.
+Unlike Auto Scaling Groups, neither Spot Fleet nor EC2 Fleet allow to specify the list of Availability Zones in the API call when placing the request. To increase the number of Spot capacity pools, we have to add one entry per instance type/Availability Zone in the list of overrides.
 {{% /notice %}}
 
 Copy and paste the following in the AWS CloudShell to generate the configuration file:
@@ -217,7 +217,7 @@ Read about how Spot allocation strategy also supports `capacityOptimizedPrioriti
 {{% /expand %}}
 
 {{% notice tip %}}
-The Spot Fleet selects the Spot capacity pools that meet your needs and launches Spot Instances to meet the target capacity for the fleet. By default, Spot Fleets are set to maintain target capacity by launching replacement instances after Spot Instances in the fleet are terminated.
+Spot Fleet selects the Spot capacity pools that meet your needs and launches Spot Instances to meet the target capacity for the fleet. By default, Spot Fleets are set to maintain target capacity by launching replacement instances after Spot Instances in the fleet are terminated.
 {{% /notice %}}
 
 These are some of the features and characteristics that Spot Fleet provides, in addition to the ones covered in this section:
