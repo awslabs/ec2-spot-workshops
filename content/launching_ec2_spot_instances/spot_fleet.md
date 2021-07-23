@@ -37,10 +37,6 @@ Execute the following command to export the ARN of the Service-Linked role to an
 export EC2_SPOT_ROLE=$(aws iam get-role --role-name AWSServiceRoleForEC2SpotFleet | jq -r '.Role.Arn')
 ```
 
-{{%notice note%}}
-Unlike Auto Scaling Groups, neither Spot Fleet nor EC2 Fleet allow to specify the list of Availability Zones in the API call when placing the request. To increase the number of Spot capacity pools, we have to add one entry per instance type/Availability Zone in the list of overrides.
-{{% /notice %}}
-
 Copy and paste the following in the AWS CloudShell to generate the configuration file:
 
 ```bash
@@ -63,110 +59,32 @@ cat <<EoF > ~/spot-fleet-request-config.json
             {
                "InstanceType":"c5.large",
                "WeightedCapacity": 2.0,
-               "Priority": 3.0,
-               "SubnetId": "${SUBNET_1}"
+               "Priority": 3.0
             },
             {
                "InstanceType":"m5.large",
                "WeightedCapacity": 2.0,
-               "Priority": 2.0,
-               "SubnetId": "${SUBNET_1}"
+               "Priority": 2.0
             },
             {
                "InstanceType":"r5.large",
                "WeightedCapacity": 2.0,
-               "Priority": 1.0,
-               "SubnetId": "${SUBNET_1}"
+               "Priority": 1.0
             },
             {
                "InstanceType":"c5.xlarge",
                "WeightedCapacity": 4.0,
-               "Priority": 6.0,
-               "SubnetId": "${SUBNET_1}"
+               "Priority": 6.0
             },
             {
                "InstanceType":"m5.xlarge",
                "WeightedCapacity": 4.0,
-               "Priority": 5.0,
-               "SubnetId": "${SUBNET_1}"
+               "Priority": 5.0
             },
             {
                "InstanceType":"r5.xlarge",
                "WeightedCapacity": 4.0,
-               "Priority": 4.0,
-               "SubnetId": "${SUBNET_1}"
-            },
-            {
-               "InstanceType":"c5.large",
-               "WeightedCapacity": 2.0,
-               "Priority": 3.0,
-               "SubnetId": "${SUBNET_2}"
-            },
-            {
-               "InstanceType":"m5.large",
-               "WeightedCapacity": 2.0,
-               "Priority": 2.0,
-               "SubnetId": "${SUBNET_2}"
-            },
-            {
-               "InstanceType":"r5.large",
-               "WeightedCapacity": 2.0,
-               "Priority": 1.0,
-               "SubnetId": "${SUBNET_2}"
-            },
-            {
-               "InstanceType":"c5.xlarge",
-               "WeightedCapacity": 4.0,
-               "Priority": 6.0,
-               "SubnetId": "${SUBNET_2}"
-            },
-            {
-               "InstanceType":"m5.xlarge",
-               "WeightedCapacity": 4.0,
-               "Priority": 5.0,
-               "SubnetId": "${SUBNET_2}"
-            },
-            {
-               "InstanceType":"r5.xlarge",
-               "WeightedCapacity": 4.0,
-               "Priority": 4.0,
-               "SubnetId": "${SUBNET_2}"
-            },
-            {
-               "InstanceType":"c5.large",
-               "WeightedCapacity": 2.0,
-               "Priority": 3.0,
-               "SubnetId": "${SUBNET_3}"
-            },
-            {
-               "InstanceType":"m5.large",
-               "WeightedCapacity": 2.0,
-               "Priority": 2.0,
-               "SubnetId": "${SUBNET_3}"
-            },
-            {
-               "InstanceType":"r5.large",
-               "WeightedCapacity": 2.0,
-               "Priority": 1.0,
-               "SubnetId": "${SUBNET_3}"
-            },
-            {
-               "InstanceType":"c5.xlarge",
-               "WeightedCapacity": 4.0,
-               "Priority": 6.0,
-               "SubnetId": "${SUBNET_3}"
-            },
-            {
-               "InstanceType":"m5.xlarge",
-               "WeightedCapacity": 4.0,
-               "Priority": 5.0,
-               "SubnetId": "${SUBNET_3}"
-            },
-            {
-               "InstanceType":"r5.xlarge",
-               "WeightedCapacity": 4.0,
-               "Priority": 4.0,
-               "SubnetId": "${SUBNET_3}"
+               "Priority": 4.0
             }
          ]
       }
