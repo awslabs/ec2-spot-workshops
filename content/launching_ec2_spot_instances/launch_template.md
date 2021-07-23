@@ -25,28 +25,25 @@ You will need to gather some data and store it in environment variables that wil
 If you have deleted your default VPC, find the identifier of the VPC that you want to use and replace the first block of code with this: `export VPC_ID="vpc-id"` where *vpc-id* is the identifier of your VPC.
 {{% /notice %}}
 
-1. **Subnet**: Run the following commands to retrieve your default VPC and then its subnets.
+1. **Gathering Subnet information**: Run the following commands to retrieve your default VPC and then its subnets.
     To learn more about these APIs, see [describe vpcs](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html) and [describe subnets](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-subnets.html).
 
     ```bash
     export VPC_ID=$(aws ec2 describe-vpcs --filters Name=isDefault,Values=true | jq -r '.Vpcs[0].VpcId')
-    ```
-
-    ```bash
     export SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}")
     export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId')
     export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId')
     export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[2].SubnetId')
     ```
 
-2. **AMI ID**: To retrieve a valid AMI identifier you can perform the following call. It will store the first returned AMI identifier based on some filters.
+2. **Gathering the AMI ID**: To retrieve a valid AMI identifier you can perform the following call. It will store the first returned AMI identifier based on some filters.
     You can modify those filters as described in [describe images](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-images.html).
 
     ```bash
     export AMI_ID=$(aws ec2 describe-images --region "${AWS_REGION}" --filters Name=owner-alias,Values=amazon Name=architecture,Values=x86_64 Name=name,Values=amzn2-ami-hvm* | jq -r '.Images[0].ImageId')
     ```
 
-3. **Instance type**: Now you have to specify an instance type that is compatible with the chosen AMI. For
+3. **Setting up the instance type**: Now you have to specify an instance type that is compatible with the chosen AMI. For
     more information, see [Instance
     Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html).
 

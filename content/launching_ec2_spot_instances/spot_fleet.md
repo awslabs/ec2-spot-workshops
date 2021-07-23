@@ -7,15 +7,21 @@ weight = 60
 
 Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Balancer. However, if you are thinking about using Load Balancers, Auto Scaling Groups are a better option.
 
-Spot Fleet does allow to diversify across different AZs and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration the re-balancing of balance across AZs (use Auto Scaling Groups instead), just providing capacity as fast as possible from the eligible pools. Spot Fleet does support types: `maintain` and `request`. Similar to Auto Scaling Groups, the `maintain` type will preserve the number of instances, and provisioning healthy new instances when one of the instances becomes un-healthy.
+Spot Fleet does allow to diversify across different AZs and networks. Unlike Auto Scaling Group, Spot fleet by default does not take into consideration the re-balancing evenly instances across AZs (use Auto Scaling Groups instead if AZ-rebalance is key for your workload). Spot Fleet does support types: `maintain` and `request`. Similar to Auto Scaling Groups, the `maintain` type will preserve the number of instances, and provisioning new healthy instances when it detects that one of the existing instances has become un-healthy.
 
-{{%notice info%}}
-To support mix instances with different instance types and purchasing options, Spot Fleet must use **Launch Templates**. In this exercise, we will re-use the same Launch Template that we created before.
+{{%notice note%}}
+To support mix instances with different types and purchasing options, Spot Fleet must use **Launch Templates**. In this exercise, we will re-use the same Launch Template that we created before.
 {{% /notice %}}
 
-In this part of the workshop we will provide an example to a scenario that is quite common to see when using Spot Fleet: The use of Weights and Target Capacity. This maps well with the concept of "Compute Slots" in batch workloads. Some batch workloads can have more than one worker process within an instance. The larger the instance, the more worker processes they can run. For example, one worker may consume 1 vCPU: 2GB Ram, which means that on a C5.xlarge (4 vCPUs: 8GB Ram) instance we should define a weight of 4.
+In this part of the workshop we will use an scenario that is common to see when using Spot Fleet: The use of Weights and Target Capacity. This maps well with the concept of "Compute Slots" in batch workloads. Some batch workloads can have more than one worker process running within an instance. The larger the instance, the more worker processes they can run. For example, one worker may consume 1 vCPU: 2GB Ram, which means that on a C5.xlarge (4 vCPUs: 8GB Ram),we could run up to 4 workers. The weight that we will use for the C5.xlarge is 4.
 
-By default when we select the Target Capacity for Spot Fleet (note the same weight concept is now available on Auto Scaling Group and EC2 Fleet), the target defines the number of instances that the Spot Fleet will procure. However, when we use Spot Fleet Weights, we associate a custom weight with an instance in the override section and we associate with a "Compute Slot", and the Total Target Capacity is total number of "Compute Slots" or vCPUs that we want on our Spot Fleet.
+By default, the **Target Capacity** attribute for Spot Fleet defines the number of instances that the Spot Fleet will procure. When we use Spot Fleet Weights, and associate a custom weight with an instance in the override section, the Total Target Capacity is equivalent to the total target of weights that you give to the spot. Going back to the "Compute Slots" or vCPUs analogy, you can instruct Spot Fleet to provide a number of vCPU's or "Compute Slots" from many instances with different sizes.
+
+
+{{%notice note%}}
+While in the past, weights were only supported on Spot Fleet and EC2 Fleet, now Auto Scaling Groups do also support weights and priorities.
+{{% /notice %}}
+
 
 **To create a Spot Fleet request using Target Capacity & Weights**
 
