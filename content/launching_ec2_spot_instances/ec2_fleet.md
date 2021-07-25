@@ -20,6 +20,8 @@ Spot capacity targets, specify the instance types that work best for
 your applications, and specify how Amazon EC2 should distribute your
 fleet capacity within each purchasing model.
 
+#### EC2 Fleet Example : Applying Instance Diversification on MPI workloads with EC2 Fleet Instant mode
+
 In this part of the workshop we will request an EC2 Fleet using the `instant` fleet request type, which is a feature only available in EC2 Fleet. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
 
 Also, we are going to configure the fleet request so that all the instances are requested of the same type (for example `c5.large`) and in the same Availability Zone. This configuration is suitable for applications that use, for instance, MPI. However, if your use case is different you can remove this constraints from the configuration file, keeping in mind that Auto Scaling Groups is the appropriate solution for most use cases.
