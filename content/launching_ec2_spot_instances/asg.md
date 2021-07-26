@@ -1,24 +1,29 @@
 +++
 title = "Launching EC2 Spot instances via EC2 Auto Scaling Group"
-weight = 50
+weight = 30
 +++
 
-## Launching EC2 Spot Instances via an EC2 Auto Scaling Group
+An Auto Scaling group contains a collection of Amazon EC2 instances that are treated as a logical grouping for the purposes of automatic scaling and management. An Auto Scaling group also enables you to use Amazon EC2 Auto Scaling features such as health check replacements and scaling policies. Both maintaining the number of instances in an Auto Scaling group and automatic scaling are the core functionality of the Amazon EC2 Auto Scaling service.
 
-Amazon EC2 Auto Scaling helps you ensure that you have the correct number of Amazon EC2 instances available to handle the load for your application. You create collections of EC2 instances, called Auto Scaling Groups. You can specify the minimum number of instances in each Auto Scaling Group, and Amazon EC2 Auto Scaling ensures that your group never goes below this size. You can specify the maximum number of instances in each Auto Scaling Group, and Amazon EC2 Auto Scaling ensures that your group never goes above this size.
 
-In most of the cases you should use Auto Scaling Groups to launch Spot instances, since it offers a very rich API and some benefits like scale-in protection, lifecycle hooks, rebalance recommendation, warm pools and predictive scaling that we will cover later.
+Amazon EC2 Auto Scaling helps you ensure that you have the correct number of Amazon EC2 instances available to handle the load for your application. You can specify the minimum and maximum number of instances, and Amazon EC2 Auto Scaling ensures that your group never goes below or above this size.
+
+When adopting EC2 Spot instances, our recommendation is to consider first Auto Scaling Group since it offers a very rich API with benefits like scale-in protection, health checks, lifecycle hooks, rebalance recommendation integration, warm pools and predictive scaling, and many more functionalities that we list below.
 
 {{% notice note %}}
 In the past, Auto Scaling Groups used Launch Configurations. Applications using Launch Configurations should migrate to Launch Templates. With Launch Templates you can provision capacity across multiple instance types using both On-Demand instances and Spot instances to achieve the desired scale, performance, and cost optimization.
 {{% /notice %}}
 
- **To create an Auto Scaling Group using a launch template**
+#### Auto Scaling Group example: Using Mixed Instance Groups with Spot and OnDemand capacity
 
-We will launch a mixed instance Auto Scaling Group using Spot and On-demand instances.
-Create a *json* file that describes a mixed-instance-policy section where we will provide a set of overrides that will drive Spot instance pool diversification. The configuration of the Auto Scaling Group will also refer to the Launch Template that we created in the previous steps.
+A common case when using Auto Scaling Group is to use it with workload that require a mix
+of OnDeamand and Spot capacity. 
 
-```bash
+To apply Spot best practices we will launch a mixed instance Auto Scaling Group using Spot and On-demand instances. 
+
+This first step does create a *json* file. The file describes a mixed-instance-policy section with a set of overrides that drive diversification of Spot instance pools. The configuration of the Auto Scaling Group does refer to the Launch Template that we created in the previous steps.
+
+```
 cat <<EoF > ~/asg-policy.json
 {
    "LaunchTemplate":{
@@ -56,22 +61,21 @@ cat <<EoF > ~/asg-policy.json
 EoF
 ```
 
-In the example, the override configuration section is used to apply diversification. Choosing as many instances that qualify for your application, in this case we selected a group of 6 instance types that meet the ".large" criteria.
+In the override section, choose as many instances that qualify for your application as posible, in this case we selected a group of 6 instance types that meet the ".large" criteria.
 
-With Auto Scaling Groups you can define what is the mix of Spot vs On-Demand instances that makes sense for your workload. `OnDemandBaseCapacity` allows you to set an initial capacity of On-Demand instances to use, after that, new capacity will be a mix of Spot and On-Demand as defined by the `OnDemandPercentageAboveBaseCapacity`.
+With Auto Scaling Groups you can define what is the balance between Spot vs On-Demand instances that makes sense for your workload. `OnDemandBaseCapacity` allows you to set an initial capacity of On-Demand instances to use. After that, any new capacity procured will be a mix of Spot and On-Demand as defined by the `OnDemandPercentageAboveBaseCapacity`.
 
 The configuration above, sets the `SpotAllocationStrategy` to `capacity-optimized`. The `Capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of spot instances used. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance Allocation in Action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/).
 
 Let's create the Auto Scaling Group. In this case the Auto Scaling Group spans across 3 availability zones, and sets the `min-size` to 2, `max-size` to 10 and `desired-capacity` to 6.
 
-```bash
+```
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 1 --max-size 10 --desired-capacity 6 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
 
 You have now created a Mixed Instances Auto Scaling Group!
 
-
-Given the configuration we used above. **Try to answer the following questions:**
+Given the configuration we used above, **Try to answer the following questions:**
 
 1. How may Spot Instance pools does the Auto Scaling Group consider when applying Spot
 diversification?
@@ -95,17 +99,18 @@ The rest of the 4 instances up to the desired 6, follow a proportion of 75% Spot
 
 To check the instances within the newly created Auto ScalingGroup we can use `describe-auto-scaling-groups`.
 
-```bash
+```
 aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names EC2SpotWorkshopASG
 ```
 
 {{% /expand %}}
 
 {{% notice tip %}}
-Auto Scaling Group has rich functionality that helps reduce the heavy lifting of managing capacity. Amazon EC2 Auto Scaling helps ensure that your application always has the right amount of capacity to handle the demand. Auto Scaling Groups can dynamically increase and decrease capacity as needed.
+Auto Scaling Group has rich functionality that helps reduce the heavy lifting of managing capacity. Auto Scaling Groups can dynamically increase and decrease capacity as needed.
 {{% /notice %}}
 
 
+#### Brief Summary of Auto Scaling Group functionality
 These are some of the characteristics and functionality that make Amazon EC2 Auto Scaling Groups the right choice for most workloads:
 
 1. **Instance distribution & Availability Zone rebalancing**: Amazon EC2 Auto Scaling Groups attempt to distribute instances evenly to maximise the High availability of your workloads.
