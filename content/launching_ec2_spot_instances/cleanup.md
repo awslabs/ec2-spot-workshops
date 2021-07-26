@@ -1,64 +1,60 @@
 +++
 title = "Clean Up"
-weight = 70
+weight = 90
 +++
 
-### Delete Your Auto Scaling Group
+Before closing this workshop, let's make sure we clean up all the resources we created so we do not incur in unexpected cost.
 
-**To delete your Auto Scaling group using the console**
+#### Delete Your Auto Scaling Group
 
-1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
-1. On the navigation pane, under **Auto Scaling**, choose **Auto Scaling Groups**.
-1. On the Auto Scaling groups page, select your Auto Scaling group, 
-and choose **Actions**, **Delete**.
-1. When prompted for confirmation, choose **Yes, Delete**.
+**To delete your Auto Scaling group using the CLI**
 
-### Delete your EC2 Fleet
-
-When you are finished using your EC2 Fleet, you can delete the EC2 Fleet
-and terminate all of the running instances.
-
-**To delete your EC2 Fleet and terminate the running instances**
-
-```bash
-$ aws ec2 delete-fleets --fleet-ids fleet-e678bfc6-c2b5-4d9f-8700-03b2db30b183 --terminate-instances
+```
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --force-delete
 ```
 
-### Canceling your Spot Fleet Request
+#### Deleting your Spot Fleet Request
 
-When you are finished using your Spot Fleet, you can cancel the Spot
-Fleet request. This cancels all Spot requests associated with the Spot
-Fleet, so that no new Spot Instances are launched for your Spot Fleet.
-You must specify whether the Spot Fleet should terminate its Spot
-Instances. If you terminate the instances, the Spot Fleet request enters
+Let's now cancel or delete the Spot Fleet request.You must specify whether the Spot Fleet should terminate its Spot Instances. If you terminate the instances, the Spot Fleet request enters
 the cancelled\_terminating state. Otherwise, the Spot Fleet request
 enters the cancelled\_running state and the instances continue to run
 until they are interrupted or you terminate them manually.
 
-**To cancel a Spot Fleet request using the console**
+**To cancel a Spot Fleet request and terminate the running instances using the CLI**
 
-1.  Open the Spot console at <https://console.aws.amazon.com/ec2spot/home/fleet>.
-1.  Select your Spot Fleet request.
-1.  Choose **Actions**, and then choose **Cancel spot request**.
-1.  In **Cancel spot request**, choose **Confirm**.
+```
+aws ec2 cancel-spot-fleet-requests --spot-fleet-request-ids "${SPOT_FLEET_REQUEST_ID}" --terminate-instances
+```
 
-### Terminating a Spot Instance
+#### Delete your EC2 Fleet
 
-**To terminate a Spot Instance using the console**
+When you are finished using your EC2 Fleet, you can delete the EC2 Fleet
+and terminate all of the running instances.
 
-1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
-1. In the navigation pane, choose **Instances**.
-1. Select the instance, and choose **Actions**, **Instance State**, **Terminate**.
-1. Choose **Yes, Terminate** when prompted for confirmation.
+**To delete your EC2 Fleet and terminate the running instances using the CLI**
 
-### Deleting a Launch Template
+```
+aws ec2 delete-fleets --fleet-ids "${FLEET_ID}" --terminate-instances
+```
 
-If you no longer require a launch template, you can delete it. Deleting
-a launch template deletes all of its versions.
+{{% notice note %}}
+If you have created the EC2 Fleet that replaces the RunInstances API call, run as well this command: `aws ec2 delete-fleets --fleet-ids "${REPLACEMENT_FLEET_ID}" --terminate-instances`
+{{% /notice %}}
 
-**To delete a launch template**
 
-1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
-1. In the navigation pane, choose **Launch Templates** and select the launch template.
-1. Choose **Actions**, **Delete template**.
-1. Choose **Delete launch template**.
+#### Terminating the Spot instances created with RunInstance
+
+You recall we created this instance with a specific Name tag. We will use the tag to search for the instance and then pass the instance-id to the ec2 call `terminate-instances`.
+
+```
+export INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag-value,Values=EC2SpotWorkshopRunInstance" --query "Reservations[0].Instances[0].InstanceId" | sed s/\"//g)
+aws ec2 terminate-instances --instance-ids $INSTANCE_ID
+```
+
+#### Deleting a Launch Template
+
+Finally, now that all the instances have been terminated, let's deleve the Launch Template.
+
+```
+aws ec2 delete-launch-template --launch-template-id "${LAUNCH_TEMPLATE_ID}"
+```
