@@ -12,10 +12,10 @@ available to you at steep discounts compared to On-Demand prices. EC2
 Spot enables you to optimize your costs on the AWS cloud and scale your
 application’s throughput up to 10X for the same budget.
 
-This lab will walk you through the API's and commands used to create EC2 Spot instances: you will create a EC2 Launch Template, and then will use this Launch Template to launch EC2 Spot Instances in using: Amazon EC2 Auto Scaling groups, EC2 Spot Fleet, EC2 Fleet and the EC2 RunInstances API.
+This lab will walk you through the APIs and commands used to create EC2 Spot instances: you will create an EC2 Launch Template, and then use this Launch Template to launch EC2 Spot instances using: Amazon EC2 Auto Scaling groups, EC2 Spot Fleet, EC2 Fleet and the EC2 RunInstances API.
 
 ## So which of these methods should I use in my application?
-For most wrokloads and scenarios the answer will be Auto Scaling Groups. With the launch of [EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options] (https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/), it has become a feature-rich tool for building applications on EC2 using Spot Instances, with allocation strategies as capacity-optimized. [Click here]  (https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) to learn more about EC2 Auto Scaling groups.
+For most workloads and scenarios the answer will be Auto Scaling groups. With the launch of [EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options] (https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/), it has become a feature-rich tool for building applications on EC2 using Spot instances, with allocation strategies as capacity-optimized. [Click here]  (https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) to learn more about EC2 Auto Scaling groups.
 
 
 ## Pre-Requisites for this lab:
