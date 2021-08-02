@@ -69,7 +69,7 @@ The configuration above, sets the `SpotAllocationStrategy` to `capacity-optimize
 Let's create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the `min-size` to 2, `max-size` to 10 and `desired-capacity` to 6.
 
 ```
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 1 --max-size 10 --desired-capacity 6 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 1 --max-size 10 --desired-capacity 6 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json --tags Key=InstanceLaunchedWith,Value=EC2SpotWorkshopASG
 ```
 
 You have now created a mixed instances Auto Scaling group!
@@ -80,6 +80,7 @@ Given the configuration we used above, **Try to answer the following questions:*
 diversification?
 2. How many Spot vs On-Demand Instances have been requested by the Auto Scaling group?
 3. How can you confirm which instances have been created within the Auto Scaling group?
+4. How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?
 
 {{%expand "Show me the answers:" %}}
 
@@ -98,8 +99,24 @@ The rest of the 4 instances up to the desired 6, follow a proportion of 75% Spot
 
 To check the instances within the newly created Auto Scaling group we can use `describe-auto-scaling-groups`.
 
-```
+```bash
 aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names EC2SpotWorkshopASG
+```
+
+4.) **How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?**
+
+To describe one or more instances we use `describe-instances`. To retrieve all the Spot Instances that have been launched with the Auto Scaling group, we apply two filters: `instance-lifecycle` set to `spot` to retrieve only Spot Instances and the custom tag `InstanceLaunchedWith` that must be set to `EC2SpotWorkshopASG`.
+
+```bash
+aws ec2 describe-instances --filters Name=instance-lifecycle,Values=spot Name=tag:InstanceLaunchedWith,Values=EC2SpotWorkshopASG --query "Reservations[*].Instances[*].[InstanceId]" --output text
+```
+
+The output will have the identifiers of the **3** Spot Instances, as we have deduced in the second question.
+
+Similarly, you can run the following command to retrieve the identifiers of the instances that have been launched using the On-Demand purchasing model.
+
+```bash
+aws ec2 describe-instances --filters Name=tag:InstanceLaunchedWith,Values=EC2SpotWorkshopASG --query "Reservations[*].Instances[? InstanceLifecycle==null].[InstanceId]" --output text
 ```
 
 {{% /expand %}}

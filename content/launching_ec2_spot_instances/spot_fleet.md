@@ -142,7 +142,7 @@ While the command below will provide us the description of the Spot Fleet Reques
 aws ec2 describe-spot-fleet-requests --spot-fleet-request-ids=$SPOT_FLEET_REQUEST_ID
 ```
 
-To get the description of the instances and what happen over time to the request we can use:
+To get the description of the instances and what happened over time to the request we can use:
 
 ```
 aws ec2 describe-spot-fleet-instances --spot-fleet-request-id=$SPOT_FLEET_REQUEST_ID
