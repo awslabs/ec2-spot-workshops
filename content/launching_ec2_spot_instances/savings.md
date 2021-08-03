@@ -28,4 +28,4 @@ Some other APIs might be useful to understand how the Spot price changes over ti
 3. Choose **Pricing history** in the top right corner.
 
 
-If you are interested in how to use the Spot API programmatically, You can use the **[describe-spot-price-history](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-spot-price-history.html)** API to retrieve the information that you need.
+If you are interested in how to use the Spot API programmatically, You can use the **[describe-spot-price-history](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-spot-price-history.html)** API to retrieve the information you need.
