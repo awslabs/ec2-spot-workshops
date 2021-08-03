@@ -8,10 +8,10 @@ weight = 60
 This API allows you to launch one or more instances, using a Launch Template that you have previously configured. Typically you would use the RunInstances API to launch one or more instances of the same type in situations where you are not planning to replace or manage the instances as a group entity.
 
 {{%notice note%}}
-Even though RunInstances API allows you to launch Spot instances, it doesn't allow you to specify a replacement strategy or an allocation strategy. Remember that by specifying multiple Spot capacity pools we can apply instance diversification and by using `capacity-optimized` allocation strategy, Amazon EC2 will automatically launch Spot instances from the optimal capacity pools. This is why it is recommended to use EC2 Fleet in `instant` mode as a drop-in replacement for RunInstances API.
+Even though RunInstances API allows you to launch Spot instances, it doesn't allow you to specify a replacement strategy or an allocation strategy. Remember that by specifying multiple Spot capacity pools we can apply instance diversification and by using `capacity-optimized` allocation strategy, Amazon EC2 will automatically launch Spot Instances from the optimal capacity pools. This is why it is recommended to use EC2 Fleet in `instant` mode as a drop-in replacement for RunInstances API.
 {{% /notice %}}
 
-## RunInstance example: Launching a single instnace
+## RunInstance example: Launching a single instance
 
 The most common way to launch a one-off single instance is RunInstance. We will use the Launch Template that we previously created. To launch a RunInstances on EC2 Spot you would need to create this configuration file:
 
@@ -56,9 +56,7 @@ aws ec2 run-instances --cli-input-json file://runinstances-config.json
 
 If the request is successful, you should see an output with the description of the instances that have been launched.
 
-
-
-Now, how would you request a Spot instances using an EC2 Fleet? 
+Now, how would you request a Spot instances using an EC2 Fleet?
 
 With what we have seen in the previous sections, try to perform the API call following Spot best practices (diversification, allocation strategy, etc). When you are ready, click on *Show me the answer* to see how you have done.
 
@@ -135,9 +133,8 @@ Submit the EC2 Fleet request with this call:
 export REPLACEMENT_FLEET_ID=$(aws ec2 create-fleet --cli-input-json file://ec2-fleet-replacement-config.json | jq -r '.FleetId')
 ```
 
-In some applications where RunInstances was used to create and manage instances, this technique of replacing the RunInstance call with EC2 Fleet, helps to ensure Spot best practices are enforced while making the minimum modifications to the application. The fact the call is also synchronous and that shows the result of the provision capacity (spot or on-demand), makes it more reliable than polling with asynchronous API's. Additionally it provides all the diversification best practices we've seen so far in the rest of the APIs.
-
-Our advise for those applications using still RunInstances and Spot is to consider moving to Auto Scaling Groups. Using even a Single EC2 Spot instance in an Auto Scaling Group is a good pattern. The Auto Scaling group will replace the instance if un-healthy and manage the life-cycle according to all the best practices we've seen so far.
-
 {{% /expand %}}
 
+In some applications where RunInstances was used to create and manage instances, this technique of replacing the RunInstance call with EC2 Fleet helps to ensure that Spot best practices are enforced while making the minimum modifications to the application. The fact the call is also synchronous and that shows the result of the provision capacity (Spot or On-Demand), makes it more reliable than polling with asynchronous APIs. Additionally, it provides all the diversification best practices we've seen so far in the rest of the APIs.
+
+Our advise for those applications using still RunInstances and Spot is to consider moving to Auto Scaling Groups. Using even a Single EC2 Spot Instance in an Auto Scaling Group is a good pattern. The Auto Scaling group will replace the instance if un-healthy and manage the life-cycle according to all the best practices we've seen so far.
