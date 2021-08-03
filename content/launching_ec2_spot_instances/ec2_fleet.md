@@ -26,13 +26,13 @@ EC2 Fleet can also be used in `instant` type or mode as a drop-in-replacement to
 In this part of the workshop we tackle a common workload for with EC2 Fleet provides benefit when running.
 
 {{% notice warning %}}
-Note that while we will be using Spot Instances, most of MPI workloads, specially those that run for hours and do not use checkpointing, are not appropriate for Spot Instances. Remember that Spot Instances are suited for fault tolerant applications that can recover from the loss and replacement of one or more instances.
+Note that while we will be using Spot Instances, most of MPI workloads, specially those that run for hours and do not use checkpointing, are not appropriate for Spot Instances. Remember Spot Instances are suited for fault tolerant applications that can recover from the loss and replacement of one or more instances.
 {{% /notice %}}
 
 In this part of the workshop we will request an EC2 Fleet using the `instant` fleet request type, which is a feature only available in EC2 Fleet. By doing so, EC2 Fleet places a synchronous one-time request for your desired capacity. In the API response, it returns the instances that launched, along with errors for those instances that could not be launched. More information on request types [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type).
 
 
-Tightly coupled HPC workloads typically suffer in performance when the instances in the cluster are of different types (i.e: `c5.large` vs `c4.xlarge`). However we still want to apply diversification for Spot instances! The other characteristic of this workload is that all the instances must be close together (ideally in the same [placement group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)).
+Tightly coupled HPC workloads typically suffer from performance degradation when the instances in the cluster are of different types (i.e: `c5.large` vs `c4.xlarge`). However we still want to apply diversification for Spot instances! The other characteristic of this workload is that all the instances must be close together (ideally in the same [placement group](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)).
 
 We are going to configure the fleet request so that all the instances provided by the fleet are of the same type (for example `c5.large`) and also from the same Availability Zone.
 
