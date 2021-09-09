@@ -21,8 +21,6 @@ We need to store some data in environment variables that we will reference later
     export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId')
     export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId')
     export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[2].SubnetId')
-    export SUBNET_4=$((echo $SUBNETS) | jq -r '.Subnets[3].SubnetId')
-    export SUBNET_5=$((echo $SUBNETS) | jq -r '.Subnets[4].SubnetId')
     ```
 
 2. **Gathering the default security group ID**: To retrieve the identifier of the default security group you can perform the following call. To learn more about this API, see [describe-security-groups CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-security-groups.html).

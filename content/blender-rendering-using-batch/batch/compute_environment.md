@@ -26,9 +26,7 @@ cat <<EoF > ~/compute-environment-config.json
         "subnets": [
             "${SUBNET_1}",
             "${SUBNET_2}",
-            "${SUBNET_3}",
-            "${SUBNET_4}",
-            "${SUBNET_5}"
+            "${SUBNET_3}"
         ],
         "securityGroupIds": [
             "${SECURITY_GROUP_ID}"
