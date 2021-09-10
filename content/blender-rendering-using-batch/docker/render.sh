@@ -27,6 +27,25 @@ while (( "$#" )); do
   esac
 done
 
-aws s3 cp "${INPUT_URI}" ./tmp.blend
-blender -b ./tmp.blend -o ./ -s 1 -e "${F_PER_JOB}"
-aws s3 cp ./*.png ${OUTPUT_URI}
+if [ "${ACTION}" == "render" ] ; then
+  # Download the blender file from S3
+  aws s3 cp "${INPUT_URI}" ./tmp.blend
+
+  # If the env var AWS_BATCH_JOB_ARRAY_INDEX is empty, this is a single job
+  # Render from start to end
+  if [[ -z "${AWS_BATCH_JOB_ARRAY_INDEX}" ]]; then
+    echo "Rendering frames 1 to ${F_PER_JOB}"
+    blender -b ./tmp.blend -o ./ -s 1 -e "${F_PER_JOB}"
+  else
+    start_frame=$((AWS_BATCH_JOB_ARRAY_INDEX * F_PER_JOB + 1))
+    end_frame=$((AWS_BATCH_JOB_ARRAY_INDEX * F_PER_JOB + F_PER_JOB))
+
+    echo "Rendering frames ${start_frame} to ${end_frame}"
+    blender -b ./tmp.blend -o ./ -s start_frame -e end_frame
+  fi
+
+  # Upload all the rendered frames to S3
+  aws s3 cp ./*.png ${OUTPUT_URI}
+else
+  echo "Stitching not yet implemented"
+fi
