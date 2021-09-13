@@ -31,8 +31,6 @@ while (( "$#" )); do
   esac
 done
 
-echo "${OUTPUT_URI}"
-
 if [ "${ACTION}" == "render" ] ; then
   # Download the blender file from S3
   aws s3 cp "${INPUT_URI}" file.blend
