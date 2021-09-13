@@ -147,8 +147,28 @@ def calculate_array_job_size():
     # Calculate how many jobs need to be submitted
     return n_frames, math.ceil(n_frames / F_PER_JOB)
 
-def submit_job(n_frames, array_size):
-    """Submits a Batch job.
+def build_job_kwargs(job_name, command):
+    """Returns a dictionary with properties for launching a job.
+
+    Keyword arguments:
+    job_name -- name of the job
+    command -- command to be executed by the job
+    """
+
+    return {
+        'jobName': job_name,
+        'jobQueue': JOB_QUEUE,
+        'jobDefinition': JOB_DEFINITION,
+        'containerOverrides': {
+            'command': command
+        },
+        'retryStrategy': {
+            'attempts': 1
+        }
+    }
+
+def submit_rendering_job(n_frames, array_size):
+    """Submits a Batch job that renders the frames.
     Depending on the value of <array_size>, it will submit either
     a single job or an array job
 
@@ -157,19 +177,10 @@ def submit_job(n_frames, array_size):
     array_size -- size of the array job
     """
 
+    # Append the name of the job to the URI so that a folder is created in S3
+    full_output_uri = '{}/{}/'.format(OUTPUT_URI, JOB_NAME)
     client = boto3.client('batch')
-
-    kwargs = {
-        'jobName': JOB_NAME,
-        'jobQueue': JOB_QUEUE,
-        'jobDefinition': JOB_DEFINITION,
-        'containerOverrides': {
-            'command': 'render -i {} -o {} -f {} -t {} -n {}'.format(INPUT_URI, OUTPUT_URI, F_PER_JOB, n_frames, JOB_NAME).split()
-        },
-        'retryStrategy': {
-            'attempts': 1
-        }
-    }
+    kwargs = build_job_kwargs('{}_Rendering'.format(JOB_NAME), 'render -i {} -o {} -f {} -t {}'.format(INPUT_URI, full_output_uri, F_PER_JOB, n_frames).split())
 
     # If this is not a single job, submit it as an array job
     if array_size > 1:
@@ -178,12 +189,40 @@ def submit_job(n_frames, array_size):
         }
 
     try:
-        print(json.dumps(client.submit_job(**kwargs)))
+        return client.submit_job(**kwargs)
+    except Exception as e:
+        print(e.args[0])
+        sys.exit(2)
+
+def submit_stitching_job(depends_on_job_id):
+    """Submits a Batch job that creates a mp4 video using the rendered frames.
+
+    Keyword arguments:
+    depends_on_job_id -- identifier of the job that the stitching job depends on
+    """
+
+    # Append the name of the job to the URI so that a folder is created in S3
+    full_output_uri = '{}/{}/'.format(OUTPUT_URI, JOB_NAME)
+    client = boto3.client('batch')
+    kwargs = build_job_kwargs('{}_Stitching'.format(JOB_NAME), 'stitch -i {} -o {}'.format(full_output_uri, full_output_uri).split())
+
+    # Add the job dependency
+    kwargs['dependsOn'] = [
+        {
+            'jobId': depends_on_job_id,
+            'type': 'SEQUENTIAL'
+        }
+    ]
+
+    try:
+        return client.submit_job(**kwargs)
     except Exception as e:
         print(e.args[0])
         sys.exit(2)
 
 if __name__ == "__main__":
+    job_results = []
+
     # Gather command line arguments
     parse_arguments()
 
@@ -193,5 +232,10 @@ if __name__ == "__main__":
     # Calculate the size of the array job
     n_frames, array_size = calculate_array_job_size()
 
-    # Submit the job
-    submit_job(n_frames, array_size)
+    # Submit the rendering job
+    job_results.append(submit_rendering_job(n_frames, array_size))
+
+    # Submit the stitching job
+    job_results.append(submit_stitching_job(job_results[0]['jobId']))
+
+    print(json.dumps(job_results))

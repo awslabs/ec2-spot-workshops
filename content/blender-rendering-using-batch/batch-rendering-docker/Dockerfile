@@ -27,6 +27,13 @@ RUN tar -xvf blender-linux.tar.xz --strip-components=1 -C /bin && \
     rm -rf blender-linux.tar.xz && \
 	  rm -rf blender-linux
 
+# Copy FFmpeg to the root of the container and unzip it
+COPY ./ffmpeg.tar.xz /
+
+RUN tar -xvf ffmpeg.tar.xz --strip-components=1 -C /bin && \
+    rm -rf ffmpeg.tar.xz && \
+	  rm -rf ffmpeg
+
 # Copy the script to the root of the container and give it permission to be executed
 COPY ./render.sh /
 RUN chmod +x /render.sh

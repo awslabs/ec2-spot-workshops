@@ -25,20 +25,18 @@ while (( "$#" )); do
       TOTAL_FRAMES=$2
       shift
       ;;
-    -n)
-      JOB_NAME=$2
-      shift
-      ;;
     *)
       shift
       ;;
   esac
 done
 
+echo "${OUTPUT_URI}"
+
 if [ "${ACTION}" == "render" ] ; then
   # Download the blender file from S3
   aws s3 cp "${INPUT_URI}" file.blend
-  mkdir "${JOB_NAME}"
+  mkdir frames
 
   # If the env var AWS_BATCH_JOB_ARRAY_INDEX is empty, this is a single job
   # Render from start to end
@@ -50,11 +48,20 @@ if [ "${ACTION}" == "render" ] ; then
     end_frame=$((AWS_BATCH_JOB_ARRAY_INDEX * F_PER_JOB + F_PER_JOB))
   fi
 
+  # Start the rendering process
   echo "Rendering frames ${start_frame} to ${end_frame}"
-  blender -b file.blend -E CYCLES -o "${JOB_NAME}/" -s "${start_frame}" -e "${end_frame}" -a
+  blender -b file.blend -E CYCLES -o "frames/" -s "${start_frame}" -e "${end_frame}" -a
 
   # Upload all the rendered frames to S3
-  aws s3 cp --recursive "${JOB_NAME}" "${OUTPUT_URI}/${JOB_NAME}/"
+  aws s3 cp --recursive "frames" "${OUTPUT_URI}"
 else
-  echo "Stitching not yet implemented"
+  # Download the frames from S3
+  mkdir frames
+  aws s3 cp --recursive "${INPUT_URI}" frames/
+
+  # Start the stitching process
+  ffmpeg -i frames/%04d.png output.mp4
+
+  # Upload the video to S3
+  aws s3 cp output.mp4 "${OUTPUT_URI}"
 fi
