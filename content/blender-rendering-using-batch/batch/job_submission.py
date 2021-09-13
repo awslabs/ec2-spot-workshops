@@ -145,14 +145,15 @@ def calculate_array_job_size():
     F_PER_JOB = min(F_PER_JOB, n_frames)
 
     # Calculate how many jobs need to be submitted
-    return math.ceil(n_frames / F_PER_JOB)
+    return n_frames, math.ceil(n_frames / F_PER_JOB)
 
-def submit_job(array_size):
+def submit_job(n_frames, array_size):
     """Submits a Batch job.
     Depending on the value of <array_size>, it will submit either
     a single job or an array job
 
     Keyword arguments:
+    n_frames -- total number of frames
     array_size -- size of the array job
     """
 
@@ -163,7 +164,7 @@ def submit_job(array_size):
         'jobQueue': JOB_QUEUE,
         'jobDefinition': JOB_DEFINITION,
         'containerOverrides': {
-            'command': ['render -i {} -o {} -f {}'.format(INPUT_URI, OUTPUT_URI, F_PER_JOB)]
+            'command': 'render -i {} -o {} -f {} -t {} -n {}'.format(INPUT_URI, OUTPUT_URI, F_PER_JOB, n_frames, JOB_NAME).split()
         },
         'retryStrategy': {
             'attempts': 1
@@ -190,7 +191,7 @@ if __name__ == "__main__":
     download_blender_file_from_s3()
 
     # Calculate the size of the array job
-    array_size = calculate_array_job_size()
+    n_frames, array_size = calculate_array_job_size()
 
     # Submit the job
-    submit_job(array_size)
+    submit_job(n_frames, array_size)

@@ -14,7 +14,7 @@ cat <<EoF > ~/job-definition-config.json
     "jobDefinitionName": "${JOB_DEFINITION_NAME}",
     "type": "container",
     "containerProperties": {
-        "image": "nytimes/blender",
+        "image": "bpguasch/blender-rendering:latest",
         "vcpus": 1,
         "memory": 1024
     },
