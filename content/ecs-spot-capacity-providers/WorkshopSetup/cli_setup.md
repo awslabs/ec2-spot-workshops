@@ -62,24 +62,15 @@ aws configure get default.region
 
 Use the commands below to set the CloudFormation stack name to an environment variable. 
 
-* If you created the stack manually:
+{{% notice note %}}
+**Select the tab** and follow the specific instructions depending on whether..
+{{% /notice %}}
 
-```
-export STACK_NAME=EcsSpotWorkshop
-```
 
-* If the stack created automatically within Event Engine:
-
-```
-export STACK_NAME=$(aws cloudformation list-stacks | jq -r '.StackSummaries[] | select(.StackName|test("mod.")) | .StackName')
-echo "STACK_NAME=$STACK_NAME"
-```
-
-The output should look something like below.
-
-```
-STACK_NAME=mod-9feefdd1672c4eac
-```
+{{< tabs name="Region" >}}
+    {{< tab name="You created the Stack manually" include="on_your_own_stack_name.md" />}}
+    {{< tab name="Stack already created upfront at an AWS Event" include="at_an_aws_stack_name.md" />}}
+{{< /tabs >}}
 
 
 Run the command below to load CloudFormation outputs as the environment variables.
