@@ -3,7 +3,7 @@
   "MixedInstancesPolicy": {
     "LaunchTemplate": {
       "LaunchTemplateSpecification": {
-        "LaunchTemplateName": "EcsSpotWorkshop",
+        "LaunchTemplateId": "%LAUNCH_TEMPLATE_ID%",
         "Version": "1"
       },
       "Overrides": [
