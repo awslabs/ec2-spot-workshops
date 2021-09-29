@@ -1,8 +1,9 @@
 ---
 title: "Nextflow with AWS Batch"
+menuTitle: "Nextflow with AWS Batch"
 date: 2020-03-28T09:05:54Z
 weight: 80
-pre: "<b>⁃ </b>"
+pre: "<b>8. </b>"
 ---
 
 The content of this workshop is derived from a tutorial created by the nice folks at [Seqera Labs](https://github.com/seqeralabs/nextflow-tutorial), kudos to them!

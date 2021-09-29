@@ -1,8 +1,9 @@
 ---
 title: "Using Spot Instances with EKS"
+menuTitle: "Containers with EKS"
 date: 2019-01-24T09:05:54Z
-weight: 50
-pre: "<b>⁃ </b>"
+weight: 40
+pre: "<b>4. </b>"
 ---
 
 In this workshop, you will learn how to provision, manage, and maintain your Kubernetes 

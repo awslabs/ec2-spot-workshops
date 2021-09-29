@@ -1,8 +1,9 @@
 ---
 title: "Launching EC2 Spot Instances"
+menuTitle: "Launching Spot Instances"
 date: 2019-01-31T08:51:33Z
-weight: 20
-pre: "<b>⁃ </b>"
+weight: 5
+pre: "<b>1. </b>"
 ---
 
 ## Overview

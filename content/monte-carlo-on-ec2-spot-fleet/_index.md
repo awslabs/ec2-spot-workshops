@@ -1,8 +1,9 @@
 ---
 title: "Run Monte Carlo Simulations on EC2 Spot Fleet"
+menuTitle: "Monte Carlo on Spot Fleet"
 date: 2019-01-24T09:05:54Z
 weight: 90
-pre: "<b>⁃ </b>"
+pre: "<b>9. </b>"
 ---
 
 The contents of this labs were originally created by [oak2272](https://github.com/oak2278), [James Siri](https://github.com/jamesiri) and [Anuj Sharma](https://github.com/anshrma), all credits go to them for this high quality workshop! This workshop was hosted in the following github repo: https://github.com/aws-samples/ec2-spot-montecarlo-workshop.

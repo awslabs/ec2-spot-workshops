@@ -1,8 +1,10 @@
 ---
 title: "EC2 Auto Scaling with multiple instance types and purchase options"
+menuTitle: "EC2 Auto Scaling"
 date: 2019-01-26T00:00:00Z
 weight: 10
-pre: "<b>⁃ </b>"
+pre: "<b>2. </b>"
+
 ---
 
 ## Overview 
