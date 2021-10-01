@@ -1,7 +1,7 @@
 ---
-title: "Using Amazon SageMaker Managed Spot Training"
+title: "SageMaker Model Training"
 date: 2019-10-30T09:05:54Z
-weight: 40
+weight: 50
 pre: "<b>⁃ </b>"
 ---
 

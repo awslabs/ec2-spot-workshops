@@ -1,5 +1,5 @@
 ---
-title: "Running Spark apps with EMR on Spot Instances"
+title: "Spark apps with EMR"
 date: 2019-01-24T09:05:54Z
 weight: 60
 pre: "<b>⁃ </b>"

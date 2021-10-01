@@ -1,7 +1,7 @@
 ---
-title: "Using Spot Instances with EKS"
+title: "Containers with EKS"
 date: 2019-01-24T09:05:54Z
-weight: 50
+weight: 40
 pre: "<b>⁃ </b>"
 ---
 
