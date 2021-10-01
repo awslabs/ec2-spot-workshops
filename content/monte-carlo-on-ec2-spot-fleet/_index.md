@@ -1,7 +1,7 @@
 ---
-title: "Run Monte Carlo Simulations on EC2 Spot Fleet"
+title: "Monte Carlo on EC2 Spot Fleet"
 date: 2019-01-24T09:05:54Z
-weight: 90
+weight: 80
 pre: "<b>⁃ </b>"
 ---
 
