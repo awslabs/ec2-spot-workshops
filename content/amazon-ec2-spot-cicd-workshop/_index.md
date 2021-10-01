@@ -1,8 +1,9 @@
 ---
-title: "CI/CD and Test Workloads"
+title: "CI/CD and Test Workloads with EC2 Spot Instances"
+menuTitle: "CI/CD and Test Workloads"
 date: 2019-02-19T02:02:35
 weight: 70
-pre: "<b>⁃ </b>"
+pre: "<b>7. </b>"
 ---
 
 ## Overview 
