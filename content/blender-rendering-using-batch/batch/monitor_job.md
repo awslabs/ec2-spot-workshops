@@ -1,7 +1,7 @@
 ---
 title: "Monitoring"
 date: 2021-09-06T08:51:33Z
-weight: 120
+weight: 130
 ---
 
 ## Monitoring the status of a job
@@ -9,7 +9,7 @@ weight: 120
 You can monitor the status of a job using the following command:
 
 ```bash
-aws batch describe-jobs --jobs "${JOB_ID}"
+aws batch describe-jobs --jobs "${RENDERING_JOB_ID} ${STITCHING_JOB_ID}"
 ```
 
 To learn more about this command, you can review the [describe-jobs CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-jobs.html).
@@ -29,7 +29,7 @@ To learn more about this command, you can review the [describe-job-queues CLI co
 You can review the configuration of a compute environment using the following command:
 
 ```bash
-aws batch describe-compute-environments --compute-environments "${RENDERING_COMPUTE_ENV_NAME}"
+aws batch describe-compute-environments --compute-environments "${SPOT_COMPUTE_ENV_NAME} ${ONDEMAND_COMPUTE_ENV_NAME}"
 ```
 
 To learn more about this command, you can review the [describe-compute-environments CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-compute-environments.html).
