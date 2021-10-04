@@ -1,5 +1,5 @@
 ---
-title: "Containers with EKS"
+title: "Using Spot Instances with EKS"
 menuTitle: "Containers with EKS"
 date: 2019-01-24T09:05:54Z
 weight: 40
