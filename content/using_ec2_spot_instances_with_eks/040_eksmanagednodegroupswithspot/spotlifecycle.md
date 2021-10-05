@@ -5,9 +5,9 @@ weight: 40
 draft: false
 ---
 
-### View the Spot Managed Node Group Configuration
+### View the Managed Node Group Configuration
 
-Use the AWS Management Console to inspect the Spot managed node group deployed in your Kubernetes cluster. Select **Elastic Kubernetes Service**, click on **Clusters**, and then on **eksworkshop-eksctl** cluster. Select the **Configuration** tab and **Compute** sub tab. You can see 3 node groups created - one On-Demand node group and two Spot node groups.
+Use the AWS Management Console to inspect the Managed node group deployed in your Kubernetes cluster. Select **Elastic Kubernetes Service**, click on **Clusters**, and then on **eksworkshop-eksctl** cluster. Select the **Configuration** tab and **Compute** sub tab. You can see 3 node groups created - one On-Demand node group and two Spot node groups.
 
 Click on **dev-4vcpu-16gb-spot** group and you can see the instance types set from the create command.
 

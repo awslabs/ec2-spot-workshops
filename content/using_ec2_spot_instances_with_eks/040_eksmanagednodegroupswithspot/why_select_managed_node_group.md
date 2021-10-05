@@ -1,5 +1,5 @@
 ---
-title: "Advantages of EKS Spot Managed Node Group"
+title: "EKS managed node groups with Spot capacity"
 date: 2018-08-07T11:05:19-07:00
 weight: 10
 draft: false
@@ -24,6 +24,6 @@ Advantages of running Amazon EKS managed node groups:
 In addition to the advantages of managed node groups, EKS managed node groups with Spot capacity have these additional advantages:
 
 * Allocation strategy to provision Spot capacity is set to **Capacity Optimized** to ensure that Spot nodes are provisioned in the optimal Spot capacity pools. 
-* Specify **multiple instance types** during EKS Spot managed Node Group creation, to increase the number of Spot capacity pools available for allocating capacity.
-* Nodes provisioned under Spot managed node group are automatically tagged with capacity type: **eks.amazonaws.com/capacityType: SPOT**. You can use this label to schedule fault tolerant applications on Spot nodes.
+* Specify **multiple instance types** during managed node groups creation, to increase the number of Spot capacity pools available for allocating capacity.
+* Nodes provisioned under managed node groups with Spot capacity are automatically tagged with capacity type: **eks.amazonaws.com/capacityType: SPOT**. You can use this label to schedule fault tolerant applications on Spot nodes.
 * Amazon EC2 Spot **Capacity Rebalancing** enabled to ensure Amazon EKS can gracefully drain and rebalance your Spot nodes to minimize application disruption when a Spot node is at elevated risk of interruption. 

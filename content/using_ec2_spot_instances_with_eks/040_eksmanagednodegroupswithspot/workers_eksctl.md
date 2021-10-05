@@ -73,7 +73,7 @@ There are a few things to note in the configuration that we just used to create 
 
  * The configuration setup the nodes under the **managedNodeGroups** section. This is to indicate the node group being created is a managed node group.
  * Notice that the configuration setup a **minSize** to 1, **maxSize** to 5 and **desiredCapacity** to 2. Spot managed nodegroups are created with 2 nodes, but minimum number of instances for managed node group is 1 instance.
- * The configuration setup a configuration **spot: true** to indicate that the node group being created is a Spot managed node group, which implies all nodes in the nodegroup would be **Spot Instances**.
+ * The configuration setup a configuration **spot: true** to indicate that the node group being created is a managed node group with Spot capacity, which implies all nodes in the nodegroup would be **Spot Instances**.
  * We did also add an extra label **intent: apps**. We will use this label to force a hard partition of the cluster for our applications. During this workshop we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
  * Notice that the configuration setup 2 node label under **labels** - **alpha.eksctl.io/cluster-name: : eksworkshop-eksctl** to indicate the node label belongs to **eksworkshop-eksctl** cluster, and **alpha.eksctl.io/nodegroup-name: dev-4vcpu-16gb-spot** node group.
 
