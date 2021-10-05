@@ -1,10 +1,12 @@
 ---
-title: "Blender"
+title: "Rendering pipeline"
 date: 2021-09-06T08:51:33Z
-weight: 20
+weight: 30
 ---
 
 ## Overview
+
+## Blender
 
 Blender is the free and open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline. To learn more about its features, you can visit [this web page](https://www.blender.org/features/).
 
@@ -29,13 +31,21 @@ The arguments mean the following:
 
 If you want to learn more about Blender's command line rendering, visit [this web page](https://docs.blender.org/manual/en/latest/advanced/command_line/render.html). Additionally, you can check all the arguments it accepts [here](https://docs.blender.org/manual/en/latest/advanced/command_line/arguments.html).
 
-## Gathering a Blender file
+### Gathering a Blender file
 
 We will download a Blender file from [BlendSwap](https://blendswap.com/categories). In that web page, Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists in the community. You can download the same file that was rendered to generate the animation that you've seen in the previous page from [here](https://blendswap.com/blend/28661). If you want to use a different one, feel free to do so! Just take into account the following:
 
 - The file must be configured to render the frames as .png files.
 - The more frames it has, the more compute resources you will need to render it thus impacting the costs of running the workshop.
 
-{{% notice note %}}
-**Once you have chosen a file, download it from BlendSwap and upload it to an S3 bucket of your choice.**
-{{% /notice %}}
+## FFmpeg
+
+FFmpeg is a free and open-source multimedia framework able to decode, encode, transcode, mux, demux, stream, filter and play loads of file formats. One of the framework components is the command line tool ffmpeg, the one you will use to implement the stitching job. You can learn more about the project in [this web page](https://www.ffmpeg.org/about.html).
+
+### SlideShow
+
+To concatenate multiple images and make a video out of them, you will use what in FFmpeg's wiki is referred to as [*SlideShow*](https://trac.ffmpeg.org/wiki/Slideshow). When you launch the stitching job, the Docker image that you create will execute ffmpeg from the command line and pass it some arguments needed to create the video. The command that will be executed is the following:
+
+```bash
+ffmpeg -i <input_path> <output_path>
+```
