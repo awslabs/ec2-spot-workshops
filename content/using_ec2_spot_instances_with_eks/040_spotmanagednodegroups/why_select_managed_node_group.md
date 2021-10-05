@@ -17,11 +17,11 @@ Advantages of running Amazon EKS managed node groups:
 * Node updates and terminations automatically and gracefully drain nodes to ensure that your applications stay available.
 * No additional costs to use Amazon EKS managed node groups, pay only for the AWS resources provisioned.
 
-### Why EKS Spot Managed Node Groups?
+### Why EKS managed node groups with Spot capacity?
 
-**Amazon EKS Spot managed node groups** enhances the managed node group experience in using EKS managed node groups to easily provision and manage EC2 Spot Instances. EKS managed node group will configure and launch an EC2 Autoscaling group of Spot Instances following Spot best practices and draining Spot worker nodes automatically before the instances are interrupted by AWS. This enables you to take advantage of the steep savings that Spot Instances provide for your interruption tolerant containerized applications. 
+**Amazon EKS managed node groups with Spot capacity** enhances the managed node group experience in using EKS managed node groups to easily provision and manage EC2 Spot Instances. EKS managed node group will configure and launch an EC2 Autoscaling group of Spot Instances following Spot best practices and draining Spot worker nodes automatically before the instances are interrupted by AWS. This enables you to take advantage of the steep savings that Spot Instances provide for your interruption tolerant containerized applications. 
 
-In addition to the advantages of managed node groups, Amazon EKS Spot managed node groups have these additional advantages:
+In addition to the advantages of managed node groups, EKS managed node groups with Spot capacity have these additional advantages:
 
 * Allocation strategy to provision Spot capacity is set to **Capacity Optimized** to ensure that Spot nodes are provisioned in the optimal Spot capacity pools. 
 * Specify **multiple instance types** during EKS Spot managed Node Group creation, to increase the number of Spot capacity pools available for allocating capacity.

@@ -18,7 +18,7 @@ Click on the Auto Scaling Group name in the **Details** tab. Scroll to the Purch
 
 ![Spot Best Practices](/images/using_ec2_spot_instances_with_eks/spotworkers/asg_spot_best_practices.png)
 
-### Interruption Handling in Spot Managed Node Groups
+### Interruption Handling in EKS managed node groups with Spot capacity
 
 To handle Spot interruptions, you do not need to install any extra automation tools on the cluster such as the AWS Node Termination Handler. The managed node group handles Spot interruptions for you in the following way: the underlying EC2 Auto Scaling Group is opted-in to Capacity Rebalancing, which means that when one of the Spot Instances in your node group is at elevated risk of interruption and gets an EC2 instance rebalance recommendation, it will attempt to launch a replacement instance. The more instance types you configure in the managed node group, the more chances EC2 Auto Scaling Group has of launching a replacement Spot Instance.
 sw replacement Spot node and waits until it successfully joins the cluster.

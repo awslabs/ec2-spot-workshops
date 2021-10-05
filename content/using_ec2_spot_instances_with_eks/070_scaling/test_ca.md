@@ -37,7 +37,7 @@ kubectl scale deployment/monte-carlo-pi-service --replicas=0
 **Question:** Can you predict what would be the result of scaling down to 0 replicas?
 
 {{%expand "Show me the answer" %}}
-The configuration that we applied to procure our nodegroups states that the minimum number of instances in the auto scaling group is 2 for both Spot managed node groups.  
+The configuration that we applied to procure our nodegroups states that the minimum number of instances in the auto scaling group is 2 for both EKS managed node groups with Spot capacity.  
 
 (Self managed node group) The configuration that we applied to procure our nodegroups states that the minimum number of instances in the auto scaling group is 0 for both nodegroups. Starting from 1.14 version Cluster Autoscaler does support scaling down to 0. 
 
