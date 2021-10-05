@@ -51,7 +51,7 @@ monte-carlo-pi-service.
 
 When running that in your browser you should be able to see the json response provided by the service:
 
-![Monte Carlo Pi Approximation Response](/images/using_ec2_spot_instances_with_eks/deploy/monte_carlo_pi_output_1.png)
+![Monte Carlo Pi Approximation Response](/images/using_ec2_spot_instances_with_eks/060_deploy/monte_carlo_pi_output_1.png)
 
 {{% notice note %}}
 The application takes the named argument **iterations** to define the number of samples used during the

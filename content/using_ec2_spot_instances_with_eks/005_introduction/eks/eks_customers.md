@@ -6,4 +6,4 @@ weight: 130
 ---
 
 
-![EKS Customers](/images/using_ec2_spot_instances_with_eks/introduction/eks-customers.svg)
+![EKS Customers](/images/using_ec2_spot_instances_with_eks/005_introduction/eks-customers.svg)

@@ -14,7 +14,7 @@ weight: 20
 
 {{%expand "Expand here to see the solution" %}}
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/prerequisites/validate_workspace_role.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/validate_workspace_role.md" %}}
 
 If you do not see the correct role, please go back and **[validate the IAM role]({{< relref "../prerequisites/update_workspaceiam.md" >}})** for troubleshooting.
 
@@ -26,7 +26,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 The following command will create an eks cluster with the name `eksworkshop-eksctl`. It will also create a nodegroup with 2 on-demand instances.
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/eksctl/create_eks_cluster_eksctl_command.md" %}}
+{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020_eksctl/create_eks_cluster_eksctl_command.md" %}}
 
 eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
 
