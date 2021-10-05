@@ -20,4 +20,6 @@ To have an idea of what you will be rendering, take a look to this animation.
 
 ![Possible output](/images/blender-rendering-using-batch/animation_example.gif)
 
+*[Pottery](https://blendswap.com/blend/28661)* by [Prokster](https://blendswap.com/profile/1012752) is licensed under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
+
 Head to the next page to take a look at the architecture that you will deploy.

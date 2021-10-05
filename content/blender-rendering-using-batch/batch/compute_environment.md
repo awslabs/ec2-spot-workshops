@@ -4,10 +4,6 @@ date: 2021-09-06T08:51:33Z
 weight: 90
 ---
 
-{{% notice info %}}
-AWS Batch compute environments are populated with Amazon ECS container instances, and they run the Amazon ECS container agent locally. The Amazon ECS container agent makes calls to various AWS API operations on your behalf. Therefore, container instances that run the agent require an IAM policy and role for these services to recognize that the agent belongs to you. If you have never run ECS instances, such role won't exist in your account. To create it, run the following command in AWS CloudShell: `aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com`. For more information read [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) and [Service-linked role for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html).
-{{% /notice %}}
-
 We are going to create two compute environments: one using Spot instances and the other using On-Demand instances. The reason for this is that, on a real scenario, you may have to comply with several SLAs with regards to finishing the jobs under a specific time window.
 
 By using On-Demand instances, we are sure that the compute resources will remain throughout the whole execution. And by using Spot instances on top of that, we can reduce costs and execution time by acquiring compute capacity at steep discounts compared to On-Demand instances.
@@ -28,8 +24,8 @@ cat <<EoF > ~/spot-compute-environment-config.json
         "type": "SPOT",
         "allocationStrategy": "SPOT_CAPACITY_OPTIMIZED",
         "minvCpus": 0,
-        "maxvCpus": 256,
-        "desiredvCpus": 100,
+        "maxvCpus": 64,
+        "desiredvCpus": 0,
         "instanceTypes": [
             "optimal"
         ],
@@ -41,8 +37,7 @@ cat <<EoF > ~/spot-compute-environment-config.json
         "launchTemplate": {
             "launchTemplateName": "${LAUNCH_TEMPLATE_NAME}"
         },
-        "instanceRole": "ecsInstanceRole",
-        "bidPercentage": 100
+        "instanceRole": "ecsInstanceRole"
     }
 }
 EoF
@@ -51,12 +46,15 @@ EoF
 Let's explore the configuration parameters in the *computeResources* structure:
 
 - **type**: specifies the compute resource type to use. This compute environment will use Spot instances, hence the *SPOT* value. The other possible values are *EC2*, *FARGATE* and *FARGATE_SPOT*.
-- **allocationStrategy**: the allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. By specifying *SPOT_CAPACITY_OPTIMIZED*, Batch will select one or more instance types that are large enough to meet the requirements of the jobs in the queue, with a preference for instance types that are less likely to be interrupted.
+- **allocationStrategy**: the allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. By specifying *SPOT_CAPACITY_OPTIMIZED*, Batch will select one or more instance types that are large enough to meet the requirements of the jobs in the queue, with a preference for instance types that are less likely to be interrupted. So learn more about allocation strategies, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html).
 - **instanceTypes**: the instances types that can be launched. By specifying *optimal*, instance types from the C4, M4, and R4 instance families are selected to match the demand of your job queues.
 - **subnets**: the VPC subnets where the compute resources are launched.
 - **launchTemplate**: the launch template to use when launching compute resources. We specify the one we created earlier so that the User data script is applied to every instance that is launched.
 - **instanceRole**: the Amazon ECS instance profile applied to Amazon EC2 instances in the compute environment.
-- **bidPercentage**: the maximum percentage that a Spot Instance price can be when compared with the On-Demand price. By specifying the maximum On-demand price, we reduce the likelihood of the Spot instances to be interrupted.
+
+{{% notice info %}}
+AWS Batch compute environments are populated with Amazon ECS container instances, and they run the Amazon ECS container agent locally. The Amazon ECS container agent makes calls to various AWS API operations on your behalf. Therefore, container instances that run the agent require an IAM policy and role for these services to recognize that the agent belongs to you. If you have never run ECS instances, such role won't exist in your account. To create it, run the following command in AWS CloudShell: `aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com`. For more information read [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) and [Service-linked role for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html).
+{{% /notice %}}
 
 Execute this command to create the Batch compute environment and export its ARN to an environment variable. To learn more about this API, see [create-compute-environment CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/create-compute-environment.html).
 
@@ -80,8 +78,8 @@ cat <<EoF > ~/ondemand-compute-environment-config.json
         "type": "EC2",
         "allocationStrategy": "BEST_FIT_PROGRESSIVE",
         "minvCpus": 0,
-        "maxvCpus": 100,
-        "desiredvCpus": 50,
+        "maxvCpus": 8,
+        "desiredvCpus": 4,
         "instanceTypes": [
             "optimal"
         ],

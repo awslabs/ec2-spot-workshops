@@ -22,11 +22,21 @@ python3 job_sumbission.py -h
 
 You see that the script needs to receive the location of the blender file and where the results should be uploaded, as well as the the job definition that will be used to submit the job, the queue where it will be placed and the name that will be used to submit it.
 
-Additionally, there's an extra argument *-f* that needs to be passed. Thanks to this argument you can specify how many frames each job should render. This will have a direct impact on the size of the array job that is submitted. E.g.: if you want to render a file that has 250 frames and you specify a value of 1 for that argument, the size of the array job will be 250. If you specify a value of 5, the size will be 50 and so on. As you can imagine, the lesser the frames each job has to render, the lesser the time it will take for the job to complete.
+Additionally, there's an extra argument *-f* that needs to be passed. Thanks to this argument you can specify how many frames each job should render. This will have a direct impact on the size of the array job that is submitted. E.g.: if you want to render a file that has 250 frames and you specify a value of 1 for that argument, the size of the array job will be 250. If you specify a value of 5, the size will be 50 and so on. As you can imagine, the less the frames each job has to render, the less the time it will take for the job to complete.
 
-## Understanding the script
+## Submitting the job
 
-Before executing the script, let's go through some of its methods.
+To submit the rendering job, run the following block of code replacing the values of the arguments -i, -o, -f and, optionally, -n. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
+
+```bash
+export JOB_IDS=$(python3 job_sumbission.py -i <input> -o <output> -f <n_frames> -n RenderingJob -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
+export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
+export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
+```
+
+At this point the jobs have been submitted and you are ready to monitor them.
+
+## Optional: understanding the script
 
 ### submit_rendering_job
 
@@ -42,15 +52,3 @@ Two important things to highlight from this method:
 
 1. The command that is passed to the container is defined in the line 207. The arguments are preceded by the keyword *stitch*.
 2. The job dependency is created by specifying the *dependsOn* value, which is a dictionary that contains the identifier of the job towards which create the dependency, and the type of dependency. In this case, the dependency is *SEQUENTIAL* because the stitching job must be launched **after** all the frames have been rendered. To learn more about job dependencies visit [Job Dependencies](https://docs.aws.amazon.com/batch/latest/userguide/job_dependencies.html).
-
-## Submitting the job
-
-To submit the rendering job, run the following block of code replacing the values of the arguments -i, -o, -f and, optionally, -n. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
-
-```bash
-export JOB_IDS=$(python3 job_sumbission.py -i <input> -o <output> -f <n_frames> -n RenderingJob -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
-export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
-export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
-```
-
-At this point the jobs have been submitted and you are ready to monitor them.

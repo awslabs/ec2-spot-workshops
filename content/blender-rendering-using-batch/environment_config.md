@@ -8,7 +8,7 @@ We need to store some data in environment variables that we will reference later
 
 ## Gathering subnet information
 
-{{% notice warning %}}
+{{% notice info %}}
 Note: During this workshop, we will use your account's default VPC to create the instances. If your account does not have a default VPC you can create or nominate one following [this link](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)
 {{% /notice %}}
 

@@ -8,13 +8,15 @@ weight: 80
 
 AWS Batch is a set of batch management capabilities that enables you to easily and efficiently run hundreds of thousands of batch computing jobs on AWS. AWS Batch dynamically provisions the optimal quantity and type of compute resources (e.g., CPU or memory optimized compute resources) based on the volume and specific resource requirements of the batch jobs submitted.
 
-AWS Batch plans, schedules, and executes your batch computing workloads across the full range of AWS compute services and features, such as AWS Fargate, Amazon EC2 and Spot Instances.
-
-There is no additional charge for AWS Batch. You only pay for the AWS resources you create to store and run your batch jobs.
+AWS Batch plans, schedules, and executes your batch computing workloads across the full range of AWS compute services and features, such as AWS Fargate, Amazon EC2 and Spot Instances. There is no additional charge for AWS Batch. You only pay for the AWS resources you create to store and run your batch jobs.
 
 Thanks to Batch computing, you can execute a series of programs ("jobs") on one or more computers without manual intervention. Input parameters are pre-defined through scripts, command-line arguments, control files, or job control language. A given batch job may depend on the completion of preceding jobs, or on the availability of certain inputs, making the sequencing and scheduling of multiple jobs important, and incompatible with interactive processing.
 
 ## Understanding Batch components
+
+### Typical job architecture
+
+![Batch components](/images/blender-rendering-using-batch/batch_architecture.png)
 
 ### Compute environment
 
