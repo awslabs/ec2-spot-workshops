@@ -1,7 +1,7 @@
 ---
 title: "Conclusion"
 chapter: true
-weight: 110
+weight: 300
 ---
 
 # Conclusion
