@@ -1,5 +1,5 @@
 ---
-title: "Helm"
+title: "Kubernetes Tools"
 chapter: true
 weight: 30
 ---
