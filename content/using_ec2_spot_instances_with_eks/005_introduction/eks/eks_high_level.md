@@ -8,4 +8,4 @@ weight: 150
 
 Once your EKS cluster is ready, you get an API endpoint and you'd [use Kubectl, community developed tool to interact with your cluster.](https://kubernetes.io/docs/reference/kubectl/kubectl/)
 
-![EKS High Level](/images/using_ec2_spot_instances_with_eks/005_introduction/eks-high-level.svg)
+![EKS High Level](/images/using_ec2_spot_instances_with_eks/introduction/eks-high-level.svg)

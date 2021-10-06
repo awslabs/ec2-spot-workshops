@@ -89,7 +89,7 @@ monte-carlo-pi-service-584f6ddff-fs9x6   1/1     Running   0          103s
 monte-carlo-pi-service-584f6ddff-jst55   1/1     Running   0          103s
 ```
 You should also be able to visualize the scaling action using kube-ops-view. Kube-ops-view provides an option to highlight pods meeting a regular expression. All pods in green are **monte-carlo-pi-service** pods.
-![Scaling up to 10 replicas](/images/using_ec2_spot_instances_with_eks/060_scaling/scaling-kov-10-replicas.png)
+![Scaling up to 10 replicas](/images/using_ec2_spot_instances_with_eks/scaling/scaling-kov-10-replicas.png)
 
 {{% notice info %}}
 Given we started from 2 node capacity in both Spot node groups, this should trigger a scaling event for Cluster Autoscaler. Can you predict which size (and type!) of node will be provided? 
@@ -118,14 +118,14 @@ kubectl get pods --watch
 ```
 
 Kube-ops-view, will show 3 pending yellow pods outside the node.
-![Scale Up](/images/using_ec2_spot_instances_with_eks/060_scaling/scaling-asg-up-kov.png)
+![Scale Up](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-up-kov.png)
 
 When inspecting cluster-autoscaler logs with the command line below 
 ```
 kubectl logs -f deployment/cluster-autoscaler -n kube-system
 ```
 you will notice Cluster Autoscaler events similar to:
-![CA Scale Up events](/images/using_ec2_spot_instances_with_eks/060_scaling/scaling-asg-up2.png)
+![CA Scale Up events](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-up2.png)
 
 
 To confirm which type of node has been added you can either use kube-ops-view or execute:
@@ -135,7 +135,7 @@ kubectl get node --selector=intent=apps --show-labels
 
 You can verify in AWS Management Console to confirm that the Auto Scaling groups are scaling up to meet demand. This may take a few minutes. You can also follow along with the pod deployment from the command line. You should see the pods transition from pending to running as nodes are scaled up.
 
-![Scale Up](/images/using_ec2_spot_instances_with_eks/060_scaling/scaling-asg-up.png)
+![Scale Up](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-up.png)
 
 {{% notice info %}}
 Cluster Autoscaler expands capacity according to the [Expander](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) configuration. By default, Cluster Autoscaler uses the **random** expander. This means that there is equal probability of cluster autoscaler selecting the 4vCPUs 16GB RAM group or the 8vCPUs 32GB RAM group. You may consider also using other expanders like **least-waste**, or the **priority** expander.

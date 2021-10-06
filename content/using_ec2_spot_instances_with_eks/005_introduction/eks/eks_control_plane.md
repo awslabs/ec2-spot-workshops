@@ -6,4 +6,4 @@ weight: 140
 ---
 
 
-![EKS Control Plane](/images/using_ec2_spot_instances_with_eks/005_introduction/eks-k8s-control-plane.svg)
+![EKS Control Plane](/images/using_ec2_spot_instances_with_eks/introduction/eks-k8s-control-plane.svg)

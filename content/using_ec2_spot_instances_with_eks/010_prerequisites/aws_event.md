@@ -53,7 +53,7 @@ In this workshop, you'll need to reference the resources created by the CloudFor
 
 1. In the stack details pane, click the **Outputs** tab.
 
-![cnf_output](/images/using_ec2_spot_instances_with_eks/010_prerequisites/cnf_output.png)
+![cnf_output](/images/using_ec2_spot_instances_with_eks/prerequisites/cnf_output.png)
 
 It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.
 

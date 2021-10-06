@@ -5,7 +5,7 @@ draft: false
 weight: 30
 ---
 
-![K8s summary image](/images/using_ec2_spot_instances_with_eks/005_introduction/what_is_k8s_new.png)
+![K8s summary image](/images/using_ec2_spot_instances_with_eks/introduction/what_is_k8s_new.png)
 
 * Builds on over a decade of experience and best practices
 * Utilizes declarative configuration and automation

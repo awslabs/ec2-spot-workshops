@@ -18,7 +18,7 @@ the EKS IAM authentication, so we will disable it and rely on the IAM role inste
 - Select **AWS SETTINGS**
 - Turn off **AWS managed temporary credentials**
 - Close the Preferences tab
-![c9disableiam](/images/using_ec2_spot_instances_with_eks/010_prerequisites/c9disableiam.png)
+![c9disableiam](/images/using_ec2_spot_instances_with_eks/prerequisites/c9disableiam.png)
 
 To ensure temporary credentials aren't already in place we will also remove
 any existing credentials file:

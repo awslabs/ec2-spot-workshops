@@ -22,16 +22,16 @@ as an IAM user with administrator access to the AWS account:
 [Create a new IAM user to use for the workshop](https://console.aws.amazon.com/iam/home?#/users$new)
 
 1. Enter the user details:
-![Create User](/images/using_ec2_spot_instances_with_eks/010_prerequisites/iam-1-create-user.png)
+![Create User](/images/using_ec2_spot_instances_with_eks/prerequisites/iam-1-create-user.png)
 
 1. Attach the AdministratorAccess IAM Policy:
-![Attach Policy](/images/using_ec2_spot_instances_with_eks/010_prerequisites/iam-2-attach-policy.png)
+![Attach Policy](/images/using_ec2_spot_instances_with_eks/prerequisites/iam-2-attach-policy.png)
 
 1. Click to create the new user:
-![Confirm User](/images/using_ec2_spot_instances_with_eks/010_prerequisites/iam-3-create-user.png)
+![Confirm User](/images/using_ec2_spot_instances_with_eks/prerequisites/iam-3-create-user.png)
 
 1. Take note of the login URL and save:
-![Login URL](/images/using_ec2_spot_instances_with_eks/010_prerequisites/iam-4-save-url.png)
+![Login URL](/images/using_ec2_spot_instances_with_eks/prerequisites/iam-4-save-url.png)
 
 
 Once you have completed the step above, **you can head straight to [Create a Workspace]({{<  ref "/using_ec2_spot_instances_with_eks/010_prerequisites/workspace.md"  >}})**

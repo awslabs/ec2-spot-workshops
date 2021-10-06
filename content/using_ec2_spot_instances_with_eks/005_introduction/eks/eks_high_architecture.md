@@ -6,4 +6,4 @@ weight: 150
 ---
 
 
-![EKS Architecture](/images/using_ec2_spot_instances_with_eks/005_introduction/eks-architecture.svg)
+![EKS Architecture](/images/using_ec2_spot_instances_with_eks/introduction/eks-architecture.svg)
