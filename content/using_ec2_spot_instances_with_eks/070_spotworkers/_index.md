@@ -1,7 +1,7 @@
 ---
 title: "(Optional) Creating Spot self managed nodegroups on EKS"
 chapter: true
-weight: 50
+weight: 70
 draft: false
 ---
 
