@@ -35,7 +35,7 @@ There are over 350 different instance types available on EC2 which can make the 
 Let's first install **amazon-ec2-instance-selector** :
 
 ```
-curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v1.3.0/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
+curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v2.0.3/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
 sudo mv ec2-instance-selector /usr/local/bin/
 ec2-instance-selector --version
 ```
@@ -47,7 +47,7 @@ we need to first get a group of instances that meet the 4vCPUs and 16GB of RAM.
 Run the following command to get the list of instances.
 
 ```bash
-ec2-instance-selector --vcpus 4 --memory 16384 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*'      
+ec2-instance-selector --vcpus 4 --memory 16 --gpus 0 --current-generation -a x86_64 --deny-list '.*z.*|.*i.*'      
 ```
 
 This should display a list like the one that follows (note results might differ depending on the region). We will use this instances as part of one of our node groups.
@@ -56,18 +56,22 @@ This should display a list like the one that follows (note results might differ 
 m4.xlarge
 m5.xlarge
 m5a.xlarge
+m5ad.xlarge
 m5d.xlarge
+m5dn.xlarge
+m5n.xlarge
 t2.xlarge
 t3.xlarge
-t3a.xlarge           
+t3a.xlarge
 ```
 
 Internally ec2-instance-selector is making calls to the [DescribeInstanceTypes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceTypes.html) for the specific region and filtering the intstances based on the criteria selected in the command line, in our case we did filter for instances that meet the following criteria:
+ 
  * Instances with no GPUs
  * of x86_64 Architecture (no ARM instances like A1 or m6g instances for example)
  * Instances that have 4 vCPUs and 16GB of Ram
  * Instances of current generation (4th gen onwards)
- * Instances that don't meet the regular expresion `.*n.*`, so effectively m5n, m5dn. 
+ * Instances that don't meet the regular expresion `.*z.*|.*i.*`, so effectively `m5zn`, `m6i` instances which are not supported by EKS. 
 
 {{% notice warning %}}
 Your workload may have other constraints that you should consider when selecting instance types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate for CPU bound workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is sensitive to numerical differences (i.e: financial risk calculations, industrial simulations) mixing these instance types might not be appropriate.
@@ -87,7 +91,7 @@ Find out another group that adheres to a 1vCPU:4GB ratio, this time using instan
 That should be easy. You can run the command:  
 
 ```bash
-ec2-instance-selector --vcpus 8 --memory 32768 --gpus 0 --current-generation -a x86_64 --deny-list '.*n.*|.*h.*'   
+ec2-instance-selector --vcpus 8 --memory 32 --gpus 0 --current-generation -a x86_64 --deny-list '.*z.*|.*i.*'
 ```
 
 which should yield a list as follows 
@@ -96,7 +100,10 @@ which should yield a list as follows
 m4.2xlarge
 m5.2xlarge
 m5a.2xlarge
+m5ad.2xlarge
 m5d.2xlarge
+m5dn.2xlarge
+m5n.2xlarge
 t2.2xlarge
 t3.2xlarge
 t3a.2xlarge

@@ -10,38 +10,86 @@ In this section we will deploy the instance types we selected and request nodegr
 Let's first create the configuration file:
 
 ```bash
-eksctl create nodegroup \
-    --cluster=eksworkshop-eksctl \
-    --region=$AWS_REGION \
-    --dry-run \
-    --managed \
-    --spot \
-    --name=dev-4vcpu-16gb-spot \
-    --nodes=2 \
-    --nodes-min=1 \
-    --nodes-max=5 \
-    --node-labels="intent=apps" \
-    --tags="k8s.io/cluster-autoscaler/node-template/label/intent=apps" \
-    --instance-types m4.xlarge,m5.xlarge,m5a.xlarge,m5ad.xlarge,m5d.xlarge,t2.xlarge,t3.xlarge,t3a.xlarge \
-    --asg-access \
-    > ~/environment/spot_nodegroup_4vcpu_16gb.yml
+cat << EOF > addnodegroups-spot.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+managedNodeGroups:
+- name: ng-spot-4vcpu-16gb
+  amiFamily: AmazonLinux2
+  desiredCapacity: 2
+  minSize: 0
+  maxSize: 5
+  spot: true
+  instanceTypes:
+  - m4.xlarge
+  - m5.xlarge
+  - m5a.xlarge
+  - m5ad.xlarge
+  - m5d.xlarge
+  - m5dn.xlarge
+  - m5n.xlarge
+  - t2.xlarge
+  - t3.xlarge
+  - t3a.xlarge
+  iam:
+    withAddonPolicies:
+      autoScaler: true
+  privateNetworking: true
+  labels:
+    alpha.eksctl.io/cluster-name: eksworkshop-eksctl
+    alpha.eksctl.io/nodegroup-name: ng-spot-4vcpu-16gb
+    intent: apps
+  tags:
+    alpha.eksctl.io/nodegroup-name: ng-spot-4vcpu-16gb
+    alpha.eksctl.io/nodegroup-type: managed
 
-eksctl create nodegroup \
-    --cluster=eksworkshop-eksctl \
-    --region=$AWS_REGION \
-    --dry-run \
-    --managed \
-    --spot \
-    --name=dev-8vcpu-32gb-spot \
-    --nodes=2 \
-    --nodes-min=1 \
-    --nodes-max=5 \
-    --node-labels="intent=apps" \
-    --tags="k8s.io/cluster-autoscaler/node-template/label/intent=apps" \
-    --instance-types m4.2xlarge,m5.2xlarge,m5a.2xlarge,m5ad.2xlarge,m5d.2xlarge,t2.2xlarge,t3.2xlarge,t3a.2xlarge \
-    --asg-access \
-    > ~/environment/spot_nodegroup_8vcpu_32gb.yml
+- name: ng-spot-8vcpu-32gb
+  amiFamily: AmazonLinux2
+  desiredCapacity: 2
+  minSize: 0
+  maxSize: 5
+  spot: true
+  instanceTypes:
+  - m4.2xlarge
+  - m5.2xlarge
+  - m5a.2xlarge
+  - m5ad.2xlarge
+  - m5d.2xlarge
+  - m5dn.2xlarge
+  - m5n.2xlarge
+  - t2.2xlarge
+  - t3.2xlarge
+  - t3a.2xlarge
+  iam:
+    withAddonPolicies:
+      autoScaler: true
+  privateNetworking: true
+  labels:
+    alpha.eksctl.io/cluster-name: eksworkshop-eksctl
+    alpha.eksctl.io/nodegroup-name: ng-spot-8vcpu-32gb
+    intent: apps
+  tags:
+    alpha.eksctl.io/nodegroup-name: ng-spot-8vcpu-32gb
+    alpha.eksctl.io/nodegroup-type: managed
+    
+metadata:
+  name: eksworkshop-eksctl
+  region: ap-southeast-1
+  tags:
+    k8s.io/cluster-autoscaler/node-template/label/intent: apps
+  version: "1.21"
+
+EOF
 ```
+Create the new EKS managed nodegroup with Spot Instances. 
+
+```sh
+eksctl create nodegroup --config-file=addnodegroups-spot.yaml
+```
+{{% notice info %}}
+Creation of node group will take 3-4 minutes. 
+{{% /notice %}}
 
 This will create 2 files, `spot_nodegroups_4vcpu_16gb.yml` and `spot_nodegroups_8vcpu_32gb.yml`, that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
 

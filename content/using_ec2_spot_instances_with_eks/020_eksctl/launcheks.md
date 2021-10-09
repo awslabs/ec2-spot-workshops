@@ -24,8 +24,6 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 ### Create an EKS cluster
 
-The following command will create an eks cluster with the name `eksworkshop-eksctl`. It will also create a nodegroup with 2 on-demand instances.
-
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020_eksctl/create_eks_cluster_eksctl_command.md" %}}
 
 eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
@@ -33,9 +31,3 @@ eksctl allows us to pass parameters to initialize the cluster. While initializin
 The managed nodegroup will have two m5.large nodes (m5.large is the default instance type used if no instance types are specified) and it will bootstrap with the label **intent=control-apps**. 
 
 Amazon EKS adds the following Kubernetes label to all nodes in your managed node group: **eks.amazonaws.com/capacityType: ON_DEMAND**. You can use this label to schedule stateful or fault intolerant applications on On-Demand nodes.
-
-{{% notice info %}}
-Launching EKS and all the dependencies will take approximately **15 minutes**
-{{% /notice %}}
-
-The command above, created a **Managed Node Group**. [Amazon EKS managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) automate the provisioning and lifecycle management of nodes. Managed Nodegroups use the latest [EKS-optimized AMIs](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html). The node run in your AWS account provisioned as apart of an EC2 Auto Scaling group that is managed for you by Amazon EKS. This means EKS takes care of the lifecycle management and undifferentiated heavy lifting on operations such as node updates, handling of terminations, gracefully drain of nodes to ensure that your applications stay available.
