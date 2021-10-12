@@ -132,15 +132,15 @@ spec:
       nodeSelector:
         intent: control-apps      
       containers:
-        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.20.0
+        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.21.1
           name: cluster-autoscaler
           resources:
             limits:
-              cpu: 100m
-              memory: 300Mi
+              cpu: 200m
+              memory: 600Mi
             requests:
-              cpu: 100m
-              memory: 300Mi
+              cpu: 200m
+              memory: 600Mi
           command:
             - ./cluster-autoscaler
             - --v=4
