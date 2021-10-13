@@ -24,16 +24,16 @@ metadata:
 managedNodeGroups:
 - amiFamily: AmazonLinux2
   instanceType: m5.large
-  name: ng-od-m5large
+  name: mng-od-m5large
   desiredCapacity: 2
   maxSize: 2
   minSize: 0
   labels:
     alpha.eksctl.io/cluster-name: eksworkshop-eksctl
-    alpha.eksctl.io/nodegroup-name: ng-od-m5large
+    alpha.eksctl.io/nodegroup-name: mng-od-m5large
     intent: control-apps
   tags:
-    alpha.eksctl.io/nodegroup-name: ng-od-m5large
+    alpha.eksctl.io/nodegroup-name: mng-od-m5large
     alpha.eksctl.io/nodegroup-type: managed
     k8s.io/cluster-autoscaler/node-template/label/intent: control-apps
   ssh:

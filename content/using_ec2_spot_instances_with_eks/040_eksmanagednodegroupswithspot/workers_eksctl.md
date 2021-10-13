@@ -10,12 +10,12 @@ In this section we will deploy the instance types we selected and request nodegr
 Let's first create the configuration file:
 
 ```bash
-cat << EOF > addnodegroups-spot.yaml
+cat << EOF > add-mngs-spot.yaml
 ---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 managedNodeGroups:
-- name: ng-spot-4vcpu-16gb
+- name: mng-spot-4vcpu-16gb
   amiFamily: AmazonLinux2
   desiredCapacity: 2
   minSize: 0
@@ -38,13 +38,13 @@ managedNodeGroups:
   privateNetworking: true
   labels:
     alpha.eksctl.io/cluster-name: eksworkshop-eksctl
-    alpha.eksctl.io/nodegroup-name: ng-spot-4vcpu-16gb
+    alpha.eksctl.io/nodegroup-name: mng-spot-4vcpu-16gb
     intent: apps
   tags:
-    alpha.eksctl.io/nodegroup-name: ng-spot-4vcpu-16gb
+    alpha.eksctl.io/nodegroup-name: mng-spot-4vcpu-16gb
     alpha.eksctl.io/nodegroup-type: managed
 
-- name: ng-spot-8vcpu-32gb
+- name: mng-spot-8vcpu-32gb
   amiFamily: AmazonLinux2
   desiredCapacity: 2
   minSize: 0
@@ -67,10 +67,10 @@ managedNodeGroups:
   privateNetworking: true
   labels:
     alpha.eksctl.io/cluster-name: eksworkshop-eksctl
-    alpha.eksctl.io/nodegroup-name: ng-spot-8vcpu-32gb
+    alpha.eksctl.io/nodegroup-name: mng-spot-8vcpu-32gb
     intent: apps
   tags:
-    alpha.eksctl.io/nodegroup-name: ng-spot-8vcpu-32gb
+    alpha.eksctl.io/nodegroup-name: mng-spot-8vcpu-32gb
     alpha.eksctl.io/nodegroup-type: managed
     
 metadata:
@@ -85,7 +85,7 @@ EOF
 Create the new EKS managed nodegroup with Spot Instances. 
 
 ```sh
-eksctl create nodegroup --config-file=addnodegroups-spot.yaml
+eksctl create nodegroup --config-file=add-mngs-spot.yaml
 ```
 {{% notice info %}}
 Creation of node group will take 3-4 minutes. 

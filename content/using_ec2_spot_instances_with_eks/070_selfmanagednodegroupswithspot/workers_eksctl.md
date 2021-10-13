@@ -9,14 +9,14 @@ In this section we will deploy the instance types we selected and request nodegr
 
 Let's first create the configuration file:
 ```
-cat <<EoF > ~/environment/spot_nodegroups.yml
+cat <<EoF > ~/environment/add-ngs-spot.yaml
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 metadata:
     name: eksworkshop-eksctl
     region: $AWS_REGION
 nodeGroups:
-    - name: dev-4vcpu-16gb-spot
+    - name: ng-spot-4vcpu-16gb
       minSize: 0
       maxSize: 5
       desiredCapacity: 1
@@ -41,7 +41,7 @@ nodeGroups:
           autoScaler: true
           cloudWatch: true
           albIngress: true
-    - name: dev-8vcpu-32gb-spot
+    - name: ng-spot-8vcpu-32gb
       minSize: 0
       maxSize: 5
       desiredCapacity: 1
@@ -69,10 +69,10 @@ nodeGroups:
 EoF
 ```
 
-This will create a `spot_nodegroups.yml` file that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
+This will create a `add-ngs-spot.yaml` file that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
 
 ```
-eksctl create nodegroup -f spot_nodegroups.yml
+eksctl create nodegroup -f add-ngs-spot.yaml
 ```
 
 {{% notice note %}}
