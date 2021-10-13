@@ -1,6 +1,8 @@
 #!/bin/bash
 
 parse_arguments() {
+  # Parses the command line arguments and stores the values in global variables.
+
   ACTION=$1
 
   if [ "${ACTION}" != "render" ] && [ "${ACTION}" != "stitch" ] ; then
@@ -34,6 +36,9 @@ parse_arguments() {
 }
 
 calculate_render_frame_range() {
+  # Calculates the start frame and end frame a job has to render
+  # using the value of the env var AWS_BATCH_JOB_ARRAY_INDEX
+
   # If the env var AWS_BATCH_JOB_ARRAY_INDEX is empty, this is a single job. Render from start to end
   if [[ -z "${AWS_BATCH_JOB_ARRAY_INDEX}" ]]; then
     start_frame=1
@@ -46,6 +51,8 @@ calculate_render_frame_range() {
 }
 
 render() {
+  # Pipeline that is executed when this script is told to render.
+
   # Download the blender file from S3
   aws s3 cp "${INPUT_URI}" file.blend
 
@@ -57,14 +64,16 @@ render() {
   echo "Rendering frames ${start_frame} to ${end_frame}"
   blender -b file.blend -E CYCLES -o "frames/" -s "${start_frame}" -e "${end_frame}" -a
 
-  # Upload all the rendered frames to S3
-  aws s3 cp --recursive "frames" "${OUTPUT_URI}"
+  # Upload all the rendered frames to a folder in S3
+  aws s3 cp --recursive "frames" "${OUTPUT_URI}/frames"
 }
 
 stitch() {
+  # Pipeline that is executed when this script is told to stitch.
+
   # Download the frames from S3
   mkdir frames
-  aws s3 cp --recursive "${INPUT_URI}" frames/
+  aws s3 cp --recursive "${INPUT_URI}/frames" frames/
 
   # Start the stitching process
   ffmpeg -i frames/%04d.png output.mp4

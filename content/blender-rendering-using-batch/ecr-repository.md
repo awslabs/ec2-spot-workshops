@@ -4,6 +4,8 @@ date: 2021-07-07T08:51:33Z
 weight: 50
 ---
 
+The first step to implement the rendering pipeline is to generate a Docker image with the script that will run Blender and FFmpeg. As you will see later, this image will be run by Batch when running jobs. You are going to host that image in Amazon Elastic Container Registry.
+
 ## Amazon Elastic Container Registry
 
 Amazon ECR is a fully managed container registry that makes it easy for developers to share and deploy container images and artifacts. Amazon ECR is integrated with Amazon Elastic Container Service (Amazon ECS),  Amazon Elastic Kubernetes Service (Amazon EKS), and AWS Lambda, simplifying your development to production workflow. Amazon ECR eliminates the need to operate your own container repositories or worry about scaling the underlying infrastructure. Amazon ECR hosts your images in a highly available and scalable architecture, allowing you to deploy containers for your applications reliably.
@@ -105,13 +107,13 @@ You are now done with the container part. Next, you will configure some environm
 
 In broad strokes, the script *render.sh* does the following:
 
-1. Extract the command arguments and verify that the specified action is either *render* or *stitch*.
-2. If the action is render:
+1. **Method parse_arguments**: extracts the command arguments and verify that the specified action is either *render* or *stitch*.
+2. **Method render** (if the action is render):
   1. Downloads the blender file from S3.
   2. Calculates the slice of frames that has to render (we will se how in more detail when we talk about Batch).
   3. Executes Blender.
   4. Uploads all the frames to S3.
-3. If the action is stitch:
+3. **Method stitch** (if the action is stitch):
   1. Downloads all the frames from S3.
   2. Executes ffmpeg.
   3. Uploads the video to S3.

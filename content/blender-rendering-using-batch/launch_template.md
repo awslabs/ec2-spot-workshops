@@ -1,8 +1,10 @@
 ---
-title: "Creating a Launch Template"
+title: "Creating the Launch Template"
 date: 2021-07-07T08:51:33Z
 weight: 70
 ---
+
+When creating the Batch compute environment, we need to specify some configuration parameters that will be passed on to the EC2 instances when launched, like the Security Group, the Availability Zones and bootstrapping scripts (User data). To encapsulate those properties and be able to easily reuse them, we will use a Launch Template.
 
 ## Overview
 
@@ -11,7 +13,36 @@ Launch Templates enable you to define launch parameters so that you do not have 
 Launch Templates are immutable. Once created they cannot be changed, however they can be
 versioned. Every change to the Launch Template can be tracked and you can select which version to use as new changes are applied to the template. This can be used for governance as well as to manage approved upgrades to, for example, Auto Scaling groups. If you do not specify a version, the default version is used.
 
-## Launch Template creation
+## Enviroment variables definition
+
+First, We need to store some data in environment variables that we will reference later and replace some of the entries in the commands with their values.
+
+### Gathering subnet information
+
+{{% notice info %}}
+Note: During this workshop, we will use your account's default VPC to create the instances. If your account does not have a default VPC you can create or nominate one following [this link](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)
+{{% /notice %}}
+
+Run the following commands to retrieve your default VPC and then its subnets.
+    To learn more about these APIs, see [describe-vpcs CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpcs.html) and [describe-subnets CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-subnets.html).
+
+```bash
+export VPC_ID=$(aws ec2 describe-vpcs --filters Name=isDefault,Values=true | jq -r '.Vpcs[0].VpcId')
+export SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}")
+export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId')
+export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId')
+export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[2].SubnetId')
+```
+
+### Gathering the default security group ID
+
+To retrieve the identifier of the default security group you can perform the following call. To learn more about this API, see [describe-security-groups CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-security-groups.html).
+
+```bash
+export SECURITY_GROUP_ID=$(aws ec2 describe-security-groups --filters Name=group-name,Values="default" | jq -r '.SecurityGroups[0].GroupId')
+```
+
+## Launch template creation
 
 Create the Launch Template from the command line as follows.
 You can check which other parameters Launch Templates could take [here](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
@@ -19,10 +50,19 @@ You can check which other parameters Launch Templates could take [here](https://
 ```bash
 export LAUNCH_TEMPLATE_NAME="TemplateForBatch"
 
-aws ec2 create-launch-template --launch-template-name "${LAUNCH_TEMPLATE_NAME}" --version-description 1 --launch-template-data "{\"SecurityGroupIds\": [\"${SECURITY_GROUP_ID}\"], \"UserData\": \"Fn::Base64: !Sub | #!/bin/bash echo 'ECS_CLUSTER=EcsSpotWorkshop' >> /etc/ecs/ecs.config echo 'ECS_ENABLE_SPOT_INSTANCE_DRAINING=true' >> /etc/ecs/ecs.config echo 'ECS_CONTAINER_STOP_TIMEOUT=90s' >> /etc/ecs/ecs.config echo 'ECS_ENABLE_CONTAINER_METADATA=true' >> /etc/ecs/ecs.config\"}"
+aws ec2 create-launch-template --launch-template-name "${LAUNCH_TEMPLATE_NAME}" --version-description 1 --launch-template-data "{\"SecurityGroupIds\": [\"${SECURITY_GROUP_ID}\"], \"UserData\": \"IyEvYmluL2Jhc2gKZWNobyAiRUNTX0NMVVNURVI9RWNzU3BvdFdvcmtzaG9wIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCmVjaG8gIkVDU19FTkFCTEVfU1BPVF9JTlNUQU5DRV9EUkFJTklORz10cnVlIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCmVjaG8gIkVDU19DT05UQUlORVJfU1RPUF9USU1FT1VUPTkwcyIgPj4gL2V0Yy9lY3MvZWNzLmNvbmZpZwplY2hvICJFQ1NfRU5BQkxFX0NPTlRBSU5FUl9NRVRBREFUQT10cnVlIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmln\"}"
 ```
 
-TODO: Explain user data
+The *UserData* parameter in the structure contains the following script encoded in Base64.
+
+```bash
+#!/bin/bash
+echo "ECS_CLUSTER=EcsSpotWorkshop" >> /etc/ecs/ecs.config
+echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
+echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
+```
+
+What we are doing here is enabling [Spot Instance Draining](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html). When ECS Spot Instance draining is enabled on the instance, ECS receives the Spot Instance interruption notice and places the instance in DRAINING status. When a container instance is set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance. To learn more about Spot instance interruption notices, visit [Spot Instance interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices).
 
 **Example return**
 

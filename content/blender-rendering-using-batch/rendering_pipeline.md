@@ -35,10 +35,24 @@ If you want to learn more about Blender's command line rendering, visit [this we
 
 ### Gathering a Blender file
 
-We will download a Blender file from [BlendSwap](https://blendswap.com/categories). In that web page, Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists in the community. You can download the same file that was rendered to generate the animation that you've seen in the previous page from [here](https://blendswap.com/blend/28661). That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
+We will use a Blender file from [BlendSwap](https://blendswap.com/categories). In that web page, Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists in the community. We will work with [the same file](https://blendswap.com/blend/28661) that was rendered to generate the animation that you've seen in the previous page. That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
 
 - The file must be configured to render the frames as .png files.
 - The more frames it has, the more compute resources you will need to render it thus impacting the costs of running the workshop.
+
+Run the following command to download the file:
+
+```bash
+wget <url-in-github>
+```
+
+Execute the following commands to create an S3 bucket and upload to it the Blender file:
+
+```bash
+export BUCKET_NAME=("batch-rendering-"$(uuidgen))
+aws s3 create-bucket --bucket "${BUCKET_NAME}"
+```
+
 
 ## FFmpeg: stitching job
 

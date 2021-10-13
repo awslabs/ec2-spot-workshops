@@ -26,10 +26,10 @@ Additionally, there's an extra argument *-f* that needs to be passed. Thanks to 
 
 ## Submitting the job
 
-To submit the rendering job, run the following block of code replacing the values of the arguments -i, -o, -f and, optionally, -n. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
+To submit the rendering job, run the following block of code optionally replacing the value of the arguments -f and -n. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
 
 ```bash
-export JOB_IDS=$(python3 job_sumbission.py -i <input> -o <output> -f <n_frames> -n RenderingJob -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
+export JOB_IDS=$(python3 job_sumbission.py -i "${BUCKET_NAME}" -o "${BUCKET_NAME}" -f <n_frames> -n RenderingJob -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
 export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
 export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
 ```

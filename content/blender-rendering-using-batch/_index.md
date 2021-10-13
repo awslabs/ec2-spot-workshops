@@ -14,12 +14,10 @@ In this workshop you will learn to submit jobs with AWS Batch following Spot bes
 3. Each of the jobs in the rendering job array run a Docker container that executes Blender to render a slice of frames, and after uploads them to S3.
 4. The stitching job runs a Docker container that downloads all the frames from S3, executes [FFmpeg](https://ffmpeg.org/) (you will learn more about it in a future section) to create a video out of the rendered frames and finally uploads it to S3.
 
-### Output example
-
 To have an idea of what you will be rendering, take a look to this animation.
 
 ![Possible output](/images/blender-rendering-using-batch/animation_example.gif)
 
-*[Pottery](https://blendswap.com/blend/28661)* by [Prokster](https://blendswap.com/profile/1012752) is licensed under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
+Special thanks to [Prokster](https://blendswap.com/profile/1012752) for being so kind to let us use the project *[Pottery](https://blendswap.com/blend/28661)*, that is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/).
 
 Head to the next page to take a look at the architecture that you will deploy.
