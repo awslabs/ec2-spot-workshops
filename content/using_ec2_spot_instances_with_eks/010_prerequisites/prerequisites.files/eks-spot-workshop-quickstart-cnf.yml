@@ -28,22 +28,22 @@ Parameters:
   C9KubectlVersion:
     Description: Cloud9 instance kubectl version
     Type: String
-    Default: v1.18.12
+    Default: v1.21.2
     ConstraintDescription: Must be a valid kubectl version
   C9KubectlVersionTEST:
     Description: Cloud9 instance kubectl version
     Type: String
-    Default: v1.18.12
+    Default: v1.21.2
     ConstraintDescription: Must be a valid kubectl version
   C9EKSctlVersion:
     Description: Cloud9 instance eksctl version
     Type: String
-    Default: 0.31.0
+    Default: v0.68.0
     ConstraintDescription: Must be a valid eksctl version
   EKSClusterVersion:
     Description: EKS Cluster Vesion
     Type: String
-    Default: 1.18
+    Default: 1.21
     ConstraintDescription: Must be a valid eks version
   EKSClusterName:
     Description: EKS Cluster Name
@@ -277,7 +277,8 @@ Resources:
             - sudo mv -v /tmp/eksctl /usr/local/bin
             - sudo -H -u ec2-user /usr/local/bin/eksctl version
             - echo '=== Create EKS Cluster ==='
-            - !Sub 'sudo -H -u ec2-user /usr/local/bin/eksctl create cluster --version=${EKSClusterVersion} --name=${EKSClusterName} --node-private-networking  --managed --nodes=2 --alb-ingress-access --region=${AWS::Region} --node-labels="lifecycle=OnDemand,intent=control-apps" --asg-access'
+            - curl --silent --location -o /home/ec2-user "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+            - !Sub 'sudo -H -u ec2-user /usr/local/bin/eksctl create cluster -f /home/ec2-user/eksworkshop.yaml'
             - sudo -H -u ec2-user /usr/local/bin/kubectl get nodes
 
   C9BootstrapAssociation:

@@ -91,39 +91,17 @@ eksctl create nodegroup --config-file=add-mngs-spot.yaml
 Creation of node group will take 3-4 minutes. 
 {{% /notice %}}
 
-This will create 2 files, `spot_nodegroups_4vcpu_16gb.yml` and `spot_nodegroups_8vcpu_32gb.yml`, that we will use to instruct eksctl to create two nodegroups, both with a diversified configuration.
-
-Let's edit the 2 configuration files before using it to create the node groups:
-
-1. Remove the section **instanceSelector:**.
-
-If you are still struggling with the implementation, the solution files are available here
-
-Note: Remember to change the region *$AWS_REGION* to *your region* before creating the node groups.
-
-{{%attachments title="Related files" pattern=".yml"/%}}
-
-Create the two node groups:
-
-```bash
-eksctl create nodegroup -f spot_nodegroup_4vcpu_16gb.yml
-```
-
-```bash
-eksctl create nodegroup -f spot_nodegroup_8vcpu_32gb.yml
-```
-
-{{% notice note %}}
-The creation of each node group will take about 3 minutes.
-{{% /notice %}}
 
 There are a few things to note in the configuration that we just used to create these nodegroups.
 
  * The configuration setup the nodes under the **managedNodeGroups** section. This is to indicate the node group being created is a managed node group.
- * Notice that the configuration setup a **minSize** to 1, **maxSize** to 5 and **desiredCapacity** to 2. Spot managed nodegroups are created with 2 nodes, but minimum number of instances for managed node group is 1 instance.
+ * Notice that the configuration setup a **minSize** to 0, **maxSize** to 5 and **desiredCapacity** to 2.
  * The configuration setup a configuration **spot: true** to indicate that the node group being created is a managed node group with Spot capacity, which implies all nodes in the nodegroup would be **Spot Instances**.
- * We did also add an extra label **intent: apps**. We will use this label to force a hard partition of the cluster for our applications. During this workshop we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
- * Notice that the configuration setup 2 node label under **labels** - **alpha.eksctl.io/cluster-name: : eksworkshop-eksctl** to indicate the node label belongs to **eksworkshop-eksctl** cluster, and **alpha.eksctl.io/nodegroup-name: dev-4vcpu-16gb-spot** node group.
+ * Notice that the configuration setup 3 node labels:
+
+  * **alpha.eksctl.io/cluster-name: : eksworkshop-eksctl** to indicate the node label belongs to **eksworkshop-eksctl** cluster.
+  * **alpha.eksctl.io/nodegroup-name: mng-spot-8vcpu-32gb** node group.
+ * We add an extra label **intent: apps**, we will deploy control applications on nodes that have been labeled with **intent: control-apps** while our applications get deployed to nodes labeled with **intent: apps**.
 
 {{% notice info %}}
 If you are wondering at this stage: *Where is spot bidding price ?* you are missing some of the changes EC2 Spot Instances had since 2017. Since November 2017 [EC2 Spot price changes infrequently](https://aws.amazon.com/blogs/compute/new-amazon-ec2-spot-pricing/) based on long term supply and demand of spare capacity in each pool independently. You can still set up a **maxPrice** in scenarios where you want to set maximum budget. By default *maxPrice* is set to the On-Demand price; Regardless of what the *maxPrice* value, Spot Instances will still be charged at the current spot market price.

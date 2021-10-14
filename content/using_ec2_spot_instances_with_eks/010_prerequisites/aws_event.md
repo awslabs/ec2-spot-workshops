@@ -42,8 +42,6 @@ We have deployed the below resources required to get started with the workshop u
 
 + An EKS cluster with the name `eksworkshop-eksctl` and a [EKS managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html)  with 2 on-demand instances.
 
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020_eksctl/create_eks_cluster_eksctl_command.md" %}}
-
 
 #### Use your resources 
 
