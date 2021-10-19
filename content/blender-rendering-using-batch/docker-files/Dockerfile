@@ -20,17 +20,15 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     sudo ./aws/install && \
     rm ./aws/install
 
-# Copy Blender to the root of the container and unzip it
-COPY ./blender-linux.tar.xz /
-
-RUN tar -xvf blender-linux.tar.xz --strip-components=1 -C /bin && \
-    rm -rf blender-linux.tar.xz && \
-	  rm -rf blender-linux
+# Download and install Blender
+RUN curl "https://ftp.halifax.rwth-aachen.de/blender/release/Blender2.93/blender-2.93.5-linux-x64.tar.xz" -o "blender.tar.xz" && \
+    tar -xvf blender.tar.xz --strip-components=1 -C /bin && \
+    rm -rf blender.tar.xz && \
+    rm -rf blender
 
 # Copy FFmpeg to the root of the container and unzip it
-COPY ./ffmpeg.tar.xz /
-
-RUN tar -xvf ffmpeg.tar.xz --strip-components=1 -C /bin && \
+RUN curl "https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz" -o "ffmpeg.tar.xz" && \
+    tar -xvf ffmpeg.tar.xz --strip-components=1 -C /bin && \
     rm -rf ffmpeg.tar.xz && \
 	  rm -rf ffmpeg
 
