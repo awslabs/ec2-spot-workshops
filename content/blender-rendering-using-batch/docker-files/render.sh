@@ -79,7 +79,7 @@ stitch() {
   ffmpeg -i frames/%04d.png output.mp4
 
   # Upload the output video to S3
-  aws s3 cp output.mp4 "${OUTPUT_URI}"
+  aws s3 cp output.mp4 "${OUTPUT_URI}/output.mp4"
 }
 
 parse_arguments "$@"

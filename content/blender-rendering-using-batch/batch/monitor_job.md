@@ -14,7 +14,7 @@ awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering 
 echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BUCKET_NAME}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
 ```
 
-When you see that the progress reaches 100%, you can navigate to the output URL displayed in the console to download the output video.
+When you see that the progress reaches 100%, you can navigate to the output URL displayed in the console to download the video.
 
 ## Monitoring
 

@@ -195,7 +195,7 @@ def submit_rendering_job(n_frames, array_size):
     """
 
     # Append the name of the job to the URI so that a folder is created in S3
-    full_output_uri = '{}/{}/'.format(OUTPUT_URI, JOB_NAME)
+    full_output_uri = '{}/{}'.format(OUTPUT_URI, JOB_NAME)
     client = boto3.client('batch')
     command = 'render -i {} -o {} -f {} -t {}'.format(INPUT_URI, full_output_uri, F_PER_JOB, n_frames)
     kwargs = build_job_kwargs('{}_Rendering'.format(JOB_NAME), command.split())
@@ -220,7 +220,7 @@ def submit_stitching_job(depends_on_job_id):
     """
 
     # Append the name of the job to the URI so that a folder is created in S3
-    full_output_uri = '{}/{}/'.format(OUTPUT_URI, JOB_NAME)
+    full_output_uri = '{}/{}'.format(OUTPUT_URI, JOB_NAME)
     client = boto3.client('batch')
     command = 'stitch -i {} -o {}'.format(full_output_uri, full_output_uri)
     kwargs = build_job_kwargs('{}_Stitching'.format(JOB_NAME), command.split())
