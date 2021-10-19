@@ -6,14 +6,28 @@ weight: 130
 
 ## Results
 
---
+To check the rendering progress of our job, we are going to retrieve the number of frames that have been uploaded to S3 and divide it by the total number of frames to render:
 
+```bash
+export RENDER_COUNT=$(aws s3api list-objects --bucket "${BUCKET_NAME}" --prefix "${JOB_NAME}/frames/" --output json --query "[length(Contents[])]" | jq -r '.[0]')
+awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var1 / var2) "% ==> " var2 " frames rendered.") }'
+echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BUCKET_NAME}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
+```
+
+When you see that the progress reaches 100%, you can navigate to the output URL displayed in the console to download the output video.
 
 ## Monitoring
 
 ### Viewing the logs of a job
 
---
+To view the logs of a job using the console:
+
+1. Navigate to the AWS Batch service page.
+2. On the left navigation panel, select *Jobs*.
+3. Select the job of which you want to view the logs.
+4. Follow the link under *Log stream name* inside the *Job information* section.
+
+![AWS Batch console](/images/blender-rendering-using-batch/logs.png)
 
 ### Monitoring the status of a job
 

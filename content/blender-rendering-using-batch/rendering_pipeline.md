@@ -45,7 +45,8 @@ We will use a Blender file from [BlendSwap](https://blendswap.com/categories). I
 Run the following command to download the file:
 
 ```bash
-wget <url-in-github>
+wget https://github.com/bperezme/ec2-spot-workshops/raw/blender_rendering_using_batch/content/blender-rendering-using-batch/pottery.blend
+export BLEND_FILE_NAME="pottery.blend"
 ```
 
 Execute the following commands to create an S3 bucket and upload to it the Blender file:
@@ -53,6 +54,7 @@ Execute the following commands to create an S3 bucket and upload to it the Blend
 ```bash
 export BUCKET_NAME=("batch-rendering-"$(uuidgen))
 aws s3api create-bucket --bucket "${BUCKET_NAME}"
+aws s3api put-object --bucket "${BUCKET_NAME}" --key "${BLEND_FILE_NAME}" --body "${BLEND_FILE_NAME}"
 ```
 
 **Example return**
