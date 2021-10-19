@@ -19,7 +19,7 @@ If you want to learn more about containers, read [this containers deep dive](htt
 Perform the following call to create the repository where you will publish the image. To learn more about this API, see [create-repository CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/create-repository.html).
 
 ```bash
-export REPOSITORY_NAME="batch-rendering"
+export REPOSITORY_NAME="rendering-with-batch"
 export IMAGE="${REPOSITORY_NAME}:latest"
 
 aws ecr create-repository --repository-name "${REPOSITORY_NAME}"
@@ -53,13 +53,13 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 1. Download the *Dockerfile* executing this command:
 
     ```bash
-    wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/batch-rendering-docker/Dockerfile
+    wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/docker-files/Dockerfile
     ```
 
 2. Download the *render.sh* script that will be executed when running the Docker container executing this command:
 
     ```bash
-    wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/batch-rendering-docker/render.sh
+    wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/docker-files/render.sh
     ```
 
 ### Push the image to ECR
@@ -67,11 +67,7 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 1. Retrieve the repository's Uri and separate the top level from the resource:
 
     ```bash
-    export REPOSITORY_NAME="batch-rendering"
-    export IMAGE="${REPOSITORY_NAME}:latest"
-
     export REPOSITORY_URI=$(aws ecr describe-repositories --repository-names "${REPOSITORY_NAME}" | jq -r '.repositories[0].repositoryUri')
-
     export IFS="/"
     read -a repoUriComponents <<< "${REPOSITORY_URI}"
     ```
@@ -85,7 +81,7 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 2. Build your Docker image using the following command. For information on building a Docker file from scratch see the instructions [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html).
 
     ```bash
-    docker build -t batch-rendering .
+    docker build -t "${REPOSITORY_NAME}" .
     ```
 
 3. Tag your image so you can push the image to this repository.
