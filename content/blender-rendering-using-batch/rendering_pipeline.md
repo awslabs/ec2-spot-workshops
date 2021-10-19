@@ -4,6 +4,8 @@ date: 2021-09-06T08:51:33Z
 weight: 30
 ---
 
+![Rendering pipeline](/images/blender-rendering-using-batch/pipeline.png)
+
 ## Overview
 
 The rendering pipeline that we will implement has two differentiated jobs: rendering job and stitching job. Rendering is the process of generating an image from a 2D or 3D model, whereas stitching is the process of combining multiple images to produce a video. Each of them will be carried out using different software; to render we will use Blender and to stitch we will use FFmpeg.
@@ -50,7 +52,15 @@ Execute the following commands to create an S3 bucket and upload to it the Blend
 
 ```bash
 export BUCKET_NAME=("batch-rendering-"$(uuidgen))
-aws s3 create-bucket --bucket "${BUCKET_NAME}"
+aws s3api create-bucket --bucket "${BUCKET_NAME}"
+```
+
+**Example return**
+
+```bash
+{
+    "Location": "/batch-rendering-19bc3756-a7a1-4f09-9cc4-6a8d5032xxxx"
+}
 ```
 
 

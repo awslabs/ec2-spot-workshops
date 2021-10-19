@@ -1,5 +1,5 @@
 ---
-title: "Using AWS Batch with Blender for distributed rendering"
+title: "Rendering with AWS Batch"
 date: 2021-09-06T08:51:33Z
 weight: 10
 pre: "<b>⁃ </b>"

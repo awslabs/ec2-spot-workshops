@@ -4,6 +4,8 @@ date: 2021-09-06T08:51:33Z
 weight: 90
 ---
 
+![Compute environment](/images/blender-rendering-using-batch/CE.png)
+
 We are going to create two compute environments: one using Spot instances and the other using On-Demand instances. The reason for this is that, on a real scenario, you may have to comply with several SLAs with regards to finishing the jobs under a specific time window.
 
 By using On-Demand instances, we are sure that the compute resources will remain throughout the whole execution. And by using Spot instances on top of that, we can reduce costs and execution time by acquiring compute capacity at steep discounts compared to On-Demand instances.
@@ -24,7 +26,7 @@ cat <<EoF > ~/spot-compute-environment-config.json
         "type": "SPOT",
         "allocationStrategy": "SPOT_CAPACITY_OPTIMIZED",
         "minvCpus": 0,
-        "maxvCpus": 64,
+        "maxvCpus": 256,
         "desiredvCpus": 0,
         "instanceTypes": [
             "optimal"
@@ -78,7 +80,7 @@ cat <<EoF > ~/ondemand-compute-environment-config.json
         "type": "EC2",
         "allocationStrategy": "BEST_FIT_PROGRESSIVE",
         "minvCpus": 0,
-        "maxvCpus": 8,
+        "maxvCpus": 32,
         "desiredvCpus": 4,
         "instanceTypes": [
             "optimal"

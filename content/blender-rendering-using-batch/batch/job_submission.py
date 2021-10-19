@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys, getopt, math, boto3, argparse, json
 
 
@@ -10,6 +12,21 @@ JOB_DEFINITION = ''     # Job definition used by the submitted job
 FILE_NAME = ''          # Name of the blender file
 
 
+# ##### BEGIN GPL LICENSE BLOCK #####
+#
+#  Extract from Blender's script library included in scripts/modules.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+# ##### END GPL LICENSE BLOCK #####
 def read_blend_rend_chunk(path):
     """Extract from Blender's script library included in scripts/modules.
     Reads the header of a blend file and returns scenes' information.
@@ -180,7 +197,8 @@ def submit_rendering_job(n_frames, array_size):
     # Append the name of the job to the URI so that a folder is created in S3
     full_output_uri = '{}/{}/'.format(OUTPUT_URI, JOB_NAME)
     client = boto3.client('batch')
-    kwargs = build_job_kwargs('{}_Rendering'.format(JOB_NAME), 'render -i {} -o {} -f {} -t {}'.format(INPUT_URI, full_output_uri, F_PER_JOB, n_frames).split())
+    command = 'render -i {} -o {} -f {} -t {}'.format(INPUT_URI, full_output_uri, F_PER_JOB, n_frames)
+    kwargs = build_job_kwargs('{}_Rendering'.format(JOB_NAME), command.split())
 
     # If this is not a single job, submit it as an array job
     if array_size > 1:
@@ -204,7 +222,8 @@ def submit_stitching_job(depends_on_job_id):
     # Append the name of the job to the URI so that a folder is created in S3
     full_output_uri = '{}/{}/'.format(OUTPUT_URI, JOB_NAME)
     client = boto3.client('batch')
-    kwargs = build_job_kwargs('{}_Stitching'.format(JOB_NAME), 'stitch -i {} -o {}'.format(full_output_uri, full_output_uri).split())
+    command = 'stitch -i {} -o {}'.format(full_output_uri, full_output_uri)
+    kwargs = build_job_kwargs('{}_Stitching'.format(JOB_NAME), command.split())
 
     # Add the job dependency
     kwargs['dependsOn'] = [
@@ -237,5 +256,8 @@ if __name__ == "__main__":
 
     # Submit the stitching job
     job_results.append(submit_stitching_job(job_results[0]['jobId']))
+
+    # Append the number of frames to calculate the progress
+    job_results.append({'framesToRender': n_frames})
 
     print(json.dumps(job_results))

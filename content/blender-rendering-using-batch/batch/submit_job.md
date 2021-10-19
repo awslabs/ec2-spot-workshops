@@ -4,6 +4,8 @@ date: 2021-09-06T08:51:33Z
 weight: 120
 ---
 
+You have now all the Batch components in place, and are ready to start submitting jobs that will be placed in a queue and processed by a compute environment when Batch's scheduler starts running them. The last step is to download a Python script that will take the bucket name, the rendering queue and the job definition as input parameters and will launch the two jobs of the rendering pipeline using the [AWS SDK for Python, Boto3](https://aws.amazon.com/sdk-for-python/).
+
 ## Downloading the python script
 
 To submit the jobs that will implement the rendering and stitching you are going to use a python script that has already been coded. Execute the following command to download it from GitHub.
@@ -29,9 +31,10 @@ Additionally, there's an extra argument *-f* that needs to be passed. Thanks to 
 To submit the rendering job, run the following block of code optionally replacing the value of the arguments -f and -n. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
 
 ```bash
-export JOB_IDS=$(python3 job_sumbission.py -i "${BUCKET_NAME}" -o "${BUCKET_NAME}" -f <n_frames> -n RenderingJob -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
+export JOB_IDS=$(python3 job_sumbission.py -i "${BUCKET_NAME}" -o "${BUCKET_NAME}" -f 1 -n RenderingWithBatch -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
 export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
 export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
+export FRAMES_TO_RENDER=$((echo $JOB_IDS) | jq -r '.[2].framesToRender')
 ```
 
 At this point the jobs have been submitted and you are ready to monitor them.
