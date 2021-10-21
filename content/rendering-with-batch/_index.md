@@ -16,7 +16,7 @@ In this workshop you will learn to submit jobs with AWS Batch following Spot bes
 
 To have an idea of what you will be rendering, take a look to this animation.
 
-![Possible output](/images/blender-rendering-using-batch/animation_example.gif)
+![Possible output](/images/rendering-with-batch/animation_example.gif)
 
 Special thanks to [Prokster](https://blendswap.com/profile/1012752) for being so kind to let us use the project *[Pottery](https://blendswap.com/blend/28661)*, that is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/).
 

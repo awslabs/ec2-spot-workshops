@@ -6,7 +6,7 @@ weight: 15
 
 The following diagram illustrates what you will deploy:
 
-![Architecture diagram](/images/blender-rendering-using-batch/architecture.png)
+![Architecture diagram](/images/rendering-with-batch/architecture.png)
 
 ## Pre-Requisites for this lab:
 

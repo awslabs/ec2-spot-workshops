@@ -49,7 +49,6 @@ You can check which other parameters Launch Templates could take [here](https://
 
 ```bash
 export LAUNCH_TEMPLATE_NAME="TemplateForBatch"
-
 aws ec2 create-launch-template --launch-template-name "${LAUNCH_TEMPLATE_NAME}" --version-description 1 --launch-template-data "{\"SecurityGroupIds\": [\"${SECURITY_GROUP_ID}\"], \"UserData\": \"TUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PSI9PU1ZQk9VTkRBUlk9PSIKCi0tPT1NWUJPVU5EQVJZPT0KQ29udGVudC1UeXBlOiB0ZXh0L3gtc2hlbGxzY3JpcHQ7IGNoYXJzZXQ9InVzLWFzY2lpIgoKIyEvYmluL2Jhc2gKZWNobyAiRUNTX0NMVVNURVI9RWNzU3BvdFdvcmtzaG9wIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCmVjaG8gIkVDU19FTkFCTEVfU1BPVF9JTlNUQU5DRV9EUkFJTklORz10cnVlIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCmVjaG8gIkVDU19DT05UQUlORVJfU1RPUF9USU1FT1VUPTkwcyIgPj4gL2V0Yy9lY3MvZWNzLmNvbmZpZwplY2hvICJFQ1NfRU5BQkxFX0NPTlRBSU5FUl9NRVRBREFUQT10cnVlIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCgotLT09TVlCT1VOREFSWT09LS0=\"}"
 ```
 

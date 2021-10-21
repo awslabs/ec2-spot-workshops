@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 20
 ---
 
-![Rendering pipeline](/images/blender-rendering-using-batch/pipeline.png)
+![Rendering pipeline](/images/rendering-with-batch/pipeline.png)
 
 ## Overview
 

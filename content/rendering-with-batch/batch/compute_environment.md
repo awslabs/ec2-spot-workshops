@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 90
 ---
 
-![Compute environment](/images/blender-rendering-using-batch/CE.png)
+![Compute environment](/images/rendering-with-batch/CE.png)
 
 We are going to create two compute environments: one using Spot instances and the other using On-Demand instances. The reason for this is that, on a real scenario, you may have to comply with several SLAs with regards to finishing the jobs under a specific time window.
 

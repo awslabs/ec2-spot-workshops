@@ -14,7 +14,7 @@ Thanks to Batch computing, you can execute a series of programs ("jobs") on one 
 
 ### Typical job architecture
 
-![Batch components](/images/blender-rendering-using-batch/batch_architecture.png)
+![Batch components](/images/rendering-with-batch/batch_architecture.png)
 
 ### Compute environment
 
