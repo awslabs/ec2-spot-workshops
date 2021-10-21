@@ -15,7 +15,7 @@ Advantages of running Amazon EKS managed node groups:
 * Node updates and terminations automatically and gracefully drain nodes to ensure that your applications stay available.
 * No additional costs to use Amazon EKS managed node groups, pay only for the AWS resources provisioned.
 
-### Why EKS managed node groups with Spot capacity?
+### EKS managed node groups with Spot capacity
 
 Amazon EKS managed node groups with Spot capacity enhances the managed node group experience with ease to provision and manage EC2 Spot Instances. EKS managed node groups launch an EC2 Auto Scaling group with Spot best practices and handle [Spot Instance interruptions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html) automatically. This enables you to take advantage of the steep savings that Spot Instances provide for your interruption tolerant containerized applications. 
 
