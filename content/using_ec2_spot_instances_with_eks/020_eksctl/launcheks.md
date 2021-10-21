@@ -26,8 +26,14 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/020_eksctl/create_eks_cluster_eksctl_command.md" %}}
 
-eksctl allows us to pass parameters to initialize the cluster. While initializing the cluster, eksctl does also allow us to create nodegroups.
+`eksctl create cluster` command allows you to create the cluster and managed nodegroups in sequence. There are a few things to note in the configuration that we just used to create the cluster and a managed nodegroup.
 
-The managed nodegroup will have two m5.large nodes (m5.large is the default instance type used if no instance types are specified) and it will bootstrap with the label **intent=control-apps**. 
+ * Nodegroup configurations are set under the **managedNodeGroups** section, this indicates that the node group is managed by EKS.
+ * Nodegroup instance type is **m5.large** with **minSize** to 0, **maxSize** to 5 and **desiredCapacity** to 2. This nodegroup has capacity type set to On-Demand Instances by default.
+ * Notice that the we add 3 node labels:
 
-Amazon EKS adds the following Kubernetes label to all nodes in your managed node group: **eks.amazonaws.com/capacityType: ON_DEMAND**. You can use this label to schedule stateful or fault intolerant applications on On-Demand nodes.
+  * **alpha.eksctl.io/cluster-name**, to indicate the nodes belong to **eksworkshop-eksctl** cluster.
+  * **alpha.eksctl.io/nodegroup-name**, to indicate the nodes belong to **mng-od-m5large** nodegroup.
+  * **intent**, to allow you to deploy control applications on nodes that have been labeled with value **control-apps**
+  
+ * Amazon EKS adds an additional Kubernetes label **eks.amazonaws.com/capacityType: ON_DEMAND**, to all On-Demand Instances in your managed node group. You can use this label to schedule stateful applications on On-Demand nodes.

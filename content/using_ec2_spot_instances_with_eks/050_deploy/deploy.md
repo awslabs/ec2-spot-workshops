@@ -1,11 +1,8 @@
 ---
-title: "Deploying the Application"
+title: "Deploy Application"
 date: 2018-08-07T08:30:11-07:00
 weight: 30
 ---
-{{% notice warning %}}
-Before proceeding, check that your file `~/environment/monte-carlo-pi-service.yml` looks like: **[monte-carlo-pi-service-final.yml](tolerations_and_affinity.files/monte-carlo-pi-service-final.yml)**
-{{% /notice %}}
 
 To deploy the application we just need to run:
 ```
@@ -63,10 +60,3 @@ You can also execute a request with the additional parameter from the console:
 URL=$(kubectl get svc monte-carlo-pi-service | tail -n 1 | awk '{ print $4 }')
 time curl ${URL}/?iterations=100000000
 ```
-
-
-
-
-
-
-

@@ -6,20 +6,20 @@ weight: 10
 
 We will start by deploying [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler). Cluster Autoscaler for AWS provides integration with Auto Scaling groups. It enables users to choose from four different options of deployment:
 
-* One Auto Scaling group 
+* One Auto Scaling group
 * Multiple Auto Scaling groups
 * **Auto-Discovery** - This is what we will use
 * Master Node setup
 
-In this workshop we will configure Cluster Autoscaler to scale using **[Cluster Autoscaler Auto-Discovery functionality](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md)**. When configured in Auto-Discovery mode on AWS, Cluster Autoscaler will look for Auto Scaling Groups that match a set of pre-set AWS tags. As a convention we use the tags : `k8s.io/cluster-autoscaler/enabled`, and `k8s.io/cluster-autoscaler/eksworkshop-eksctl` .
+In this workshop we will configure Cluster Autoscaler to scale using **[Cluster Autoscaler Auto-Discovery functionality](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md)**. When configured in Auto-Discovery mode on AWS, Cluster Autoscaler will look for Auto Scaling groups that match a set of pre-set AWS tags. As a convention we use the tags : `k8s.io/cluster-autoscaler/enabled`, and `k8s.io/cluster-autoscaler/eksworkshop-eksctl` .
 
-This will select the two Auto Scaling groups that have been created for Spot instances.
+This will select the two Auto Scaling groups that have been created for Spot Instances.
 
 {{% notice note %}}
-The  **[following link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details)** Should take you to the
-Auto Scaling Group console and select the two spot node-group we have previously created; You should check that
+The  **[following link](https://console.aws.amazon.com/ec2autoscaling/home?#/details)** should take you to the
+Auto Scaling groups console. Type 'eks' in the search bar to see managed node groups we created previously . Verify 
 the tags `k8s.io/cluster-autoscaler/enabled`, and `k8s.io/cluster-autoscaler/eksworkshop-eksctl` are present 
-in both groups. This has been done automatically by **eksctl** upon creation of the groups.
+in all managed node groups. These tags were automatically added by EKS upon the creation of managed node groups.
 {{% /notice %}}
 
 We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal. 

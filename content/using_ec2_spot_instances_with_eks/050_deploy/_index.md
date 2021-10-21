@@ -1,10 +1,10 @@
 ---
-title: "Deploying the example Microservice"
+title: "Deploy an example Microservice"
 chapter: true
 weight: 50
 ---
 
-# Deploying the example Microservice
+# Deploy an example Microservice
 
 To illustrate application scaling using [Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/) (HPA) and cluster scaling using [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) (CA), we will deploy a microservice that generates CPU load.
 

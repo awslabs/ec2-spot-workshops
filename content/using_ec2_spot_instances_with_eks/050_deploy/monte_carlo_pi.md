@@ -4,9 +4,9 @@ date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
 
-## Monte Carlo Pi 
+## Monte Carlo Pi Template
 
-We will use this base configuration to deploy our application:
+Let's create a template configuration file for monte carlo pi application:
 
 ```
 cat <<EoF > ~/environment/monte-carlo-pi-service.yml
@@ -60,7 +60,7 @@ EoF
 
 ```
 
-This should create a `monte-carlo-pi-service.yml` file that defines a **Service** and a **Deployment**. The configuration instructs the cluster to deploy two replicas of a pod with a single container, that sets up [Resource request and limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) to a fixed value 1vCPU and 512Mi of RAM. You can read more about the differences between Resource requests and limits [here](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html).
+This should create a `monte-carlo-pi-service.yml` template file that defines a **Service** and a **Deployment**. The configuration instructs the cluster to deploy two replicas of a pod with a single container, that sets up [Resource request and limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) to a fixed value 1vCPU and 512Mi of RAM. You can read more about the differences between Resource requests and limits [here](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html).
 
 The deployment does not include any toleration or affinities. If deployed as is, it will be scheduled to the on-demand nodes that we created during the cluster creation phase!
 
@@ -72,13 +72,8 @@ There are a few best practices for managing multi-tenant dynamic clusters. One o
 
 Before we deploy our application and start scaling it, there are two requirements that we should apply and implement in the configuration file:
 
- 1.- The first requirement is for the application to be deployed only on nodes that have been labeled with `intent: apps`
- 
- 2.- The second requirement is for the application to prefer Spot Instances over on-demand instances.
+ 1. The first requirement is for the application to be deployed only on nodes that have been labeled with `intent: apps`
+ 2. The second requirement is for the application to prefer Spot Instances over on-demand instances.
 
 
 In the next section we will explore how to implement this requirements.
-
-
-
-

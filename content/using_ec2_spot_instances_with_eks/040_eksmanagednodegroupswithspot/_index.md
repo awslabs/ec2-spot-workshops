@@ -1,11 +1,11 @@
 ---
-title: "Creating EKS managed node groups with Spot capacity"
+title: "Add EKS managed Spot workers"
 chapter: true
 weight: 40
 draft: false
 ---
 
-# Using Spot Instances with EKS
+# Add EKS managed Spot workers
 
 In this module, you will learn how to provision, manage, and maintain your Kubernetes clusters with Amazon EKS managed node groups with Spot capacity to optimize cost and scale.
 

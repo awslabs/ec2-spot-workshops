@@ -21,36 +21,19 @@ kubectl delete -f monte-carlo-pi-service.yml
 helm delete kube-ops-view metrics-server
 ```
 
-## Removing Spot node groups
-```bash
-eksctl delete nodegroup -f spot_nodegroup_4vcpu_16gb.yml --approve
-eksctl delete nodegroup -f spot_nodegroup_8vcpu_32gb.yml --approve
+## Removing EKS managed node groups
 ```
-
+eksctl delete nodegroup -f add-mngs-spot.yaml --approve
+```
 This operation may take 3-5 minutes to complete.
 
-## (Optional) Removing Self managed node groups
-If you have followed the optional path to create self managed node groups, run this command to delete the node group.
-```bash
-eksctl delete nodegroup -f spot_nodegroups.yml --approve
-```
-
-This operation may take 3-5 minutes to complete.
-
-## Removing On-Demand node group
-```bash
-od_nodegroup=$(eksctl get nodegroup --cluster eksworkshop-eksctl | tail -n 1 | awk '{print $2}')
-eksctl delete nodegroup --cluster eksworkshop-eksctl --name $od_nodegroup
-```
-
-This operation may take some time. Once that it completes you can proceed with the deletion of the cluster.
 
 ## Removing the cluster
 ```
-eksctl delete cluster --name eksworkshop-eksctl
+eksctl delete cluster -f eksworkshop.yaml
 ```
 
-## Clean Cloud 9
+## Delete SSH Key Pair and Cloud 9
 ```
 aws ec2 delete-key-pair --key-name eksworkshop
 CLOUD_9_IDS=$(aws cloud9 list-environments | jq -c ".environmentIds | flatten(0)" | sed -E -e 's/\[|\]|\"|//g' | sed 's/,/ /g')

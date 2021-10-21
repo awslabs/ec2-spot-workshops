@@ -8,9 +8,9 @@ hidden: true
 This markdown file is used as part of another file using 'insert-md-from-file' shortcode
 -->
 
-Create an eksctl deployment file (eksworkshop.yaml) use in creating your cluster using the following syntax:
+Create an eksctl deployment file (eksworkshop.yaml) to create an EKS cluster:
 
-```bash
+```
 cat << EOF > eksworkshop.yaml
 ---
 apiVersion: eksctl.io/v1alpha5
@@ -26,7 +26,7 @@ managedNodeGroups:
   instanceType: m5.large
   name: mng-od-m5large
   desiredCapacity: 2
-  maxSize: 2
+  maxSize: 3
   minSize: 0
   labels:
     alpha.eksctl.io/cluster-name: eksworkshop-eksctl
@@ -36,8 +36,6 @@ managedNodeGroups:
     alpha.eksctl.io/nodegroup-name: mng-od-m5large
     alpha.eksctl.io/nodegroup-type: managed
     k8s.io/cluster-autoscaler/node-template/label/intent: control-apps
-  ssh:
-    enableSsm: true
   iam:
     withAddonPolicies:
       autoScaler: true
@@ -53,7 +51,7 @@ EOF
 
 Next, use the file you created as the input for the eksctl cluster creation.
 
-```bash
+```
 eksctl create cluster -f eksworkshop.yaml
 ```
 

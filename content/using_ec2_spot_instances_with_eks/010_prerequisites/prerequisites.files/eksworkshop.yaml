@@ -4,15 +4,15 @@ kind: ClusterConfig
 
 metadata:
   name: eksworkshop-eksctl
-  region: ap-southeast-1
-  version: "1.21"
+  region: ${AWS_REGION}
+  version: ${EKS_VERSION} # example "1.21"
 
 managedNodeGroups:
 - amiFamily: AmazonLinux2
   instanceType: m5.large
   name: mng-od-m5large
   desiredCapacity: 2
-  maxSize: 2
+  maxSize: 3
   minSize: 0
   labels:
     alpha.eksctl.io/cluster-name: eksworkshop-eksctl

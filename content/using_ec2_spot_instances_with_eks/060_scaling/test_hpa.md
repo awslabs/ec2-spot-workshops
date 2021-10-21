@@ -1,5 +1,5 @@
 ---
-title: "Scale the Application"
+title: "Stress test the Application"
 date: 2018-08-07T08:30:11-07:00
 weight: 50
 ---
@@ -42,7 +42,7 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 
 Run the stress test ! This time around we will run 2000 requests each expected to take ~1.3sec or so.
 ```
-time ~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py -p 100 -r 30 -i 30000000 -u "http://${URL}"
+time ~/environment/submit_mc_pi_k8s_requests/submit_mc_pi_k8s_requests.py -p 100 -r 20 -i 30000000 -u "http://${URL}"
 ```
 
 ### Challenge 
@@ -78,10 +78,10 @@ monte-carlo-pi-service   Deployment/monte-carlo-pi-service   92%/50%     4      
 monte-carlo-pi-service   Deployment/monte-carlo-pi-service   92%/50%     4         100      19        37m
 monte-carlo-pi-service   Deployment/monte-carlo-pi-service   94%/50%     4         100      19        38m
 monte-carlo-pi-service   Deployment/monte-carlo-pi-service   85%/50%     4         100      19        39m
-monte-carlo-pi-service   Deployment/monte-carlo-pi-service   85%/50%     4         100      29        39m
-monte-carlo-pi-service   Deployment/monte-carlo-pi-service   54%/50%     4         100      29        40m
-monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      29        41m
-monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      29        45m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   85%/50%     4         100      19        39m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   54%/50%     4         100      19        40m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      19        41m
+monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      19        45m
 monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      12        46m
 monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100      12        47m
 monte-carlo-pi-service   Deployment/monte-carlo-pi-service   0%/50%      4         100       4        48m

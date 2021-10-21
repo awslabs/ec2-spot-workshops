@@ -4,7 +4,7 @@ date: 2018-08-07T13:36:57-07:00
 weight: 30
 ---
 #### Test the cluster:
-Confirm your Nodes, if we see our 2 nodes, we know we have authenticated correctly:
+Confirm your Nodes, if we see 2 nodes then we know we have authenticated correctly:
 
 ```
 kubectl get nodes 
@@ -22,9 +22,6 @@ NODE_GROUP_NAME=$(eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq
 ROLE_NAME=$(aws eks describe-nodegroup --cluster-name eksworkshop-eksctl --nodegroup-name $NODE_GROUP_NAME | jq -r '.nodegroup["nodeRole"]' | cut -f2 -d/)
 echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
 ```
-
-
-
 
 #### Congratulations!
 
@@ -54,7 +51,7 @@ You'll need to determine the correct credential to add for your AWS Console acce
 
 If you've built your cluster from Cloud9 as part of this tutorial, invoke the following within your environment to determine your IAM Role or User ARN. 
 
-```bash
+```
 c9builder=$(aws cloud9 describe-environment-memberships --environment-id=$C9_PID | jq -r '.memberships[].userArn')
 if echo ${c9builder} | grep -q user; then
 	rolearn=${c9builder}
@@ -68,7 +65,7 @@ fi
 
 With your ARN in hand, you can issue the command to create the identity mapping within the cluster.
 
-```bash
+```
 eksctl create iamidentitymapping --cluster eksworkshop-eksctl --arn ${rolearn} --group system:masters --username admin
 ```
 
@@ -76,7 +73,7 @@ Note that permissions can be restricted and granular but as this is a workshop c
 
 Now you can verify your entry in the AWS auth map within the console.
 
-```bash
+```
 kubectl describe configmap -n kube-system aws-auth
 ```
 
