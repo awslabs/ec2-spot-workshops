@@ -34,6 +34,8 @@ managedNodeGroups:
   iam:
     withAddonPolicies:
       autoScaler: true
+      cloudWatch: true
+      albIngress: true
   privateNetworking: true
   taints:
     - key: spotInstance
@@ -67,6 +69,8 @@ managedNodeGroups:
   iam:
     withAddonPolicies:
       autoScaler: true
+      cloudWatch: true
+      albIngress: true
   privateNetworking: true
   taints:
     - key: spotInstance

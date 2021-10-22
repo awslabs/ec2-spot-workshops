@@ -39,6 +39,8 @@ managedNodeGroups:
   iam:
     withAddonPolicies:
       autoScaler: true
+      cloudWatch: true
+      albIngress: true
   privateNetworking: true
 
 # To enable all of the control plane logs, uncomment below:
