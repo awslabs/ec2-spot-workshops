@@ -8,7 +8,7 @@ You will create all the AWS resources running commands in AWS Cloud9, which is a
 
 To run the environment, we will launch a new EC2 instance that Cloud9 will access via SSH. By default, said instance has attached an EBS volume of size 10GB that will run short when we build the Docker image, so we need to resize it.
 
-To do accomplish this, you are going to download and run a Python script. Execute the following lines of code:
+To do accomplish all this, you are going to download and run a Python script. Execute the following lines of code:
 
 ```bash
 wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/cloud9_setup.py"
