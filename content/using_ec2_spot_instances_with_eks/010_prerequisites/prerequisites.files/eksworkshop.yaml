@@ -5,7 +5,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: ${EKS_VERSION} # example "1.21"
+  version: ${EKS_VERSION} 
 
 managedNodeGroups:
 - amiFamily: AmazonLinux2
@@ -27,6 +27,8 @@ managedNodeGroups:
   iam:
     withAddonPolicies:
       autoScaler: true
+      cloudWatch: true
+      albIngress: true
   privateNetworking: true
 
 # To enable all of the control plane logs, uncomment below:
