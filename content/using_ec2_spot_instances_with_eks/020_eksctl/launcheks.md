@@ -29,7 +29,7 @@ If you do see the correct role, proceed to next step to create an EKS cluster.
 `eksctl create cluster` command allows you to create the cluster and managed nodegroups in sequence. There are a few things to note in the configuration that we just used to create the cluster and a managed nodegroup.
 
  * Nodegroup configurations are set under the **managedNodeGroups** section, this indicates that the node group is managed by EKS.
- * Nodegroup instance type is **m5.large** with **minSize** to 0, **maxSize** to 5 and **desiredCapacity** to 2. This nodegroup has capacity type set to On-Demand Instances by default.
+ * Nodegroup instance type is **m5.large** with **minSize** to 0, **maxSize** to 3 and **desiredCapacity** to 2. This nodegroup has capacity type set to On-Demand Instances by default.
  * Notice that the we add 3 node labels:
 
   * **alpha.eksctl.io/cluster-name**, to indicate the nodes belong to **eksworkshop-eksctl** cluster.

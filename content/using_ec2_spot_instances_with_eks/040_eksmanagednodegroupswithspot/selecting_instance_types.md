@@ -51,7 +51,7 @@ The results might differ if you created Cloud9 in any other region than the five
 {{% /notice %}}
 
 ```
-ec2-instance-selector --vcpus 4 --memory 16 --gpus 0 --current-generation -a x86_64 --deny-list '.*d3en.*'   
+ec2-instance-selector --vcpus 4 --memory 16 --gpus 0 --current-generation -a x86_64 --deny-list '.*[ni].*'   
 ```
 
 This should display a list like the one that follows . We will use this instances as part of one of our node groups.
@@ -64,10 +64,6 @@ m5.xlarge
 m5a.xlarge
 m5ad.xlarge
 m5d.xlarge
-m5dn.xlarge
-m5n.xlarge
-m5zn.xlarge
-m6i.xlarge
 t2.xlarge
 t3.xlarge
 t3a.xlarge
@@ -100,7 +96,7 @@ Find out another group that adheres to a 1 vCPU:4 GB ratio, this time using inst
 That should be easy. You can run the command:  
 
 ```
-ec2-instance-selector --vcpus 8 --memory 32 --gpus 0 --current-generation -a x86_64 --deny-list '.*d3en.*'  
+ec2-instance-selector --vcpus 8 --memory 32 --gpus 0 --current-generation -a x86_64 --deny-list '.*[nih].*'  
 ```
 
 which should yield a list as follows 
@@ -111,10 +107,6 @@ m5.2xlarge
 m5a.2xlarge
 m5ad.2xlarge
 m5d.2xlarge
-m5dn.2xlarge
-m5n.2xlarge
-m5zn.2xlarge
-m6i.2xlarge
 t2.2xlarge
 t3.2xlarge
 t3a.2xlarge
