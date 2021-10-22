@@ -216,8 +216,7 @@ Resources:
                       cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
 
                   except Exception as e:
-                      # logger.error(e, exc_info=True)
-                      responseData = {'Error': traceback.format_exc(e)}
+                      responseData = {'Error': str(e)}
                       cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
 ################## SSM BOOTSRAP HANDLER ###############
   C9OutputBucket:
