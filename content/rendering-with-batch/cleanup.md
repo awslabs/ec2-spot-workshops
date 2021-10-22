@@ -22,7 +22,7 @@ To learn more about these APIs, see [delete-bucket CLI Command Reference](https:
 This command will delete the repository and all the images it contains, since we are passing the *force* argument.
 
 ```bash
-aws ecr delete-repository --registry-id "${REGISTRY_ID}" --force true
+aws ecr delete-repository --repository-name "${REPOSITORY_NAME}" --force
 ```
 
 To learn more about this API, see [delete-repository CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/delete-repository.html).
@@ -33,7 +33,10 @@ When deleting Batch components, the order matters; a CE cannot be deleted if it 
 
 ### Deleting the job queue
 
+A job queue must be disabled in order to delete it.
+
 ```bash
+aws batch update-job-queue --job-queue "${RENDERING_QUEUE_NAME}" --state DISABLED
 aws batch delete-job-queue --job-queue "${RENDERING_QUEUE_NAME}"
 ```
 
@@ -41,7 +44,11 @@ To learn more about this API, see [delete-job-queue CLI Command Reference](https
 
 ### Deleting the compute environment
 
+As with the job queue, the compute environment must be disabled first.
+
 ```bash
+aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED
+aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED
 aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}"
 aws batch delete-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
@@ -60,17 +67,13 @@ To learn more about this API, see [deregister-job-definition CLI Command Referen
 ## Launch Template
 
 ```bash
-aws ec2 delete-launch-template --launch-template-id "${LAUNCH_TEMPLATE_ID}"
+aws ec2 delete-launch-template --launch-template-name "${LAUNCH_TEMPLATE_name}"
 ```
 
 To learn more about this API, see [delete-launch-template CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-launch-template.html).
 
 ## AWS Cloud9
 
-This command will delete the Cloud9 environment and terminate the EC2 instance connected to it.
+To delete the Cloud9 environment in the console, navigate to https://console.aws.amazon.com/cloud9, select the environment and click on *Delete* as shown in the image below:
 
-```bash
-aws cloud9 delete-environment --environment-id "${C9_ENV_ID}"
-```
-
-To learn more about this API, see [delete-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/cloud9/delete-environment.html).
+![Delete Cloud9 environment](/images/rendering-with-batch/delete-environment.png)

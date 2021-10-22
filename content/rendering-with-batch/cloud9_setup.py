@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import boto3, time, json, os, sys, argparse
+import boto3, time, json, sys, argparse
 
 
 def parse_arguments():
@@ -25,7 +25,7 @@ def create_cloud9_env(name, instance_type):
     instance_type: instance type to use in the environment
     """
 
-    print('\tCreating Cloud9 environment...')
+    #print('\tCreating Cloud9 environment...')
 
     client = boto3.client('cloud9')
 
@@ -44,7 +44,7 @@ def retrieve_cloud9_instance(env_id):
     env_id -- Identifier of the Cloud9 environment
     """
 
-    print("\tRetrieving environment's instance...")
+    #print("\tRetrieving environment's instance...")
 
     client = boto3.client('ec2')
 
@@ -61,7 +61,7 @@ def retrieve_cloud9_instance(env_id):
         )['Reservations']
 
         if not instances:
-            print("\tWaiting for the environment's instance to be launched...")
+            #print("\tWaiting for the environment's instance to be launched...")
             time.sleep(5)
         else:
             return instances[0]['Instances'][0]['InstanceId']
@@ -74,7 +74,7 @@ def retrieve_instance_volume(instance_id):
     instance_id -- Identifier of the EC2 instance
     """
 
-    print("\tRetrieving EBS volume...")
+    #print("\tRetrieving EBS volume...")
 
     client = boto3.client('ec2')
 
@@ -91,7 +91,7 @@ def retrieve_instance_volume(instance_id):
         )['Volumes']
 
         if not volumes:
-            print("\tWaiting for the volume to be attached to the instance...")
+            #print("\tWaiting for the volume to be attached to the instance...")
             time.sleep(5)
         else:
             return volumes[0]['VolumeId']
@@ -105,7 +105,7 @@ def resize_volume(volume_id, new_size):
     new_size: size in GB to which the volume should be resized
     """
 
-    print('\tResizing EBS volume...')
+    #print('\tResizing EBS volume...')
 
     client = boto3.client('ec2')
 
@@ -141,7 +141,7 @@ def expand_file_system(instance_id, volume_id):
     volume_id: identifier of the volume that has been resized
     """
 
-    print('\tWaiting to expand the file system...')
+    #print('\tWaiting to expand the file system...')
 
     client = boto3.client('ec2')
     mdification = retrieve_volume_modifications(volume_id)
@@ -151,7 +151,7 @@ def expand_file_system(instance_id, volume_id):
         time.sleep(5)
         mdification = retrieve_volume_modifications(volume_id)
 
-    print('\tRebooting instance to expand the file system...')
+    #print('\tRebooting instance to expand the file system...')
 
     client.reboot_instances(
         InstanceIds=[
@@ -159,7 +159,7 @@ def expand_file_system(instance_id, volume_id):
         ]
     )
 
-    print('\tInstance rebooted. It can take a couple of minutes for it to become responsive again.')
+    #print('\tInstance rebooted. It can take a couple of minutes for it to become responsive again.')
 
 
 if __name__ == "__main__":
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
     # Create the Cloud9 environment
     c9_env_id = create_cloud9_env(name, instance_type)
-    os.environ['C9_ENV_ID'] = c9_env_id
+    print(c9_env_id)
 
     # Retrieve the environment's instance
     instance_id = retrieve_cloud9_instance(c9_env_id)

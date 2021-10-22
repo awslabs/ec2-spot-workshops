@@ -46,7 +46,7 @@ Run the following command to download the file:
 
 ```bash
 export BLEND_FILE_NAME="blendfile.blend"
-curl "https://github.com/bperezme/ec2-spot-workshops/raw/blender_rendering_using_batch/content/blender-rendering-using-batch/pottery.blend" -o "${BLEND_FILE_NAME}"
+wget "https://github.com/bperezme/ec2-spot-workshops/raw/blender_rendering_using_batch/content/rendering-with-batch/blendfile.blend"
 ```
 
 Execute the following commands to create an S3 bucket and upload to it the Blender file:

@@ -10,7 +10,7 @@ To check the rendering progress of our job, we are going to retrieve the number 
 
 ```bash
 export RENDER_COUNT=$(aws s3api list-objects --bucket "${BUCKET_NAME}" --prefix "${JOB_NAME}/frames/" --output json --query "[length(Contents[])]" | jq -r '.[0]')
-awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var1 / var2) "% ==> " var2 " frames rendered.") }'
+awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var2 / var1) * 100 "% ==> " var2 " frames rendered.") }'
 echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BUCKET_NAME}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
 ```
 
@@ -34,7 +34,7 @@ To view the logs of a job using the console:
 You can monitor the status of a job using the following command:
 
 ```bash
-aws batch describe-jobs --jobs "${RENDERING_JOB_ID} ${STITCHING_JOB_ID}"
+aws batch describe-jobs --jobs "${RENDERING_JOB_ID}" "${STITCHING_JOB_ID}"
 ```
 
 To learn more about this command, you can review the [describe-jobs CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-jobs.html).
@@ -54,7 +54,7 @@ To learn more about this command, you can review the [describe-job-queues CLI co
 You can review the configuration of a compute environment using the following command:
 
 ```bash
-aws batch describe-compute-environments --compute-environments "${SPOT_COMPUTE_ENV_NAME} ${ONDEMAND_COMPUTE_ENV_NAME}"
+aws batch describe-compute-environments --compute-environments "${SPOT_COMPUTE_ENV_NAME}" "${ONDEMAND_COMPUTE_ENV_NAME}"
 ```
 
 To learn more about this command, you can review the [describe-compute-environments CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-compute-environments.html).

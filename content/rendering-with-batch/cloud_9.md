@@ -6,13 +6,15 @@ weight: 30
 
 You will create all the AWS resources running commands in AWS Cloud9, which is a cloud-based integrated development environment (IDE) that comes prepackaged with essential tools for popular programming languages, including JavaScript, Python, PHP, and more.
 
-To run the environment, we will launch a new EC2 instance that Cloud9 will access via SSH. By default, said instance has attached an EBS volume of size 10GB that will run short when we build the Docker image, so we need to resize it.
+To run the environment, we will launch a new EC2 instance that Cloud9 will access via SSH. By default, said instance has attached an EBS volume of size 10GB that will run short when we build the Docker image, so we need to resize it. To do accomplish all this, you are going to download and run a Python script in AWS CloudShell, which is a browser-based shell console. Open CloudShell as shown in the image below:
 
-To do accomplish all this, you are going to download and run a Python script. Execute the following lines of code:
+![How to access CloudShell](/images/launching_ec2_spot_instances/CloudShell.png)
+
+Now, execute the following lines of code to create the Cloud9 environment:
 
 ```bash
 wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/cloud9_setup.py"
-python3 cloud9_setup.py -n "RenderingWithBatch" -t "t2.micro" -s 40
+export C9_ENV_ID=$(python3 cloud9_setup.py -n "RenderingWithBatch" -t "t2.micro" -s 40)
 echo "Navigate to this URL to access your development environment: https://console.aws.amazon.com/cloud9/ide/${C9_ENV_ID}"
 ```
 
