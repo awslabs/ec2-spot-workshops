@@ -98,7 +98,6 @@ eksctl create nodegroup --config-file=add-mngs-spot.yaml
 Creation of node groups will take 3-4 minutes. 
 {{% /notice %}}
 
-
 There are a few things to note in the configuration that we just used to create these node groups.
 
  * Node groups configurations are set under the **managedNodeGroups** section, this indicates that the node groups are managed by EKS.
@@ -114,6 +113,13 @@ There are a few things to note in the configuration that we just used to create 
 
  * Notice that the we added 2 cluster autoscaler related tags to node groups:  
   * **k8s.io/cluster-autoscaler/node-template/label/intent** and **k8s.io/cluster-autoscaler/node-template/taint** are used by cluster autoscaler when node groups scale down to 0 (and scale up from 0). Cluster autoscaler acts on Auto Scaling groups belonging to node groups, therefore it requires same tags on ASG as well. Currently managed node groups do not auto propagate tags to ASG, see this [open issue](https://github.com/aws/containers-roadmap/issues/1524). Therefore, we will be adding these tags to ASG manually. 
+
+{{% notice note %}}
+Since eksctl 0.41, integrates with the instance selector ! This can create more convenient configurations that apply diversification of instances in a concise way.
+As an exercise, [read eks instance selector documentation](https://eksctl.io/usage/instance-selector/) and figure out which changes you may need to apply the configuration changes using instance selector.
+At the time of writing this workshop, we have not included this functionality as there is a pending feature we'd need to deny a few instances [Read more about this here](https://github.com/weaveworks/eksctl/issues/3718)
+{{% /notice %}}
+
 
 Let's add these tags to Auto Scaling groups of each node group using AWS cli.
 
