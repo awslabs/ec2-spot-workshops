@@ -11,7 +11,7 @@ You have now all the Batch components in place, and are ready to start submittin
 To submit the jobs that will implement the rendering and stitching you are going to use a python script that has already been coded. Execute the following command to download it from GitHub.
 
 ```bash
-wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/batch/job_submission.py
+wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/batch/job_submission.py"
 ```
 
 ## Reviewing the command line arguments
@@ -19,7 +19,7 @@ wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rende
 This script needs a couple of command line arguments as input, execute the following to read the help documentation:
 
 ```bash
-python3 job_sumbission.py -h
+python3 job_submission.py -h
 ```
 
 You see that the script needs to receive the location of the blender file and where the results should be uploaded, as well as the the job definition that will be used to submit the job, the queue where it will be placed and the name that will be used to submit it.
@@ -32,7 +32,7 @@ To submit the rendering job, run the following block of code optionally replacin
 
 ```bash
 export JOB_NAME="RenderingWithBatch"
-export JOB_IDS=$(python3 job_sumbission.py -i "s3://${BUCKET_NAME}/${BLEND_FILE_NAME}" -o "s3://${BUCKET_NAME}" -f 1 -n "${JOB_NAME}" -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
+export JOB_IDS=$(python3 job_submission.py -i "s3://${BUCKET_NAME}/${BLEND_FILE_NAME}" -o "s3://${BUCKET_NAME}" -f 1 -n "${JOB_NAME}" -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
 export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
 export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
 export FRAMES_TO_RENDER=$((echo $JOB_IDS) | jq -r '.[2].framesToRender')

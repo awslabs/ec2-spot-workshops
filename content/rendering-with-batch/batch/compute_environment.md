@@ -17,7 +17,7 @@ Run the following to generate the configuration file that will be used to create
 ```bash
 export SPOT_COMPUTE_ENV_NAME="RenderingSpotComputeEnvironment"
 
-cat <<EoF > ~/spot-compute-environment-config.json
+cat <<EoF > spot-compute-environment-config.json
 {
     "computeEnvironmentName": "${SPOT_COMPUTE_ENV_NAME}",
     "type": "MANAGED",
@@ -71,7 +71,7 @@ Run the following to generate the configuration file that will be used to create
 ```bash
 export ONDEMAND_COMPUTE_ENV_NAME="RenderingOnDemandComputeEnvironment"
 
-cat <<EoF > ~/ondemand-compute-environment-config.json
+cat <<EoF > ondemand-compute-environment-config.json
 {
     "computeEnvironmentName": "${ONDEMAND_COMPUTE_ENV_NAME}",
     "type": "MANAGED",

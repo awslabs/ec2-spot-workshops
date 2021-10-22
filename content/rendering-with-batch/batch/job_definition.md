@@ -11,7 +11,7 @@ Run the following to generate the configuration file that will be used to create
 ```bash
 export JOB_DEFINITION_NAME=RenderingJobDefinition
 
-cat <<EoF > ~/job-definition-config.json
+cat <<EoF > job-definition-config.json
 {
     "jobDefinitionName": "${JOB_DEFINITION_NAME}",
     "type": "container",

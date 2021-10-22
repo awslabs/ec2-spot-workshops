@@ -51,13 +51,13 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 1. Download the *Dockerfile* executing this command:
 
     ```bash
-    wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/docker-files/Dockerfile
+    wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/Dockerfile"
     ```
 
 2. Download the *render.sh* script that will be executed when running the Docker container executing this command:
 
     ```bash
-    wget https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/blender-rendering-using-batch/docker-files/render.sh
+    wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/render.sh"
     ```
 
 ### Push the image to ECR
@@ -74,7 +74,7 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 1. Retrieve an authentication token and authenticate your Docker client to your registry.
 
     ```bash
-    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "${REGISTRY_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+    aws ecr get-login-password --region "${AWS_DEFAULT_REGION}" | docker login --username AWS --password-stdin "${REGISTRY_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
     ```
 
 2. Build your Docker image using the following command. For information on building a Docker file from scratch see the instructions [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html).

@@ -16,11 +16,12 @@ python3 cloud9_setup.py -n "RenderingWithBatch" -t "t2.micro" -s 40
 echo "Navigate to this URL to access your development environment: https://console.aws.amazon.com/cloud9/ide/${C9_ENV_ID}"
 ```
 
-Access your development environment by copy-pasting the URL that was output to the console. Exit CloudShell and execute this code block in Cloud9 to define your region and install one command line tool:
+Access your development environment by copy-pasting the URL that was output to the console. Exit CloudShell and execute this code block in Cloud9 to define your region and install some packages:
 
 ```bash
 export AWS_DEFAULT_REGION="us-east-1"
 sudo yum -y install jq
+sudo pip install boto3
 ```
 
 You are now ready to start creating the Docker image. As of this point you will work in **Cloud9**.

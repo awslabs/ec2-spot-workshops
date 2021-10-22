@@ -15,5 +15,5 @@ The following diagram illustrates what you will deploy:
  - An AWS account. You will create AWS resources during the workshop. When running this workshop at an AWS event, the team will provide you with an account.
 
  {{% notice info %}}
- The estimated completion time of this lab is **45 minutes**. Rendering the same animation that you have seen in the previous page, you will incur in an estimated cost of **5€**.
+ The estimated completion time of this lab is **50 minutes**. Rendering the same animation that you have seen in the previous page, you will incur in an estimated cost of **5€**.
  {{% /notice %}}

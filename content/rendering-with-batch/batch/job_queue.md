@@ -15,7 +15,7 @@ Run the following to generate the configuration file that will be used to create
 ```bash
 export RENDERING_QUEUE_NAME=RenderingQueue
 
-cat <<EoF > ~/job-queue-config.json
+cat <<EoF > job-queue-config.json
 {
     "jobQueueName": "${RENDERING_QUEUE_NAME}",
     "state": "ENABLED",
