@@ -4,8 +4,8 @@ kind: ClusterConfig
 
 metadata:
   name: eksworkshop-eksctl
-  region: ${AWS_REGION}
-  version: ${EKS_VERSION} 
+  region: --AWS_REGION--
+  version: --EKS_VERSION--
 
 managedNodeGroups:
 - amiFamily: AmazonLinux2
