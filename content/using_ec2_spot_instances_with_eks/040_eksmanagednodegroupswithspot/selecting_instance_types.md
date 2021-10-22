@@ -75,7 +75,7 @@ Internally ec2-instance-selector is making calls to the [DescribeInstanceTypes](
  * of x86_64 Architecture (no ARM instances like A1 or m6g instances for example)
  * Instances that have 4 vCPUs and 16 GB of RAM
  * Instances of current generation (4th gen onwards)
- * Instances that don’t meet the regular expression .*d3en.*, so effectively d3en.
+ * Instances that don’t meet the regular expression .*[in].*, so effectively latest generation Intel instances and improved network throughput instances. The main reason to discard those in this workshop is that some of those might not be available (at the time of writing this workshop) on all the regions. You can check the availability using instance selector and add them yourselve as an exercise.
 
 {{% notice warning %}}
 Your workload may have other constraints that you should consider when selecting instance types. For example. **t2** and **t3** instance types are [burstable instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) and might not be appropriate for CPU bound workloads that require CPU execution determinism. Instances such as m5**a** are [AMD Instances](https://aws.amazon.com/ec2/amd/), if your workload is sensitive to numerical differences (i.e: financial risk calculations, industrial simulations) mixing these instance types might not be appropriate.
