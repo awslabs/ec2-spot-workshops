@@ -11,9 +11,9 @@ To run the environment, we will launch a new EC2 instance that Cloud9 will acces
 To do accomplish this, you are going to download and run a Python script. Execute the following lines of code:
 
 ```bash
-wget ""
+wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/cloud9_setup.py"
 python3 cloud9_setup.py
-echo "Navigate to this URL to access your development environment: https://console.aws.amazon.com/cloud9/ide/{C9_ENV_ID}"
+echo "Navigate to this URL to access your development environment: https://console.aws.amazon.com/cloud9/ide/${C9_ENV_ID}"
 ```
 
 Access your development environment by copy-pasting the URL that was output to the console. Exit CloudShell and execute this code block in Cloud9 to define your region and install one command line tool:
@@ -23,4 +23,4 @@ export AWS_DEFAULT_REGION="us-east-1"
 sudo yum -y install jq
 ```
 
-You are now ready to start creating the Docker image.
+You are now ready to start creating the Docker image. As of this point you will work in **Cloud9**.

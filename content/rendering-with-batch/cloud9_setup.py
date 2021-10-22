@@ -1,6 +1,19 @@
 #!/usr/bin/env python3
 
-import boto3, time, json, os
+import boto3, time, json, os, sys, argparse
+
+
+def parse_arguments():
+    """Parses the command line arguments and returns them.
+    """
+
+    parser = argparse.ArgumentParser(description='Create a Cloud9 environment and resize the EBS volume of its instance.')
+    parser.add_argument('-n', dest='name', type=str, required=True, help='Name of the Cloud9 environment')
+    parser.add_argument('-t', dest='instance_type', type=str, required=True, help='Instance type to use in the environment')
+    parser.add_argument('-s', dest='volume_size', type=int, required=True, help='Size in GB to which the EBS volume should be resized')
+    args = parser.parse_args()
+
+    return args.name, args.instance_type, args.volume_size
 
 
 def create_cloud9_env(name, instance_type):
@@ -113,8 +126,11 @@ def expand_file_system(instance_id, volume_id):
 
 
 if __name__ == "__main__":
+    # Parse command line arguments
+    name, instance_type, volume_size = parse_arguments()
+
     # Create the Cloud9 environment
-    c9_env_id = create_cloud9_env('RenderingWithBatch', 't2.micro')
+    c9_env_id = create_cloud9_env(name, instance_type)
     os.environ['C9_ENV_ID'] = c9_env_id
 
     # Retrieve the environment's instance
@@ -122,7 +138,7 @@ if __name__ == "__main__":
 
     # Resize the ebs volume
     volume_id = instance_data['BlockDeviceMappings'][0]['Ebs']['VolumeId']
-    resize_volume(volume_id, 40)
+    resize_volume(volume_id, volume_size)
 
     # Expand the file system to the new volume size
     instance_id = instance_data['InstanceId']

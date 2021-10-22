@@ -27,7 +27,7 @@ To view the logs of a job using the console:
 3. Select the job of which you want to view the logs.
 4. Follow the link under *Log stream name* inside the *Job information* section.
 
-![AWS Batch console](/images/blender-rendering-using-batch/logs.png)
+![AWS Batch console](/images/rendering-with-batch/logs.png)
 
 ### Monitoring the status of a job
 

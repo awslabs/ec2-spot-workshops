@@ -52,6 +52,21 @@ export LAUNCH_TEMPLATE_NAME="TemplateForBatch"
 aws ec2 create-launch-template --launch-template-name "${LAUNCH_TEMPLATE_NAME}" --version-description 1 --launch-template-data "{\"SecurityGroupIds\": [\"${SECURITY_GROUP_ID}\"], \"UserData\": \"TUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PSI9PU1ZQk9VTkRBUlk9PSIKCi0tPT1NWUJPVU5EQVJZPT0KQ29udGVudC1UeXBlOiB0ZXh0L3gtc2hlbGxzY3JpcHQ7IGNoYXJzZXQ9InVzLWFzY2lpIgoKIyEvYmluL2Jhc2gKZWNobyAiRUNTX0NMVVNURVI9RWNzU3BvdFdvcmtzaG9wIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCmVjaG8gIkVDU19FTkFCTEVfU1BPVF9JTlNUQU5DRV9EUkFJTklORz10cnVlIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCmVjaG8gIkVDU19DT05UQUlORVJfU1RPUF9USU1FT1VUPTkwcyIgPj4gL2V0Yy9lY3MvZWNzLmNvbmZpZwplY2hvICJFQ1NfRU5BQkxFX0NPTlRBSU5FUl9NRVRBREFUQT10cnVlIiA+PiAvZXRjL2Vjcy9lY3MuY29uZmlnCgotLT09TVlCT1VOREFSWT09LS0=\"}"
 ```
 
+**Example return**
+
+```bash
+{
+    "LaunchTemplate": {
+        "CreateTime": "2019-02-14T05:53:07.000Z",
+        "LaunchTemplateName": "TemplateForBatch",
+        "DefaultVersionNumber": 1,
+        "CreatedBy": "arn:aws:iam::123456789012:user/xxxxxxxx",
+        "LatestVersionNumber": 1,
+        "LaunchTemplateId": "lt-00ac79500cbd56d11"
+    }
+}
+```
+
 Amazon EC2 user data in Launch Templates must be in the MIME multi-part archive format and needs to be encoded in base64 when creating the Launch Template using the CLI. To learn more, see [Amazon EC2 user data in launch templates](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html).
 
 The *UserData* parameter in the structure contains the following script encoded in Base64.
@@ -79,20 +94,5 @@ echo 'TUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYX
 ```
 
 What we are doing here is enabling [Spot Instance Draining](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html). When ECS Spot Instance draining is enabled on the instance, ECS receives the Spot Instance interruption notice and places the instance in DRAINING status. When a container instance is set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance. To learn more about Spot instance interruption notices, visit [Spot Instance interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices).
-
-**Example return**
-
-```bash
-{
-    "LaunchTemplate": {
-        "CreateTime": "2019-02-14T05:53:07.000Z",
-        "LaunchTemplateName": "TemplateForBatch",
-        "DefaultVersionNumber": 1,
-        "CreatedBy": "arn:aws:iam::123456789012:user/xxxxxxxx",
-        "LatestVersionNumber": 1,
-        "LaunchTemplateId": "lt-00ac79500cbd56d11"
-    }
-}
-```
 
 You have created a Launch Template and stored into environment variables all the details that we will need to refer to it in the next steps. Let's start now configuring AWS Batch.
