@@ -12,7 +12,7 @@ To do accomplish all this, you are going to download and run a Python script. Ex
 
 ```bash
 wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/cloud9_setup.py"
-python3 cloud9_setup.py
+python3 cloud9_setup.py -n "RenderingWithBatch" -t "t2.micro" -s 40
 echo "Navigate to this URL to access your development environment: https://console.aws.amazon.com/cloud9/ide/${C9_ENV_ID}"
 ```
 

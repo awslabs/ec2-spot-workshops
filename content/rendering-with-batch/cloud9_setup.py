@@ -48,16 +48,53 @@ def retrieve_cloud9_instance(env_id):
 
     client = boto3.client('ec2')
 
-    return client.describe_instances(
-        Filters=[
-            {
-                'Name': 'tag:aws:cloud9:environment',
-                'Values': [
-                    env_id,
-                ]
-            },
-        ]
-    )['Reservations'][0]['Instances'][0]
+    while True:
+        instances = client.describe_instances(
+            Filters=[
+                {
+                    'Name': 'tag:aws:cloud9:environment',
+                    'Values': [
+                        env_id,
+                    ]
+                },
+            ]
+        )['Reservations']
+
+        if not instances:
+            print("\tWaiting for the environment's instance to be launched...")
+            time.sleep(5)
+        else:
+            return instances[0]['Instances'][0]['InstanceId']
+
+
+def retrieve_instance_volume(instance_id):
+    """Retrieves the EBS volume of the instance
+
+    Keyword arguments:
+    instance_id -- Identifier of the EC2 instance
+    """
+
+    print("\tRetrieving EBS volume...")
+
+    client = boto3.client('ec2')
+
+    while True:
+        volumes = client.describe_volumes(
+            Filters=[
+                {
+                    'Name': 'attachment.instance-id',
+                    'Values': [
+                        instance_id,
+                    ]
+                },
+            ]
+        )['Volumes']
+
+        if not volumes:
+            print("\tWaiting for the volume to be attached to the instance...")
+            time.sleep(5)
+        else:
+            return volumes[0]['VolumeId']
 
 
 def resize_volume(volume_id, new_size):
@@ -134,12 +171,11 @@ if __name__ == "__main__":
     os.environ['C9_ENV_ID'] = c9_env_id
 
     # Retrieve the environment's instance
-    instance_data = retrieve_cloud9_instance(c9_env_id)
+    instance_id = retrieve_cloud9_instance(c9_env_id)
 
     # Resize the ebs volume
-    volume_id = instance_data['BlockDeviceMappings'][0]['Ebs']['VolumeId']
+    volume_id = retrieve_instance_volume(instance_id)
     resize_volume(volume_id, volume_size)
 
     # Expand the file system to the new volume size
-    instance_id = instance_data['InstanceId']
     expand_file_system(instance_id, volume_id)
