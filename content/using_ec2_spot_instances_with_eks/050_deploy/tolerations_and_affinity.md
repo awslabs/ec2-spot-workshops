@@ -67,7 +67,7 @@ The following affinities must be added at the *spec.template.spec* level
 
 If you are still struggling with the implementation, then run below command to overwrite `monte-carlo-pi-service.yml` template with the final solution. 
 
-{{%expand "Show me how to apply all the changes to the file" %}}
+{{%expand "Show me how to apply all the changes and deploy the final solution" %}}
 ```
 cat <<EoF > ~/environment/monte-carlo-pi-service.yml
 ---

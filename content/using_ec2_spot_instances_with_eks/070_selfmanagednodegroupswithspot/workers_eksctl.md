@@ -39,7 +39,7 @@ nodeGroups:
       maxSize: 4
       desiredCapacity: 2
       instancesDistribution:
-        instanceTypes: ["m4.xlarge", "m5.xlarge", "m5a.xlarge", "m5ad.xlarge", "m5d.xlarge", "m5dn.xlarge", "m5n.xlarge", "m5zn.xlarge", "m6i.xlarge", "t2.xlarge", "t3.xlarge", "t3a.xlarge"] 
+        instanceTypes: ["m4.xlarge", "m5.xlarge", "m5a.xlarge", "m5ad.xlarge", "m5d.xlarge", "t2.xlarge", "t3.xlarge", "t3a.xlarge"] 
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 0
         spotAllocationStrategy: capacity-optimized
@@ -64,7 +64,7 @@ nodeGroups:
       maxSize: 2
       desiredCapacity: 1
       instancesDistribution:
-        instanceTypes: ["m4.2xlarge", "m5.2xlarge", "m5a.2xlarge", "m5ad.2xlarge", "m5d.2xlarge", "m5dn.2xlarge", "m5n.2xlarge", "m5zn.2xlarge", "m6i.2xlarge", "t2.2xlarge", "t3.2xlarge", "t3a.2xlarge"] 
+        instanceTypes: ["m4.2xlarge", "m5.2xlarge", "m5a.2xlarge", "m5ad.2xlarge", "m5d.2xlarge", "t2.2xlarge", "t3.2xlarge", "t3a.2xlarge"] 
         onDemandBaseCapacity: 0
         onDemandPercentageAboveBaseCapacity: 0
         spotAllocationStrategy: capacity-optimized
