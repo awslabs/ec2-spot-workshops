@@ -21,7 +21,7 @@ cat <<EoF > job-definition-config.json
         "memory": 8000
     },
     "retryStrategy": {
-        "attempts": 1
+        "attempts": 3
     },
     "platformCapabilities": [
         "EC2"

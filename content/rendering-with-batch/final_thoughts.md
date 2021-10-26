@@ -1,7 +1,7 @@
 ---
 title: "Final Thoughts"
 date: 2021-09-06T08:51:33Z
-weight: 150
+weight: 160
 ---
 
 **Congratulations!** You have successfully completed the workshop. Today you have:
@@ -11,6 +11,7 @@ weight: 150
 3. Learned about AWS Batch, its use cases and components.
 4. Learned the different types of jobs you find in AWS Batch (array and single). Also, you have learned how to define dependencies between them and how to work with the AWS_BATCH_JOB_ARRAY_INDEX environment variable.
 5. Seen how to follow Spot best practices when working with Batch, by defining several compute environments with the appropriate allocation strategies for EC2 and Spot instances.
+6. Learned how to use AWS FIS to test the resilience of your systems.
 
 ## Savings
 

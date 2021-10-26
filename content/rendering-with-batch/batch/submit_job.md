@@ -31,9 +31,9 @@ Additionally, there's an extra argument *-f* that needs to be passed. Thanks to 
 To submit the rendering job, run the following block of code optionally replacing the value of the argument -f. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
 
 ```bash
-export JOB_NAME="RenderingWithBatch"
-export JOB_IDS=$(python3 job_submission.py -i "s3://${BucketName}/${BlendFileName}" -o "s3://${BucketName}" -f 1 -n "${JOB_NAME}" -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
-export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
+export JOB_NAME="RenderingWithBatch" && \
+export JOB_IDS=$(python3 job_submission.py -i "s3://${BucketName}/${BlendFileName}" -o "s3://${BucketName}" -f 1 -n "${JOB_NAME}" -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}") && \
+export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId') && \
 export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
 ```
 

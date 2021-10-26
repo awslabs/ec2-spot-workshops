@@ -31,7 +31,7 @@ cat <<EoF > spot-compute-environment-config.json
         "instanceTypes": [
             "optimal"
         ],
-        "subnets": [${Subnets[@]}],
+        "subnets": ["${Subnet1}", "${Subnet2}"],
         "launchTemplate": {
             "launchTemplateName": "${LaunchTemplateName}"
         },
@@ -81,7 +81,7 @@ cat <<EoF > ondemand-compute-environment-config.json
         "instanceTypes": [
             "optimal"
         ],
-        "subnets": [${Subnets[@]}],
+        "subnets": ["${Subnet1}", "${Subnet2}"],
         "launchTemplate": {
             "launchTemplateName": "${LaunchTemplateName}"
         },

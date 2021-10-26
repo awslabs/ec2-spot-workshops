@@ -11,6 +11,7 @@ As a first step, you are going to download a [CloudFormation stack](https://raw.
 - An S3 bucket
 - An ECR repository
 - A Launch Template
+- An IAM Role for AWS FIS
 - The Cloud9 environment where you will run all the commands
 
 After downloading the template, open the [CloudFormation console](https://console.aws.amazon.com/cloudformation) and on the top-right corner of the screen, click on **Create stack**. Follow the following steps:
@@ -34,11 +35,9 @@ do
     export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
     eval "echo $output : \"\$$output\""
 done
-
-export Subnets=($Subnets)
 ```
 
-You are now done with the environment configuration and are ready to start the workshop by heading to [**Rendering pipeline**](/rendering-with-batch/rendering_pipeline.html). 
+You are now done with the environment configuration and are ready to start the workshop by heading to [**Rendering pipeline**](/rendering-with-batch/rendering_pipeline.html).
 
 ## Optional: reviewing the Launch Template
 

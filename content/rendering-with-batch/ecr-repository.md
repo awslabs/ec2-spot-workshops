@@ -18,26 +18,21 @@ If you want to learn more about containers, read [this containers deep dive](htt
 
 To create the Docker image you will  need two files; the DockerFile, which is a text document that contains all the commands a user could call on the command line to assemble an image, and the bash script that will be executed when running the Docker container.
 
-1. Download the *Dockerfile* executing this command:
+Download both files executing these commands:
 
-    ```bash
-    wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/Dockerfile"
-    ```
-
-2. Download the *render.sh* script that will be executed when running the Docker container executing this command:
-
-    ```bash
-    wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/render.sh"
-    ```
+```bash
+wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/Dockerfile" && \
+wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/render.sh"
+```
 
 ### Push the image to ECR
 
 1. Retrieve the repository's Uri and separate the top level from the resource:
 
     ```bash
-    export REPOSITORY_DATA=$(aws ecr describe-repositories --repository-names "${RepositoryName}")
-    export REPOSITORY_URI=$((echo $REPOSITORY_DATA) | jq -r '.repositories[0].repositoryUri')
-    export REGISTRY_ID=$((echo $REPOSITORY_DATA) | jq -r '.repositories[0].registryId')
+    export REPOSITORY_DATA=$(aws ecr describe-repositories --repository-names "${RepositoryName}") && \
+    export REPOSITORY_URI=$((echo $REPOSITORY_DATA) | jq -r '.repositories[0].repositoryUri') && \
+    export REGISTRY_ID=$((echo $REPOSITORY_DATA) | jq -r '.repositories[0].registryId') && \
     export IMAGE="${REPOSITORY_URI}:latest"
     ```
 

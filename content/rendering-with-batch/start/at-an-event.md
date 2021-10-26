@@ -16,6 +16,7 @@ You are now logged in to the AWS console in an account that was created for you,
 - An S3 bucket
 - An ECR repository
 - A Launch Template
+- An IAM Role for AWS FIS
 - The Cloud9 environment where you will run all the commands
 
 ## Gathering the outputs
@@ -30,8 +31,6 @@ do
     export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
     eval "echo $output : \"\$$output\""
 done
-
-export Subnets=($Subnets)
 ```
 
 You can now start the workshop by heading to [**Rendering pipeline**](/rendering-with-batch/rendering_pipeline.html).

@@ -1,17 +1,135 @@
-Outputs:
-  Subnets:
-    Value: '"subnet-53cd991e", "subnet-6104853e", "subnet-2bba3e4d", "subnet-7c3ab95d", "subnet-589a5169", "subnet-a080feae"'
-  BucketName:
-    Value:
-      Ref: bucket43879C71
-  BlendFileName:
-    Value: blendfile.blend
-  RepositoryName:
-    Value:
-      Ref: repository9F1A3F0B
-  LaunchTemplateName:
-    Value: RenderingWithBatch
 Resources:
+  Vpc8378EB38:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/Resource
+  VpcRenderingWithBatchSubnet1SubnetADE6DAA0:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId:
+        Ref: Vpc8378EB38
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: RenderingWithBatch
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/Subnet
+  VpcRenderingWithBatchSubnet1RouteTable1BCC3903:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/RouteTable
+  VpcRenderingWithBatchSubnet1RouteTableAssociation9592115F:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet1RouteTable1BCC3903
+      SubnetId:
+        Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/RouteTableAssociation
+  VpcRenderingWithBatchSubnet1DefaultRoute58E16100:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet1RouteTable1BCC3903
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: VpcIGWD7BA715C
+    DependsOn:
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/DefaultRoute
+  VpcRenderingWithBatchSubnet2SubnetDC61207B:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: Vpc8378EB38
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: RenderingWithBatch
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/Subnet
+  VpcRenderingWithBatchSubnet2RouteTable5DF00176:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/RouteTable
+  VpcRenderingWithBatchSubnet2RouteTableAssociationE3297937:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet2RouteTable5DF00176
+      SubnetId:
+        Ref: VpcRenderingWithBatchSubnet2SubnetDC61207B
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/RouteTableAssociation
+  VpcRenderingWithBatchSubnet2DefaultRoute42CB5476:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet2RouteTable5DF00176
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: VpcIGWD7BA715C
+    DependsOn:
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/DefaultRoute
+  VpcIGWD7BA715C:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/IGW
+  VpcVPCGWBF912B6E:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      InternetGatewayId:
+        Ref: VpcIGWD7BA715C
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/VPCGW
   securityGroup32C48086:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -21,13 +139,14 @@ Resources:
         - CidrIp: 0.0.0.0/0
           Description: Allow all outbound traffic by default
           IpProtocol: "-1"
-      VpcId: vpc-97cd1dea
+      VpcId:
+        Ref: Vpc8378EB38
     Metadata:
       aws:cdk:path: RenderingWithBatchStack/securityGroup/Resource
   bucket43879C71:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: rendering-with-batch-50aea57d-1829-4ded-b942-202c7f351719
+      BucketName: rendering-with-batch-f299d775-2365-47e2-963d-e3567dd03482
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
@@ -80,7 +199,8 @@ Resources:
     Properties:
       InstanceType: t2.micro
       Name: RenderingWithBatch
-      SubnetId: subnet-53cd991e
+      SubnetId:
+        Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
     Metadata:
       aws:cdk:path: RenderingWithBatchStack/cloud9/ec2env/Resource
   cloud9resizeLambdaServiceRole05E60486:
@@ -199,10 +319,133 @@ Resources:
     DeletionPolicy: Delete
     Metadata:
       aws:cdk:path: RenderingWithBatchStack/cloud9/resizeLambdaCustomResource/Default
+  fisRole929947A2:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: fis.amazonaws.com
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/fisRole/Resource
+  fisRoleDefaultPolicy02E389FF:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ecs:DescribeClusterInstances
+              - ecs:UpdateContainerInstancesState
+              - ecs:ListContainerInstances
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: fisRoleDefaultPolicy02E389FF
+      Roles:
+        - Ref: fisRole929947A2
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/fisRole/DefaultPolicy/Resource
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
-      Analytics: v2:deflate64:H4sIAAAAAAAA/1WPzWrEMAyEn2XvXm+TPeVWGtK9FLqkfQFXUVk3sRVsqSUYv3vzQ2D3NJ+kYQYVuigr/XR4Nn/xCF1/SkABdfpgA71qMZIEQFV/+3fhUVjV5CMHgZkkMrl7y85ZLWkJoZyDECRYni6BZFxMj4s3Ix5un+jGwfAa8rjJKp51ehHokZfrRlkhBJ1aHClapjBt7fuUFQwkXaVTA2Xjf20g79CvAXdjU5dZDcZ9dUan17mVLfnFs3NW1ri5hobtvUWvNFhY+zbKOavrxDfyp7OudHH4idYeg3i2DnW76T/CcBd3ZgEAAA==
+      Analytics: v2:deflate64:H4sIAAAAAAAA/1WQQW/CMAyFfwv3EEY5cRurGJo0aVVB3FPXExltXCXOUBXlvy9tYcApn1+e/Gwv5TJby5fZq7q4OdTnRQCyKMOeFZxFiY68BRT5t/ny3HkWORnH1kMi75jaR8sjJ1+tWZOJYmgdEDIZjh0Mf8ciF4WvGg17XxnkQbtTSZ7xoKoG7/pd2zhHoNXQ+d88wIdhtMm5U4wX1V9jrtWG0zqnFg2LPYK3mvudJd+NAU/Cp/IGTgdsu0ZNjZ+VKNxKhjcP52nYiaJAsDKU2JHTTLafrnGrooCGfL2WYQvZ1vxqS2YcJrkeym2eRdGotqqVDO8p9bbkjaPQqk0xNJ1mfAtKZxzzJooxiqLnE5nFSq7lcvbjtJ5bb1i3KMvp/QNevyCA9gEAAA==
     Metadata:
       aws:cdk:path: RenderingWithBatchStack/CDKMetadata/Default
-
+    Condition: CDKMetadataAvailable
+Outputs:
+  Subnet1:
+    Value:
+      Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+  Subnet2:
+    Value:
+      Ref: VpcRenderingWithBatchSubnet2SubnetDC61207B
+  BucketName:
+    Value:
+      Ref: bucket43879C71
+  BlendFileName:
+    Value: blendfile.blend
+  RepositoryName:
+    Value:
+      Ref: repository9F1A3F0B
+  LaunchTemplateName:
+    Value: RenderingWithBatch
+  FISRole:
+    Value:
+      Fn::GetAtt:
+        - fisRole929947A2
+        - Arn
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
