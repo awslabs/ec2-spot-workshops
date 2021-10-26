@@ -38,6 +38,10 @@ Let's explore the configuration parameters in the structure:
 - **memory**: hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated.
 - **platformCapabilities**: the platform capabilities required by the job definition. Either *EC2* or *FARGATE*.
 
+{{% notice info %}}
+The values of **vcpus** and **memory** have been defined based on the resources needed to render a specific file. Each Blender file can be different in this sense and those values should be adapted accordingly to prevent the container from running out of memory when executing Blender.
+{{% /notice %}}
+
 Execute this command to create the job definition. To learn more about this API, see [register-job-definition CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html).
 
 ```bash

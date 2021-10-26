@@ -14,36 +14,6 @@ To learn more about ECR, visit [this web page](https://aws.amazon.com/ecr/).
 
 If you want to learn more about containers, read [this containers deep dive](https://aws.amazon.com/getting-started/deep-dive-containers/).
 
-### Create the repository
-
-Perform the following call to create the repository where you will publish the image. To learn more about this API, see [create-repository CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/create-repository.html).
-
-```bash
-export REPOSITORY_NAME="rendering-with-batch"
-aws ecr create-repository --repository-name "${REPOSITORY_NAME}"
-```
-
-**Example output**
-
-```bash
-{
-    "repository": {
-        "repositoryArn": "arn:aws:ecr:us-east-1xxxxxxxxrepository/batch-rendering",
-        "registryId": ":xxxxxxxx:",
-        "repositoryName": "batch-rendering",
-        "repositoryUri": ":xxxxxxxx:.dkr.ecr.us-east-1.amazonaws.com/batch-rendering",
-        "createdAt": "2021-10-04T16:26:24+00:00",
-        "imageTagMutability": "MUTABLE",
-        "imageScanningConfiguration": {
-            "scanOnPush": false
-        },
-        "encryptionConfiguration": {
-            "encryptionType": "AES256"
-        }
-    }
-}
-```
-
 ### Download image files
 
 To create the Docker image you will  need two files; the DockerFile, which is a text document that contains all the commands a user could call on the command line to assemble an image, and the bash script that will be executed when running the Docker container.
@@ -65,7 +35,7 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 1. Retrieve the repository's Uri and separate the top level from the resource:
 
     ```bash
-    export REPOSITORY_DATA=$(aws ecr describe-repositories --repository-names "${REPOSITORY_NAME}")
+    export REPOSITORY_DATA=$(aws ecr describe-repositories --repository-names "${RepositoryName}")
     export REPOSITORY_URI=$((echo $REPOSITORY_DATA) | jq -r '.repositories[0].repositoryUri')
     export REGISTRY_ID=$((echo $REPOSITORY_DATA) | jq -r '.repositories[0].registryId')
     export IMAGE="${REPOSITORY_URI}:latest"
@@ -80,13 +50,13 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 2. Build your Docker image using the following command. For information on building a Docker file from scratch see the instructions [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html).
 
     ```bash
-    docker build -t "${REPOSITORY_NAME}" .
+    docker build -t "${RepositoryName}" .
     ```
 
 3. Tag your image so you can push the image to this repository.
 
     ```bash
-    docker tag "${REPOSITORY_NAME}:latest" "${IMAGE}"
+    docker tag "${RepositoryName}:latest" "${IMAGE}"
     ```
 
 4. Push the image to your newly created AWS repository.

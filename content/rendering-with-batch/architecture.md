@@ -1,7 +1,7 @@
 ---
 title: "Architecture"
 date: 2021-09-06T08:51:33Z
-weight: 15
+weight: 20
 ---
 
 The following diagram illustrates what you will deploy:

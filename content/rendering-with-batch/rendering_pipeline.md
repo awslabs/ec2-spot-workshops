@@ -1,7 +1,7 @@
 ---
 title: "Rendering pipeline"
 date: 2021-09-06T08:51:33Z
-weight: 20
+weight: 30
 ---
 
 ![Rendering pipeline](/images/rendering-with-batch/pipeline.png)
@@ -40,21 +40,14 @@ If you want to learn more about Blender's command line rendering, visit [this we
 We will use a Blender file from [BlendSwap](https://blendswap.com/categories). In that web page, Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists in the community. We will work with [the same file](https://blendswap.com/blend/28661) that was rendered to generate the animation that you've seen in the landing page. That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
 
 - The file must be configured to render the frames as .png files.
+- The file must be named **blendfile.blend**.
 - The more frames it has, the more compute resources you will need to render it thus impacting the costs of running the workshop.
 
-Run the following command to download the file:
+Run the following command to download the file and upload it to S3:
 
 ```bash
-export BLEND_FILE_NAME="blendfile.blend"
 wget "https://github.com/bperezme/ec2-spot-workshops/raw/blender_rendering_using_batch/content/rendering-with-batch/blendfile.blend"
-```
-
-Execute the following commands to create an S3 bucket and upload to it the Blender file:
-
-```bash
-export BUCKET_NAME=("batch-rendering-"$(uuidgen))
-aws s3api create-bucket --bucket "${BUCKET_NAME}"
-aws s3api put-object --bucket "${BUCKET_NAME}" --key "${BLEND_FILE_NAME}" --body "${BLEND_FILE_NAME}"
+aws s3api put-object --bucket "${BucketName}" --key "${BlendFileName}" --body "${BlendFileName}"
 ```
 
 ## FFmpeg: stitching job

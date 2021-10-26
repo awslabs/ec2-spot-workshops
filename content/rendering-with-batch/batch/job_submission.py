@@ -257,7 +257,4 @@ if __name__ == "__main__":
     # Submit the stitching job
     job_results.append(submit_stitching_job(job_results[0]['jobId']))
 
-    # Append the number of frames to calculate the progress
-    job_results.append({'framesToRender': n_frames})
-
     print(json.dumps(job_results))

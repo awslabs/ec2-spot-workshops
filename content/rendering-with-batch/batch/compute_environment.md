@@ -31,13 +31,9 @@ cat <<EoF > spot-compute-environment-config.json
         "instanceTypes": [
             "optimal"
         ],
-        "subnets": [
-            "${SUBNET_1}",
-            "${SUBNET_2}",
-            "${SUBNET_3}"
-        ],
+        "subnets": [${Subnets[@]}],
         "launchTemplate": {
-            "launchTemplateName": "${LAUNCH_TEMPLATE_NAME}"
+            "launchTemplateName": "${LaunchTemplateName}"
         },
         "instanceRole": "ecsInstanceRole"
     }
@@ -85,13 +81,9 @@ cat <<EoF > ondemand-compute-environment-config.json
         "instanceTypes": [
             "optimal"
         ],
-        "subnets": [
-            "${SUBNET_1}",
-            "${SUBNET_2}",
-            "${SUBNET_3}"
-        ],
+        "subnets": [${Subnets[@]}],
         "launchTemplate": {
-            "launchTemplateName": "${LAUNCH_TEMPLATE_NAME}"
+            "launchTemplateName": "${LaunchTemplateName}"
         },
         "instanceRole": "ecsInstanceRole"
     }
@@ -101,7 +93,7 @@ EoF
 
 Let's explore the configuration parameters in the *computeResources* structure that differ from the previous Compute environment:
 
-- **type**: specifies the compute resource type to use. This compute environment will use On-demsnd instances, hence the *EC2* value. The other possible values are *SPOT*, *FARGATE* and *FARGATE_SPOT*.
+- **type**: specifies the compute resource type to use. This compute environment will use On-demand instances, hence the *EC2* value. The other possible values are *SPOT*, *FARGATE* and *FARGATE_SPOT*.
 - **allocationStrategy**: the allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. By specifying *BEST_FIT_PROGRESSIVE*, Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type.
 
 Notice how we have specified lower values for *maxvCpus* and *desiredvCpus* in comparison to the same of the Spot compute environment. We do so to make sure that only the required compute capacity to finish the job in a finite amount of time is provisioned with On-demand capacity, using more Spot resources to reduce execution time and cost.

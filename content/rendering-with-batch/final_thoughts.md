@@ -4,11 +4,13 @@ date: 2021-09-06T08:51:33Z
 weight: 150
 ---
 
-**Congratulations!** In this workshop you have learned the principles of graphics rendering and what programs you can use to do it. In addition, you have built step by step a Docker image that runs these programs.
+**Congratulations!** You have successfully completed the workshop. Today you have:
 
-Also, thanks to AWS Batch you have had a first contact with the execution of parallel jobs in a distributed environment. You have learned the different types of jobs (array and single) and how to establish dependencies between them.
-
-Finally, you have seen the importance of choosing the right allocation strategy for both Spot and EC2, following the best practices such as instance diversification to minimise the probability of instance interruption.
+1. Learned the principles of graphics rendering and what programs you can use to do it.
+2. Built and published in ECR a Docker image that runs those programs.
+3. Learned about AWS Batch, its use cases and components.
+4. Learned the different types of jobs you find in AWS Batch (array and single). Also, you have learned how to define dependencies between them and how to work with the AWS_BATCH_JOB_ARRAY_INDEX environment variable.
+5. Seen how to follow Spot best practices when working with Batch, by defining several compute environments with the appropriate allocation strategies for EC2 and Spot instances.
 
 ## Savings
 

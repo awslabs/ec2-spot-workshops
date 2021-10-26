@@ -6,15 +6,20 @@ weight: 130
 
 ## Results
 
-To check the rendering progress of our job, we are going to retrieve the number of frames that have been uploaded to S3 and divide it by the total number of frames to render:
+You can check the rendering progress by running these commands:
 
 ```bash
-export RENDER_COUNT=$(aws s3api list-objects --bucket "${BUCKET_NAME}" --prefix "${JOB_NAME}/frames/" --output json --query "[length(Contents[])]" | jq -r '.[0]')
-awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var2 / var1) * 100 "% ==> " var2 " frames rendered.") }'
-echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BUCKET_NAME}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
+export RENDERING_PROGRESS=$(aws batch describe-jobs --jobs "${RENDERING_JOB_ID}") && \
+export RENDER_COUNT=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.statusSummary.SUCCEEDED') && \
+export FRAMES_TO_RENDER=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.size') && \
+awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var2 / var1) * 100 "% ==> " var2 " out of " var1 " frames rendered.") }'
 ```
 
-When you see that the progress reaches 100%, you can navigate to the output URL displayed in the console to download the video.
+When the progress reaches 100%, the output video will be available in the following URL:
+
+```bash
+echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
+```
 
 ## Monitoring
 

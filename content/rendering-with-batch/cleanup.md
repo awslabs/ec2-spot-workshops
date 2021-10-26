@@ -8,24 +8,23 @@ Before closing this workshop, let's make sure we clean up all the resources we c
 
 ## S3
 
-To delete an S3 bucket it must be completely empty. Execute these commands to empty your bucket and then delete it.
+To be able to delete an S3 bucket, it must be completely empty. Execute this command to empty your bucket:
 
 ```bash
-aws s3 rm "s3://${BUCKET_NAME}" --recursive
-aws s3api delete-bucket --bucket "${BUCKET_NAME}"
+aws s3 rm "s3://${BucketName}" --recursive
 ```
 
-To learn more about these APIs, see [delete-bucket CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket.html) and [Emptying a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/empty-bucket.html).
+To learn more about this API, see [Emptying a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/empty-bucket.html).
 
 ## ECR
 
-This command will delete the repository and all the images it contains, since we are passing the *force* argument.
+To be able to delete an ECR repository, it must not contain any image. Execute this command to delete the image that you pushed:
 
 ```bash
-aws ecr delete-repository --repository-name "${REPOSITORY_NAME}" --force
+aws ecr batch-delete-image --repository-name "${RepositoryName}" --image-ids imageTag=latest
 ```
 
-To learn more about this API, see [delete-repository CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/delete-repository.html).
+To learn more about this API, see [batch-delete-image CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/batch-delete-image.html).
 
 ## AWS Batch
 
@@ -36,7 +35,7 @@ When deleting Batch components, the order matters; a CE cannot be deleted if it 
 A job queue must be disabled in order to delete it.
 
 ```bash
-aws batch update-job-queue --job-queue "${RENDERING_QUEUE_NAME}" --state DISABLED
+aws batch update-job-queue --job-queue "${RENDERING_QUEUE_NAME}" --state DISABLED && \
 aws batch delete-job-queue --job-queue "${RENDERING_QUEUE_NAME}"
 ```
 
@@ -47,11 +46,20 @@ To learn more about this API, see [delete-job-queue CLI Command Reference](https
 As with the job queue, the compute environment must be disabled first.
 
 ```bash
-aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED
-aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED
-aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}"
+aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED && \
+aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED && \
+```
+
+Then, delete them with these commands:
+
+```bash
+aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" && \
 aws batch delete-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
+
+{{% notice info %}}
+If you see the following output: **An error occurred (ClientException) when calling the DeleteComputeEnvironment operation: Cannot delete, resource is being modified**, is because either of the environments are still being modified. Wait some seconds and execute the commands again.
+{{% /notice %}}
 
 To learn more about this API, see [delete-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-compute-environment.html).
 
@@ -64,16 +72,6 @@ aws batch deregister-job-definition --job-definition "${JOB_DEFINITION_NAME}"
 To learn more about this API, see [deregister-job-definition CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/deregister-job-definition.html).
 
 
-## Launch Template
+## Deleting the CloudFormation stack
 
-```bash
-aws ec2 delete-launch-template --launch-template-name "${LAUNCH_TEMPLATE_name}"
-```
-
-To learn more about this API, see [delete-launch-template CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-launch-template.html).
-
-## AWS Cloud9
-
-To delete the Cloud9 environment in the console, navigate to https://console.aws.amazon.com/cloud9, select the environment and click on *Delete* as shown in the image below:
-
-![Delete Cloud9 environment](/images/rendering-with-batch/delete-environment.png)
+Deleting the CloudFormation Stack will delete all the resources it created. To do that, navigate to [CloudFormation in the AWS Console](https://console.aws.amazon.com/cloudformation/home), select the stack **RenderingWithBatch** and delete it.
