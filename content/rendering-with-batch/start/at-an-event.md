@@ -1,30 +1,26 @@
 ---
-title: "Environment set up"
-date: 2021-07-07T08:51:33Z
-weight: 20
+title: "Run the workshop at an AWS event"
+date: 2021-09-06T08:51:33Z
+weight: 25
 ---
 
-## Deploying the CloudFormation stack
+If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
 
-As a first step, you are going to download a [CloudFormation stack](www.test.com) that will deploy for you the following resources:
+1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/).
+2. Enter the Hash in the text box, and click **Proceed**
+3. In the User Dashboard screen, click **AWS Console**
+4. In the popup page, click **Open Console**
+
+You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time. A CloudFormation stack has been automatically deployed for you with the following resources:
 
 - An S3 bucket
 - An ECR repository
 - A Launch Template
 - The Cloud9 environment where you will run all the commands
 
-After downloading the template, open the [CloudFormation console](https://console.aws.amazon.com/cloudformation) and on the top-right corner of the screen, click on **Create stack**. Follow the following steps:
-
-1. In the *Create stack* page, click on **Choose file** and upload the CloudFormation template you just downloaded. Don't change any other configuration parameter.
-2. In the *Specify stack details* page, enter **RenderingWithBatch** as the stack name.
-3. In the *Configure stack options* page, leave all the configuration as it is. Navigate to the bottom of the page and click on **Next**.
-4. In the *Review* page, leave all the configuration as it is. Navigate to the bottom of the page, and click on **I acknowledge that AWS CloudFormation might create IAM resources** and finally on **Create stack**.
-
-The stack creation process will begin. When the status of the stack is *CREATE_COMPLETE*, navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open the environment that was created for you.
-
 ## Gathering the outputs
 
-The first thing that we need to do in Cloud9 is gather the identifier of the resources that were created by CloudFormation,  to reference them later in some API calls. Run the following commands:
+Navigate to the Cloud9 console and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack:
 
 ```bash
 export STACK_NAME="RenderingWithBatch"
@@ -38,13 +34,7 @@ done
 export Subnets=($Subnets)
 ```
 
-```bash
-export AWS_DEFAULT_REGION="us-east-1"
-sudo yum -y install jq
-sudo pip install boto3
-```
-
-You are now done with the environment configuration.
+You can now start the workshop by heading to [**Rendering pipeline**](/rendering-with-batch/rendering_pipeline.html).
 
 ## Optional: reviewing the Launch Template
 
