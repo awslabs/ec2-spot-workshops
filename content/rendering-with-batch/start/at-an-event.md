@@ -13,6 +13,7 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time. A CloudFormation stack has been automatically deployed for you with the following resources:
 
+- A VPC
 - An S3 bucket
 - An ECR repository
 - A Launch Template
@@ -21,9 +22,10 @@ You are now logged in to the AWS console in an account that was created for you,
 
 ## Gathering the outputs
 
-Navigate to the Cloud9 console and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack:
+Navigate to the Cloud9 console and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack and your current region:
 
 ```bash
+export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r ‘.region’)
 export STACK_NAME="RenderingWithBatch"
 
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)

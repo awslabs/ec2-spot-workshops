@@ -90,7 +90,7 @@ The experiment will fail if we run it and the cluster does not have ECS containe
 aws ecs describe-clusters --clusters "${ECS_CLUSTER_ARN}"
 ```
 
-To learn more about this API, see [describe-clusters CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecs/describe-clusters.html). You can see that the output includes as well a list of failures, which is going to be very useful to verify that our orchestrated chaos is making some damage. If the value of *registeredContainerInstancesCount* is 0, repeat the API call until it changes. Once that happens, you can start the experiment with the following command:
+To learn more about this API, see [describe-clusters CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecs/describe-clusters.html). You can see that the output includes as well a list of failures, which is going to be very useful to verify that our orchestrated chaos is making some damage. If the value of *registeredContainerInstancesCount* is 0, repeat the API call until it reaches 10 (approximately). Once that happens, you can start the experiment with the following command:
 
 ```bash
 export EXPERIMENT_ID=$(aws fis start-experiment --experiment-template-id "${EXPERIMENT_TEMPLATE_ID}" | jq -r '.experiment.id')

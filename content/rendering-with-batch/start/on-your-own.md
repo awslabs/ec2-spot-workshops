@@ -8,6 +8,7 @@ weight: 27
 
 As a first step, you are going to download a [CloudFormation stack](https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/stack.yaml) that will deploy for you the following resources:
 
+- A VPC
 - An S3 bucket
 - An ECR repository
 - A Launch Template
@@ -25,9 +26,10 @@ The stack creation process will begin. When the status of the stack is *CREATE_C
 
 ## Gathering the outputs
 
-The first thing that we need to do in Cloud9 is gather the identifier of the resources that were created by CloudFormation,  to reference them later in some API calls. Run the following commands:
+The first thing that we need to do in Cloud9 is gather the identifier of the resources that were created by CloudFormation to reference them later in some API calls. Run the following commands:
 
 ```bash
+export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r ‘.region’)
 export STACK_NAME="RenderingWithBatch"
 
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
