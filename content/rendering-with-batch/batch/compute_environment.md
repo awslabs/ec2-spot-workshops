@@ -35,7 +35,7 @@ cat <<EoF > spot-compute-environment-config.json
         "launchTemplate": {
             "launchTemplateName": "${LaunchTemplateName}"
         },
-        "instanceRole": "ecsInstanceRole"
+        "instanceRole": "AWSServiceRoleForECS"
     }
 }
 EoF
@@ -51,7 +51,7 @@ Let's explore the configuration parameters in the *computeResources* structure:
 - **instanceRole**: the Amazon ECS instance profile applied to Amazon EC2 instances in the compute environment.
 
 {{% notice info %}}
-AWS Batch compute environments are populated with Amazon ECS container instances, and they run the Amazon ECS container agent locally. The Amazon ECS container agent makes calls to various AWS API operations on your behalf. Therefore, container instances that run the agent require an IAM policy and role for these services to recognize that the agent belongs to you. If you have never run ECS instances, such role won't exist in your account. To create it, run the following command in AWS CloudShell: `aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com`. For more information read [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) and [Service-linked role for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html).
+AWS Batch compute environments are populated with Amazon ECS container instances, and they run the Amazon ECS container agent locally. The Amazon ECS container agent makes calls to various AWS API operations on your behalf. Therefore, container instances that run the agent require an IAM policy and role for these services to recognize that the agent belongs to you. If you have never run ECS instances, such role won't exist in your account. To create it, run the following command: `aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com`. For more information read [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) and [Service-linked role for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html).
 {{% /notice %}}
 
 Execute this command to create the Batch compute environment and export its ARN to an environment variable. To learn more about this API, see [create-compute-environment CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/create-compute-environment.html).
