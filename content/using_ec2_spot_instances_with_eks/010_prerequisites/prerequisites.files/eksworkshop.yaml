@@ -4,7 +4,7 @@ kind: ClusterConfig
 
 metadata:
   name: eksworkshop-eksctl
-  region: ${AWS_REGION}
+  region: --AWS_REGION--
   version: --EKS_VERSION--
 
 availabilityZones: ["${AZS[0]}", "${AZS[1]}"]
