@@ -7,7 +7,7 @@ metadata:
   region: --AWS_REGION--
   version: --EKS_VERSION--
 
-availabilityZones: [--AZ0--, --AZ1--]
+availabilityZones: [--AWS_REGION--a, --AWS_REGION--b]
 
 managedNodeGroups:
 - amiFamily: AmazonLinux2
