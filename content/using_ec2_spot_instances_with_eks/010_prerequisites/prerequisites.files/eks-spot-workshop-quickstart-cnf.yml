@@ -20,10 +20,9 @@ Parameters:
   C9InstanceType:
     Description: Example Cloud9 instance type
     Type: String
-    Default: t3.small
+    Default: t2.micro
     AllowedValues:
-      - t3.small
-      - t3.medium
+      - t2.micro
     ConstraintDescription: Must be a valid Cloud9 instance type
   C9KubectlVersion:
     Description: Cloud9 instance kubectl version
@@ -41,7 +40,7 @@ Parameters:
     Default: v0.68.0
     ConstraintDescription: Must be a valid eksctl version
   EKSClusterVersion:
-    Description: EKS Cluster Vesion
+    Description: EKS Cluster Version
     Type: String
     Default: 1.21
     ConstraintDescription: Must be a valid eks version
@@ -168,19 +167,19 @@ Resources:
         ZipFile: |
           from __future__ import print_function
           import boto3
-          # import loggings
+          import logging
           import json
           import os
           import time
           import traceback
           import cfnresponse
 
-          # logger = logging.getLogger()
-          # logger.setLevel(logging.INFO)
+          logging.basicConfig(level=logging.INFO)
+          logger = logging.getLogger(__name__)
 
           def lambda_handler(event, context):
-              # logger.info('event: {}'.format(event))
-              # logger.info('context: {}'.format(context))
+              logger.info('event: {}'.format(event))
+              logger.info('context: {}'.format(context))
               responseData = {}
 
               if event['RequestType'] == 'Create':
@@ -191,13 +190,13 @@ Resources:
                       # Get the InstanceId of the Cloud9 IDE
                       # print(str({'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}))
                       instance = ec2.describe_instances(Filters=[{'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]
-                      # logger.info('instance: {}'.format(instance))
+                      logger.info('instance: {}'.format(instance))
 
                       # Create the IamInstanceProfile request object
                       iam_instance_profile = {
                           'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn']
                       }
-                      # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
+                      logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
 
                       # Wait for Instance to become ready before adding Role
                       instance_state = instance['State']['Name']
@@ -205,11 +204,11 @@ Resources:
                       while instance_state != 'running':
                           time.sleep(5)
                           instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])
-                          # logger.info('instance_state: {}'.format(instance_state))
+                          logger.info('instance_state: {}'.format(instance_state))
 
                       # attach instance profile
                       response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
-                      # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      logger.info('response - associate_iam_instance_profile: {}'.format(response))
                       r_ec2 = boto3.resource('ec2')
 
                       responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
@@ -262,8 +261,10 @@ Resources:
             - rm -vf /home/ec2-user/.aws/credentials
             - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
             - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+            - export AZS=($(aws ec2 describe-availability-zones --query 'AvailabilityZones[].ZoneName' --output text --region $AWS_REGION))
             - echo "export ACCOUNT_ID=${ACCOUNT_ID}" >> /home/ec2-user/.bash_profile
             - echo "export AWS_REGION=${AWS_REGION}" >> /home/ec2-user/.bash_profile
+            - echo "export AZS=(${AZS[@]})" >> /home/ec2-user/.bash_profile
             - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
             - sudo -H -u ec2-user aws configure get default.region
             - sudo -H -u ec2-user aws sts get-caller-identity
@@ -272,14 +273,16 @@ Resources:
             - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
             - echo '=== Install EKSCTL ==='
             - !Sub 'export EKSCTL_VERSION=${C9EKSctlVersion}'
-            - curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+            - sudo -H -u ec2-user curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
             - sudo mv -v /tmp/eksctl /usr/local/bin
             - sudo -H -u ec2-user /usr/local/bin/eksctl version
             - echo '=== Create EKS Cluster ==='
             - sudo -H -u ec2-user curl --silent --location -o /home/ec2-user/environment/eksworkshop.yaml "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/010_prerequisites/prerequisites.files/eksworkshop.yaml"
-            - !Sub sed -i.bak -e 's/--AWS_REGION--/${AWS::Region}/' /home/ec2-user/environment/eksworkshop.yaml
-            - !Sub sed sed -i.bak -e 's/--EKS_VERSION--/${EKSClusterVersion}/' /home/ec2-user/environment/eksworkshop.yaml
-            - sudo -H -u ec2-user /usr/local/bin/eksctl create cluster -f /home/ec2-user/environment/eksworkshop.yaml'
+            - echo '=== File Downloaded ==='
+            - !Sub sed -i.bak -e 's/--EKS_VERSION--/"'"${EKSClusterVersion}"'"/' /home/ec2-user/environment/eksworkshop.yaml
+            - echo '=== Replacement done eksctl started ==='
+            - sudo -H -u ec2-user /usr/local/bin/eksctl create cluster -f /home/ec2-user/environment/eksworkshop.yaml
+            - echo '=== kubectl started ==='
             - sudo -H -u ec2-user /usr/local/bin/kubectl get nodes
 
   C9BootstrapAssociation:

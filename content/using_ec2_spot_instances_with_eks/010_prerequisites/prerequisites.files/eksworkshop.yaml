@@ -4,8 +4,10 @@ kind: ClusterConfig
 
 metadata:
   name: eksworkshop-eksctl
-  region: --AWS_REGION--
+  region: ${AWS_REGION}
   version: --EKS_VERSION--
+
+availabilityZones: ["${AZS[0]}", "${AZS[1]}"]
 
 managedNodeGroups:
 - amiFamily: AmazonLinux2
@@ -22,8 +24,6 @@ managedNodeGroups:
     alpha.eksctl.io/nodegroup-name: mng-od-m5large
     alpha.eksctl.io/nodegroup-type: managed
     k8s.io/cluster-autoscaler/node-template/label/intent: control-apps
-  ssh:
-    enableSsm: true
   iam:
     withAddonPolicies:
       autoScaler: true
