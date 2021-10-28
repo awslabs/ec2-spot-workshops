@@ -181,7 +181,7 @@ Resources:
   bucket43879C71:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: rendering-with-batch-28ac9b73-f6dc-4e31-80dd-c3a66c4e92fa
+      BucketName: rendering-with-batch-3b7f19ce-3a24-4fa5-bf59-3e94c8018d37
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
@@ -372,13 +372,6 @@ Resources:
               )
 
               print('Instance rebooted')
-
-              instance_data = retrieve_cloud9_instance(c9_env_id)
-
-              while instance_data['State']['Name'] != 'running':
-                  print('Waiting for the instance to become active...')
-                  time.sleep(5)
-                  instance_data = retrieve_cloud9_instance(c9_env_id)
 
 
           def handler(event, context):
