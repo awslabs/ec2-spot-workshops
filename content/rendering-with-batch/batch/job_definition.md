@@ -32,20 +32,20 @@ EoF
 
 Let's explore the configuration parameters in the structure:
 
-- **type**: how the job is going to be run. By specifying *container*, we are making the jobs launched using this definition to be run in a Docker container. The other possible value is *multinode*, that allows to run single jobs that span multiple EC2 instances. With AWS Batch multi-node parallel jobs, you can run large-scale, tightly coupled, high performance computing applications. That type of job is not supported with Spot instances. To learn more about multi-node jobs, visit [multi-node parallel jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html).
+- **type**: how the job is going to be run. By specifying `container`, we are making the jobs launched using this definition to be run in a Docker container. The other possible value is `multinode`, that allows to run single jobs that span multiple EC2 instances. With AWS Batch multi-node parallel jobs, you can run large-scale, tightly coupled, high performance computing applications. That type of job is not supported with Spot instances. To learn more about multi-node jobs, visit [multi-node parallel jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html).
 - **image**: the image used to start a container, this value is passed directly to the Docker daemon.
 - **vcpus**: The number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares.
 - **memory**: hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated.
-- **platformCapabilities**: the platform capabilities required by the job definition. Either *EC2* or *FARGATE*.
+- **platformCapabilities**: the platform capabilities required by the job definition. Either `EC2` or `FARGATE`.
 
 {{% notice info %}}
-The values of **vcpus** and **memory** have been defined based on the resources needed to render a specific file. Each Blender file can be different in this sense and those values should be adapted accordingly to prevent the container from running out of memory when executing Blender.
+The values of `vcpus` and `memory` have been defined based on the resources needed to render a specific file. Each Blender file can be different in this sense and those values should be adapted accordingly to prevent the container from running out of memory when executing Blender.
 {{% /notice %}}
 
 Execute this command to create the job definition. To learn more about this API, see [register-job-definition CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html).
 
 ```bash
-aws batch register-job-definition --cli-input-json file://job-definition-config.json
+export JOB_DEFINITION_ARN=$(aws batch register-job-definition --cli-input-json file://job-definition-config.json | jq -r '.jobDefinitionArn')
 ```
 
 Finally, you are going to submit a job request.

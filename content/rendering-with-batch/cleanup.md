@@ -30,43 +30,48 @@ To learn more about this API, see [batch-delete-image CLI Command Reference](htt
 
 When deleting Batch components, the order matters; a CE cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue:
 
-### Deleting the job queue
+### Disabling the resources
 
-A job queue must be disabled in order to delete it.
+Job queues and compute environments have to be disabled bore deleting them:
 
 ```bash
 aws batch update-job-queue --job-queue "${RENDERING_QUEUE_NAME}" --state DISABLED && \
+aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED && \
+aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED
+```
+
+To learn more about these APIs, see [update-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-job-queue.html) and [update-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-compute-environment.html).
+
+### Deleting the resources
+
+Deleting the job queue:
+
+```bash
 aws batch delete-job-queue --job-queue "${RENDERING_QUEUE_NAME}"
 ```
 
-To learn more about this API, see [delete-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-job-queue.html).
-
-### Deleting the compute environment
-
-As with the job queue, the compute environment must be disabled first.
+Deleting the Spot compute environment:
 
 ```bash
-aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED && \
-aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED && \
+aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}"
 ```
 
-Then, delete them with these commands:
+Deleting the OnDemand compute environment:
 
 ```bash
-aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" && \
 aws batch delete-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
 
 {{% notice info %}}
-If you see the following output: **An error occurred (ClientException) when calling the DeleteComputeEnvironment operation: Cannot delete, resource is being modified**, is because either of the environments are still being modified. Wait some seconds and execute the commands again.
+If you see an error message with the exception `ClientException` when running any of the commands above, probably the resource is still being modified. Wait some seconds and try it again.
 {{% /notice %}}
 
-To learn more about this API, see [delete-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-compute-environment.html).
+To learn more about these APIs, see [delete-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-job-queue.html) and [delete-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-compute-environment.html).
 
 ### Deregistering the job definition
 
 ```bash
-aws batch deregister-job-definition --job-definition "${JOB_DEFINITION_NAME}"
+aws batch deregister-job-definition --job-definition "${JOB_DEFINITION_ARN}"
 ```
 
 To learn more about this API, see [deregister-job-definition CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/deregister-job-definition.html).

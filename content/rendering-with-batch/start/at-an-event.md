@@ -18,6 +18,7 @@ You are now logged in to the AWS console in an account that was created for you,
 - An ECR repository
 - A Launch Template
 - An IAM Role for AWS FIS
+- An instance profile for AWS Batch compute environment
 - The Cloud9 environment where you will run all the commands
 
 ## Gathering the outputs
@@ -25,7 +26,7 @@ You are now logged in to the AWS console in an account that was created for you,
 Navigate to the Cloud9 console and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack and your current region:
 
 ```bash
-export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r ‘.region’)
+export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
 export STACK_NAME="RenderingWithBatch"
 
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
@@ -41,7 +42,7 @@ You can now start the workshop by heading to [**Rendering pipeline**](/rendering
 
 When creating the Batch compute environment, we need to specify some configuration parameters that will be passed on to the EC2 instances when launched, like the Security Group, the Availability Zones and bootstrapping scripts (User data). To encapsulate those properties and be able to easily reuse them, we will use a Launch Template.
 
-The *UserData* of the created Launch Template contains the following script:
+The `UserData` of the created Launch Template contains the following script:
 
 ```bash
 MIME-Version: 1.0

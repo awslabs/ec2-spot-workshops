@@ -28,9 +28,9 @@ echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?reg
 To view the logs of a job using the console:
 
 1. Navigate to the AWS Batch service page.
-2. On the left navigation panel, select *Jobs*.
+2. On the left navigation panel, select **Jobs**.
 3. Select the job of which you want to view the logs.
-4. Follow the link under *Log stream name* inside the *Job information* section.
+4. Follow the link under **Log stream name** inside the **Job information** section.
 
 ![AWS Batch console](/images/rendering-with-batch/logs.png)
 

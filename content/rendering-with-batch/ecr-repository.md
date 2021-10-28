@@ -65,9 +65,9 @@ You are now done with the container part. Next, you will configure some environm
 
 ### Optional: understanding the render.sh script
 
-In broad strokes, the script *render.sh* does the following:
+In broad strokes, the script `render.sh` does the following:
 
-1. **Method parse_arguments**: extracts the command arguments and verify that the specified action is either *render* or *stitch*.
+1. **Method parse_arguments**: extracts the command arguments and verify that the specified action is either `render` or `stitch`.
 2. **Method render** (if the action is render):
   1. Downloads the blender file from S3.
   2. Calculates the slice of frames that has to render (we will se how in more detail when we talk about Batch).

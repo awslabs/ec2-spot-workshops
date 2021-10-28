@@ -181,7 +181,7 @@ Resources:
   bucket43879C71:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: rendering-with-batch-b7567f71-ee37-43cd-9e5a-0bbd6358e722
+      BucketName: rendering-with-batch-28ac9b73-f6dc-4e31-80dd-c3a66c4e92fa
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
@@ -295,6 +295,7 @@ Resources:
               - ec2:ModifyVolume
               - ec2:AssociateIamInstanceProfile
               - ec2:ReplaceIamInstanceProfileAssociation
+              - ec2:RebootInstances
               - iam:ListInstanceProfiles
               - iam:PassRole
               - ssm:SendCommand
@@ -362,8 +363,22 @@ Resources:
                   InstanceId=instance_data['InstanceId']
               )
 
-              time.sleep(10)
-              print('Instance profile associated')
+              print('Instance profile associated. Restarting SSM agent...')
+
+              client.reboot_instances(
+                  InstanceIds=[
+                      instance_data['InstanceId']
+                  ]
+              )
+
+              print('Instance rebooted')
+
+              instance_data = retrieve_cloud9_instance(c9_env_id)
+
+              while instance_data['State']['Name'] != 'running':
+                  print('Waiting for the instance to become active...')
+                  time.sleep(5)
+                  instance_data = retrieve_cloud9_instance(c9_env_id)
 
 
           def handler(event, context):
@@ -447,6 +462,32 @@ Resources:
         - Ref: fisRole929947A2
     Metadata:
       aws:cdk:path: RenderingWithBatchStack/fisRole/DefaultPolicy/Resource
+  ecsRole157644C0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/ecsRole/Resource
+  ecsinstanceprofile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: ecsRole157644C0
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/ecsinstanceprofile
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
@@ -475,6 +516,11 @@ Outputs:
     Value:
       Fn::GetAtt:
         - fisRole929947A2
+        - Arn
+  ECSInstanceProfile:
+    Value:
+      Fn::GetAtt:
+        - ecsinstanceprofile
         - Arn
 Conditions:
   CDKMetadataAvailable:
