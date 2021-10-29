@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 20
 ---
 
-To start the workshop head to one of the following pages, depending whether you want to:
+To start the workshop head to one of the following pages, depending whether you are:
 
 {{% children %}}
 

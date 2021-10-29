@@ -51,8 +51,8 @@ cat <<EoF > fis-experiment-config.json
             "actionId": "aws:ecs:drain-container-instances",
             "description": "Drain cluster",
             "parameters": {
-              "drainagePercentage": "20",
-              "duration": "PT1M"
+              "drainagePercentage": "60",
+              "duration": "PT5M"
             },
             "targets": {
                 "Clusters": "ECS-cluster"
@@ -98,6 +98,8 @@ export EXPERIMENT_ID=$(aws fis start-experiment --experiment-template-id "${EXPE
 
 To learn more about this API, see [start-experiment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/fis/start-experiment.html).
 
+## Checking the results
+
 ### Reviewing the experiment
 
 Execute the following command to get information about the experiment:
@@ -106,3 +108,11 @@ Execute the following command to get information about the experiment:
 aws fis get-experiment --id "${EXPERIMENT_ID}"
 ```
 To learn more about this API, see [get-experiment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/fis/get-experiment.html).
+
+### Reviewing job attempts
+
+To check which frames have been attempted to render more than once, execute the following command:
+
+```bash
+python3 verifying_resilience.py "${RENDERING_JOB_ID}"
+```

@@ -1,5 +1,5 @@
 ---
-title: "Run the workshop at an AWS event"
+title: "... At an AWS event"
 date: 2021-09-06T08:51:33Z
 weight: 25
 ---
