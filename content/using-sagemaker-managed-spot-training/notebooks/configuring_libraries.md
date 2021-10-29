@@ -11,7 +11,7 @@ Multiple libraries and SDKs such as the AWS Python SDK (boto3) and the Amazon Sa
 * sagemaker-built-in-deepar - Example notebook for training and hosting a DeepAR model with the SageMaker Python SDK.
 * sagemaker-built-in-xgboost - Example notebook for single instance and distributed training of an XGBoost model with the AWS Python SDK (boto3).
 * sagemaker-built-in-image-classification - Example notebook for single instance training of an image classification model with the AWS Python SDK (boto3).
-* sagemaker-built-in-object-detection - Example notebook for initial and incremental training of an object detection model with the SageMaker Python SDK.
+* sagemaker-built-in-object-detection - Example notebook for training an object detection model with the SageMaker Python SDK.
 * sagemaker-custom-tensorflow - Example notebook for training a customer model with your own TensorFlow container with the SageMaker Python SDK.
 
 {{% notice info %}} 
@@ -31,13 +31,13 @@ The following example configuration when instantiating an estimator demonstrates
 ```
 estimator = sagemaker.estimator.Estimator(
     sagemaker_session=sagemaker_session,
-    image_name=image_name,
+    image_uri=image_uri,
     role=role,
-    train_instance_count=1,
-    train_instance_type='ml.c4.xlarge',
-    train_use_spot_instances=True,
-    train_max_wait=[INTEGER_SECONDS],
-    train_max_run=[INTEGER_SECONS],
+    instance_count=1,
+    instance_type='ml.c4.xlarge',
+    use_spot_instances=True,
+    max_wait=[INTEGER_SECONDS],
+    max_run=[INTEGER_SECONS],
     base_job_name='[JOB_BASE_NAME]',
     checkpoint_s3_uri="[S3_CHECKPOINT_PATH]",
     output_path="[S3_OUTPUT_PATH]"
@@ -47,9 +47,9 @@ estimator = sagemaker.estimator.Estimator(
 When enabling Managed Spot Training, the relevant configuration options are:
 
 ```
-    train_use_spot_instances=True,
-    train_max_wait=[INTEGER_SECONDS],
-    train_max_run=[INTEGER_SECONS],
+    use_spot_instances=True,
+    max_wait=[INTEGER_SECONDS],
+    max_run=[INTEGER_SECONS],
 
     and
 
@@ -58,9 +58,9 @@ When enabling Managed Spot Training, the relevant configuration options are:
 
 ### Options Explained
 
-* train_use_spot_instances - Specifies whether to use SageMaker Managed Spot instances for training. If enabled then the train_max_wait arg should also be set.
-* train_max_wait -  Timeout in seconds waiting for spot training instances (default: None). After this amount of time Amazon SageMaker will stop waiting for Spot instances to become available.
-* train_max_run - Timeout in seconds for training (default: 24 * 60 * 60). After this amount of time Amazon SageMaker terminates the job regardless of its current status.
+* use_spot_instances - Specifies whether to use SageMaker Managed Spot instances for training. If enabled then the train_max_wait arg should also be set.
+* max_wait -  Timeout in seconds waiting for spot training instances (default: None). After this amount of time Amazon SageMaker will stop waiting for Spot instances to become available.
+* max_run - Timeout in seconds for training (default: 24 * 60 * 60). After this amount of time Amazon SageMaker terminates the job regardless of its current status.
 * checkpoint_s3_uri - The S3 URI in which to persist checkpoints that the algorithm persists (if any) during training.
 
 
