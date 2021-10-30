@@ -33,14 +33,13 @@ Please make sure changes went through, and the EBS volume now reflects the new s
 
 Changing the block device does not increase the size of the file system.
 
-To do so head back to the Cloud9 instance and use the following commands.
+To do so head back to the Cloud9 instance and use the following commands to reboot the instance. It could take a minute or two for the IDE to come back online.
 
 ```
-sudo growpart /dev/xvda 1
-sudo resize2fs $(df -h |awk '/^\/dev/{print $1}')
+sudo reboot
 ```
 
-The root file-system should now show 99GB.
+The root file-system should now show 100GB.
 
 ```
 df --human-readable
@@ -48,7 +47,9 @@ df --human-readable
 
 ```plaintext
 Filesystem      Size  Used Avail Use% Mounted on
-devtmpfs        483M   60K  483M   1% /dev
-tmpfs           493M     0  493M   0% /dev/shm
-/dev/xvda1       99G  8.0G   91G   9% /
+devtmpfs        960M     0  960M   0% /dev
+tmpfs           978M     0  978M   0% /dev/shm
+tmpfs           978M  452K  978M   1% /run
+tmpfs           978M     0  978M   0% /sys/fs/cgroup
+/dev/nvme0n1p1  100G  8.5G   92G   9% /
 ```

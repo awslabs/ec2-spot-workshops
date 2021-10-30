@@ -17,7 +17,7 @@ substituting the CloudFormation environment variables that we exported earlier w
 ```
 export ASG_NAME=EcsSpotWorkshop-ASG-OD
 export OD_PERCENTAGE=100 # Note that ASG will have 100% On-Demand, 0% Spot
-sed -i -e "s#%ASG_NAME%#$ASG_NAME#g" -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" asg.json
+sed -i -e "s#%ASG_NAME%#$ASG_NAME#g" -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" -e "s#%LAUNCH_TEMPLATE_ID%#$LaunchTemplateId#g" asg.json
 ```
 {{% notice info%}}
 Read the **asg.json** file and understand the various configuration options for the EC2 Auto Scaling group. Check how although this is an OnDemand we still apply instance diversification with the Prioritized allocation strategy. Check how the **Launch Template** we reviewed in the previous section is referenced in the Auto Scaling Group.

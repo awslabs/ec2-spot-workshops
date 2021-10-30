@@ -24,7 +24,7 @@ We will now replace the environment variables in the spot-asg.json file with the
 ```
 export ASG_NAME=EcsSpotWorkshop-ASG-SPOT
 export OD_PERCENTAGE=0 # Note that ASG will have 0% On-Demand, 100% Spot
-sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" spot-asg.json
+sed -i -e "s#%ASG_NAME%#$ASG_NAME#g"  -e "s#%OD_PERCENTAGE%#$OD_PERCENTAGE#g" -e "s#%PUBLIC_SUBNET_LIST%#$VPCPublicSubnets#g" -e "s#%LAUNCH_TEMPLATE_ID%#$LaunchTemplateId#g" spot-asg.json
 ```
 
 Finally we create the ASG for the Spot Instances and store the ARN for the spot group.
