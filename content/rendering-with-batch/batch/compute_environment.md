@@ -99,7 +99,7 @@ Execute this command to create the Batch compute environment and export its ARN 
 
 ```
 export ONDEMAND_COMPUTE_ENV_ARN=$(aws batch create-compute-environment --cli-input-json file://ondemand-compute-environment-config.json | jq -r '.computeEnvironmentArn')
-echo "OnDemand compute environment Arn: ${ONDEMAND_COMPUTE_ENV_ARN}"
+echo "On-Demand compute environment Arn: ${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
 
 Next, you are going to create a job queue that is going to be associated to these compute environments.
