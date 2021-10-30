@@ -8,7 +8,7 @@ As a last step to configuring Batch, we will register a job definition that will
 
 Run the following to generate the configuration file that will be used to create the job definition:
 
-```bash
+```
 export JOB_DEFINITION_NAME=RenderingJobDefinition
 
 cat <<EoF > job-definition-config.json
@@ -44,8 +44,9 @@ The values of `vcpus` and `memory` have been defined based on the resources need
 
 Execute this command to create the job definition. To learn more about this API, see [register-job-definition CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/register-job-definition.html).
 
-```bash
+```
 export JOB_DEFINITION_ARN=$(aws batch register-job-definition --cli-input-json file://job-definition-config.json | jq -r '.jobDefinitionArn')
+echo "Job definition Arn: ${JOB_DEFINITION_ARN}"
 ```
 
 Finally, you are going to submit a job request.

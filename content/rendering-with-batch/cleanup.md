@@ -6,35 +6,24 @@ weight: 150
 
 Before closing this workshop, let's make sure we clean up all the resources we created so we do not incur in unexpected costs.
 
-## S3
+## S3 and ECR
 
-To be able to delete an S3 bucket, it must be completely empty. Execute this command to empty your bucket:
+To be able to delete an S3 bucket or an ECR repository, they must be completely empty. Execute these commands to empty your bucket and delete the image that you pushed to your repository:
 
-```bash
-aws s3 rm "s3://${BucketName}" --recursive
 ```
-
-To learn more about this API, see [Emptying a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/empty-bucket.html).
-
-## ECR
-
-To be able to delete an ECR repository, it must not contain any image. Execute this command to delete the image that you pushed:
-
-```bash
+aws s3 rm "s3://${BucketName}" --recursive
 aws ecr batch-delete-image --repository-name "${RepositoryName}" --image-ids imageTag=latest
 ```
 
-To learn more about this API, see [batch-delete-image CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/batch-delete-image.html).
+To learn more about these APIs, see [Emptying a bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/empty-bucket.html) and [batch-delete-image CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ecr/batch-delete-image.html).
 
 ## AWS Batch
 
-When deleting Batch components, the order matters; a CE cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue:
+When deleting Batch components, the order matters; a CE cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue. Job queues and compute environments have to be disabled bore deleting them.
 
-### Disabling the resources
+To disable the components:
 
-Job queues and compute environments have to be disabled bore deleting them:
-
-```bash
+```
 aws batch update-job-queue --job-queue "${RENDERING_QUEUE_NAME}" --state DISABLED && \
 aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED && \
 aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED
@@ -42,49 +31,27 @@ aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_E
 
 To learn more about these APIs, see [update-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-job-queue.html) and [update-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-compute-environment.html).
 
-### Deleting the resources
+{{% notice info %}}
+Job queues and compute environments cannot be deleted while being modified, so running the following commands might throw an error if the resources are still being disabled.
+{{% /notice %}}
 
-Deleting the job queue:
+To delete the components:
 
-```bash
+```
 aws batch delete-job-queue --job-queue "${RENDERING_QUEUE_NAME}"
-```
-
-Deleting the Spot compute environment:
-
-```bash
 aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}"
-```
-
-Deleting the OnDemand compute environment:
-
-```bash
 aws batch delete-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
 
-{{% notice info %}}
-If you see an error message with the exception `ClientException` when running any of the commands above, probably the resource is still being modified. Wait some seconds and try it again.
-{{% /notice %}}
-
 To learn more about these APIs, see [delete-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-job-queue.html) and [delete-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/delete-compute-environment.html).
 
-### Deregistering the job definition
+Finally, deregister the job definition:
 
-```bash
+```
 aws batch deregister-job-definition --job-definition "${JOB_DEFINITION_ARN}"
 ```
 
 To learn more about this API, see [deregister-job-definition CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/deregister-job-definition.html).
-
-## AWS FIS
-
-You can delete the experiment template with the following command:
-
-```bash
-aws fis delete-experiment-template --id "${EXPERIMENT_TEMPLATE_ID}"
-```
-
-To learn more about this API, see [delete-experiment-template CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/fis/delete-experiment-template.html).
 
 ## Deleting the CloudFormation stack
 

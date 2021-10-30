@@ -14,7 +14,7 @@ By using On-Demand instances, we are sure that the compute resources will remain
 
 Run the following to generate the configuration file that will be used to create the Batch compute environment that uses Spot instances:
 
-```bash
+```
 export SPOT_COMPUTE_ENV_NAME="RenderingSpotComputeEnvironment"
 
 cat <<EoF > spot-compute-environment-config.json
@@ -52,15 +52,16 @@ Let's explore the configuration parameters in the `computeResources` structure:
 
 Execute this command to create the Batch compute environment and export its ARN to an environment variable. To learn more about this API, see [create-compute-environment CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/create-compute-environment.html).
 
-```bash
+```
 export SPOT_COMPUTE_ENV_ARN=$(aws batch create-compute-environment --cli-input-json file://spot-compute-environment-config.json | jq -r '.computeEnvironmentArn')
+echo "Spot compute environment Arn: ${SPOT_COMPUTE_ENV_ARN}"
 ```
 
 ### On-Demand Compute environment creation
 
 Run the following to generate the configuration file that will be used to create the Batch compute environment that uses On-Demand instances:
 
-```bash
+```
 export ONDEMAND_COMPUTE_ENV_NAME="RenderingOnDemandComputeEnvironment"
 
 cat <<EoF > ondemand-compute-environment-config.json
@@ -96,8 +97,9 @@ Notice how we have specified lower values for `maxvCpus` and `desiredvCpus` in c
 
 Execute this command to create the Batch compute environment and export its ARN to an environment variable.
 
-```bash
+```
 export ONDEMAND_COMPUTE_ENV_ARN=$(aws batch create-compute-environment --cli-input-json file://ondemand-compute-environment-config.json | jq -r '.computeEnvironmentArn')
+echo "OnDemand compute environment Arn: ${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
 
 Next, you are going to create a job queue that is going to be associated to these compute environments.

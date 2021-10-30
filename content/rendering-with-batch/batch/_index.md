@@ -10,6 +10,15 @@ AWS Batch is a set of batch management capabilities that enables you to easily a
 
 Thanks to Batch computing, you can execute a series of programs ("jobs") on one or more computers without manual intervention. Input parameters are pre-defined through scripts, command-line arguments, control files, or job control language. A given batch job may depend on the completion of preceding jobs, or on the availability of certain inputs, making the sequencing and scheduling of multiple jobs important, and incompatible with interactive processing.
 
+## AWS Batch features
+- **Dynamic compute resource provisioning and scaling**: you only need to set up a few concepts in Batch (a Compute environment, job queue, and job definition), and you have a complete queue, scheduler, and compute architecture without managing a single piece of compute infrastructure.
+- **AWS Batch with EC2 Spot instances**: Since Batch workloads are containerized, Batch is a perfect fit for Spot Instances. If a workload is interrupted, Batch will automatically spin-up another Spot Instance you’ve specified.
+- **AWS Batch with Fargate**: AWS Batch with Fargate resources allows you to have a completely serverless architecture for your batch jobs.
+- **Integration with EC2 Launch Templates**: AWS Batch now supports EC2 Launch Templates, allowing you to build customized templates for your compute resources, and enabling Batch to scale instances with those requirements.
+- **Priority-based job scheduling**: AWS Batch enables you to set up multiple queues with different priority levels. Batch jobs are stored in the queues until compute resources are available to execute the job. The AWS Batch scheduler evaluates when, where, and how to run jobs that have been submitted to a queue based on the resource requirements of each job.
+
+These are just some examples of all the features AWS Batch has. If you want to learn in detail all its capabilities, visit [this web page](https://aws.amazon.com/batch/features/?nc=sn&loc=2).
+
 ## Understanding Batch components
 
 ### Typical job architecture
@@ -49,14 +58,6 @@ AWS Batch can be used in several scenarios that imply executing tasks which can 
 - Drug screening: AWS Batch allows research scientists involved in drug discovery to more efficiently and rapidly search libraries of small molecules in order to identify those structures which are most likely to bind to a drug target, typically a protein receptor or enzyme.
 - Rendering: AWS Batch provides content producers and post-production houses with tools to automate content rendering workloads and reduces the need for human intervention due to execution dependencies or resource scheduling.
 - Media supply chain: AWS Batch simplifies complex media supply chain workflows by coordinating the execution of disparate and dependent jobs at different stages of processing, and supports a common framework for managing content preparation for different contributors to the media supply chain.
-
-## AWS Batch features
-- **Dynamic compute resource provisioning and scaling**: you only need to set up a few concepts in Batch (a Compute environment, job queue, and job definition), and you have a complete queue, scheduler, and compute architecture without managing a single piece of compute infrastructure.
-- **AWS Batch with Fargate**: AWS Batch with Fargate resources allows you to have a completely serverless architecture for your batch jobs.
-- **Integration with EC2 Launch Templates**: AWS Batch now supports EC2 Launch Templates, allowing you to build customized templates for your compute resources, and enabling Batch to scale instances with those requirements.
-- **Priority-based job scheduling**: AWS Batch enables you to set up multiple queues with different priority levels. Batch jobs are stored in the queues until compute resources are available to execute the job. The AWS Batch scheduler evaluates when, where, and how to run jobs that have been submitted to a queue based on the resource requirements of each job.
-
-These are just some examples of all the features AWS Batch has. If you want to learn in detail all its capabilities, visit [this web page](https://aws.amazon.com/batch/features/?nc=sn&loc=2).
 
 ## Working with AWS Batch
 

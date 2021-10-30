@@ -19,7 +19,7 @@ wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rend
 
 This script needs a couple of command line arguments as input, execute the following to read the help documentation:
 
-```bash
+```
 python3 job_submission.py -h
 ```
 
@@ -31,28 +31,61 @@ Additionally, there's an extra argument `-f` that needs to be passed. Thanks to 
 
 To submit the rendering job, run the following block of code optionally replacing the value of the argument -f. It will launch the python script and export the identifiers of the two jobs to environment variables to be able to monitor them.
 
-```bash
-export JOB_NAME="RenderingWithBatch" && \
-export JOB_IDS=$(python3 job_submission.py -i "s3://${BucketName}/${BlendFileName}" -o "s3://${BucketName}" -f 1 -n "${JOB_NAME}" -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}") && \
-export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId') && \
+```
+export JOB_NAME="RenderingWithBatch"
+export JOB_IDS=$(python3 job_submission.py -i "s3://${BucketName}/${BlendFileName}" -o "s3://${BucketName}" -f 1 -n "${JOB_NAME}" -q "${RENDERING_QUEUE_NAME}" -d "${JOB_DEFINITION_NAME}")
+export RENDERING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[0].jobId')
 export STITCHING_JOB_ID=$((echo $JOB_IDS) | jq -r '.[1].jobId')
+echo "Job successfully submitted. Rendering job Id: ${RENDERING_JOB_ID}. Stitching job Id: ${STITCHING_JOB_ID}"
 ```
 
 At this point the jobs have been submitted and you are ready to monitor them.
 
 ## Optional: understanding the script
 
-### submit_rendering_job
+### Method submit_rendering_job
 
 Two important things to highlight from this method:
 
 1. The command that is passed to the container is defined in the line 200. The arguments are preceded by the keyword `render`. These arguments will be received by the bash script that we have talked about in the section *Download image files* inside *Creating your Docker image*.
+
+    {{< highlight go "linenos=table, hl_lines=3, linenostart=198" >}}
+full_output_uri = '{}/{}'.format(OUTPUT_URI, JOB_NAME)
+client = boto3.client('batch')
+command = 'render -i {} -o {} -f {} -t {}'.format(INPUT_URI, full_output_uri, F_PER_JOB, n_frames)
+kwargs = build_job_kwargs('{}_Rendering'.format(JOB_NAME), command.split())
+{{< / highlight >}}
+
 2. The array job is created by specifying the `arrayProperties` value. An array job is a job that shares common parameters, such as the job definition, vCPUs, and memory. It runs as a collection of related, yet separate, basic jobs that may be distributed across multiple hosts and may run concurrently. At runtime, the `AWS_BATCH_JOB_ARRAY_INDEX` environment variable is set to the container's corresponding job array index number. This is how the bash script is able to calculate the slice of frames that needs to render.
 To learn more about it, visit [Array jobs](https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html) and [Tutorial: Using the Array Job Index to Control Job Differentiation](https://docs.aws.amazon.com/batch/latest/userguide/array_index_example.html).
 
-### submit_stitching_job
+    {{< highlight go "linenos=table, linenostart=204" >}}
+if array_size > 1:
+    kwargs['arrayProperties'] = {
+      'size': array_size
+    }
+{{< / highlight >}}
+
+### Method submit_stitching_job
 
 Two important things to highlight from this method:
 
 1. The command that is passed to the container is defined in the line 225. The arguments are preceded by the keyword `stitch`.
+
+    {{< highlight go "linenos=table, hl_lines=3, linenostart=225" >}}
+full_output_uri = '{}/{}'.format(OUTPUT_URI, JOB_NAME)
+client = boto3.client('batch')
+command = 'stitch -i {} -o {}'.format(full_output_uri, full_output_uri)
+kwargs = build_job_kwargs('{}_Stitching'.format(JOB_NAME), command.split())
+{{< / highlight >}}
+
 2. The job dependency is created by specifying the `dependsOn` value, which is a dictionary that contains the identifier of the job towards which create the dependency, and the type of dependency. In this case, the dependency is `SEQUENTIAL` because the stitching job must be launched **after** all the frames have been rendered. To learn more about job dependencies visit [Job Dependencies](https://docs.aws.amazon.com/batch/latest/userguide/job_dependencies.html).
+
+    {{< highlight go "linenos=table, linenostart=229" >}}
+kwargs['dependsOn'] = [
+    {
+        'jobId': depends_on_job_id,
+        'type': 'SEQUENTIAL'
+    }
+]
+{{< / highlight >}}

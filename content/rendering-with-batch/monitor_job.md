@@ -8,16 +8,26 @@ weight: 140
 
 You can check the rendering progress by running these commands:
 
-```bash
-export RENDERING_PROGRESS=$(aws batch describe-jobs --jobs "${RENDERING_JOB_ID}") && \
-export RENDER_COUNT=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.statusSummary.SUCCEEDED') && \
-export FRAMES_TO_RENDER=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.size') && \
-awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var2 / var1) * 100 "% ==> " var2 " out of " var1 " frames rendered.") }'
+```
+while [ true ]
+do
+  export RENDERING_PROGRESS=$(aws batch describe-jobs --jobs "${RENDERING_JOB_ID}")
+  export RENDER_COUNT=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.statusSummary.SUCCEEDED')
+  export FRAMES_TO_RENDER=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.size')
+
+  awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var2 / var1) * 100 "% ==> " var2 " out of " var1 " frames rendered.") }'
+
+  if [ "${RENDER_COUNT}" == "${FRAMES_TO_RENDER}" ] ; then
+    break
+  fi
+
+  sleep 5
+done
 ```
 
 When the progress reaches 100%, the output video will be available in the following URL:
 
-```bash
+```
 echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
 ```
 
@@ -38,7 +48,7 @@ To view the logs of a job using the console:
 
 You can monitor the status of a job using the following command:
 
-```bash
+```
 aws batch describe-jobs --jobs "${RENDERING_JOB_ID}" "${STITCHING_JOB_ID}"
 ```
 
@@ -48,7 +58,7 @@ To learn more about this command, you can review the [describe-jobs CLI command 
 
 You can review the configuration of a queue using the following command:
 
-```bash
+```
 aws batch describe-job-queues --job-queues "${RENDERING_QUEUE_NAME}"
 ```
 
@@ -58,7 +68,7 @@ To learn more about this command, you can review the [describe-job-queues CLI co
 
 You can review the configuration of a compute environment using the following command:
 
-```bash
+```
 aws batch describe-compute-environments --compute-environments "${SPOT_COMPUTE_ENV_NAME}" "${ONDEMAND_COMPUTE_ENV_NAME}"
 ```
 
@@ -68,7 +78,7 @@ To learn more about this command, you can review the [describe-compute-environme
 
 You can review the configuration of a job definition using the following command:
 
-```bash
+```
 aws batch describe-job-definitions --job-definition-name "${JOB_DEFINITION_NAME}"
 ```
 

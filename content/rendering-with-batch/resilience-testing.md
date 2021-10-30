@@ -2,6 +2,7 @@
 title: "Resilience testing"
 date: 2021-09-06T08:51:33Z
 weight: 130
+hidden: True
 ---
 
 If you remember the configuration of the job definition, we specified 3 attempts inside the structure `retryStrategy`. This means that, in case of job failure, AWS Batch will retry running it twice more. In this section we are going to put that to test to see how our architecture would react if any of the Spot instances was terminated.
