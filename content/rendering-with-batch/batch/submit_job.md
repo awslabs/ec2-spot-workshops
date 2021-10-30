@@ -10,9 +10,8 @@ You have now all the Batch components in place, and are ready to start submittin
 
 To submit the jobs that will implement the rendering and stitching you are going to use a python script that has already been coded. Execute the following command to download it from GitHub.
 
-```bash
-wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/batch/job_submission.py" && \
-wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/verifying_resilience.py"
+```
+wget https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/batch/job_submission.py
 ```
 
 ## Reviewing the command line arguments

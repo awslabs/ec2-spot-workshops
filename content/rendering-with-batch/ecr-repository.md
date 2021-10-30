@@ -21,8 +21,8 @@ To create the Docker image you will  need two files; the DockerFile, which is a 
 Download both files executing these commands:
 
 ```
-wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/Dockerfile" && \
-wget "https://raw.githubusercontent.com/bperezme/ec2-spot-workshops/blender_rendering_using_batch/content/rendering-with-batch/docker-files/render.sh"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/docker-files/Dockerfile"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/docker-files/render.sh"
 ```
 
 ### Push the image to ECR
