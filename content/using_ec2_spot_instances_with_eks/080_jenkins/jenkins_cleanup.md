@@ -16,5 +16,5 @@ helm delete cicd
 
 ### Removing the Jenkins nodegroup
 ```
-eksctl delete nodegroup -f spot_nodegroup_jenkins.yml --approve
+eksctl delete nodegroup -f add-mng-spot-jenkins.yml --approve
 ```
