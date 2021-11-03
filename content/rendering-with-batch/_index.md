@@ -18,4 +18,4 @@ To have an idea of what you will be rendering, take a look to this animation.
 
 ![Possible output](/images/rendering-with-batch/animation_example.gif)
 
-Special thanks to [Prokster](https://blendswap.com/profile/1012752) for sharing the project *[Pottery](https://blendswap.com/blend/28661)* under the [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/) license. Head to the next page to take a look at the architecture that you will deploy.
+This output is the result of rendering the project *[Pottery](https://blendswap.com/blend/28661)* by [Prokster](https://blendswap.com/profile/1012752), that is shared under the [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/) license. Head to the next page to take a look at the architecture that you will deploy.

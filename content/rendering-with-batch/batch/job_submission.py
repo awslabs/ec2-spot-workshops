@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, getopt, math, boto3, argparse, json
+import sys, getopt, math, boto3, argparse, json, struct, gzip
 
 
 INPUT_URI = ''          # S3 URI where the blender file is located
@@ -35,14 +35,11 @@ def read_blend_rend_chunk(path):
     path -- path where the blend file is located
     """
 
-    import struct
-
     blendfile = open(path, "rb")
 
     head = blendfile.read(7)
 
     if head[0:2] == b'\x1f\x8b':  # gzip magic
-        import gzip
         blendfile.seek(0)
         blendfile = gzip.open(blendfile, "rb")
         head = blendfile.read(7)
