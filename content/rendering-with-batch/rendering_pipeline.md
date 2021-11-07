@@ -37,7 +37,7 @@ If you want to learn more about Blender's command line rendering, visit [this we
 
 ### Gathering a Blender file
 
-We will use a Blender file from [BlendSwap](https://blendswap.com/categories). In that web page, Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists in the community. We will work with [the same file](https://blendswap.com/blend/28661) that was rendered to generate the animation that you've seen in the landing page. That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
+We will use a Blender file from [BlendSwap](https://blendswap.com/categories). **BlenderSwap** is a site where Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists. We will work with [the same file](https://blendswap.com/blend/28661) that was used to create the animation in the landing page. That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
 
 - The file must be configured to render the frames as .png files.
 - The file must be named **blendfile.blend**.
@@ -46,7 +46,7 @@ We will use a Blender file from [BlendSwap](https://blendswap.com/categories). I
 Run the following command to download the file and upload it to S3:
 
 ```
-wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/blendfile.blend"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/rendering-with-batch.files/blendfile.blend"
 aws s3api put-object --bucket "${BucketName}" --key "${BlendFileName}" --body "${BlendFileName}"
 ```
 

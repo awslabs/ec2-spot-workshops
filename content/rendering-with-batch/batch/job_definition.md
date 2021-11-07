@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 110
 ---
 
-As a last step to configuring Batch, we will register a job definition that will act as a template when we submit jobs.
+As a last step to configuring AWS Batch, we will register a job definition that will act as a template when we submit jobs.
 
 Run the following to generate the configuration file that will be used to create the job definition:
 
@@ -17,7 +17,7 @@ cat <<EoF > job-definition-config.json
     "type": "container",
     "containerProperties": {
         "image": "${IMAGE}",
-        "vcpus": 2,
+        "vcpus": 1,
         "memory": 8000
     },
     "retryStrategy": {
@@ -30,9 +30,9 @@ cat <<EoF > job-definition-config.json
 EoF
 ```
 
-Let's explore the configuration parameters in the structure:
+Lets explore the configuration parameters in the structure:
 
-- **type**: how the job is going to be run. By specifying `container`, we are making the jobs launched using this definition to be run in a Docker container. The other possible value is `multinode`, that allows to run single jobs that span multiple EC2 instances. With AWS Batch multi-node parallel jobs, you can run large-scale, tightly coupled, high performance computing applications. That type of job is not supported with Spot instances. To learn more about multi-node jobs, visit [multi-node parallel jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html).
+- **type**: `container` is the default type and allows to run loosely coupled HPC workloads at scale. The type is `multinode`. With AWS Batch multi-node  you can run large-scale, tightly coupled, high performance computing applications. Note `multi-node` jobs are not supported with Spot instances. To learn more about `multi-node` jobs, visit [multi-node parallel jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html).
 - **image**: the image used to start a container, this value is passed directly to the Docker daemon.
 - **vcpus**: The number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares.
 - **memory**: hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated.

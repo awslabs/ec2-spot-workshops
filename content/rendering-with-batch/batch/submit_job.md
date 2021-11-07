@@ -4,14 +4,14 @@ date: 2021-09-06T08:51:33Z
 weight: 120
 ---
 
-You have now all the Batch components in place, and are ready to start submitting jobs that will be placed in a queue and processed by a compute environment when Batch's scheduler starts running them. The last step is to download a Python script that will take the bucket name, the rendering queue and the job definition as input parameters and will launch the two jobs of the rendering pipeline using the [AWS SDK for Python, Boto3](https://aws.amazon.com/sdk-for-python/).
+You have now all the AWS Batch components in place, and are ready to start submitting jobs that will be placed in a queue and processed by a compute environment when AWS Batch's scheduler starts running them. The last step is to download a Python script that will take the bucket name, the rendering queue and the job definition as input parameters and will launch the two jobs of the rendering pipeline using the [AWS SDK for Python, Boto3](https://aws.amazon.com/sdk-for-python/).
 
 ## Downloading the python script
 
 To submit the jobs that will implement the rendering and stitching you are going to use a python script that has already been coded. Execute the following command to download it from GitHub.
 
 ```
-wget https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/batch/job_submission.py
+wget https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/batch/batch.files/job_submission.py
 ```
 
 ## Reviewing the command line arguments
@@ -22,9 +22,9 @@ This script needs a couple of command line arguments as input, execute the follo
 python3 job_submission.py -h
 ```
 
-You see that the script needs to receive the location of the blender file and where the results should be uploaded, as well as the the job definition that will be used to submit the job, the queue where it will be placed and the name that will be used to submit it.
+The script needs: (a) the location of the blender file, (b) the location where results will be uploaded, (c) as well as the the Job Definition that will be used to submit the job, (d) the Job Queue where it will be placed and the name that will be used to submit it.
 
-Additionally, there's an extra argument `-f` that needs to be passed. Thanks to this argument you can specify how many frames each job should render. This will have a direct impact on the size of the array job that is submitted. E.g.: if you want to render a file that has 250 frames and you specify a value of 1 for that argument, the size of the array job will be 250. If you specify a value of 5, the size will be 50 and so on. As you can imagine, the less the frames each job has to render, the less the time it will take for the job to complete.
+Additionally, there's an extra argument `-f` that needs to be passed. The `-f` argument can be used to specify how many frames each job should render. This will have a direct impact on the size of the array job that is submitted. E.g.: if you want to render a file that has 250 frames and you specify a value of 1 for that argument, the size of the array job will be 250. If you specify a value of 5, the size will be 50 and so on. As you can imagine, the less the frames each job has to render, the less the time it will take for the job to complete.
 
 ## Submitting the job
 
@@ -41,6 +41,8 @@ echo "Job successfully submitted. Rendering job Id: ${RENDERING_JOB_ID}. Stitchi
 At this point the jobs have been submitted and you are ready to monitor them.
 
 ## Optional: understanding the script
+
+We have used a python program to programmatically submit the jobs to AWS Batch. Feel free to move to the next section and monitor the execution of your AWS Batch job. If at some point you are interested to know the details of how the `job_submission.py` python job submits the job, you can read the sections below.
 
 ### Method submit_rendering_job
 

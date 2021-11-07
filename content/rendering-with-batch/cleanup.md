@@ -32,7 +32,7 @@ aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_E
 To learn more about these APIs, see [update-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-job-queue.html) and [update-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-compute-environment.html).
 
 {{% notice info %}}
-Job queues and compute environments cannot be deleted while being modified, so running the following commands might throw an error if the resources are still being disabled.
+The previous operation may take up to 2 minutes. Job queues and compute environments cannot be deleted while being modified, so running the commands below while the compute environments and job queue are being disabled might result in an error with the message "resource is being modified"
 {{% /notice %}}
 
 To delete the components:

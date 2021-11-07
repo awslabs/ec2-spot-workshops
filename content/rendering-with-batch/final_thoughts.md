@@ -6,11 +6,12 @@ weight: 160
 
 **Congratulations!** You have successfully completed the workshop. Today you have:
 
-1. Learned the principles of graphics rendering and what programs you can use to do it.
-2. Built and published in ECR a Docker image that runs those programs.
-3. Learned about AWS Batch, its use cases and components.
-4. Learned the different types of jobs you find in AWS Batch (array and single). Also, you have learned how to define dependencies between them and how to work with the AWS_BATCH_JOB_ARRAY_INDEX environment variable.
-5. Seen how to follow Spot best practices when working with Batch, by defining several compute environments with the appropriate allocation strategies for EC2 and Spot instances.
+1. Learned about AWS Batch, its use cases and components.
+2. Seen how easy it is to adopt Spot best practices when using AWS Batch, by defining several compute environments with the appropriate allocation strategies.
+3. Learned the different types of jobs you find in AWS Batch (array and single). Also, you have learned how to define dependencies between them and how to work with the AWS_BATCH_JOB_ARRAY_INDEX environment variable.
+4. You learned the concepts required to create a rendering pipeline using Blender and ffmpeg.
+5. Built and published in ECR a Docker image that runs Blender and ffmpeg.
+
 
 ## Savings
 
