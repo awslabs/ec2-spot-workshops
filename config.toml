@@ -24,8 +24,8 @@ disableLandingPageButton = true
 home = [ "HTML", "AMP", "RSS", "JSON"]
 page = [ "HTML", "AMP"]
 
-# All privacy options enabled. There should not be 
-# any cookies or privacy  
+# All privacy options enabled. There should not be
+# any cookies or privacy
 [privacy]
   [privacy.disqus]
     disable = false
@@ -78,3 +78,18 @@ weight = 30
   [languages.ja]
     languageName = "Japanese"
     weight = 2
+
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = 'monokai'
+    tabWidth = 4
