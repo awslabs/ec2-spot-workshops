@@ -1,67 +1,17 @@
 ---
-title: "Amazon EC2 Spot Workshops"
-date: 2019-01-06T12:22:13Z
-draft: false
+title: "CMP205: Scaling Kubernetes for less with Amazon EC2 Spot Instances"
+menuTitle: "Scaling EKS with EC2 Spot"
+date: 2019-01-24T09:05:54Z
+weight: 10
 ---
-# Welcome to the Amazon EC2 Spot Instances Workshops website
+# CMP205: Scaling Kubernetes for less with Amazon EC2 Spot Instances
 
-![spot_logo](/images/spotlogo.png )
+In this workshop, you will learn how to provision, manage, and maintain your Kubernetes 
+clusters with Amazon Elastic Kubernetes Service (Amazon EKS) at any scale on Spot Instances to architect for optimizations on cost and scale. 
+We will dive deep using hands-on material to provision worker nodes using Amazon EKS managed node groups, scale the worker nodes, understand interruption handling, and design for fault tolerance.
 
-### Overview
+This workshop is originally based on AWS [EKS Workshop](https://eksworkshop.com/). You can find 
+there more modules and learn about other Amazon Elastic Kubernetes Service best practices.
 
-[Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) offer spare compute capacity available in 
-the AWS cloud at steep discounts compared to On-Demand instances. Spot Instances enable you to optimize 
-your costs on the AWS cloud and scale your application's throughput up to 10X for the same budget.
-
-Spot Instances can be interrupted by EC2 with two minutes of notification when EC2 needs the capacity 
-back. You can use Spot Instances for various fault-tolerant and flexible applications, such as 
-big data, containerized workloads, high-performance computing (HPC), stateless web servers, rendering, 
-CI/CD and other test & development workloads. 
-
-This website contains a set of workshops designed for you to get familiar with EC2
-Spot Instances and how to use them in different scenarios. The workshops highlight 
-best practices to follow when using EC2 Spot instances in your 
-applications and workloads.
-
-Select a workshop from the left panel or just click and explore the workshops highlighted below.
-
-{{< card important_workshop 
-    "running-amazon-ec2-workloads-at-scale" 
-    "Running EC2 Workloads at Scale with EC2 Auto Scaling"
-    "Amazon-EC2_Auto-Scaling_light-bg.png" 
->}}
-This workshop is designed to get you familiar with best practices for requesting 
-Amazon EC2 capacity at scale in a cost optimized architecture.
-{{< /card >}}
-
-{{< card important_workshop 
-    "using_ec2_spot_instances_with_eks"
-    "Using Spot Instances with EKS"
-    "Amazon-Elastic-Container-Service-for-Kubernetes.svg" 
->}}
-In this workshop, you learn how to provision, manage, and maintain your Amazon Kubernetes clusters with Amazon EKS at any scale on Spot Instances to architect for optimizations on cost and scale.
-{{< /card >}}
-
-{{< card important_workshop 
-    "running_spark_apps_with_emr_on_spot_instances"
-    "Running Spark apps with EMR on Spot instances"
-    "Amazon-EC2_Instances_light-bg.png" 
->}}
-In this workshop you will assume the role of a data engineer, tasked with cost optimizing the organization’s 
-costs for running Spark applications, using Amazon EMR and EC2 Spot Instances.
-{{< /card >}}
-
-{{< card important_workshop 
-    "using-sagemaker-managed-spot-training"
-    "Using Amazon SageMaker Managed Spot Training"
-    "Amazon-SageMaker_Model_light-bg.png" 
->}}
-In this workshop, you will learn how to leverage Managed Spot Training with Amazon SageMaker to save up to 70-90% on your Amazon SageMaker Training Jobs.
-{{< /card >}}
-
-
-
-
-
-
+![EKS](images/3-service-animated.gif)
 
