@@ -72,7 +72,7 @@ weight = 40
 
 [[menu.shortcuts]]
 name = "<i class='fab fa-aws'></i> CMP205"
-url = "https://ec2spotworkshops.com/CMP205/index.html"
+url = "https://cmp205.ec2spotworkshops.com"
 weight = 50
 
 
