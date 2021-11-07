@@ -1,0 +1,553 @@
+Resources:
+  Vpc8378EB38:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/Resource
+  VpcRenderingWithBatchSubnet1SubnetADE6DAA0:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId:
+        Ref: Vpc8378EB38
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: RenderingWithBatch
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/Subnet
+  VpcRenderingWithBatchSubnet1RouteTable1BCC3903:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/RouteTable
+  VpcRenderingWithBatchSubnet1RouteTableAssociation9592115F:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet1RouteTable1BCC3903
+      SubnetId:
+        Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/RouteTableAssociation
+  VpcRenderingWithBatchSubnet1DefaultRoute58E16100:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet1RouteTable1BCC3903
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: VpcIGWD7BA715C
+    DependsOn:
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet1/DefaultRoute
+  VpcRenderingWithBatchSubnet2SubnetDC61207B:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: Vpc8378EB38
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: RenderingWithBatch
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/Subnet
+  VpcRenderingWithBatchSubnet2RouteTable5DF00176:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/RouteTable
+  VpcRenderingWithBatchSubnet2RouteTableAssociationE3297937:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet2RouteTable5DF00176
+      SubnetId:
+        Ref: VpcRenderingWithBatchSubnet2SubnetDC61207B
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/RouteTableAssociation
+  VpcRenderingWithBatchSubnet2DefaultRoute42CB5476:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: VpcRenderingWithBatchSubnet2RouteTable5DF00176
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: VpcIGWD7BA715C
+    DependsOn:
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/RenderingWithBatchSubnet2/DefaultRoute
+  VpcIGWD7BA715C:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: RenderingWithBatchStack/Vpc
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/IGW
+  VpcVPCGWBF912B6E:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      InternetGatewayId:
+        Ref: VpcIGWD7BA715C
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/Vpc/VPCGW
+  securityGroup32C48086:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: RenderingWithBatchStack/securityGroup
+      GroupName: RenderingWithBatch
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: Vpc8378EB38
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/securityGroup/Resource
+  launchTemplateDEE5742D:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - securityGroup32C48086
+              - GroupId
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: RenderingWithBatchStack/launchTemplate
+          - ResourceType: volume
+            Tags:
+              - Key: Name
+                Value: RenderingWithBatchStack/launchTemplate
+        UserData:
+          Fn::Base64: |-
+            MIME-Version: 1.0
+            Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+
+            --==MYBOUNDARY==
+            Content-Type: text/x-shellscript; charset="us-ascii"
+
+            #!/bin/bash
+            echo "ECS_CLUSTER=EcsSpotWorkshop" >> /etc/ecs/ecs.config
+            echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
+            echo "ECS_CONTAINER_STOP_TIMEOUT=90s" >> /etc/ecs/ecs.config
+            echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
+
+            --==MYBOUNDARY==--
+      LaunchTemplateName: RenderingWithBatch
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/launchTemplate/Resource
+  bucket43879C71:
+    Type: AWS::S3::Bucket
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/bucket/Resource
+  repository9F1A3F0B:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: rendering-with-batch
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/repository/Resource
+  cloud9envec2env8356485F:
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      InstanceType: t2.micro
+      Name: RenderingWithBatch
+      SubnetId:
+        Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+      Tags:
+        - Key: SSMBootstrap
+          Value: RenderingWithBatch
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/ec2env/Resource
+  cloud9envSSMDocument9E89DF0C:
+    Type: AWS::SSM::Document
+    Properties:
+      Content:
+          schemaVersion: '2.2'
+          description: Bootstrap Cloud9 Instance
+          mainSteps:
+          - action: aws:runShellScript
+            name: C9bootstrap
+            inputs:
+              runCommand:
+              - "#!/bin/bash"
+              - echo '=== Installing packages ==='
+              - sudo yum -y install jq
+              - sudo pip install boto3
+              - echo '=== Resizing file system ==='
+              - sudo growpart /dev/xvda 1
+              - sudo resize2fs /dev/xvda1
+      DocumentType: Command
+      Name: BootstrapDocument
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/SSMDocument
+  cloud9envSSMAssociation4FBBFEE5:
+    Type: AWS::SSM::Association
+    Properties:
+      Name: BootstrapDocument
+      Targets:
+        - Key: tag:SSMBootstrap
+          Values:
+            - RenderingWithBatch
+    DependsOn:
+      - cloud9envbootstrapLambdaCustomResourceD5142DA7
+      - cloud9envSSMDocument9E89DF0C
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/SSMAssociation
+  cloud9envFISRoleAD8CCA4E:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      RoleName: SSMInstanceProfile
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/FISRole/Resource
+  cloud9envfisinstanceprofile96D194A9:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: cloud9envFISRoleAD8CCA4E
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/fisinstanceprofile
+  cloud9envbootstrapLambdaServiceRole520F9D06:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/bootstrapLambda/ServiceRole/Resource
+  cloud9envbootstrapLambdaServiceRoleDefaultPolicy474DC27A:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ec2:DescribeInstances
+              - ec2:ModifyVolume
+              - ec2:AssociateIamInstanceProfile
+              - ec2:ReplaceIamInstanceProfileAssociation
+              - ec2:RebootInstances
+              - iam:ListInstanceProfiles
+              - iam:PassRole
+              - ssm:SendCommand
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: cloud9envbootstrapLambdaServiceRoleDefaultPolicy474DC27A
+      Roles:
+        - Ref: cloud9envbootstrapLambdaServiceRole520F9D06
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/bootstrapLambda/ServiceRole/DefaultPolicy/Resource
+  cloud9envbootstrapLambda02FC7F40:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: |
+          import time
+          import boto3
+          import cfnresponse
+
+
+          def retrieve_cloud9_instance(env_id):
+              print("Retrieving environment's instance...")
+
+              client = boto3.client('ec2')
+
+              return client.describe_instances(
+                  Filters=[
+                      {
+                          'Name': 'tag:aws:cloud9:environment',
+                          'Values': [
+                              env_id,
+                          ]
+                      },
+                  ]
+              )['Reservations'][0]['Instances'][0]
+
+
+          def resize_volume(volume_id, new_size):
+              print('Resizing EBS volume...')
+
+              client = boto3.client('ec2')
+
+              client.modify_volume(
+                  VolumeId=volume_id,
+                  Size=new_size
+              )
+
+              print('EBS volume resized')
+
+
+          def associate_ssm_instance_profile(c9_env_id, profile_arn):
+              instance_data = retrieve_cloud9_instance(c9_env_id)
+              client = boto3.client('ec2')
+
+              while instance_data['State']['Name'] != 'running':
+                  print('Waiting for the instance to be running to attach the instance profile...')
+                  time.sleep(5)
+                  instance_data = retrieve_cloud9_instance(c9_env_id)
+
+              print('Attaching instance profile...')
+
+              client.associate_iam_instance_profile(
+                  IamInstanceProfile={'Arn': profile_arn},
+                  InstanceId=instance_data['InstanceId']
+              )
+
+              print('Instance profile associated. Restarting SSM agent...')
+
+              client.reboot_instances(
+                  InstanceIds=[
+                      instance_data['InstanceId']
+                  ]
+              )
+
+              print('Instance rebooted')
+
+
+          def handler(event, context):
+              if event['RequestType'] == 'Create':
+                  # Extract context variables
+                  c9_env_id = event['ResourceProperties']['cloud9EnvId']
+                  ebs_size = int(event['ResourceProperties']['ebsSize'])
+                  profile_arn = event['ResourceProperties']['profile_arn']
+
+                  try:
+                      # Retrieve EC2 instance's identifier and its EBS volume's identifier
+                      instance_data = retrieve_cloud9_instance(c9_env_id)
+                      volume_id = instance_data['BlockDeviceMappings'][0]['Ebs']['VolumeId']
+
+                      # Resize the EBS volume
+                      resize_volume(volume_id, ebs_size)
+
+                      # Associate the SSM instance profile
+                      associate_ssm_instance_profile(c9_env_id, profile_arn)
+                  except Exception as e:
+                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': e.args[0]})
+                      return
+
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+      Role:
+        Fn::GetAtt:
+          - cloud9envbootstrapLambdaServiceRole520F9D06
+          - Arn
+      Handler: index.handler
+      Runtime: python3.7
+      Timeout: 300
+    DependsOn:
+      - cloud9envbootstrapLambdaServiceRoleDefaultPolicy474DC27A
+      - cloud9envbootstrapLambdaServiceRole520F9D06
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/bootstrapLambda/Resource
+  cloud9envbootstrapLambdaCustomResourceD5142DA7:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - cloud9envbootstrapLambda02FC7F40
+          - Arn
+      cloud9EnvId:
+        Ref: cloud9envec2env8356485F
+      ebsSize: 40
+      profile_arn:
+        Fn::GetAtt:
+          - cloud9envfisinstanceprofile96D194A9
+          - Arn
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/cloud9env/bootstrapLambdaCustomResource/Default
+  ecsRole157644C0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/ecsRole/Resource
+  ecsinstanceprofile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: ecsRole157644C0
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/ecsinstanceprofile
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/1VRwW7CMAz9lt1DGOXEbaxjCGnSqoK4B9eIjDauEmeoivLvSykdcPLzy9Oz/TKTs2whX1/e1MVNoDpPA5BFGbas4CxKdOQtoMiP5ttz61nkZBxbDwl5x9Q8Sh5x0lWaNZkoeuuAkMmwb6F/2xe5KPyh1rD1B4Pcc3dUkmfcqUONd/7OLZ0j0Kp3/hf3YGMYbVKuFeNFdbcxt27J6ZxTg4bFFsFbzd3akm+vA56IL+UNnHbYtLUajJ+ZKNxchncP52HZAUWBYGUosSWnmWw3pDF2UUBNvlrIsIJsZX61JXNdJqke2lWeJXvXyJD4DwI/ah5ujkKrJChpSGesm/QpygAWlo46UQWlcK9bDCiKWjWHSsnwma4ZwxtxjFEUHZ/ITOdyIWcvP07rifWGdYOyHOofxvWhZCoCAAA=
+    Metadata:
+      aws:cdk:path: RenderingWithBatchStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  Subnet1:
+    Value:
+      Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+  Subnet2:
+    Value:
+      Ref: VpcRenderingWithBatchSubnet2SubnetDC61207B
+  LaunchTemplateName:
+    Value: RenderingWithBatch
+  BucketName:
+    Value:
+      Ref: bucket43879C71
+  BlendFileName:
+    Value: blendfile.blend
+  RepositoryName:
+    Value:
+      Ref: repository9F1A3F0B
+  ECSInstanceProfile:
+    Value:
+      Fn::GetAtt:
+        - ecsinstanceprofile
+        - Arn
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
