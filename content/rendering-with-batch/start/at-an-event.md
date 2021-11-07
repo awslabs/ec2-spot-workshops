@@ -20,4 +20,6 @@ You are now logged in to the AWS console in an account that was created for you,
 - An instance profile for AWS Batch compute environment
 - The Cloud9 environment where you will run all the commands
 
-{{% content "static/pages/rendering-with-batch/review-outputs.md" %}}
+
+
+{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.md" %}}

@@ -11,5 +11,5 @@ To start the workshop head to one of the following pages, depending whether you 
 When you finish the workshop, don't forget to execute the commands described in [**Clean up**](/rendering-with-batch/cleanup.html) to prevent incurring in additional charges.
 
 {{% notice info %}}
-The estimated completion time of this lab is **60 minutes**. Rendering the same animation that you have seen in the previous page, you will incur in an estimated cost of **$15**.
+The estimated completion time of this lab is **60 minutes**. Rendering the  animation that in this workshop you will incur in an estimated cost of up to **$15**.
 {{% /notice %}}

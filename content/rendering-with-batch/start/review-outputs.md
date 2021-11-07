@@ -1,10 +1,8 @@
 ## Reviewing the Launch Template
 
-A Launch Template has been automatically created for you when deploying the CloudFormation stack. If you had to create it yourself, you would need to follow the instructions specified below.
+You can check the CloudFormation stack by downloading the following file: [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/rendering-with-batch.files/stack.yaml) 
 
-When creating the Batch compute environment, we need to specify some configuration parameters that will be passed on to the EC2 instances when launched, like the Security Group, the Availability Zones and bootstrapping scripts (User data). To encapsulate those properties and be able to easily reuse them, we will use a Launch Template.
-
-The `UserData` of the created Launch Template contains the following script:
+Note the `UserData` of the created Launch Template contains the following script:
 
 ```bash
 MIME-Version: 1.0
@@ -23,6 +21,7 @@ echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
 ```
 
 What we are doing here is enabling [Spot Instance Draining](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-spot.html). When ECS Spot Instance draining is enabled on the instance, ECS receives the Spot Instance interruption notice and places the instance in DRAINING status. When a container instance is set to DRAINING, Amazon ECS prevents new tasks from being scheduled for placement on the container instance. To learn more about Spot instance interruption notices, visit [Spot Instance interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices).
+
 
 ## Gathering the CloudFormation outputs
 
