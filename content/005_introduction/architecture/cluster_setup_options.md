@@ -12,7 +12,8 @@ In addition to the managed AWS EKS solution, there are many tools available to h
 * [Kops](https://github.com/kubernetes/kops) – Learning, Development, Production
 * [Kubeadm](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/) – Learning, Development, Production
 * Docker Desktop [Mac](https://docs.docker.com/docker-for-mac/#kubernetes)/[Windows](https://docs.docker.com/docker-for-windows/#kubernetes): - Learning, Development
+* [Kubernetes IN Docker](https://github.com/kubernetes-sigs/kind)
 
-Alongside these open source solutions, there are also many commercial options available -- but out of all of them, which one makes it the easiest to deploy, manage, and scale containerized applications using Kubernetes on AWS?
+Alongside these open source solutions, there are also many commercial options available.
 
 Let's take a look at Amazon EKS!

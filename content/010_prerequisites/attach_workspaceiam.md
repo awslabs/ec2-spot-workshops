@@ -10,6 +10,6 @@ weight: 50
 
 
 {{< tabs name="Region" >}}
-    {{< tab name="...ON YOUR OWN" include="on_your_own_updateiam.md" />}}
     {{< tab name="...AT AN AWS EVENT" include="at_an_aws_updateiam.md" />}}
+    {{< tab name="...ON YOUR OWN" include="on_your_own_updateiam.md" />}}
 {{< /tabs >}}

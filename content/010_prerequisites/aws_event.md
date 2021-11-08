@@ -1,7 +1,7 @@
 ---
 title: "...at an AWS event"
 chapter: false
-weight: 20
+weight: 10
 ---
 
 ### Running the workshop at an AWS Event
@@ -16,18 +16,34 @@ are running the workshop on your own, go to: [Start the workshop on your own]({{
 
 If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
 
-1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/).
-2. Enter the Hash in the text box, and click **Proceed** 
-3. In the User Dashboard screen, click **AWS Console** 
-4. In the popup page, click **Open Console** 
+Connect to the portal by clicking the button or browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/). The following screen shows up.
+
+![Event Engine](/images/event-engine-initial-screen.png)
+
+
+Enter the provided hash in the text box. The button on the bottom right corner changes to **Accept Terms & Login**. Click on that button to continue.
+
+![Event Engine Dashboard](/images/event-engine-dashboard.png)
+
+Click on **AWS Console** on dashboard.
+
+![Event Engine AWS Console](/images/event-engine-aws-console.png)
+
+Take the defaults and click on **Open AWS Console**. This will open AWS Console in a new browser tab.
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
+
+Once you have completed the step above, you can head straight to [**Create a Workspace**](/010_prerequisites/workspace.html)
 
 {{% notice info %}}
 In the interest of time for shorter events we sometimes deploy the resources required as a prerequisite for you. If you were told so, please review the cloudformation outputs of the stack that was deployed by **expanding the instructions below**.
 {{% /notice %}}
 
+
+
 {{%expand "Click to reveal detailed instructions" %}}
+
+
 
 #### What resources are already deployed {#resources_deployed}
 
@@ -83,4 +99,3 @@ Since we have already setup the prerequisites, **you can head straight to [Test 
 {{% /notice %}}
 
 {{% /expand%}}
-
