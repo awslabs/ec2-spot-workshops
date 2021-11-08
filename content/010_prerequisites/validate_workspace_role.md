@@ -22,8 +22,9 @@ aws sts get-caller-identity
 {{% /notice %}}
 
 {{< tabs name="Region" >}}
-    {{< tab name="...ON YOUR OWN" include="on_your_own_validaterole.md" />}}
     {{< tab name="...AT AN AWS EVENT" include="at_an_aws_validaterole.md" />}}
+    {{< tab name="...ON YOUR OWN" include="on_your_own_validaterole.md" />}}
+
 {{< /tabs >}}
 
 

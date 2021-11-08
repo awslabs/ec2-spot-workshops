@@ -1,7 +1,7 @@
 ---
 title: "...on your own"
 chapter: false
-weight: 10
+weight: 20
 ---
 
 {{% notice warning %}}

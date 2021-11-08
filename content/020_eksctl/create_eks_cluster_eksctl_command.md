@@ -43,11 +43,6 @@ managedNodeGroups:
       albIngress: true
   privateNetworking: true
 
-# To enable all of the control plane logs, uncomment below:
-# cloudWatch:
-#  clusterLogging:
-#    enableTypes: ["*"]
-
 EOF
 ```
 
