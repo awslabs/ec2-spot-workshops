@@ -20,7 +20,8 @@ metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
   version: "1.21"
-
+iam:
+  withOIDC: true
 managedNodeGroups:
 - amiFamily: AmazonLinux2
   instanceType: m5.large

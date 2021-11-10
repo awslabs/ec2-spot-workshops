@@ -4,24 +4,13 @@ date: 2018-08-07T11:05:19-07:00
 weight: 30
 draft: false
 ---
-{{% notice warning %}}
-
-If you are starting with **self managed Spot workers** chapter directly and planning to run only self managed node groups with Spot Instances, then first complete below chapters and then return back here:<br>
-<br>
-[Start the workshop]({{< relref "/010_prerequisites" >}})<br>
-[Launch using eksctl]({{< relref "/020_eksctl" >}})<br>
-[Install Kubernetes Tools]({{< relref "/030_k8s_tools" >}})<br>
-[Select Instance Types for Diversification]({{< relref "/040_eksmanagednodegroupswithspot/selecting_instance_types.md" >}})
-
-{{% /notice %}}
-
 {{% notice info %}}
 
 If you are have already completed **EKS managed Spot workers** chapters and still want to explore self managed node groups with Spot Instances, then continue with this chapter.
 
 {{% /notice %}}
 
-In this section we will create self managed node groups with Spot best practices. To adhere to the best practice of instance diversification we will include instance types we identified in [Select Instance Types for Diversification]({{< relref "/040_eksmanagednodegroupswithspot/selecting_instance_types.md" >}}) chapter. 
+In this section we will create self managed node groups with Spot best practices. To adhere to the best practice of instance diversification we will include instance types we identified...
 
 
 
