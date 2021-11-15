@@ -6,7 +6,7 @@ weight: 90
 
 ![Compute environment](/images/rendering-with-batch/CE.png)
 
-We are going to create two compute environments: one using **Spot** instances and the other using **On-Demand** instances. That way if your job need to comply with an SLAs the On-Demand proportion can be used to ensure a timely completion, while the Spot will be used to accelerate the run and reduce the overall cost. 
+We are going to create two compute environments: one using **Spot** instances and another one using **On-Demand** instances. That way, if your job needs to comply with SLAs, the On-Demand proportion can be used to ensure a timely completion while the Spot will be used to accelerate the run and reduce the overall cost.
 
 ### Spot Compute environment creation
 
@@ -86,7 +86,7 @@ cat <<EoF > ondemand-compute-environment-config.json
 EoF
 ```
 
-Lets explore the configuration parameters in the `computeResources` structure that differ from the previous Compute environment:
+Let's explore the configuration parameters in the `computeResources` structure that differ from the previous Compute environment:
 
 - **type**: specifies the compute resource type to use. This compute environment will use On-demand instances, hence the `EC2` value. The other possible values are `SPOT`, `FARGATE` and `FARGATE_SPOT`.
 - **allocationStrategy**: the allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. By specifying `BEST_FIT_PROGRESSIVE`, AWS Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type.

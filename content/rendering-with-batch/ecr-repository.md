@@ -60,37 +60,36 @@ You are now done with the container part. Next, you will configure some environm
 
 ## Optional: understanding the render.sh script
 
-When we send a batch job, the container that we just created will be executed. The 
-Entrypoint of the container is the bash script `render.sh`. The scripts just takes
-a few arguments that AWS Batch will pass to each task and does run either blender when a environment variable named `ACTION` is set to `render` or or ffmpeg when is set to `stitch`.
+When we send a batch job, the container that we just created will be executed. The entry point of the container is the bash script `render.sh`. The script just takes
+a few arguments that AWS Batch will pass to each task and does run either blender when an environment variable named `ACTION` is set to `render` or or ffmpeg when is set to `stitch`.
 
-The following section describes the `render.sh` script in more detail. You don't need to go through this to run this workshop, but if you are interested in fully understanding how Blender and Stitch are called it will give you a clear description.
+The following section describes the `render.sh` script in more detail. You don't need to go through this to run this workshop, but if you are interested in fully understanding how Blender and FFmpeg are called it will give you a clear description.
 
 
 #### Method parse_argument:
-1. Downloads the blender file from S3.
-    Read the environment variable `ACTION`and decide from it what's the type of job to run, either blender or ffmpeg. It also takes other arguments such as the the *input*, *output*
-    
-    {{< highlight go "linenos=table, linenostart=6" >}}
+
+Reads the environment variable `ACTION` and decides from it what's the type of job to run, either render or stitch. It also takes other arguments such as the the *input*, *output*
+
+{{< highlight go "linenos=table, linenostart=6" >}}
   ACTION=$1
 
   if [ "${ACTION}" != "render" ] && [ "${ACTION}" != "stitch" ] ; then
     echo "Unrecognised action"
     exit 2
   fi
-  ...
+
 {{< / highlight >}}
 
 
 #### Method render:
 
-2. Downloads the blender file from S3.
+1. Downloads the blender file from S3.
 
     {{< highlight go "linenos=table, linenostart=57" >}}
 aws s3 cp "${INPUT_URI}" file.blend
 {{< / highlight >}}
 
-3. Calculates the slice of frames that has to render (we will se how in more detail when we talk about AWS Batch).
+2. Calculates the slice of frames that has to render (we will se how in more detail when we talk about AWS Batch).
 
     {{< highlight go "linenos=table, linenostart=43" >}}
 if [[ -z "${AWS_BATCH_JOB_ARRAY_INDEX}" ]]; then
@@ -102,7 +101,7 @@ else
 fi
 {{< / highlight >}}
 
-4. Executes Blender.
+3. Executes Blender.
 
     {{< highlight go "linenos=table, linenostart=63, hl_lines=3" >}}
 mkdir frames

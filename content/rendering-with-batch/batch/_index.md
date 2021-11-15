@@ -22,12 +22,12 @@ If you want to learn in detail all its capabilities, visit [this web page](https
 
 ## Understanding Batch components
 
-In this section we will go through each individual AWS Batch architecture component, starting with the typical AWS Batch job architecture. In the diagram below you can see how
+In this section we will go through each individual AWS Batch architecture component, starting with the typical AWS Batch job architecture. In the diagram below you can see how:
 
-1. The user start triggering an event by uploading a S3 object
-2. You can automate and trigger the submission of one or more jobs using [AWS Lambda](https://aws.amazon.com/lambda/) or manage [AWS Batch with Step functions](https://docs.aws.amazon.com/step-functions/latest/dg/connect-batch.html). The job gets submitted to a **Job queue** using a **Job Definition**. 
+1. The user starts triggering an event by uploading a S3 object.
+2. You can automate and trigger the submission of one or more jobs using [AWS Lambda](https://aws.amazon.com/lambda/) or manage [AWS Batch with Step functions](https://docs.aws.amazon.com/step-functions/latest/dg/connect-batch.html). The job gets submitted to a **Job queue** using a **Job Definition**.
 3. AWS Batch will schedule the jobs submitted using **Compute Environments**. It will procure new resources when needed and allocate the job accordingly.
-4. The Compute Environment resources (EC2 Instances or Fargate) will run the job and in this workshop and example, it will store the output of into S3.
+4. The Compute Environment resources (EC2 Instances or Fargate) will run the job and store the output in S3 (as in this workshop).
 
 
 ![Batch components](/images/rendering-with-batch/batch_architecture.png)

@@ -22,7 +22,7 @@ This script needs a couple of command line arguments as input, execute the follo
 python3 job_submission.py -h
 ```
 
-The script needs: (a) the location of the blender file, (b) the location where results will be uploaded, (c) as well as the the Job Definition that will be used to submit the job, (d) the Job Queue where it will be placed and the name that will be used to submit it.
+The script needs: (a) the location of the blender file, (b) the location where results will be uploaded, \(c\) the Job Definition that will be used to submit the job, (d) the Job Queue where it will be placed and (e) the name that will be used to submit it.
 
 Additionally, there's an extra argument `-f` that needs to be passed. The `-f` argument can be used to specify how many frames each job should render. This will have a direct impact on the size of the array job that is submitted. E.g.: if you want to render a file that has 250 frames and you specify a value of 1 for that argument, the size of the array job will be 250. If you specify a value of 5, the size will be 50 and so on. As you can imagine, the less the frames each job has to render, the less the time it will take for the job to complete.
 
@@ -42,7 +42,7 @@ At this point the jobs have been submitted and you are ready to monitor them.
 
 ## Optional: understanding the script
 
-We have used a python program to programmatically submit the jobs to AWS Batch. Feel free to move to the next section and monitor the execution of your AWS Batch job. If at some point you are interested to know the details of how the `job_submission.py` python job submits the job, you can read the sections below.
+We have used a python program to submit the jobs to AWS Batch. Feel free to move to the next section and monitor the execution of your AWS Batch job. If at some point you are interested in knowing the details of how the `job_submission.py` python job submits the job, you can read the sections below.
 
 ### Method submit_rendering_job
 

@@ -37,7 +37,7 @@ If you want to learn more about Blender's command line rendering, visit [this we
 
 ### Gathering a Blender file
 
-We will use a Blender file from [BlendSwap](https://blendswap.com/categories). **BlenderSwap** is a site where Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists. We will work with [the same file](https://blendswap.com/blend/28661) that was used to create the animation in the landing page. That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
+We will use a Blender file from [BlendSwap](https://blendswap.com/categories). **BlenderSwap** is a site where Blender-powered 3D artists can share, exchange, collaborate, and learn from other artists. We will work with [the same file](https://blendswap.com/blend/28661) that was used to create the animation from the landing page. That file was created by [Prokster](https://blendswap.com/profile/1012752) and is licensed under [Creative Commons 0](https://creativecommons.org/share-your-work/public-domain/cc0/). If you want to use a different one, feel free to do so! Just take into account the following:
 
 - The file must be configured to render the frames as .png files.
 - The file must be named **blendfile.blend**.
