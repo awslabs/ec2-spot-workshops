@@ -26,9 +26,8 @@ done
 ```
 
 {{% notice tip %}}
-This operation will take about 5 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the : \(c\) EC2 Instances, (d) Auto Scaling groups defined.  
+This operation will take about 5 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
 {{% /notice %}}
-
 
 When the progress reaches 100%, the output video will be available in the following URL:
 
@@ -36,14 +35,14 @@ When the progress reaches 100%, the output video will be available in the follow
 echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
 ```
 
-Copy the output of the command into your browser. It will take you to the S3 page where the output file `output.mp4` has been stored. You can just click on the **Download** button to download it to your own computer and play it. 
+Copy the output of the command into your browser. It will take you to the S3 page where the output file `output.mp4` has been stored. You can just click on the **Download** button to download it to your own computer and play it.
 
 {{% notice warning %}}
 You will need the appropriate program and video codecs to watch the mp4 generated video. You can use [VLC media player](https://www.videolan.org/vlc/).
 {{% /notice %}}
 
 {{% notice tip %}}
-Explore also the rest of the S3 folders and check the frames that were created. 
+Explore also the rest of the S3 folders and check the frames that were created.
 {{% /notice %}}
 
 

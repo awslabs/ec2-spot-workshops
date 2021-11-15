@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 100
 ---
 
-You are now going to create a Job Queue. The Job Queue is going to be associated with the two compute environments that we just created. We will assign an order of use for the Compute Environments using first the OnDemand environment and then the Spot. 
+You are now going to create a Job Queue. The Job Queue is going to be associated with the two compute environments that we just created. We will assign an order of use for the Compute Environments using first the OnDemand environment and then the Spot.
 
 Run the following to generate the configuration file that will be used to create the job queue:
 
@@ -30,7 +30,7 @@ cat <<EoF > job-queue-config.json
 EoF
 ```
 
-Lets explore the configuration parameters in the structure:
+Let's explore the configuration parameters in the structure:
 
 - **priority**: job queues with a higher priority are evaluated first when associated with the same compute environment. Priority is determined in descending order.
 - **computeEnvironmentOrder**: the set of compute environments mapped to a job queue and their order relative to each other. A compute environment with a **lower** value of `order` is tried for job placement first. We specify the On-demand compute environment to be tried first to ensure that we have compute capacity throughout the whole execution, thus being able to comply with SLAs should there be any.

@@ -30,9 +30,9 @@ cat <<EoF > job-definition-config.json
 EoF
 ```
 
-Lets explore the configuration parameters in the structure:
+Let's explore the configuration parameters in the structure:
 
-- **type**: `container` is the default type and allows to run loosely coupled HPC workloads at scale. The type is `multinode`. With AWS Batch multi-node  you can run large-scale, tightly coupled, high performance computing applications. Note `multi-node` jobs are not supported with Spot instances. To learn more about `multi-node` jobs, visit [multi-node parallel jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html).
+- **type**: `container` is the default type and allows to run loosely coupled HPC workloads at scale. The other available type is `multi-node`. With AWS Batch multi-node  you can run large-scale, tightly coupled, high performance computing applications. Note `multi-node` jobs are not supported with Spot instances. To learn more about `multi-node` jobs, visit [multi-node parallel jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html).
 - **image**: the image used to start a container, this value is passed directly to the Docker daemon.
 - **vcpus**: The number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares.
 - **memory**: hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated.

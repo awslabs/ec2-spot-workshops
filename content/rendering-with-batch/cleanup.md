@@ -19,7 +19,7 @@ To learn more about these APIs, see [Emptying a bucket](https://docs.aws.amazon.
 
 ## AWS Batch
 
-When deleting Batch components, the order matters; a CE cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue. Job queues and compute environments have to be disabled bore deleting them.
+When deleting AWS Batch components, the order matters; a CE cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue. Job queues and compute environments have to be disabled bore deleting them.
 
 To disable the components:
 
@@ -32,7 +32,7 @@ aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_E
 To learn more about these APIs, see [update-job-queue CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-job-queue.html) and [update-compute-environment CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/update-compute-environment.html).
 
 {{% notice info %}}
-The previous operation may take up to 2 minutes. Job queues and compute environments cannot be deleted while being modified, so running the commands below while the compute environments and job queue are being disabled might result in an error with the message "resource is being modified"
+The previous operation may take up to 2 minutes. Job queues and compute environments cannot be deleted while being modified, so running the commands below while the compute environments and job queue are being disabled might result in an error with the message "resource is being modified".
 {{% /notice %}}
 
 To delete the components:
