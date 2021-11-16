@@ -8,7 +8,8 @@ draft: false
 In the previous sections, we did set up a default Provisioner and did scale a simple application. We did learn also about a few best practices when using Spot and how Karpenter simplifies the application of implementing Spot best practices. The tests that we did were however relatively simple. In the next sections we will extend the previous scenario and cover more concepts relevant to Karpenter Provisioner such as: 
 
 * \(a\) Multi-Architecture deployments 
-* \(c\) Using Multiple Provisioners in one cluster.
+* \(b\) Using Multiple Provisioners in one cluster.
+
 
 ## Setting up the Provisioners CRD
 
@@ -30,7 +31,7 @@ spec:
   labels:
     intent: apps
   requirements:
-    - key: node.k8s.aws/capacity-type
+    - key: karpenter.sh/capacity-type
       operator: In
       values: ["on-demand","spot"]
     - key: kubernetes.io/arch
@@ -38,10 +39,6 @@ spec:
       values: ["amd64","arm64"]
   provider:
     apiVersion: extensions.karpenter.sh/v1alpha1
-    kind: AWS
-    cluster:
-      endpoint: ${CLUSTER_ENDPOINT}
-      name: ${CLUSTER_NAME}
     instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
   ttlSecondsAfterEmpty: 30
 EOF
@@ -59,7 +56,7 @@ spec:
   labels:
     intent: apps
   requirements:
-    - key: node.k8s.aws/capacity-type
+    - key: karpenter.sh/capacity-type
       operator: In
       values: ["on-demand"]
     - key: kubernetes.io/arch
@@ -67,10 +64,6 @@ spec:
       values: ["amd64","arm64"]
   provider:
     apiVersion: extensions.karpenter.sh/v1alpha1
-    kind: AWS
-    cluster:
-      endpoint: ${CLUSTER_ENDPOINT}
-      name: ${CLUSTER_NAME}
     instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
   taints:
   - effect: NoSchedule

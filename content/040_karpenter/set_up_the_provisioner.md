@@ -33,9 +33,6 @@ spec:
       values: ["spot"]
   provider:
     instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
-    cluster:
-      name: ${CLUSTER_NAME}
-      endpoint: $(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output json)
   ttlSecondsAfterEmpty: 30
 EOF
 ```
@@ -46,7 +43,6 @@ We are asking the provisioner to start all new nodes with a label `intent: apps`
 
 The configuration for this provider is quite simple. We will change in the future the provider. For the moment let's focus in a few of the settings used.
 
-* **Cluster Name & Endpoint**: The provisioner configures instances to connect to your cluster’s endpoint and discovers resources like subnets and security groups using the cluster’s name.
 * **Instance Profile**: Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking.
 * **Requirements Section**: The [Provisioner CRD](https://karpenter.sh/docs/provisioner-crd/) supports defining node properties like instance type and zone. For example, in response to a label of topology.kubernetes.io/zone=us-east-1c, Karpenter will provision nodes in that availability zone. In this example we are setting the `karpenter.sh/capacity-type` to procure EC2 Spot instances. You can learn which oder properties are [available here](https://karpenter.sh/docs/cloud-providers/aws/). We will work on a few more during the workshop.
 * **ttlSecondsAfterEmpty**: value configures Karpenter to terminate empty nodes. This behavior can be disabled by leaving the value undefined. In this case we have set it for a quick demonstration to a value of 30 seconds.

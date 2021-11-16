@@ -1,7 +1,7 @@
 ---
 title: "Deploy Application"
 date: 2018-08-07T08:30:11-07:00
-weight: 30
+weight: 40
 ---
 
 To deploy the application we just need to run:

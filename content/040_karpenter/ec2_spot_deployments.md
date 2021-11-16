@@ -25,12 +25,12 @@ helm repo add eks https://aws.github.io/eks-charts
 helm install aws-node-termination-handler \
              --namespace kube-system \
              --version 0.16.0 \
-             --set nodeSelector."node\\.k8s\\.aws/capacity-type"=spot \
+             --set nodeSelector."karpenter\\.sh/capacity-type"=spot \
              eks/aws-node-termination-handler
 ```
 
 {{% notice note %}}
-The helm command above does make use of the `nodeSelector` pointing to `node.k8s.aws/capacity-type: spot`. This way will only install the node-termination-handler in Spot nodes.
+The helm command above does make use of the `nodeSelector` pointing to `kubernetes.sh/capacity-type: spot`. This way will only install the node-termination-handler in Spot nodes.
 {{% /notice %}}
 
 
@@ -56,7 +56,7 @@ spec:
     spec:
       nodeSelector:
         intent: apps
-        node.k8s.aws/capacity-type: spot
+        karpenter.sh/capacity-type: spot
       containers:
       - image: public.ecr.aws/eks-distro/kubernetes/pause:3.2
         name: inflate-spot
@@ -90,7 +90,7 @@ kubectl scale deployment inflate-spot --replicas 2
 A new Spot node will be provisioned, once it's done you can run the following command to describe the content of the new Spot node:
 
 ```
-kubectl describe node $(kubectl get node --selector=intent=apps,node.k8s.aws/capacity-type=spot -o json | jq ".items[].metadata.name"| sed s/\"//g)
+kubectl describe node $(kubectl get node --selector=intent=apps,karpenter.sh/capacity-type=spot -o json | jq ".items[].metadata.name"| sed s/\"//g)
 ```
 
 The output of the command will also showcase there is a new Pod in the node in the `kube-system` namespace running the node-termination handler. The output of the command will show a section similar to the one below
@@ -130,7 +130,7 @@ The following diagram depicts how the integration will consider rebalancing reco
 ![Rebalancing Recommendations](/images/spotworkers/rebalance_recommendation.png)
 
 
-* One question that comes often is what happens if the instances I selected cannot be provision. Since version 4.0, Karpenter supports pod affinity. This can be used with Spot or even on demand instances. For example in the case below the deployment defines a soft affinity for `node.k8s.aws/capacity-type` to run on Spot instances. If for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint (in this case the request using Spot), and instead run with the default value (in this case OnDemand).
+* One question that comes often is what happens if the instances I selected cannot be provision. Since version 4.0, Karpenter supports pod affinity. This can be used with Spot or even on demand instances. For example in the case below the deployment defines a soft affinity for `kubernetes.sh/capacity-type` to run on Spot instances. If for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint (in this case the request using Spot), and instead run with the default value (in this case OnDemand).
 
 
 ```
@@ -156,7 +156,7 @@ spec:
           - weight: 1
             preference: 
               matchExpressions: 
-              - key: node.k8s.aws/capacity-type 
+              - key: kubernetes.sh/capacity-type 
                 operator: In 
                 values: 
                 - spot

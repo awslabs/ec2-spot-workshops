@@ -15,26 +15,33 @@ We will use helm to deploy Karpenter to the cluster.
 helm repo add karpenter https://charts.karpenter.sh
 helm repo update
 helm upgrade --install karpenter karpenter/karpenter --namespace karpenter \
-  --create-namespace --set serviceAccount.create=false --version 0.4.2 \
+  --create-namespace --set serviceAccount.create=false --version 0.4.3 \
+  --set controller.clusterName=${CLUSTER_NAME} \
+  --set controller.clusterEndpoint=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output json) \
   --set nodeSelector.intent=control-apps \
+  --set defaultProvisioner.create=false \
   --wait # for the defaulting webhook to install before creating a Provisioner
 ```
 
 The command above:
 * uses the  service account that we created in the previous step, hence it sets the `--set serviceAccount.create=false`
 
-* Uses the argument `--set nodeSelector.intent=control-apps` to deploy the controllers in the On-Demand managed node group that was created with the cluster.
+* uses the both the **CLUSTER_NAME** and the **CLUSTER_ENDPOINT** so that Karpenter controller can contact the Cluster API Server.
+
+* uses the `--set defaultProvisioner.create=false`. We will set a default Provisioner configuration in the next section. This will help us understand Karpenter Provisioners.
+
+* uses the argument `--set nodeSelector.intent=control-apps` to deploy the controllers in the On-Demand managed node group that was created with the cluster.
 
 * Karpenter configuration is provided through a Custom Resource Definition. We will be learning about providers in the next section, the `--wait` notifies the webhook controller to wait until the Provisioner CRD has been deployed.
 
 To check Karpenter is running you can check the Pods, Deployment and Service are Running.
 
-To check running pods
+To check running pods run the command below. There should be at least two pods `karpenter-controller` and `karpenter-webhook`
 ```
 kubectl get pods --namespace karpenter
 ```
 
-To check the deployment
+To check the deployment. Like with the pods, there should be two deployments  `karpenter-controller` and `karpenter-webhook`
 ```
 kubectl get deployment -n karpenter
 ```

@@ -231,7 +231,7 @@ This will set a few pods pending. Karpenter will get the pending pod signal and 
 2021-11-15T12:33:18.802Z        INFO    controller.allocation.provisioner/default       Starting provisioning loop      {"commit": "6468992"}
 ```
 
-Indeed the instances selected this time around are as follows. Notice how the the instance types selected were larger.
+Indeed the instances selected this time are larger ! The instances selected in this example were:
 
 ```bash
 c3.2xlarge c4.2xlarge c5ad.2xlarge c6i.2xlarge c5a.2xlarge c5d.2xlarge c5.2xlarge c5n.2xlarge m3.2xlarge t3a.2xlarge m5ad.2xlarge m4.2xlarge t3.2xlarge m5n.2xlarge m5d.2xlarge m6i.2xlarge m5a.2xlarge m5zn.2xlarge m5.2xlarge m5dn.2xlarge. 
@@ -243,13 +243,15 @@ There is one last thing that we have not mentioned until now. Check out this lin
 2021-11-15T12:33:18.802Z        INFO    controller.allocation.provisioner/default       Bound 5 pod(s) to node ip-192-168-89-216.eu-west-1.compute.internal  {"commit": "6468992"}
 ```
 
-Karpenter Provisioners attempt to schedule pods when they are in state `type=PodScheduled,reason=Unschedulable`. In this case, Karpenter will make a provisioning decision, launch new capacity, and bind pods to the provisioned nodes. Unlike the Cluster Autoscaler, Karpenter does not wait for the [Kube Scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler) to make a scheduling decision, as the decision is already made during the provisioning time. The objective of this operation is to speed up the placement of those pods to the new nodes.
+The line and message **Bound 5 pod(s)** is important. Karpenter Provisioners attempt to schedule pods when they are in state `type=PodScheduled,reason=Unschedulable`. In this case, Karpenter will make a provisioning decision, launch new capacity, and proactively **bind pods to the provisioned nodes**. Unlike the Cluster Autoscaler, Karpenter does not wait for the [Kube Scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler) to make a scheduling decision, as the decision is already made during the provisioning time. The objective of this operation is to speed up the placement of the pods to the new nodes.
 
 Finally to check out the configuration of the `intent=apps` node execute again:
 
 ```
 kubectl describe node --selector=intent=apps
 ```
+
+This time around you'll the description for both instances created.
 
 {{% /expand %}}
 
@@ -258,7 +260,7 @@ kubectl describe node --selector=intent=apps
 To scale the number of replicas to 0, run the following command: 
 
 ```
-kubectl scale deployment inflate --replicas 6
+kubectl scale deployment inflate --replicas 0
 ```
 
 In the previous section, we configured the default Provisioner with `ttlSecondsAfterEmpty` set to 30 seconds. Once the nodes don't have any pods scheduled on them, Karpenter will terminate the empty nodes using cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/)
@@ -278,7 +280,7 @@ In this section we have learned:
 
 * Karpenter can scale up from zero and scale in to zero.
 
-* Karpenter binds Pods directly with newly nodes created reducing the total time for the pods to be available.
+* Karpenter binds Pods directly with newly created nodes thus reducing the total time for the pods to be placed and available.
  
 
 
