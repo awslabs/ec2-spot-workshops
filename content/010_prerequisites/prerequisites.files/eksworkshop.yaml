@@ -7,9 +7,6 @@ metadata:
   region: --AWS_REGION--
   version: --EKS_VERSION--
 
-iam:
-  withOIDC: true
-
 availabilityZones: [--AZA--, --AZB--]
 
 managedNodeGroups:

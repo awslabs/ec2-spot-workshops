@@ -1,6 +1,6 @@
 ---
-title: "Setting up Karpenter"
-titleMenu: "Setting up Karpenter"
+title: "Karpenter"
+titleMenu: "Karpenter"
 chapter: true
 weight: 40
 draft: false

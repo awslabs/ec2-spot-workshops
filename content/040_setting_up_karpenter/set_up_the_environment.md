@@ -1,5 +1,5 @@
 ---
-title: "Setting up the environment"
+title: "Set up the environment"
 date: 2021-11-07T11:05:19-07:00
 weight: 10
 draft: false
@@ -66,6 +66,12 @@ kubectl describe configmap -n kube-system aws-auth
 
 ## Create KarpenterController IAM Role
 
+Before adding the IAM Role for the service account we need to create the IAM OIDC Identity Provider for the cluster. 
+
+```
+eksctl utils associate-iam-oidc-provider --cluster ${CLUSTER_NAME} --approve
+```
+
 Karpenter requires permissions like launching instances. This will create an AWS IAM Role, Kubernetes service account, and associate them using [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-enable-IAM.html)
 
 ```
@@ -73,6 +79,17 @@ eksctl create iamserviceaccount \
   --cluster $CLUSTER_NAME --name karpenter --namespace karpenter \
   --attach-policy-arn arn:aws:iam::$AWS_ACCOUNT_ID:policy/KarpenterControllerPolicy-$CLUSTER_NAME \
   --approve
+```
+
+{{% notice note %}}
+This step may take up to 2 minutes. eksctl will create and deploy a CloudFormation stack that defines the role and create the kubernetes resources that define the Karpenter `serviceaccount` and the `karpenter` namespace that we willuse during the workshop.
+{{% /notice %}}
+
+
+You can confirm the service account has been created by running:
+
+```
+kubectl get serviceaccounts --namespace karpenter
 ```
 
 ## Create the EC2 Spot Linked Role
