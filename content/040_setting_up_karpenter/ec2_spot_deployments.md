@@ -117,7 +117,7 @@ The output should show just one instance of the node-termination-handler running
 
 {{% /expand %}}
 
-#### 2) Is that all for EC2 Spot Best practices ? 
+#### 2) (Optional) Is that all for EC2 Spot Best practices ? 
 
 {{%expand "Click here to show the answer" %}} 
 
@@ -125,9 +125,49 @@ Hmmmm nope... There are a few things that may worth advancing on what's to come 
 
 *  There are plans in Karpenter to embed part of the functionality of the node termination handler queue mode into the controller to integrate the handling of bothe Spot termination and rebalancing recommendation signals.  Rebalancing recommendation signals will allow Karpenter to procure new capacity in advance to a termination event and speed up the provisioning of instances. This functionality is already available in Spot Managed Node groups.
 
-* Since version 4.0, Karpenter supports pod affinity. This can be used with Spot or even on demand instances in scenarios such as the following ones. 
+The following diagram depicts how the integration will consider rebalancing recommendations in the future. The diagram shows how when a **rebalancing recomendation** arrives indicating an instance is at elevated risk of termination, the controller will provision new instances from using `capacity-optimized-prioritized` this has the effect of rebalancing instances proactively and selecting them from the optimal pools that reduce the frequency of terminations. Once the new node is up and ready, the controller will follow node termination best practices to decommission the node at elevated risk of termination using cordon and drain, so that the pods migrate into the newly created instance. 
+
+![Rebalancing Recommendations](/images/spotworkers/rebalance_recommendation.png)
 
 
+* One question that comes often is what happens if the instances I selected cannot be provision. Since version 4.0, Karpenter supports pod affinity. This can be used with Spot or even on demand instances. For example in the case below the deployment defines a soft affinity for `node.k8s.aws/capacity-type` to run on Spot instances. If for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint (in this case the request using Spot), and instead run with the default value (in this case OnDemand).
+
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate-spot
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: inflate-spot
+  template:
+    metadata:
+      labels:
+        app: inflate-spot
+    spec:
+      nodeSelector:
+        intent: apps
+      affinity: 
+        nodeAffinity: 
+          preferredDuringSchedulingIgnoredDuringExecution: 
+          - weight: 1
+            preference: 
+              matchExpressions: 
+              - key: node.k8s.aws/capacity-type 
+                operator: In 
+                values: 
+                - spot
+      containers:
+      - image: public.ecr.aws/eks-distro/kubernetes/pause:3.2
+        name: inflate-spot
+        resources:
+          requests:
+            cpu: "1"
+            memory: 256M
+```
 
 {{% /expand %}}
 
@@ -135,6 +175,13 @@ Hmmmm nope... There are a few things that may worth advancing on what's to come 
 #### 3) Scale both deployments to 0 replicas ?
 
 {{%expand "Click here to show the answer" %}} 
+
+Before moving to the next section let's set the replicas down to 0
+
+```
+kubectl scale deployment inflate-spot --replicas 0
+```
+
 {{% /expand %}}
 
 
@@ -142,6 +189,8 @@ Hmmmm nope... There are a few things that may worth advancing on what's to come 
 
 In this section we have learned:
 
-* 
+* How to apply Spot best practices and deploy the AWS Node Termination handler to manage Spot terminations and rebalancing recommendations.
+
+* How future versions of Karpenter will enable a better integration of Spot Best practices by proactively managing rebalancing signals. 
 
 
