@@ -1,10 +1,10 @@
 ---
-title: "Stress test the Application"
+title: "Stress-test the sytem"
 date: 2018-08-07T08:30:11-07:00
-weight: 50
+weight: 40
 ---
 
-We are now ready to test the Horizontal Pod Autoscaler! As a bonus we will also see the interaction between Cluster Autoscaler and Horizontal Pod Autoscaler.
+We are now ready to test dynamic scaling using Horizontal Pod Autoscale and Karpenter.
 
 ### Deploying the Stress CLI to Cloud 9
 

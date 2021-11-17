@@ -1,5 +1,5 @@
 ---
-title: "Building the APP"
+title: "Build the Microservice"
 date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
@@ -35,9 +35,11 @@ This process does take 2 to 3 minutes.
 {{% /notice %}}
 
 The steps above:
-- Create a new registry in ECR for the monte-carlo-sim application
-- build the application using the Dockerfile. The Dockerfile uses a [multi-stage](https://docs.docker.com/develop/develop-images/multistage-build/) build that
+
+
+* Create a new registry in ECR for the monte-carlo-sim application
+* Build the application using the Dockerfile. The Dockerfile uses a [multi-stage](https:/docs.docker.com/develop/develop-images/multistage-build/) build that
 compiles the Go application and then packages it in a minimal image that pulls from [scratch](https://hub.docker.com/_/scratch/). The size of this Docker image is ~ 3.2 MiB.
-- The newly created image is pushed into the registry and the registry is stored as an environment variable so we can refer to it in the rest of the workshop.
+* The newly created image is pushed into the registry and the registry is stored as an environment variable so we can refer to it in the rest of the workshop.
 
 
