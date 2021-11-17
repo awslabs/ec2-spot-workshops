@@ -1,3 +1,7 @@
+/*
+* Author ruecarlo@amazon.com
+* Licensed: Apache 2.0
+*/
 package main
 
 import (

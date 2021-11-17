@@ -6,7 +6,7 @@ RUN mkdir -p /go/src/
 WORKDIR /go/src/
 RUN useradd -u 10001 app
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+RUN CGO_ENABLED=0 GO111MODULE=auto GOOS=linux go build -a -installsuffix cgo -o main .
 
 FROM scratch
 
