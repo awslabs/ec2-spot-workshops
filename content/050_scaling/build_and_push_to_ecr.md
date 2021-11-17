@@ -7,11 +7,10 @@ weight: 10
 In this section we will be building the application that used to scale our cluster. First, let's download all the assets that we will need to build the application and image. Run the following command. We will use git to download the project and bring all the files needed to build our Monte Carlo microservice application:
 
 ```
-# TODO: Change the URL and point to the final repo and the branch used for the karpenter repo
 cd ~environment
-git clone https://github.com/ruecarlo/ec2-spot-workshops.git
+git clone https://github.com/awslabs/ec2-spot-workshops.git
 cd ec2-spot-workshops
-git checkout CMP307-update
+git checkout CMP307
 cd workshops
 ```
 
