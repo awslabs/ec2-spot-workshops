@@ -1,35 +1,34 @@
 ---
 title: "Cleanup"
 date: 2021-08-07T08:30:11-07:00
-weight: 400
+chapter: false
+weight: 200
 ---
 
 {{% notice note %}}
-If you're running in an account that was created for you as part of an AWS event, there's no need to go through the cleanup stage - the account will be closed automatically.\
+If you're running in an account that was created for you as part of an AWS event, there's no need to go through the cleanup stage - the account will be closed automatically. \
 If you're running in your own account, make sure you run through these steps to make sure you don't encounter unwanted costs.
-{{% /notice %}}
-
-{{% notice tip %}}
-Before you clean up the resources and complete the workshop, you may want to review the complete some of the optional exercises in previous section of this workshop; or alternatively, take a look at the content and modules available at **[eksworkshop.com](https://eksworkshop.com/)**. Perhaps there are modules that you would like to try on EC2 Spot instances!
 {{% /notice %}}
 
 ## Cleaning up HPA, CA, and the Microservice
 ```
+cd ~/environment
 kubectl delete hpa monte-carlo-pi-service
-kubectl delete -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
-kubectl delete -f monte-carlo-pi-service.yml
-helm delete kube-ops-view metrics-server
+kubectl delete -f monte-carlo-pi-service.yaml
+kubectl delete -f inflate-arm64.yaml
+kubectl delete -f inflate-amd64.yaml
+kubectl delete -f inflate-team1.yaml
+kubectl delete -f inflate-spot.yaml
+kubectl delete -f inflate.yaml
+helm delete aws-node-termination-handler --namespace kube-system
+helm delete karpenter --namespace karpenter
+helm delete metrics-server --namespace metrics
+helm delete kube-ops-view
 ```
 
-## Removing EKS managed node groups
+## Removing the cluster, Managed node groups and Karpenter pre-requisites
 ```
-eksctl delete nodegroup -f add-mngs-spot.yaml --approve
-```
-This operation may take 3-5 minutes to complete.
-
-
-## Removing the cluster
-```
+aws cloudformation delete-stack --stack-name Karpenter-eksworkshop-eksctl
 eksctl delete cluster -f eksworkshop.yaml
 ```
 
