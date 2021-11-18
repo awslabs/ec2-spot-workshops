@@ -70,18 +70,6 @@ name = "<i class='fas fa-envelope'></i> Feedback / Questions?"
 url = "mailto:ec2-spot-workshops@amazon.com"
 weight = 30
 
-[[menu.shortcuts]]
-name = "<i class='fab fa-aws'></i> CMP205"
-url = "https://cmp205.ec2spotworkshops.com"
-weight = 50
-
-[[menu.shortcuts]]
-name = "<i class='fab fa-aws'></i> CMP307"
-url = "https://cmp307.ec2spotworkshops.com"
-weight = 60
-
-
-
 
 [languages]
   [languages.en]
