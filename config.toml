@@ -63,12 +63,12 @@ weight = 20
 [[menu.shortcuts]]
 name = "<i class='fas fa-info-circle'></i> Resources"
 url = "/resources.html"
-weight = 30
+weight = 40
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-envelope'></i> Feedback / Questions?"
 url = "mailto:ec2-spot-workshops@amazon.com"
-weight = 40
+weight = 30
 
 [[menu.shortcuts]]
 name = "<i class='fab fa-aws'></i> CMP205"
