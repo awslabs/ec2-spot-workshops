@@ -26,7 +26,7 @@ We have provided a manifest file to deploy the CA. Copy the commands below into 
 
 ```
 mkdir -p ~/environment/cluster-autoscaler
-curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/060_scaling/deploy_ca.files/cluster_autoscaler.yml
+curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/060_scaling/deploy_ca.files/cluster_autoscaler.yml
 sed -i "s/--AWS_REGION--/${AWS_REGION}/g" ~/environment/cluster-autoscaler/cluster_autoscaler.yml
 ```
 
