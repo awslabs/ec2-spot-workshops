@@ -20,10 +20,10 @@ During this workshop we will refer to a few environment variables that point to 
 Run the following command so that the variables get stored in your `~/.bash_profile`. As a result you will be able to open multiple terminals in Cloud9 ide while still preserving the variables defined in this step.
 
 ```
+export CLUSTER_NAME=eksworkshop-eksctl
 NODE_GROUP_NAME=$(eksctl get nodegroup --cluster eksworkshop-eksctl -o json | jq -r '.[].Name')
 ROLE_NAME=$(aws eks describe-nodegroup --cluster-name eksworkshop-eksctl --nodegroup-name $NODE_GROUP_NAME | jq -r '.nodegroup["nodeRole"]' | cut -f2 -d/)
 echo "export ROLE_NAME=${ROLE_NAME}" >> ~/.bash_profile
-
 echo "export CLUSTER_NAME=eksworkshop-eksctl" >> ~/.bash_profile
 echo "export AWS_DEFAULT_REGION=$AWS_REGION" >> ~/.bash_profile
 echo "export CLUSTER_ENDPOINT=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output json)" >> ~/.bash_profile
