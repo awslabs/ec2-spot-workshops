@@ -7,7 +7,7 @@ weight: 10
 In this section we will be building the application that used to scale our cluster. First, let's download all the assets that we will need to build the application and image. Run the following command. We will use git to download the project and bring all the files needed to build our Monte Carlo microservice application:
 
 ```
-cd ~environment
+cd ~/environment
 git clone https://github.com/awslabs/ec2-spot-workshops.git
 cd ec2-spot-workshops
 git checkout CMP307

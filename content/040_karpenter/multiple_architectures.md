@@ -5,12 +5,16 @@ weight: 70
 draft: false
 ---
 
-In the previous section we have defined two Provisioners, both supporting `amd64` (x86_64) and `arm64` architectures. In this section we will deploy applications that require a specific architecture. 
+In the previous section we defined two Provisioners, both supporting `amd64` (x86_64) and `arm64` architectures. In this section we will deploy applications that require a specific architecture. 
 
 
 
 {{% notice tip %}}
 If you are not familiar with the AWS support for `arm64` instances, we recommend to take a look at the documentation for **[AWS Graviton instances](https://aws.amazon.com/ec2/graviton/)**. AWS Graviton processors are custom built by Amazon Web Services using 64-bit Arm Neoverse. They power Amazon EC2 instances such as: M6g, M6gd, T4g, C6g, C6gd, C6gn, R6g, R6gd, X2gd. Graviton instances provide up to 40% better price performance over comparable current generation x86-based instances for a wide variety of workloads.
+{{% /notice %}}
+
+{{% notice info %}}
+At re:Invent 2021 tuesday 30th Nov Keynote we announced the new release of a new third generation of Graviton instances. You can learn more about this anouncement **[here](https://aws.amazon.com/blogs/aws/join-the-preview-amazon-ec2-c7g-instances-powered-by-new-aws-graviton3-processors/)**
 {{% /notice %}}
 
 ## Creating Multi-Architecture Deployments
@@ -70,6 +74,7 @@ spec:
       nodeSelector:
         intent: apps
         kubernetes.io/arch: arm64
+        node.kubernetes.io/instance-type: c6g.xlarge
       containers:
       - image: public.ecr.aws/eks-distro/kubernetes/pause:3.2
         name: inflate-arm64
@@ -178,7 +183,13 @@ To scale up the deployment run the command:
 kubectl scale deployment inflate-arm64 --replicas 2
 ```
 
-The same process for instance selection applies in this case, but we should expect a selection of an ARM64 instance in this case. Let's confirm what did the logs of Karpenter show. You can check Karpenter logs by running:
+The same process for instance selection applies in this case, but note in this case the deployment had a node selector to a well-known label set up.
+
+{{% notice info %}}
+Karpenter does support the nodeSelector well-known label `node.kubernetes.io/instance-type`. This means you could set the instance type selected for the pod to a specific type, for example for the Graviton ARM64, we could select  **m6g.xlarge** instances type.
+{{% /notice %}}
+
+So in this case we should expect just one instance being considered. You can check Karpenter logs by running:
 
 ```
 kubectl logs -f deployment/karpenter-controller -n karpenter
@@ -188,22 +199,17 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2021-11-16T01:31:40.135Z        INFO    controller.allocation.provisioner/default       Starting provisioning loop      {"commit": "6468992"}
-2021-11-16T01:31:40.136Z        INFO    controller.allocation.provisioner/default       Waiting to batch additional pods        {"commit": "6468992"}
-2021-11-16T01:31:41.476Z        INFO    controller.allocation.provisioner/default       Found 2 provisionable pods      {"commit": "6468992"}
-2021-11-16T01:31:42.602Z        INFO    controller.allocation.provisioner/default       Computed packing for 2 pod(s) with instance type option(s) [c6gd.xlarge c6gn.xlarge a1.xlarge c6g.xlarge m6g.xlarge m6gd.xlarge t4g.xlarge c6gn.2xlarge c6g.2xlarge c6gd.2xlarge a1.2xlarge r6gd.xlarge r6g.xlarge t4g.2xlarge m6gd.2xlarge m6g.2xlarge c6gd.4xlarge c6gn.4xlarge a1.4xlarge c6g.4xlarge]   {"commit": "6468992"}
-2021-11-16T01:31:44.680Z        INFO    controller.allocation.provisioner/default       Launched instance: i-05a0bc370ab3c35e4, hostname: xxxxxxxxxxxxxxxx.compute.internal, type: a1.xlarge, zone: eu-west-1b, capacityType: on-demand     {"commit": "6468992"}
-2021-11-16T01:31:44.699Z        INFO    controller.allocation.provisioner/default       Bound 2 pod(s) to node xxxxxxxxxxxxxxxx.compute.internal   {"commit": "6468992"}
-2021-11-16T01:31:44.699Z        INFO    controller.allocation.provisioner/default       Starting provisioning loop      {"commit": "6468992"}
+2021-11-30T19:21:52.786Z        INFO    controller.provisioning Batched 2 pods in 1.030167637s  {"commit": "84b683b", "provisioner": "default"}
+2021-11-30T19:21:52.791Z        INFO    controller.provisioning Computed packing of 1 node(s) for 2 pod(s) with instance type option(s) [c6g.xlarge]    {"commit": "84b683b", "provisioner": "default"}
+2021-11-30T19:21:55.764Z        INFO    controller.provisioning Launched instance: i-0fe8ef259d1e0bf83, hostname: ip-192-168-77-232.us-west-2.compute.internal, type: c6g.xlarge, zone: us-west-2a, capacityType: on-demand     {"commit": "84b683b", "provisioner": "default"}
+2021-11-30T19:21:55.865Z        INFO    controller.provisioning Bound 2 pod(s) to node ip-192-168-77-232.us-west-2.compute.internal     {"commit": "84b683b", "provisioner": "default"}
 ...
 ```
 
-So in this case the instance selected was **a1.xlarge** and it was considered from the instance diversified selection: c6gd.xlarge c6gn.xlarge a1.xlarge c6g.xlarge m6g.xlarge m6gd.xlarge t4g.xlarge c6gn.2xlarge c6g.2xlarge c6gd.2xlarge a1.2xlarge r6gd.xlarge r6g.xlarge t4g.2xlarge m6gd.2xlarge m6g.2xlarge c6gd.4xlarge c6gn.4xlarge a1.4xlarge c6g.4xlarge. All the instances in the list are of type `arm64`. Notice how in the case of Graviton instances, to make sure there is a good diversification, Karpenter added instances of multiple sizes.
-
-As in the previous step with the `inflate-amd64`, the instance selected was `on-demand` and the allocation strategy used for On-Demand is set to "lowest-price" which in this case results into the selection of **a1.xlarge**
+As in the previous step with the `inflate-amd64`, the instance selected was `on-demand` but unlike the previous time, the well-known lable selected the instance type to use.
 
 {{% notice tip %}}
-Karpenter does also support for the nodeSelector well-known label `node.kubernetes.io/instance-type`. This means you could set the instance type selected for the pod to a specific type, for example for the Graviton ARM64, we could select the latest **m6g.xlarge** instance type. We leave as an optional exersice if you want to try changing the deployment and checking what happens if you scale down the replicas to 0 and then scale them up to 2.
+We leave as an optional exersice the following setup. What would happen if you change the deployment and remove the `nodeSelector` section that defines the line `node.kubernetes.io/instance-type: c6g.xlarge`. If you want to try changing the deployment and checking what happens, first scale down the replicas to 0, re-deploy the `inflate-amd64` deployment, and then scale up to 2 pods. What is the difference ? What is the diversified selection now ?
 {{% /notice %}}
 
 
@@ -218,7 +224,7 @@ This should display the instance with all the labels it has, similar to the outp
 ```bash
 $ kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 --show-labels
 NAME                                          STATUS   ROLES    AGE     VERSION               LABELS
-xxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal   Ready    <none>   5m55s   v1.21.5-eks-bc4871b   beta.kubernetes.io/arch=arm64,beta.kubernetes.io/instance-type=a1.xlarge,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1b,intent=apps,karpenter.sh/provisioner-name=default,kubernetes.io/arch=arm64,kubernetes.io/hostname=xxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal,kubernetes.io/os=linux,kubernetes.sh/capacity-type=on-demand,node.kubernetes.io/instance-type=a1.xlarge,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1b
+xxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal   Ready    <none>   5m55s   v1.21.5-eks-bc4871b   beta.kubernetes.io/arch=arm64,beta.kubernetes.io/instance-type=c6g.xlarge,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1b,intent=apps,karpenter.sh/provisioner-name=default,kubernetes.io/arch=arm64,kubernetes.io/hostname=xxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal,kubernetes.io/os=linux,kubernetes.sh/capacity-type=on-demand,node.kubernetes.io/instance-type=a1.xlarge,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1b
 ``` 
 {{% /expand %}}
 
