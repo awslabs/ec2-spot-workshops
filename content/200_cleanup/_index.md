@@ -22,8 +22,8 @@ kubectl delete -f inflate-spot.yaml
 kubectl delete -f inflate.yaml
 helm delete aws-node-termination-handler --namespace kube-system
 helm delete karpenter --namespace karpenter
-helm delete metrics-server --namespace metrics
 helm delete kube-ops-view
+kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.5.0/components.yaml
 ```
 
 ## Removing the cluster, Managed node groups and Karpenter pre-requisites
