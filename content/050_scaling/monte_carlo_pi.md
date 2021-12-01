@@ -66,7 +66,7 @@ EoF
 kubectl apply -f monte-carlo-pi-service.yaml
 ```
 
-This should create a `monte-carlo-pi-service.yml` template file that defines a **Service** and a **Deployment**. The configuration instructs the cluster to deploy two replicas of a pod with a single container, that sets up [Resource request and limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) to a fixed value ~0.5vCPUs and 1024Mi of RAM. You can read more about the differences between Resource requests and limits [here](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html).
+This should create a `monte-carlo-pi-service.yml` template file that defines a **Service** and a **Deployment**. The configuration instructs the cluster to deploy two replicas of a pod with a single container, that sets up [Resource request and limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) to a fixed value ~0.5vCPUs and 1024Mi of RAM.
 
 Let's understand what happens when applying this configuration.
 

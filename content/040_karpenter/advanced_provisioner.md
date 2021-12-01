@@ -16,7 +16,7 @@ In the previous sections, we did set up a default Provisioner and did scale a si
 To start the exercises, let's set up our Provisioner CRD (Custom Resource Definition). We will set up one for the `default`, overriding the previous one we created, and a new Provisioner named `team1`.
 
 {{% notice tip%}}
-Spend some time familiarizing yourself with the configuration. You can read more about Provisioner CRD configuration for the AWS Cloud Provider **[here](https://karpenter.sh/docs/cloud-providers/aws/)**
+Spend some time familiarizing yourself with the configuration. You can read more about Provisioner CRD configuration for the AWS Cloud Provider **[here](https://karpenter.sh/docs/aws/)**
 {{% /notice %}}
 
 Run the following command to change the configuration of the `default` Provisioner.

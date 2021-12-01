@@ -171,7 +171,7 @@ System Info:
   ...
 ```
 
-* The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/docs/cloud-providers/aws/#architecture) has not been provided.
+* The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/docs/provisioner-crd/#architecture) has not been provided.
 
 * The Container Runtime used for Karpenter nodes is containerd. You can read more about containerd [**here**](https://containerd.io/)  
 
