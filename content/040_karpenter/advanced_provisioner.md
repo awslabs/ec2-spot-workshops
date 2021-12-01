@@ -37,9 +37,13 @@ spec:
     - key: kubernetes.io/arch
       operator: In
       values: ["amd64","arm64"]
+  limits:
+    resources:
+      cpu: 256
   provider:
-    apiVersion: extensions.karpenter.sh/v1alpha1
     instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
+    tags:
+      accountingEC2Tag: KarpenterDevEnvironmentEC2
   ttlSecondsAfterEmpty: 30
 EOF
 ```
@@ -62,13 +66,17 @@ spec:
     - key: kubernetes.io/arch
       operator: In
       values: ["amd64","arm64"]
+  limits:
+    resources:
+      cpu: 128
   provider:
-    apiVersion: extensions.karpenter.sh/v1alpha1
     instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
+    tags:
+      accountingEC2Tag: KarpenterDevEnvironmentEC2
+  ttlSecondsAfterEmpty: 30
   taints:
   - effect: NoSchedule
     key: team1
-  ttlSecondsAfterEmpty: 30
 EOF
 ```
 
@@ -81,6 +89,11 @@ Let's spend some time covering a few points in the Provisioners configuration.
 * The `default` Provisioner does now support both `spot` and `on-demand` capacity types. The `team1` provisioner however does only support `on-demand`
 
 * The `team1` Provisioner does only support Pods or Jobs that provide a Toleration for the key `team1`. Nodes procured by this provisioner will be tainted using the Taint with key `team1` and effect `NoSchedule`.
+
+{{% notice note %}}
+If Karpenter encounters a taint in the Provisioner that is not tolerated by a Pod, Karpenter won’t use that Provisioner to provision the pod. It is recommended to create Provisioners that are mutually exclusive. So no Pod should match multiple Provisioners. If multiple Provisioners are matched, Karpenter will randomly choose which to use.
+{{% /notice %}}
+
 
 Before closing this section let's confirm that we have the correct configuration. Run the following command to list the current provisioners.
 
@@ -97,7 +110,7 @@ kubectl describe provisioners default
 ## (Optional Read) Customizing AMIs and Node Bootstrapping 
 
 {{% notice info %}}
-In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed.
+In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/docs/aws/launch-templates/)
 {{% /notice %}}
 
 By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) for nodes. Often, users need to customize the node image to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootsrapping through Launch Templates. If you need to customize the node, then you need a custom launch template. 

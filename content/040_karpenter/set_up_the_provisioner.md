@@ -31,8 +31,13 @@ spec:
     - key: karpenter.sh/capacity-type
       operator: In
       values: ["spot"]
+  limits:
+    resources:
+      cpu: 256
   provider:
     instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
+    tags:
+      accountingEC2Tag: KarpenterDevEnvironmentEC2
   ttlSecondsAfterEmpty: 30
 EOF
 ```
@@ -44,15 +49,17 @@ We are asking the provisioner to start all new nodes with a label `intent: apps`
 The configuration for this provider is quite simple. We will change in the future the provider. For the moment let's focus in a few of the settings used.
 
 * **Instance Profile**: Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking.
-* **Requirements Section**: The [Provisioner CRD](https://karpenter.sh/docs/provisioner-crd/) supports defining node properties like instance type and zone. For example, in response to a label of topology.kubernetes.io/zone=us-east-1c, Karpenter will provision nodes in that availability zone. In this example we are setting the `karpenter.sh/capacity-type` to procure EC2 Spot instances. You can learn which oder properties are [available here](https://karpenter.sh/docs/cloud-providers/aws/). We will work on a few more during the workshop.
+* **Requirements Section**: The [Provisioner CRD](https://karpenter.sh/docs/provisioner-crd/) supports defining node properties like instance type and zone. For example, in response to a label of topology.kubernetes.io/zone=us-east-1c, Karpenter will provision nodes in that availability zone. In this example we are setting the `karpenter.sh/capacity-type` to procure EC2 Spot instances. You can learn which oder properties are [available here](https://karpenter.sh/docs/aws/constraints/). We will work on a few more during the workshop.
+* **Limits section**: Provisioners can define a limit in the number of CPU's and memory allocated to that particular provisioner and part of the cluster.
 * **ttlSecondsAfterEmpty**: value configures Karpenter to terminate empty nodes. This behavior can be disabled by leaving the value undefined. In this case we have set it for a quick demonstration to a value of 30 seconds.
+* **Tags**: Provisioners can also define a set of tags that the EC2 instances will have upon creation. This helps to enable accounting and governance at the EC2 level.
 
 
 
 
 
 {{% notice info %}}
-Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop (Karpenter 0.4.3) main implementation and Provisioner available is on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/docs/cloud-providers/aws/)**
+Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop (Karpenter 0.5.0) main implementation and Provisioner available is on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/docs/aws/)**
 {{% /notice %}}
 
 ## Displaying Karpenter Logs
