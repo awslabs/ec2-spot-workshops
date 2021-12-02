@@ -114,7 +114,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal   Ready      <none>   66s   v1.21.
 xxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal    Ready      <none>   66s   v1.21.5-eks-bc4871b   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3a.xlarge,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1a,intent=apps,karpenter.sh/provisioner-name=team1,kubernetes.io/arch=amd64,kubernetes.io/hostname=xxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal,kubernetes.io/os=linux,kubernetes.sh/capacity-type=on-demand,node.kubernetes.io/instance-type=t3a.xlarge,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1a
 ```
 
-But there is something that does not match with what we have seen so far with Karpenter. In previous scenarios Karpenter will be bin-packing instances to fit the workload. In this case 2 instances have been created one on each eu-west-1a !
+But there is something that does not match with what we have seen so far with Karpenter. In previous scenarios Karpenter will be bin-packing instances to fit the workload. In this case 2 instances have been created one on each AZ (in this case eu-west-1a and eu-west-1b) !
 {{% /expand %}}
 
 
