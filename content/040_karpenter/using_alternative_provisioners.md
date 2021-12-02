@@ -7,7 +7,7 @@ draft: false
 
 So far we have seen some advanced use cases of Karpenter. In this section we will see how Karpenter can define different Provisioners. This allows to handle different configurations. 
 
-Each Provisioner CRD (Custom Resource Definition) provides a set of uniques configurations, this that define the resources it supports as well as labels and taints that will also be applied to the newly resources created by that Provisioner. In large clusters with multiple applications, new applications may need to create nodes with specific Taints or specific labels. In these scenarios you can configure alternative Provisioners. For this workshop we have already defined a `team1` Provisioner. You can list the available listeners by running the following command:
+Each Provisioner CRD (Custom Resource Definition) provides a set of unique configurations, this that define the resources it supports as well as labels and taints that will also be applied to the newly resources created by that Provisioner. In large clusters with multiple applications, new applications may need to create nodes with specific Taints or specific labels. In these scenarios you can configure alternative Provisioners. For this workshop we have already defined a `team1` Provisioner. You can list the available Provisioners by running the following command:
 
 ```
 kubectl get provisioners
