@@ -7,7 +7,7 @@ pre: "<b>8. </b>"
 ---
 
 {{% notice info %}}
-The estimated completion time of this lab is **60 minutes**. Please note that rendering the animation presented below can incur in costs up to **$15**.
+The estimated completion time of this lab is **90 minutes**. Please note that rendering the animation presented below can incur in costs up to **$15**.
 {{% /notice %}}
 ## Overview
 
