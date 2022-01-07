@@ -5,6 +5,8 @@ hidden: true
 
 ## Reviewing the Launch Template
 
+You can check the CloudFormation stack by downloading the following file: [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/rendering-with-batch.files/stack.yaml)
+
 Note that the `UserData` of the created Launch Template contains the following script:
 
 ```bash
