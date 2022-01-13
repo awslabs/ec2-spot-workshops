@@ -1,12 +1,31 @@
+Parameters:
+  C9InstanceType:
+    Description: Cloud9 instance type
+    Type: String
+    Default: m5.large
+    AllowedValues:
+      - t3.small
+      - t3.medium
+      - m4.large
+      - m5.large
+    ConstraintDescription: Must be a valid Cloud9 instance type
+  # Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
+  EETeamRoleArn:
+    Description: "ARN of the Team Role"
+    Default: NONE
+    Type: String
+    ConstraintDescription: This is ONLY used Event Engine, don't change this if you are self-deploying the stack
 Resources:
   CustomCloud9SsmCloud9Ec2EnvironmentF47DD48C:
     Type: AWS::Cloud9::EnvironmentEC2
     Properties:
-      InstanceType: t3.large
+      InstanceType:
+        Ref: C9InstanceType
       Tags:
         - Key: stack-id
           Value:
             Ref: AWS::StackId
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
     Metadata:
       aws:cdk:path: RenderingStack/CustomCloud9Ssm/Cloud9Ec2Environment
   CustomCloud9SsmEc2RoleCE9ACBCB:
@@ -858,6 +877,7 @@ Outputs:
     Value:
       Ref: RenderingPipeline477A29E4
 Conditions:
+  NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
   CDKMetadataAvailable:
     Fn::Or:
       - Fn::Or:
