@@ -44,8 +44,7 @@ Resources:
               - batch:UpdateComputeEnvironment
               - batch:ListJobs
               - batch:ListJobs
-              - ecr:BatchDeleteImage
-              - ecr:GetAuthorizationToken
+              - ecr:*
               - batch:DescribeComputeEnvironments
               - cloudformation:DescribeStacks
               - batch:DeregisterJobDefinition
@@ -58,7 +57,6 @@ Resources:
               - states:StartExecution
               - batch:DescribeJobDefinitions
               - batch:DeleteJobQueue
-              - ecr:DescribeRepositories
               - batch:UpdateJobQueue
               - iam:PassRole
             Effect: Allow
