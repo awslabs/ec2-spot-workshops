@@ -105,7 +105,7 @@ There is something even more interesting to learn about how the node was provisi
 ```
 
 
-We explained earlier on about group-less cluster scalers and how that simplifies operations and maintenance. Let's deep dive for a second into this concept. Notice how Karpenter picks up the instance from did a diversified selection of instances. In this case it selected the following instances:
+We explained earlier on about group-less cluster scalers and how that simplifies operations and maintenance. Let's deep dive for a second into this concept. Notice how Karpenter picks up the instance from a diversified selection of instances. In this case it selected the following instances:
 
 ```
 t3.medium c6i.large c5.large t3a.medium c5ad.large c4.large c5a.large c3.large c5d.large c5n.large t3a.large m5a.large t3.large m5ad.large m5.large m6i.large m3.large m4.large m5zn.large m5dn.large
@@ -251,7 +251,7 @@ Finally to check out the configuration of the `intent=apps` node execute again:
 kubectl describe node --selector=intent=apps
 ```
 
-This time around you'll the description for both instances created.
+This time around you'll see the description for both instances created.
 
 {{% /expand %}}
 

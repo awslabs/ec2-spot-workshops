@@ -82,7 +82,7 @@ eksctl create iamserviceaccount \
 ```
 
 {{% notice note %}}
-This step may take up to 2 minutes. eksctl will create and deploy a CloudFormation stack that defines the role and create the kubernetes resources that define the Karpenter `serviceaccount` and the `karpenter` namespace that we willuse during the workshop. You can also check in the **CloudFormation** console, the resources this stack creates.
+This step may take up to 2 minutes. eksctl will create and deploy a CloudFormation stack that defines the role and create the kubernetes resources that define the Karpenter `serviceaccount` and the `karpenter` namespace that we will use during the workshop. You can also check in the **CloudFormation** console, the resources this stack creates.
 {{% /notice %}}
 
 
