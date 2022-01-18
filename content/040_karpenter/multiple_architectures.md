@@ -90,7 +90,7 @@ As you see the main difference between both Deployments, is the nodeSelector
 `kubernetes.io/arch` and the names, all pointing to the architecture selection for that deployment. 
 
 {{% notice note %}}
-In this part off the workshop we will keep using Deployments with the Pause Image. Notice as well how both deployments point to the same container image. Amazon EZR (Elastic Container Repository) does support multi-architecture container images. You can read more about it **[here](https://aws.amazon.com/blogs/containers/introducing-multi-architecture-container-images-for-amazon-ecr/)**
+In this part off the workshop we will keep using Deployments with the Pause Image. Notice as well how both deployments point to the same container image. Amazon ECR (Elastic Container Repository) does support multi-architecture container images. You can read more about it **[here](https://aws.amazon.com/blogs/containers/introducing-multi-architecture-container-images-for-amazon-ecr/)**
 {{% /notice %}}
 
 
@@ -137,7 +137,7 @@ There are a few things to highlight from the logs above. The first one is in rel
 
 In the scenario above, the log shows the instance selected was an `on-demand` instance of type **t3a.xlarge** and it was considered from the instance diversified selection: c5a.xlarge c5d.xlarge c3.xlarge c4.xlarge c5ad.xlarge c5.xlarge c6i.xlarge c1.xlarge c5n.xlarge m1.xlarge m3.xlarge t3.xlarge t3a.xlarge m5dn.xlarge m5ad.xlarge m4.xlarge m5zn.xlarge m5n.xlarge m6i.xlarge m5d.xlarge. All the instances in the list are of type `amd64` or x86_64 and all of them are of the right size to bin-pack the deployment of 2 replicas we just did.
 
-Let's understand first why the instance selected was `on-demand`. As we stated before Node selectors are an opt-in mechanism which allow users to specify the nodes on which a pod can scheduled. Karpented uses the NodeSelectors defined in the pending pods and provisions capacity accordingly. In this case, the `inflate-amd64` deployment did not state any NodeSelector (like `spot` or `on-demand`) for the `kubernetes.sh/capacity-type`. In this situations Karpenter reverst to the default value for that well-known label. In the case of `kubernetes.sh/capacity-type` Karpenter uses `on-demand` as the default option.
+Let's understand first why the instance selected was `on-demand`. As we stated before NodeSelectors are an opt-in mechanism which allow users to specify the nodes on which a pod can be scheduled. Karpenter uses the NodeSelectors defined in the pending pods and provisions capacity accordingly. In this case, the `inflate-amd64` deployment did not state any NodeSelector (like `spot` or `on-demand`) for the `kubernetes.sh/capacity-type`. In these situations Karpenter reverts to the default value for that well-known label. In the case of `kubernetes.sh/capacity-type` Karpenter uses `on-demand` as the default option.
 
 So far so good. This explains why the instance was `on-demand` but not why the **t3a.xlarge** was the one selected out from the diversified selection. Internally Karpenter uses the **lowest-price** allocation strategy for `on-demand` instances. This explains why the **t3a.xlarge** was selected in this case. You can confirm this statements by running the following optional exercise. We will use CloudTrail to extract read what was the latest call to `CreateFleet` (EC2 Fleet instant mode call). Run the following command. 
 
