@@ -1,6 +1,6 @@
 +++
 title = "...At an AWS event"
-chapter = true
+chapter = false
 weight = 5
 +++
 

@@ -12,7 +12,7 @@ This is an optional step that will take approximately 20 minutes more than the o
 {{% /notice %}}
 
 {{% notice info %}}
-[Click here] (https://aws.amazon.com/blogs/big-data/spark-enhancements-for-elasticity-and-resiliency-on-amazon-emr/) For an in-depth blog post about Spark's resiliency in EMR 
+[Click here](https://aws.amazon.com/blogs/big-data/spark-enhancements-for-elasticity-and-resiliency-on-amazon-emr/) For an in-depth blog post about Spark's resiliency in EMR 
 {{% /notice %}}
 
 #### Step objectives:  

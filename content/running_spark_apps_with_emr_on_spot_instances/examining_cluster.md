@@ -15,7 +15,7 @@ In this step, when you look at the utilization of the EMR cluster, do not expect
 {{% /notice %}}
 
 ### Using Ganglia, YARN ResourceManager and Spark History Server
-To connect to the web interfaces running on our EMR cluster you need to use SSH tunneling. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
+To connect to the web interfaces running on our EMR cluster you need to use SSH tunneling. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
 
 First, we need to grant SSH access from the Cloud9 environment to the EMR cluster master node:  
 1. In your EMR cluster page, in the AWS Management Console, go to the **Summary** tab  
