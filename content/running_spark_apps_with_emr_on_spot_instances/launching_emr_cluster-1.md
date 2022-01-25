@@ -10,7 +10,7 @@ Normally our dataset on S3 would be located in the same region where we are goin
 
 To launch the cluster, follow these steps:
 
-1. [Open the EMR console] (https://console.aws.amazon.com/elasticmapreduce/home) in the region where you are looking to launch your cluster.  
+1. [Open the EMR console](https://console.aws.amazon.com/elasticmapreduce/home) in the region where you are looking to launch your cluster.  
 1. Click "**Create Cluster**"  
 1. Click "**Go to advanced options**"  
 1. Select the latest EMR 5.x.x release (the console will default to it), and in the list of components, only leave **Hadoop** checked and also check **Spark** and **Ganglia** (we will use it later to monitor our cluster)  
@@ -20,7 +20,7 @@ To launch the cluster, follow these steps:
 ```
 --executor-memory 18G --executor-cores 4
 ```
-* **Application location**: here we will configure the location of our Spark application. Save the following python code to a file (or download it from the Attachment box) and upload it to your S3 bucket using the AWS management console. You can refer to the [S3 Getting Started guide] (https://docs.aws.amazon.com/AmazonS3/latest/gsg/PuttingAnObjectInABucket.html) for detailed instructions
+* **Application location**: here we will configure the location of our Spark application. Save the following python code to a file (or download it from the Attachment box) and upload it to your S3 bucket using the AWS management console. You can refer to the [S3 Getting Started guide](https://docs.aws.amazon.com/AmazonS3/latest/gsg/PuttingAnObjectInABucket.html) for detailed instructions
 
 ```python
 import sys

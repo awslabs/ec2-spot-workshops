@@ -75,9 +75,9 @@ Check in the console that there are no scaling policies attached to this Auto sc
 
 To create a capacity provider, follow these steps:
 
-* Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you deployed the CFN template.
+* Open the [ECS console](https://console.aws.amazon.com/ecs/home) in the region where you deployed the CFN template.
 * Click **Clusters**
-* Click [EcsSpotWorkshop] (https://console.aws.amazon.com/ecs/home#/clusters/EcsSpotWorkshop)
+* Click [EcsSpotWorkshop](https://console.aws.amazon.com/ecs/home#/clusters/EcsSpotWorkshop)
 * Click the tab **Capacity Providers**
 * Click **Create**
 * For capacity provider name, enter **CP-OD**
@@ -96,9 +96,9 @@ Based on the configuration and steps above, try to answer the following question
 * **How would you check in the console the details about the new capacity provider created?**
 
 {{%expand "Show me the answer" %}}
-* Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you deployed the CFN template.
+* Open the [ECS console](https://console.aws.amazon.com/ecs/home) in the region where you deployed the CFN template.
 * Click **Clusters**
-* Click [EcsSpotWorkshop] (https://console.aws.amazon.com/ecs/home#/clusters/EcsSpotWorkshop)
+* Click [EcsSpotWorkshop](https://console.aws.amazon.com/ecs/home#/clusters/EcsSpotWorkshop)
 * Refresh the *Capacity Providers* tab, and you will see the CP-OD is created and attached to the ECS cluster.
 
 ![Capacity Provider on OD ASG](/images/ecs-spot-capacity-providers/CP-OD.png)

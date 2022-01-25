@@ -11,6 +11,6 @@ Target tracking scaling policies simplify how you configure dynamic scaling. You
 
 	```
 	aws autoscaling put-scaling-policy --cli-input-json file://asg-automatic-scaling.json
-	```
+	```   
 
 1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab. 

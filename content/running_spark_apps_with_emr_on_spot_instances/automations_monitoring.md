@@ -11,7 +11,7 @@ In this section we will simply look at a CLI command that can be used to start a
 1. In the AWS Management Console, under the EMR service, go to your cluster, and click the **AWS CLI export** button.
 2. Find the --instance-fleets parameter, and copy the contents of the parameter including the brackets:
 ![cliexport](/images/running-emr-spark-apps-on-spot/cliexport.png)
-3. Paste the data into a JSON validator like [JSON Lint] (https://jsonlint.com/) and validate the JSON file. this will make it easy to see the Instance Fleets configuration we configured in the console, in a JSON format, that can be re-used when you launch your cluster programmatically. 
+3. Paste the data into a JSON validator like [JSON Lint](https://jsonlint.com/) and validate the JSON file. this will make it easy to see the Instance Fleets configuration we configured in the console, in a JSON format, that can be re-used when you launch your cluster programmatically. 
 
 #### (Optional) Set up CloudWatch Events for Cluster and/or Step failures
 Much like we set up a CloudWatch Event rule for EC2 Spot Interruptions to be sent to our email via an SNS notification, we can also set up rules to send out notifications or perform automations when an EMR cluster fails to start, or a Task on the cluster fails. This is useful for monitoring purposes.

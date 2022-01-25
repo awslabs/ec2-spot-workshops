@@ -34,7 +34,7 @@ For the purpose of this workshop we will select instances based on below criteri
  * Instances types that are not supported by EMR such as R5N, R5ad and R5b. Enhanced z, I and D Instance families, which are priced higher than R family. So basically, adding a deny list with the regular expression `.*n.*|.*ad.*|.*b.*|^[zid].*`.
 
 {{% notice info %}}
-[Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-supported-instance-types.html) to find out the instance types that Amazon EMR supports .
+**[Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-supported-instance-types.html)** to find out the instance types that Amazon EMR supports .
 {{% /notice %}}
 
 Run the following command with above mentioned criteria, to get the list of instances.

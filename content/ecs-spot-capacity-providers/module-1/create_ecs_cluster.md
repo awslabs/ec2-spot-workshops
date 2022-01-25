@@ -5,7 +5,7 @@ weight: 20
 
 Let us first create an empty ECS cluster.To create an ECS cluster, follow these steps:
 
-* Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
+* Open the [ECS console](https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
 * Click **Create Cluster**
 * Un-select **New ECS Experience** on the top left corner to work on previous ECS console version (Capacity providers not supported on new version)
 * Under *Select cluster template* select **EC2 Linux + Networking**
