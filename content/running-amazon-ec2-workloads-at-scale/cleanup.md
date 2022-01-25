@@ -35,10 +35,10 @@ If you're running in your own account, make sure you run through these steps to 
 
 	aws cloudformation delete-stack --stack-name spotinterruptionhandler
 	
-	```
+	```   
 	
 1. Finally, delete the CloudFormation stack itself.
 	
 	```
 	aws cloudformation delete-stack --stack-name runningAmazonEC2WorkloadsAtScale
-	```
+	```    
