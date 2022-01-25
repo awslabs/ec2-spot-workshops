@@ -41,12 +41,12 @@ You'll get an update about being in 'detached HEAD' state. This is normal.
     ```bash
     cp -avr ../codedeploy/* .
     ```
-    \
+    
 1. After reviewing and getting comfortable with the CodeDeploy configs, go ahead and create the CodeDeploy application:
     ```bash
     aws deploy create-application --application-name koelApp
     ```
-    \
+    
 1. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/applications), make sure your region is selected in the upper right-hand corner dropdown, and then click on your application to check out your newly created application.
 {{% notice note %}}
 The CodeDeploy console will not default to your current region. Please make sure to click on **Select a Region** in the upper right-hand corner and select your region in the dropdown.
@@ -81,7 +81,7 @@ The CodeDeploy console will not default to your current region. Please make sure
     ```
     sed -i.bak -e "s/%codeDeployBucket%/$codeDeployBucket/g" deployment.json
     ```
-    \
+
 1. Take look at the configuration file and then create a deployment running:
     ```
     aws deploy create-deployment --cli-input-json file://deployment.json
@@ -94,7 +94,7 @@ The CodeDeploy console will not default to your current region. Please make sure
 {{% notice note %}}
 The CodeDeploy console will not default to your current region. Please make sure to click on **Select a Region** in the upper right-hand corner and select your region in the dropdown.
 {{% /notice %}}
-\
+
 1. As the application is successfully deployed to the instances, they will pass their target group health checks and be marked as healthy in the target group status. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName), select your target group, and click on the **Targets** tab.
 
 1. Once one or more instances are marked with a status of healthy, browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName), select your load balancer, and copy the **DNS name** (URL) of your load balancer (e.g. http://runningAmazonEC2WorkloadsAtScale-115077449.us-east-1.elb.amazonaws.com).
