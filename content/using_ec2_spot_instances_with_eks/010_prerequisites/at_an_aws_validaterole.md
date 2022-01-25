@@ -1,6 +1,4 @@
 ---
-title: "...AT AN AWS EVENT - Validate Workspace Role"
-chapter: false
 disableToc: true
 hidden: true
 ---

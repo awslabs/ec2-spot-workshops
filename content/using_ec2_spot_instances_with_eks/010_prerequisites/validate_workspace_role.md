@@ -1,12 +1,7 @@
 ---
-title: "Validate Workshpace Role"
-chapter: false
 disableToc: true
 hidden: true
 ---
-<!--
-This markdown file is used as part of another file using 'insert-md-from-file' shortcode
--->
 
 ### Validate the IAM role {#validate_iam}
 

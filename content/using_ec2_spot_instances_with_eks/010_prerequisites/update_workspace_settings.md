@@ -1,12 +1,7 @@
 ---
-title: "Update Workshop Settings"
-chapter: false
 disableToc: true
 hidden: true
 ---
-<!--
-This markdown file is used as part of another file using 'insert-md-from-file' shortcode
--->
 
 {{% notice info %}}
 Cloud9 normally manages IAM credentials dynamically. This isn't currently compatible with

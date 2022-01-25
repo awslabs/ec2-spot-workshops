@@ -22,4 +22,4 @@ You are now logged in to the AWS console in an account that was created for you,
 
 
 
-{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.partial" %}}
+{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.md" %}}
