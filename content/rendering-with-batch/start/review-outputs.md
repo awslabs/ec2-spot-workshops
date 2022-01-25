@@ -12,13 +12,16 @@ Note that the `UserData` of the created Launch Template contains the following s
 ```
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+
 --==MYBOUNDARY==
 Content-Type: text/x-shellscript; charset="us-ascii"
+
 #!/bin/bash
 echo "ECS_CLUSTER=EcsSpotWorkshop" >> /etc/ecs/ecs.config
 echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
 echo "ECS_CONTAINER_STOP_TIMEOUT=90s" >> /etc/ecs/ecs.config
 echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
+
 --==MYBOUNDARY==--
 ```
 
@@ -26,7 +29,6 @@ What we are doing here is enabling [Spot Instance Draining](https://docs.aws.ama
 
 
 ## Gathering the CloudFormation outputs
-
 You will create other AWS resources using the AWS CLI in [Cloud9](https://aws.amazon.com/cloud9/), a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. It includes a code editor, debugger, and terminal. Cloud9 comes prepackaged with essential tools for popular programming languages, including JavaScript, Python, PHP, and more.
 
 Navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack:
