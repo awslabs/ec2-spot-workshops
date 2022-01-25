@@ -12,7 +12,7 @@ For this workshop, please ignore warnings about the version of pip being used.
 aws --version
 ```
 
-1. Update to the latest version:
+2. Update to the latest version:
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -20,7 +20,7 @@ sudo ./aws/install
 . ~/.bash_profile
 ```
 
-1. Confirm you have a newer version:
+3. Confirm you have a newer version:
 ```
 aws --version
 ```

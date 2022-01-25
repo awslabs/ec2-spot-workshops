@@ -21,7 +21,7 @@ The output of the command appears as below.
 }
 ```
 
-In the [AWS Cloudwatch console] (https://console.aws.amazon.com/cloudwatch/home) select the newly created dashboard, drag it right/down to expand to view the graphs properly and save the dashboard.
+In the [AWS Cloudwatch console](https://console.aws.amazon.com/cloudwatch/home) select the newly created dashboard, drag it right/down to expand to view the graphs properly and save the dashboard.
 
 ![Cloud Watch](/images/ecs-spot-capacity-providers/cwt4.png)
 

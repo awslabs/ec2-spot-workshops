@@ -35,7 +35,7 @@ Your workspace should now look like this:
 
 In order to work with ECS from our new Cloud9 IDE environment, we need the required permissions.
 
-* Find your Cloud9 EC2 instance [here] (https://console.aws.amazon.com/ec2/v2/home?#Instances:search=aws-cloud9-EcsSpotWorkshop)
+* Find your Cloud9 EC2 instance [here](https://console.aws.amazon.com/ec2/v2/home?#Instances:search=aws-cloud9-EcsSpotWorkshop)
 * Select the Instance, then choose **Actions** -> **Security** -> **Modify IAM Role**
 
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/attach_iam_role.png)
@@ -51,7 +51,7 @@ In order to work with ECS from our new Cloud9 IDE environment, we need the requi
 
 ![Attach IAM Role](/images/ecs-spot-capacity-providers/c9_3.png)
 
-Use the [GetCallerIdentity] (https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
+Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
 
 ```
 aws sts get-caller-identity
