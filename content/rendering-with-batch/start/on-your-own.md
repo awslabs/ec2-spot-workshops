@@ -24,4 +24,4 @@ After downloading the template, open the [CloudFormation console](https://consol
 
 The stack creation process will begin. All the resources will be ready to use when the status of the stack is `CREATE_COMPLETE`.
 
-{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.md" %}}
+{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.partial" %}}

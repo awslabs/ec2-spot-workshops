@@ -1,7 +1,6 @@
 <div class="insert-md-from-file" {{ if len .Params | eq 1 }} id={{ .Get "file" }} {{ end }}>
     {{ $file := .Get "file" }}
-    {{ $page := .Site.GetPage $file }}
-    {{ with $page }}
-        {{ .Content }}
-    {{ end }}
+    {{ $file | readFile | safeHTML }}
 </div>
+
+
