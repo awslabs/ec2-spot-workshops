@@ -13,63 +13,63 @@ Each target group routes requests to one or more registered targets, such as EC2
 You can find further information on the [Application Load Balancer documentation(https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html).
 {{% /expand %}}
 
-1. Open **application-load-balancer.json** on the AWS Cloud9 editor and review the configuration. You will notice that some configurations have placeholder values: **%publicSubnet1%**, **%publicSubnet2%**, and **%loadBalancerSecurityGroup%**. 
+1. Open **application-load-balancer.json** on the AWS Cloud9 editor and review the configuration. You will notice that some configurations have placeholder values: **`%publicSubnet1%`**, **`%publicSubnet2%`**, and **`%loadBalancerSecurityGroup%`**. 
 
 1. Execute the following command to populate the configuration file with the **Outputs** of your CloudFormation stack. 
 	```
 	sed -i.bak -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" -e "s#%loadBalancerSecurityGroup%#$loadBalancerSecurityGroup#g" application-load-balancer.json
-	```
+	```   
 
 1. Create the application load balancer:
 
 	```
 	aws elbv2 create-load-balancer --cli-input-json file://application-load-balancer.json
-	```
+	```    
 
 1. As on upcoming steps we will need the load balancer ARN, execute the following command to load it into an environment variable:
 	```
 	export LoadBalancerArn=$(aws elbv2 describe-load-balancers --name myEC2Workshop --query LoadBalancers[].LoadBalancerArn --output text)
-	```
+	```    
 
 1. Browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName) to check out your newly created load balancer.
 
 1. 	Open the **target-group.json** and review the configuration. You will notice a placeholder value for the VPC configuration **%vpc%**. To populate it from the CloudFormation stack outputs, execute the following command:
 	```
 	sed -i.bak -e "s#%vpc%#$vpc#g" target-group.json
-	```
+	```    
 
 1. Create the target group:
 
 	```
 	aws elbv2 create-target-group --cli-input-json file://target-group.json
-	```
+	```   
 
 1. As you will need the Target Group ARN of the Target Group you have created on an upcoming step, execute the following command to load it on an environment variable:
 	```
 	export TargetGroupArn=$(aws elbv2 describe-target-groups --names myEC2Workshop --query TargetGroups[].TargetGroupArn --output text)
-	```
+	```    
 1. Open **modify-target-group.json** on the Cloud9 editor and review its configuration. Then, update the value of **%TargetGroupArn%** with the ARN with the following command:  
 	```
 	sed -i.bak -e "s#%TargetGroupArn%#$TargetGroupArn#g" modify-target-group.json
-	```
+	```   
 
 1. Modify the target group to set the deregistration_delay_timeout to 2 minutes to match the Spot interruption notification time (default is 5 minutes). You will learn how this setting is used when Spot instances are going to be interrupted on the *Spot resilience* section.
 
 	```
 	aws elbv2 modify-target-group-attributes --cli-input-json file://modify-target-group.json
-	```
+	```   
 
 1. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName) to check out your newly created target group.
 
 1. Open **listener.json** and review the configuration. You will notice there are placeholder values for **%LoadBalancerArn%** and **%TargetGroupArn%**. To populate them with the Load Balancer and Target group created previously, execute the following command.
 	```
 	sed -i.bak -e "s#%LoadBalancerArn%#$LoadBalancerArn#g" -e "s#%TargetGroupArn%#$TargetGroupArn#g" listener.json
-	```
+	```    
 
 1. Create the listener with the following command:
 
 	```
 	aws elbv2 create-listener --cli-input-json file://listener.json
-	```
+	```    
 
 1. Browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName) to check out your newly created listener by selecting your load balancer and clicking on the **Listeners** tab.
