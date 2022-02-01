@@ -16,15 +16,25 @@ weight: 20
 
 {{% insert-md-from-file file="010_prerequisites/validate_workspace_role.md" %}}
 
-If you do not see the correct role, please go back and **[validate the IAM role]({{< relref "../010_prerequisites/update_workspaceiam.md" >}})** for troubleshooting.
+Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
 
-If you do see the correct role, proceed to next step to create an EKS cluster.
+```
+aws sts get-caller-identity
+
+```
+
+You can verify what the output an correct role shoulld be in the **[validate the IAM role section]({{< relref "../010_prerequisites/update_workspaceiam.md" >}})**. If you do see the correct role, proceed to next step to create an EKS cluster.
+
 {{% /expand %}}
 
 
 ### Create an EKS cluster
 
 {{% insert-md-from-file file="020_eksctl/create_eks_cluster_eksctl_command.md" %}}
+
+{{% notice info %}}
+Launching EKS and all the dependencies will take approximately 15 minutes
+{{% /notice %}}
 
 `eksctl create cluster` command allows you to create the cluster and managed nodegroups in sequence. There are a few things to note in the configuration that we just used to create the cluster and a managed nodegroup.
 

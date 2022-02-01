@@ -1,12 +1,8 @@
 ---
-title: "Workspace at Launch"
-chapter: false
 disableToc: true
 hidden: true
 ---
-<!--
-This markdown file is used as part of another file using 'insert-md-from-file' shortcode
--->
+
 - When it comes up, customize the environment by closing the **welcome tab**
 and **lower work area**, and opening a new **terminal** tab in the main work area:
 ![c9before](/images/prerequisites/c9before.png)
