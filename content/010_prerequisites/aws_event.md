@@ -47,7 +47,7 @@ In the interest of time for shorter events we sometimes deploy the resources req
 
 #### What resources are already deployed {#resources_deployed}
 
-We have deployed the below resources required to get started with the workshop using a CloudFormation Template (**[eks-spot-workshop-quickstarter-cnf.yml] (prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**), Please reference the below  resources created by the stack.
+We have deployed the below resources required to get started with the workshop using a CloudFormation Template (**[eks-spot-workshop-quickstarter-cnf.yml](prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**), Please reference the below  resources created by the stack.
 
 + An [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with
     - An IAM role created and attached to the workspace with Administrator access

@@ -50,3 +50,7 @@ Next, use the file you created as the input for the eksctl cluster creation.
 ```
 eksctl create cluster -f eksworkshop.yaml
 ```
+
+{{% notice note %}}
+Launching EKS and all the dependencies will take approximately 15 minutes
+{{% /notice %}}
