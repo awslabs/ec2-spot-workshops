@@ -9,9 +9,9 @@ You will now emulate CPU stress on the instances in your automatic scaling group
 
 1. Review **ssm-stress.json** to understand the options. There are no changes to be made. Then go ahead and send the command:
 
-	```
-	aws ssm send-command --cli-input-json file://ssm-stress.json
-	```   
+    ```bash
+    aws ssm send-command --cli-input-json file://ssm-stress.json
+    ```
 
 2. Browse to the [AWS Systems Manager console](https://console.aws.amazon.com/systems-manager/run-command/executing-commands) to monitor the status of your run  commands.
 
