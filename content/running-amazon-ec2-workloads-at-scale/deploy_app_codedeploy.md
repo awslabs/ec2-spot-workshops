@@ -16,6 +16,7 @@ You will now deploy your application to the EC2 instances launched by the Auto S
 1. Take a moment to browse and view the CodeDeploy structure for your application, located in the **codedeploy** directory.
 
 2. You'll need to modify the CodeDeploy deployment scripts in order to use the RDS database instance you previously created. Run the following command to edit **codedeploy/scripts/configure_db.sh** with the **Endpoint** of your database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com**) . 
+
     ```bash
     # Grab the RDS endpoint
     rds_endpoint=$(aws rds describe-db-instances --db-instance-identifier runningamazonec2workloadsatscale --query DBInstances[].Endpoint.Address --output text)
@@ -26,6 +27,7 @@ You will now deploy your application to the EC2 instances launched by the Auto S
 3. Take a look at the file on the `Cloud9` editor to confirm the script code has been updated with your Database endpoint. 
 
 4. Then clone the Koel GitHub repo:
+
     ```bash
     cd ~/environment/ec2-spot-workshops/workshops/running-amazon-ec2-workloads-at-scale/
     
@@ -33,17 +35,19 @@ You will now deploy your application to the EC2 instances launched by the Auto S
     
     cd koel && git checkout v3.7.2
     ```
-    
+
 {{% notice note %}}
 You'll get an update about being in 'detached HEAD' state. This is normal.
 {{% /notice %}}
 
 5. Next, copy the CodeDeploy configs into the root level of the koel application directory:
+
     ```bash
     cp -avr ../codedeploy/* .
     ```
     
 6. After reviewing and getting comfortable with the CodeDeploy configs, go ahead and create the CodeDeploy application:
+
     ```bash
     aws deploy create-application --application-name koelApp
     ```
@@ -54,9 +58,11 @@ The CodeDeploy console will not default to your current region. Please make sure
 {{% /notice %}}
 
 8. Next, push the application to the CodeDeploy S3 bucket that the initial CloudFormation template created (which you loaded to the $codeDeployBucket environment variable at the beginning of the workshop):
+
     ```bash
     aws deploy push --application-name koelApp --s3-location s3://$codeDeployBucket/koelApp.zip --no-ignore-hidden-files
     ```
+
 {{% notice note %}}
 You will get output similar to the following. This is normal and correct:	
 *To deploy with this revision, run: aws deploy create-deployment --application-name koelApp --s3-location bucket=runningamazonec2workloadsatscale-codedeploybucket-11wv3ggxcni40,key=koelApp.zibundleType=zip,eTag=870b90e201bdca3a06d1b2c6cfcaab11-2 --deployment-group-name <deployment-group-name> --deployment-config-name <deployment-config-name> --description <description>*
@@ -65,7 +71,8 @@ You will get output similar to the following. This is normal and correct:
 9. Check the content of the S3 bucket, browsing the [S3 console](https://s3.console.aws.amazon.com/s3/home) and clicking on the bucket (you can find the bucket name on the value of **codeDeployBucket** in the CloudFormation stack outputs or running $ echo $codeDeployBucket in your terminal). This is the bucket you're using for your code deployments. You should see your application deployment bundle inside the bucket.
 
 10. Run the following command to edit **deployment-group.json** with the value of **%codeDeployServiceRole%** from the CloudFormation stack outputs, and then create the deployment group:
-    ```
+
+    ```bash
     cd ..
     
     sed -i.bak -e "s#%codeDeployServiceRole%#$codeDeployServiceRole#g" deployment-group.json
@@ -79,14 +86,17 @@ The CodeDeploy console will not default to your current region. Please make sure
 {{% /notice %}}
 
 12. Finally, edit the application by editing **deployment.json** and replacing the value of **%codeDeployBucket%** from the CloudFormation stack outputs.
-    ```
+
+    ```bash
     sed -i.bak -e "s/%codeDeployBucket%/$codeDeployBucket/g" deployment.json
     ```
 
 13. Take look at the configuration file and then create a deployment running:
-    ```
+
+    ```bash
     aws deploy create-deployment --cli-input-json file://deployment.json
     ```
+
  {{% notice note %}}
  Note the **deploymentId**.
  {{% /notice %}}
@@ -103,15 +113,16 @@ The CodeDeploy console will not default to your current region. Please make sure
 17. Open your web browser and browse to the **DNS name** (URL). You will see the login page to your application. Login in with the default email address '**admin@example.com**' and default password '**admin-pass**'.
 
 18. The EFS file system is mounted on every instance at **/var/www/media** in order to create a shared location for your audio files. Mount the EFS file system in the Cloud9 environment and copy some mp3s to the file system. The EFS file system id created by CloudFormation is loaded on the **$fileSystem** environment variable.
+
     ```bash
     mkdir -p ~/environment/media
-	
+    
     sudo mount -t efs $fileSystem:/ ~/environment/media
     
     sudo chown ec2-user. ~/environment/media
     
     sudo cp -av *.mp3 ~/environment/media
-    ```	
+    ```
 
 19. Back in Koel, under **MANAGE**, click on **Settings**. Click on **Scan**. Play around and enjoy some audio on your music service.
 
