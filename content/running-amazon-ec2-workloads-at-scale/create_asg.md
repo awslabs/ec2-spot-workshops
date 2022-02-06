@@ -20,7 +20,7 @@ The EC2 Auto Scaling group that you are going to deploy supports [multiple purch
 * Which On-Demand and Spot Instances would be selected from the list of Overrides, and why?
 
 
-*Hint:* take a look at the [API reference for `InstancesDistribution`] (https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html) to understand the different parameters in the asg.json configuration file.
+*Hint:* take a look at the [API reference for `InstancesDistribution`](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstancesDistribution.html) to understand the different parameters in the asg.json configuration file.
 
 {{%expand "Click here for the answer" %}}
 With an `OnDemandBaseCapacity` of 2, `OnDemandPercentageAboveBaseCapacity` of 0, and `DesiredCapacity` of 4, initially the ASG is going to contain 2 On-Demand instances and 2 Spot Instances.
