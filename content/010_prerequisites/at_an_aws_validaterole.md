@@ -4,7 +4,7 @@ hidden: true
 ---
 
 
-The output assumed-role name should contain
+The output assumed-role name should contain:
 
 ```
 TeamRole

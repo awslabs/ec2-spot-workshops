@@ -92,7 +92,23 @@ aws sts get-caller-identity
 
 ```
 
-{{% insert-md-from-file file="010_prerequisites/at_an_aws_validaterole.md" %}}
+The output assumed-role name should contain:
+
+```
+TeamRole
+```
+
+#### VALID
+
+If the _Arn_ contains the role name from above and an Instance ID, you may proceed.
+
+```output
+{
+    "Account": "123456789012", 
+    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
+    "Arn": "arn:aws:sts::216876048363:assumed-role/TeamRole/i-0dd09eac19be01448"
+}
+```
 
 {{% notice note %}}
 Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/020_eksctl/test.md"  >}})**
