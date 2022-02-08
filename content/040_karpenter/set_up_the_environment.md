@@ -7,35 +7,13 @@ draft: false
 
 Before we install Karpenter, there are a few things that we will need to prepare in our environment for it to work as expected.
 
-## Tagging Subnets
-
-
-Karpenter discovers subnets tagged `kubernetes.io/cluster/$CLUSTER_NAME`. We need to add this tag to the subnets associated to your cluster. The following command retreives the subnet IDs from cloudformation and tags them with the appropriate cluster name.
-
-```
-SUBNET_IDS=$(aws cloudformation describe-stacks \
-    --stack-name eksctl-${CLUSTER_NAME}-cluster \
-    --query 'Stacks[].Outputs[?OutputKey==`SubnetsPrivate`].OutputValue' \
-    --output text)
-aws ec2 create-tags \
-    --resources $(echo $SUBNET_IDS | tr ',' '\n') \
-    --tags Key="kubernetes.io/cluster/${CLUSTER_NAME}",Value=
-```
-
-You can verify the right tags have been set by running the following command. This commands checks which subnets have the `kubernetes.io/cluster/${CLUSTER_NAME}` and compares them to the cluster subnets. Note the elements in the equation can be out of order.
-
-```
-VALIDATION_SUBNETS_IDS=$(aws ec2 describe-subnets --filters Name=tag:"kubernetes.io/cluster/${CLUSTER_NAME}",Values= --query "Subnets[].SubnetId" --output text | sed 's/\t/,/')
-echo "$SUBNET_IDS == $VALIDATION_SUBNETS_IDS"
-```
-
 ## Create the IAM Role and Instance profile for Karpenter Nodes 
 
 Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`.
 
 ```
 TEMPOUT=$(mktemp)
-curl -fsSL https://karpenter.sh/docs/getting-started/cloudformation.yaml > $TEMPOUT \
+curl -fsSL https://karpenter.sh/v0.6.1/getting-started/cloudformation.yaml > $TEMPOUT \
 && aws cloudformation deploy \
   --stack-name Karpenter-${CLUSTER_NAME} \
   --template-file ${TEMPOUT} \

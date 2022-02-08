@@ -41,7 +41,10 @@ spec:
     resources:
       cpu: 256
   provider:
-    instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
+    subnetSelector:
+      karpenter.sh/discovery: ${CLUSTER_NAME}
+    securityGroupSelector:
+      karpenter.sh/discovery: ${CLUSTER_NAME}
     tags:
       accountingEC2Tag: KarpenterDevEnvironmentEC2
   ttlSecondsAfterEmpty: 30
@@ -70,7 +73,10 @@ spec:
     resources:
       cpu: 128
   provider:
-    instanceProfile: KarpenterNodeInstanceProfile-${CLUSTER_NAME}
+    subnetSelector:
+      karpenter.sh/discovery: ${CLUSTER_NAME}
+    securityGroupSelector:
+      karpenter.sh/discovery: ${CLUSTER_NAME}
     tags:
       accountingEC2Tag: KarpenterDevEnvironmentEC2
   ttlSecondsAfterEmpty: 30
@@ -110,7 +116,7 @@ kubectl describe provisioners default
 ## (Optional Read) Customizing AMIs and Node Bootstrapping 
 
 {{% notice info %}}
-In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/docs/aws/launch-templates/)
+In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.6.1/aws/launch-templates/)
 {{% /notice %}}
 
 By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) for nodes. Often, users need to customize the node image to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootsrapping through Launch Templates. If you need to customize the node, then you need a custom launch template. 

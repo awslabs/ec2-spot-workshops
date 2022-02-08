@@ -145,7 +145,7 @@ The output of Karpenter should look similar to the one below
 ```
 
 It's interesting to see how the nodes were selected in different availability zones.  
-As you are probably guessing by now, this may have to do with the section of the deployment section for `topologySpreadConstraints:` . Latest versions of Karpenter (>4.1) support Kubernetes [Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/). You can define one or multiple topologySpreadConstraint to instruct the kube-scheduler how to place each incoming Pod in relation to the existing Pods across your cluster. 
+As you are probably guessing by now, this may have to do with the section of the deployment section for `topologySpreadConstraints:` . Latest versions of Karpenter (>0.4.1) support Kubernetes [Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/). You can define one or multiple topologySpreadConstraint to instruct the kube-scheduler how to place each incoming Pod in relation to the existing Pods across your cluster. 
 
 To all effect the bin-packing is still happening is just that the topologySpreadConstraint is applied and forces us to spread the workload across the available `kubernetes.io/zone`
 {{% /expand %}}

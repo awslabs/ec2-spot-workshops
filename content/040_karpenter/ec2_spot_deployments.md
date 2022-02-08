@@ -130,7 +130,7 @@ The following diagram depicts how the integration will consider rebalancing reco
 ![Rebalancing Recommendations](/images/spotworkers/rebalance_recommendation.png)
 
 
-* One question that comes often is what happens if the instances I selected cannot be provision. Since version 4.0, Karpenter supports pod affinity. This can be used with Spot or even on demand instances. For example in the case below the deployment defines a soft affinity for `kubernetes.sh/capacity-type` to run on Spot instances. If for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint (in this case the request using Spot), and instead run with the default value (in this case OnDemand).
+* One question that comes often is what happens if the instances I selected cannot be provision. Since version 0.4.0, Karpenter supports pod affinity. This can be used with Spot or even on demand instances. For example in the case below the deployment defines a soft affinity for `kubernetes.sh/capacity-type` to run on Spot instances. If for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint (in this case the request using Spot), and instead run with the default value (in this case OnDemand).
 
 
 ```

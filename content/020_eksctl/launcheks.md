@@ -42,6 +42,8 @@ metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
   version: "1.21"
+  tags:
+    karpenter.sh/discovery: ${CLUSTER_NAME} 
 iam:
   withOIDC: true
 managedNodeGroups:
@@ -52,7 +54,7 @@ managedNodeGroups:
   maxSize: 3
   minSize: 0
   labels:
-    alpha.eksctl.io/cluster-name: eksworkshop-eksctl
+    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
     alpha.eksctl.io/nodegroup-name: mng-od-m5large
     intent: control-apps
   tags:
@@ -81,6 +83,7 @@ Launching EKS and all the dependencies will take approximately 15 minutes
 
 `eksctl create cluster` command allows you to create the cluster and managed nodegroups in sequence. There are a few things to note in the configuration that we just used to create the cluster and a managed nodegroup.
 
+ * Resources created by `eksctl` have the tag `karpenter.sh/discovery` with the cluster name as the value. We'll need this later.
  * Nodegroup configurations are set under the **managedNodeGroups** section, this indicates that the node group is managed by EKS.
  * Nodegroup instance type is **m5.large** with **minSize** to 0, **maxSize** to 3 and **desiredCapacity** to 2. This nodegroup has capacity type set to On-Demand Instances by default.
 
