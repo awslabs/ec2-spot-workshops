@@ -60,7 +60,7 @@ The configuration for this provider is quite simple. We will change in the futur
 
 
 {{% notice info %}}
-Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop (Karpenter 0.6.1) main implementation and Provisioner available is on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/v0.6.1/aws/)**
+Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop (Karpenter 0.6.2) main implementation and Provisioner available is on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/v0.6.2/aws/)**
 {{% /notice %}}
 
 ## Displaying Karpenter Logs

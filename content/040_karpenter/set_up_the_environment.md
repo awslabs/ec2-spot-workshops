@@ -13,7 +13,7 @@ Instances launched by Karpenter must run with an InstanceProfile that grants per
 
 ```
 TEMPOUT=$(mktemp)
-curl -fsSL https://karpenter.sh/v0.6.1/getting-started/cloudformation.yaml > $TEMPOUT \
+curl -fsSL https://karpenter.sh/v0.6.2/getting-started/cloudformation.yaml > $TEMPOUT \
 && aws cloudformation deploy \
   --stack-name Karpenter-${CLUSTER_NAME} \
   --template-file ${TEMPOUT} \
@@ -55,7 +55,9 @@ Karpenter requires permissions like launching instances. This will create an AWS
 ```
 eksctl create iamserviceaccount \
   --cluster $CLUSTER_NAME --name karpenter --namespace karpenter \
+  --role-name "${CLUSTER_NAME}-karpenter" \
   --attach-policy-arn arn:aws:iam::$AWS_ACCOUNT_ID:policy/KarpenterControllerPolicy-$CLUSTER_NAME \
+  --role-only \
   --approve
 ```
 

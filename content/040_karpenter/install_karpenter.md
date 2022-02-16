@@ -14,19 +14,19 @@ We will use helm to deploy Karpenter to the cluster.
 ```
 helm repo add karpenter https://charts.karpenter.sh
 helm repo update
-helm upgrade --install karpenter karpenter/karpenter --namespace karpenter \
-  --create-namespace --set serviceAccount.create=false --version 0.6.1 \
-  --set controller.clusterName=${CLUSTER_NAME} \
-  --set controller.clusterEndpoint=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output json) \
+helm upgrade --install --namespace karpenter --create-namespace \
+  karpenter karpenter/karpenter \
+  --version v0.6.2 \
+  --set serviceAccount.annotations.eks\.amazonaws\.com/role-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CLUSTER_NAME}-karpenter
+  --set clusterName=${CLUSTER_NAME} \
+  --set clusterEndpoint=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output text) \
   --set nodeSelector.intent=control-apps \
   --set defaultProvisioner.create=false \
   --set aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
-  --wait # for the defaulting webhook to install before creating a Provisioner
+  --wait
 ```
 
 The command above:
-
-* uses the  service account that we created in the previous step, hence it sets the `--set serviceAccount.create=false`
 
 * uses the both the **CLUSTER_NAME** and the **CLUSTER_ENDPOINT** so that Karpenter controller can contact the Cluster API Server.
 
