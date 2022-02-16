@@ -104,7 +104,7 @@ kubectl describe provisioner default
 We can confirm the statements above by checking Karpenter logs using the following command. By now you should be very familiar with the log lines expected.
 
 ```
-kubectl logs -f deployment/karpenter-controller --namespace karpenter
+kubectl logs -f deployment/karpenter -c controller -n karpenter
 ```
 
 Or by runnint the following command to verify the details of the Spot instance created.

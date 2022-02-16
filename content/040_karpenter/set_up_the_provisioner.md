@@ -72,9 +72,9 @@ You can create a new terminal window within Cloud9 and leave the command below r
 To read Karpenter logs from the console you can run the following command.
 
 ```
-kubectl logs -f deployment/karpenter-controller -n karpenter
+kubectl logs -f deployment/karpenter -c controller -n karpenter
 ```
 
 {{% notice info %}}
-Karpenter log configuration is stored as a Kubernetes ConfigMap. You can read the configuration by running the following command `kubectl describe configmap config-logging -n karpenter`. You can increase the logging level to `debug` using the following command `kubectl patch configmap config-logging -n karpenter --patch '{"data":{"loglevel.controller":"debug"}}'`
+Karpenter log configuration is stored as a Kubernetes ConfigMap. You can read the configuration by running the following command `kubectl describe configmap config-logging -n karpenter`. You can increase the logging level to `debug` by upgrading the Karpenter Helm release using the following command `helm upgrade --namespace karpenter karpenter karpenter/karpenter --set logLevel=debug --reuse-values`
 {{% /notice %}}

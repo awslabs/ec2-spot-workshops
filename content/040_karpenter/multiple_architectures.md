@@ -117,7 +117,7 @@ Before we check the selected node, let's cover what Karpenter is expected to do 
 Let's confirm that was the case and only `amd64` considered for scaling up. We can check karpenter logs by running the following command.
 
 ```
-kubectl logs -f deployment/karpenter-controller -n karpenter
+kubectl logs -f deployment/karpenter -c controller -n karpenter
 ```
 
 The output should show something similar to the lines below
@@ -162,10 +162,10 @@ We can also get more information about the instance selected by running the foll
 kubectl get node --selector=intent=apps,kubernetes.io/arch=amd64 --show-labels
 ```
 
-This should display the instance with all the labels it has, similar to the output below. Note in the 
+This should display the instance with all the labels it has, similar to the output below. 
 
 ```bash
-$ $ kubectl get node --selector=intent=apps,kubernetes.io/arch=amd64 --show-labels
+$ kubectl get node --selector=intent=apps,kubernetes.io/arch=amd64 --show-labels
 NAME                                          STATUS   ROLES    AGE   VERSION               LABELS
 xxxxxxxxxxxxxxxx.compute.internal   Ready    <none>   43m   v1.21.5-eks-bc4871b   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3a.xlarge,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1a,intent=apps,karpenter.sh/provisioner-name=default,kubernetes.io/arch=amd64,kubernetes.io/hostname=xxxxxxxxxxxxxxxx.compute.internal,kubernetes.io/os=linux,kubernetes.hs/capacity-type=on-demand,node.kubernetes.io/instance-type=t3a.xlarge,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1a
 ``` 
@@ -192,7 +192,7 @@ Karpenter does support the nodeSelector well-known label `node.kubernetes.io/ins
 So in this case we should expect just one instance being considered. You can check Karpenter logs by running:
 
 ```
-kubectl logs -f deployment/karpenter-controller -n karpenter
+kubectl logs -f deployment/karpenter -c controller -n karpenter
 ```
 
 The output should show something similar to the lines below
@@ -219,7 +219,7 @@ We can also get more information about the instance selected by running the foll
 kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 --show-labels
 ```
 
-This should display the instance with all the labels it has, similar to the output below. Note in the 
+This should display the instance with all the labels it has, similar to the output below. 
 
 ```bash
 $ kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 --show-labels

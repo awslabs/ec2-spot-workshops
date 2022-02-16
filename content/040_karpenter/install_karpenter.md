@@ -17,7 +17,7 @@ helm repo update
 helm upgrade --install --namespace karpenter --create-namespace \
   karpenter karpenter/karpenter \
   --version v0.6.2 \
-  --set serviceAccount.annotations.eks\.amazonaws\.com/role-arn=arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CLUSTER_NAME}-karpenter
+  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CLUSTER_NAME}-karpenter \
   --set clusterName=${CLUSTER_NAME} \
   --set clusterEndpoint=$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output text) \
   --set nodeSelector.intent=control-apps \
@@ -40,12 +40,12 @@ The command above:
 
 To check Karpenter is running you can check the Pods, Deployment and Service are Running.
 
-To check running pods run the command below. There should be at least two pods `karpenter-controller` and `karpenter-webhook`
+To check running pods run the command below. There should be at least one pod `karpenter`
 ```
 kubectl get pods --namespace karpenter
 ```
 
-To check the deployment. Like with the pods, there should be two deployments  `karpenter-controller` and `karpenter-webhook`
+To check the deployment. Like with the pods, there should be one deployment  `karpenter`
 ```
 kubectl get deployment -n karpenter
 ```

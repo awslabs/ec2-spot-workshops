@@ -125,7 +125,7 @@ But there is something that does not match with what we have seen so far with Ka
 Well, let's check first Karpenter log. 
 
 ```
-kubectl logs -f deployment/karpenter-controller -n karpenter
+kubectl logs -f deployment/karpenter -c controller -n karpenter
 ```
 
 The output of Karpenter should look similar to the one below

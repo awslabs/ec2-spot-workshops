@@ -22,7 +22,7 @@ curl -fsSL https://karpenter.sh/v0.6.2/getting-started/cloudformation.yaml > $TE
 ```
 
 {{% notice tip %}}
-This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/docs/getting-started/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
+This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.6.2/getting-started/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
 {{% /notice %}}
 
 Second, grant access to instances using the profile to connect to the cluster. This command adds the Karpenter node role to your aws-auth configmap, allowing nodes with this role to connect to the cluster.
@@ -64,13 +64,6 @@ eksctl create iamserviceaccount \
 {{% notice note %}}
 This step may take up to 2 minutes. eksctl will create and deploy a CloudFormation stack that defines the role and create the kubernetes resources that define the Karpenter `serviceaccount` and the `karpenter` namespace that we will use during the workshop. You can also check in the **CloudFormation** console, the resources this stack creates.
 {{% /notice %}}
-
-
-You can confirm the service account has been created by running:
-
-```
-kubectl get serviceaccounts --namespace karpenter
-```
 
 ## Create the EC2 Spot Linked Role
 
