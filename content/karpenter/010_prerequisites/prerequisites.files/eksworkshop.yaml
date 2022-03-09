@@ -6,6 +6,8 @@ metadata:
   name: eksworkshop-eksctl
   region: --AWS_REGION--
   version: --EKS_VERSION--
+  tags:
+    karpenter.sh/discovery: eksworkshop-eksctl
 
 availabilityZones: [--AZA--, --AZB--]
 

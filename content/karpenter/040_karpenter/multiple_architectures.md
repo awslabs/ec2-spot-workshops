@@ -254,6 +254,6 @@ In this section we have learned:
 
 * Karpenter uses well-known labels in the NodeSelector pods to Override the type instance selected. In this section we used the NodeSelector `kubernetes.io/arch` to select instances of type `amd64` x86_64 and `arm64`. We also learned that we can select a specific instance type by using the well-known lable `node.kubernetes.io/instance-type` (i.e **c6g.xlarge**).
 
-* When NodeSelectors are not specified, Karpenter will revert to the default configuration setup for that label. In this case, the property for `kubernetes.sh/capacity-type` was not set, meaning that `on-demand` instances were selected even if the `default` provisioner supports both `spot` and `on-demand`. We will learn more about Spot and On demand workloads later on.
+* When NodeSelectors are not specified, Karpenter will revert to the default configuration setup for that label. In this case, the property for `kubernetes.sh/capacity-type` was not set, meaning that `spot` instances were selected even if the `default` provisioner supports both `spot` and `on-demand`.
 
 * Karpenter scales `on-demand` instances using a diversified selection as well. Similar to Spot, instances are chosen by the ability of those to bin-pack well the pending pods. Karpenter uses the OnDemand allocation strategy **[lowest-price](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html)** to select which instance to pick from the those with available capacity.
