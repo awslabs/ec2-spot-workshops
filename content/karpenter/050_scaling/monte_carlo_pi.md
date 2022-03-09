@@ -131,7 +131,7 @@ You may need to refresh the page and clean your browser cache. The creation and 
 
 When running that in your browser you should be able to see the json response provided by the service:
 
-![Monte Carlo Pi Approximation Response](/images/kubernetes/deploy/monte_carlo_pi_output_1.png)
+![Monte Carlo Pi Approximation Response](/images/karpenter/deploy/monte_carlo_pi_output_1.png)
 
 {{% notice note %}}
 The application takes the named argument **iterations** to define the number of samples used during the monte carlo process, this can be useful to increase the CPU demand on each request. 

@@ -11,10 +11,10 @@ We are now ready to test dynamic scaling using Horizontal Pod Autoscale and Karp
 To help us stress the application we will install a python helper app. The python helper application just calls in parallel on multiple process request to the monte-carlo-pi-service. This will generate load in our pods, which will also trigger the Horizontal Pod Autoscaler action for scaling the monte-carlo-pi-service replicaset.
 
 ```
-chmod +x ~/environment/ec2-spot-workshops/workshops/submit_mc_pi_k8s_requests.py
-sudo python3 -m pip install -r ~/environment/ec2-spot-workshops/workshops/requirements.txt
+chmod +x ~/environment/ec2-spot-workshops/workshops/karpenter/submit_mc_pi_k8s_requests.py
+sudo python3 -m pip install -r ~/environment/ec2-spot-workshops/workshops/karpenter/requirements.txt
 URL=$(kubectl get svc monte-carlo-pi-service | tail -n 1 | awk '{ print $4 }')
-~/environment/ec2-spot-workshops/workshops/submit_mc_pi_k8s_requests.py -p 1 -r 1 -i 1 -u "http://${URL}"
+~/environment/ec2-spot-workshops/workshops/karpenter/submit_mc_pi_k8s_requests.py -p 1 -r 1 -i 1 -u "http://${URL}"
 ```
 
 The output of this command should show something like:
@@ -39,7 +39,7 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 
 Run the stress test ! This time around we will run 3000 requests each expected to take ~1.3sec or so.
 ```
-time ~/environment/ec2-spot-workshops/workshops/submit_mc_pi_k8s_requests.py -p 100 -r 30 -i 35000000 -u "http://${URL}"
+time ~/environment/ec2-spot-workshops/workshops/karpenter/submit_mc_pi_k8s_requests.py -p 100 -r 30 -i 35000000 -u "http://${URL}"
 ```
 
 ### Challenge 

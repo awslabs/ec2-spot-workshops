@@ -9,8 +9,7 @@ In this section we will be building the application that used to scale our clust
 ```
 cd ~/environment
 git clone https://github.com/awslabs/ec2-spot-workshops.git
-cd ec2-spot-workshops
-cd workshops/karpenter
+cd ~/environment/ec2-spot-workshops/workshops/karpenter
 ```
 
 Great. We are now ready to build up our application, compile it first, build the docker image and finally push the image to Amazon ECR.
