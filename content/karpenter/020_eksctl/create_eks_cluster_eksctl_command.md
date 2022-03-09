@@ -1,16 +1,27 @@
 ---
+title: "Create EKS cluster Command"
+chapter: false
+disableToc: true
+hidden: true
+---
+
+Create an eksctl deployment file (eksworkshop.yaml) to create an EKS cluster:
+
+
+```
+cat << EOF > eksworkshop.yaml
+---
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
   name: eksworkshop-eksctl
-  region: --AWS_REGION--
-  version: --EKS_VERSION--
+  region: ${AWS_REGION}
+  version: "1.21"
   tags:
-    karpenter.sh/discovery: eksworkshop-eksctl
-
-availabilityZones: [--AZA--, --AZB--]
-
+    karpenter.sh/discovery: ${CLUSTER_NAME}    
+iam:
+  withOIDC: true
 managedNodeGroups:
 - amiFamily: AmazonLinux2
   instanceType: m5.large
@@ -19,7 +30,7 @@ managedNodeGroups:
   maxSize: 3
   minSize: 0
   labels:
-    alpha.eksctl.io/cluster-name: eksworkshop-eksctl
+    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
     alpha.eksctl.io/nodegroup-name: mng-od-m5large
     intent: control-apps
   tags:
@@ -33,7 +44,15 @@ managedNodeGroups:
       albIngress: true
   privateNetworking: true
 
-# To enable all of the control plane logs, uncomment below:
-# cloudWatch:
-#  clusterLogging:
-#    enableTypes: ["*"]
+EOF
+```
+
+Next, use the file you created as the input for the eksctl cluster creation.
+
+```
+eksctl create cluster -f eksworkshop.yaml
+```
+
+{{% notice note %}}
+Launching EKS and all the dependencies will take approximately 15 minutes
+{{% /notice %}}
