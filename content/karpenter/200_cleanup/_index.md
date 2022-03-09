@@ -21,7 +21,7 @@ kubectl delete -f inflate-team1.yaml
 kubectl delete -f inflate-spot.yaml
 kubectl delete -f inflate.yaml
 helm uninstall aws-node-termination-handler --namespace kube-system
-helm uninstall karpenter -namespace karpenter
+helm uninstall karpenter -n karpenter
 helm uninstall kube-ops-view
 kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.0/components.yaml
 ```
