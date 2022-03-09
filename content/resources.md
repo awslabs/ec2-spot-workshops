@@ -18,7 +18,14 @@ disableToc: true
 
 ##### [ - [Blog post] Capacity-Optimized Spot Instance Allocation in Action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/)
 
-##### [ - [Blog post] Proactively manage the Spot Instance lifecycle using the new Capacity Rebalancing feature for EC2 Auto Scaling](https://aws.amazon.com/blogs/compute/proactively-manage-spot-instance-lifecycle-using-the-new-capacity-rebalancing-feature-for-ec2-auto-scaling/)
+##### [ - [Blog post]: Proactively manage the Spot Instance lifecycle using the new Capacity Rebalancing feature for EC2 Auto Scaling](https://aws.amazon.com/blogs/compute/proactively-manage-spot-instance-lifecycle-using-the-new-capacity-rebalancing-feature-for-ec2-auto-scaling/)
+
+
+##### [ - [Blog post]: Attribute-Based Instance Type Selection for EC2 Auto Scaling and EC2 Fleet](https://aws.amazon.com/blogs/aws/new-attribute-based-instance-type-selection-for-ec2-auto-scaling-and-ec2-fleet/)
+
+##### [ - [Blog post]: Identifying optimal locations for flexible workloads with Spot placement score](https://aws.amazon.com/blogs/compute/identifying-optimal-locations-for-flexible-workloads-with-spot-placement-score/)
+
+##### [ - [Blog post]: Implementing interruption tolerance in Amazon EC2 Spot with AWS Fault Injection Simulator](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/)
 
 ##### [ - [AWS Online Tech Talks]: Optimize AI/ML, Kubernetes and Big Data Workloads at Your Startup](https://www.youtube.com/watch?v=2donGftFSIY)
 
@@ -59,6 +66,10 @@ disableToc: true
 ##### [ - [Blog post] Deep dive into Fargate Spot to run your ECS Tasks for up to 70% less](https://aws.amazon.com/blogs/compute/deep-dive-into-fargate-spot-to-run-your-ecs-tasks-for-up-to-70-less/)
 
 ##### [ - [Code] AWS Node Termination Handler for Kubernetes](https://github.com/aws/aws-node-termination-handler)
+
+##### [ - [Blog post]: Efficiently Scaling kOps clusters with Amazon EC2 Spot Instances](https://aws.amazon.com/blogs/compute/efficiently-scaling-kops-clusters-with-amazon-ec2-spot-instances/)
+##### [ - [Tutorial]: Run kOps Kubernetes clusters for less with Amazon EC2 Spot Instances](https://aws.amazon.com/getting-started/hands-on/run-kops-kubernetes-clusters-for-less-with-amazon-ec2-spot-instances/)
+
 
 ## AI/ML
 
