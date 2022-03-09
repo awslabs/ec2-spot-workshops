@@ -215,7 +215,7 @@ div.cards.important_workshop p {
 div.cards.important_workshop div.content {
     background: #E7F2FA;
     padding-bottom: 30px;
-    min-height: 100px;
+    min-height: 130px;
     margin: 0px;
     padding: 0px;
     color: #333; 
@@ -231,7 +231,7 @@ div.cards.workshop p.header {
 div.cards.workshop div.content {
     background: #E6F9E6;
     padding-bottom: 30px;
-    min-height: 100px;
+    min-height: 130px;
     margin: 0px;
     padding: 0px;
     color: #333;
