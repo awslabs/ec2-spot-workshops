@@ -90,9 +90,6 @@ Some notable metrics:
 * **ContainerAllocated** - this represents the number of containers that are running on your cluster, on the Core and Task Instance Fleets. These would the be Spark executors and the Spark Driver.  
 * **MemoryAllocatedMB** & **MemoryAvailableMB** - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.  
 
-#### Terminate the cluster
-When you are done examining the cluster and using the different UIs, terminate the EMR cluster from the EMR management console. This is not the end of the workshop though - we still have some interesting steps to go.
-
 #### Number of executors in the cluster
 With 32 Spot Units in the Task Instance Fleet, EMR launched either 8 * xlarge (running one executor) or 4 * 2xlarge instances (running 2 executors) or 2 * 4xlarge instances (running 4 executors), so the Task Instance Fleet provides 8 executors / containers to the cluster.  
 The Core Instance Fleet launched one xlarge instance, able to run one executor.
