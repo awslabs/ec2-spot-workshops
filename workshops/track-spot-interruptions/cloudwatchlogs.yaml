@@ -1,0 +1,84 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Logging instance details in response to EC2 Spot Instance Interruption Warnings'
+Parameters:
+  CloudWatchLogGroupName:
+    Description: Name of the Cloud Watch Log Group logs will be written to.
+    Default: /aws/events/spotinterruptions
+    Type: String
+  CloudWatchLogGroupRetentionPeriodDays:
+    Description: Number of days to retain Cloud Watch Logs
+    Default: 7
+    Type: Number
+Resources:  
+  RBREventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: EventRule
+      EventPattern:
+        source:
+        - aws.ec2
+        detail-type:
+        - EC2 Instance Rebalance Recommendation
+      State: ENABLED
+      RoleArn: !GetAtt CloudWatchLogRole.Arn
+      Targets:
+      - Arn:
+          Fn::GetAtt:
+          - CloudWatchLogGroup
+          - Arn
+        Id: CloudWatchLogGroup
+    Metadata:
+      SamResourceId: RBREventRule
+  ITNEventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: EventRule
+      EventPattern:
+        source:
+        - aws.ec2
+        detail-type:
+        - EC2 Spot Instance Interruption Warning
+      State: ENABLED
+      RoleArn: !GetAtt CloudWatchLogRole.Arn
+      Targets:
+      - Arn:
+          Fn::GetAtt:
+          - CloudWatchLogGroup
+          - Arn
+        Id: CloudWatchLogGroup
+    Metadata:
+      SamResourceId: ITNEventRule
+  CloudWatchLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: CloudWatchLogGroupName
+      RetentionInDays:
+        Ref: CloudWatchLogGroupRetentionPeriodDays
+  CloudWatchLogRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+      -   PolicyName: "AllowLogging"
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - 'logs:*'
+                Resource: "*"
+
+Outputs:
+  CloudWatchLogGroupName:
+    Description: CloudWatch Log Group Name
+    Value:
+      Ref: CloudWatchLogGroup
+...
