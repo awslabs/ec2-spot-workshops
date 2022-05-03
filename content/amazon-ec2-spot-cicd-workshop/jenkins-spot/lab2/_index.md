@@ -102,4 +102,4 @@ Once the deploy stage has been completed successfully:
 Once you've verified that that the Game of Life web application loads, return to Jenkins and click on the **Test** pipeline stage and click on **Proceed** to get the pipeline to process the Terminate stage. After this final stage has executed, go back to the CloudFormation console to verify that the GameOfLife stack is being deleted.
 
 ## PROCEED TO LAB 3
-Once your test environment has been terminated, you may proceed with [Lab 3](/amazon-ec2-spot-cicd-workshop/lab3.html).
+Once your test environment has been terminated, you may proceed with [Lab 3](/amazon-ec2-spot-cicd-workshop/jenkins-spot/lab3.html).

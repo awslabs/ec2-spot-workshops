@@ -1,0 +1,367 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: GitLab Spot Workshop
+
+Parameters:
+  SSHKeyName:
+    Description: Name of the EC2 key for GitLab
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  AmiId:
+    Description: Do not change
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id'
+  VpcCIDR:
+    Description: CIDR for the VPC
+    Type: String
+    Default: 10.0.0.0/16
+  Subnet1CIDR:
+    Description: CIDR for the first public subnet
+    Type: String
+    Default: 10.0.10.0/24
+  Subnet2CIDR:
+    Description: CIDR for the second public subnet
+    Type: String
+    Default: 10.0.20.0/24
+  EnvironmentName:
+    Description: Project name for the tags
+    Type: String
+    Default: GitLabSpotWorkshop
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} VPC
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Internet Gateway
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: !Ref Subnet1CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Subnet 1
+        - Key: Project
+          Value: !Ref EnvironmentName
+        - Key: kubernetes.io/cluster/gitlab-spot-workshop
+          Value: shared
+        - Key: kubernetes.io/role/elb
+          Value: 1
+
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      CidrBlock: !Ref Subnet2CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Subnet 2
+        - Key: Project
+          Value: !Ref EnvironmentName
+        - Key: kubernetes.io/cluster/gitlab-spot-workshop
+          Value: shared
+        - Key: kubernetes.io/role/elb
+          Value: 1
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Route Table
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref Subnet1
+
+  Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref Subnet2
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: SSH and HTTP
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref VpcCIDR
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId:
+              Ref: ELBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} EC2 Security Group
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  ELBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: HTTP only
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} ELB Security Group
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: allowLambdaLogging
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "logs:*"
+                Resource: "*"
+
+  RandomStringLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Architectures:
+        - arm64
+      Code:
+        ZipFile: |
+          import json
+          import cfnresponse
+          import random
+          import string
+
+          def handler(event, context):
+              length = int(event["ResourceProperties"]["Length"])
+
+              responseData = {}
+              responseData["RandomString"] = "".join(random.choices(string.ascii_letters + string.digits, k=length))
+
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+      Handler: index.handler
+      Runtime: python3.8
+      Role: !GetAtt LambdaExecutionRole.Arn
+      MemorySize: 128
+      Timeout: 3
+
+  GitLabPassword:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      Length: 16
+      ServiceToken: !GetAtt RandomStringLambdaFunction.Arn
+
+  GitLabInstance:
+    Type: AWS::EC2::Instance
+    DependsOn: CloudFrontDistribution
+    Properties:
+      ImageId: !Ref AmiId
+      InstanceType: m5.xlarge
+      KeyName: !Ref SSHKeyName
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          GroupSet:
+            - !Ref EC2SecurityGroup
+          SubnetId: !Ref Subnet1
+      UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash -xe
+            apt-get update
+            apt-get install -y curl openssh-server ca-certificates tzdata perl python3-setuptools
+            curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash
+            GITLAB_ROOT_EMAIL="test@workshop.tld" GITLAB_ROOT_PASSWORD="${GitLabPassword.RandomString}" EXTERNAL_URL="http://${CloudFrontDistribution.DomainName}" apt-get install gitlab-ee
+            sed -i 's|http://${CloudFrontDistribution.DomainName}|https://${CloudFrontDistribution.DomainName}|' /etc/gitlab/gitlab.rb
+            echo "letsencrypt['enable'] = false" >> /etc/gitlab/gitlab.rb
+            echo "nginx['listen_port'] = 80" >> /etc/gitlab/gitlab.rb
+            echo "nginx['listen_https'] = false" >> /etc/gitlab/gitlab.rb
+            gitlab-ctl reconfigure
+            gitlab-rails runner "ApplicationSetting.last.update_attribute(:signup_enabled, false)"
+            wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz
+            python3 /usr/lib/python3/dist-packages/easy_install.py --script-dir /opt/aws/bin aws-cfn-bootstrap-py3-latest.tar.gz
+            /opt/aws/bin/cfn-signal \
+              -e $? \
+              --stack ${AWS::StackName} \
+              --resource GitLabInstance \
+              --region ${AWS::Region}
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} GitLab
+        - Key: Project
+          Value: !Ref EnvironmentName
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: "PT45M"
+
+  EC2TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: GitLab-Target-Group
+      Port: 80
+      Protocol: HTTP
+      Targets:
+      - Id: !Ref GitLabInstance
+        Port: 80
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} GitLab Target Group
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  ALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn:
+            Ref: EC2TargetGroup
+      LoadBalancerArn:
+          Ref: ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Subnets:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      SecurityGroups:
+        - Ref: ELBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Load Balancer
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !GetAtt ApplicationLoadBalancer.DNSName
+          Id: GitLabOrigin
+          CustomOriginConfig:
+            HTTPPort: 80
+            OriginProtocolPolicy: http-only
+        Enabled: true
+        DefaultCacheBehavior:
+          TargetOriginId: GitLabOrigin
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3
+          ViewerProtocolPolicy: redirect-to-https
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} CloudFront Distribution
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  DemoRepo:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: gitlab-spot-demo
+      Tags:
+          - Key: Project
+            Value: !Ref EnvironmentName
+
+  GitLabCacheBucket:
+    Type: AWS::S3::Bucket
+
+Outputs:
+  VPC:
+    Description: The VPC with GitLab instance
+    Value: !Ref VPC
+
+  Subnet1:
+    Description: The subnet with GitLab instance
+    Value: !Ref Subnet1
+
+  Subnet1Zone:
+    Description: Availability zone of subnet 1
+    Value: !GetAtt Subnet1.AvailabilityZone
+
+  GitLabURL:
+    Description: URL to GitLab installation
+    Value: !Sub https://${CloudFrontDistribution.DomainName}
+
+  GitLabPassword:
+    Description: GitLab access credentials
+    Value: !GetAtt GitLabPassword.RandomString
+
+  GitLabCacheBucket:
+    Description: Cache for GitLab runners
+    Value: !Ref GitLabCacheBucket

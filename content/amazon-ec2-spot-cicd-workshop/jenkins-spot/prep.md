@@ -41,4 +41,4 @@ Be sure to give it a stack name of **SpotCICDWorkshop** and ensure that you supp
 The stack should take around five minutes to deploy.
 
 ## PROCEED TO LAB 1
-Once the CloudFormation is in the process of being deployed, you've completed all of the preparation required to start the workshop, you may proceed with [Lab 1](/amazon-ec2-spot-cicd-workshop/lab1.html).
+Once the CloudFormation is in the process of being deployed, you've completed all of the preparation required to start the workshop, you may proceed with [Lab 1](/amazon-ec2-spot-cicd-workshop/jenkins-spot/lab1.html).

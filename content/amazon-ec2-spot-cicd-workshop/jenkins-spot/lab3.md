@@ -86,4 +86,4 @@ Once you've verified that your Spot Fleet is self-healing, you no longer have an
 {{% /expand%}}
 
 ## PROCEED TO LAB 4
-Once your on-demand Jenkins instance has been terminated, you may proceed with [Lab 4](/amazon-ec2-spot-cicd-workshop/lab4.html).
+Once your on-demand Jenkins instance has been terminated, you may proceed with [Lab 4](/amazon-ec2-spot-cicd-workshop/jenkins-spot/lab4.html).

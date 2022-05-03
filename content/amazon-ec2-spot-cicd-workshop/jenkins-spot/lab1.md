@@ -95,4 +95,4 @@ Now it’s time to test out how Jenkins handles pushing builds to spot instances
 4. After a period of around a five minutes after your builds have completed, one of the Spot instances should be terminated by the plugin - there's no need to wait for this to happen (take our word for it, but you can verify this later).
 
 ## PROCEED TO LAB 2
-Once you've verified that builds are succeeding and that your Spot Fleet is capable of scaling out to handle queued build jobs, you may proceed with [Lab 2](/amazon-ec2-spot-cicd-workshop/lab2.html).
+Once you've verified that builds are succeeding and that your Spot Fleet is capable of scaling out to handle queued build jobs, you may proceed with [Lab 2](/amazon-ec2-spot-cicd-workshop/jenkins-spot/lab2.html).

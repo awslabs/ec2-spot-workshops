@@ -1,0 +1,42 @@
+variables:
+  ECR_REGISTRY: ${ECR_ADDRESS}
+  IMAGE_TAG: gitlab-spot-demo:$CI_COMMIT_SHA
+  REGION: ${AWS_REGION}
+  K8S_CLUSTER_NAME: gitlab-spot-workshop
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+stages:
+- build
+- deploy
+- test
+
+build_image:
+  stage: build
+  image: docker:20.10.6
+  before_script:
+    - docker info
+    - apk add --no-cache curl python3 py3-pip
+    - |
+      export TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 600")
+    - |
+      curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/hostname
+    - |
+      curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region
+    - pip install awscli
+    - aws --version
+    - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
+  script:
+    - docker build -t $IMAGE_TAG .
+    - docker tag $IMAGE_TAG $ECR_REGISTRY/$IMAGE_TAG
+    - docker push $ECR_REGISTRY/$IMAGE_TAG
+
+deploy_to_eks:
+  stage: deploy
+  script:
+    - echo "Ok!"
+
+test_on_eks:
+  stage: test
+  script:
+    - echo "Ok!"
