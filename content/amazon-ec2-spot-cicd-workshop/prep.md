@@ -19,14 +19,14 @@ You will need to access the SSH interfaces of some Linux EC2 instances created i
 ## LAUNCH THE CLOUDFORMATION TEMPLATE
 So that you can concentrate on the aspects of this workshop that directly relate to Amazon EC2 Spot instances, there is a CloudFormation template that will deploy the base AWS infrastructure needed for all of the labs within the workshop - saving you from having to create things like VPCs, Security Groups, IAM policies and so forth.
 
-Deploy the CloudFormation template located at:
-[https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml](https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml)
+Download and deploy the CloudFormation template located at:
+[https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml)
 
 Be sure to give it a stack name of **SpotCICDWorkshop** and ensure that you supply appropriate parameters when prompted.
 {{%expand "Click to reveal detailed instructions" %}}
 1. Go to the **CloudFormation** console (or [click here](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1));
 2. Click on the **Create Stack** button towards the top of the console;
-3. At the Select Template screen, select the **Specify an Amazon S3 template URL** radio button and type in [https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml](https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml) as the URL, then click on the **Next** button;
+3. At the Select Template screen, select the **Upload a template file** radio button and choose the CloudFormation template you downloaded before, then click on the **Next** button;
 4. At the Specify Details screen, enter in **SpotCICDWorkshop** as the Stack name. Under the Parameters section:
     1. Identify what your current public IP address is by going to https://www.google.com.au/search?q=what%27s+my+ip+address. Enter the first three octets of this IP address into the **CurrentIP** parameter field and then add the **.0/24** suffix. For example if your IP address was 54.240.193.193, you would enter 54.240.193.0/24 into the CurrentIP field[^1];
     2. Enter in a password that you would like to use for the administrator account within the Jenkins server that will be launched by the CloudFormation template;
