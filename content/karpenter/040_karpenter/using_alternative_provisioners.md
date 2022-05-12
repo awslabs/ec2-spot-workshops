@@ -51,7 +51,7 @@ spec:
       - labelSelector:
           matchLabels:
             app: inflate-team1
-        maxSkew: 100
+        maxSkew: 1
         topologyKey: topology.kubernetes.io/zone
         whenUnsatisfiable: ScheduleAnyway
 EOF
@@ -132,15 +132,19 @@ The output of Karpenter should look similar to the one below
 
 ```
 ...
-2021-11-16T05:41:30.292Z        INFO    controller.allocation.provisioner/team1 Starting provisioning loop      {"commit": "6468992"}
-2021-11-16T05:41:30.293Z        INFO    controller.allocation.provisioner/team1 Waiting to batch additional pods        {"commit": "6468992"}
-2021-11-16T05:41:31.476Z        INFO    controller.allocation.provisioner/team1 Found 4 provisionable pods      {"commit": "6468992"}
-2021-11-16T05:41:32.490Z        INFO    controller.allocation.provisioner/team1 Computed packing for 2 pod(s) with instance type option(s) [c5.xlarge c6i.xlarge c3.xlarge c5a.xlarge c5d.xlarge c4.xlarge c1.xlarge c5n.xlarge m3.xlarge m1.xlarge m6i.xlarge m5zn.xlarge m5.xlarge m4.xlarge m5ad.xlarge m5d.xlarge t3.xlarge m5dn.xlarge m5a.xlarge t3a.xlarge]  {"commit": "6468992"}
-2021-11-16T05:41:32.509Z        INFO    controller.allocation.provisioner/team1 Computed packing for 2 pod(s) with instance type option(s) [c6i.xlarge c5.xlarge c4.xlarge c5a.xlarge c5ad.xlarge c5d.xlarge c3.xlarge c1.xlarge c5n.xlarge m1.xlarge m3.xlarge m5zn.xlarge m5.xlarge m6i.xlarge t3a.xlarge m5ad.xlarge m5a.xlarge t3.xlarge m5dn.xlarge m5n.xlarge]        {"commit": "6468992"}
-2021-11-16T05:41:34.216Z        INFO    controller.allocation.provisioner/team1 Launched instance: i-0f92acfe9a25a80c4, hostname: xxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand   {"commit": "6468992"}
-2021-11-16T05:41:34.242Z        INFO    controller.allocation.provisioner/team1 Bound 2 pod(s) to node xxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal     {"commit": "6468992"}
-2021-11-16T05:41:34.305Z        INFO    controller.allocation.provisioner/team1 Launched instance: i-02adc32c53c19fcec, hostname: xxxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal, type: t3a.xlarge, zone: eu-west-1b, capacityType: on-demand  {"commit": "6468992"}
-2021-11-16T05:41:34.335Z        INFO    controller.allocation.provisioner/team1 Bound 2 pod(s) to node xxxxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal    {"commit": "6468992"}
+2022-05-12T04:33:28.625Z        INFO    controller      Batched 4 pod(s) in 1.038819076s        {"commit": "00661aa"}
+2022-05-12T04:33:29.361Z        DEBUG   controller      Discovered 401 EC2 instance types       {"commit": "00661aa"}
+2022-05-12T04:33:29.482Z        DEBUG   controller      Discovered EC2 instance types zonal offerings   {"commit": "00661aa"}
+2022-05-12T04:33:29.638Z        DEBUG   controller      Discovered subnets: [subnet-0204b1b3b885ca98d (eu-west-1a) subnet-037d1d97a6a473fd1 (eu-west-1b) subnet-04c2ca248972479e7 (eu-west-1b) subnet-063d5c7ba912986d5 (eu-west-1a)]     {"commit": "00661aa"}
+2022-05-12T04:33:29.728Z        DEBUG   controller      Discovered security groups: [sg-03ab1d5d49b00b596 sg-06e7e2ca961ab3bed]  {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:29.732Z        DEBUG   controller      Discovered kubernetes version 1.21      {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:29.796Z        DEBUG   controller      Discovered ami-0440c10a3f77514d8 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"     {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:29.971Z        DEBUG   controller      Created launch template, Karpenter-eksworkshop-eksctl-2228580094236845875        {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:31.885Z        INFO    controller      Launched instance: i-02df8ea1e99895e78, hostname: ip-192- 68-14-13.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand       {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:31.896Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types c4.xlarge, c6a.xlarge, c6i.xlarge, c5.xlarge, c5a.xlarge and 263 other(s)      {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:32.443Z        INFO    controller      Launched instance: i-0b6984823f26d5b15, hostname: ip-192-168-39-218.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1b, capacityType: on-demand      {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:32.453Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types c4.xlarge, c6a.xlarge, c6i.xlarge, c5.xlarge, c5a.xlarge and 267 other(s)      {"commit": "00661aa", "provisioner": "team1"}
+2022-05-12T04:33:32.464Z        INFO    controller      Waiting for unschedulable pods  {"commit": "00661aa"}
 ...
 ```
 
