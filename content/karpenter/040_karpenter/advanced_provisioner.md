@@ -116,17 +116,17 @@ kubectl describe provisioners default
 ## (Optional Read) Customizing AMIs and Node Bootstrapping 
 
 {{% notice info %}}
-In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.6.5/aws/launch-templates/)
+In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.10.0/aws/launch-templates/)
 {{% /notice %}}
 
-By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) for nodes. Often, users need to customize the node image to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootsrapping through Launch Templates. If you need to customize the node, then you need a custom launch template. 
+By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and Encrypted EBS root volumes with the default (AWS Managed) KMS key for nodes. Often, users need to customize the node image to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootsrapping through Launch Templates. If you need to customize the node, then you need a custom launch template. 
 
 {{%notice note %}}
 Using custom launch templates prevents multi-architecture support, the ability to automatically upgrade nodes, and securityGroup discovery. Using launch templates may also cause confusion because certain fields are duplicated within Karpenter’s provisioners while others are ignored by Karpenter, e.g. subnets and instance types.
 {{% /notice%}}
 
 {{% notice warning %}}
-By customizing the image, you are taking responsibility for maintaining it, including security updates. In the default configuration, Karpenter will use the latest version of the EKS optimized AMI, which is maintained by AWS. 
+By customizing the image, you are taking responsibility for maintaining it, including security updates. In the default configuration, Karpenter will use the latest version of the EKS optimized AMI, which is maintained by AWS.
 {{% /notice %}}
 
 
@@ -149,7 +149,4 @@ when building a custom base image.
 {{% notice warning %}}
 Specifying max-pods can break Karpenter's bin-packing logic (it has no way to know what this setting is). If Karpenter attempts to pack more than this number of pods, the instance may be oversized, and additional pods will reschedule.
 {{% /notice %}}
-
-
-
 

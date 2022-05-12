@@ -12,10 +12,10 @@ Before we install Karpenter, there are a few things that we will need to prepare
 Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`.
 
 ```
-export KARPENTER_VERSION=v0.6.4
+export KARPENTER_VERSION=v0.10.0
 echo "export KARPENTER_VERSION=${KARPENTER_VERSION}" >> ~/.bash_profile
 TEMPOUT=$(mktemp)
-curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/cloudformation.yaml > $TEMPOUT \
+curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml > $TEMPOUT \
 && aws cloudformation deploy \
   --stack-name Karpenter-${CLUSTER_NAME} \
   --template-file ${TEMPOUT} \
@@ -24,7 +24,7 @@ curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/cloudform
 ```
 
 {{% notice tip %}}
-This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.6.4/getting-started/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
+This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.10.0/getting-started/getting-started-with-eksctl/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
 {{% /notice %}}
 
 Second, grant access to instances using the profile to connect to the cluster. This command adds the Karpenter node role to your aws-auth configmap, allowing nodes with this role to connect to the cluster.
@@ -78,6 +78,3 @@ This step is only necessary if this is the first time you’re using EC2 Spot in
 ```
 aws iam create-service-linked-role --aws-service-name spot.amazonaws.com
 ```
-
-
-
