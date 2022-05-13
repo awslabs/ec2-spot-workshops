@@ -124,12 +124,15 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2021-11-16T00:43:22.773Z        INFO    controller.allocation.provisioner/default       Starting provisioning loop      {"commit": "6468992"}
-2021-11-16T00:43:22.773Z        INFO    controller.allocation.provisioner/default       Waiting to batch additional pods        {"commit": "6468992"}
-2021-11-16T00:43:23.976Z        INFO    controller.allocation.provisioner/default       Found 2 provisionable pods      {"commit": "6468992"}
-2021-11-16T00:43:25.034Z        INFO    controller.allocation.provisioner/default       Computed packing for 2 pod(s) with instance type option(s) [c5a.xlarge c5d.xlarge c3.xlarge c4.xlarge c5ad.xlarge c5.xlarge c6i.xlarge c1.xlarge c5n.xlarge m1.xlarge m3.xlarge t3.xlarge t3a.xlarge m5dn.xlarge m5ad.xlarge m4.xlarge m5zn.xlarge m5n.xlarge m6i.xlarge m5d.xlarge]        {"commit": "6468992"}
-2021-11-16T00:43:27.038Z        INFO    controller.allocation.provisioner/default       Launched instance: i-0e4b58e5fbdc8eeb8, hostname: xxxxxxxxxxxxxxxxxxx.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand    {"commit": "6468992"}
-2021-11-16T00:43:27.057Z        INFO    controller.allocation.provisioner/default       Bound 2 pod(s) to node xxxxxxxxxxxxxxxxxxx.compute.internal   {"commit": "6468992"}
+2022-05-12T04:15:10.593Z        INFO    controller      Batched 2 pod(s) in 1.009818195s        {"commit": "00661aa"}
+2022-05-12T04:15:10.770Z        DEBUG   controller      Discovered subnets: [subnet-0204b1b3b885ca98d (eu-west-1a) subnet-037d1d97a6a473fd1 (eu-west-1b) subnet-04c2ca248972479e7 (eu-west-1b) subnet-063d5c7ba912986d5 (eu-west-1a)]   {"commit": "00661aa"}
+2022-05-12T04:15:10.851Z        DEBUG   controller      Discovered security groups: [sg-03ab1d5d49b00b596 sg-06e7e2ca961ab3bed]{"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:15:10.854Z        DEBUG   controller      Discovered kubernetes version 1.21      {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:15:10.940Z        DEBUG   controller      Discovered ami-0440c10a3f77514d8 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"    {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:15:10.977Z        DEBUG   controller      Discovered launch template Karpenter-eksworkshop-eksctl-13001267661656074018    {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:15:13.081Z        INFO    controller      Launched instance: i-0d19d3eeb2d59578d, hostname: ip-192-168-22-165.eu-west-1.compute.internal, type: m4.xlarge, zone: eu-west-1a, capacityType: spot   {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:15:13.093Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c4.xlarge, c6i.xlarge, c5a.xlarge, c5.xlarge, c6a.xlarge and 267 other(s)     {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:15:13.103Z        INFO    controller      Waiting for unschedulable pods  {"commit": "00661aa"}
 ...
 ```
 
@@ -199,10 +202,17 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2021-11-30T19:21:52.786Z        INFO    controller.provisioning Batched 2 pods in 1.030167637s  {"commit": "84b683b", "provisioner": "default"}
-2021-11-30T19:21:52.791Z        INFO    controller.provisioning Computed packing of 1 node(s) for 2 pod(s) with instance type option(s) [c6g.xlarge]    {"commit": "84b683b", "provisioner": "default"}
-2021-11-30T19:21:55.764Z        INFO    controller.provisioning Launched instance: i-0fe8ef259d1e0bf83, hostname: ip-192-168-77-232.us-west-2.compute.internal, type: c6g.xlarge, zone: us-west-2a, capacityType: on-demand     {"commit": "84b683b", "provisioner": "default"}
-2021-11-30T19:21:55.865Z        INFO    controller.provisioning Bound 2 pod(s) to node ip-192-168-77-232.us-west-2.compute.internal     {"commit": "84b683b", "provisioner": "default"}
+2022-05-12T04:20:51.896Z        INFO    controller      Batched 2 pod(s) in 1.014499438s        {"commit": "00661aa"}
+2022-05-12T04:20:52.665Z        DEBUG   controller      Discovered 401 EC2 instance types       {"commit": "00661aa"}
+2022-05-12T04:20:52.790Z        DEBUG   controller      Discovered EC2 instance types zonal offerings   {"commit": "00661aa"}
+2022-05-12T04:20:52.960Z        DEBUG   controller      Discovered subnets: [subnet-0204b1b3b885ca98d (eu-west-1a) subnet-037d1d97a6a473fd1 (eu-west-1b) subnet-04c2ca248972479e7 (eu-west-1b) subnet-063d5c7ba912986d5 (eu-west-1a)]   {"commit": "00661aa"}
+2022-05-12T04:20:53.055Z        DEBUG   controller      Discovered security groups: [sg-03ab1d5d49b00b596 sg-06e7e2ca961ab3bed]{"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:20:53.071Z        DEBUG   controller      Discovered kubernetes version 1.21      {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:20:53.140Z        DEBUG   controller      Discovered ami-05dc8c3028bc33fd6 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2-arm64/recommended/image_id"      {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:20:53.310Z        DEBUG   controller      Created launch template, Karpenter-eksworkshop-eksctl-13655185630813568172      {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:20:55.201Z        INFO    controller      Launched instance: i-013c73aa33c952ace, hostname: ip-192-168-60-157.eu-west-1.compute.internal, type: c6g.xlarge, zone: eu-west-1b, capacityType: spot  {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:20:55.214Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c6g.xlarge    {"commit": "00661aa", "provisioner": "default"}
+2022-05-12T04:20:55.229Z        INFO    controller      Waiting for unschedulable pods  {"commit": "00661aa"}
 ...
 ```
 
