@@ -1,8 +1,8 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 
 Description: A CloudFormation template that will deploy all AWS resources that are required to run the Amazon EC2 Spot CI/CD Workshop. This template is provided as-is under a modified MIT license - please see https://github.com/aws-samples/amazon-ec2-spot-cicd-workshop/blob/master/LICENSE
 
-Parameters: 
+Parameters:
   KeyPair:
     Description: The Key Pair created earlier in the Preparation Lab
     Type: AWS::EC2::KeyPair::KeyName
@@ -22,7 +22,6 @@ Parameters:
     NoEcho: true
 
 Resources:
-
   IAMRoleAMILookupLambdaExecution: # IAM Role that allows the AMILookupLambdaFunction to look up the latest Amazon Linux AMI and write logs to CloudWatch Logs
     Type: AWS::IAM::Role
     # DependsOn: None
@@ -34,31 +33,31 @@ Resources:
           Effect: Allow
           Principal:
             Service:
-            - lambda.amazonaws.com
+              - lambda.amazonaws.com
           Action:
-          - sts:AssumeRole
+            - sts:AssumeRole
       Path: /
       Policies:
-      - PolicyName: AMILookupExecution
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
-          - Effect: Allow
-            Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            Resource: arn:aws:logs:*:*:*
-          - Effect: Allow
-            Action: ec2:DescribeImages
-            Resource: "*"
+        - PolicyName: AMILookupExecution
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action: ec2:DescribeImages
+                Resource: "*"
 
   IAMRoleTestEnvironmentLambdaExecution:
     Type: AWS::IAM::Role
-    DependsOn: 
-    - DynamoDBTestEnvironmentTable
-    - IAMRoleTestEnvironmentCloudFormation
-    # DependedOn: TestEnvironmentLambdaFunction
+    DependsOn:
+      - DynamoDBTestEnvironmentTable
+      - IAMRoleTestEnvironmentCloudFormation
+    # DependedOn: TestEnvironmentLambdaFuntion
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -66,35 +65,35 @@ Resources:
           Effect: Allow
           Principal:
             Service:
-            - lambda.amazonaws.com
+              - lambda.amazonaws.com
           Action:
-          - sts:AssumeRole
+            - sts:AssumeRole
       Path: /
       Policies:
-      - PolicyName: TestEnvironmentExecution
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
-          - Effect: Allow
-            Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            Resource: arn:aws:logs:*:*:*
-          - Effect: Allow
-            Action: 
-            - dynamodb:getItem
-            - dynamodb:putItem
-            Resource: !GetAtt DynamoDBTestEnvironmentTable.Arn
-          - Effect: Allow
-            Action:
-            - cloudformation:createStack
-            - cloudformation:deleteStack
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - iam:PassRole
-            Resource: !GetAtt IAMRoleTestEnvironmentCloudFormation.Arn
+        - PolicyName: TestEnvironmentExecution
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
+              - Effect: Allow
+                Action:
+                  - dynamodb:getItem
+                  - dynamodb:putItem
+                Resource: !GetAtt DynamoDBTestEnvironmentTable.Arn
+              - Effect: Allow
+                Action:
+                  - cloudformation:createStack
+                  - cloudformation:deleteStack
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                Resource: !GetAtt IAMRoleTestEnvironmentCloudFormation.Arn
 
   IAMRoleTestEnvironmentCloudFormation:
     Type: AWS::IAM::Role
@@ -105,99 +104,99 @@ Resources:
         Version: 2012-10-17
         Statement:
           Effect: Allow
-          Principal: 
+          Principal:
             Service:
-            - cloudformation.amazonaws.com
+              - cloudformation.amazonaws.com
           Action:
-          - sts:AssumeRole
+            - sts:AssumeRole
       Path: /
       Policies:
-      - PolicyName: TestEnvironmentDeployment
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
-          - Effect: Allow
-            Action:
-            - ec2:*
-            - elasticloadbalancing:CreateListener
-            - elasticloadbalancing:CreateLoadBalancer
-            - elasticloadbalancing:CreateRule
-            - elasticloadbalancing:CreateTargetGroup
-            - elasticloadbalancing:DeleteTargetGroup
-            - elasticloadbalancing:DeleteListener
-            - elasticloadbalancing:DeleteLoadBalancer
-            - elasticloadbalancing:DeleteRule
-            - elasticloadbalancing:DescribeListeners
-            - elasticloadbalancing:DescribeLoadBalancers
-            - elasticloadbalancing:DescribeRules
-            - elasticloadbalancing:DescribeTargetGroups
-            - elasticloadbalancingv2:CreateListener
-            - elasticloadbalancingv2:CreateLoadBalancer
-            - elasticloadbalancingv2:CreateRule
-            - elasticloadbalancingv2:CreateTargetGroup
-            - elasticloadbalancingv2:DeleteListener
-            - elasticloadbalancingv2:DeleteLoadBalancer
-            - elasticloadbalancingv2:DeleteTargetGroup
-            - elasticloadbalancingv2:DeleteRule
-            - elasticloadbalancingv2:DescribeListeners
-            - elasticloadbalancingv2:DescribeLoadBalancers
-            - elasticloadbalancingv2:DescribeRules
-            - elasticloadbalancingv2:DescribeTargetGroups
-            - iam:AddRoleToInstanceProfile
-            - iam:CreateRole
-            - iam:CreateInstanceProfile
-            - iam:DeleteInstanceProfile
-            - iam:DeleteRole
-            - iam:DeleteRolePolicy
-            - iam:ListInstanceProfiles
-            - iam:ListRoles
-            - iam:PassRole
-            - iam:PutRolePolicy
-            - iam:RemoveRoleFromInstanceProfile
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - lambda:InvokeFunction
-            Resource: !GetAtt AMILookupLambdaFunction.Arn
+        - PolicyName: TestEnvironmentDeployment
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:*
+                  - elasticloadbalancing:CreateListener
+                  - elasticloadbalancing:CreateLoadBalancer
+                  - elasticloadbalancing:CreateRule
+                  - elasticloadbalancing:CreateTargetGroup
+                  - elasticloadbalancing:DeleteTargetGroup
+                  - elasticloadbalancing:DeleteListener
+                  - elasticloadbalancing:DeleteLoadBalancer
+                  - elasticloadbalancing:DeleteRule
+                  - elasticloadbalancing:DescribeListeners
+                  - elasticloadbalancing:DescribeLoadBalancers
+                  - elasticloadbalancing:DescribeRules
+                  - elasticloadbalancing:DescribeTargetGroups
+                  - elasticloadbalancingv2:CreateListener
+                  - elasticloadbalancingv2:CreateLoadBalancer
+                  - elasticloadbalancingv2:CreateRule
+                  - elasticloadbalancingv2:CreateTargetGroup
+                  - elasticloadbalancingv2:DeleteListener
+                  - elasticloadbalancingv2:DeleteLoadBalancer
+                  - elasticloadbalancingv2:DeleteTargetGroup
+                  - elasticloadbalancingv2:DeleteRule
+                  - elasticloadbalancingv2:DescribeListeners
+                  - elasticloadbalancingv2:DescribeLoadBalancers
+                  - elasticloadbalancingv2:DescribeRules
+                  - elasticloadbalancingv2:DescribeTargetGroups
+                  - iam:AddRoleToInstanceProfile
+                  - iam:CreateRole
+                  - iam:CreateInstanceProfile
+                  - iam:DeleteInstanceProfile
+                  - iam:DeleteRole
+                  - iam:DeleteRolePolicy
+                  - iam:ListInstanceProfiles
+                  - iam:ListRoles
+                  - iam:PassRole
+                  - iam:PutRolePolicy
+                  - iam:RemoveRoleFromInstanceProfile
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource: !GetAtt AMILookupLambdaFunction.Arn
 
   IAMRoleJenkins:
     Type: AWS::IAM::Role
-    DependsOn: 
-    - DeploymentArtifactsS3Bucket
-    - TestEnvironmentLambdaFunction
+    DependsOn:
+      - DeploymentArtifactsS3Bucket
+      - TestEnvironmentLambdaFunction
     # DependedOn: InstanceProfileJenkins
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - ec2.amazonaws.com
-            - ecs-tasks.amazonaws.com
-          Action:
-          - sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - ecs-tasks.amazonaws.com
+            Action:
+              - sts:AssumeRole
       Path: /
       Policies:
-      - PolicyName: JenkinsPolicy
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
-          - Effect: Allow
-            Action: s3:*
-            Resource: !Sub "arn:aws:s3:::${DeploymentArtifactsS3Bucket}/*"
-          - Effect: Allow
-            Action: lambda:invokeFunction
-            Resource: !GetAtt TestEnvironmentLambdaFunction.Arn
+        - PolicyName: JenkinsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: s3:*
+                Resource: !Sub "arn:aws:s3:::${DeploymentArtifactsS3Bucket}/*"
+              - Effect: Allow
+                Action: lambda:invokeFunction
+                Resource: !GetAtt TestEnvironmentLambdaFunction.Arn
 
   InstanceProfileJenkins:
     Type: AWS::IAM::InstanceProfile
     DependsOn: IAMRoleJenkins
     # DependedOn: JenkinsOnDemandEC2Instance
     Properties:
-      Path: '/'
+      Path: "/"
       Roles:
-      - !Ref IAMRoleJenkins
+        - !Ref IAMRoleJenkins
 
   IAMUserJenkins:
     Type: AWS::IAM::User
@@ -205,57 +204,57 @@ Resources:
     # DependedOn: None
     Properties:
       Policies:
-      - PolicyName: SpotAgentPolicy
-        # Policy is documented at https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-iam-users
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
-          - Effect: Allow
-            Action:
-            - ec2:*
-            - iam:ListInstanceProfiles
-            - iam:ListRoles
-            - iam:PassRole
-            Resource: "*"
-      - PolicyName: ECSAgentPolicy
-        # Policy is documented at https://wiki.jenkins.io/display/JENKINS/Amazon+EC2+Container+Service+Plugin
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
-          - Effect: Allow
-            Action:
-            - ecs:DescribeContainerInstances
-            - ecs:DescribeTaskDefinition
-            - ecs:ListClusters
-            - ecs:ListTaskDefinitions
-            - ecs:RegisterTaskDefinition
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - ecs:ListContainerInstances
-            - ecs:StopTask
-            Resource: !GetAtt ECSCluster.Arn
-          - Effect: Allow
-            Action:
-            - ecs:RunTask
-            Resource: !Join
-            - ''
-            - - 'arn:aws:ecs:'
-              - !Ref AWS::Region
-              - ':'
-              - !Ref AWS::AccountId
-              - ':task-definition/SpotCICDWorkshopECSAgents-ECSBuildAgent:*'
-          - Effect: Allow
-            Action:
-            - ecs:DescribeTasks
-            - ecs:StopTask
-            Resource: !Join
-            - ''
-            - - 'arn:aws:ecs:'
-              - !Ref AWS::Region
-              - ':'
-              - !Ref AWS::AccountId
-              - ':task/*'
+        - PolicyName: SpotAgentPolicy
+          # Policy is documented at https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-iam-users
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:*
+                  - iam:ListInstanceProfiles
+                  - iam:ListRoles
+                  - iam:PassRole
+                Resource: "*"
+        - PolicyName: ECSAgentPolicy
+          # Policy is documented at https://wiki.jenkins.io/display/JENKINS/Amazon+EC2+Container+Service+Plugin
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecs:DescribeContainerInstances
+                  - ecs:DescribeTaskDefinition
+                  - ecs:ListClusters
+                  - ecs:ListTaskDefinitions
+                  - ecs:RegisterTaskDefinition
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - ecs:ListContainerInstances
+                  - ecs:StopTask
+                Resource: !GetAtt ECSCluster.Arn
+              - Effect: Allow
+                Action:
+                  - ecs:RunTask
+                Resource: !Join
+                  - ""
+                  - - "arn:aws:ecs:"
+                    - !Ref AWS::Region
+                    - ":"
+                    - !Ref AWS::AccountId
+                    - ":task-definition/SpotCICDWorkshopECSAgents-ECSBuildAgent:*"
+              - Effect: Allow
+                Action:
+                  - ecs:DescribeTasks
+                  - ecs:StopTask
+                Resource: !Join
+                  - ""
+                  - - "arn:aws:ecs:"
+                    - !Ref AWS::Region
+                    - ":"
+                    - !Ref AWS::AccountId
+                    - ":task/*"
       UserName: SpotCICDWorkshopJenkins
 
   IAMRoleECS:
@@ -266,22 +265,22 @@ Resources:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - ec2.amazonaws.com
-          Action:
-          - sts:AssumeRole
-      ManagedPolicyArns:
-      - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
-      Policies:
-      - PolicyName: EC2DescribeInstances
-        PolicyDocument:
-          Version: 2012-10-17
-          Statement:
           - Effect: Allow
-            Action: ec2:DescribeInstances
-            Resource: "*"
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+      Policies:
+        - PolicyName: EC2DescribeInstances
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: ec2:DescribeInstances
+                Resource: "*"
       Path: /
 
   InstanceProfileECS:
@@ -289,9 +288,9 @@ Resources:
     DependsOn: IAMRoleECS
     # DependedOn: AutoScalingECSLaunchConfiguration
     Properties:
-      Path: '/'
+      Path: "/"
       Roles:
-      - !Ref IAMRoleECS
+        - !Ref IAMRoleECS
 
   IAMRoleECSServiceRole:
     Type: AWS::IAM::Role
@@ -301,14 +300,14 @@ Resources:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
-        - Effect: Allow
-          Principal:
-            Service:
-            - ecs.amazonaws.com
-          Action:
-          - sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service:
+                - ecs.amazonaws.com
+            Action:
+              - sts:AssumeRole
       ManagedPolicyArns:
-      - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole
       Path: /
 
   ECSServiceLinkedRole:
@@ -325,93 +324,93 @@ Resources:
   VPC: # This is the VPC that the CI/CD environment will be running in
     Type: AWS::EC2::VPC
     # DependsOn: None
-    # DependedOn: InternetGatewayAttachment, JenkinsMasterALBTargetGroupEC2, JenkinsMasterALBTargetGroupECS, RouteTable, SecurityGroupJenkins, SecurityGroupJenkinsALB, SubnetPublicA, SubnetPublicA, SubnetPublicC, 
+    # DependedOn: InternetGatewayAttachment, JenkinsMasterALBTargetGroupEC2, JenkinsMasterALBTargetGroupECS, RouteTable, SecurityGroupJenkins, SecurityGroupJenkinsALB, SubnetPublicA, SubnetPublicA, SubnetPublicC,
     Properties:
       CidrBlock: 192.168.0.0/21
-      EnableDnsHostnames: 'true'
-      EnableDnsSupport: 'true'
+      EnableDnsHostnames: "true"
+      EnableDnsSupport: "true"
       InstanceTenancy: default
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop VPC
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop VPC
 
   SubnetPublicA: # The first of three subnets defined within the VPC...
     Type: AWS::EC2::Subnet
     DependsOn: VPC
     # DependedOn: SubnetPublicARouteTableAssociation
     Properties:
-      AvailabilityZone: !Select [ 0, !GetAZs "" ]
+      AvailabilityZone: !Select [0, !GetAZs ""]
       CidrBlock: 192.168.0.0/24
-      MapPublicIpOnLaunch: 'true'
+      MapPublicIpOnLaunch: "true"
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Public Subnet A
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Subnet A
 
   SubnetPublicB: # ... and the second of three subnets...
     Type: AWS::EC2::Subnet
     DependsOn: VPC
     # DependedOn: SubnetPublicBRouteTableAssociation
     Properties:
-      AvailabilityZone: !Select [ 1, !GetAZs "" ]
+      AvailabilityZone: !Select [1, !GetAZs ""]
       CidrBlock: 192.168.1.0/24
-      MapPublicIpOnLaunch: 'true'
+      MapPublicIpOnLaunch: "true"
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Public Subnet B
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Subnet B
 
   SubnetPublicC: # ... and the third of three subnets defined within the VPC
     Type: AWS::EC2::Subnet
     DependsOn: VPC
     # DependedOn: SubnetPublicCRouteTableAssociation
     Properties:
-      AvailabilityZone: !Select [ 2, !GetAZs "" ]
+      AvailabilityZone: !Select [2, !GetAZs ""]
       CidrBlock: 192.168.2.0/24
-      MapPublicIpOnLaunch: 'true'
+      MapPublicIpOnLaunch: "true"
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Public Subnet C
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Subnet C
 
   SubnetPrivateA: # The first of three subnets defined within the VPC...
     Type: AWS::EC2::Subnet
     DependsOn: VPC
     # DependedOn: SubnetPrivateARouteTableAssociation
     Properties:
-      AvailabilityZone: !Select [ 0, !GetAZs "" ]
+      AvailabilityZone: !Select [0, !GetAZs ""]
       CidrBlock: 192.168.3.0/24
-      MapPublicIpOnLaunch: 'true'
+      MapPublicIpOnLaunch: "true"
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Private Subnet A
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Subnet A
 
   SubnetPrivateB: # ... and the second of three subnets...
     Type: AWS::EC2::Subnet
     DependsOn: VPC
     # DependedOn: SubnetPrivateARouteTableAssociation
     Properties:
-      AvailabilityZone: !Select [ 1, !GetAZs "" ]
+      AvailabilityZone: !Select [1, !GetAZs ""]
       CidrBlock: 192.168.4.0/24
-      MapPublicIpOnLaunch: 'true'
+      MapPublicIpOnLaunch: "true"
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Private Subnet B
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Subnet B
 
   SubnetPrivateC: # ... and the third of three subnets defined within the VPC
     Type: AWS::EC2::Subnet
     DependsOn: VPC
     # DependedOn: SubnetPrivateCRouteTableAssociation
     Properties:
-      AvailabilityZone: !Select [ 2, !GetAZs "" ]
+      AvailabilityZone: !Select [2, !GetAZs ""]
       CidrBlock: 192.168.5.0/24
-      MapPublicIpOnLaunch: 'true'
+      MapPublicIpOnLaunch: "true"
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Private Subnet C
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Subnet C
 
   InternetGateway: # Create an Internet Gateway in order to allow EC2 instances to be accessible via the Internet
     Type: AWS::EC2::InternetGateway
@@ -419,14 +418,14 @@ Resources:
     # DependedOn: InternetGatewayAttachment
     Properties:
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Internet Gateway
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Internet Gateway
 
   InternetGatewayAttachment: # Once both the VPC and Internet Gateway have been created, attach the Internet Gateway to the VPC
     Type: AWS::EC2::VPCGatewayAttachment
-    DependsOn: 
-    - InternetGateway
-    - VPC
+    DependsOn:
+      - InternetGateway
+      - VPC
     # DependedOn: DefaultRoute
     Properties:
       InternetGatewayId: !Ref InternetGateway
@@ -434,9 +433,9 @@ Resources:
 
   EIPNATGateway:
     Type: AWS::EC2::EIP
-    DependsOn: 
-    - InternetGatewayAttachment
-    - VPC
+    DependsOn:
+      - InternetGatewayAttachment
+      - VPC
     # DependedOn: NATGateway
     Properties:
       Domain: vpc
@@ -444,7 +443,7 @@ Resources:
   NATGateway:
     Type: AWS::EC2::NatGateway
     DependsOn:
-    - SubnetPublicA
+      - SubnetPublicA
     # DependedOn:
     Properties:
       AllocationId: !GetAtt EIPNATGateway.AllocationId
@@ -457,8 +456,8 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Public Route Table
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Route Table
 
   RouteTablePrivate: # Create a route table which will be used within the VPC
     Type: AWS::EC2::RouteTable
@@ -467,14 +466,14 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       Tags:
-      - Key: Name
-        Value: Amazon EC2 Spot CICD Workshop Private Route Table
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Route Table
 
   DefaultRoutePublic: # Add a default route to the route table, pointing to the Internet Gateway
     Type: AWS::EC2::Route
-    DependsOn: 
-    - RouteTablePublic
-    - InternetGatewayAttachment
+    DependsOn:
+      - RouteTablePublic
+      - InternetGatewayAttachment
     # DependedOn: None
     Properties:
       DestinationCidrBlock: 0.0.0.0/0
@@ -483,9 +482,9 @@ Resources:
 
   DefaultRoutePrivate: # Add a default route to the route table, pointing to the NAT Gateway
     Type: AWS::EC2::Route
-    DependsOn: 
-    - RouteTablePrivate
-    - NATGateway
+    DependsOn:
+      - RouteTablePrivate
+      - NATGateway
     # DependedOn: None
     Properties:
       DestinationCidrBlock: 0.0.0.0/0
@@ -494,9 +493,9 @@ Resources:
 
   SubnetPublicARouteTableAssociation: # Associate the route table with the first of the three subnets in the VPC...
     Type: AWS::EC2::SubnetRouteTableAssociation
-    DependsOn: 
-    - RouteTablePublic
-    - SubnetPublicA
+    DependsOn:
+      - RouteTablePublic
+      - SubnetPublicA
     # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePublic
@@ -504,9 +503,9 @@ Resources:
 
   SubnetPublicBRouteTableAssociation: # ... and the second of three subnets...
     Type: AWS::EC2::SubnetRouteTableAssociation
-    DependsOn: 
-    - RouteTablePublic
-    - SubnetPublicB
+    DependsOn:
+      - RouteTablePublic
+      - SubnetPublicB
     # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePublic
@@ -514,9 +513,9 @@ Resources:
 
   SubnetPublicCRouteTableAssociation: # ... and the third of the three subnets in the VPC
     Type: AWS::EC2::SubnetRouteTableAssociation
-    DependsOn: 
-    - RouteTablePublic
-    - SubnetPublicC
+    DependsOn:
+      - RouteTablePublic
+      - SubnetPublicC
     # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePublic
@@ -524,9 +523,9 @@ Resources:
 
   SubnetPrivateARouteTableAssociation: # Associate the route table with the first of the three subnets in the VPC...
     Type: AWS::EC2::SubnetRouteTableAssociation
-    DependsOn: 
-    - RouteTablePrivate
-    - SubnetPrivateA
+    DependsOn:
+      - RouteTablePrivate
+      - SubnetPrivateA
     # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
@@ -534,9 +533,9 @@ Resources:
 
   SubnetPrivateBRouteTableAssociation: # ... and the second of three subnets...
     Type: AWS::EC2::SubnetRouteTableAssociation
-    DependsOn: 
-    - RouteTablePrivate
-    - SubnetPrivateB
+    DependsOn:
+      - RouteTablePrivate
+      - SubnetPrivateB
     # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
@@ -544,9 +543,9 @@ Resources:
 
   SubnetPrivateCRouteTableAssociation: # ... and the third of the three subnets in the VPC
     Type: AWS::EC2::SubnetRouteTableAssociation
-    DependsOn: 
-    - RouteTablePrivate
-    - SubnetPrivateC
+    DependsOn:
+      - RouteTablePrivate
+      - SubnetPrivateC
     # DependedOn: None
     Properties:
       RouteTableId: !Ref RouteTablePrivate
@@ -560,40 +559,40 @@ Resources:
       GroupName: Spot CICD Workshop Jenkins Security Group
       GroupDescription: A Security Group that allows ingress access for SSH and the default port that a Jenkins Master will run on
       SecurityGroupIngress:
-      - Description: SSH access from the IP address that the workshop participant is using.
-        IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: !Ref CurrentIP
-      - Description: SSH access from hosts within the Spot CICD Workshop VPC - required for Build Agent deployments on to EC2 Spot instances.
-        IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 192.168.0.0/21
-      - Description: HTTP (8080) access from the IP address that the workshop participant is using.
-        IpProtocol: tcp
-        FromPort: 8080
-        ToPort: 8080
-        CidrIp: !Ref CurrentIP
-      - Description: HTTP (8080) access from hosts within the Spot CICD Workshop VPC, including the ALBs that reside in front of Jenkins, and Build Agents running on ECS nodes.
-        IpProtocol: tcp
-        FromPort: 8080
-        ToPort: 8080
-        CidrIp: 192.168.0.0/21
-      - Description: JNLP (5000) access from hosts within the Spot CICD Workshop VPC - required for Build Agent deployments on ECS nodes to communicate back with the Jenkins Master container. 
-        IpProtocol: tcp
-        FromPort: 5000
-        ToPort: 5000
-        #CidrIp: 192.168.0.0/21 
-        # Limited CIDR commented out as we had an issue in the first re:Invent workshop that needs further investigation
-        CidrIp: 0.0.0.0/0
-      - Description: JNLP (50000) access from hosts within the Spot CICD Workshop VPC - the legacy port that used to be required for Build Agent deployments on ECS nodes to communicate back with the Jenkins Master container. 
-        IpProtocol: tcp
-        FromPort: 50000
-        ToPort: 50000
-        #CidrIp: 192.168.0.0/21 
-        # Limited CIDR commented out as we had an issue in the first re:Invent workshop that needs further investigation
-        CidrIp: 0.0.0.0/0
+        - Description: SSH access from the IP address that the workshop participant is using.
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref CurrentIP
+        - Description: SSH access from hosts within the Spot CICD Workshop VPC - required for Build Agent deployments on to EC2 Spot instances.
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 192.168.0.0/21
+        - Description: HTTP (8080) access from the IP address that the workshop participant is using.
+          IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: !Ref CurrentIP
+        - Description: HTTP (8080) access from hosts within the Spot CICD Workshop VPC, including the ALBs that reside in front of Jenkins, and Build Agents running on ECS nodes.
+          IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 192.168.0.0/21
+        - Description: JNLP (5000) access from hosts within the Spot CICD Workshop VPC - required for Build Agent deployments on ECS nodes to communicate back with the Jenkins Master container.
+          IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          #CidrIp: 192.168.0.0/21
+          # Limited CIDR commented out as we had an issue in the first re:Invent workshop that needs further investigation
+          CidrIp: 0.0.0.0/0
+        - Description: JNLP (50000) access from hosts within the Spot CICD Workshop VPC - the legacy port that used to be required for Build Agent deployments on ECS nodes to communicate back with the Jenkins Master container.
+          IpProtocol: tcp
+          FromPort: 50000
+          ToPort: 50000
+          #CidrIp: 192.168.0.0/21
+          # Limited CIDR commented out as we had an issue in the first re:Invent workshop that needs further investigation
+          CidrIp: 0.0.0.0/0
       VpcId: !Ref VPC
 
   SecurityGroupJenkinsALB: # A Security Group that allows ingress access for HTTP on ALBs and used to access the Jenkins Master
@@ -604,26 +603,26 @@ Resources:
       GroupName: Spot CICD Workshop Jenkins ALB Security Group
       GroupDescription: A Security Group that allows ingress access for HTTP on ALBs and used to access the Jenkins Master
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
       VpcId: !Ref VPC
 
   SecurityGroupEFS:
     Type: AWS::EC2::SecurityGroup
-    DependsOn: 
-    - SecurityGroupJenkins
-    - VPC
+    DependsOn:
+      - SecurityGroupJenkins
+      - VPC
     # DependedOn: EFSMountTargetJenkinsHomeVolumeA, EFSMountTargetJenkinsHomeVolumeB, EFSMountTargetJenkinsHomeVolumeC
     Properties:
       GroupName: Spot CICD Workshop EFS Security Group
       GroupDescription: A Security Group that allows access to EFS volume targets from the Jenkins Securiy Group
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 2049
-        ToPort: 2049
-        SourceSecurityGroupId: !Ref SecurityGroupJenkins
+        - IpProtocol: tcp
+          FromPort: 2049
+          ToPort: 2049
+          SourceSecurityGroupId: !Ref SecurityGroupJenkins
       VpcId: !Ref VPC
 
   AMILookupLambdaFunction: # A Lambda function that will be used to look up the AMI for the latest Amazon Linux AMI. The source code for this Lambda function can be obtained at https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/walkthrough-custom-resources-lambda-lookup-amiids.html.
@@ -636,7 +635,7 @@ Resources:
         S3Key: amilookup.zip
       Handler: amilookup.handler
       Role: !GetAtt IAMRoleAMILookupLambdaExecution.Arn
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Timeout: 30
 
   EC2AMILookupCustomResource: # A custom resource that provides the latest Amazon Linux AMI via EC2AMILookupCustomResource.Id
@@ -658,15 +657,15 @@ Resources:
       ServiceToken: !GetAtt AMILookupLambdaFunction.Arn
 
   TestEnvironmentLambdaFunction: # A Lambda function that will be used to create and destroy buld testing environments.
-    DependsOn: 
-    - AMILookupLambdaFunction
-    - DeploymentArtifactsS3Bucket
-    - DynamoDBTestEnvironmentTable
-    - IAMRoleTestEnvironmentLambdaExecution
-    - SubnetPublicA
-    - SubnetPublicB
-    - SubnetPublicC
-    - VPC
+    DependsOn:
+      - AMILookupLambdaFunction
+      - DeploymentArtifactsS3Bucket
+      - DynamoDBTestEnvironmentTable
+      - IAMRoleTestEnvironmentLambdaExecution
+      - SubnetPublicA
+      - SubnetPublicB
+      - SubnetPublicC
+      - VPC
     #DependedOn: None
     Type: AWS::Lambda::Function
     Properties:
@@ -675,7 +674,7 @@ Resources:
       Handler: index.handler
       MemorySize: 128
       Role: !GetAtt IAMRoleTestEnvironmentLambdaExecution.Arn
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Timeout: 60
       Code:
         ZipFile: !Sub |
@@ -780,33 +779,33 @@ Resources:
               console.log('[ERROR]', JSON.stringify(err));
               return callback(err);
             });
-          };         
+          };
 
   JenkinsOnDemandEC2Instance: # This workshop starts from a baseline where we have a Jenkins server running on an on-demand EC2 instance. This resource launches and bootstraps this server
     Type: AWS::EC2::Instance
     DependsOn:
-    - EC2AMILookupCustomResource 
-    - InstanceProfileJenkins
-    - SecurityGroupJenkins
-    - SubnetPublicA
+      - EC2AMILookupCustomResource
+      - InstanceProfileJenkins
+      - SecurityGroupJenkins
+      - SubnetPublicA
     # DependedOn: JenkinsMasterALBTargetGroupEC2
     Properties:
       BlockDeviceMappings:
-      - DeviceName: "/dev/xvda"
-        Ebs:
-          DeleteOnTermination: 'true'
-          VolumeSize: 8
-          VolumeType: gp2
+        - DeviceName: "/dev/xvda"
+          Ebs:
+            DeleteOnTermination: "true"
+            VolumeSize: 8
+            VolumeType: gp2
       IamInstanceProfile: !Ref InstanceProfileJenkins
       ImageId: !GetAtt EC2AMILookupCustomResource.Id
       InstanceType: t3.medium
       KeyName: !Ref KeyPair
       SecurityGroupIds:
-      - !Ref SecurityGroupJenkins
+        - !Ref SecurityGroupJenkins
       SubnetId: !Ref SubnetPublicA
       Tags:
-      - Key: Name
-        Value: Jenkins Master (On-demand)
+        - Key: Name
+          Value: Jenkins Master (On-demand)
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
@@ -821,7 +820,8 @@ Resources:
           # Update the release version in the Maven repository configuration for this mainline release of Amazon Linux
           sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
           # Install the Java 8 SDK, Git, Jenkins and Maven
-          yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel jenkins git apache-maven
+          yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel git apache-maven
+          yum -y install jenkins-2.138.4-1.1 --nogpgcheck
           # Set the default version of java to run out of the Java 8 SDK path (required by Jenkins)
           update-alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
           update-alternatives --set javac /usr/lib/jvm/java-1.8.0-openjdk.x86_64/bin/javac
@@ -831,7 +831,7 @@ Resources:
           chown jenkins:jenkins /var/lib/jenkins
           wget -q -O /var/lib/jenkins/jenkins_home.tar.gz https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/jenkins_home.tar.gz
           tar -zxf /var/lib/jenkins/jenkins_home.tar.gz -C /var/lib/jenkins/
-          # Reset the password for the spotcicdworkshop user in Jenkins to the password defined as the JenkinsAdminPassword
+          # Reset the password for the spotcicdworkshop user in Jenkins to the password defined as the JenkinsAdminPassword          
           echo -n '${JenkinsAdminPassword}{spot}' | sha256sum | awk '{print $1;}' | xargs -I {} sed -i 's/jbcrypt:$2a$10$21qSY20aYvtAFeWA0yL8AezRox5bExGclhtaFatOokyYWe7CxbRfm/spot:{}/' /var/lib/jenkins/users/spotcicdworkshop/config.xml
           # Configure the Jenkins Location
           curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/203.0.113.0/{}/' /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 
@@ -840,27 +840,27 @@ Resources:
 
   JenkinsMasterALB: # This is the Application Load Balancer that resides in front of your Jenkins Master instance and is responsible for port-mapping requests from TCP:80 to TCP:8080
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-    DependsOn: 
-    - SecurityGroupJenkinsALB
-    - SubnetPublicA
-    - SubnetPublicB
-    - SubnetPublicC
+    DependsOn:
+      - SecurityGroupJenkinsALB
+      - SubnetPublicA
+      - SubnetPublicB
+      - SubnetPublicC
     # DependedOn: JenkinsMasterALBListener
     Properties:
       Name: JenkinsMasterALB
       Scheme: internet-facing
       SecurityGroups:
-      - !Ref SecurityGroupJenkinsALB
+        - !Ref SecurityGroupJenkinsALB
       Subnets:
-      - !Ref SubnetPublicA
-      - !Ref SubnetPublicB
-      - !Ref SubnetPublicC
+        - !Ref SubnetPublicA
+        - !Ref SubnetPublicB
+        - !Ref SubnetPublicC
 
   JenkinsMasterALBTargetGroupEC2: # This is the Target Group used by the JenkinsMasterALB load balancer when Jenkins is running on an EC2 instance
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    DependsOn: 
-    - JenkinsOnDemandEC2Instance
-    - VPC
+    DependsOn:
+      - JenkinsOnDemandEC2Instance
+      - VPC
     # DependedOn: JenkinsMasterALBListener, JenkinsMasterALBListenerRule
     Properties:
       HealthCheckIntervalSeconds: 15
@@ -875,15 +875,15 @@ Resources:
       Port: 8080
       Protocol: HTTP
       Targets:
-      - Id: !Ref JenkinsOnDemandEC2Instance
-        Port: 8080
+        - Id: !Ref JenkinsOnDemandEC2Instance
+          Port: 8080
       UnhealthyThresholdCount: 4
       VpcId: !Ref VPC
 
   JenkinsMasterALBTargetGroupECS: # This is the Target Group used by the JenkinsMasterALB load balancer when Jenkins is running in a container on an ECS cluster
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    DependsOn: 
-    - VPC
+    DependsOn:
+      - VPC
     # DependedOn: JenkinsMasterALBListener, JenkinsMasterALBListenerRule
     Properties:
       HealthCheckIntervalSeconds: 15
@@ -903,82 +903,82 @@ Resources:
 
   JenkinsMasterALBListener: # This is the ALB Listener used to access the Jenkins Master
     Type: AWS::ElasticLoadBalancingV2::Listener
-    DependsOn: 
-    - JenkinsMasterALB 
-    - JenkinsMasterALBTargetGroupEC2
+    DependsOn:
+      - JenkinsMasterALB
+      - JenkinsMasterALBTargetGroupEC2
     # DepenededOn: None
     Properties:
       DefaultActions:
-      - Type: forward
-        TargetGroupArn: !Ref JenkinsMasterALBTargetGroupEC2
+        - Type: forward
+          TargetGroupArn: !Ref JenkinsMasterALBTargetGroupEC2
       LoadBalancerArn: !Ref JenkinsMasterALB
       Port: 80
       Protocol: HTTP
 
   JenkinsMasterALBListenerRuleEC2: # The ALB Listener rule that forwards all traffic destined for the Jenkins Master to the appropriate Target Group
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
-    DependsOn: 
-    - JenkinsMasterALBListener
-    - JenkinsMasterALBTargetGroupEC2
+    DependsOn:
+      - JenkinsMasterALBListener
+      - JenkinsMasterALBTargetGroupEC2
     # DependedOn: None
     Properties:
       Actions:
-      - Type: forward
-        TargetGroupArn: !Ref JenkinsMasterALBTargetGroupEC2
+        - Type: forward
+          TargetGroupArn: !Ref JenkinsMasterALBTargetGroupEC2
       Conditions:
-      - Field: path-pattern
-        Values:
-        - "/*"
+        - Field: path-pattern
+          Values:
+            - "/*"
       ListenerArn: !Ref JenkinsMasterALBListener
       Priority: 1
 
   JenkinsMasterALBListenerRuleECS: # The ALB Listener rule that forwards all traffic destined for the Jenkins Master to the appropriate Target Group
     Type: AWS::ElasticLoadBalancingV2::ListenerRule
-    DependsOn: 
-    - JenkinsMasterALBListener
-    - JenkinsMasterALBTargetGroupECS
+    DependsOn:
+      - JenkinsMasterALBListener
+      - JenkinsMasterALBTargetGroupECS
     # DependedOn: None
     Properties:
       Actions:
-      - Type: forward
-        TargetGroupArn: !Ref JenkinsMasterALBTargetGroupECS
+        - Type: forward
+          TargetGroupArn: !Ref JenkinsMasterALBTargetGroupECS
       Conditions:
-      - Field: path-pattern
-        Values:
-        - "/*"
+        - Field: path-pattern
+          Values:
+            - "/*"
       ListenerArn: !Ref JenkinsMasterALBListener
       Priority: 2
 
   JenkinsSpotMasterLaunchTemplate: # This is a launch template that will be used to provision Jenkins Master servers - showing how when used in conjunction with an EFS volume stateful applications can run on self-healing spot architectures.
     Type: AWS::EC2::LaunchTemplate
     DependsOn:
-    - EC2AMILookupCustomResource
-    - EFSJenkinsHomeVolume
-    - InstanceProfileJenkins
-    - SecurityGroupJenkins
+      - EC2AMILookupCustomResource
+      - EFSJenkinsHomeVolume
+      - InstanceProfileJenkins
+      - SecurityGroupJenkins
     # DependedOn: None
     Properties:
       LaunchTemplateName: JenkinsMasterLaunchTemplate
       LaunchTemplateData:
         BlockDeviceMappings:
-        - DeviceName: "/dev/xvda"
-          Ebs:
-            DeleteOnTermination: 'true'
-            VolumeSize: 8
-            VolumeType: gp2
-        IamInstanceProfile: 
+          - DeviceName: "/dev/xvda"
+            Ebs:
+              DeleteOnTermination: "true"
+              VolumeSize: 8
+              VolumeType: gp2
+        IamInstanceProfile:
           #Arn: !GetAtt InstanceProfileJenkins.Arn
           Name: !Ref InstanceProfileJenkins
         ImageId: !GetAtt EC2AMILookupCustomResource.Id
         InstanceType: t3.medium
         KeyName: !Ref KeyPair
         SecurityGroupIds:
-        - !Ref SecurityGroupJenkins
+          - !Ref SecurityGroupJenkins
         TagSpecifications:
-        - ResourceType: instance
-          Tags:
-          - Key: Name
-            Value: Jenkins Master (Spot)
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: Jenkins Master (Spot)
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
@@ -993,7 +993,8 @@ Resources:
             # Update the release version in the Maven repository configuration for this mainline release of Amazon Linux
             sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
             # Install the Java 8 SDK, Git, Jenkins and Maven
-            yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel git jenkins apache-maven
+            yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel git apache-maven
+            yum -y install jenkins-2.138.4-1.1 --nogpgcheck
             # Set the default version of java to run out of the Java 8 SDK path (required by Jenkins)
             update-alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
             update-alternatives --set javac /usr/lib/jvm/java-1.8.0-openjdk.x86_64/bin/javac
@@ -1005,32 +1006,32 @@ Resources:
   JenkinsSpotAgentLaunchTemplate: # This is a launch template that will be used to provision Jenkins build agents - showing how spot instances can be used to scale-out build jobs at low cost.
     Type: AWS::EC2::LaunchTemplate
     DependsOn:
-    - EC2AMILookupCustomResource
-    - InstanceProfileJenkins
-    - SecurityGroupJenkins
+      - EC2AMILookupCustomResource
+      - InstanceProfileJenkins
+      - SecurityGroupJenkins
     # DependedOn: None
     Properties:
       LaunchTemplateName: JenkinsBuildAgentLaunchTemplate
       LaunchTemplateData:
         BlockDeviceMappings:
-        - DeviceName: "/dev/xvda"
-          Ebs:
-            DeleteOnTermination: 'true'
-            VolumeSize: 8
-            VolumeType: gp2
-        IamInstanceProfile: 
+          - DeviceName: "/dev/xvda"
+            Ebs:
+              DeleteOnTermination: "true"
+              VolumeSize: 8
+              VolumeType: gp2
+        IamInstanceProfile:
           #Arn: !GetAtt InstanceProfileJenkins.Arn
           Name: !Ref InstanceProfileJenkins
         ImageId: !GetAtt EC2AMILookupCustomResource.Id
         InstanceType: t3.small
         KeyName: !Ref KeyPair
         SecurityGroupIds:
-        - !Ref SecurityGroupJenkins
+          - !Ref SecurityGroupJenkins
         TagSpecifications:
-        - ResourceType: instance
-          Tags:
-          - Key: Name
-            Value: Jenkins Build Agent
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: Jenkins Build Agent
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
@@ -1052,15 +1053,15 @@ Resources:
     # DependedOn: IAMRoleTestEnvironmentLambdaExecution, TestEnvironmentLambdaFunction
     Properties:
       AttributeDefinitions:
-      - AttributeName: JobBaseName
-        AttributeType: "S"
-      - AttributeName: BuildID
-        AttributeType: "N"
+        - AttributeName: JobBaseName
+          AttributeType: "S"
+        - AttributeName: BuildID
+          AttributeType: "N"
       KeySchema:
-      - AttributeName: JobBaseName
-        KeyType: HASH
-      - AttributeName: BuildID
-        KeyType: RANGE
+        - AttributeName: JobBaseName
+          KeyType: HASH
+        - AttributeName: BuildID
+          KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
@@ -1075,72 +1076,72 @@ Resources:
 
   EFSMountTargetJenkinsHomeVolumeA:
     Type: AWS::EFS::MountTarget
-    DependsOn: 
-    - EFSJenkinsHomeVolume
-    - SecurityGroupEFS
-    - SubnetPublicA
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - SecurityGroupEFS
+      - SubnetPublicA
     # DependedOn:
     Properties:
       FileSystemId: !Ref EFSJenkinsHomeVolume
       SecurityGroups:
-      - !Ref SecurityGroupEFS
+        - !Ref SecurityGroupEFS
       SubnetId: !Ref SubnetPublicA
 
   EFSMountTargetJenkinsHomeVolumeB:
     Type: AWS::EFS::MountTarget
-    DependsOn: 
-    - EFSJenkinsHomeVolume
-    - SecurityGroupEFS
-    - SubnetPublicB
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - SecurityGroupEFS
+      - SubnetPublicB
     # DependedOn:
     Properties:
       FileSystemId: !Ref EFSJenkinsHomeVolume
       SecurityGroups:
-      - !Ref SecurityGroupEFS
+        - !Ref SecurityGroupEFS
       SubnetId: !Ref SubnetPublicB
 
   EFSMountTargetJenkinsHomeVolumeC:
     Type: AWS::EFS::MountTarget
-    DependsOn: 
-    - EFSJenkinsHomeVolume
-    - SecurityGroupEFS
-    - SubnetPublicC
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - SecurityGroupEFS
+      - SubnetPublicC
     # DependedOn:
     Properties:
       FileSystemId: !Ref EFSJenkinsHomeVolume
       SecurityGroups:
-      - !Ref SecurityGroupEFS
+        - !Ref SecurityGroupEFS
       SubnetId: !Ref SubnetPublicC
 
   ECSLaunchTemplate: # This is a launch template that will be used to provision ECS cluster nodes
     Type: AWS::EC2::LaunchTemplate
     DependsOn:
-    - ECSAMILookupCustomResource
-    - EFSJenkinsHomeVolume
-    - InstanceProfileECS
-    - SecurityGroupJenkins
+      - ECSAMILookupCustomResource
+      - EFSJenkinsHomeVolume
+      - InstanceProfileECS
+      - SecurityGroupJenkins
     # DependedOn: None
     Properties:
       LaunchTemplateName: ECSLaunchTemplate
       LaunchTemplateData:
         BlockDeviceMappings:
-        - DeviceName: "/dev/xvda"
-          Ebs:
-            DeleteOnTermination: 'true'
-            VolumeSize: 8
-            VolumeType: gp2
-        IamInstanceProfile: 
+          - DeviceName: "/dev/xvda"
+            Ebs:
+              DeleteOnTermination: "true"
+              VolumeSize: 8
+              VolumeType: gp2
+        IamInstanceProfile:
           Name: !Ref InstanceProfileECS
         ImageId: !GetAtt ECSAMILookupCustomResource.Id
         InstanceType: t3.medium
         KeyName: !Ref KeyPair
         SecurityGroupIds:
-        - !Ref SecurityGroupJenkins
+          - !Ref SecurityGroupJenkins
         TagSpecifications:
-        - ResourceType: instance
-          Tags:
-          - Key: Name
-            Value: ECS Cluster Instance
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: ECS Cluster Instance
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
@@ -1171,8 +1172,7 @@ Resources:
                 wget -q https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/interruption_check.sh -O ./interruption_check.sh
                 chmod +x ./interruption_check.sh
                 nohup ./interruption_check.sh &>/dev/null &
-            fi 
-
+            fi
 
   ECSCluster:
     Type: AWS::ECS::Cluster
@@ -1187,41 +1187,41 @@ Resources:
     # DependedOn:
     Properties:
       ContainerDefinitions:
-      - Cpu: 512
-        Essential: true
-        Image: jenkins/jenkins:lts
-        Memory: 1536
-        MountPoints:
-        - SourceVolume: JENKINS_HOME
-          ContainerPath: /var/jenkins_home
-        Name: SpotCICDWorkshopJenkinsMasterContainer
-        PortMappings:
-        - ContainerPort: 5000
-          HostPort: 5000
-        - ContainerPort: 8080
-          HostPort: 8080
-        - ContainerPort: 50000
-          HostPort: 50000
+        - Cpu: 512
+          Essential: true
+          Image: jenkins/jenkins:lts
+          Memory: 1536
+          MountPoints:
+            - SourceVolume: JENKINS_HOME
+              ContainerPath: /var/jenkins_home
+          Name: SpotCICDWorkshopJenkinsMasterContainer
+          PortMappings:
+            - ContainerPort: 5000
+              HostPort: 5000
+            - ContainerPort: 8080
+              HostPort: 8080
+            - ContainerPort: 50000
+              HostPort: 50000
       ExecutionRoleArn: !GetAtt IAMRoleJenkins.Arn
       NetworkMode: awsvpc
       PlacementConstraints:
-      - Type: memberOf
-        Expression: attribute:lifecycle != spot
+        - Type: memberOf
+          Expression: attribute:lifecycle != spot
       Volumes:
-      - Host: 
-          SourcePath: /mnt/efs/jenkins_home
-        Name: JENKINS_HOME
+        - Host:
+            SourcePath: /mnt/efs/jenkins_home
+          Name: JENKINS_HOME
 
   ECSServiceJenkinsMaster:
     Type: AWS::ECS::Service
-    DependsOn: 
-    - ECSCluster
-    - ECSServiceLinkedRole
-    - ECSTaskDefinitionJenkinsMaster
-#    - IAMRoleECSServiceRole
-    - JenkinsMasterALBListenerRuleECS
-    - ServiceDiscoveryJenkinsMaster
-#    # DependedOn: None
+    DependsOn:
+      - ECSCluster
+      - ECSServiceLinkedRole
+      - ECSTaskDefinitionJenkinsMaster
+      #    - IAMRoleECSServiceRole
+      - JenkinsMasterALBListenerRuleECS
+      - ServiceDiscoveryJenkinsMaster
+    #    # DependedOn: None
     Properties:
       Cluster: !Ref ECSCluster
       DeploymentConfiguration:
@@ -1230,22 +1230,22 @@ Resources:
       DesiredCount: 0
       HealthCheckGracePeriodSeconds: 120
       LoadBalancers:
-      - ContainerName: SpotCICDWorkshopJenkinsMasterContainer
-        ContainerPort: 8080
-        TargetGroupArn: !Ref JenkinsMasterALBTargetGroupECS
+        - ContainerName: SpotCICDWorkshopJenkinsMasterContainer
+          ContainerPort: 8080
+          TargetGroupArn: !Ref JenkinsMasterALBTargetGroupECS
       NetworkConfiguration:
         AwsvpcConfiguration:
           SecurityGroups:
-          - !Ref SecurityGroupJenkins
+            - !Ref SecurityGroupJenkins
           Subnets:
-          - !Ref SubnetPrivateA
-          - !Ref SubnetPrivateB
-          - !Ref SubnetPrivateC
-#      Role: !GetAtt IAMRoleECSServiceRole.Arn
-#      ServiceName: JenkinsMaster
+            - !Ref SubnetPrivateA
+            - !Ref SubnetPrivateB
+            - !Ref SubnetPrivateC
+      #      Role: !GetAtt IAMRoleECSServiceRole.Arn
+      #      ServiceName: JenkinsMaster
       ServiceRegistries:
-      - ContainerName: SpotCICDWorkshopJenkinsMasterContainer
-        RegistryArn: !GetAtt ServiceDiscoveryJenkinsMaster.Arn
+        - ContainerName: SpotCICDWorkshopJenkinsMasterContainer
+          RegistryArn: !GetAtt ServiceDiscoveryJenkinsMaster.Arn
       TaskDefinition: !Ref ECSTaskDefinitionJenkinsMaster
 
   ServiceDiscoveryJenkinsMasterNamespace:
@@ -1264,8 +1264,8 @@ Resources:
       Description: Jenkins Master Service
       DnsConfig:
         DnsRecords:
-        - Type: A
-          TTL: 60
+          - Type: A
+            TTL: 60
         NamespaceId: !Ref ServiceDiscoveryJenkinsMasterNamespace
       HealthCheckCustomConfig:
         FailureThreshold: 1
@@ -1290,8 +1290,9 @@ Outputs:
 
   JenkinsMasterSecurityGroup:
     Description: Security Group for Jenkins nodes. Use this value to configure Jenkins ECS Plugin
-    Value: !Ref SecurityGroupJenkins 
+    Value: !Ref SecurityGroupJenkins
 
   JenkinsVPCPublicSubnets:
-    Description:  The public subnets where Jenkins will be deployed. Use this value to configure Jenkins ECS plugin
-    Value: !Join [",", [!Ref SubnetPublicA, !Ref SubnetPublicB, !Ref SubnetPublicC]]
+    Description: The public subnets where Jenkins will be deployed. Use this value to configure Jenkins ECS plugin
+    Value:
+      !Join [",", [!Ref SubnetPublicA, !Ref SubnetPublicB, !Ref SubnetPublicC]]
