@@ -19,8 +19,8 @@ You will need to access the SSH interfaces of some Linux EC2 instances created i
 ## LAUNCH THE CLOUDFORMATION TEMPLATE
 So that you can concentrate on the aspects of this workshop that directly relate to Amazon EC2 Spot instances, there is a CloudFormation template that will deploy the base AWS infrastructure needed for all of the labs within the workshop - saving you from having to create things like VPCs, Security Groups, IAM policies and so forth.
 
-Download and deploy the CloudFormation template located at:
-[https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml)
+Download and deploy the CloudFormation template:
+[amazon-ec2-spot-cicd-workshop.yaml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml)
 
 Be sure to give it a stack name of **SpotCICDWorkshop** and ensure that you supply appropriate parameters when prompted.
 {{%expand "Click to reveal detailed instructions" %}}
