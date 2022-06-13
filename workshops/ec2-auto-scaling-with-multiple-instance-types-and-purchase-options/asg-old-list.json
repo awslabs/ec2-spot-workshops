@@ -8,43 +8,45 @@
       },
       "Overrides": [
         {
-          "InstanceRequirements": {
-            "VCpuCount": {
-              "Min": 2,
-              "Max": 2
-            },
-            "MemoryMiB": {
-              "Min": 4096,
-              "Max": 16384
-            },
-            "MemoryGiBPerVCpu": {
-              "Min": 2,
-              "Max": 8
-            },
-            "CpuManufacturers": [
-              "intel",
-              "amd"
-            ],
-            "InstanceGenerations": [
-              "current"
-            ],
-            "AcceleratorCount": {
-              "Min": 0,
-              "Max": 0
-            },
-            "ExcludedInstanceTypes": [
-              "d*",
-              "h*",
-              "x*",
-              "i*",
-              "z*"
-            ]
-          }
+          "InstanceType": "m5.large"
+        },
+        {
+          "InstanceType": "c5.large"
+        },
+        {
+          "InstanceType": "m4.large"
+        },
+        {
+          "InstanceType": "c4.large"
+        },
+        {
+          "InstanceType": "r5.large"
+        },
+        {
+          "InstanceType": "r4.large"
+        },
+        {
+          "InstanceType": "m5a.large"
+        },
+        {
+          "InstanceType": "c5a.large"
+        },
+        {
+          "InstanceType": "r5a.large"
+        },
+        {
+          "InstanceType": "m5d.large"
+        },
+        {
+          "InstanceType": "c5d.large"
+        },
+        {
+          "InstanceType": "r5d.large"
         }
       ]
     },
     "InstancesDistribution": {
-      "OnDemandAllocationStrategy": "lowest-price",
+      "OnDemandAllocationStrategy": "prioritized",
       "OnDemandBaseCapacity": 2,
       "OnDemandPercentageAboveBaseCapacity": 0,
       "SpotAllocationStrategy": "capacity-optimized"
