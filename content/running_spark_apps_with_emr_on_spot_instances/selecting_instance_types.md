@@ -58,7 +58,10 @@ r5a.4xlarge
 r5a.xlarge
 r5d.2xlarge
 r5d.4xlarge
-r5d.xlarge         
+r5d.xlarge
+r6i.2xlarge
+r6i.4xlarge
+r6i.xlarge         
 ```
 
 {{% notice note %}}

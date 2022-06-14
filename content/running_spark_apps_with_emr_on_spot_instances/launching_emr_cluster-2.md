@@ -3,7 +3,7 @@ title: "Launch a cluster - Step 2"
 weight: 70
 ---
 
-Under "**Instance group configuration**", select Instance Fleets. Under Network, select the VPC that you deployed using the CloudFormation template earlier in the workshop (or the default VPC if you're running the workshop in an AWS event), and select all subnets in the VPC. When you select multiple subnets, the EMR cluster will still be started in a single Availability Zone, but EMR Instance Fleets will make the best instance type selection based on available capacity and price across the multiple availability zones that you specified. Aslo, click on the checkbox "Apply allocation strategy" to leverage lowest-price allocation for On-Demand Instances and Capacity-Optimized allocation for Spot Instances; this will also allow you to configure up to 15 instance types on the Task Instance fleet.
+Under "**Instance group configuration**", select Instance Fleets. Under Network, select the VPC that you deployed using the CloudFormation template earlier in the workshop (or the default VPC if you're running the workshop in an AWS event), and select all subnets in the VPC. When you select multiple subnets, the EMR cluster will still be started in a single Availability Zone, but EMR Instance Fleets will make the best instance type selection based on available capacity and price across the multiple availability zones that you specified. Also, click on the checkbox "Apply allocation strategy" to leverage lowest-price allocation for On-Demand Instances and Capacity-Optimized allocation for Spot Instances; this will also allow you to configure up to 15 instance types on the Task Instance fleet.
 ![FleetSelection1](/images/running-emr-spark-apps-on-spot/emrinstancefleetsnetwork.png)
 
 

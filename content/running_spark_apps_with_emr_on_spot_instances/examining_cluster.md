@@ -1,6 +1,6 @@
 ---
 title: "Examining the cluster"
-weight: 95
+weight: 90
 ---
 
 In this section we will look at the utilization of our EC2 Spot Instances while the application is running, and examine how many Spark executors are running.
