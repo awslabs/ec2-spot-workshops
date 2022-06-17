@@ -1,56 +1,174 @@
 +++
-title = "Launching EC2 Spot Instances via Spot Fleet"
+title = "Launching EC2 Spot Instances via Spot Fleet request"
 weight = 40
 +++
 
-## Launching EC2 Spot Instances via a Spot Fleet request
+Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Balancer. However, if you are thinking about using Load Balancers, Auto Scaling Groups are a better option.
 
-You can create a Spot Fleet request and specify a launch template in the
-instance configuration. When Amazon EC2 fulfills the Spot Fleet request,
-it uses the launch parameters defined in the associated launch template.
+Spot Fleet does allow you to diversify across different AZs and networks. Unlike Auto Scaling Group, Spot Fleet, by default, does not take into consideration even re-balancing of instances across AZs (use Auto Scaling Groups instead if AZ-rebalance is key for your workload). Spot Fleet does support types `maintain` and `request`. Similar to Auto Scaling groups, the `maintain` type will preserve the number of instances, and provisioning new healthy instances when it detects that one of the existing instances has become un-healthy.
 
-**To create a Spot Fleet request using the recommended settings**
+{{%notice note%}}
+To support mix instances with different types and purchasing options, Spot Fleet must use **Launch Templates**. In this exercise, we will re-use the same Launch Template that we created before.
+{{% /notice %}}
 
-1. Open the Spot console at <https://console.aws.amazon.com/ec2spot>.
+#### Spot Fleet example: Using weighted mixed instances with Spot Fleet for batch workloads
 
-1. If you are new to Spot, you see a welcome page; choose **Get started**. 
-Otherwise, choose **Request Spot Instances**.
+In this part of the workshop we will use an scenario that is common to see when using Spot Fleet: The use of weights and target capacity. This maps well with the concept of "Compute Slots" in batch workloads. Some batch workloads can have more than one worker process running within an instance. The larger the instance, the more worker processes they can run. For example, one worker may consume 1 vCPU: 2GB Ram, which means that on a C5.xlarge (4 vCPUs: 8GB Ram), we could run up to 4 workers. The weight that we will use for the C5.xlarge is 4.
 
-1. For **Tell us your application or task need**, choose **Flexible workloads**.
-
-1. Under **Configure your instances:**
-    - For **Launch template**, select the Launch template you created earlier.
-    - Leave the **Minimum compute** unit values as default.
-    - For **Network**, select the VPC in which the subnet used in the launch template belongs.
-    - Under **Availability Zone**, check all of the availability zones that have an available subnet.
-
-1. Under **Tell us how much capacity you need**, for **Total target capacity**, 
-specify **6 vCPUs**, and for **Optional On-Demand
-    portion**, specify **2 vCPUs**.
-
-1. Check the box for **Maintain target capacity**. Leave the **Interruption behavior** as **Terminate**.
-
-1. Review the recommended **Fleet request settings** based on your application or task selection, 
-and choose **Launch**.
-
-The request type is fleet. When the request is fulfilled, requests of
-type instance are added, where the state is active and the status
-is fulfilled.
-
-![Spot Fleet Request](/images/launching_ec2_spot_instances/spot_fleet_request_image_2.png)
+By default, the **Target Capacity** attribute for Spot Fleet defines the number of instances that the Spot Fleet will procure. When we use Spot Fleet weights, and associate a custom weight with an instance in the override section, the total target capacity is equivalent to the total target of weights that you give to the spot. Going back to the "Compute Slots" or vCPUs analogy, you can instruct Spot Fleet to provide a number of vCPUs or "Compute Slots" from many instances with different sizes.
 
 
-## Monitoring Your Spot Fleet
+{{%notice note%}}
+While in the past weights were only supported on Spot Fleet and EC2 Fleet, now Auto Scaling groups do also support weights and priorities, so now you can consider as well AWS Auto Scaling group for this type of workload.
+{{% /notice %}}
 
-The Spot Fleet launches Spot Instances when your maximum price exceeds
-the Spot price and capacity is available. The Spot Instances run until
-they are interrupted or you terminate them.
 
-**To monitor your Spot Fleet using the console**
+To start with the hands on part, you first need to create a *json* file that sets a few relevant Spot parameters; One of the parameters is `IamFleetRole`. `IamFleetRole` must be set up to point to the ARN of an IAM role that grants the Spot Fleet the permission to request, launch, terminate, and tag instances on your behalf. For this purpose, you are going to first retrieve the ARN of the Service-Linked role named `AWSServiceRoleForEC2SpotFleet`. For more information read the [spot fleet prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites).
 
-1. Open the Amazon EC2 console at <https://console.aws.amazon.com/ec2/>.
-1. In the navigation pane, choose **Spot Requests**.
-1. Select your Spot Fleet request. The configuration details are
-available in the **Description** tab.
-1. To list the Spot Instances for the Spot Fleet, choose the **Instances** tab.
-1.  To view the history for the Spot Fleet, choose the **History** tab.
+{{%notice warning%}}
+If you have never launched a Spot Fleet, the AWSServiceRoleForEC2SpotFleet won't exist in your account. To create it run the following command in AWS CloudShell: `aws iam create-service-linked-role --aws-service-name spotfleet.amazonaws.com`
+{{% /notice %}}
+
+Execute the following command to export the ARN of the Service-Linked role to an environment variable.
+
+```
+export EC2_SPOT_ROLE=$(aws iam get-role --role-name AWSServiceRoleForEC2SpotFleet | jq -r '.Role.Arn')
+```
+
+Copy and paste the following in AWS CloudShell to generate the configuration file:
+
+```
+cat <<EoF > ~/spot-fleet-request-config.json
+{
+   "AllocationStrategy": "capacityOptimized",
+   "OnDemandAllocationStrategy": "prioritized",
+   "SpotMaintenanceStrategies": {
+      "CapacityRebalance": {
+         "ReplacementStrategy": "launch"
+      }
+   },
+   "LaunchTemplateConfigs": [
+      {
+         "LaunchTemplateSpecification": {
+            "LaunchTemplateId": "${LAUNCH_TEMPLATE_ID}",
+            "Version": "1"
+         },
+         "Overrides":[
+            {
+               "InstanceType":"c5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 3.0
+            },
+            {
+               "InstanceType":"m5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 2.0
+            },
+            {
+               "InstanceType":"r5.large",
+               "WeightedCapacity": 2.0,
+               "Priority": 1.0
+            },
+            {
+               "InstanceType":"c5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 6.0
+            },
+            {
+               "InstanceType":"m5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 5.0
+            },
+            {
+               "InstanceType":"r5.xlarge",
+               "WeightedCapacity": 4.0,
+               "Priority": 4.0
+            }
+         ]
+      }
+   ],
+   "IamFleetRole": "${EC2_SPOT_ROLE}",
+   "TargetCapacity": 12,
+   "OnDemandTargetCapacity": 4,
+   "TerminateInstancesWithExpiration": true,
+   "Type": "maintain",
+   "ReplaceUnhealthyInstances": true
+}
+EoF
+```
+
+Note how the Spot Fleet request file specifies the `TargetCapacity` and `OnDemandTargetCapacity`. The split between those two will go into Spot capacity (i.e: to have all on Spot capacity, just set the `OnDemandTargetCapacity` to 0).
+
+When `AllocationStrategy` is set to `capacityOptimized`, Spot Fleet launches instances from optimal Spot pools for the target capacity of instances (in this case weights) that we are launching.
+
+Spot Fleet does support `CapacityRebalance` as part of the Metadata service. `CapacityRebalance` is a signal that EC2 emits when a Spot instance is at an elevated risk of being interrupted. Users can intercept this event and decide if they want to launch a replacement by selecting `launch` as the `ReplacementStrategy` within the `SpotMaintenanceStrategies` structure.
+
+By specifying `maintain` as the request type, Spot Fleet places requests to meet the target capacity over time and automatically replenish any interrupted instances.
+
+If you want to learn more about the other configuration parameters, you can review the documentation [here](https://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-fleet.html).
+
+Once that you've read and familiarised yourself with the configuration, copy and paste this command to submit the Spot Fleet request and export its identifier to an environment variable.
+
+```bash
+export SPOT_FLEET_REQUEST_ID=$(aws ec2 request-spot-fleet --spot-fleet-request-config file://spot-fleet-request-config.json | jq -r '.SpotFleetRequestId')
+```
+
+You have now created a Spot Fleet that uses weights and combines Spot and On-Demand Instances to meet the specified target capacity.
+
+Given the configuration we used above. **Try to answer the following questions:**
+
+1. How many Spot vs On-Demand Instances have been requested by the Spot Fleet?
+2. For On-Demand Capacity, what does it mean the `Priority` section?
+3. How can we check the state of the created Spot Fleet?
+
+{{%expand "Show me the answers:" %}}
+
+1.) **How many Spot vs On-Demand Instances have been requested by the Spot Fleet?**
+
+This Spot Fleet will maintain a weighted target capacity of 12, as specified in the value for `TargetCapacity`. Additionally, we are specifying an On-Demand target capacity of 4. Remember that Amazon EC2 calculates the difference between the total capacity and On-Demand capacity in order to launch Spot Instances. This would result in **1** On-Demand Instance being launched and in the case of Spot Instances, given that we are using `capacityOptimized` allocation strategy, a few things may happen; the most common is that out of the 18 pools, one is selected as optimal (has more capacity, etc). If the selected pool is one of the 9 pools defined as **large**, 4 Spot Instances will be added. If the pool selected is one of the 9 **xlarge**, 2 Spot Instances will be created.
+
+2.) **For On-Demand Capacity, what does it mean the `Priority` section?**
+
+We did specify `prioritized` as the allocation strategy for On-Demand Instances. Therefore, the order in which Spot Fleet will attempt to fulfill the On-Demand capacity is defined by the value of `Priority` in the list of overrides. It will aim first to launch capacity from the `c5.xlarge` pools with the highest priority. If there are [Insufficient Capacity Errors](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/troubleshooting-launch.html#troubleshooting-launch-capacity), it will go into the pools with the next higher priority `m5.xlarge`, and so on.  
+
+For Spot, the `priority` attribute will have no effect in the example. We have specified `capacityOptimized` as allocation strategy to follow the best practices associated with Spot. This will make the Spot Fleet launch instances from Spot Instance pools with optimal capacity.
+
+
+3.) **How can we check the state of the Spot Fleet created?**
+
+While the command below will provide us the description of the Spot Fleet Request
+
+```
+aws ec2 describe-spot-fleet-requests --spot-fleet-request-ids=$SPOT_FLEET_REQUEST_ID
+```
+
+To get the description of the instances and what happened over time to the request we can use:
+
+```
+aws ec2 describe-spot-fleet-instances --spot-fleet-request-id=$SPOT_FLEET_REQUEST_ID
+```
+
+There is also a `describe-spot-fleet-request-history` that will showcase the steps the fleet took to procure the capacity. You can request it using the following command.
+
+```
+aws ec2 describe-spot-fleet-request-history --spot-fleet-request-id=$SPOT_FLEET_REQUEST_ID --start-time=$(date '+%m-%d-%YT%H:%M:%S' -d '-1 hour')
+```
+
+
+{{%notice note%}}
+There is an allocation Strategy named `capacityOptimizedPrioritized`. What would be the results if you repeat the same exercise with this allocation strategy?
+{{% /notice %}}
+
+{{% /expand %}}
+
+#### Brief Summary of Spot Fleet functionality
+
+These are some of the features and characteristics that Spot Fleet provides, in addition to the ones covered in this section:
+
+1. **Control Spending**: With Spot Fleet you have finer granularity on how you specify the maximum price you are willing to pay. You can specify separately the maximum price per unit hour that you are willing to pay for a Spot or On-Demand Instance. You can also specify they maximum that you are willing to pay per hour for the fleet. Read more about [Spot Fleet Control Spending here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-spot-fleet-works.html#spot-fleet-control-spending)
+2. **Valid from - until**: Spot Fleet allows also to define the duration for which the request is valid by providing the *from* and *until* values.
+4. **Replace unhealthy instances**: Like in the case of Auto Scaling groups, when running in maintain mode you can instruct Spot Fleet to detect and replace un-healthy instances.
+5. **Multiple Launch Templates**: Spot Fleet does allow you to specify multiple Launch Templates in the `LaunchTemplateConfigs` section of the configuration file. By doing so, you can launch a Spot Fleet with instances that vary by instance type, AMI, Availability Zone or subnet.
+6. **Support for Load Balancers**: With Spot Fleet you can specify one or more Classic Load Balancers and target groups that will be attached to the Spot Fleet request. To learn more about Classic Load Balancer, visit this page: [Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html). Consider however using Auto Scaling groups when using Load balancers.
+
+You can read more about [Spot Fleet here, in the AWS Spot Fleet documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html).

@@ -16,9 +16,9 @@ disableToc: true
 
 ##### [ - [Blog post] New – EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/)
 
-
 ##### [ - [Blog post] Capacity-Optimized Spot Instance Allocation in Action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/)
 
+##### [ - [Blog post] Proactively manage the Spot Instance lifecycle using the new Capacity Rebalancing feature for EC2 Auto Scaling](https://aws.amazon.com/blogs/compute/proactively-manage-spot-instance-lifecycle-using-the-new-capacity-rebalancing-feature-for-ec2-auto-scaling/)
 
 ##### [ - [AWS Online Tech Talks]: Optimize AI/ML, Kubernetes and Big Data Workloads at Your Startup](https://www.youtube.com/watch?v=2donGftFSIY)
 
@@ -33,6 +33,8 @@ disableToc: true
 
 ## Big-data and analytics
 
+##### [ - [Blog post] Optimizing Amazon EMR for resilience and cost with capacity-optimized Spot Instances](https://aws.amazon.com/blogs/big-data/optimizing-amazon-emr-for-resilience-and-cost-with-capacity-optimized-spot-instances/)
+
 ##### [ - [Blog post] Best practices for running Apache Spark applications using Amazon EC2 Spot Instances with Amazon EMR](https://aws.amazon.com/blogs/big-data/best-practices-for-running-apache-spark-applications-using-amazon-ec2-spot-instances-with-amazon-emr/)
 
 ##### [ - [Tutorial] Getting started tutorial: Optimizing Amazon EMR clusters for cost and scale with EC2 Spot Instances and Amazon EMR](https://aws.amazon.com/getting-started/hands-on/optimize-amazon-emr-clusters-with-ec2-spot/)
@@ -41,8 +43,11 @@ disableToc: true
 
 ##### [ - [AWS Online Tech Talks]: Best Practices for Running Spark Applications Using Spot Instances on EMR](https://www.youtube.com/watch?v=u5dFozl1fW8)
 
+##### [ - [Blog post] Running cost optimized Spark workloads on Kubernetes using EC2 Spot Instances](https://aws.amazon.com/blogs/compute/running-cost-optimized-spark-workloads-on-kubernetes-using-ec2-spot-instances/)
+
 
 ## Containers
+##### [ - [Blog post] Amazon EKS now supports provisioning and managing EC2 Spot Instances in managed node groups](https://aws.amazon.com/blogs/containers/amazon-eks-now-supports-provisioning-and-managing-ec2-spot-instances-in-managed-node-groups/)
 
 ##### [ - [Blog post] Building for Cost optimization and Resilience for EKS with Spot Instances](https://aws.amazon.com/blogs/compute/cost-optimization-and-resilience-eks-with-spot-instances/)
 
@@ -74,3 +79,5 @@ disableToc: true
 ## CI/CD
 
 ##### [ - [Blog post] Cost Optimize your Jenkins CI/CD pipelines using EC2 Spot Instances](https://aws.amazon.com/blogs/compute/cost-optimize-your-jenkins-ci-cd-pipelines-using-ec2-spot-instances/)
+
+##### [ - [Tutorial] Cost optimize Jenkins jobs on Kubernetes with EC2 Spot Instances](https://aws.amazon.com/getting-started/hands-on/cost-optimize-jenkins/)

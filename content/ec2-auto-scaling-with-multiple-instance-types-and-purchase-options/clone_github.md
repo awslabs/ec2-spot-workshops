@@ -10,13 +10,13 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 
 	```
 	git clone https://github.com/awslabs/ec2-spot-workshops.git
-	```
+	```    
 	
 1. Change into the workshop directory:
 
 	```
 	cd ec2-spot-workshops/workshops/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options
-	```
+	```    
 
 1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
 
@@ -26,7 +26,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 	```bash
 	export stack_name=myEC2Workshop
 
-	```
+	```    
 
 	Now, load the CloudFormation stack outputs on environment variables running the following command:
 	```bash
@@ -40,7 +40,7 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
     	eval "echo $output : \"\$$output\""
 	done
 
-	```
+	```    
 
 	If successful, the output should be similar to the following:
 
@@ -53,4 +53,4 @@ In order to execute the steps in the workshop, you'll need to clone the workshop
 	publicSubnet1 : subnet-0f7bec73da5be90c2
 	cloud9Environment : cloud9Environment-C8KgzeALZ6w0
 	loadBalancerSecurityGroup : sg-0b6df7c3ed7c9118d
-	```
+	```      

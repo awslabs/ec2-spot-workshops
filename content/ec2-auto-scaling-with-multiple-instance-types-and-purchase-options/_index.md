@@ -1,8 +1,9 @@
 ---
 title: "EC2 Auto Scaling with multiple instance types and purchase options"
+menuTitle: "EC2 Auto Scaling"
 date: 2019-01-26T00:00:00Z
-weight: 90
-pre: "<b>⁃ </b>"
+weight: 20
+pre: "<b>2. </b>"
 ---
 
 ## Overview 
@@ -17,7 +18,7 @@ This is a shortened version of [Running EC2 workloads at scale with EC2 Auto Sca
 ## Setting
 You've been tasked with deploying a scalable web application behind a load balancer.
 
-Requirements include the ability to automatically scale the service for both predictable and dynamic traffic patterns, all without breaking the budget.
+Requirements include the ability to automatically scale the service for dynamic traffic patterns, all without breaking the budget.
 
 In order to optimize performance and cost, you will use Amazon EC2 Auto Scaling to [scale across multiple instance types and purchase options](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/).
 

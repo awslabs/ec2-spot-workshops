@@ -18,13 +18,14 @@ disableAssetsBusting = false
 disableLanguageSwitchingButton = false
 disableShortcutsTitle = false
 disableInlineCopyToClipBoard = true
+disableLandingPageButton = true
 
 [outputs]
 home = [ "HTML", "AMP", "RSS", "JSON"]
 page = [ "HTML", "AMP"]
 
-# All privacy options enabled. There should not be 
-# any cookies or privacy  
+# All privacy options enabled. There should not be
+# any cookies or privacy
 [privacy]
   [privacy.disqus]
     disable = false
@@ -62,12 +63,19 @@ weight = 20
 [[menu.shortcuts]]
 name = "<i class='fas fa-info-circle'></i> Resources"
 url = "/resources.html"
-weight = 40
+weight = 30
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-envelope'></i> Feedback / Questions?"
 url = "mailto:ec2-spot-workshops@amazon.com"
-weight = 30
+weight = 40
+
+[[menu.shortcuts]]
+name = "<i class='fab fa-aws'></i> CMP307"
+url = "https://cmp307.ec2spotworkshops.com"
+weight = 50
+
+
 
 
 [languages]
@@ -77,3 +85,18 @@ weight = 30
   [languages.ja]
     languageName = "Japanese"
     weight = 2
+
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ''
+    lineAnchors = ''
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = 'monokai'
+    tabWidth = 4

@@ -1,4 +1,4 @@
-## Ec2 Spot Workshops
+## EC2 Spot Workshops
 
 Collection of workshops to demonstrate best practices in using Amazon EC2 Spot Instances. https://aws.amazon.com/ec2/spot/
 
@@ -11,7 +11,7 @@ The content of the workshops is built using [hugo](https://gohugo.io/).
 ### Local Build
 To build the content
  * clone this repository
- * [install hugo](https://gohugo.io/getting-started/installing/). The website is currently running on Hugo 0.53, since we have some markdown issues with the latest versions. You can download the exact version here: https://github.com/gohugoio/hugo/releases/download/v0.53/hugo_0.53_Linux-64bit.tar.gz
+ * [install hugo](https://gohugo.io/getting-started/installing/). The website is currently running on Hugo 0.53, since we have some markdown issues with the latest versions. You can download the exact version here: https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_Linux-64bit.tar.gz
  * The project uses [hugo learn](https://github.com/matcornic/hugo-theme-learn/) template as a git submodule. To update the content, execute the following code
 ```bash
 pushd themes/learn
