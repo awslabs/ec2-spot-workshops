@@ -12,7 +12,7 @@ Each target group routes requests to one or more registered targets, such as EC2
 1. Execute the following command to edit **application-load-balancer.json** and update the values with the resources created by Cloudformation.
 
     ```bash
-    sed -i.bak -e "s/%publicSubnet1%/$publicSubnet1/g" -e "s/%publicSubnet2%/$publicSubnet2/g" -e "s/%loadBalancerSecurityGroup%/$loadBalancerSecurityGroup/g"    application-load-balancer.json
+    sed -i.bak -e "s/%publicSubnet1%/$publicSubnet1/g" -e "s/%publicSubnet2%/$publicSubnet2/g" -e "s/%loadBalancerSecurityGroup%/$loadBalancerSecurityGroup/g" application-load-balancer.json
     ```
 
 1. Take a look at the configuration file and then create the application load balancer:
