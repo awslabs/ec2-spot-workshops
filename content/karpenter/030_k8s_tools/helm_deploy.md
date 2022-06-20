@@ -25,6 +25,7 @@ Before we can get started configuring Helm, we'll need to first install the
 command line tools that you will interact with. To do this, run the following:
 
 ```
+export DESIRED_VERSION=v3.8.2
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 ```
 
