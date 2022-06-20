@@ -96,3 +96,11 @@ The Core Instance Fleet launched one xlarge instance, able to run one executor.
 {{%expand "Question: Did you see more than 9 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
 Your Spark application was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
 {{% /expand%}}
+
+#### Managed Scaling in Action
+
+1. In your EMR cluster page, in the AWS Management Console, go to the **Steps** tab.
+1. Go to the **Events** tab to see the scaling events.
+![scalingEvent](/images/running-emr-spark-apps-on-spot/emrsparkscalingevent.png)
+
+EMR Managed Scaling constantly monitors [key metrics](https://docs.aws.amazon.com/emr/latest/ManagementGuide/managed-scaling-metrics.html) and automatically increases or decreases the number of instances or units in your cluster based on workload.

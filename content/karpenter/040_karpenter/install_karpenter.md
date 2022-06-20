@@ -57,5 +57,3 @@ kubectl get deployment -n karpenter
 {{% notice note %}}
 You can increase the number of Karpenter replicas in the deployment for resilience. Karpenter will elect a leader controller that in charge of running operations.
 {{% /notice %}}
-
-

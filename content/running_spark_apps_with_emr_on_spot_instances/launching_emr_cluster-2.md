@@ -32,6 +32,26 @@ Since our executor size is 4 vCPUs, and each instance counts as the number of it
 
 ![FleetSelection3](/images/running-emr-spark-apps-on-spot/emrinstancefleets-task2.png)
 
+### Enabling cluster scaling
+
+While you can always manually adjust the number of core or task nodes (EC2 instances) in your Amazon EMR cluster, you can also use the power of EMR auto-scaling to automatically adjust the cluster size in response to changing workloads without any manual intervention.
+
+Let's enable scaling for this cluster using **[Amazon EMR Managed Scaling](https://aws.amazon.com/blogs/big-data/introducing-amazon-emr-managed-scaling-automatically-resize-clusters-to-lower-cost/)**. With EMR Managed scaling you specify the minimum and maximum compute limits for your cluster and Amazon EMR automatically resizes EMR clusters for best performance and resource utilization. EMR Managed Scaling constantly monitors key metrics based on workload and optimizes the cluster size for best resource utilization
+
+{{% notice note %}}
+EMR Managed Scaling is supported for Apache Spark, Apache Hive and YARN-based workloads on Amazon EMR versions 5.30.1 and above.
+{{% /notice %}}
+
+1. Select the checkbox for **Enable Cluster Scaling** in **Cluster scaling** section.
+1. Set **MinimumCapacityUnits** to **36**, which includes core node capacity units plus capacity units for 8 task executors.
+1. Set **MaximumCapacityUnits** to **68**, keeping same capacity units for core nodes but allowing scaling for task nodes.
+1. Set **MaximumOnDemandCapacityUnits** to **0**, use EC2 Spot instances only for both Code Nodes and Task Nodes.
+1. Set **MaximumCoreCapacityUnits** to **4**, keeping same capacity units for core nodes.
+![emrmanagedscaling](/images/running-emr-spark-apps-on-spot/emrmanagedscaling.png)
+
+{{% notice note %}}
+Managed Scaling now also has the capability to prevent scaling down instances that store intermediate shuffle data for Apache Spark. Intelligently scaling down clusters without removing the instances that store intermediate shuffle data prevents job re-attempts and re-computations, which leads to better performance, and lower cost.
+**[Click here](https://aws.amazon.com/about-aws/whats-new/2022/03/amazon-emr-managed-scaling-shuffle-data-aware/)** for more details.
+{{% /notice %}}
+
 click **Next** to continue to the next steps of launching your EMR cluster.
-
-
