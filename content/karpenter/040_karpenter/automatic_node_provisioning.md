@@ -283,3 +283,5 @@ In this section we have learned:
 
 * Karpenter can scale-out from zero when applications have available working pods and scale-in to zero when there are no running jobs or pods.
 
+* Provisioners can be setup to define governance and rules that define how nodes will be provisioned within a cluster partition. We can setup requirements such as `karpenter.sh/capacity-type` to allow on-demand and spot instances or use `karpenter.k8s.aws/instance-size` to filter smaller sizes. The full list of supported labels is available **[here](https://karpenter.sh/v0.13.1/tasks/scheduling/#selecting-nodes)**
+
