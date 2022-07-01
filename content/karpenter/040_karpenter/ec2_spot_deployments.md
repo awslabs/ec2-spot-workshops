@@ -24,7 +24,7 @@ To deploy the Node Termination Handler run the following command:
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-node-termination-handler \
              --namespace kube-system \
-             --version 0.18.3 \
+             --version 0.18.5 \
              --set nodeSelector."karpenter\\.sh/capacity-type"=spot \
              eks/aws-node-termination-handler
 ```

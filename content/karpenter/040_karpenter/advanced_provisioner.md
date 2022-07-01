@@ -39,15 +39,26 @@ spec:
       values: ["amd64","arm64"]
   limits:
     resources:
-      cpu: 256
-  provider:
-    subnetSelector:
-      alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
-    securityGroupSelector:
-      alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
-    tags:
-      accountingEC2Tag: KarpenterDevEnvironmentEC2
+      cpu: 1000
+      memory: 1000Gi
   ttlSecondsAfterEmpty: 30
+  ttlSecondsUntilExpired: 2592000
+  providerRef:
+    name: default
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: default
+spec:
+  subnetSelector:
+    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+  securityGroupSelector:
+    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+  tags:
+    KarpenerProvisionerName: "default"
+    NodeType: "karpenter-workshop"
+    IntentLabel: "apps"
 EOF
 ```
 
@@ -71,18 +82,35 @@ spec:
       values: ["amd64","arm64"]
   limits:
     resources:
-      cpu: 128
-  provider:
-    subnetSelector:
-      alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
-    securityGroupSelector:
-      alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
-    tags:
-      accountingEC2Tag: KarpenterDevEnvironmentEC2
+      cpu: 1000
+      memory: 1000Gi
   ttlSecondsAfterEmpty: 30
+  ttlSecondsUntilExpired: 2592000
   taints:
   - effect: NoSchedule
     key: team1
+  providerRef:
+    name: team1
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: team1
+spec:
+  amiFamily: Bottlerocket
+  subnetSelector:
+    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+  securityGroupSelector:
+    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+  tags:
+    KarpenerProvisionerName: "team1"
+    NodeType: "karpenter-workshop"
+    IntentLabel: "apps"
+  userData:  |
+    [settings.kubernetes]
+    kube-api-qps = 30
+    [settings.kubernetes.eviction-hard]
+    "memory.available" = "20%"
 EOF
 ```
 
@@ -95,6 +123,8 @@ Let's spend some time covering a few points in the Provisioners configuration.
 * The `default` Provisioner does now support both `spot` and `on-demand` capacity types. The `team1` provisioner however does only support `on-demand`
 
 * The `team1` Provisioner does only support Pods or Jobs that provide a Toleration for the key `team1`. Nodes procured by this provisioner will be tainted using the Taint with key `team1` and effect `NoSchedule`.
+
+* The `team1` Provisioner does define a different `AWSNodeTemplate` and changes the AMI from the default [EKS optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) to [bottlerocket](https://aws.amazon.com/bottlerocket/). It does also adapts the UserData bootstrapping for this particular provider. 
 
 {{% notice note %}}
 If Karpenter encounters a taint in the Provisioner that is not tolerated by a Pod, Karpenter won’t use that Provisioner to provision the pod. It is recommended to create Provisioners that are mutually exclusive. So no Pod should match multiple Provisioners. If multiple Provisioners are matched, Karpenter will randomly choose which to use.
@@ -113,13 +143,21 @@ The command should list both the `default` and the `team1` provisioner. We can a
 kubectl describe provisioners default
 ```
 
+You can repeat the same commands with `kubectl get AWSNodeTemplate` to check the provider section within the provisioner.
+
 ## (Optional Read) Customizing AMIs and Node Bootstrapping 
 
 {{% notice info %}}
-In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.10.0/aws/launch-templates/)
+In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.13.1/aws/launch-templates/)
 {{% /notice %}}
 
-By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and Encrypted EBS root volumes with the default (AWS Managed) KMS key for nodes. Often, users need to customize the node image to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootsrapping through Launch Templates. If you need to customize the node, then you need a custom launch template. 
+By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and Encrypted EBS root volumes with the default (AWS Managed) KMS key for nodes. Karpenter does also support [Bottlerocket](https://aws.amazon.com/bottlerocket/). 
+
+Under the hood Karpenter manages the life-cycle the [LaunchTemplates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html) that point to the right AMI's. Karpenter does also dynamically update new versions of the EKS and Bottlerocket AMI's when there are new available. To automate the Patching of AMI's, Provisioners can use `ttlSecondsUntilExpired` to force nodes to terminate so that new nodes that use the new AMI's replace older versions. 
+
+Karpenter supports passing a `UserData` configuration for EKS (AL2, and Ubuntu as well) and BottleRocket AMIs. This significantly simplifies the management of nodes while enabling users to customize their nodes for aspects such as governance, security or just optimizing with specific bootstrapping parameter. You can read more about how bootstrapping can be applied **[here](https://karpenter.sh/v0.13.1/aws/user-data/)**. Note Bottlerocket and EKS have different data formats, MIME for EKS,AL2 and Ubuntu and TOML for Bottlerocket.
+
+Often, users may need to customize the AMI to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootsrapping through Launch Templates. If you need to customize the node, then you need a custom launch template. 
 
 {{%notice note %}}
 Using custom launch templates prevents multi-architecture support, the ability to automatically upgrade nodes, and securityGroup discovery. Using launch templates may also cause confusion because certain fields are duplicated within Karpenter’s provisioners while others are ignored by Karpenter, e.g. subnets and instance types.
@@ -134,11 +172,12 @@ By customizing the image, you are taking responsibility for maintaining it, incl
 The selection of the Launch Template can be configured in the provider by setting up the `launchTemplate` property.
 
 ```yaml
-apiVersion: karpenter.sh/v1alpha5
-kind: Provisioner
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: team1
 spec:
-  provider:
-    launchTemplate: CustomKarpenterLaunchTemplateDemo
+  launchTemplate: CustomKarpenterLaunchTemplateDemo
   ...
 ```
 
