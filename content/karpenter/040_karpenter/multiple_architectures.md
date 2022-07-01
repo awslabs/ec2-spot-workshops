@@ -42,6 +42,7 @@ spec:
       nodeSelector:
         intent: apps
         kubernetes.io/arch: amd64
+        karpenter.sh/capacity-type: on-demand
       containers:
       - image: public.ecr.aws/eks-distro/kubernetes/pause:3.2
         name: inflate-amd64
@@ -124,21 +125,24 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2022-05-12T04:15:10.593Z        INFO    controller      Batched 2 pod(s) in 1.009818195s        {"commit": "00661aa"}
-2022-05-12T04:15:10.770Z        DEBUG   controller      Discovered subnets: [subnet-0204b1b3b885ca98d (eu-west-1a) subnet-037d1d97a6a473fd1 (eu-west-1b) subnet-04c2ca248972479e7 (eu-west-1b) subnet-063d5c7ba912986d5 (eu-west-1a)]   {"commit": "00661aa"}
-2022-05-12T04:15:10.851Z        DEBUG   controller      Discovered security groups: [sg-03ab1d5d49b00b596 sg-06e7e2ca961ab3bed]{"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:15:10.854Z        DEBUG   controller      Discovered kubernetes version 1.21      {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:15:10.940Z        DEBUG   controller      Discovered ami-0440c10a3f77514d8 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"    {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:15:10.977Z        DEBUG   controller      Discovered launch template Karpenter-eksworkshop-eksctl-13001267661656074018    {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:15:13.081Z        INFO    controller      Launched instance: i-0d19d3eeb2d59578d, hostname: ip-192-168-22-165.eu-west-1.compute.internal, type: m4.xlarge, zone: eu-west-1a, capacityType: spot   {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:15:13.093Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c4.xlarge, c6i.xlarge, c5a.xlarge, c5.xlarge, c6a.xlarge and 267 other(s)     {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:15:13.103Z        INFO    controller      Waiting for unschedulable pods  {"commit": "00661aa"}
+2022-07-01T04:02:12.087Z        DEBUG   controller.provisioning Discovered 531 EC2 instance types       {"commit": "1f7a67b"}
+2022-07-01T04:02:12.246Z        DEBUG   controller.provisioning Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b"}
+2022-07-01T04:02:12.397Z        DEBUG   controller.provisioning Discovered EC2 instance types zonal offerings   {"commit": "1f7a67b"}
+2022-07-01T04:02:12.598Z        INFO    controller.provisioning Found 2 provisionable pod(s)    {"commit": "1f7a67b"}
+2022-07-01T04:02:12.598Z        INFO    controller.provisioning Computed 1 new node(s) will fit 2 pod(s)        {"commit": "1f7a67b"}
+2022-07-01T04:02:12.690Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:02:12.709Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:02:12.770Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-0413b176c68479e84 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"    {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:02:12.931Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-1404659202440619516       {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:02:14.748Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-07f4c8c180ece267a, hostname: ip-192-168-25-60.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand      {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:02:14.758Z        INFO    controller.provisioning Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 333 other(s)    {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:02:14.758Z        INFO    controller.provisioning Waiting for unschedulable pods  {"commit": "1f7a67b"}
 ...
 ```
 
 There are a few things to highlight from the logs above. The first one is in relation with the Provisioner that was used to make the instance selection. The logs point to the `controller.allocation.provisioner/default` making the selection. We will learn in the next sections how to select and use alternative Provisioners. 
 
-In the scenario above, the log shows the instance selected was an `on-demand` instance of type **t3a.xlarge** and it was considered from the instance diversified selection: c5a.xlarge c5d.xlarge c3.xlarge c4.xlarge c5ad.xlarge c5.xlarge c6i.xlarge c1.xlarge c5n.xlarge m1.xlarge m3.xlarge t3.xlarge t3a.xlarge m5dn.xlarge m5ad.xlarge m4.xlarge m5zn.xlarge m5n.xlarge m6i.xlarge m5d.xlarge. All the instances in the list are of type `amd64` or x86_64 and all of them are of the right size to bin-pack the deployment of 2 replicas we just did.
+In the scenario above, the log shows the instance selected was an `on-demand` instance of type **t3a.xlarge** and it was considered from the instance diversified selection: t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 333 other(s). All the instances in the list are of type `amd64` or x86_64 and all of them are of the right size to at least fit the deployment of 2 replicas .
 
 Let's understand first why the instance selected was `on-demand`. As we stated before NodeSelectors are an opt-in mechanism which allow users to specify the nodes on which a pod can be scheduled. Karpenter uses the NodeSelectors defined in the pending pods and provisions capacity accordingly. In this case, the `inflate-amd64` deployment did not state any NodeSelector (like `spot` or `on-demand`) for the `kubernetes.sh/capacity-type`. In these situations Karpenter reverts to the default value for that well-known label. In the case of `kubernetes.sh/capacity-type` Karpenter uses `on-demand` as the default option.
 
@@ -202,21 +206,20 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2022-05-12T04:20:51.896Z        INFO    controller      Batched 2 pod(s) in 1.014499438s        {"commit": "00661aa"}
-2022-05-12T04:20:52.665Z        DEBUG   controller      Discovered 401 EC2 instance types       {"commit": "00661aa"}
-2022-05-12T04:20:52.790Z        DEBUG   controller      Discovered EC2 instance types zonal offerings   {"commit": "00661aa"}
-2022-05-12T04:20:52.960Z        DEBUG   controller      Discovered subnets: [subnet-0204b1b3b885ca98d (eu-west-1a) subnet-037d1d97a6a473fd1 (eu-west-1b) subnet-04c2ca248972479e7 (eu-west-1b) subnet-063d5c7ba912986d5 (eu-west-1a)]   {"commit": "00661aa"}
-2022-05-12T04:20:53.055Z        DEBUG   controller      Discovered security groups: [sg-03ab1d5d49b00b596 sg-06e7e2ca961ab3bed]{"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:20:53.071Z        DEBUG   controller      Discovered kubernetes version 1.21      {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:20:53.140Z        DEBUG   controller      Discovered ami-05dc8c3028bc33fd6 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2-arm64/recommended/image_id"      {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:20:53.310Z        DEBUG   controller      Created launch template, Karpenter-eksworkshop-eksctl-13655185630813568172      {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:20:55.201Z        INFO    controller      Launched instance: i-013c73aa33c952ace, hostname: ip-192-168-60-157.eu-west-1.compute.internal, type: c6g.xlarge, zone: eu-west-1b, capacityType: spot  {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:20:55.214Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c6g.xlarge    {"commit": "00661aa", "provisioner": "default"}
-2022-05-12T04:20:55.229Z        INFO    controller      Waiting for unschedulable pods  {"commit": "00661aa"}
+2022-07-01T04:04:37.067Z        INFO    controller.provisioning Found 2 provisionable pod(s)    {"commit": "1f7a67b"}
+2022-07-01T04:04:37.067Z        INFO    controller.provisioning Computed 1 new node(s) will fit 2 pod(s)        {"commit": "1f7a67b"}
+2022-07-01T04:04:37.164Z        DEBUG   controller.provisioning.cloudprovider   Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:37.209Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:37.210Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:37.249Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-0efd3ecfd285da630 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2-arm64/recommended/image_id"      {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:37.405Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-2137869187457706438       {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:39.251Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-0adfab70cb7801392, hostname: ip-192-168-81-44.eu-west-1.compute.internal, type: c6g.xlarge, zone: eu-west-1a, capacityType: spot   {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:39.258Z        INFO    controller.provisioning Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c6g.xlarge    {"commit": "1f7a67b", "provisioner": "default"}
+2022-07-01T04:04:39.258Z        INFO    controller.provisioning Waiting for unschedulable pods  {"commit": "1f7a67b"}
 ...
 ```
 
-As in the previous step with the `inflate-amd64`, the instance selected was `on-demand` but unlike the previous time, the well-known lable selected the instance type to use.
+Unlike in the previous step with the `inflate-amd64`, the instance selected was `spot` and the well-known lable selected the instance type to use.
 
 {{% notice tip %}}
 We leave as an optional exersice the following setup. What would happen if you change the deployment and remove the `nodeSelector` section that defines the line `node.kubernetes.io/instance-type: c6g.xlarge`. If you want to try changing the deployment and checking what happens, first scale down the replicas to 0, re-deploy the `inflate-amd64` deployment, and then scale up to 2 pods. What is the difference ? What is the diversified selection now ?
@@ -264,6 +267,6 @@ In this section we have learned:
 
 * Karpenter uses well-known labels in the NodeSelector pods to Override the type instance selected. In this section we used the NodeSelector `kubernetes.io/arch` to select instances of type `amd64` x86_64 and `arm64`. We also learned that we can select a specific instance type by using the well-known lable `node.kubernetes.io/instance-type` (i.e **c6g.xlarge**).
 
-* When NodeSelectors are not specified, Karpenter will revert to the default configuration setup for that label. In this case, the property for `kubernetes.sh/capacity-type` was not set, meaning that `spot` instances were selected even if the `default` provisioner supports both `spot` and `on-demand`.
+* When NodeSelectors are not specified, Karpenter will revert to the default configuration setup for that label. In this case, the property for `kubernetes.sh/capacity-type` was not set in the case of the `arm64` deployment, meaning that `spot` instances were selected even if the `default` provisioner supports both `spot` and `on-demand`. 
 
 * Karpenter scales `on-demand` instances using a diversified selection as well. Similar to Spot, instances are chosen by the ability of those to bin-pack well the pending pods. Karpenter uses the OnDemand allocation strategy **[lowest-price](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html)** to select which instance to pick from the those with available capacity.
