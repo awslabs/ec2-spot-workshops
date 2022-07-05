@@ -139,22 +139,10 @@ aws ec2 describe-fleets --fleet-ids "${FLEET_ID}"
 EC2 Fleet does also have a `aws ec2 describe-fleet-history` and `aws ec2 describe-fleet-instances`, similarly to Spot Fleet API. However, EC2 Fleet in instant mode is not considered a regular fleet request. In fact, while for EC2 Fleet and Spot Fleet you have limits on the number of active fleets you can create, for EC2 Fleet in instant mode you can make as many calls as needed. In this regard think of it as a replacement of RunInstance API that implements Spot best practices.
 {{% /notice %}}
 
-
-To check the history of the fleet you can also check with the command:
-
-```
-aws ec2 describe-fleet-history --fleet-id=$FLEET_ID --start-time=$(date '+%m-%d-%YT%H:%M:%S' -d '-1 hour')
-```
-
-
-```
-aws ec2 describe-spot-fleet-request-history --spot-fleet-request-id=$SPOT_FLEET_REQUEST_ID --start-time=$(date '+%m-%d-%YT%H:%M:%S' -d '-1 hour')
-```
-
 {{% /expand %}}
 
 
-####Brief Summary of EC2 Fleet functionality
+#### Brief Summary of EC2 Fleet functionality
 
 These are some of the features and characteristics that EC2 Fleet provides, in addition to the ones covered in this section:
 
