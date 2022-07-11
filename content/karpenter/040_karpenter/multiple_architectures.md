@@ -1,5 +1,5 @@
 ---
-title: "Multi-Archtiecture deployments"
+title: "Multi-Architecture deployments"
 date: 2021-11-07T11:05:19-07:00
 weight: 70
 draft: false
