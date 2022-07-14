@@ -103,6 +103,9 @@ EoF
 {{% notice note %}}
 You may have noticed that we haven't included the `MaintenanceStrategies` structure. The reason for this is that specifying a replacement strategy is only possible when working with fleets of type maintain.
 {{% /notice %}}
+{{% notice note %}}
+EC2 Fleet does also have a `aws ec2 describe-fleet-history` and `aws ec2 describe-fleet-instances`, similarly to Spot Fleet API. However, EC2 Fleet in instant mode is not considered a regular fleet request. In fact, while for EC2 Fleet and Spot Fleet you have limits on the number of active fleets you can create, for EC2 Fleet in instant mode you can make as many calls as needed. In this regard think of it as a replacement of RunInstance API that implements Spot best practices.
+{{% /notice %}}
 
 The EC2 Fleet request specifies separately the target capacity for Spot and On-Demand Instances using the `OnDemandTargetCapacity` and `SpotTargetCapacity` fields inside the `TargetCapacitySpecification` structure. The value for `DefaultTargetCapacityType` specifies whether Spot or On-Demand Instances should be used to meet the `TotalTargetCapacity`.
 
@@ -133,11 +136,6 @@ You can view the configuration parameters of your EC2 Fleet using this command:
 ```
 aws ec2 describe-fleets --fleet-ids "${FLEET_ID}"
 ```
-
-
-{{% notice note %}}
-EC2 Fleet does also have a `aws ec2 describe-fleet-history` and `aws ec2 describe-fleet-instances`, similarly to Spot Fleet API. However, EC2 Fleet in instant mode is not considered a regular fleet request. In fact, while for EC2 Fleet and Spot Fleet you have limits on the number of active fleets you can create, for EC2 Fleet in instant mode you can make as many calls as needed. In this regard think of it as a replacement of RunInstance API that implements Spot best practices.
-{{% /notice %}}
 
 {{% /expand %}}
 
