@@ -2,8 +2,8 @@
 menuTitle: "Rendering with AWS Batch"
 title: "Rendering Blender Projects with AWS Batch"
 date: 2021-09-06T08:51:33Z
-weight: 80
-pre: "<b>8. </b>"
+weight: 90
+pre: "<b>9. </b>"
 ---
 
 {{% notice info %}}

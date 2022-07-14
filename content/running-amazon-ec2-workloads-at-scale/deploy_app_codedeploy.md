@@ -15,7 +15,8 @@ You will now deploy your application to the EC2 instances launched by the Auto S
 
 1. Take a moment to browse and view the CodeDeploy structure for your application, located in the **codedeploy** directory.
 
-1. You'll need to modify the CodeDeploy deployment scripts in order to use the RDS database instance you previously created. Run the following command to edit **codedeploy/scripts/configure_db.sh** with the **Endpoint** of your database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com**) . 
+2. You'll need to modify the CodeDeploy deployment scripts in order to use the RDS database instance you previously created. Run the following command to edit **codedeploy/scripts/configure_db.sh** with the **Endpoint** of your database instance (e.g. **runningamazonec2workloadsatscale.ckhifpaueqm7.us-east-1.rds.amazonaws.com**) . 
+
     ```bash
     # Grab the RDS endpoint
     rds_endpoint=$(aws rds describe-db-instances --db-instance-identifier runningamazonec2workloadsatscale --query DBInstances[].Endpoint.Address --output text)
@@ -23,9 +24,10 @@ You will now deploy your application to the EC2 instances launched by the Auto S
     sed -i.bak -e "s/%endpoint%/$rds_endpoint/g" codedeploy/scripts/configure_db.sh
     ```
 
-1. Take a look at the file on the `Cloud9` editor to confirm the script code has been updated with your Database endpoint. 
+3. Take a look at the file on the `Cloud9` editor to confirm the script code has been updated with your Database endpoint. 
 
-1. Then clone the Koel GitHub repo:
+4. Then clone the Koel GitHub repo:
+
     ```bash
     cd ~/environment/ec2-spot-workshops/workshops/running-amazon-ec2-workloads-at-scale/
     
@@ -37,22 +39,31 @@ You will now deploy your application to the EC2 instances launched by the Auto S
 You'll get an update about being in 'detached HEAD' state. This is normal.
 {{% /notice %}}
 
-1. Next, copy the CodeDeploy configs into the root level of the koel application directory:
+5. Apply fix to **composer.json**:
+
+    ```bash
+    sed -i.bak -e "s/vfsStream/vfsstream/g" composer.json
+    ```
+
+6. Next, copy the CodeDeploy configs into the root level of the koel application directory:
+
     ```bash
     cp -avr ../codedeploy/* .
     ```
-    \
-1. After reviewing and getting comfortable with the CodeDeploy configs, go ahead and create the CodeDeploy application:
+    
+7. After reviewing and getting comfortable with the CodeDeploy configs, go ahead and create the CodeDeploy application:
+
     ```bash
     aws deploy create-application --application-name koelApp
     ```
-    \
-1. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/applications), make sure your region is selected in the upper right-hand corner dropdown, and then click on your application to check out your newly created application.
+    
+8. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/applications), make sure your region is selected in the upper right-hand corner dropdown, and then click on your application to check out your newly created application.
 {{% notice note %}}
 The CodeDeploy console will not default to your current region. Please make sure to click on **Select a Region** in the upper right-hand corner and select your region in the dropdown.
 {{% /notice %}}
 
-1. Next, push the application to the CodeDeploy S3 bucket that the initial CloudFormation template created (which you loaded to the $codeDeployBucket environment variable at the beginning of the workshop):
+9. Next, push the application to the CodeDeploy S3 bucket that the initial CloudFormation template created (which you loaded to the $codeDeployBucket environment variable at the beginning of the workshop):
+
     ```bash
     aws deploy push --application-name koelApp --s3-location s3://$codeDeployBucket/koelApp.zip --no-ignore-hidden-files
     ```
@@ -61,10 +72,11 @@ You will get output similar to the following. This is normal and correct:
 *To deploy with this revision, run: aws deploy create-deployment --application-name koelApp --s3-location bucket=runningamazonec2workloadsatscale-codedeploybucket-11wv3ggxcni40,key=koelApp.zibundleType=zip,eTag=870b90e201bdca3a06d1b2c6cfcaab11-2 --deployment-group-name <deployment-group-name> --deployment-config-name <deployment-config-name> --description <description>*
 {{% /notice %}}	
 
-1. Check the content of the S3 bucket, browsing the [S3 console](https://s3.console.aws.amazon.com/s3/home) and clicking on the bucket (you can find the bucket name on the value of **codeDeployBucket** in the CloudFormation stack outputs or running $ echo $codeDeployBucket in your terminal). This is the bucket you're using for your code deployments. You should see your application deployment bundle inside the bucket.
+10. Check the content of the S3 bucket, browsing the [S3 console](https://s3.console.aws.amazon.com/s3/home) and clicking on the bucket (you can find the bucket name on the value of **codeDeployBucket** in the CloudFormation stack outputs or running $ echo $codeDeployBucket in your terminal). This is the bucket you're using for your code deployments. You should see your application deployment bundle inside the bucket.
 
-1. Run the following command to edit **deployment-group.json** with the value of **%codeDeployServiceRole%** from the CloudFormation stack outputs, and then create the deployment group:
-    ```
+11. Run the following command to edit **deployment-group.json** with the value of **%codeDeployServiceRole%** from the CloudFormation stack outputs, and then create the deployment group:
+
+    ```bash
     cd ..
     
     sed -i.bak -e "s#%codeDeployServiceRole%#$codeDeployServiceRole#g" deployment-group.json
@@ -72,46 +84,49 @@ You will get output similar to the following. This is normal and correct:
     aws deploy create-deployment-group --cli-input-json file://deployment-group.json
     ```
 
-1. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/applications), make sure your region is selected in the upper right-hand corner dropdown, click on your application, and then click on the **Deployment groups** tab to check out your newly created deployment group.
+12. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/applications), make sure your region is selected in the upper right-hand corner dropdown, click on your application, and then click on the **Deployment groups** tab to check out your newly created deployment group.
 {{% notice note %}}
 The CodeDeploy console will not default to your current region. Please make sure to click on **Select a Region** in the upper right-hand corner and select your region in the dropdown.
 {{% /notice %}}
 
-1. Finally, edit the application by editing **deployment.json** and replacing the value of **%codeDeployBucket%** from the CloudFormation stack outputs.
-    ```
+13. Finally, edit the application by editing **deployment.json** and replacing the value of **%codeDeployBucket%** from the CloudFormation stack outputs.
+
+    ```bash
     sed -i.bak -e "s/%codeDeployBucket%/$codeDeployBucket/g" deployment.json
     ```
-    \
-1. Take look at the configuration file and then create a deployment running:
-    ```
+
+14. Take look at the configuration file and then create a deployment running:
+
+    ```bash
     aws deploy create-deployment --cli-input-json file://deployment.json
     ```
  {{% notice note %}}
  Note the **deploymentId**.
  {{% /notice %}}
 
-1. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/deployments), make sure your region is selected in the upper right-hand corner dropdown, and then click on your **Deployment ID** to monitor your application deployment. At the bottom under **Deployment lifecycle events**, you will see a list of the EC2 instances belonging to your auto scaling group. To monitor the individual deployments to each of the instances, click on **View Events**. \
+15. Browse to the [AWS CodeDeploy console](https://console.aws.amazon.com/codesuite/codedeploy/deployments), make sure your region is selected in the upper right-hand corner dropdown, and then click on your **Deployment ID** to monitor your application deployment. At the bottom under **Deployment lifecycle events**, you will see a list of the EC2 instances belonging to your auto scaling group. To monitor the individual deployments to each of the instances, click on **View Events**. \
 {{% notice note %}}
 The CodeDeploy console will not default to your current region. Please make sure to click on **Select a Region** in the upper right-hand corner and select your region in the dropdown.
 {{% /notice %}}
-\
-1. As the application is successfully deployed to the instances, they will pass their target group health checks and be marked as healthy in the target group status. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName), select your target group, and click on the **Targets** tab.
 
-1. Once one or more instances are marked with a status of healthy, browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName), select your load balancer, and copy the **DNS name** (URL) of your load balancer (e.g. http://runningAmazonEC2WorkloadsAtScale-115077449.us-east-1.elb.amazonaws.com).
+16. As the application is successfully deployed to the instances, they will pass their target group health checks and be marked as healthy in the target group status. Browse to the [Target Group console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName), select your target group, and click on the **Targets** tab.
 
-1. Open your web browser and browse to the **DNS name** (URL). You will see the login page to your application. Login in with the default email address '**admin@example.com**' and default password '**admin-pass**'.
+17. Once one or more instances are marked with a status of healthy, browse to the [Load Balancer console](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName), select your load balancer, and copy the **DNS name** (URL) of your load balancer (e.g. http://runningAmazonEC2WorkloadsAtScale-115077449.us-east-1.elb.amazonaws.com).
 
-1. The EFS file system is mounted on every instance at **/var/www/media** in order to create a shared location for your audio files. Mount the EFS file system in the Cloud9 environment and copy some mp3s to the file system. The EFS file system id created by CloudFormation is loaded on the **$fileSystem** environment variable.
+18. Open your web browser and browse to the **DNS name** (URL). You will see the login page to your application. Login in with the default email address '**admin@example.com**' and default password '**admin-pass**'.
+
+19. The EFS file system is mounted on every instance at **/var/www/media** in order to create a shared location for your audio files. Mount the EFS file system in the Cloud9 environment and copy some mp3s to the file system. The EFS file system id created by CloudFormation is loaded on the **$fileSystem** environment variable.
+
     ```bash
     mkdir -p ~/environment/media
-	
+    
     sudo mount -t efs $fileSystem:/ ~/environment/media
     
     sudo chown ec2-user. ~/environment/media
     
     sudo cp -av *.mp3 ~/environment/media
-    ```	
+    ```
 
-1. Back in Koel, under **MANAGE**, click on **Settings**. Click on **Scan**. Play around and enjoy some audio on your music service.
+20. Back in Koel, under **MANAGE**, click on **Settings**. Click on **Scan**. Play around and enjoy some audio on your music service.
 
-1. [Optional] If you'd like, find a few more mp3s on the web and upload them to the directory **~/environment/media** in the Cloud9 environment. After uploading them, be sure to re-scan the media directory.
+21. [Optional] If you'd like, find a few more mp3s on the web and upload them to the directory **~/environment/media** in the Cloud9 environment. After uploading them, be sure to re-scan the media directory.

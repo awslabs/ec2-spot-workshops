@@ -9,7 +9,7 @@ You can check the CloudFormation stack by downloading the following file: [Cloud
 
 Note that the `UserData` of the created Launch Template contains the following script:
 
-```bash
+```
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
 
@@ -29,7 +29,6 @@ What we are doing here is enabling [Spot Instance Draining](https://docs.aws.ama
 
 
 ## Gathering the CloudFormation outputs
-
 You will create other AWS resources using the AWS CLI in [Cloud9](https://aws.amazon.com/cloud9/), a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. It includes a code editor, debugger, and terminal. Cloud9 comes prepackaged with essential tools for popular programming languages, including JavaScript, Python, PHP, and more.
 
 Navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack:

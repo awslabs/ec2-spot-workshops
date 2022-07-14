@@ -74,13 +74,13 @@ done
 aws ecs delete-cluster --cluster EcsSpotWorkshop 
 ```
 
-Deregister [EC2 Task] (https://console.aws.amazon.com/ecs/home?#/taskDefinitions/ec2-task/status/ACTIVE) -- If you see multiple versions, repeate below steps for all versions.
+Deregister [EC2 Task](https://console.aws.amazon.com/ecs/home?#/taskDefinitions/ec2-task/status/ACTIVE) -- If you see multiple versions, repeate below steps for all versions.
 
 ```
 aws ecs deregister-task-definition --task-definition ec2-task:1
 ```
 
-Deregister [Fargate Task] (https://console.aws.amazon.com/ecs/home?#/taskDefinitions/fargate-task/status/ACTIVE) -- If you see multiple versions, repeate below steps for all versions.
+Deregister [Fargate Task](https://console.aws.amazon.com/ecs/home?#/taskDefinitions/fargate-task/status/ACTIVE) -- If you see multiple versions, repeate below steps for all versions.
 ```
 aws ecs deregister-task-definition --task-definition fargate-task:1
 ```
@@ -91,12 +91,12 @@ Delete "ecs-spot-workshop/webapp" container from Amazon Elastic Container Regist
 aws ecr delete-repository --force --repository-name ecs-spot-workshop/webapp
 ```
 
-Finally, let's remove the cloudformation stack. Go to the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation/home?#/stacks?filteringStatus=active&filteringText=&viewNested=true&hideStacks=false) and select the Cloudformation stack **EcsSpotWorkshop** , finally click on **delete** to remove the stack and all resources associated.
+Finally, let's remove the cloudformation stack. Go to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/home?#/stacks?filteringStatus=active&filteringText=&viewNested=true&hideStacks=false) and select the Cloudformation stack **EcsSpotWorkshop** , finally click on **delete** to remove the stack and all resources associated.
 
 ![DeleteStacl](/images/ecs-spot-capacity-providers/cloudformation_delete_stack.png)
 
 {{% notice tip %}}
-Please verify in the [AWS CloudFormation console] (https://console.aws.amazon.com/cloudformation/home?#/stacks?filteringStatus=active&filteringText=&viewNested=true&hideStacks=false) cloudformation stack is deleted without any failures. If you notice any failure, just delete again directly from Cloud Formation console.
+Please verify in the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/home?#/stacks?filteringStatus=active&filteringText=&viewNested=true&hideStacks=false) cloudformation stack is deleted without any failures. If you notice any failure, just delete again directly from Cloud Formation console.
 {{% /notice %}}
 
 That's it, all the resources you created during this workshops have now been removed.

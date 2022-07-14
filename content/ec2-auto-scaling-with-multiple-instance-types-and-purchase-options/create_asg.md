@@ -5,9 +5,7 @@ weight = 100
 
 To launch, maintain and scale EC2 instances dynamically for your application, you are going to create an Amazon EC2 Auto Scaling group. To help you meet your cost optimization goals, EC2 Auto Scaling allows you to combine purchase options and instance types within your Auto Scaling group. Stateless web applications are a great fit to run on EC2 Spot Instances as they can tolerate interruptions and are often flexible to run on multiple instance types. In this section, you will create an Auto Scaling group combining a base of On-Demand instances and scaling out with EC2 Spot instances and save an average of 70% in your compute costs. 
 
-{{%expand "To learn more about EC2 Auto Scaling click here" %}}
 Amazon EC2 Auto Scaling helps you maintain application availability and allows you to dynamically scale your Amazon EC2 capacity up or down automatically according to conditions you define. You can use Amazon EC2 Auto Scaling for fleet management of EC2 instances to help maintain the health and availability of your fleet and ensure that you are running your desired number of Amazon EC2 instances. You can also use Amazon EC2 Auto Scaling for dynamic scaling of EC2 instances in order to automatically increase the number of Amazon EC2 instances during demand spikes to maintain performance and decrease capacity during lulls to reduce costs. Amazon EC2 Auto Scaling is well suited both to applications that have stable demand patterns or that experience hourly, daily, or weekly variability in usage. You can find more information on the [Auto Scaling documentation](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html). 
-{{% /expand %}}
 
 1. Open **asg.json** on the Cloud9 editor and review the configuration. Pay special attention at the **Overrides** and the **InstancesDistribution**. Take a look at our [docs](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies) to review how InstancesDistribution and allocation strategies work. You will also notice that the **CapacityRebalance** parameter is set to true, which will proactively attempt to replace Spot Instances at elevated risk of interruption. To learn more about the Capacity Relabancing feature, take a look at the [docs](https://docs.aws.amazon.com/autoscaling/ec2/userguide/capacity-rebalance.html).
 {{%expand "Help me understand the AutoScaling configuration" %}}
@@ -21,12 +19,12 @@ Then, the *InstancesDistribution* configuration block determines how EC2 Auto Sc
 * **SpotAllocationStrategy** is capacity-optimized, which instructs AutoScaling to pick the optimal instance type on each Availability Zone based on launch time availability of spare capacity for your instance type selection.
 {{% /expand %}}
 
-1. You will notice there are placeholder values for **%TargetGroupArn%**, **%publicSubnet1%** and **%publicSubnet2%**. To update the configuration file with the values of the Target Group you created previously and the outputs from the CloudFormation template, execute the following command:
+2. You will notice there are placeholder values for **`%TargetGroupArn%`**, **`%publicSubnet1%`** and **`%publicSubnet2%`**. To update the configuration file with the values of the Target Group you created previously and the outputs from the CloudFormation template, execute the following command:
 ```
 sed -i.bak -e "s#%TargetGroupARN%#$TargetGroupArn#g" -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" asg.json
 ```
 
-1. Save the file and create the auto scaling group:
+3. Save the file and create the auto scaling group:
 ```
 aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
 ```
@@ -35,7 +33,7 @@ This command will not return any output if it is successful.
 {{% /notice %}}
 
 	
-1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created auto scaling group. Take a look at the instances it has deployed.
+4. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created auto scaling group. Take a look at the instances it has deployed.
 
 # Optional exercise
 

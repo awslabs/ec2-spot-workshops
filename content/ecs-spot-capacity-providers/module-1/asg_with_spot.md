@@ -55,9 +55,9 @@ Also note that there are no scaling policies attached to this Auto scaling group
 
 To create the capacity provider, follow these steps:
 
-* Open the [ECS console] (https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
+* Open the [ECS console](https://console.aws.amazon.com/ecs/home) in the region where you are looking to launch your cluster.
 * Click **Clusters**
-* Click [EcsSpotWorkshop] (https://console.aws.amazon.com/ecs/home?#/clusters/EcsSpotWorkshop)
+* Click [EcsSpotWorkshop](https://console.aws.amazon.com/ecs/home?#/clusters/EcsSpotWorkshop)
 * Click the tab **Capacity Providers**
 * Click **Create**
 * For Capacity provider name, enter **CP-SPOT**

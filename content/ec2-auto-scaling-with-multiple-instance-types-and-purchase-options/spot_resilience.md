@@ -50,9 +50,10 @@ By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/API
 
   1. You can specify on the API call whether to keep the current desired capacity on the Auto Scaling group, or decrement it by the number of instances being detached. By keeping the same desired capacity, Auto Scaling will immediately launch a replacement instance.
 
-  1. If the Auto Scaling group has a Load Balancer or a Target Group attached (as we have in this workshop), the instance is deregistered from it. Also, if connection draining is enabled for your Load Balancer (or Target Group), the Auto Scaling group waits for in-flight requests to complete (up to the configured timeout, which we have set up to 90 sec).
+  2. If the Auto Scaling group has a Load Balancer or a Target Group attached (as we have in this workshop), the instance is deregistered from it. Also, if connection draining is enabled for your Load Balancer (or Target Group), the Auto Scaling group waits for in-flight requests to complete (up to the configured timeout, which we have set up to 90 sec).
 
-    You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
+
+You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
 
 All this isn't needed if you use Capacity Rebalancing, as the service handles this for you when receiving an EC2 Rebalance Recommendation. However if you need to build a custom workflow to respond to Spot interruptions, you can use this example as a starting point. The exercise will also guide you to mock a Spot Instance interruption, so you can experience how the different components behave (which is similar to the built-in Capacity Rebalancing functionality behavior). 
 
@@ -77,9 +78,9 @@ If you check the Auto Scaling group instances, you will see they've been already
 We can't simulate an actual EC2 Spot Interruption, but we can invoke the Lambda Function with a simulated EC2 Spot Instance Interruption Warning event for one of or Auto Scaling group instances, and see the result.
 
   1. Go to the [AWS Lambda console](https://console.aws.amazon.com/lambda/home#/functions) and open the SpotInterruptionHandler function. In the top right corner, click the dropdown menu **Select a test event** -> **Configure test events**
-  1. With **Create a new test event** selected, provide an Event name (i.e TestSpotInterruption). In the event text box, paste the following:
+  2. With **Create a new test event** selected, provide an Event name (i.e TestSpotInterruption). In the event text box, paste the following:
   
-    ```json
+```json
     {
       "version": "0",
       "id": "92453ca5-5b23-219e-8003-ab7283ca016b",
@@ -96,14 +97,14 @@ We can't simulate an actual EC2 Spot Interruption, but we can invoke the Lambda 
       "instance-action": "terminate"
       }
     }
-    ```
+```   
     
-  1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the `Instance management` tab in the bottom pane of the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home) ). You don't need to change any of the other parameters in the event json.
-  1. Click **Create**
-  1. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.
-  1. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Interruption response actions completed for instance i-0156bedcef61187e8 belonging to runningAmazonEC2WorkloadsAtScale"
-  1. Go back to the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home), click on the myEC2Workshop Auto Scaling group and under the **Activity** tab in the bottom pane, you should see a **Detaching EC2 instance** activity, followed shortly after by a **Launching a new EC2 instance** activity. Notice the status `WaitingForELBConnectionDraining` on the detached instance. You will find the deregistration timeout configured on the `modify-target-group.json` file.
-  1. Go to the [EC2 ELB Target Groups console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName) and click on the **myEC2Workshop** Target Group, go to the Targets tab in the bottom pane, you should see the instance in `draining` status.
+  3. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the `Instance management` tab in the bottom pane of the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home) ). You don't need to change any of the other parameters in the event json.
+  4. Click **Create**
+  5. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.
+  6. The execution result should be **succeeded** and you can expand the details to see the successful log message: "Interruption response actions completed for instance i-0156bedcef61187e8 belonging to runningAmazonEC2WorkloadsAtScale"
+  7. Go back to the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home), click on the myEC2Workshop Auto Scaling group and under the **Activity** tab in the bottom pane, you should see a **Detaching EC2 instance** activity, followed shortly after by a **Launching a new EC2 instance** activity. Notice the status `WaitingForELBConnectionDraining` on the detached instance. You will find the deregistration timeout configured on the `modify-target-group.json` file.
+  8. Go to the [EC2 ELB Target Groups console](https://console.aws.amazon.com/ec2/v2/home#TargetGroups:sort=targetGroupName) and click on the **myEC2Workshop** Target Group, go to the Targets tab in the bottom pane, you should see the instance in `draining` status.
 
 Great result! by leveraging the EC2 Spot Instance Interruption Warning, the Lambda Function detached the instance from the Auto Scaling group and the ELB Target Group, thus draining existing connections, and launching a replacement instance before the current instance is terminated.
 

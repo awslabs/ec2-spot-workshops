@@ -4,11 +4,9 @@ chapter: false
 disableToc: true
 hidden: true
 ---
-<!--
-This markdown file is used as part of another file using 'insert-md-from-file' shortcode
--->
 
 Create an eksctl deployment file (eksworkshop.yaml) to create an EKS cluster:
+
 
 ```
 cat << EOF > eksworkshop.yaml
@@ -56,7 +54,3 @@ Next, use the file you created as the input for the eksctl cluster creation.
 ```
 eksctl create cluster -f eksworkshop.yaml
 ```
-
-{{% notice info %}}
-Launching EKS and all the dependencies will take approximately 15 minutes
-{{% /notice %}}

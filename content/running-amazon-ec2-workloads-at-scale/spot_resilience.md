@@ -13,7 +13,7 @@ By calling the [DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/API
 
   1. If the Auto Scaling group has a Load Balancer or a Target Group attached (as we have in this workshop), the instance is deregistered from it. Also, if a [deregistration delay](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay) is configured for your Load Balancer (or Target Group), the Auto Scaling group waits the configured time to allow in-flight requests to complete (up to the configured timeout, which we have set up to 90 sec).
 
-    You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
+  You can learn more about the Detaching EC2 Instances from an Auto Scaling group [here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html).
 
 We provide you with a sample EC2 Spot Interruption handler [here](https://github.com/awslabs/ec2-spot-labs/tree/master/ec2-spot-interruption-handler) that you can easily deploy via the Serverless Application Repository.
 
@@ -51,13 +51,13 @@ We can't simulate an actual EC2 Spot Interruption, but we can invoke the Lambda 
       "resources": [
         "arn:aws:ec2:eu-west-1b:instance/<instance-id>"
       ],
-    "detail": {
-      "instance-id": "<instance-id>",
-      "instance-action": "terminate"
+      "detail": {
+        "instance-id": "<instance-id>",
+        "instance-action": "terminate"
       }
     }
     ```
-    
+
   1. Replace both occurrences of **"\<instance-id>"** with the instance-id of one of the Spot Instances that are currently running in your EC2 Auto Scaling group (you can get an instance-id from the `Instance management` tab in the bottom pane of the [EC2 Auto Scaling groups console](https://console.aws.amazon.com/ec2autoscaling/home) ). You don't need to change any of the other parameters in the event json.
   1. Click **Create**
   1. With your new test name (i.e TestSpotInterruption) selected in the dropdown menu, click the **Test** button.

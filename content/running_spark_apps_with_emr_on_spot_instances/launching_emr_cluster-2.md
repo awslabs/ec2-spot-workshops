@@ -9,7 +9,7 @@ Under "**Instance group configuration**", select Instance Fleets. Under Network,
 
 ### Setting up our EMR Master node, and Core / Task Instance Fleets
 {{% notice note %}}
-The workshop focuses on running Spot Instances across all the cluster node types for cost savings. If you want to dive deeper into when to use On-Demand and Spot in your EMR clusters, [click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-instances-guidelines.html#emr-plan-spot-instances)
+The workshop focuses on running Spot Instances across all the cluster node types for cost savings. If you want to dive deeper into when to use On-Demand and Spot in your EMR clusters, **[click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-instances-guidelines.html#emr-plan-spot-instances)**
 {{% /notice %}}
 
 #### **Master node**:

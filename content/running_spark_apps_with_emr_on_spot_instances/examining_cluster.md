@@ -15,7 +15,7 @@ In this step, when you look at the utilization of the EMR cluster, do not expect
 {{% /notice %}}
 
 ### Using Ganglia, YARN ResourceManager and Spark History Server
-To connect to the web interfaces running on our EMR cluster you need to use SSH tunneling. [Click here] (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
+To connect to the web interfaces running on our EMR cluster you need to use SSH tunneling. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
 
 First, we need to grant SSH access from the Cloud9 environment to the EMR cluster master node:  
 1. In your EMR cluster page, in the AWS Management Console, go to the **Summary** tab  
@@ -89,9 +89,6 @@ Some notable metrics:
 * **AppsRunning** - you should see 1 since we only submitted one step to the cluster.  
 * **ContainerAllocated** - this represents the number of containers that are running on your cluster, on the Core and Task Instance Fleets. These would the be Spark executors and the Spark Driver.  
 * **MemoryAllocatedMB** & **MemoryAvailableMB** - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.  
-
-#### Terminate the cluster
-When you are done examining the cluster and using the different UIs, terminate the EMR cluster from the EMR management console. This is not the end of the workshop though - we still have some interesting steps to go.
 
 #### Number of executors in the cluster
 With 32 Spot Units in the Task Instance Fleet, EMR launched either 8 * xlarge (running one executor) or 4 * 2xlarge instances (running 2 executors) or 2 * 4xlarge instances (running 4 executors), so the Task Instance Fleet provides 8 executors / containers to the cluster.  
