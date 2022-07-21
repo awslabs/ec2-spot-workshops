@@ -811,32 +811,28 @@ Resources:
           #!/bin/bash
           # Install all pending updates to the system
           yum -y update
-          # Configure YUM to be able to access official Jenkins RPM packages
-          wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-          # Import the Jenkins repository public key
-          rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-          # Configure YUM to be able to access contributed Maven RPM packages
-          wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-          # Update the release version in the Maven repository configuration for this mainline release of Amazon Linux
-          sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-          # Install the Java 8 SDK, Git, Jenkins and Maven
-          yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel git apache-maven
-          yum -y install jenkins-2.138.4-1.1 --nogpgcheck
-          # Set the default version of java to run out of the Java 8 SDK path (required by Jenkins)
-          update-alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
-          update-alternatives --set javac /usr/lib/jvm/java-1.8.0-openjdk.x86_64/bin/javac
-          # Restore the pre-staged copy of JENKINS_HOME used by this workshop
-          mv /var/lib/jenkins /var/lib/jenkins_orig
-          mkdir /var/lib/jenkins
-          chown jenkins:jenkins /var/lib/jenkins
-          wget -q -O /var/lib/jenkins/jenkins_home.tar.gz https://s3-us-west-2.amazonaws.com/amazon-ec2-spot-cicd-workshop/jenkins_home.tar.gz
-          tar -zxf /var/lib/jenkins/jenkins_home.tar.gz -C /var/lib/jenkins/
-          # Reset the password for the spotcicdworkshop user in Jenkins to the password defined as the JenkinsAdminPassword          
-          echo -n '${JenkinsAdminPassword}{spot}' | sha256sum | awk '{print $1;}' | xargs -I {} sed -i 's/jbcrypt:$2a$10$21qSY20aYvtAFeWA0yL8AezRox5bExGclhtaFatOokyYWe7CxbRfm/spot:{}/' /var/lib/jenkins/users/spotcicdworkshop/config.xml
+          # Install Docker
+          yum install -y docker          
+          usermod -a -G docker ec2-user
+          newgrp docker
+          systemctl enable docker.service
+          systemctl start docker.service
+          # Install Docker Compose
+          yum install python3-pip -y
+          pip3 install docker-compose
+          # Download files from GitHub
+          mkdir -p /usr/share/jenkins
+          cd /usr/share/jenkins
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/casc.yaml
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/docker-compose.yml
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/Dockerfile
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/plugins.txt
+          # Reset the password defined as the JenkinsAdminPassword          
+          sed -i 's/JenkinsAdminPassword/${JenkinsAdminPassword}/' docker-compose.yml
           # Configure the Jenkins Location
-          curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/203.0.113.0/{}/' /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml 
-          # Start the Jenkins service
-          service jenkins start
+          curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
+          # Start Jenkins
+          docker-compose up --build -d
 
   JenkinsMasterALB: # This is the Application Load Balancer that resides in front of your Jenkins Master instance and is responsible for port-mapping requests from TCP:80 to TCP:8080
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer

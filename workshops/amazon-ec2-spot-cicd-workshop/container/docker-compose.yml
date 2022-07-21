@@ -1,0 +1,16 @@
+version: '3.2'
+
+services:
+  jenkins:
+    image: flexco-cicd/jenkins
+    privileged: true
+    user: root
+    build: .
+    environment:
+      JENKINS_ADMIN_ID: admin
+      JENKINS_ADMIN_PASSWORD: JenkinsAdminPassword
+    volumes:
+      - ${HOME}/jenkins_home:/var/jenkins_home
+    ports:
+      - 8080:8080
+    restart: always
