@@ -21,6 +21,15 @@ Parameters:
     MinLength: 8
     NoEcho: true
 
+  AmazonLinux2LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+  ECSAMI:
+    Description: AMI ID
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id
+
 Resources:
   IAMRoleAMILookupLambdaExecution: # IAM Role that allows the AMILookupLambdaFunction to look up the latest Amazon Linux AMI and write logs to CloudWatch Logs
     Type: AWS::IAM::Role
@@ -57,7 +66,6 @@ Resources:
     DependsOn:
       - DynamoDBTestEnvironmentTable
       - IAMRoleTestEnvironmentCloudFormation
-    # DependedOn: TestEnvironmentLambdaFuntion
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -98,7 +106,6 @@ Resources:
   IAMRoleTestEnvironmentCloudFormation:
     Type: AWS::IAM::Role
     DependsOn: AMILookupLambdaFunction
-    #DependedOn: None
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -164,7 +171,6 @@ Resources:
     DependsOn:
       - DeploymentArtifactsS3Bucket
       - TestEnvironmentLambdaFunction
-    # DependedOn: InstanceProfileJenkins
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -188,11 +194,32 @@ Resources:
               - Effect: Allow
                 Action: lambda:invokeFunction
                 Resource: !GetAtt TestEnvironmentLambdaFunction.Arn
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeSpotFleetInstances
+                  - ec2:ModifySpotFleetRequest
+                  - ec2:CreateTags
+                  - ec2:DescribeRegions
+                  - ec2:DescribeInstances
+                  - ec2:TerminateInstances
+                  - ec2:DescribeInstanceStatus
+                  - ec2:DescribeSpotFleetRequests
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - autoscaling:DescribeAutoScalingGroups
+                  - autoscaling:UpdateAutoScalingGroup
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - iam:ListInstanceProfiles
+                  - iam:ListRoles
+                  - iam:PassRole
+                Resource: "*"
 
   InstanceProfileJenkins:
     Type: AWS::IAM::InstanceProfile
     DependsOn: IAMRoleJenkins
-    # DependedOn: JenkinsOnDemandEC2Instance
     Properties:
       Path: "/"
       Roles:
@@ -200,8 +227,6 @@ Resources:
 
   IAMUserJenkins:
     Type: AWS::IAM::User
-    # DependsOn: None
-    # DependedOn: None
     Properties:
       Policies:
         - PolicyName: SpotAgentPolicy
@@ -259,8 +284,6 @@ Resources:
 
   IAMRoleECS:
     Type: AWS::IAM::Role
-    # DependsOn: None
-    # DependedOn: InstanceProfileECS
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
@@ -788,7 +811,6 @@ Resources:
       - InstanceProfileJenkins
       - SecurityGroupJenkins
       - SubnetPublicA
-    # DependedOn: JenkinsMasterALBTargetGroupEC2
     Properties:
       BlockDeviceMappings:
         - DeviceName: "/dev/xvda"
@@ -797,7 +819,7 @@ Resources:
             VolumeSize: 8
             VolumeType: gp2
       IamInstanceProfile: !Ref InstanceProfileJenkins
-      ImageId: !GetAtt EC2AMILookupCustomResource.Id
+      ImageId: !Ref AmazonLinux2LatestAmiId
       InstanceType: t3.medium
       KeyName: !Ref KeyPair
       SecurityGroupIds:
@@ -812,14 +834,13 @@ Resources:
           # Install all pending updates to the system
           yum -y update
           # Install Docker
-          yum install -y docker          
+          amazon-linux-extras install docker
+          chkconfig docker on
+          service docker start
           usermod -a -G docker ec2-user
-          newgrp docker
-          systemctl enable docker.service
-          systemctl start docker.service
           # Install Docker Compose
-          yum install python3-pip -y
-          pip3 install docker-compose
+          curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
           # Download files from GitHub
           mkdir -p /usr/share/jenkins
           cd /usr/share/jenkins
@@ -965,7 +986,7 @@ Resources:
         IamInstanceProfile:
           #Arn: !GetAtt InstanceProfileJenkins.Arn
           Name: !Ref InstanceProfileJenkins
-        ImageId: !GetAtt EC2AMILookupCustomResource.Id
+        ImageId: !Ref AmazonLinux2LatestAmiId
         InstanceType: t3.medium
         KeyName: !Ref KeyPair
         SecurityGroupIds:
@@ -1018,7 +1039,7 @@ Resources:
         IamInstanceProfile:
           #Arn: !GetAtt InstanceProfileJenkins.Arn
           Name: !Ref InstanceProfileJenkins
-        ImageId: !GetAtt EC2AMILookupCustomResource.Id
+        ImageId: !Ref AmazonLinux2LatestAmiId
         InstanceType: t3.small
         KeyName: !Ref KeyPair
         SecurityGroupIds:
@@ -1128,7 +1149,7 @@ Resources:
               VolumeType: gp2
         IamInstanceProfile:
           Name: !Ref InstanceProfileECS
-        ImageId: !GetAtt ECSAMILookupCustomResource.Id
+        ImageId: !Ref ECSAMI
         InstanceType: t3.medium
         KeyName: !Ref KeyPair
         SecurityGroupIds:
