@@ -7,10 +7,10 @@ services:
     user: root
     build: .
     environment:
-      JENKINS_ADMIN_ID: admin
+      JENKINS_ADMIN_ID: spotcicdworkshop
       JENKINS_ADMIN_PASSWORD: JenkinsAdminPassword
     volumes:
-      - ${HOME}/jenkins_home:/var/jenkins_home
+      - /jenkins_home:/var/jenkins_home
     ports:
       - 8080:8080
     restart: always

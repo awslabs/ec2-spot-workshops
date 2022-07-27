@@ -408,6 +408,8 @@ Resources:
       Tags:
         - Key: Name
           Value: Amazon EC2 Spot CICD Workshop Private Subnet A
+        - Key: Type
+          Value: Private
 
   SubnetPrivateB: # ... and the second of three subnets...
     Type: AWS::EC2::Subnet
@@ -421,6 +423,8 @@ Resources:
       Tags:
         - Key: Name
           Value: Amazon EC2 Spot CICD Workshop Private Subnet B
+        - Key: Type
+          Value: Private
 
   SubnetPrivateC: # ... and the third of three subnets defined within the VPC
     Type: AWS::EC2::Subnet
@@ -434,6 +438,8 @@ Resources:
       Tags:
         - Key: Name
           Value: Amazon EC2 Spot CICD Workshop Private Subnet C
+        - Key: Type
+          Value: Private
 
   InternetGateway: # Create an Internet Gateway in order to allow EC2 instances to be accessible via the Internet
     Type: AWS::EC2::InternetGateway
@@ -816,7 +822,7 @@ Resources:
         - DeviceName: "/dev/xvda"
           Ebs:
             DeleteOnTermination: "true"
-            VolumeSize: 8
+            VolumeSize: 50
             VolumeType: gp2
       IamInstanceProfile: !Ref InstanceProfileJenkins
       ImageId: !Ref AmazonLinux2LatestAmiId
@@ -848,6 +854,9 @@ Resources:
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/docker-compose.yml
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/Dockerfile
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/plugins.txt
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/jobs/seed.tar.gz
+          tar -xvf seed.tar.gz
+          cp -r jobs/* /jenkins_home/jobs/
           # Reset the password defined as the JenkinsAdminPassword          
           sed -i 's/JenkinsAdminPassword/${JenkinsAdminPassword}/' docker-compose.yml
           # Configure the Jenkins Location
