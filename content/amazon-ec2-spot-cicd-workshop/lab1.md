@@ -65,7 +65,7 @@ EoF
 Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 
 ```bash
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotJenkinsASG --min-size 0 --max-size 2 --desired-capacity 0 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --mixed-instances-policy file://asg-policy.json
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotJenkinsASG --min-size 0 --max-size 2 --desired-capacity 1 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --mixed-instances-policy file://asg-policy.json
 ```
 
 ## Sign-in to Jenkins
@@ -101,8 +101,9 @@ When configuring the plugin, think about how you could force build processes to 
 10. Mark the **Private IP** checkbox to ensure that your Jenkins Master will always communicate with the Agents via their internal VPC IP addresses (in real-world scenarios, your build agents would likely not be publicly addressable);
 11. Change the Label field to be **spot-agents** - you'll shortly configure a build job to run on slave instances featuring this label;
 12. Set the Max Idle Minutes Before Scaledown to **5**. There's no need to keep a build agent running for too much longer than it's required;
-13. Change the Maximum Cluster Size from **1** to **2** (so that you can test fleet scale-out);
-14. Finally, click on the **Save** button.
+13. Change the Minimum Cluster Size from **1** to **0** (so that it can scale-in to zero instances);
+14. Change the Maximum Cluster Size from **1** to **2** (so that you can test fleet scale-out);
+15. Finally, click on the **Save** button.
 
 Within sixty-seconds, the Jenkins Slave Agent should have been installed on to the Spot instance that was launched by your EC2 fleet; you should see an EC2 instance ID appear underneath the Build Executor Status section on the left side of the Jenkins user interface. Underneath that, you should see that there is a single Build Executor on this host, which is in an idle state.
 {{% /expand%}}
