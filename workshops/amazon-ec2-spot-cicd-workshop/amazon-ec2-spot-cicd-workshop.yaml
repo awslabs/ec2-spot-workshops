@@ -848,6 +848,7 @@ Resources:
           curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
           chmod +x /usr/local/bin/docker-compose
           # Download files from GitHub
+          mkdir -p /jenkins_home/jobs/
           mkdir -p /usr/share/jenkins
           cd /usr/share/jenkins
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/casc.yaml
