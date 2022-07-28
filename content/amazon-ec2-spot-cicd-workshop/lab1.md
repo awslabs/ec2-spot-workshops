@@ -69,13 +69,13 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotJenki
 ```
 
 ## Sign-in to Jenkins
-The CloudFormation template deployed during the Workshop Preparation stage deployed a Jenkins server on to an on-demand instance within your VPC and configured an Application Load Balancer (ALB) to proxy requests from the public Internet to the server. You can obtain the DNS name for the ALB from the Output tab of your CloudFormation template. Point your web browser to this DNS name and sign in using **spotcicdworkshop** as the Username and the password that you supplied to the CloudFormation template as the password.
+The CloudFormation template deployed during the Workshop Preparation stage deployed a Jenkins server on to an on-demand instance within your VPC and configured an Application Load Balancer (ALB) to proxy requests from the public Internet to the server. You can obtain the DNS name for the ALB from the Output tab of your CloudFormation template. Point your web browser to this DNS name and sign in using **admin** as the Username and the password that you supplied to the CloudFormation template as the password.
 {{%expand "Click to reveal detailed instructions" %}}
 1. Go to the **CloudFormation** console (or [click here](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1));
 2. Click on the checkbox associated with the **SpotCICDWorkshop** stack, then click on the **Outputs** tab toward the bottom of the screen;
 3. Make a note of the DNS name for the Application Load Balancer, which is associated with the **JenkinsDNSName** key;
 4. Open up a new tab in your browser and enter the DNS name in the address bar. You should be greeted with a Jenkins Sign In screen:
-    1. Enter in **spotcicdworkshop** as the Username;
+    1. Enter in **admin** as the Username;
     2. Enter in the password that you supplied to the CloudFormation template as the Password.
 {{% /expand%}}
 

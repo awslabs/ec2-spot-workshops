@@ -7,7 +7,7 @@ services:
     user: root
     build: .
     environment:
-      JENKINS_ADMIN_ID: spotcicdworkshop
+      JENKINS_ADMIN_ID: admin
       JENKINS_ADMIN_PASSWORD: JenkinsAdminPassword
     volumes:
       - /jenkins_home:/var/jenkins_home
