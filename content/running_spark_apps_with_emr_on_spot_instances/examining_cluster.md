@@ -78,29 +78,30 @@ Now, let's look at **Spark History Server** application user interface:
 
 ### Using CloudWatch Metrics
 EMR emits several useful metrics to CloudWatch metrics. You can use the AWS Management Console to look at the metrics in two ways:  
-1. In the EMR console, under the Monitoring tab in your Cluster's page  
+1. In the EMR console, under the **Monitoring** tab in your cluster's page  
 2. By browsing to the CloudWatch service, and under Metrics, searching for the name of your cluster (copy it from the EMR Management Console) and clicking **EMR > Job Flow Metrics**
 
 {{% notice note %}}
 The metrics will take a few minutes to populate.
 {{% /notice %}}
 
-Some notable metrics:  
-* **AppsRunning** - you should see 1 since we only submitted one step to the cluster.  
-* **ContainerAllocated** - this represents the number of containers that are running on your cluster, on the Core and Task Instance Fleets. These would the be Spark executors and the Spark Driver.  
-* **MemoryAllocatedMB** & **MemoryAvailableMB** - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.  
+Some notable metrics:
 
-#### Number of executors in the cluster
-With 32 Spot Units in the Task Instance Fleet, EMR launched either 8 * xlarge (running one executor) or 4 * 2xlarge instances (running 2 executors) or 2 * 4xlarge instances (running 4 executors), so the Task Instance Fleet provides 8 executors / containers to the cluster.  
-The Core Instance Fleet launched one xlarge instance, able to run one executor.
-{{%expand "Question: Did you see more than 9 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
-Your Spark application was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
-{{% /expand%}}
+* **AppsRunning** - you should see 1 since we only submitted one step to the cluster.  
+* **ContainerAllocated** - this represents the number of containers that are running on core and task fleets. These would the be Spark executors and the Spark Driver.   
+* **Memory allocated MB** & **Memory available MB** - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.  
 
 #### Managed Scaling in Action
+
+You enabled managed cluster scaling and EMR scaled out to 64 Spot units in the task fleet. EMR could have launched either 16 * xlarge (running one executor per xlarge) or 8 * 2xlarge instances (running 2 executors per 2xlarge) or 4 * 4xlarge instances (running 4 executors pe r4xlarge), so the task fleet provides 16 executors / containers to the cluster. The core fleet launched one xlarge instance and it will run one executor / container, so in total 17 executors / containers will be running in the cluster.
+
 
 1. In your EMR cluster page, in the AWS Management Console, go to the **Steps** tab.
 1. Go to the **Events** tab to see the scaling events.
 ![scalingEvent](/images/running-emr-spark-apps-on-spot/emrsparkscalingevent.png)
 
-EMR Managed Scaling constantly monitors [key metrics](https://docs.aws.amazon.com/emr/latest/ManagementGuide/managed-scaling-metrics.html) and automatically increases or decreases the number of instances or units in your cluster based on workload.
+EMR Managed cluster scaling constantly monitors [key metrics](https://docs.aws.amazon.com/emr/latest/ManagementGuide/managed-scaling-metrics.html) and automatically increases or decreases the number of instances or units in your cluster based on workload.
+
+{{%expand "Question: Did you see more than 17 containers in CloudWatch Metrics and in YARN ResourceManager? if so, do you know why? Click to expand the answer" %}}
+Your Spark application was configured to run in Cluster mode, meaning that the **Spark driver is running on the Core node**. Since it is counted as a container, this adds a container to our count, but it is not an executor.
+{{% /expand%}}
