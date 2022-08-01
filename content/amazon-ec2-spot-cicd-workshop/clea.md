@@ -1,6 +1,6 @@
 +++
 title = "Workshop Cleanup"
-weight = 60
+weight = 1000
 +++
 Congratulations, you have completed this workshop! Your next challenge is to remove all of the resources that were provisioned in your account so as to ensure that no additional cost can be incurred. Please note that the steps below should be implemented in order - some later steps have dependencies on earlier ones!
 

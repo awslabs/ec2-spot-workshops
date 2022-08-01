@@ -1,6 +1,6 @@
 +++
 title = "Lab 2: Deploy testing environments using Spot & Launch Templates"
-weight = 30
+weight = 120
 +++
 Now that you are carrying out your software builds on Spot instances, the next step is to build out a CI/CD pipeline to have your software deployed to a test environment also running on Spot instances. Pipelines within Jenkins are defined using another plugin, and you'll define pipeline steps to both deploy and terminate your testing environment. The pipeline steps that you define in this lab will call a Lambda function, which in turn deploys a CloudFormation template to brings up your testing environment, and deletes the template to tear it down.
 

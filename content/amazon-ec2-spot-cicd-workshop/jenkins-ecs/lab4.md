@@ -1,6 +1,6 @@
 +++
-title = "Lab 4: Using containers backed by Spot instance in Auto Scaling Groups"
-weight = 50
+title = "Jenkins on ECS"
+weight = 210
 +++
 You’ve now got a scalable solution using nothing but Spot instances for your CICD systems, your build agents and your test environments – however, you still have some inefficiencies with this setup:
 
