@@ -14,7 +14,7 @@ As with the previous steps, the CloudFormation stack deployed during your Worksh
 ## COPY THE CONTENTS OF JENKINS_HOME TO YOUR EFS FILE SYSTEM
 In order to copy the contents of the `JENKINS_HOME` directory to the EFS file system (for which the ID of which you determined in the previous step), you'll need to first mount the file system on the EC2 instance currently running your Jenkins server.
 
-Once the file system has been mounted, stop the Jenkins service and set the file system permission of the root of your filesystem so that the jenkins user and group are owners. Finally, copy the contents of **/var/lib/jenkins** (this is the `JENKINS_HOME` directory) across to the root of your EFS file system.
+Once the file system has been mounted, stop the Jenkins service and set the file system permission of the root of your filesystem so that the jenkins user and group are owners. Finally, copy the contents of **/jenkins_home** (this is the `JENKINS_HOME` directory) across to the root of your EFS file system.
 
 1. Go to the **EC2** console and select the **Instances** option from the left pane (or [click here](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#Instances:sort=instanceId));
 2. Select the instance with the Name tag of **Jenkins Master (On-demand)** and make a note of it's current IPv4 Pubic IP;
@@ -26,17 +26,17 @@ sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retr
 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\
 .%FILE-SYSTEM-ID%.efs.eu-west-1.amazonaws.com:/ /mnt
 ```
-5. Stop the Jenkins service by entering the following command:
+5. Stop the Jenkins service by entering the following commands:
 
 ```bash
-sudo service jenkins stop
+cd /usr/share/jenkins
+sudo docker-compose stop
 ```
 
-6. The content of `JENKINS_HOME` is stored under /var/lib/jenkins – copy this content (whilst preserving permissions) to your EFS file system mount point (/mnt) using the following commands (note that this will take a couple of minutes - while it's progressing, commence the next section of this lab):
+6. The content of `JENKINS_HOME` is stored under /jenkins_home – copy this content (whilst preserving permissions) to your EFS file system mount point (/mnt) using the following commands (note that this will take a couple of minutes - while it's progressing, commence the next section of this lab):
 
 ```bash
-sudo chown jenkins:jenkins /mnt
-sudo cp -rpv /var/lib/jenkins/* /mnt
+sudo cp -rpv /jenkins_home/* /mnt
 ```
 
 ## PROVISION AN EC2 SPOT FLEET FOR YOUR NEW JENKINS HOST
