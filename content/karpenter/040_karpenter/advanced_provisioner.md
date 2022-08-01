@@ -181,7 +181,7 @@ spec:
   ...
 ```
 
-Launch Teplates specifies instance configuration information. It includes the ID of the Amazon Machine Image (AMI), the instance type, a key pair, storage, user data and other parameters used to launch EC2 instances. Launch Template user data can be used to customize the node bootstrapping to the cluster. In the default configuration, Karpenter uses an EKS optimized version of AL2 and passes the hostname of the Kubernetes API server, and a certificate for the node to bootstrap the process with the default configuration. The EKS Optimized AMI includes a `bootstrap.sh` script which connects the instance to the cluster, based on the passed data. Alternatively, you may reference AWS's [`bootstrap.sh`
+Launch Templates specifies instance configuration information. It includes the ID of the Amazon Machine Image (AMI), the instance type, a key pair, storage, user data and other parameters used to launch EC2 instances. Launch Template user data can be used to customize the node bootstrapping to the cluster. In the default configuration, Karpenter uses an EKS optimized version of AL2 and passes the hostname of the Kubernetes API server, and a certificate for the node to bootstrap the process with the default configuration. The EKS Optimized AMI includes a `bootstrap.sh` script which connects the instance to the cluster, based on the passed data. Alternatively, you may reference AWS's [`bootstrap.sh`
 file](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)
 when building a custom base image. 
 
