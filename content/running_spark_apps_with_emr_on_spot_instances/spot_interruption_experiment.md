@@ -87,7 +87,7 @@ Outputs:
 Here are some important notes about the template:
 
 * You can configure how many instances you want to interrupt with the `InstancesToInterrupt` parameter. In the template it's defined that it's going to interrupt **three** instances.
-* You can also configure how much time you want the expriment to run with the `DurationBeforeInterruption` parameter. By default, it's going to take two minutes. This means that as soon as you launch the experiment, the instance is going to receive the two-minute notification Spot interruption warning.
+* You can also configure how much time you want the experiment to run with the `DurationBeforeInterruption` parameter. By default, it's going to take two minutes. This means that as soon as you launch the experiment, the instance is going to receive the two-minute notification Spot interruption warning.
 * The most important section is the `Targets` from the experiment template. The template has two placeholders `ResourceTagKey` and `ResourceTagValue` which are basically the key/value for the tags to use when choosing the instances to interrupt. We're going to run a `sed` command to replace them with the proper values for this workshop.
 * Notice that instances are **chosen randomly**, and only those who are in the `running` state.
 
