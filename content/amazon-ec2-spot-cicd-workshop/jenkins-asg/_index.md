@@ -9,6 +9,7 @@ By default, all job builds will be executed on the same instance that Jenkins is
 To address these behaviours, Jenkins provides the capability to execute builds on external hosts (called build agents). Further, AWS provides a Jenkins plugin to allow Jenkins to scale out a fleet of EC2 instances in order to execute build jobs on. This lab will focus on implementing EC2 Spot build agents, showcasing what a batch processing workload typically looks like when using Amazon EC2 Spot instances.
 
 ## Setting Up environment variables
+Let's get started by setting up the following environment variables you'll use in the workshop, the the following commands:
 
 ```bash
 export VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values='Amazon EC2 Spot CICD Workshop VPC' | jq -r '.Vpcs[0].VpcId');
@@ -18,3 +19,7 @@ export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId');
 export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[2].SubnetId');
 export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=JenkinsBuildAgentLaunchTemplate | jq -r '.LaunchTemplates[0].LaunchTemplateId');
 ```
+
+If for some reason the environment variables are cleared, you can run the previous commands again without any problem.
+
+You may now proceed with the next step.

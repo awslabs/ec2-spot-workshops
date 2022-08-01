@@ -1,6 +1,6 @@
 +++
-title = "Lab 2: Deploy testing environments using Spot & Launch Templates"
-weight = 120
+title = "Configure a Pipeline Job using Spot"
+weight = 130
 +++
 Now that you are carrying out your software builds on Spot instances, the next step is to build out a CI/CD pipeline to have your software deployed to a test environment also running on Spot instances. Pipelines within Jenkins are defined using another plugin, and you'll define pipeline steps to both deploy and terminate your testing environment. The pipeline steps that you define in this lab will call a Lambda function, which in turn deploys a CloudFormation template to brings up your testing environment, and deletes the template to tear it down.
 
@@ -12,12 +12,10 @@ If you view the CloudFormation template that is used to deploy the test environm
 ## INCREASE THE NUMBER OF BUILD EXECUTORS ON YOUR JENKINS BUILD AGENTS
 When executing a pipeline job in Jenkins, the pipeline consumes one of the build execution slots. Given that the the software builds themselves are executed using a build agent on a Spot instance, you should configure the Jenkins master server to also have a build executor - for pipeline execution to run on.
 
-{{%expand "Click to reveal detailed instructions" %}}
 1. Back at the Jenkins home page, click on the **Manage Jenkins** link on the left side menu again, and then the **Configure System** link;
 2. Scroll down to the bottom of the page and under the **Spot Fleet Configuration** section, increase the **Number of Executors** to 3;
 3. Click on the **Save** button at the bottom of the screen;
 4. In the left column under **Build Executor Status**, you should see the EC2 Instance ID for the instances that make up your build fleet. Click on the Instance ID and then click on the **Delete Agent** link on the left hand side of the screen. When prompted if you're sure about deleting the agent, click on the **Yes** button. Deleting the agent from the host will force Jenkins to re-install it, this time with multiple build executors.
-{{% /expand%}}
 
 ## RECONFIGURE THE GAME OF LIFE PROJECT
 The S3 Publisher Plugin should be pre-configured for use (it will use the IAM policy attached to the EC2 Instance Profile used by the Jenkins Master or the build agents to grant access to the S3 bucket where your deployment artifacts will be uploaded to). First up, you'll need to reconfigure the **Game of Life** project to publish it's artifacts to the S3 bucket that was created by the CloudFormation stack deployed at the beginning of this workshop.
@@ -100,6 +98,3 @@ Once the deploy stage has been completed successfully:
 3. Copy the value associated with the **GameOfLifeDNSName** key into the address bar of a new browser tab and append the **/gameoflife** suffix before hitting the Enter key.
 
 Once you've verified that that the Game of Life web application loads, return to Jenkins and click on the **Test** pipeline stage and click on **Proceed** to get the pipeline to process the Terminate stage. After this final stage has executed, go back to the CloudFormation console to verify that the GameOfLife stack is being deleted.
-
-## PROCEED TO LAB 3
-Once your test environment has been terminated, you may proceed with [Lab 3](/amazon-ec2-spot-cicd-workshop/lab3.html).

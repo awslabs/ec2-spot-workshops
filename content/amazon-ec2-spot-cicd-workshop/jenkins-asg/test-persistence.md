@@ -2,39 +2,39 @@
 title = "Configure Persistence Storage when using Spot"
 weight = 125
 +++
-You're now using Spot instances for your code builds and for the environments that are built out for testing – but your Jenkins server is still using an on-demand instance. Jenkins itself does not natively support running in high-availability configurations because it persists all data on a local file system. If you can store this data durably somewhere else than on the local file system, you can move your Jenkins Master instance to a self-healing Spot instance. To provide persistence for this file system data, you’ll move your Jenkins data to an Elastic File System (EFS) volume and mount this volume on instance spawned by a Spot Fleet.
+You're now using Spot instances for your code builds – but your Jenkins server is still using an on-demand instance. Jenkins itself does not natively support running in high-availability configurations because it persists all data on a local file system. If you can store this data durably somewhere else than on the local file system, you can move your Jenkins Master instance to a self-healing Spot instance. To provide persistence for this file system data, you’ll move your Jenkins data to an Elastic File System (EFS) volume and mount this volume on instance spawned by an Auto Scaling group.
 
-## OBTAIN THE RELEVANT INFORMATION FOR CLOUDFORMATION FOR THIS LAB
-As with the previous labs, the CloudFormation stack deployed during your Workshop Preparation has provisioned some of the resources required for this lab (in order to allow us to focus on the aspects of the workshop that directly apply to EC2 Spot). You will need to determine and make a note of what the **EFS Filesystem ID** is.
+## Get the EFS Filesystem ID
+As with the previous steps, the CloudFormation stack deployed during your Workshop Preparation has provisioned some of the resources required for this lab. You will need to determine and make a note of what the **EFS Filesystem ID** is.
 
 1. Go to the **CloudFormation** console (or [click here](https://eu-west-1.console.aws.amazon.com/cloudformation/home?region=eu-west-1#));
 2. Click on the checkbox associated with the **SpotCICDWorkshop** stack;
 3. From the Outputs tab of the SpotCICDWorkshop stack in the CloudFormation console, make note of values associated with the **EFSFileSystemID** key.
 
 ## COPY THE CONTENTS OF JENKINS_HOME TO YOUR EFS FILE SYSTEM
-In order to copy the contents of the JENKINS_HOME directory to the EFS file system (for which the ID of which you determined in the previous step), you'll need to first mount the file system on the EC2 instance currently running your Jenkins server.
+In order to copy the contents of the `JENKINS_HOME` directory to the EFS file system (for which the ID of which you determined in the previous step), you'll need to first mount the file system on the EC2 instance currently running your Jenkins server.
 
-Once the file system has been mounted, stop the Jenkins service and set the file system permission of the root of your filesystem so that the jenkins user and group are owners. Finally, copy the contents of **/var/lib/jenkins** (this is the JENKINS_HOME directory) across to the root of your EFS file system.
+Once the file system has been mounted, stop the Jenkins service and set the file system permission of the root of your filesystem so that the jenkins user and group are owners. Finally, copy the contents of **/var/lib/jenkins** (this is the `JENKINS_HOME` directory) across to the root of your EFS file system.
 
 1. Go to the **EC2** console and select the **Instances** option from the left pane (or [click here](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#Instances:sort=instanceId));
 2. Select the instance with the Name tag of **Jenkins Master (On-demand)** and make a note of it's current IPv4 Pubic IP;
 3. Establish an SSH session to this IP address (For instructions on how to establish an SSH connection to your EC2 instance, please refer to [this link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html?icmpid=docs_ec2_console)) - you'll need to use the EC2 Key Pair that you generated during the Workshop Preparation to establish connectivity;
-4. Mount the EFS file system that was created by the CloudFormation template at the /mnt mountpoint by entering the following command, replacing %FILE-SYSTEM-ID% with the EFSFileSystemID noted above:
+4. Mount the EFS file system that was created by the CloudFormation template at the /mnt mountpoint by entering the following command, replacing `%FILE-SYSTEM-ID%` with the **EFSFileSystemID** noted above:
  
-    ```bash
+```bash
 sudo mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)\
 .%FILE-SYSTEM-ID%.efs.eu-west-1.amazonaws.com:/ /mnt
 ```
 5. Stop the Jenkins service by entering the following command:
 
-    ```bash
+```bash
 sudo service jenkins stop
 ```
 
-6. The content of JENKINS_HOME is stored under /var/lib/jenkins – copy this content (whilst preserving permissions) to your EFS file system mount point (/mnt) using the following commands (note that this will take a couple of minutes - while it's progressing, commence the next section of this lab):
+6. The content of `JENKINS_HOME` is stored under /var/lib/jenkins – copy this content (whilst preserving permissions) to your EFS file system mount point (/mnt) using the following commands (note that this will take a couple of minutes - while it's progressing, commence the next section of this lab):
 
-    ```bash
+```bash
 sudo chown jenkins:jenkins /mnt
 sudo cp -rpv /var/lib/jenkins/* /mnt
 ```
