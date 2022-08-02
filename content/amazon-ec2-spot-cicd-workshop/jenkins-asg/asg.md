@@ -19,7 +19,7 @@ cat <<EoF > ~/asg-policy.json
    "LaunchTemplate":{
       "LaunchTemplateSpecification":{
          "LaunchTemplateId":"${LAUNCH_TEMPLATE_ID}",
-         "Version":"1"
+         "Version":"\$Latest"
       },
       "Overrides":[
          {
@@ -60,7 +60,7 @@ Additionally, the configuration above, sets the `SpotAllocationStrategy` to `cap
 Let’s create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the min-size to 0 (to avoid having instances when there's no need), max-size to 2 and desired-capacity to 0. You'll override some of this configuration later through Jenkins.
 
 ```bash
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotJenkinsASG --min-size 0 --max-size 2 --desired-capacity 0 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --mixed-instances-policy file://asg-policy.json
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotJenkinsASG --min-size 0 --max-size 2 --desired-capacity 0 --vpc-zone-identifier "${PRIVATE_SUBNETS}" --mixed-instances-policy file://asg-policy.json
 ```
 
 You may now proceed with the next step.

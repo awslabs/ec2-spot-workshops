@@ -12,11 +12,8 @@ To address these behaviours, Jenkins provides the capability to execute builds o
 Let's get started by setting up the following environment variables you'll use in the workshop, the the following commands:
 
 ```bash
-export VPC_ID=$(aws ec2 describe-vpcs --filters Name=tag:Name,Values='Amazon EC2 Spot CICD Workshop VPC' | jq -r '.Vpcs[0].VpcId');
-export SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}" --filters Name=tag:Type,Values='Private');
-export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId');
-export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId');
-export SUBNET_3=$((echo $SUBNETS) | jq -r '.Subnets[2].SubnetId');
+export PRIVATE_SUBNETS=$(aws cloudformation describe-stacks --stack-name SpotCICDWorkshop --query "Stacks[0].Outputs[?OutputKey=='JenkinsVPCPrivateSubnets'].OutputValue" --output text);
+export PUBLIC_SUBNETS=$(aws cloudformation describe-stacks --stack-name SpotCICDWorkshop --query "Stacks[0].Outputs[?OutputKey=='JenkinsVPCPublicSubnets'].OutputValue" --output text);
 export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=JenkinsBuildAgentLaunchTemplate | jq -r '.LaunchTemplates[0].LaunchTemplateId');
 ```
 

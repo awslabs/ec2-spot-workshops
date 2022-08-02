@@ -1020,6 +1020,7 @@ Resources:
             curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
             chmod +x /usr/local/bin/docker-compose
             # Mount the Jenkins EFS volume
+            mkdir -p /jenkins_home
             mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).${EFSJenkinsHomeVolume}.efs.eu-west-1.amazonaws.com:/ /jenkins_home
             # Download files from GitHub
             mkdir -p /usr/share/jenkins
@@ -1324,7 +1325,19 @@ Outputs:
     Description: Security Group for Jenkins nodes. Use this value to configure Jenkins ECS Plugin
     Value: !Ref SecurityGroupJenkins
 
+  JenkinsVPCPrivateSubnets:
+    Description: The private subnets where Jenkins will be deployed. Use this value to configure Jenkins Spot agents.
+    Value:
+      !Join [
+        ",",
+        [!Ref SubnetPrivateA, !Ref SubnetPrivateB, !Ref SubnetPrivateC],
+      ]
+
   JenkinsVPCPublicSubnets:
     Description: The public subnets where Jenkins will be deployed. Use this value to configure Jenkins ECS plugin
     Value:
       !Join [",", [!Ref SubnetPublicA, !Ref SubnetPublicB, !Ref SubnetPublicC]]
+
+  JenkinsMasterEC2TargetGroup:
+    Description: Target Group for Jenkins EC2 nodes.
+    Value: !Ref JenkinsMasterALBTargetGroupEC2
