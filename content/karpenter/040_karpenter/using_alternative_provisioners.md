@@ -132,19 +132,19 @@ The output of Karpenter should look similar to the one below
 
 ```
 ...
-2022-05-12T04:33:28.625Z        INFO    controller      Batched 4 pod(s) in 1.038819076s        {"commit": "00661aa"}
-2022-05-12T04:33:29.361Z        DEBUG   controller      Discovered 401 EC2 instance types       {"commit": "00661aa"}
-2022-05-12T04:33:29.482Z        DEBUG   controller      Discovered EC2 instance types zonal offerings   {"commit": "00661aa"}
-2022-05-12T04:33:29.638Z        DEBUG   controller      Discovered subnets: [subnet-0204b1b3b885ca98d (eu-west-1a) subnet-037d1d97a6a473fd1 (eu-west-1b) subnet-04c2ca248972479e7 (eu-west-1b) subnet-063d5c7ba912986d5 (eu-west-1a)]     {"commit": "00661aa"}
-2022-05-12T04:33:29.728Z        DEBUG   controller      Discovered security groups: [sg-03ab1d5d49b00b596 sg-06e7e2ca961ab3bed]  {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:29.732Z        DEBUG   controller      Discovered kubernetes version 1.21      {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:29.796Z        DEBUG   controller      Discovered ami-0440c10a3f77514d8 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"     {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:29.971Z        DEBUG   controller      Created launch template, Karpenter-eksworkshop-eksctl-2228580094236845875        {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:31.885Z        INFO    controller      Launched instance: i-02df8ea1e99895e78, hostname: ip-192- 68-14-13.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand       {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:31.896Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types c4.xlarge, c6a.xlarge, c6i.xlarge, c5.xlarge, c5a.xlarge and 263 other(s)      {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:32.443Z        INFO    controller      Launched instance: i-0b6984823f26d5b15, hostname: ip-192-168-39-218.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1b, capacityType: on-demand      {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:32.453Z        INFO    controller      Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types c4.xlarge, c6a.xlarge, c6i.xlarge, c5.xlarge, c5a.xlarge and 267 other(s)      {"commit": "00661aa", "provisioner": "team1"}
-2022-05-12T04:33:32.464Z        INFO    controller      Waiting for unschedulable pods  {"commit": "00661aa"}
+2022-07-01T04:12:15.781Z        INFO    controller.provisioning Found 4 provisionable pod(s)    {"commit": "1f7a67b"}
+2022-07-01T04:12:15.781Z        INFO    controller.provisioning Computed 2 new node(s) will fit 4 pod(s)        {"commit": "1f7a67b"}
+2022-07-01T04:12:15.967Z        DEBUG   controller.provisioning.cloudprovider   Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:16.063Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:16.071Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:16.179Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-015933fe34749f648 for query "/aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id"      {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:16.456Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-641081096202606695        {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:17.277Z        DEBUG   controller.node-state   Discovered 531 EC2 instance types       {"commit": "1f7a67b", "node": "ip-192-168-25-60.eu-west-1.compute.internal"}
+2022-07-01T04:12:17.418Z        DEBUG   controller.node-state   Discovered EC2 instance types zonal offerings   {"commit": "1f7a67b", "node": "ip-192-168-25-60.eu-west-1.compute.internal"}
+2022-07-01T04:12:18.287Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-0e81a84185e589749, hostname: ip-192-168-37-210.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1b, capacityType: on-demand     {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:18.302Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-03c9fc74527b401f4, hostname: ip-192-168-7-134.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand      {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:18.306Z        INFO    controller.provisioning Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 315 other(s)    {"commit": "1f7a67b", "provisioner": "team1"}
+2022-07-01T04:12:18.306Z        DEBUG   controller.events       Normal  {"commit": "1f7a67b", "object": {"kind":"Pod","namespace":"default","name":"inflate-team1-865b77c748-dp9k5","uid":"5b682809-1ae9-4ed2-85c9-451abc11cf75","apiVersion":"v1","resourceVersion":"43463"}, "reason": "NominatePod", "message": "Pod should schedule on ip-192-168-37-210.eu-west-1.compute.internal"}
 ...
 ```
 
@@ -152,6 +152,9 @@ It's interesting to see how the nodes were selected in different availability zo
 As you are probably guessing by now, this may have to do with the section of the deployment section for `topologySpreadConstraints:` . Latest versions of Karpenter (>0.4.1) support Kubernetes [Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/). You can define one or multiple topologySpreadConstraint to instruct the kube-scheduler how to place each incoming Pod in relation to the existing Pods across your cluster. 
 
 To all effect the bin-packing is still happening is just that the topologySpreadConstraint is applied and forces us to spread the workload across the available `kubernetes.io/zone`
+
+Check out as well the details in the log. If you recall the Node template in the provider section for the `team1` Provisioner, used Bottlerocket with a custom additional bootstrapping. You can see how the logs showcase Karpenter creating the `Karpenter-eksworkshop-eksctl-641081096202606695` launch template, and adapting it according to the latest version of the AMI and the bootstrapping added to the configuration. This simlifies significantly the life-cycle management and patching of EC2 Instances.
+
 {{% /expand %}}
 
 
@@ -179,3 +182,5 @@ In this section we have learned:
 * Pods can select the Provisioner by setting a nodeSelector with the lable `karpenter.sh/provisioner-name` pointing to the right Provisioner.
 
 * Karpenter supports **[topologySpreadConstraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/)**. Topology Spread constraints  instruct the kube-scheduler how to place each incoming Pod in relation to the existing Pods across your cluster. In this scenario we discover how to balance pods across Availability Zones.
+
+* For EKS, AL2, Ubuntu and Bottlerocket AMI's Karpenter does the heavy-lifting managing the underlying Launch Templates keeping AMI's up to dates. Karpenter also allows us to configure extra bootstrappign parameters without us having to manage Launch Templates, this significanlty simplifies the life-cycle management and patching of EC2 Instances while removing the heavy-lifting required to apply bootstrapping additional parameters.
