@@ -62,5 +62,3 @@ Let’s create the Auto Scaling group. In this case the Auto Scaling group spans
 ```bash
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotJenkinsASG --min-size 0 --max-size 2 --desired-capacity 0 --vpc-zone-identifier "${PRIVATE_SUBNETS}" --mixed-instances-policy file://asg-policy.json
 ```
-
-You may now proceed with the next step.

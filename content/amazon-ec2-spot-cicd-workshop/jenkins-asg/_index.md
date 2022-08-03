@@ -1,22 +1,18 @@
 +++
-title = "Jenkins with Amazon EC2 Auto Scaling Groups"
+title = "Jenkins with Auto Scaling groups"
 weight = 100
 +++
-By default, all job builds will be executed on the same instance that Jenkins is running on. This results in a couple of less-than-desirable behaviours:
+By default, all job builds are executed on the same instance that Jenkins is running on. This results in a couple of less-than-desirable behaviours:
 * When CPU-intensive builds are being executed, there may not be sufficient system resources to display the Jenkins server interface; and
 * The Jenkins server is often provisioned with more resources than the server interface requires in order to allow builds to execute. When builds are not being executed, these server resources are essentially going to waste.
 
 To address these behaviours, Jenkins provides the capability to execute builds on external hosts (called build agents). Further, AWS provides a Jenkins plugin to allow Jenkins to scale out a fleet of EC2 instances in order to execute build jobs on. This lab will focus on implementing EC2 Spot build agents, showcasing what a batch processing workload typically looks like when using Amazon EC2 Spot instances.
 
-## Setting Up environment variables
-Let's get started by setting up the following environment variables you'll use in the workshop, the the following commands:
+## What we'll be doing?
+The purpose of these labs is to help you understand how to configure build agents using Spot instances. We'll focus on configuring a Jenkins plugin so that build agents are launched only when you need them. At the end of these labs, you'll be able to:
 
-```bash
-export PRIVATE_SUBNETS=$(aws cloudformation describe-stacks --stack-name SpotCICDWorkshop --query "Stacks[0].Outputs[?OutputKey=='JenkinsVPCPrivateSubnets'].OutputValue" --output text);
-export PUBLIC_SUBNETS=$(aws cloudformation describe-stacks --stack-name SpotCICDWorkshop --query "Stacks[0].Outputs[?OutputKey=='JenkinsVPCPublicSubnets'].OutputValue" --output text);
-export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=JenkinsBuildAgentLaunchTemplate | jq -r '.LaunchTemplates[0].LaunchTemplateId');
-```
-
-If for some reason the environment variables are cleared, you can run the previous commands again without any problem.
-
-You may now proceed with the next step.
+* Learn how to launch Spot instances following our best practices using Auto Scaling groups
+* Configure properly the EC2 Fleet Jenkins plugin
+* Configure Jenkins build jobs to use Spot instances as agents
+* Simulate Spot interruption events to increase fault-tolerance
+* Test how resilient and fault-toleran Jenkins could be using Spot instances

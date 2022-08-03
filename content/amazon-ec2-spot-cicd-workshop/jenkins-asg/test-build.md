@@ -17,4 +17,6 @@ Now it’s time to test out how Jenkins handles pushing builds to spot instances
 3. After around four minutes, the **EC2 Fleet Status** reported to the left of the screen will increment the **target** count to 5, indicating that the plugin has requested a scale-out action from the plugin. After a few moments, five build instances will appear in the **Build Executor Status**, though these build agents will initially appear to be offline. Once the instances have had the chance to complete the launch and bootstrapping processes (which takes around two minutes), your Jenkins Master will deploy the build agent to them via SSH, and it will come online and process the next build jobs in the queue. Once you have concurrent builds being executed on the Spot instances, you can stop adding build jobs to the build queue;
 4. After a period of around a five minutes, after your builds have completed, the Spot instances should be terminated by the plugin.
 
-**Note:** If the build agents are keep showing as `offline`, make sure that you've configured correctly the SSH key pair in the credentials section when configuring the EC2 Fleet plugin. You can click on the agent to open the logs and see why it's not coming online.
+{{% notice note %}}
+If the build agents are keep showing as `offline`, make sure that you've configured correctly the SSH key pair in the credentials section when configuring the EC2 Fleet plugin. You can click on the agent to open the logs and see why it's not coming online.
+{{% /notice %}}

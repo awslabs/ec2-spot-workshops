@@ -1,0 +1,651 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: A CloudFormation template that will deploy all AWS resources that are required to run the Amazon EC2 Spot CI/CD Workshop. This template is provided as-is under a modified MIT license - please see https://github.com/aws-samples/amazon-ec2-spot-cicd-workshop/blob/master/LICENSE
+
+Parameters:
+  KeyPair:
+    Description: The Key Pair created earlier in the Preparation Lab
+    Type: AWS::EC2::KeyPair::KeyName
+
+  CurrentIP:
+    Description: Your current IP address (used to limit access to SSH services on EC2 instances)
+    Type: String
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\/([0-9]|[1-2][0-9]|3[0-2])$
+    ConstraintDescription: must be specified in CIDR notation (e.g, 123.45.67.0/24)
+    Default: 0.0.0.0/0
+
+  JenkinsAdminPassword:
+    Description: The password that you would like to use for the admin account in your Jenkins server (must be at least 8 characters)
+    Type: String
+    ConstraintDescription: must be at least 8 characters in length
+    MinLength: 8
+    NoEcho: true
+
+  AmazonLinux2LatestAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  IAMRoleJenkins:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: JenkinsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeSpotFleetInstances
+                  - ec2:ModifySpotFleetRequest
+                  - ec2:CreateTags
+                  - ec2:DescribeRegions
+                  - ec2:DescribeInstances
+                  - ec2:TerminateInstances
+                  - ec2:DescribeInstanceStatus
+                  - ec2:DescribeSpotFleetRequests
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - autoscaling:DescribeAutoScalingGroups
+                  - autoscaling:UpdateAutoScalingGroup
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - iam:ListInstanceProfiles
+                  - iam:ListRoles
+                  - iam:PassRole
+                Resource: "*"
+
+  InstanceProfileJenkins:
+    Type: AWS::IAM::InstanceProfile
+    DependsOn: IAMRoleJenkins
+    Properties:
+      Path: "/"
+      Roles:
+        - !Ref IAMRoleJenkins
+
+  VPC: # This is the VPC that the CI/CD environment will be running in
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/21
+      EnableDnsHostnames: "true"
+      EnableDnsSupport: "true"
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop VPC
+
+  SubnetPublicA: # The first of three subnets defined within the VPC...
+    Type: AWS::EC2::Subnet
+    DependsOn: VPC
+    # DependedOn: SubnetPublicARouteTableAssociation
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 192.168.0.0/24
+      MapPublicIpOnLaunch: "true"
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Subnet A
+
+  SubnetPublicB: # ... and the second of three subnets...
+    Type: AWS::EC2::Subnet
+    DependsOn: VPC
+    # DependedOn: SubnetPublicBRouteTableAssociation
+    Properties:
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      CidrBlock: 192.168.1.0/24
+      MapPublicIpOnLaunch: "true"
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Subnet B
+
+  SubnetPublicC: # ... and the third of three subnets defined within the VPC
+    Type: AWS::EC2::Subnet
+    DependsOn: VPC
+    # DependedOn: SubnetPublicCRouteTableAssociation
+    Properties:
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 192.168.2.0/24
+      MapPublicIpOnLaunch: "true"
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Subnet C
+
+  SubnetPrivateA: # The first of three subnets defined within the VPC...
+    Type: AWS::EC2::Subnet
+    DependsOn: VPC
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      CidrBlock: 192.168.3.0/24
+      MapPublicIpOnLaunch: "true"
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Subnet A
+        - Key: Type
+          Value: Private
+
+  SubnetPrivateB: # ... and the second of three subnets...
+    Type: AWS::EC2::Subnet
+    DependsOn: VPC
+    Properties:
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      CidrBlock: 192.168.4.0/24
+      MapPublicIpOnLaunch: "true"
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Subnet B
+        - Key: Type
+          Value: Private
+
+  SubnetPrivateC: # ... and the third of three subnets defined within the VPC
+    Type: AWS::EC2::Subnet
+    DependsOn: VPC
+    Properties:
+      AvailabilityZone: !Select [2, !GetAZs ""]
+      CidrBlock: 192.168.5.0/24
+      MapPublicIpOnLaunch: "true"
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Subnet C
+        - Key: Type
+          Value: Private
+
+  InternetGateway: # Create an Internet Gateway in order to allow EC2 instances to be accessible via the Internet
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Internet Gateway
+
+  InternetGatewayAttachment: # Once both the VPC and Internet Gateway have been created, attach the Internet Gateway to the VPC
+    Type: AWS::EC2::VPCGatewayAttachment
+    DependsOn:
+      - InternetGateway
+      - VPC
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  EIPNATGateway:
+    Type: AWS::EC2::EIP
+    DependsOn:
+      - InternetGatewayAttachment
+      - VPC
+    Properties:
+      Domain: vpc
+
+  NATGateway:
+    Type: AWS::EC2::NatGateway
+    DependsOn:
+      - SubnetPublicA
+    Properties:
+      AllocationId: !GetAtt EIPNATGateway.AllocationId
+      SubnetId: !Ref SubnetPublicA
+
+  RouteTablePublic: # Create a route table which will be used within the VPC
+    Type: AWS::EC2::RouteTable
+    DependsOn: VPC
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Public Route Table
+
+  RouteTablePrivate: # Create a route table which will be used within the VPC
+    Type: AWS::EC2::RouteTable
+    DependsOn: VPC
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: Amazon EC2 Spot CICD Workshop Private Route Table
+
+  DefaultRoutePublic: # Add a default route to the route table, pointing to the Internet Gateway
+    Type: AWS::EC2::Route
+    DependsOn:
+      - RouteTablePublic
+      - InternetGatewayAttachment
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref RouteTablePublic
+
+  DefaultRoutePrivate: # Add a default route to the route table, pointing to the NAT Gateway
+    Type: AWS::EC2::Route
+    DependsOn:
+      - RouteTablePrivate
+      - NATGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NATGateway
+      RouteTableId: !Ref RouteTablePrivate
+
+  SubnetPublicARouteTableAssociation: # Associate the route table with the first of the three subnets in the VPC...
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    DependsOn:
+      - RouteTablePublic
+      - SubnetPublicA
+    Properties:
+      RouteTableId: !Ref RouteTablePublic
+      SubnetId: !Ref SubnetPublicA
+
+  SubnetPublicBRouteTableAssociation: # ... and the second of three subnets...
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    DependsOn:
+      - RouteTablePublic
+      - SubnetPublicB
+    Properties:
+      RouteTableId: !Ref RouteTablePublic
+      SubnetId: !Ref SubnetPublicB
+
+  SubnetPublicCRouteTableAssociation: # ... and the third of the three subnets in the VPC
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    DependsOn:
+      - RouteTablePublic
+      - SubnetPublicC
+    Properties:
+      RouteTableId: !Ref RouteTablePublic
+      SubnetId: !Ref SubnetPublicC
+
+  SubnetPrivateARouteTableAssociation: # Associate the route table with the first of the three subnets in the VPC...
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    DependsOn:
+      - RouteTablePrivate
+      - SubnetPrivateA
+    Properties:
+      RouteTableId: !Ref RouteTablePrivate
+      SubnetId: !Ref SubnetPrivateA
+
+  SubnetPrivateBRouteTableAssociation: # ... and the second of three subnets...
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    DependsOn:
+      - RouteTablePrivate
+      - SubnetPrivateB
+    Properties:
+      RouteTableId: !Ref RouteTablePrivate
+      SubnetId: !Ref SubnetPrivateB
+
+  SubnetPrivateCRouteTableAssociation: # ... and the third of the three subnets in the VPC
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    DependsOn:
+      - RouteTablePrivate
+      - SubnetPrivateC
+    Properties:
+      RouteTableId: !Ref RouteTablePrivate
+      SubnetId: !Ref SubnetPrivateC
+
+  SecurityGroupJenkins: # A Security Group that allows ingress access for SSH and the default port that a Jenkins Master will run on
+    Type: AWS::EC2::SecurityGroup
+    DependsOn: VPC
+    Properties:
+      GroupName: Spot CICD Workshop Jenkins Security Group
+      GroupDescription: A Security Group that allows ingress access for SSH and the default port that a Jenkins Master will run on
+      SecurityGroupIngress:
+        - Description: SSH access from the IP address that the workshop participant is using.
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref CurrentIP
+        - Description: SSH access from hosts within the Spot CICD Workshop VPC - required for Build Agent deployments on to EC2 Spot instances.
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 192.168.0.0/21
+        - Description: HTTP (8080) access from the IP address that the workshop participant is using.
+          IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: !Ref CurrentIP
+        - Description: HTTP (8080) access from hosts within the Spot CICD Workshop VPC, including the ALBs that reside in front of Jenkins, and Build Agents running on EC2 nodes.
+          IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 192.168.0.0/21
+        - Description: JNLP (5000) access from hosts within the Spot CICD Workshop VPC - required for Build Agent deployments on EC2 nodes to communicate back with the Jenkins Master container.
+          IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 0.0.0.0/0
+        - Description: JNLP (50000) access from hosts within the Spot CICD Workshop VPC - the legacy port that used to be required for Build Agent deployments on EC2 nodes to communicate back with the Jenkins Master container.
+          IpProtocol: tcp
+          FromPort: 50000
+          ToPort: 50000
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPC
+
+  SecurityGroupJenkinsALB: # A Security Group that allows ingress access for HTTP on ALBs and used to access the Jenkins Master
+    Type: AWS::EC2::SecurityGroup
+    DependsOn: VPC
+    Properties:
+      GroupName: Spot CICD Workshop Jenkins ALB Security Group
+      GroupDescription: A Security Group that allows ingress access for HTTP on ALBs and used to access the Jenkins Master
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPC
+
+  SecurityGroupEFS:
+    Type: AWS::EC2::SecurityGroup
+    DependsOn:
+      - SecurityGroupJenkins
+      - VPC
+    Properties:
+      GroupName: Spot CICD Workshop EFS Security Group
+      GroupDescription: A Security Group that allows access to EFS volume targets from the Jenkins Securiy Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 2049
+          ToPort: 2049
+          SourceSecurityGroupId: !Ref SecurityGroupJenkins
+      VpcId: !Ref VPC
+
+  JenkinsOnDemandEC2Instance: # This workshop starts from a baseline where we have a Jenkins server running on an on-demand EC2 instance. This resource launches and bootstraps this server
+    Type: AWS::EC2::Instance
+    DependsOn:
+      - InstanceProfileJenkins
+      - SecurityGroupJenkins
+      - SubnetPublicA
+    Properties:
+      BlockDeviceMappings:
+        - DeviceName: "/dev/xvda"
+          Ebs:
+            DeleteOnTermination: "true"
+            VolumeSize: 50
+            VolumeType: gp2
+      IamInstanceProfile: !Ref InstanceProfileJenkins
+      ImageId: !Ref AmazonLinux2LatestAmiId
+      InstanceType: t3.medium
+      KeyName: !Ref KeyPair
+      SecurityGroupIds:
+        - !Ref SecurityGroupJenkins
+      SubnetId: !Ref SubnetPublicA
+      Tags:
+        - Key: Name
+          Value: Jenkins Master (On-demand)
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          # Install all pending updates to the system
+          yum -y update
+          # Install Docker
+          amazon-linux-extras install docker
+          chkconfig docker on
+          service docker start
+          usermod -a -G docker ec2-user
+          # Install Docker Compose
+          curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+          chmod +x /usr/local/bin/docker-compose
+          # Download files from GitHub
+          mkdir -p /jenkins_home/jobs/
+          mkdir -p /usr/share/jenkins
+          cd /usr/share/jenkins
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/casc.yaml
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/docker-compose.yml
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/Dockerfile
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/plugins.txt
+          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/jobs/seed.tar.gz
+          tar -xvf seed.tar.gz
+          cp -r jobs/* /jenkins_home/jobs/
+          # Reset the password defined as the JenkinsAdminPassword          
+          sed -i 's/JenkinsAdminPassword/${JenkinsAdminPassword}/' docker-compose.yml
+          # Configure the Jenkins Location
+          curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
+          # Start Jenkins
+          docker-compose up --build -d
+
+  JenkinsMasterALB: # This is the Application Load Balancer that resides in front of your Jenkins Master instance and is responsible for port-mapping requests from TCP:80 to TCP:8080
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    DependsOn:
+      - SecurityGroupJenkinsALB
+      - SubnetPublicA
+      - SubnetPublicB
+      - SubnetPublicC
+    Properties:
+      Name: JenkinsMasterALB
+      Scheme: internet-facing
+      SecurityGroups:
+        - !Ref SecurityGroupJenkinsALB
+      Subnets:
+        - !Ref SubnetPublicA
+        - !Ref SubnetPublicB
+        - !Ref SubnetPublicC
+
+  JenkinsMasterALBTargetGroupEC2: # This is the Target Group used by the JenkinsMasterALB load balancer when Jenkins is running on an EC2 instance
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    DependsOn:
+      - JenkinsOnDemandEC2Instance
+      - VPC
+    Properties:
+      HealthCheckIntervalSeconds: 15
+      HealthCheckPath: /login
+      HealthCheckPort: 8080
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      Matcher:
+        HttpCode: 200
+      Name: JenkinsMasterEC2TargetGroup
+      Port: 8080
+      Protocol: HTTP
+      Targets:
+        - Id: !Ref JenkinsOnDemandEC2Instance
+          Port: 8080
+      UnhealthyThresholdCount: 4
+      VpcId: !Ref VPC
+
+  JenkinsMasterALBListener: # This is the ALB Listener used to access the Jenkins Master
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    DependsOn:
+      - JenkinsMasterALB
+      - JenkinsMasterALBTargetGroupEC2
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref JenkinsMasterALBTargetGroupEC2
+      LoadBalancerArn: !Ref JenkinsMasterALB
+      Port: 80
+      Protocol: HTTP
+
+  JenkinsMasterALBListenerRuleEC2: # The ALB Listener rule that forwards all traffic destined for the Jenkins Master to the appropriate Target Group
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    DependsOn:
+      - JenkinsMasterALBListener
+      - JenkinsMasterALBTargetGroupEC2
+    Properties:
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref JenkinsMasterALBTargetGroupEC2
+      Conditions:
+        - Field: path-pattern
+          Values:
+            - "/*"
+      ListenerArn: !Ref JenkinsMasterALBListener
+      Priority: 1
+
+  JenkinsSpotMasterLaunchTemplate: # This is a launch template that will be used to provision Jenkins Master servers - showing how when used in conjunction with an EFS volume stateful applications can run on self-healing spot architectures.
+    Type: AWS::EC2::LaunchTemplate
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - InstanceProfileJenkins
+      - SecurityGroupJenkins
+    Properties:
+      LaunchTemplateName: JenkinsMasterLaunchTemplate
+      LaunchTemplateData:
+        BlockDeviceMappings:
+          - DeviceName: "/dev/xvda"
+            Ebs:
+              DeleteOnTermination: "true"
+              VolumeSize: 8
+              VolumeType: gp2
+        IamInstanceProfile:
+          Name: !Ref InstanceProfileJenkins
+        ImageId: !Ref AmazonLinux2LatestAmiId
+        InstanceType: t3.medium
+        KeyName: !Ref KeyPair
+        SecurityGroupIds:
+          - !Ref SecurityGroupJenkins
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: Jenkins Master (Spot)
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            # Install all pending updates to the system
+            yum -y update
+            # Install Docker
+            amazon-linux-extras install docker
+            chkconfig docker on
+            service docker start
+            usermod -a -G docker ec2-user
+            # Install Docker Compose
+            curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+            # Mount the Jenkins EFS volume
+            mkdir -p /jenkins_home
+            mount -t nfs -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone).${EFSJenkinsHomeVolume}.efs.eu-west-1.amazonaws.com:/ /jenkins_home
+            # Download files from GitHub
+            mkdir -p /usr/share/jenkins
+            cd /usr/share/jenkins
+            wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/casc.yaml
+            wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/docker-compose.yml
+            wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/Dockerfile
+            wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/plugins.txt
+            # Reset the password defined as the JenkinsAdminPassword          
+            sed -i 's/JenkinsAdminPassword/${JenkinsAdminPassword}/' docker-compose.yml
+            # Configure the Jenkins Location
+            curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
+            # Start Jenkins
+            docker-compose up --build -d
+
+  JenkinsSpotAgentLaunchTemplate: # This is a launch template that will be used to provision Jenkins build agents - showing how spot instances can be used to scale-out build jobs at low cost.
+    Type: AWS::EC2::LaunchTemplate
+    DependsOn:
+      - InstanceProfileJenkins
+      - SecurityGroupJenkins
+    Properties:
+      LaunchTemplateName: JenkinsBuildAgentLaunchTemplate
+      LaunchTemplateData:
+        BlockDeviceMappings:
+          - DeviceName: "/dev/xvda"
+            Ebs:
+              DeleteOnTermination: "true"
+              VolumeSize: 8
+              VolumeType: gp2
+        IamInstanceProfile:
+          Name: !Ref InstanceProfileJenkins
+        ImageId: !Ref AmazonLinux2LatestAmiId
+        InstanceType: t3.small
+        KeyName: !Ref KeyPair
+        SecurityGroupIds:
+          - !Ref SecurityGroupJenkins
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: Jenkins Build Agent
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            # Install all pending updates to the system
+            yum -y update
+            # Configure YUM to be able to access contributed Maven RPM packages
+            wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+            # Update the release version in the Maven repository configuration for this mainline release of Amazon Linux
+            sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+            # Install the Java 8 SDK, Git and Maven
+            yum -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel git apache-maven
+            # Set the default version of java to run out of the Java 8 SDK path (required by Jenkins)
+            update-alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+            update-alternatives --set javac /usr/lib/jvm/java-1.8.0-openjdk.x86_64/bin/javac
+
+  EFSJenkinsHomeVolume:
+    Type: AWS::EFS::FileSystem
+    Properties:
+      PerformanceMode: generalPurpose
+
+  EFSMountTargetJenkinsHomeVolumeA:
+    Type: AWS::EFS::MountTarget
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - SecurityGroupEFS
+      - SubnetPublicA
+    Properties:
+      FileSystemId: !Ref EFSJenkinsHomeVolume
+      SecurityGroups:
+        - !Ref SecurityGroupEFS
+      SubnetId: !Ref SubnetPublicA
+
+  EFSMountTargetJenkinsHomeVolumeB:
+    Type: AWS::EFS::MountTarget
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - SecurityGroupEFS
+      - SubnetPublicB
+    Properties:
+      FileSystemId: !Ref EFSJenkinsHomeVolume
+      SecurityGroups:
+        - !Ref SecurityGroupEFS
+      SubnetId: !Ref SubnetPublicB
+
+  EFSMountTargetJenkinsHomeVolumeC:
+    Type: AWS::EFS::MountTarget
+    DependsOn:
+      - EFSJenkinsHomeVolume
+      - SecurityGroupEFS
+      - SubnetPublicC
+    Properties:
+      FileSystemId: !Ref EFSJenkinsHomeVolume
+      SecurityGroups:
+        - !Ref SecurityGroupEFS
+      SubnetId: !Ref SubnetPublicC
+
+Outputs:
+  EFSFileSystemID:
+    Description: The file system ID of the EFS volume that is used to persist JENKINS_HOME across EC2.
+    Value: !Ref EFSJenkinsHomeVolume
+
+  JenkinsDNSName:
+    Description: The DNS name of the Application Load Balancer that is used to gain access to your Jenkins server.
+    Value: !GetAtt JenkinsMasterALB.DNSName
+
+  JenkinsIAMRoleARN:
+    Description: The ARN associated with the IAM Role that was created for use by Jenkins.
+    Value: !GetAtt IAMRoleJenkins.Arn
+
+  JenkinsVPCPrivateSubnets:
+    Description: The private subnets where Jenkins will be deployed. Use this value to configure Jenkins Spot agents.
+    Value:
+      !Join [
+        ",",
+        [!Ref SubnetPrivateA, !Ref SubnetPrivateB, !Ref SubnetPrivateC],
+      ]
+
+  JenkinsVPCPublicSubnets:
+    Description: The public subnets where Jenkins will be deployed.
+    Value:
+      !Join [",", [!Ref SubnetPublicA, !Ref SubnetPublicB, !Ref SubnetPublicC]]
+
+  JenkinsMasterEC2TargetGroup:
+    Description: Target Group for Jenkins EC2 nodes.
+    Value: !Ref JenkinsMasterALBTargetGroupEC2

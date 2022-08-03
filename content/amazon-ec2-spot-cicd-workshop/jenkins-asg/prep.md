@@ -1,10 +1,10 @@
 +++
-title = "Workshop Preparation"
+title = "Setup with CloudFormation"
 weight = 10
 +++
 Before we start presenting content on the different use cases for EC2 Spot instances through the lens of CI/CD workloads, you'll need to prepare the AWS account that you've come to this workshop with. Specifically, this workshop involves working with a large number of AWS resources as well as a deployment of Jenkins that if manually configured, would leave you little time to discover how to use EC2 Spot instances in the most effective manner. To address that, you will deploy an Amazon CloudFormation template that does a lot of the heavy lifting of provisioning these resources for you.
 
-## CREATE A NEW EC2 KEY PAIR
+## Create a new EC2 Key Pair
 You will need to access the SSH interfaces of some Linux EC2 instances created in this workshop. To do so in a secure manner, please create a new EC2 key pair with a name of **Spot CICD Workshop Key Pair** in the **EU (Ireland)** region (all activities for this workshop will be carried out in this region).
 
 1. Log in to your AWS Account;
@@ -15,11 +15,11 @@ You will need to access the SSH interfaces of some Linux EC2 instances created i
     3. Enter **Spot CICD Workshop Key Pair** as the Key pair name and click on the **Create** button;
     4. Your web browser should download a .pem file – keep this file as it will be required to access the EC2 instances that you create in this workshop. If you're using a Windows system, convert the .pem file to a puTTY .ppk file. If you're not sure how to do this, instructions are available [here](https://aws.amazon.com/premiumsupport/knowledge-center/convert-pem-file-into-ppk/).
 
-## LAUNCH THE CLOUDFORMATION TEMPLATE
+## Launchh the CloudFormation template
 So that you can concentrate on the aspects of this workshop that directly relate to Amazon EC2 Spot instances, there is a CloudFormation template that will deploy the base AWS infrastructure needed for all of the labs within the workshop - saving you from having to create things like VPCs, Security Groups, IAM policies and so forth.
 
 Download and deploy the CloudFormation template:
-[amazon-ec2-spot-cicd-workshop.yaml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop.yaml)
+[amazon-ec2-spot-cicd-workshop-asg.yaml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/amazon-ec2-spot-cicd-workshop-asg.yaml)
 
 Be sure to give it a stack name of **SpotCICDWorkshop** and ensure that you supply appropriate parameters when prompted.
 
@@ -38,4 +38,15 @@ Be sure to give it a stack name of **SpotCICDWorkshop** and ensure that you supp
 
 The stack should take around five minutes to deploy.
 
-Once the CloudFormation is in the process of being deployed, you've completed all of the preparation required to start the workshop, you may proceed.
+## Setting Up environment variables
+You need to set up the following environment variables that you'll use in the workshop, to do so, run the following commands:
+
+```bash
+export PRIVATE_SUBNETS=$(aws cloudformation describe-stacks --stack-name SpotCICDWorkshop --query "Stacks[0].Outputs[?OutputKey=='JenkinsVPCPrivateSubnets'].OutputValue" --output text);
+export PUBLIC_SUBNETS=$(aws cloudformation describe-stacks --stack-name SpotCICDWorkshop --query "Stacks[0].Outputs[?OutputKey=='JenkinsVPCPublicSubnets'].OutputValue" --output text);
+export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=JenkinsBuildAgentLaunchTemplate | jq -r '.LaunchTemplates[0].LaunchTemplateId');
+```
+
+{{% notice note %}}
+If for some reason the environment variables are cleared, you can run the previous commands again without any problem.
+{{% /notice %}}

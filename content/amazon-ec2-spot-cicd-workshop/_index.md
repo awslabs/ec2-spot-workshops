@@ -1,31 +1,22 @@
 ---
-title: "CI/CD and Test Workloads with EC2 Spot Instances"
-menuTitle: "CI/CD and Test Workloads"
+title: "CI/CD Workloads with EC2 Spot Instances"
+menuTitle: "CI/CD Workloads"
 date: 2019-02-19T02:02:35
 weight: 80
 pre: "<b>8. </b>"
 ---
 
 ## Overview 
-During this workshop, you'll get hands-on with Amazon EC2 Spot and discover architectural best practices through the lens of DevOps and CI/CD. You'll deploy Jenkins build agents and test environments on Spot instances at a fraction of the cost of on-demand instances. You'll also implement mechanisms to ensure that your CI/CD tooling recovers from spot market events by decoupling application state from your compute resources. Finally, you'll migrate your CI/CD environment to a containerized environment to eke out maximum performance and cost efficiency. In addition to covering the ins and outs of Spot, we'll share some of the Spot-based mechanisms used by customers to reduce the cost of their test and production workloads.
+In this workshop, you'll get hands-on with Spot instances and discover architectural best practices through the lens of DevOps and CI/CD. We'll dive dive deep on how to deploy tools like Jenkins and use Spot instances as build agents. You'll also implement mechanisms to ensure that your CI/CD tooling recovers from Spot interruptions by simulating failures and decoupling application state from your compute resources. Moreover, you'll migrate your CI/CD environment to a containerized environments using ECS to eke out maximum performance and cost efficiency. In addition to covering the best practices to use Spot, we'll share some of the Spot-based mechanisms used by customers to optimize their infrastructure resources.
 
-## Workshop Details
-This workshop will be broken down into a series of labs that flow on from each other (that is, you must complete each lab in order before proceeding with the next). The lab exercises that will be covered are:
+## Workshop Labs
+This workshop will be broken down into a series of labs using differenct CI/CD tools and AWS services, topics covered are:
 
-* Workshop preparation: Deploy pre-requisite resources through Amazon CloudFormation;
-* Jenkins with Amazon EC2 Auto Scaling Groups using Spot;
-* Jenkins on ECS using Spot;
-* Workshop clean up.
+* [Jenkins with Auto Scaling groups](/amazon-ec2-spot-cicd-workshop/jenkins-asg.html)
+* [Jenkins with ECS](/amazon-ec2-spot-cicd-workshop/jenkins-ecs.html)
 
+{{% notice note %}}
 As a reminder, you should have a laptop device (Windows/OSX/Linux are supported - tablets are not appropriate) with the current version of Google Chrome or Mozilla Firefox installed. You should also have a clean AWS account, with **AdministratorAccess** policy-level access. 
+{{% /notice %}}
 
 This workshop should take between two and three hours to complete, depending on your proficiency with the AWS services being featured.
-
-#### Additional considerations when running this workshop in a corporate IT environment
-If you are running this workshop from a corporate IT environment, contact your Systems Administrator to ensure that you will be able to establish outbound Secure Shell (SSH) connections to an Internet host:
-
-* If you cannot establish SSH connections to Internet hosts (and do not have a suitable workaround), you will not be able to complete some labs;
-* If you can establish SSH connections to Internet hosts, obtain from your Systems Administrator the source IP address CIDR block that connections will be established from. 
-
-If you access the Internet through a transparent proxy server running in your corporate IT environment and this proxy server uses a different source address than where SSH connections come from, additional configuration of AWS Security Groups will need to be carried out. The lab guide will indicate the configuration steps required when appropriate. 
-
