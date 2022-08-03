@@ -12,6 +12,7 @@ As a first step, **download** a [CloudFormation stack](https://raw.githubusercon
 - An S3 bucket
 - An ECR repository
 - A Launch Template
+- An AWS Step Functions state machine
 - An instance profile for AWS Batch compute environment
 - The Cloud9 environment where you will run all the commands
 
@@ -21,6 +22,10 @@ After downloading the template, open the [CloudFormation console](https://consol
 2. In the **Specify stack details** page, set the stack name as **RenderingWithBatch**.
 3. In the **Configure stack options** page, leave all the configuration as it is. Navigate to the bottom of the page and click on **Next**.
 4. In the **Review** page, leave all the configuration as it is. Navigate to the bottom of the page, and click on **I acknowledge that AWS CloudFormation might create IAM resources** and finally on **Create stack**.
+
+{{% notice warning %}}
+It is important that you use **RenderingWithBatch** as the stack name, as later we will use that value to retrieve some outputs programmatically.
+{{% /notice %}}
 
 The stack creation process will begin. All the resources will be ready to use when the status of the stack is `CREATE_COMPLETE`.
 
