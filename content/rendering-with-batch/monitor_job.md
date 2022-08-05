@@ -11,18 +11,6 @@ You can check the rendering progress by running these commands in the Cloud9 ter
 ```
 while [ true ]
 do
-  while [ true ]
-  do
-    export RENDERING_JOB_ID=$(aws batch list-jobs --job-queue "${RENDERING_QUEUE_NAME}" --filters name=JOB_NAME,values="${JOB_NAME}" --query 'jobSummaryList[*].jobId' | jq -r '.[0]')
-
-    if [ ! -z "$RENDERING_JOB_ID" ] ; then
-      break
-    fi
-
-    echo "Rendering not started yet"
-    sleep 5
-  done
-
   export RENDERING_PROGRESS=$(aws batch describe-jobs --jobs "${RENDERING_JOB_ID}")
   export RENDER_COUNT=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.statusSummary.SUCCEEDED')
   export FRAMES_TO_RENDER=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.size')
@@ -33,16 +21,12 @@ do
     break
   fi
 
-  sleep 5
+  sleep 7
 done
 ```
 
-{{% notice info %}}
-It is normal if the progress is stuck at 0% at the beginning and after it increases rapidly. The reason for this is that AWS Batch is provisioning capacity for the Compute environments as defined earlier, and jobs will remain in the `RUNNABLE` state until sufficient resources are available. You can read more about job states here: [Job States](https://docs.aws.amazon.com/batch/latest/userguide/job_states.html).
-{{% /notice %}}
-
 {{% notice tip %}}
-This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
+This operation will take about 5 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
 {{% /notice %}}
 
 When the progress reaches 100%, the output video will be available in the following URL:
@@ -62,19 +46,8 @@ Explore also the rest of the S3 folders and check the frames that were created.
 {{% /notice %}}
 
 
+
 ## Monitoring
-
-### Viewing the execution of the state machine
-
-You can follow the progress of the rendering pipeline by navigating to the executions tab of the state machine. To do it:
-
-1. Navigate to the AWS Step Functions service page.
-2. Select the state machine whose name begins with **RenderingPipeline**.
-3. In the executions tab, select the first entry.
-4. In the graph inspector, you can select a state to see the input it receives and the output it produces.
-
-![AWS Step Functions console](/images/rendering-with-batch/step-functions.png)
-
 
 ### Viewing the logs of a job
 
@@ -92,7 +65,7 @@ To view the logs of a job using the console:
 You can monitor the status of a job using the following command:
 
 ```
-aws batch describe-jobs --jobs "${RENDERING_JOB_ID}"
+aws batch describe-jobs --jobs "${RENDERING_JOB_ID}" "${STITCHING_JOB_ID}"
 ```
 
 To learn more about this command, you can review the [describe-jobs CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-jobs.html).

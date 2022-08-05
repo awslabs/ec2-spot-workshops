@@ -42,8 +42,7 @@ All the compute environments within a queue must be either (`SPOT` and/or `EC2`)
 Execute this command to create the job queue. To learn more about this API, see [create-job-queue CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/create-job-queue.html).
 
 ```
-export JOB_QUEUE_ARN=$(aws batch create-job-queue --cli-input-json file://job-queue-config.json | jq -r '.jobQueueArn')
-echo "Job queue Arn: ${JOB_QUEUE_ARN}"
+aws batch create-job-queue --cli-input-json file://job-queue-config.json
 ```
 
 Next, you are going to create a **Job Definition** that will be used to submit jobs.

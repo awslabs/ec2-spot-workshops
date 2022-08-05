@@ -61,7 +61,7 @@ You are now done with the container part. Next, you will configure some environm
 ## Optional: understanding the render.sh script
 
 When we send a batch job, the container that we just created will be executed. The entry point of the container is the bash script `render.sh`. The script just takes
-a few arguments that AWS Batch will pass to each task and does run either blender when an environment variable named `ACTION` is set to `render` or ffmpeg when is set to `stitch`.
+a few arguments that AWS Batch will pass to each task and does run either blender when an environment variable named `ACTION` is set to `render` or or ffmpeg when is set to `stitch`.
 
 The following section describes the `render.sh` script in more detail. You don't need to go through this to run this workshop, but if you are interested in fully understanding how Blender and FFmpeg are called it will give you a clear description.
 
