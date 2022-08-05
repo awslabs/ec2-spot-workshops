@@ -59,7 +59,7 @@ Submits an AWS Batch array job of dimension *n*, where *n* is the number returne
 
 1. **Extraction of the ARNs of the Job Definition and Job Queue** from the payload received by the state machine using a [JSONPath](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/about-json-path.html) expression. Those are passed on to AWS Batch when submitting the job:
 
-    {{< highlight go "linenos=table, linenostart=1, hl_lines=15-16" >}}
+    {{< highlight go "linenos=inline, linenostart=1, hl_lines=15-16" >}}
 "Rendering": {
   "Type": "Task",
   "Resource": "arn:aws:states:::batch:submitJob.sync",
@@ -86,7 +86,7 @@ Submits an AWS Batch array job of dimension *n*, where *n* is the number returne
 
 2. **Setting the dimension of the array job** by specifying a value for the attribute `Size` inside the `ArrayProperties` structure. Now, we are taking that value from the output of the previous state:
 
-    {{< highlight go "linenos=table, linenostart=1, hl_lines=6-8" >}}
+    {{< highlight go "linenos=inline, linenostart=1, hl_lines=6-8" >}}
 "Rendering": {
   "Type": "Task",
   "Resource": "arn:aws:states:::batch:submitJob.sync",
@@ -111,7 +111,7 @@ Submits an AWS Batch array job of dimension *n*, where *n* is the number returne
 
 3. **Setting a value for the parameters defined in the Job Definition**. If you remember, we did specify a `command` attribute with the value `["Ref::action", "-i", "Ref::inputUri", "-o", "Ref::outputUri", "-f", "Ref::framesPerJob"]` when we created the Job Definition. Now it's time to give a value to the placeholders in that expression:
 
-    {{< highlight go "linenos=table, linenostart=1, hl_lines=9-14" >}}
+    {{< highlight go "linenos=inline, linenostart=1, hl_lines=9-14" >}}
 "Rendering": {
   "Type": "Task",
   "Resource": "arn:aws:states:::batch:submitJob.sync",
