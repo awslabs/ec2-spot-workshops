@@ -20,9 +20,7 @@ In this workshop we will use its [rendering capabilities](https://www.blender.or
 
 You can launch Blender's rendering capabilities from the command line. This allows to access Blender remotely and reduce compute resource consumption since it does not need to load a graphical interface. The Docker image that you will create will do exactly this; run a bash script that will execute Blender and pass to it some arguments needed to render a specific slice of frames. The command that will be executed is the following:
 
-```bash
-blender -b <input_path> -E CYCLES -o <output_path> -s <start_frame> -e <end_frame> -a
-```
+``blender -b <input_path> -E CYCLES -o <output_path> -s <start_frame> -e <end_frame> -a``
 
 The arguments mean the following:
 
@@ -41,6 +39,7 @@ We will use a Blender file from [BlendSwap](https://blendswap.com/categories). *
 
 - The file must be configured to render the frames as .png files.
 - The file must be named **blendfile.blend**.
+- The file size cannot exceed 512MB.
 - The more frames it has, the more compute resources you will need to render it thus impacting the costs of running the workshop.
 
 Run the following command to download the file and upload it to S3:
@@ -58,6 +57,4 @@ FFmpeg is a free and open-source multimedia framework able to decode, encode, tr
 
 To concatenate multiple images and make a video out of them, you will use what in FFmpeg's wiki is referred to as [*SlideShow*](https://trac.ffmpeg.org/wiki/Slideshow). When you launch the stitching job, the Docker image that you create will execute ffmpeg from the command line and pass it some arguments needed to create the video. The command that will be executed is the following:
 
-```bash
-ffmpeg -i <input_path> <output_path>
-```
+``ffmpeg -i <input_path> <output_path>``
