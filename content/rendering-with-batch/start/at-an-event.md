@@ -17,10 +17,9 @@ You are now logged in to the AWS console in an account that was created for you,
 - An S3 bucket
 - An ECR repository
 - A Launch Template
-- An AWS Step Functions state machine
 - An instance profile for AWS Batch compute environment
 - The Cloud9 environment where you will run all the commands
 
-You can check the CloudFormation stack by downloading the following file: [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/rendering-with-batch.files/stack.yaml)
+
 
 {{% insert-md-from-file file="rendering-with-batch/start/review-outputs.md" %}}
