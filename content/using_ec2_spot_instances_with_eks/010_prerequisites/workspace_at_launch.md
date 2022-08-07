@@ -10,5 +10,5 @@ and **lower work area**, and opening a new **terminal** tab in the main work are
 - Your workspace should now look like this:
 ![c9after](/images/using_ec2_spot_instances_with_eks/prerequisites/c9after.png)
 
-- If you want to change this theme, select **View / Themes / Solarized / Solarized Dark**
+- If you like this theme, you can choose it yourself by selecting **View / Themes / Solarized / Solarized Dark**
 in the Cloud9 workspace menu.
