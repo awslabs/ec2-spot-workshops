@@ -1,5 +1,5 @@
 +++
-title = "Configure Build Jobs to use Spot"
+title = "Configure jobs to use Spot"
 weight = 120
 +++
 As alluded to in the previous section, you'll need to configure your build jobs so that they are executed on the build agents running in your Spot instances. In addition, you could configure jobs to execute concurrent builds if necessary - this will help you in testing the scale-out of your fleet.

@@ -1,5 +1,5 @@
 +++
-title = "Configure the EC2 Fleet Jenkins Plugin"
+title = "Configure EC2 Fleet plugin"
 weight = 115
 +++
 The [EC2 Fleet Plugin](https://plugins.jenkins.io/ec2-fleet/) launches EC2 Spot or On Demand instances as worker nodes for Jenkins CI server, automatically scaling the capacity with the load. The EC2 FLeet plugin will request EC2 instances when excess jobs are detected. You can configure the plugin to use an Auto Scaling Group to launch instances instead of directly launching them by itself. This gives theh plugin all the benefits from Auto Scaling groups like allocation strategies, configure multiple instance types and availability zones, etc. Moreover, the EC2 Fleet plugin can automatically resubmit failed jobs caused by a Spot interruption. 

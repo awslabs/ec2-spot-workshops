@@ -1,5 +1,5 @@
 +++
-title = "Configure Persistence Storage when using Spot"
+title = "Configure Persistence Storage"
 weight = 125
 +++
 You're now using Spot instances for your code builds – but your Jenkins server is still using an on-demand instance. Jenkins itself does not natively support running in high-availability configurations because it persists all data on a local file system. If you can store this data durably somewhere else than on the local file system, you can move your Jenkins Master instance to a self-healing Spot instance. To provide persistence for this file system data, you’ll move your Jenkins data to an Elastic File System (EFS) volume and mount this volume on instance spawned by an Auto Scaling group.
@@ -40,7 +40,7 @@ sudo cp -rpv /jenkins_home/* /mnt
 ```
 
 ## Provision an Auto Scaling group for the new Jenkins host
-The Auto Scaling group that you'll provision for your Jenkins server will be configured in a similar manner to what you did for the build agents. Additionally, you'll configure this Auto Scaling group so that the instances are associated with the Target Group used by the Application Load Balancer that you've been using to access Jenkins.
+The Auto Scaling group that you'll provision for your Jenkins server will be configured in a similar manner to what you did for the build agents: launch only Spot instances with the capacity-optimized strategy, and using ABS to increase diversification. Additionally, you'll configure this Auto Scaling group so that the instances are associated with the Target Group used by the Application Load Balancer that you've been using to access Jenkins.
 
 Run the following commands to create the Auto Scaling group configuration file:
 
@@ -55,22 +55,9 @@ cat <<EoF > ~/asg-jenkins-host-policy.json
       },
       "Overrides":[
          {
-            "InstanceType":"t2.large"
-         },
-         {
-            "InstanceType":"t3.large"
-         },
-         {
-            "InstanceType":"m4.large"
-         },
-         {
-            "InstanceType":"m5.large"
-         },
-         {
-            "InstanceType":"c5.large"
-         },
-         {
-            "InstanceType":"c4.large"
+            "InstanceRequirements": {
+            "VCpuCount":{"Min": 2, "Max": 8},
+            "MemoryMiB":{"Min": 4096} }
          }
       ]
    },
