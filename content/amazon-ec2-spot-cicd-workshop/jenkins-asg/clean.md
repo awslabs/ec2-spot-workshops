@@ -1,6 +1,6 @@
 +++
 title = "Cleanup"
-weight = 150
+weight = 160
 +++
 Congratulations, you have completed the Jenkins with Auto Scaling group lab! Your next challenge is to remove all of the resources that were provisioned in your account so as to ensure that no additional cost can be incurred. Please note that the commands below should be executed in order - some later steps have dependencies on earlier ones!
 
@@ -11,10 +11,12 @@ aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotJenki
 aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotJenkinsHostASG;
 ```
 
-## Delete theh CloudFormation stack
+## Delete the CloudFormation stacks
 
 ```bash
 aws cloudformation delete-stack --stack-name SpotCICDWorkshop;
+aws cloudformation delete-stack --stack-name track-spot-interruption;
+aws cloudformation delete-stack --stack-name fis-spot-interruption;
 ```
 
 ## Remove theh EC2 key pair

@@ -1,0 +1,69 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: FIS for Spot Instances
+Parameters:
+  InstancesToInterrupt:
+    Description: Number of instances to interrupt
+    Default: 1
+    Type: Number
+
+  DurationBeforeInterruption:
+    Description: Number of minutes before the interruption
+    Default: 2
+    Type: Number
+
+Resources:
+  FISSpotRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [fis.amazonaws.com]
+            Action: ["sts:AssumeRole"]
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "ec2:DescribeInstances"
+                Resource: "*"
+              - Effect: Allow
+                Action: "ec2:SendSpotInstanceInterruptions"
+                Resource: "arn:aws:ec2:*:*:instance/*"
+
+  FISExperimentTemplate:
+    Type: AWS::FIS::ExperimentTemplate
+    Properties:
+      Description: "Interrupt multiple random instances"
+      Targets:
+        SpotIntances:
+          ResourceTags:
+            Name: "Jenkins Master (Spot)"
+          Filters:
+            - Path: State.Name
+              Values:
+                - running
+          ResourceType: aws:ec2:spot-instance
+          SelectionMode: !Join ["", ["COUNT(", !Ref InstancesToInterrupt, ")"]]
+      Actions:
+        interrupt:
+          ActionId: "aws:ec2:send-spot-instance-interruptions"
+          Description: "Interrupt multiple Spot instances"
+          Parameters:
+            durationBeforeInterruption:
+              !Join ["", ["PT", !Ref DurationBeforeInterruption, "M"]]
+          Targets:
+            SpotInstances: SpotIntances
+      StopConditions:
+        - Source: none
+      RoleArn: !GetAtt FISSpotRole.Arn
+      Tags:
+        Name: "fis-spot-interruption"
+
+Outputs:
+  FISExperimentID:
+    Value: !GetAtt FISExperimentTemplate.Id
