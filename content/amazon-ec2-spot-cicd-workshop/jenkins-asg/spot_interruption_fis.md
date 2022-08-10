@@ -49,6 +49,6 @@ You should see a list of instances with the date and time when they were launche
 
 #### Verify that Jenkins is still working
 
-Login to the Jenkins server again and start running some jobs as you did previously. 
+Login to the Jenkins server again and start running some jobs as [you did previously](/amazon-ec2-spot-cicd-workshop/jenkins-asg/test-persistence.html#verify-that-the-new-spot-instance-is-running-the-jenkins-server). 
 
 You should see that the EC2 Fleet plugin is still working and is launching Spot instances as build agents.
