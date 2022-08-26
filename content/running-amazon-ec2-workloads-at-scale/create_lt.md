@@ -59,12 +59,12 @@ Now that the launch template is created, browse to the [Launch Templates console
 
 * Verify that the contents of the launch template are correct:
 
-	```
-	aws ec2 describe-launch-template-versions  --launch-template-name runningAmazonEC2WorkloadsAtScale
-	```
+    ```bash
+    aws ec2 describe-launch-template-versions  --launch-template-name runningAmazonEC2WorkloadsAtScale
+    ```
 
 * Verify that the contents of the launch template user data are correct:
 
-	```
-	aws ec2 describe-launch-template-versions  --launch-template-name runningAmazonEC2WorkloadsAtScale --output json | jq -r '.LaunchTemplateVersions[].LaunchTemplateData.UserData' | base64 --decode
-	```
+    ```bash
+    aws ec2 describe-launch-template-versions --launch-template-name runningAmazonEC2WorkloadsAtScale --output json | jq -r '.LaunchTemplateVersions[].LaunchTemplateData.UserData' | base64 --decode
+    ```

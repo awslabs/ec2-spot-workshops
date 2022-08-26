@@ -10,9 +10,10 @@ weight = 110
 
 1. Seed the database for the application environment. Replace **%endpoint%** with the database instance endpoint noted in the last step:
 
-	```
-	mysql -h %endpoint% -u dbadmin --password=db-pass-2020 -f koel < koel.sql
-	```
+    ```bash
+    mysql -h %endpoint% -u dbadmin --password=db-pass-2020 -f koel < koel.sql
+    ```
+
 {{% notice note %}}
 This command will not return any output if it is successful.
 {{% /notice %}}
