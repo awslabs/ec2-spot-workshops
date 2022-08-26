@@ -17,10 +17,6 @@
               "Min": 4096,
               "Max": 16384
             },
-            "MemoryGiBPerVCpu": {
-              "Min": 2,
-              "Max": 8
-            },
             "CpuManufacturers": [
               "intel",
               "amd"
@@ -29,13 +25,10 @@
               "current"
             ],
             "AcceleratorCount": {
-              "Min": 0,
               "Max": 0
             },
             "ExcludedInstanceTypes": [
               "d*",
-              "h*",
-              "x*",
               "i*",
               "z*"
             ]
