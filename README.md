@@ -11,7 +11,13 @@ The content of the workshops is built using [hugo](https://gohugo.io/).
 ### Local Build
 To build the content
  * clone this repository
- * [install hugo](https://gohugo.io/getting-started/installing/). The website is currently running on Hugo 0.53, since we have some markdown issues with the latest versions. You can download the exact version here: https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_Linux-64bit.tar.gz
+ * [install hugo](https://gohugo.io/getting-started/installing/). The website is currently running on Hugo 0.92, since we have some markdown issues with the latest versions. You can download the exact version [here](https://github.com/gohugoio/hugo/releases/tag/v0.92.0):
+
+    * Linux: https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_Linux-64bit.tar.gz
+    * MacOS (Intel): https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_macOS-64bit.tar.gz
+    * MacOS (ARM): https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_macOS-ARM64.tar.gz
+    * Windows: https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_Windows-64bit.zip
+
  * The project uses [hugo learn](https://github.com/matcornic/hugo-theme-learn/) template as a git submodule. To update the content, execute the following code
 ```bash
 pushd themes/learn

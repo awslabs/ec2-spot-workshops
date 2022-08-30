@@ -19,6 +19,9 @@ disableLanguageSwitchingButton = false
 disableShortcutsTitle = false
 disableInlineCopyToClipBoard = true
 disableLandingPageButton = true
+editURL = "https://github.com/awslabs/ec2-spot-workshops/edit/master/content/"
+ghrepo = "https://github.com/awslabs/ec2-spot-workshops/"
+branch = "master"
 
 [outputs]
 home = [ "HTML", "AMP", "RSS", "JSON"]
@@ -57,7 +60,7 @@ weight = 10
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-users'></i> Authors"
-url = "/authors.html"
+url = "https://github.com/awslabs/ec2-spot-workshops/graphs/contributors"
 weight = 20
 
 [[menu.shortcuts]]
