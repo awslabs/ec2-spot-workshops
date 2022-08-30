@@ -1,6 +1,6 @@
 variables:
   ECR_REGISTRY: ${ECR_ADDRESS}
-  IMAGE_TAG: gitlab-spot-demo:$CI_COMMIT_SHA
+  IMAGE_TAG: ${ECR_NAME}:$CI_COMMIT_SHA
   REGION: ${AWS_REGION}
   K8S_CLUSTER_NAME: gitlab-spot-workshop
   DOCKER_DRIVER: overlay2

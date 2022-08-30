@@ -1,5 +1,5 @@
 +++
-title = "Lab 1: Create a GitLab repository"
+title = "Create a GitLab repository"
 weight = 30
 +++
 In this lab you will create a new repository in GitLab and configure it in AWS Cloud9. Then you will create the source code of the demo app and commit it into the repository, but before you configure the actual CI/CD in the next lab, will not push it.
@@ -34,16 +34,18 @@ You will now initialize Git repository in the demo app and add your GitLab envir
 cd ~/environment/amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/
 ```
 
-2. Execute the following command to substitute the `ECR_ADDRESS` placeholder with the actual address of ECR repository created in the CloudFormation stack and save it into `.gitlab-ci.yml` file as expected by GitLab CI/CD:
+2. Execute the following command to substitute the `ECR_ADDRESS` and other placeholders with their actual values (like the address of ECR repository created in the CloudFormation stack) and save it into `.gitlab-ci.yml` file as expected by GitLab CI/CD:
 
 ```
 TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 600")
 REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region)
-export ECR_ADDRESS=$(aws ecr describe-repositories --repository-names gitlab-spot-demo --region $REGION --query repositories[0].repositoryUri --output text | awk -F'/' '{print $1}')
-sed "s/\${ECR_ADDRESS}/${ECR_ADDRESS}/g" template-gitlab-ci.yml | sed "s/\${AWS_REGION}/${REGION}/g" > .gitlab-ci.yml
+export ECR_INFO=$(aws ecr describe-repositories --region $REGION --query "repositories[?contains(repositoryName, 'gitlab-spot-demo')].repositoryUri" --output text)
+export ECR_ADDRESS=$(echo $ECR_INFO | awk -F'/' '{print $1}')
+export ECR_NAME=$(echo $ECR_INFO | awk -F'/' '{print $2}')
+sed "s/\${ECR_ADDRESS}/${ECR_ADDRESS}/g" template-gitlab-ci.yml | sed "s/\${ECR_NAME}/${ECR_NAME}/g" | sed "s/\${AWS_REGION}/${REGION}/g" > .gitlab-ci.yml
 ```
 
-3. In the file tree on the left open file `gitlab-spot-workshop/amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)). Look through it to understand what it does.
+3. In the file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)). Look through it to understand what it does.
 4. Define your name and email that will be used in Git (replace `Your Name` and `youremail@test.tld` with the values you prefer):
 
 ```
@@ -66,4 +68,4 @@ git add .
 git commit -m "Initial commit"
 ```
 
-You are now ready to do the key step in configuring GitLab CI/CD on Spot instances: add the runners. Please proceed to [**Lab 2: Configure GitLab runners on Spot instances**](lab2.html).
+You are now ready to do the key step in configuring GitLab CI/CD on Spot instances: add the runners. Please proceed to [**Configure GitLab runners on Spot instances**](lab2.html).

@@ -1,5 +1,5 @@
 +++
-title = "Lab 4: Deploying Amazon EKS on Spot instances"
+title = "Deploying Amazon EKS on Spot instances"
 weight = 50
 +++
 
@@ -29,7 +29,7 @@ terraform apply
 ```
 
 3. When asked for the parameters, enter the following values:
-    * **kubernetes_version**: the latest version of Kubernetes that you can find in [Amazon EKS documentation](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html): only major and minor version separated with a dot without patch release, for example, `1.22`
+    * **kubernetes_version**: the latest version of Kubernetes that you can find in [Amazon EKS documentation](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html): only major and minor version separated with a dot without patch release, for example, `1.23`
     * **vpc_id**: the VPC ID you saved from CloudFormation Output values in [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html) in the format `vpc-...`
 
 ![Cloud9 Console Screenshot: Terraform variables](/images/gitlab-spot/Cloud9-TerraformVars.png)
@@ -88,7 +88,7 @@ cat << EoF
 EoF
 ```
 
-3. Copy the output of the last command, then in the file tree on the left open the file `gitlab-spot-workshop/aws-auth.yaml` by double-clicking it, and finally add the previous command's output that you copied before into `mapRoles` section. You should have something similar to the below screenshot:
+3. Copy the output of the last command, then in the file tree on the left open the file `aws-auth.yaml` by double-clicking it, and finally add the previous command's output that you copied before into `mapRoles` section. You should have something similar to the below screenshot:
 
 ![Cloud9 Console Screenshot: aws-auth ConfigMap](/images/gitlab-spot/Cloud9-AWSAuth.png)
 
@@ -101,7 +101,7 @@ kubectl apply -f aws-auth.yaml
 
 {{% /expand%}}
 
-You are now ready for the final steps to deploy your demo application into the cluster in [**Lab 5: Installing the demo app into Amazon EKS**](lab5.html).
+You are now ready for the final steps to deploy your demo application into the cluster in [**Installing the demo app into Amazon EKS**](lab5.html).
 
 ### Challenge
 

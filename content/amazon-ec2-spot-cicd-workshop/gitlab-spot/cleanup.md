@@ -23,13 +23,11 @@ export TF_VAR_alb_policy=$(aws iam get-policy --policy-arn arn:aws:iam::$(aws st
 terraform destroy
 ```
 
-3. When asked if you want to destroy all resources, type `yes` and press Enter. After that, you can close your Cloud9 environment.
-4. Depending on how you deployed the runners, do one of the following:
-    - If you deployed runners using Auto-Scaling Group, in CloudFormation console delete the stack `linux-docker-scaling-spotonly` (the NESTED stack will be removed automatically).
-    - If you performed the optional steps to deploy runners using Docker Machine, terminate all runner instances in the EC2 console (name starts with `runner-`) if they have not been yet terminated automatically. Also, terminate the instace `GitLabRunnerManager`. Finally, in the EC2 console choose **Security Groups** in the navigation pane and delete the security groups `GitLabRunner` first and then `GitLabRunnerManager`.
-5. In Cloud9 console remove the environment you created.
-6. In the IAM console remove all roles you created (`gitlab-spot-workshop-admin` and `GitLabRunner`) and all policies (`EKS-ReadAll`, `AWSLoadBalancerControllerIAMPolicy`, unless you had it before the workshop, and, if you did the Docker Run lab, `IAM-PassRole`).
-7. In the ECR console open the repository and remove all images inside it (you do not need to remove the repository itself: it will be done automatically when removing the GitLab stack).
+3. When asked if you want to destroy all resources, type `yes` and press Enter. Wait until the process is finished and close your Cloud9 environment.
+4. In CloudFormation console delete the stack `linux-docker-scaling-spotonly`.
+5. In the IAM console remove the role `GitLabRunner` and the policies `GitLabRunnerPolicy` and `AWSLoadBalancerControllerIAMPolicy`, unless you had it before the workshop.
+6. In the ECR console open the repository and remove all images inside it (you do not need to remove the repository itself: it will be done automatically when removing the GitLab stack).
+7. In the S3 console find a bucket with `gitlabworkshopc9outputbucket` in its name and remove all objects inside it.
 8. If you created the GitLab stack in CloudFormation yourself, remove it too (if you used the one created automatically, you will not be able to delete it, so you can leave it as is).
 
 ### Thank you

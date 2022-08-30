@@ -1,12 +1,12 @@
 +++
-title = "Lab 5: Installing the demo app into Amazon EKS"
+title = "Installing the demo app into Amazon EKS"
 weight = 50
 +++
 
-In this lab you will deploy the demo application you built earlier in the new Amazon EKS cluster deployed fully on spot instances.
+In this section you will deploy the demo application you built earlier in the new Amazon EKS cluster deployed fully on spot instances.
 
 {{%expand "Click to reveal detailed instructions" %}}
-1. In the Cloud9 file tree on the left open file `gitlab-spot-workshop/amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)).
+1. In the Cloud9 file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)).
 2. Change the jobs `deploy_to_eks` and `test_on_eks` to the following ones:
 
 ```

@@ -20,7 +20,7 @@ If you are at an AWS event, an AWS account created for you to use throughout the
 ### Get the SSH key and log in to AWS Console
 
 1. In the Team Dashboard screen, choose **SSH Key**.
-2. In the popup page, choose **Download Key**. You will only need it if you decide to do an optional task of configuring runners using Docker Machine (this had been the only way before Auto-Scaling Groups support was added).
+2. In the popup page, choose **Download Key**. You don't need the key to complete the labs, but might want to still have it if you decide to explore the environment.
 
 ![Event Engine Screenshot: SSH Key](/images/gitlab-spot/EE-SSHKey.png)
 
@@ -32,7 +32,7 @@ You are now logged in to the AWS console in an account that was created for you,
 
 ### Open the pre-provisioned CloudFormation stack
 
-In the next section we will get the login details of the GitLab environment that was pre-provisioned for you via AWS CloudFormation. First, you need to find and open the CloudFormation stack: it is the only one in the account.
+In the next section we will get the login details of the GitLab environment that was pre-provisioned for you via AWS CloudFormation. First, you need to find and open the CloudFormation stack: it is the oldest one in the account.
 
 {{%expand "Click to reveal detailed instructions" %}}
 1. In the AWS Console enter **CloudFormation** in the search box at the top of the screen and open the service:
@@ -40,7 +40,7 @@ In the next section we will get the login details of the GitLab environment that
 ![AWS Console Screenshot: Search for CloudFormation](/images/gitlab-spot/AWSConsole-CloudFormationSearch.png)
 
 2. In the navigation pane on the left choose **Stacks**.
-3. You should see exactly one stack in the list (with the name like `mod-...`), click on it.
+3. You should see two stacks in the list: the one for AWS Cloud9 environment starting with `aws-cloud9-...` and the main one starting with `mod-...`. You will need the main stack (latter one), click on it.
 {{% /expand%}}
 
 If there is no CloudFormation stack present, provision it as specified in the section [**...On your own**](self_paced.html).

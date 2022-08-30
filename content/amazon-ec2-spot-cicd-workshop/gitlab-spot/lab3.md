@@ -1,12 +1,12 @@
 +++
-title = "Lab 3: Building the demo app"
+title = "Building the demo app"
 weight = 50
 +++
 
 In this lab you will push the changes to your origin repository and verify that the pipeline has successfully finished both in GitLab and by checking the image in Amazon ECR.
 
 {{%expand "Click to reveal detailed instructions" %}}
-1. Return to the browser tab with Cloud9 and execute the following command in the terminal. Specify `root` as the username and the same password you used in [**Lab 1: Create a GitLab repository**](lab1.html) to log in to GitLab:
+1. Return to the browser tab with Cloud9 and execute the following command in the terminal. Specify `root` as the username and the same password you used in [**Create a GitLab repository**](lab1.html) to log in to GitLab:
 
 ```
 git push -u origin main
@@ -19,13 +19,13 @@ git push -u origin main
 
 4. Return to the browser tab with AWS Console.
 5. Type `ECR` in the search box at the top and open the **Elastic Container Registry** service.
-6. Open the **gitlab-spot-demo** repository and verify that it contains an image that has just been built in GitLab:
+6. Open the repository with **gitlab-spot-demo** in its name and verify that it contains an image that has just been built in GitLab:
 
 ![ECR Console Screenshot: Images](/images/gitlab-spot/AWSConsole-ECRImages.png)
 
 {{% /expand%}}
 
-You have successfully built the image and can now proceed to [**Lab 4: Deploying Amazon EKS on Spot instances**](lab4.html).
+You have successfully built the image and can now proceed to [**Deploying Amazon EKS on Spot instances**](lab4.html).
 
 ### Challenges
 
@@ -33,6 +33,18 @@ If this and previous labs seemed too easy, try completing the following challeng
 
 **Challenge 1:** Configure shared runners for the whole GitLab CI/CD and not just the current repository. Create an additional repository and verify that your runners serve it too.
 
-**Challenge 2:** If you used the auto-scaling group approach, trigger auto-scaling of the instances to get more runners created (tip: by default, it is done by CPU load, so you can run a CPU load tool inside your build scripts to simulate it).
+{{%expand "Click to reveal a hint" %}}
+Open the Admin Area of GitLab interface and in the Runners section get the registration code. Use it instead of the one from the project.
+{{% /expand%}}
 
-**Challenge 3:** If you used the auto-scaling group approach, try modifying it to perform scaling by the number of the jobs instead of the CPU load (you will need to create a custom CloudWatch metric for this).
+**Challenge 2:** Trigger auto-scaling of the instances to get more runners created.
+
+{{%expand "Click to reveal a hint" %}}
+By default, auto-scaling is done by CPU load, so you can run a CPU load generator inside your build scripts to simulate it, for example, you can use `stress` or `stress-ng` tools for this.
+{{% /expand%}}
+
+**Challenge 3:** Modify the auto-scaling group to perform scaling by the number of the jobs instead of the CPU load.
+
+{{%expand "Click to reveal a hint" %}}
+Create a Lambda function that gets the number of jobs from [GitLab API](https://docs.gitlab.com/ee/api/jobs.html#list-project-jobs) and publishes it as a custom CloudWatch metric. Use this metric to scale the group.
+{{% /expand%}}
