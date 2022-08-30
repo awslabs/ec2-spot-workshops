@@ -8,27 +8,36 @@
       },
       "Overrides": [
         {
-          "InstanceType": "m5.large"
-        },
-        {
-          "InstanceType": "c5.large"
-        },
-        {
-          "InstanceType": "m4.large"
-        },
-        {
-          "InstanceType": "c4.large"
-        },
-        {
-          "InstanceType": "r5.large"
-        },
-        {
-          "InstanceType": "r4.large"
+          "InstanceRequirements": {
+            "VCpuCount": {
+              "Min": 2,
+              "Max": 2
+            },
+            "MemoryMiB": {
+              "Min": 4096,
+              "Max": 16384
+            },
+            "CpuManufacturers": [
+              "intel",
+              "amd"
+            ],
+            "InstanceGenerations": [
+              "current"
+            ],
+            "AcceleratorCount": {
+              "Max": 0
+            },
+            "ExcludedInstanceTypes": [
+              "d*",
+              "i*",
+              "z*"
+            ]
+          }
         }
       ]
     },
     "InstancesDistribution": {
-      "OnDemandAllocationStrategy": "prioritized",
+      "OnDemandAllocationStrategy": "lowest-price",
       "OnDemandBaseCapacity": 2,
       "OnDemandPercentageAboveBaseCapacity": 0,
       "SpotAllocationStrategy": "capacity-optimized"
