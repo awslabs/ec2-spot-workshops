@@ -10,6 +10,11 @@ If you're running in an account that was created for you as part of an AWS event
 If you're running in your own account, make sure you run through these steps to make sure you don't encounter unwanted costs.
 {{% /notice %}}
 
+## Removing the CloudFormation stack used for FIS
+```
+aws cloudformation delete-stack --stack-name $FIS_EXP_NAME
+```
+
 ## Cleaning up HPA, CA, and the Microservice
 ```
 cd ~/environment
