@@ -102,22 +102,3 @@ or
 kubectl top pods
 ```
 {{% /expand %}}
-
-
-## What Have we learned in this section : 
-
-In this section we have learned:
-
-* We have built an container image using a multi-stage approach and uploaded the resulting microservice into Amazon Elastic Container Registry (ECR).
-
-* We have deployed a Monte Carlo Microservice applying all the lessons learned from the previous section.
-
-* We have set up the Horizontal Pod Autoscaler (HPA) to scale our Monte Carlo microservice whenever the average CPU percentage exceeds 50%, We configured it to scale from 3 replicas to 100 replicas
-
-* We have sent request to the Monte Carlo microservice to stress the CPU of the Pods where it runs. We saw in action dynamic scaling with HPA and Karpenter and now know can we appy this techniques to our kubernetes cluster
-
-
-{{% notice info %}}
-Congratulations ! You have completed the dynamic scaling section of this workshop.
-In the next sections we will collect our conclusions and clean up the setup.
-{{% /notice %}}
