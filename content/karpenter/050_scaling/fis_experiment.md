@@ -152,7 +152,7 @@ If the experiment completed successfully you should see a response like this:
 }
 ```
 
-If `status` is listed as `running` or `pending`, wait a few seconds and run the command again. If `status` is listed as `failed` or `cancelled` with `reason` as either `Target resolution returned empty set` or `Action cancelled` it means you do not have any Spot instances running with the `intent: apps` label and so no instance was selected for termination.
+If `status` is listed as `running`, wait a few seconds and run the command again. If `status` is listed as `failed` with `reason` as `Target resolution returned empty set` it means you do not have any Spot instances running with the `intent: apps` label and so no instance was selected for termination.
 
 You can watch how your cluster reacts to the notice with kube-ops-view. Recall you can get the URL for your kube-ops-view by running:
 
