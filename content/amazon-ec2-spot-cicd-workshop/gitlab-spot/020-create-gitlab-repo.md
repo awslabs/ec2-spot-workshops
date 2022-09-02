@@ -1,19 +1,23 @@
 +++
 title = "Create a GitLab repository"
-weight = 30
+weight = 20
 +++
-In this lab you will create a new repository in GitLab and configure it in AWS Cloud9. Then you will create the source code of the demo app and commit it into the repository, but before you configure the actual CI/CD in the next lab, will not push it.
+In this lab, you will create a new repository in GitLab and configure it in AWS Cloud9. Next, you will create the source code of the demo app and commit it into the repository.
 
 ### Log in to GitLab
 
-1. Open a new browser tab and proceed to GitLab URL: use the output value **GitLabURL** that you saved [**Workshop Preparation**](prep.html).
-2. Log in to GitLab with username `root` and the password from **GitLabPassword** output value.
+1. Run below command to get GitLab URL and password from saved environment variables:
+```
+echo GitLabURL = $GitLabURL
+echo GitLabPassword = $GitLabPassword
+```
+2. Open a new browser tab and proceed to GitLab URL.
+3. Log in to GitLab with username `root` and the password from **GitLabPassword** output value.
 
 ### Create a new repository
+**Challenge:** If you are familiar with GitLab, then test your knowledge by creating a new empty private repository called `GitLab Spot Workshop`.
 
-In GitLab create a new empty private repository called `GitLab Spot Workshop`.
-
-{{%expand "Click to reveal detailed instructions" %}}
+{{%expand "Click to reveal the instructions" %}}
 1. Choose **New project** on the **Projects** page.
 2. Choose **Create blank project**.
 3. In the **Project name** field type `GitLab Spot Workshop`, in the dropdown next to **Project URL** select `root` user, and unmark the checkbox **Initialize repository with a README**. Leave the rest values as default, and choose **Create project**:

@@ -1,6 +1,6 @@
 +++
 title = "Workshop Cleanup"
-weight = 60
+weight = 70
 +++
 
 You will now remove the resources created during the workshop.

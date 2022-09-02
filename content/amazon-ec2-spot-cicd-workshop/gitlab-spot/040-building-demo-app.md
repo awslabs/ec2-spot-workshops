@@ -1,11 +1,10 @@
 +++
 title = "Building the demo app"
-weight = 50
+weight = 40
 +++
 
 In this lab you will push the changes to your origin repository and verify that the pipeline has successfully finished both in GitLab and by checking the image in Amazon ECR.
 
-{{%expand "Click to reveal detailed instructions" %}}
 1. Return to the browser tab with Cloud9 and execute the following command in the terminal. Specify `root` as the username and the same password you used in [**Create a GitLab repository**](lab1.html) to log in to GitLab:
 
 ```
@@ -22,8 +21,6 @@ git push -u origin main
 6. Open the repository with **gitlab-spot-demo** in its name and verify that it contains an image that has just been built in GitLab:
 
 ![ECR Console Screenshot: Images](/images/gitlab-spot/AWSConsole-ECRImages.png)
-
-{{% /expand%}}
 
 You have successfully built the image and can now proceed to [**Deploying Amazon EKS on Spot instances**](lab4.html).
 

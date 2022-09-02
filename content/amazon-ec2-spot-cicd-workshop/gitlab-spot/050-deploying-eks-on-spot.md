@@ -7,17 +7,15 @@ You will now deploy an Amazon EKS cluster in order to roll out your newly built 
 
 The Terraform files are located in `~/environment/amazon-ec2-spot-cicd-workshop/gitlab-spot/eks-cluster` directory of your Cloud9 environment.
 
-{{%expand "Click to reveal detailed instructions" %}}
 1. Return to the browser tab with Cloud9 and execute the following commands in the terminal to download and install `kubectl` that you will be using to work with the Kubernetes cluster:
-
 ```
 cd ~/environment
-sudo curl -sLo /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+export KUBECTL_VERSION=v1.22.10
+sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 ```
 
 2. Switch to the directory with IaC templates, initialize the Terraform working directory, and apply the changes:
-
 ```
 cd ~/environment/amazon-ec2-spot-cicd-workshop/gitlab-spot/eks-cluster
 terraform init
@@ -29,26 +27,26 @@ terraform apply
 ```
 
 3. When asked for the parameters, enter the following values:
-    * **kubernetes_version**: the latest version of Kubernetes that you can find in [Amazon EKS documentation](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html): only major and minor version separated with a dot without patch release, for example, `1.23`
-    * **vpc_id**: the VPC ID you saved from CloudFormation Output values in [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html) in the format `vpc-...`
+    * **kubernetes_version**: enter `1.22`
+    * **vpc_id**: open a new terminal in Cloud9 and run below command to get the VPC ID
+    ```
+    echo VPC ID = $VPC
+    ```
 
 ![Cloud9 Console Screenshot: Terraform variables](/images/gitlab-spot/Cloud9-TerraformVars.png)
 
 4. When asked if you want to perform the changes, check the list of resources to be created, type `yes`, and press Enter. It should take approximately 15 minutes to deploy the cluster.
 5. After the process has finished, execute the following command to update the `kubeconfig`, using the information from Amazon EKS:
-
 ```
 aws eks update-kubeconfig --region $TF_VAR_aws_region --name gitlab-spot-workshop
 ```
 
 6. Execute the below commands to verify that you can reach Kubernetes API. The first should return all Kubernetes resources across the namespaces and the second should show 3 worker nodes:
-
 ```
 kubectl get all -A
 kubectl get nodes
 ```
 7. Execute the below command to install AWS Load Balancer Controller (it will be used to configure Application Load Balancer for your pods):
-
 ```
 curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 helm repo add eks https://aws.github.io/eks-charts
@@ -61,27 +59,22 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set
 
 ![EC2 Console Screenshot: Instance list with instance lifecycle](/images/gitlab-spot/AWSConsole-EC2InstancesLifecycle.png)
 
-{{% /expand%}}
-
 ### Add GitLab role to Kubernetes RBAC
 By default, the IAM user or role that created Amazon EKS cluster gets access to its Kubernetes API. However, as you have different roles assigned to the Cloud9 environment and the GitLab runners, you need to add the latter to Kubernetes Role Based Access Control (RBAC).
 
 You will do it by manually modifying Kubernetes ConfigMap called `aws-auth`. You could have done it directly in Terraform, but in this workshop we suggest that you do it manually to better understand the concepts.
 
-{{%expand "Click to reveal detailed instructions" %}}
 1. Return to the browser tab with Cloud9 and in the terminal execute the following command, which will save the ConfigMap current manifest into `aws-auth.yaml` file:
-
 ```
 cd ~/environment
 kubectl get configmap -n kube-system aws-auth -o yaml > aws-auth.yaml
 ```
 
 2. To generate the lines that you will add into the file, execute the following commands:
-
 ```
 export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
 cat << EoF
-    - rolearn: arn:aws:iam::${ACCOUNT_ID}:role/GitLabRunner
+    - rolearn: arn:aws:iam::${ACCOUNT_ID}:role/gitlab-runner
       groups:
       - system:masters
       username: gitlab-runner
@@ -98,8 +91,6 @@ EoF
 ```
 kubectl apply -f aws-auth.yaml
 ```
-
-{{% /expand%}}
 
 You are now ready for the final steps to deploy your demo application into the cluster in [**Installing the demo app into Amazon EKS**](lab5.html).
 

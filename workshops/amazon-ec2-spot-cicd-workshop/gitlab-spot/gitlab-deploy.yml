@@ -606,6 +606,11 @@ Resources:
             - cp -ar /home/ec2-user/environment/spot-workshop/workshops/amazon-ec2-spot-cicd-workshop/ /home/ec2-user/environment/
             - rm -rf /home/ec2-user/environment/spot-workshop/
             - chown -R ec2-user:ec2-user /home/ec2-user/environment/amazon-ec2-spot-cicd-workshop/
+            - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/home/ec2-user/environment/awscliv2.zip"
+            - cd /home/ec2-user/environment
+            - unzip awscliv2.zip
+            - sudo ./aws/install
+            - sudo yum -y install jq
             - echo "Bootstrap completed with return code $?"
       Tags:
         - Key: Project

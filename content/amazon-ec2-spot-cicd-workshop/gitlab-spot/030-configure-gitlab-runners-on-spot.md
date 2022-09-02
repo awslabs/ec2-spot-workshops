@@ -1,23 +1,41 @@
 +++
 title = "Configure GitLab runners on Spot instances"
 chapter = false
-weight = 40
+weight = 30
 +++
 
-In this lab you will configure GitLab CI/CD runners using **GitLab HA Scaling Runner Vending Machine for AWS** solution. You can find more about its features at https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg/-/blob/main/FEATURES.md. It is built using Infrastructure as Code (IaC) with AWS CloudFormation, but you can implement similar logic using any IaC solution of your choice.
+In this lab you will configure GitLab CI/CD runners using **GitLab HA Scaling Runner Vending Machine for AWS** solution. You can find more about its features [**here**](https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg/-/blob/main/FEATURES.md). It is built using Infrastructure as Code (IaC) with AWS CloudFormation, but you can implement similar logic using any IaC solution of your choice.
 
-There are also other ways to create GitLab runners on spot instances that we are not reviewing in this workshop: using Docker Machine, runners inside containers in a Kubernetes cluster with the worker nodes on spot instances (we will deploy such cluster for application testing, but not for executing the runners) or in Amazon ECS with Fargate Spot.
+There are also other ways to create GitLab runners on spot instances that we are not reviewing in this workshop: using Docker Machine, runners inside containers in a Kubernetes cluster with the worker nodes on spot instances, or in Amazon ECS with Fargate Spot.
 
 ### Create an IAM role for GitLab Runners
 
-You will now create a new IAM role that has access to Amazon EKS, Amazon S3, AWS Systems Manager, Amazon EC2 Auto Scaling, and Amazon ECR, which the GitLab Runners will need to build and deploy the demo app.
-
-1. In the AWS Console enter **IAM** in the search box at the top of the screen and open the service.
-2. Choose **Policies** in the navigation pane.
-3. Choose **Create Policy**.
-4. Switch to **JSON** tab and paste the below policy into the editor window:
-
+1. Create the trust policy document named ec2-role-trust-policy.json. 
 ```
+cat << EOF > ~/environment/ec2-role-trust-policy.json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "Service": "ec2.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+```
+
+2. Create the **gitlab-runner** role and specify the trust policy that you created using the create-role command.
+```
+aws iam create-role \
+    --role-name gitlab-runner \
+    --assume-role-policy-document file://~/environment/ec2-role-trust-policy.json
+```
+
+3. Create **gitlab-runner-policy.json** access policy document that grants access to Amazon EKS, Amazon S3, AWS Systems Manager, Amazon EC2 Auto Scaling, and Amazon ECR, which the GitLab Runners will need to build and deploy the demo app.
+```
+cat << EOF > ~/environment/gitlab-runner-policy.json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -107,30 +125,52 @@ You will now create a new IAM role that has access to Amazon EKS, Amazon S3, AWS
         }
     ]
 }
+EOF
 ```
 
-5. Choose **Next: Tags**.
-6. Choose **Next: Review**.
-7. In the **Name** field type `GitLabRunnerPolicy` and choose **Create policy**:
+4. Attach the inline access policy to the role using the put-role-policy command:
+```
+aws iam put-role-policy \
+    --role-name gitlab-runner \
+    --policy-name gitlab-runner-access \
+    --policy-document file://~/environment/gitlab-runner-policy.json
+```
 
-![IAM Console Screenshot: Create GitLabRunnerPolicy policy](/images/gitlab-spot/AWSConsole-IAMCreatePolicy.png)
+5. Attach the managed access policy to the role using the attach-role-policy command:
+```
+aws iam attach-role-policy \
+--policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
+--role-name gitlab-runner
 
-8. In the navigation pane choose **Roles**
-9. Choose **Create role**.
-10. In the **Use case** section select **EC2** and choose **Next**.
-11. In the **Permissions policies** table find the following policies one-by-one and select each of them:
-    - `GitLabRunnerPolicy`
-    - `AmazonSSMManagedInstanceCore`
-    - `CloudWatchAgentServerPolicy`
-    - `AmazonSSMAutomationRole`
-    - `AmazonSSMMaintenanceWindowRole`
+aws iam attach-role-policy \
+--policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore \
+--role-name gitlab-runner
+
+aws iam attach-role-policy \
+--policy-arn arn:aws:iam::aws:policy/service-role/AmazonSSMAutomationRole \
+--role-name gitlab-runner
+
+aws iam attach-role-policy \
+--policy-arn arn:aws:iam::aws:policy/service-role/AmazonSSMMaintenanceWindowRole \
+--role-name gitlab-runner
+```
+
+6. Create an instance profile named gitlab-runner-profile using the create-instance-profile command.
+```
+aws iam create-instance-profile --instance-profile-name gitlab-runner
+```
+
+7. Add the gitlab-runner role to the gitlab-runner instance profile.
+```
+aws iam add-role-to-instance-profile \
+    --instance-profile-name gitlab-runner \
+    --role-name gitlab-runner
+```
 
 {{% notice warning %}}
 Note that here you are assigning permission policies as required for the demo app. In a real Production environment you should always follow the least privilege principle. You can find the best practices in [AWS Blogs](https://aws.amazon.com/blogs/security/techniques-for-writing-least-privilege-iam-policies/).
 {{% /notice %}}
 
-12. Make sure you have 5 policies selected and choose **Next**.
-13. In the **Role name** field type `GitLabRunner` and choose **Create role**.
 
 ### Deploy the CloudFormation stack
 
@@ -142,23 +182,25 @@ You will now get the runner configuration information from GitLab and then start
 
 ![GitLab Screenshot: Runners configuration](/images/gitlab-spot/GitLab-RunnersRegistration.png)
 
-4. Download the CloudFormation template latest version located at https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg/-/blob/main/GitLabElasticScalingRunner.cf.yml.
+4. Download the CloudFormation template latest version located [**here**](https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg/-/blob/main/GitLabElasticScalingRunner.cf.yml).
 
 5. Return to the browser tab with CloudFormation or open it again using the search box at the top.
 6. Choose **Create stack** and in the dropdown choose **With new resources (standard)**.
 7. In the **Template source** field select **Upload a template file**, choose the `GitLabElasticScalingRunner.cf.yml` file you have just downloaded above, and choose **Next**.
 8. In the **Stack name** field enter `linux-docker-scaling-spotonly` (**extremely important**, as this name is used in the IAM policy above).
 
-Investigate the parameters presented and try deploying the stack yourself. Expand the section below to see step-by-step instructions.
-
-{{%expand "Click to reveal detailed instructions" %}}
+**Challenge:** Investigate the parameters presented and try deploying the stack yourself. Expand the section below to see step-by-step instructions.
+{{%expand "Click to reveal the instructions" %}}
 9. In the **GitLab Instance URL** field enter GitLab URL you saved previously (in the format `https://xxx.cloudfront.net`).
 10. In the **One or more runner Registration tokens from the target instance.** field enter the token you saved previously.
 11. In the **The S3 bucket that will be used for a shared runner cache.** leave the default value (do not enter the GitLabCacheBucket value you saved from CloudFormation Output values, as at the moment the template will still try to create policies using the custom bucket and will fail if a different one is provided).
 12. In the **The number of instances that should be configured. Generally 1 for warm HA and 2 for hot HA.** enter `2`.
-13. In the **Override automatic IAM Instance Profile for a precreated one.** type `GitLabRunner`.
-14. In the **The VPC in the account and region should be used.** enter the VPC ID you saved from CloudFormation Output values in [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html) (in the format `vpc-...`).
-15. In the field **Second priority instance type to be used - if previous priorities are exhausted. Used for Ec2 Fleet when not using spot.** enter `m5d.large`. For the third and fourth priority enter `m5n.large` and `c5.large` respectively.
+13. In the **Override automatic IAM Instance Profile for a precreated one.** type `gitlab-runner`.
+14. In the **The VPC in the account and region should be used**, get the VPC ID by running below command in Cloud9:
+```
+echo VPC ID = $VPC
+```
+15. In the field **Second priority instance type to be used - if previous priorities are exhausted. Used for Ec2 Fleet when not using spot.** enter `m5a.large`. For the third and fourth priority enter `m5d.large` and `m5n.large` respectively.
 16. In the field **Whether to AutoScale the Scaling Group.** select `true` in the dropdown.
 17. In the field **Maximum instances in the Scaling Group.** type `10`.
 18. In the field **Scale in threshold (percent).** type `40`.
@@ -173,14 +215,14 @@ Investigate the parameters presented and try deploying the stack yourself. Expan
 {{% /expand%}}
 
 {{% notice tip %}}
-You had to use the full template to customize the IAM role used by the runners. If your production scenario does not require this and you are fine with the default permissions, you can use one of the easy buttons (out-of-the-box scenarios) provided at https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg#easy-buttons-provided to deploy the stack: this will require less parameters to customize.
+You had to use the full template to customize the IAM role used by the runners. If your production scenario does not require this and you are fine with the default permissions, you can use one of the easy buttons (out-of-the-box scenarios) provided [**here**](https://gitlab.com/guided-explorations/aws/gitlab-runner-autoscaling-aws-asg#easy-buttons-provided) to deploy the stack: this will require less parameters to customize.
 {{% /notice %}}
 
-Now you can open the EC2 console and verify that your runner(s) are using spot instances: open the corresponding EC2 instance (its name starts with `linux-docker-scaling-spotonly-`) and check the **Lifecycle** field:
+25. Now you can open the EC2 console and verify that your runner(s) are using spot instances: open the corresponding EC2 instance (its name starts with `linux-docker-scaling-spotonly-`) and check the **Lifecycle** field:
 
 ![EC2 Console Screenshot: Runner lifecycle](/images/gitlab-spot/AWSConsole-EC2RunnerLifecycle.png)
 
-25. Return to the browser tab with GitLab, refresh the CI/CD settings page and make sure that your runner(s) have appeared in the **Runners** section:
+26. Return to the browser tab with GitLab, refresh the CI/CD settings page and make sure that your runner(s) have appeared in the **Runners** section:
 
 ![GitLab Screenshot: Runner available](/images/gitlab-spot/GitLab-RunnerAvailable.png)
 

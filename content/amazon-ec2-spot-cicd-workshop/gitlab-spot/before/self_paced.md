@@ -15,7 +15,6 @@ Your account must have the ability to create new IAM roles and scope other IAM p
 
 1. If you don't already have an AWS account with Administrator access: [create one now by clicking here](https://aws.amazon.com/getting-started/)
 2. Log in to [AWS Console](https://console.aws.amazon.com/) with an IAM user having administrator permissions.
-3. Download the CloudFormation YAML-template from [this link](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/gitlab-spot/gitlab-deploy.yml).
 
 ### Create an SSH key
 
@@ -31,13 +30,14 @@ You don't need the key to complete the labs, but it is still configured when cre
     * Save the .pem file as suggested by your browser
 
 ### Deploy GitLab
-Now you will deploy a GitLab instance without any runners. As it is not the purpose of this workshop to dive deep into GitLab itself, the deployment will be fully automated using Infrastructure as Code template in AWS CloudFormation. It will deploy a VPC with two public subnets, an Amazon S3 bucket that you can configure as GitLab cache, an EC2 instance with GitLab itself, an Application Load Balancer and an Amazon CloudFront distribution to organize a secure access to it, an Amazon ECR repository for storing the container image, and a number of supplementary resources.
+Now you will deploy a GitLab without any runners. As it is not the purpose of this workshop to dive deep into GitLab itself, the deployment will be fully automated using Infrastructure as Code template in AWS CloudFormation. It will deploy a VPC with two public subnets, an Amazon S3 bucket that you can configure as GitLab cache, an EC2 Auto Scaling group for GitLab, an Application Load Balancer and an Amazon CloudFront distribution to organize a secure access to it, an Amazon ECR repository for storing the container image, and a number of supplementary resources.
 
 1. Open **CloudFormation** service in the AWS Console.
 2. In the navigation pane choose **Stacks**.
 3. Choose **Create stack** and in the dropdown choose **With new resources (standard)**.
-4. In the **Template source** field select **Upload a template file**, choose the file you saved in the [**Preparation**](#preparation) section above, and choose **Next**.
-5. In the **Stack name** field enter `mod-gitlab-spot-workshop`, in the **EEKeyPair** field select `ee-default-key-pair` or the name of the key you used in the steps above. Leave the default values in other fields and choose **Next**.
-6. Choose **Next**.
-7. Mark the checkbox **I acknowledge that AWS CloudFormation might create IAM resources.** and choose **Create stack**.
-8. Wait until the stack is in `CREATE_COMPLETE` status (it should take approximately 15 minutes) and continue with [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html).
+4. Download the CloudFormation YAML-template from [this link](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/amazon-ec2-spot-cicd-workshop/gitlab-spot/gitlab-deploy.yml).
+5. In the **Template source** field select **Upload a template file**, choose the file you saved in the step above, and choose **Next**.
+6. In the **Stack name** field enter `mod-gitlab-spot-workshop`, in the **EEKeyPair** field select `ee-default-key-pair` or the name of the key you used in the steps above. Leave the default values in other fields and choose **Next**.
+7. Choose **Next**.
+8. Mark the checkbox **I acknowledge that AWS CloudFormation might create IAM resources.** and choose **Create stack**.
+9. Wait until the stack is in `CREATE_COMPLETE` status (it should take approximately 15 minutes) and continue with [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html).

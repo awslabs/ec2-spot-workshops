@@ -1,14 +1,13 @@
 +++
 title = "Installing the demo app into Amazon EKS"
-weight = 50
+weight = 60
 +++
 
 In this section you will deploy the demo application you built earlier in the new Amazon EKS cluster deployed fully on spot instances.
 
-{{%expand "Click to reveal detailed instructions" %}}
 1. In the Cloud9 file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)).
-2. Change the jobs `deploy_to_eks` and `test_on_eks` to the following ones:
 
+2. Change the jobs `deploy_to_eks` and `test_on_eks` to the following ones:
 ```
 deploy_to_eks:
   stage: deploy
@@ -16,8 +15,9 @@ deploy_to_eks:
   before_script:
     - aws --version
     - aws eks update-kubeconfig --region $REGION --name $K8S_CLUSTER_NAME
-    - apt-get install -y gettext # To get envsubst
-    - curl -sLo /usr/local/bin/kubectl "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    - apt-get install -y gettext # To get envsubst 
+    - export KUBECTL_VERSION=v1.22.10
+    - curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
     - chmod +x /usr/local/bin/kubectl
   script:
     - envsubst < k8s_deploy.yaml > k8s_deploy_filled.yaml
@@ -78,13 +78,9 @@ test_on_eks:
     - deploy_to_eks
 ```
 
-The file should look similar to the below screenshot:
-
-![Cloud9 Console Screenshot: GitLab CI/CD scripts](/images/gitlab-spot/Cloud9-GitLabCI.png)
-
 3. Save the file, using **Ctrl + S** or **Cmd + S** depending on your Operating System, or choosing **File** > **Save**. Then close it.
-4. Create a new commit with the updated file and push it to the origin:
 
+4. Create a new commit with the updated file and push it to the origin:
 ```
 cd ~/environment/amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/
 git add .gitlab-ci.yml
@@ -93,22 +89,20 @@ git push
 ```
 
 5. Return to the browser tab with GitLab and in the navigation pane choose **CI/CD** > **Pipelines**.
-6. Make sure that the CI/CD pipeline is successfully completed or wait until it does.
-7. You can click on the circle to see the job output. For example, for the right-most one it would show the testing result:
 
+6. Make sure that the CI/CD pipeline is successfully completed or wait until it does.
+
+7. You can click on the circle to see the job output. For example, for the right-most one it would show the testing result:
 ![GitLab Screenshot: GitLab Testing Job output](/images/gitlab-spot/GitLab-TestingJob.png)
 
 8. Return to the Cloud9 tab and print the information about the new service:
-
 ```
 echo http://$(kubectl get ingress spot-demo -o jsonpath='{.status.loadBalancer.ingress[*].hostname}')/info/
 ```
 
-8. Open the output URL in a new browser tab and refresh the page several times to make sure that the requests reach pods on different worker nodes, all on spot instances:
-
+9. Open the output URL in a new browser tab and refresh the page several times to make sure that the requests reach pods on different worker nodes, all on spot instances:
 ![Demo App Screenshot](/images/gitlab-spot/DemoApp.png)
 
-{{% /expand%}}
 
 You have deployed the demo application in Kubernetes cluster (created in Amazon EKS service) with all its worker nodes running on Amazon EC2 Spot instances. It is useful for executing tests in your CI/CD pipeline (though AWS customers run full Production clusters on spot instances too): for example, you can add new spot nodes into your cluster right from the pipeline and after finishing testing remove them.
 
