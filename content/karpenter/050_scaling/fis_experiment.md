@@ -161,9 +161,8 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 ```
 
 {{% notice note %}}
-You can interrupt more instances by running the experiment multiple times and watch how your cluster reacts, just reissue these commands:
+You can interrupt more instances by running the experiment multiple times and watch how your cluster reacts, just reissue this command:
 ```
-FIS_EXP_TEMP_ID=$(aws cloudformation describe-stacks --stack-name $FIS_EXP_NAME --query "Stacks[0].Outputs[?OutputKey=='FISExperimentID'].OutputValue" --output text)
 FIS_EXP_ID=$(aws fis start-experiment --experiment-template-id $FIS_EXP_TEMP_ID --no-cli-pager --query "experiment.id" --output text)
 ```
 {{% /notice %}}
