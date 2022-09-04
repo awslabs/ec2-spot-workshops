@@ -41,7 +41,7 @@ kind: ClusterConfig
 metadata:
   name: eksworkshop-eksctl
   region: ${AWS_REGION}
-  version: "1.21"
+  version: "1.23"
   tags:
     karpenter.sh/discovery: eksworkshop-eksctl 
 iam:
