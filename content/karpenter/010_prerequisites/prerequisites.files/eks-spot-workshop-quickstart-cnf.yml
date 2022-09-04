@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS CloudFormation template to create a Cloud9 environment setup with kubectl, eksctl and an EKS cluster with a managed node group. Please allow ~20min for the EKS cluster to be ready.
 Metadata:
   Author:
-    Description: Sandeep Palavalasa <palavas@amazon.com>
+    Description: Carlos Rueda <ruecarlo@amazon.com>
   License:
     Description: 'Copyright 2020 Amazon.com, Inc. and its affiliates. All Rights Reserved.
 
@@ -20,29 +20,30 @@ Parameters:
   C9InstanceType:
     Description: Example Cloud9 instance type
     Type: String
-    Default: t2.micro
+    Default: t3.micro
     AllowedValues:
-      - t2.micro
+      - t3.micro
+      - m5.large
     ConstraintDescription: Must be a valid Cloud9 instance type
   C9KubectlVersion:
     Description: Cloud9 instance kubectl version
     Type: String
-    Default: v1.21.2
+    Default: v1.23.7
     ConstraintDescription: Must be a valid kubectl version
   C9KubectlVersionTEST:
     Description: Cloud9 instance kubectl version
     Type: String
-    Default: v1.21.2
+    Default: v1.23.7
     ConstraintDescription: Must be a valid kubectl version
   C9EKSctlVersion:
     Description: Cloud9 instance eksctl version
     Type: String
-    Default: v0.68.0
+    Default: v0.110.0
     ConstraintDescription: Must be a valid eksctl version
   EKSClusterVersion:
     Description: EKS Cluster Version
     Type: String
-    Default: 1.21
+    Default: 1.23
     ConstraintDescription: Must be a valid eks version
   EKSClusterName:
     Description: EKS Cluster Name
@@ -160,7 +161,7 @@ Resources:
         Fn::GetAtt:
         - C9LambdaExecutionRole
         - Arn
-      Runtime: python3.6
+      Runtime: python3.9
       MemorySize: 256
       Timeout: '600'
       Code:
