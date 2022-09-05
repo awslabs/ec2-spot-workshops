@@ -5,36 +5,31 @@ weight: 30
 ---
 
 Now that we have helm installed, we are ready to use the stable helm catalog and install tools 
-that will help with understanding our cluster setup in a visual way. The first of those tools that we are going to install is [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from **[Henning Jacobs](https://github.com/hjacobs)**.
+In this step we will install [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from **[Henning Jacobs](https://github.com/hjacobs)**. Kube-ops-view will help with understanding our cluster setup in a visual way
 
-The following line updates the stable helm repository and then installs kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
+The following lines download the spec required to deploy kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
 ```
-helm install kube-ops-view \
-stable/kube-ops-view \
---set service.type=LoadBalancer \
---set nodeSelector.intent=control-apps \
---version 1.2.4 \
---set rbac.create=True
+mkdir $HOME/environment/kube-ops-view; pushd $HOME/environment/kube-ops-view
+for file in kustomization.yaml rbac.yaml deployment.yaml service.yaml; do curl https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/karpenter-upgrade-0.16.1/content/karpenter/030_k8s_tools/k8_tools.files/kube_ops_view/${file} > ${file}; done
+pushd
+kubectl apply -k $HOME/environment/kube-ops-view
 ```
-
-The execution above installs kube-ops-view  exposing it through a Service using the LoadBalancer type.
-A successful execution of the command will display the set of resources created and will prompt some advice asking you to use `kubectl proxy` and a local URL for the service. Given we are using the type LoadBalancer for our service, we can disregard this; Instead we will point our browser to the external load balancer.
 
 {{% notice warning %}}
-Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view using a Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`. Kube-ops-view does also [support Oauth 2](https://github.com/hjacobs/kube-ops-view#configuration) 
+Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view as Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`. Kube-ops-view does also [support Oauth 2](https://github.com/hjacobs/kube-ops-view#configuration) 
 {{% /notice %}}
 
 To check the chart was installed successfully:
 
 ```
-helm list
+kubectl get svc
 ```
 
 should display : 
 ```
-NAME            NAMESPACE   REVISION   UPDATED               STATUS     CHART              
-kube-ops-view   default     1          2020-11-20 05:16:47   deployed   kube-ops-view-1.2.4
+NAME            TYPE           CLUSTER-IP       EXTERNAL-IP                                                               PORT(S)        AGE
+kube-ops-view   LoadBalancer   10.100.162.132   addb6e7f91aae4b0dbd6f5833f9750c3-1014347204.eu-west-1.elb.amazonaws.com   80:31628/TCP   3m58s
 ```
 
 With this we can explore kube-ops-view output by checking the details about the newly service created. 
