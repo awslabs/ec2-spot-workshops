@@ -1,7 +1,7 @@
 ---
 title: "EC2 Spot deployments"
 date: 2021-11-07T11:05:19-07:00
-weight: 60
+weight: 70
 draft: false
 ---
 
@@ -24,7 +24,7 @@ To deploy the Node Termination Handler run the following command:
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-node-termination-handler \
              --namespace kube-system \
-             --version 0.18.5 \
+             --version 0.19.2 \
              --set nodeSelector."karpenter\\.sh/capacity-type"=spot \
              eks/aws-node-termination-handler
 ```
