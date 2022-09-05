@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    application: kube-ops-view
+    component: frontend
+  name: kube-ops-view
+spec:
+  selector:
+    application: kube-ops-view
+    component: frontend
+  type: LoadBalancer
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
