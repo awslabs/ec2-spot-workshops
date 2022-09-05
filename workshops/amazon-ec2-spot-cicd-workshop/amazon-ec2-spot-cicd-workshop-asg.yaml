@@ -410,7 +410,7 @@ Resources:
           # Configure the Jenkins Location
           curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
           # Start Jenkins
-          docker-compose up --build -d
+          docker-compose up -d
 
   JenkinsMasterALB: # This is the Application Load Balancer that resides in front of your Jenkins Master instance and is responsible for port-mapping requests from TCP:80 to TCP:8080
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
