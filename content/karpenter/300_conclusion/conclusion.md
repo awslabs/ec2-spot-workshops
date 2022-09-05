@@ -14,6 +14,7 @@ In the session, we have:
 - We have learned how Karpenter support custom AMI's and bootsrapping.
 - We learned how Karpenter uses well-known labels and acts on them procuring capacity that meets criterias such as which architecture to use, which type of instances (On-Demand or Spot) to use.
 - We learned how Karpenter applies best practices for large scale deployment by diversifying and using allocation strategies for both on demand instances and EC2 Spot instances, we also learned applications have still full control and can set Node Selectors such as `node.kubernetes.io/instance-type: m5.2xlarge` or `topology.kubernetes.io/zone=us-east-1c` to specify explicitely what instance type to use or which AZ an application must be deployed in.
+- Learned how deprovisioning works in Karpenter and how to set up the Cluster Consolidation option.
 - Configured a DaemonSet using **AWS-Node-Termination-Handler** to handle spot interruptions gracefully. We also learned that in future version the integration with the termination controller will be proactive in handling Spot Terminations and Rebalance recommendations.
  
 # EC2 Spot Savings 

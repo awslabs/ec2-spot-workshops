@@ -4,6 +4,8 @@ date: 2022-08-31T13:12:00-07:00
 weight: 50
 ---
 
+During this workshop we have been making extensive use of Spot instances. One question users of Spot instances ask is how they can reproduce the effects of an instance termination so they can qualify if an application would have degradation or issues when spot instances are terminated and replaced by other instances from pools where capacity is available.
+
 In this section, you're going to create and run an experiment to [trigger the interruption of Amazon EC2 Spot Instances using AWS Fault Injection Simulator (FIS)](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/). When using Spot Instances, you need to be prepared to be interrupted. With FIS, you can test the resiliency of your workload and validate that your application is reacting to the interruption notices that EC2 sends before terminating your instances. You can target individual Spot Instances or a subset of instances in clusters managed by services that tag your instances such as ASG, EC2 Fleet, and EKS.
 
 #### What do you need to get started?
@@ -25,7 +27,7 @@ Parameters:
 
   DurationBeforeInterruption:
     Description: Number of minutes before the interruption
-    Default: 2
+    Default: 3
     Type: Number
 
 Resources:
