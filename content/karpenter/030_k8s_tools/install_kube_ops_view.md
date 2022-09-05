@@ -10,9 +10,8 @@ In this step we will install [Kube-ops-view](https://github.com/hjacobs/kube-ops
 The following lines download the spec required to deploy kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
 ```
-mkdir $HOME/environment/kube-ops-view; pushd $HOME/environment/kube-ops-view
-for file in kustomization.yaml rbac.yaml deployment.yaml service.yaml; do curl https://raw.githubusercontent.com/ruecarlo/ec2-spot-workshops/karpenter-upgrade-0.16.1/content/karpenter/030_k8s_tools/k8_tools.files/kube_ops_view/${file} > ${file}; done
-pushd
+mkdir $HOME/environment/kube-ops-view
+for file in kustomization.yaml rbac.yaml deployment.yaml service.yaml; do curl "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/karpenter/030_k8s_tools/k8_tools.files/kube_ops_view/${file}" > $HOME/environment/kube-ops-view/${file}; done
 kubectl apply -k $HOME/environment/kube-ops-view
 ```
 
