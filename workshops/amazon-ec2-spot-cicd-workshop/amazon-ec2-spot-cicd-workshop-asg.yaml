@@ -536,7 +536,7 @@ Resources:
             # Configure the Jenkins Location
             curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
             # Start Jenkins
-            docker-compose up --build -d
+            docker-compose up -d
 
   JenkinsSpotAgentLaunchTemplate: # This is a launch template that will be used to provision Jenkins build agents - showing how spot instances can be used to scale-out build jobs at low cost.
     Type: AWS::EC2::LaunchTemplate
