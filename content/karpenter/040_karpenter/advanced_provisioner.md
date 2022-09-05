@@ -73,8 +73,6 @@ kind: Provisioner
 metadata:
   name: team1
 spec:
-  consolidation:
-    enabled: true
   labels:
     intent: apps
   requirements:
@@ -88,6 +86,7 @@ spec:
     resources:
       cpu: 1000
       memory: 1000Gi
+  ttlSecondsAfterEmpty: 30
   ttlSecondsUntilExpired: 2592000
   taints:
   - effect: NoSchedule
