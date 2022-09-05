@@ -49,13 +49,19 @@ To check running pods run the command below. There should be at least one pod `k
 kubectl get pods --namespace karpenter
 ```
 
+You should see an output similar to the one below. 
+```
+NAME                         READY   STATUS    RESTARTS   AGE
+karpenter-6c59fc5c96-l8fwv   2/2     Running   0          3m51s
+karpenter-6c59fc5c96-zw5jf   2/2     Running   0          3m51s
+```
+
+
 To check the deployment. Like with the pods, there should be one deployment  `karpenter`
 ```
 kubectl get deployment -n karpenter
 ```
 
-{{% notice note %}}
-You can increase the number of Karpenter replicas in the deployment for resilience. Karpenter will elect a leader controller that in charge of running operations.
+{{% notice info %}}
+Since **v0.16.0** Karpenter deploys 2 replicas. One of the replicas is elected as as a Leader while the other stays in standby mode. Karpenter deployment also uses `topologySpreadConstraints` to spread each replica in a different AZ.
 {{% /notice %}}
-
-
