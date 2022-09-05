@@ -402,9 +402,6 @@ Resources:
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/docker-compose.yml
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/Dockerfile
           wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/plugins.txt
-          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/jobs/seed.tar.gz
-          tar -xvf seed.tar.gz
-          cp -r jobs/* /jenkins_home/jobs/
           # Reset the password defined as the JenkinsAdminPassword          
           sed -i 's/JenkinsAdminPassword/${JenkinsAdminPassword}/' docker-compose.yml
           # Configure the Jenkins Location
