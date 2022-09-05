@@ -132,19 +132,18 @@ The output of Karpenter should look similar to the one below
 
 ```
 ...
-2022-07-01T04:12:15.781Z        INFO    controller.provisioning Found 4 provisionable pod(s)    {"commit": "1f7a67b"}
-2022-07-01T04:12:15.781Z        INFO    controller.provisioning Computed 2 new node(s) will fit 4 pod(s)        {"commit": "1f7a67b"}
-2022-07-01T04:12:15.967Z        DEBUG   controller.provisioning.cloudprovider   Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:16.063Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:16.071Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:16.179Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-015933fe34749f648 for query "/aws/service/bottlerocket/aws-k8s-1.21/x86_64/latest/image_id"      {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:16.456Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-641081096202606695        {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:17.277Z        DEBUG   controller.node-state   Discovered 531 EC2 instance types       {"commit": "1f7a67b", "node": "ip-192-168-25-60.eu-west-1.compute.internal"}
-2022-07-01T04:12:17.418Z        DEBUG   controller.node-state   Discovered EC2 instance types zonal offerings   {"commit": "1f7a67b", "node": "ip-192-168-25-60.eu-west-1.compute.internal"}
-2022-07-01T04:12:18.287Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-0e81a84185e589749, hostname: ip-192-168-37-210.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1b, capacityType: on-demand     {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:18.302Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-03c9fc74527b401f4, hostname: ip-192-168-7-134.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand      {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:18.306Z        INFO    controller.provisioning Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 315 other(s)    {"commit": "1f7a67b", "provisioner": "team1"}
-2022-07-01T04:12:18.306Z        DEBUG   controller.events       Normal  {"commit": "1f7a67b", "object": {"kind":"Pod","namespace":"default","name":"inflate-team1-865b77c748-dp9k5","uid":"5b682809-1ae9-4ed2-85c9-451abc11cf75","apiVersion":"v1","resourceVersion":"43463"}, "reason": "NominatePod", "message": "Pod should schedule on ip-192-168-37-210.eu-west-1.compute.internal"}
+2022-09-05T11:11:33.993Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits {"commit": "b157d45"}
+2022-09-05T11:11:33.993Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits {"commit": "b157d45"}
+2022-09-05T11:11:33.999Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits {"commit": "b157d45"}
+2022-09-05T11:11:33.999Z        DEBUG   controller.provisioning 381 out of 509 instance types were excluded because they would breach provisioner limits       {"commit": "b157d45"}
+2022-09-05T11:11:34.006Z        INFO    controller.provisioning Found 4 provisionable pod(s)    {"commit": "b157d45"}
+2022-09-05T11:11:34.006Z        INFO    controller.provisioning Computed 2 new node(s) will fit 4 pod(s)        {"commit": "b157d45"}
+2022-09-05T11:11:34.007Z        INFO    controller.provisioning Launching node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, t3.xlarge, c6i.xlarge and 35 other(s)   {"commit": "b157d45", "provisioner": "team1"}
+2022-09-05T11:11:34.014Z        INFO    controller.provisioning Launching node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"4"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, t3.xlarge, c6i.xlarge and 325 other(s)  {"commit": "b157d45", "provisioner": "team1"}
+2022-09-05T11:11:34.342Z        DEBUG   controller.provisioning.cloudprovider  Discovered launch template Karpenter-eksworkshop-eksctl-14752700009555043417    {"commit": "b157d45", "provisioner": "team1"}
+2022-09-05T11:11:36.601Z        DEBUG   controller.provisioning.cloudprovider  InsufficientInstanceCapacity for offering { instanceType: t3a.xlarge, zone: eu-west-1b, capacityType: on-demand }, avoiding for 3m0s     {"commit": "b157d45", "provisioner": "team1"}
+2022-09-05T11:11:36.748Z        INFO    controller.provisioning.cloudprovider  Launched instance: i-0b44228e7195f7588, hostname: ip-192-168-42-207.eu-west-1.compute.internal, type: c6a.xlarge, zone: eu-west-1b, capacityType: on-demand     {"commit": "b157d45", "provisioner": "team1"}
+2022-09-05T11:11:38.400Z        INFO    controller.provisioning.cloudprovider  Launched instance: i-0e5173a4f48019515, hostname: ip-192-168-31-229.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand     {"commit": "b157d45", "provisioner": "team1"}
 ...
 ```
 
