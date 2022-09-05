@@ -1,7 +1,7 @@
 ---
 title: "Deploying Multiple Provisioners"
 date: 2021-11-07T11:05:19-07:00
-weight: 50
+weight: 60
 draft: false
 ---
 
@@ -28,6 +28,9 @@ kind: Provisioner
 metadata:
   name: default
 spec:
+  consolidation:
+    enabled: true
+  weight: 100
   labels:
     intent: apps
   requirements:
@@ -41,7 +44,6 @@ spec:
     resources:
       cpu: 1000
       memory: 1000Gi
-  ttlSecondsAfterEmpty: 30
   ttlSecondsUntilExpired: 2592000
   providerRef:
     name: default
@@ -71,6 +73,8 @@ kind: Provisioner
 metadata:
   name: team1
 spec:
+  consolidation:
+    enabled: true
   labels:
     intent: apps
   requirements:
@@ -84,7 +88,6 @@ spec:
     resources:
       cpu: 1000
       memory: 1000Gi
-  ttlSecondsAfterEmpty: 30
   ttlSecondsUntilExpired: 2592000
   taints:
   - effect: NoSchedule
@@ -125,6 +128,9 @@ Let's spend some time covering a few points in the Provisioners configuration.
 * The `team1` Provisioner does only support Pods or Jobs that provide a Toleration for the key `team1`. Nodes procured by this provisioner will be tainted using the Taint with key `team1` and effect `NoSchedule`.
 
 * The `team1` Provisioner does define a different `AWSNodeTemplate` and changes the AMI from the default [EKS optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) to [bottlerocket](https://aws.amazon.com/bottlerocket/). It does also adapts the UserData bootstrapping for this particular provider. 
+
+* The `default` Provisioner is setting up a weight of 100. The evaluation of provisioners can use weights, this is useful to force scenarios where you want karpenter to evaluate a provisioner before other. The higher the weightthe higher the priority in the evaluation. The first provisioner to match the workload is the one that gets used.
+
 
 {{% notice note %}}
 If Karpenter encounters a taint in the Provisioner that is not tolerated by a Pod, Karpenter won’t use that Provisioner to provision the pod. It is recommended to create Provisioners that are mutually exclusive. So no Pod should match multiple Provisioners. If multiple Provisioners are matched, Karpenter will randomly choose which to use.

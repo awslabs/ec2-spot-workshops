@@ -1,7 +1,7 @@
 ---
 title: "Multi-Architecture deployments"
 date: 2021-11-07T11:05:19-07:00
-weight: 70
+weight: 80
 draft: false
 ---
 
@@ -125,24 +125,19 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2022-07-01T04:02:12.087Z        DEBUG   controller.provisioning Discovered 531 EC2 instance types       {"commit": "1f7a67b"}
-2022-07-01T04:02:12.246Z        DEBUG   controller.provisioning Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b"}
-2022-07-01T04:02:12.397Z        DEBUG   controller.provisioning Discovered EC2 instance types zonal offerings   {"commit": "1f7a67b"}
-2022-07-01T04:02:12.598Z        INFO    controller.provisioning Found 2 provisionable pod(s)    {"commit": "1f7a67b"}
-2022-07-01T04:02:12.598Z        INFO    controller.provisioning Computed 1 new node(s) will fit 2 pod(s)        {"commit": "1f7a67b"}
-2022-07-01T04:02:12.690Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:02:12.709Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:02:12.770Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-0413b176c68479e84 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:02:12.931Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-1404659202440619516       {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:02:14.748Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-07f4c8c180ece267a, hostname: ip-192-168-25-60.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:02:14.758Z        INFO    controller.provisioning Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 333 other(s)    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:02:14.758Z        INFO    controller.provisioning Waiting for unschedulable pods  {"commit": "1f7a67b"}
+2022-09-05T11:00:36.834Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits {"commit": "b157d45"}
+2022-09-05T11:00:36.842Z        INFO    controller.provisioning Found 2 provisionable pod(s)    {"commit": "b157d45"}
+2022-09-05T11:00:36.842Z        INFO    controller.provisioning Computed 1 new node(s) will fit 2 pod(s)        {"commit": "b157d45"}
+2022-09-05T11:00:36.857Z        INFO    controller.provisioning Launching node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, t3.xlarge, c6i.xlarge and 332 other(s)  {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T11:00:37.072Z        DEBUG   controller.provisioning.cloudprovider  Discovered ami-044d355a56926f0c6 for query "/aws/service/eks/optimized-ami/1.23/amazon-linux-2/recommended/image_id"     {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T11:00:37.290Z        DEBUG   controller.provisioning.cloudprovider  Created launch template, Karpenter-eksworkshop-eksctl-10619024032654607850      {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T11:00:39.176Z        INFO    controller.provisioning.cloudprovider  Launched instance: i-0c42c1c80fe4188f9, hostname: ip-192-168-94-187.eu-west-1.compute.internal, type: t3a.xlarge, zone: eu-west-1a, capacityType: on-demand     {"commit": "b157d45", "provisioner": "default"}
 ...
 ```
 
 There are a few things to highlight from the logs above. The first one is in relation with the Provisioner that was used to make the instance selection. The logs point to the `controller.allocation.provisioner/default` making the selection. We will learn in the next sections how to select and use alternative Provisioners. 
 
-In the scenario above, the log shows the instance selected was an `on-demand` instance of type **t3a.xlarge** and it was considered from the instance diversified selection: t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 333 other(s). All the instances in the list are of type `amd64` or x86_64 and all of them are of the right size to at least fit the deployment of 2 replicas .
+In the scenario above, the log shows the instance selected was an `on-demand` instance of type **t3a.xlarge** and it was considered from the instance diversified selection: t3a.xlarge, c6a.xlarge, c5a.xlarge, c6i.xlarge, t3.xlarge and 332 other(s). All the instances in the list are of type `amd64` or x86_64 and all of them are of the right size to at least fit the deployment of 2 replicas .
 
 Let's understand first why the instance selected was `on-demand`. As we stated before NodeSelectors are an opt-in mechanism which allow users to specify the nodes on which a pod can be scheduled. Karpenter uses the NodeSelectors defined in the pending pods and provisions capacity accordingly. In this case, the `inflate-amd64` deployment did not state any NodeSelector (like `spot` or `on-demand`) for the `kubernetes.sh/capacity-type`. In these situations Karpenter reverts to the default value for that well-known label. In the case of `kubernetes.sh/capacity-type` Karpenter uses `on-demand` as the default option.
 
@@ -206,16 +201,13 @@ The output should show something similar to the lines below
 
 ```bash
 ...
-2022-07-01T04:04:37.067Z        INFO    controller.provisioning Found 2 provisionable pod(s)    {"commit": "1f7a67b"}
-2022-07-01T04:04:37.067Z        INFO    controller.provisioning Computed 1 new node(s) will fit 2 pod(s)        {"commit": "1f7a67b"}
-2022-07-01T04:04:37.164Z        DEBUG   controller.provisioning.cloudprovider   Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:37.209Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:37.210Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:37.249Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-0efd3ecfd285da630 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2-arm64/recommended/image_id"      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:37.405Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-2137869187457706438       {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:39.251Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-0adfab70cb7801392, hostname: ip-192-168-81-44.eu-west-1.compute.internal, type: c6g.xlarge, zone: eu-west-1a, capacityType: spot   {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:39.258Z        INFO    controller.provisioning Created node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c6g.xlarge    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T04:04:39.258Z        INFO    controller.provisioning Waiting for unschedulable pods  {"commit": "1f7a67b"}
+2022-09-05T11:02:52.560Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits {"commit": "b157d45"}
+2022-09-05T11:02:52.566Z        INFO    controller.provisioning Found 2 provisionable pod(s)    {"commit": "b157d45"}
+2022-09-05T11:02:52.566Z        INFO    controller.provisioning Computed 1 new node(s) will fit 2 pod(s)        {"commit": "b157d45"}
+2022-09-05T11:02:52.566Z        INFO    controller.provisioning Launching node with 2 pods requesting {"cpu":"2125m","memory":"512M","pods":"5"} from types c6g.xlarge  {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T11:02:52.756Z        DEBUG   controller.provisioning.cloudprovider  Discovered ami-0fe832d5034e25cce for query "/aws/service/eks/optimized-ami/1.23/amazon-linux-2-arm64/recommended/image_id"       {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T11:02:52.992Z        DEBUG   controller.provisioning.cloudprovider  Created launch template, Karpenter-eksworkshop-eksctl-906121585403847898 {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T11:02:54.909Z        INFO    controller.provisioning.cloudprovider  Launched instance: i-0b4bd3ff55895298a, hostname: ip-192-168-56-110.eu-west-1.compute.internal, type: c6g.xlarge, zone: eu-west-1b, capacityType: spot   {"commit": "b157d45", "provisioner": "default"}
 ...
 ```
 
