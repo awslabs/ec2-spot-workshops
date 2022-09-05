@@ -12,7 +12,7 @@ Before we install Karpenter, there are a few things that we will need to prepare
 Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`.
 
 ```
-export KARPENTER_VERSION=v0.13.1
+export KARPENTER_VERSION=v0.16.1
 echo "export KARPENTER_VERSION=${KARPENTER_VERSION}" >> ~/.bash_profile
 TEMPOUT=$(mktemp)
 curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml > $TEMPOUT \

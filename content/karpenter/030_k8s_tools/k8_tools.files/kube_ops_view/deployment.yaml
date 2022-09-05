@@ -42,11 +42,11 @@ spec:
           failureThreshold: 5
         resources:
           limits:
-            cpu: 800m
-            memory: 800Mi
+            cpu: 400m
+            memory: 400Mi
           requests:
-            cpu: 800m
-            memory: 800Mi
+            cpu: 400m
+            memory: 400Mi
         securityContext:
           readOnlyRootFilesystem: true
           runAsNonRoot: true
