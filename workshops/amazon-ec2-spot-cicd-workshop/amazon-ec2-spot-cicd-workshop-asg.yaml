@@ -407,7 +407,8 @@ Resources:
           # Configure the Jenkins Location
           curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
           # Start Jenkins
-          docker-compose up -d
+          docker-compose pull
+          docker-compose up -d --no-build
 
   JenkinsMasterALB: # This is the Application Load Balancer that resides in front of your Jenkins Master instance and is responsible for port-mapping requests from TCP:80 to TCP:8080
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -533,7 +534,8 @@ Resources:
             # Configure the Jenkins Location
             curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
             # Start Jenkins
-            docker-compose up -d
+            docker-compose pull
+            docker-compose up -d --no-build
 
   JenkinsSpotAgentLaunchTemplate: # This is a launch template that will be used to provision Jenkins build agents - showing how spot instances can be used to scale-out build jobs at low cost.
     Type: AWS::EC2::LaunchTemplate
