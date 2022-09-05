@@ -96,24 +96,25 @@ echo type: $(kubectl describe node --selector=intent=apps | grep "beta.kubernete
 There is something even more interesting to learn about how the node was provisioned. Check out Karpenter logs and look at the new Karpenter created. The lines should be similar to the ones below 
 
 ```bash 
-2022-07-01T03:00:19.634Z        INFO    controller.provisioning Found 1 provisionable pod(s)    {"commit": "1f7a67b"}
-2022-07-01T03:00:19.634Z        INFO    controller.provisioning Computed 1 new node(s) will fit 1 pod(s)        {"commit": "1f7a67b"}
-2022-07-01T03:00:19.790Z        DEBUG   controller.provisioning.cloudprovider   Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:19.871Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:19.873Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:19.928Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-0413b176c68479e84 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:19.972Z        DEBUG   controller.provisioning.cloudprovider   Discovered launch template Karpenter-eksworkshop-eksctl-12663282710833670681    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:23.013Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-05e8535378b1caf35, hostname: ip-192-168-36-234.eu-west-1.compute.internal, type: c5a.xlarge, zone: eu-west-1b, capacityType: spot  {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:23.042Z        INFO    controller.provisioning Created node with 1 pods requesting {"cpu":"1125m","memory":"1536Mi","pods":"3"} from types t3a.xlarge, c6a.xlarge, c5a.xlarge, t3.xlarge, c6i.xlarge and 333 other(s)  {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:00:23.042Z        INFO    controller.provisioning Waiting for unschedulable pods  {"commit": "1f7a67b"}
-2022-07-01T03:00:23.042Z        DEBUG   controller.events       Normal  {"commit": "1f7a67b", "object": {"kind":"Pod","namespace":"default","name":"inflate-b9d769f59-rcjnj","uid":"e0f98d1d-eaf6-46ff-9ea0-4d66a6842815","apiVersion":"v1","resourceVersion":"20925"}, "reason": "NominatePod", "message": "Pod should schedule on ip-192-168-36-234.eu-west-1.compute.internal"}
+2022-09-05T02:23:43.907Z        DEBUG   controller.consolidation        Discovered 542 EC2 instance types       {"commit": "b157d45"}
+2022-09-05T02:23:44.070Z        DEBUG   controller.consolidation        Discovered subnets: [subnet-085b9778ddacc06bb (eu-west-1b) subnet-0c6313dad0015b677 (eu-west-1a) subnet-02b72b91f674af299 (eu-west-1a) subnet-0471989b1d4fe9e0a (eu-west-1b)]        {"commit": "b157d45"}
+2022-09-05T02:23:44.188Z        DEBUG   controller.consolidation        Discovered EC2 instance types zonal offerings for subnets {"alpha.eksctl.io/cluster-name":"eksworkshop-eksctl"}      {"commit": "b157d45"}
+2022-09-05T02:33:19.634Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits     {"commit": "b157d45"}
+2022-09-05T02:33:19.640Z        INFO    controller.provisioning Found 1 provisionable pod(s)  {"commit": "b157d45"}
+2022-09-05T02:33:19.640Z        INFO    controller.provisioning Computed 1 new node(s) will fit 1 pod(s)      {"commit": "b157d45"}
+2022-09-05T02:33:19.648Z        INFO    controller.provisioning Launching node with 1 pods requesting {"cpu":"1125m","memory":"1536Mi","pods":"3"} from types t3a.xlarge, t3.xlarge, c6i.xlarge, c6id.xlarge, c6a.xlarge and 332 other(s) {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:33:19.742Z        DEBUG   controller.provisioning.cloudprovider Discovered security groups: [sg-06f776cc53ed4b025 sg-0bb5f95986167d336]       {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:33:19.744Z        DEBUG   controller.provisioning.cloudprovider Discovered kubernetes version 1.23      {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:33:19.810Z        DEBUG   controller.provisioning.cloudprovider Discovered ami-044d355a56926f0c6 for query "/aws/service/eks/optimized-ami/1.23/amazon-linux-2/recommended/image_id"  {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:33:19.981Z        DEBUG   controller.provisioning.cloudprovider Created launch template, Karpenter-eksworkshop-eksctl-6351194516503745500     {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:33:22.282Z        INFO    controller.provisioning.cloudprovider Launched instance: i-091de07c985bd851e, hostname: ip-192-168-61-204.eu-west-1.compute.internal, type: c5.xlarge, zone: eu-west-1b, capacityType: spot       {"commit": "b157d45", "provisioner": "default"}
 ```
 
 
 We explained earlier on about group-less cluster scalers and how that simplifies operations and maintenance. Let's deep dive for a second into this concept. Notice how Karpenter picks up the instance from a diversified selection of instances. In this case it selected the following instances:
 
 ```
-from types t3a.xlarge, c6a.xlarge, c5a.xlarge, t3.xlarge, c6i.xlarge and 333 other(s)
+Launching node with 1 pods requesting {"cpu":"1125m","memory":"1536Mi","pods":"3"} from types t3a.xlarge, t3.xlarge, c6i.xlarge, c6id.xlarge, c6a.xlarge and 332 other(s)
 ```
 
 **Note** how the types, 'nano', 'micro', 'small', 'medium', 'large', where filtered for this selection. While our recommendation is to diversify on as many instances as possible, there are cases where provisioners may want to filter smaller (or specific) instances types.
@@ -123,7 +124,7 @@ Instances types might be different depending on the region selected.
 
 All this instances are the suitable instances that reduce the waste of resources (memory and CPU) for the pod submitted. If you are interested in Algorithms, internally Karpenter is using a [First Fit Decreasing (FFD)](https://en.wikipedia.org/wiki/Bin_packing_problem#First_Fit_Decreasing_(FFD)) approach. Note however this can change in the future.
 
-We did set Karpenter Provisioner to use [EC2 Spot instances](https://aws.amazon.com/ec2/spot/), and there was no `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/v0.10.0/provisioner/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances.Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
+We did set Karpenter Provisioner to use [EC2 Spot instances](https://aws.amazon.com/ec2/spot/), and there was no `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/v0.16.1/provisioner/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances.Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
 
 * EC2 Fleet instant mode provides a synchronous call to procure instances, including EC2 Spot, this simplifies and avoid error when provisioning instances. For those of you familiar with [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/c4b56ea56136681e8a8ff654dfcd813c0d459442/cluster-autoscaler/cloudprovider/aws/auto_scaling_groups.go#L33-L36), you may know about how it uses `i-placeholder` to coordinate instances that have been created in asynchronous ways.
 
@@ -153,7 +154,7 @@ Let's now focus in a few of those parameters starting with the Labels:
 Labels:             ...
                     intent=apps
                     karpenter.sh/capacity-type=spot
-                    node.kubernetes.io/instance-type=t3.medium
+                    node.kubernetes.io/instance-type=c5.xlarge
                     topology.kubernetes.io/region=eu-west-1
                     topology.kubernetes.io/zone=eu-west-1a
                     karpenter.sh/provisioner-name=default
@@ -170,9 +171,11 @@ Another thing to note from the node description is the following section:
 ```bash
 System Info:
   ...
+  OS Image:                   Amazon Linux 2
   Operating System:           linux
   Architecture:               amd64
-  Container Runtime Version:  containerd://1.4.6
+  Container Runtime Version:  containerd://1.6.6
+  Kubelet Version:            v1.23.9-eks-ba74326
   ...
 ```
 
@@ -229,22 +232,18 @@ This will set a few pods pending. Karpenter will get the pending pod signal and 
 
 
 ```bash
-2022-07-01T03:13:32.754Z        INFO    controller.provisioning Found 7 provisionable pod(s)    {"commit": "1f7a67b"}
-2022-07-01T03:13:32.754Z        INFO    controller.provisioning Computed 1 new node(s) will fit 7 pod(s)        {"commit": "1f7a67b"}
-2022-07-01T03:13:32.824Z        DEBUG   controller.provisioning.cloudprovider   Discovered subnets: [subnet-0e528fbbaf13542c2 (eu-west-1b) subnet-0a9bd9b668d8ae58d (eu-west-1a) subnet-03aec03eee186dc42 (eu-west-1a) subnet-03ff683f2535bcd8d (eu-west-1b)]   {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:32.867Z        DEBUG   controller.provisioning.cloudprovider   Discovered security groups: [sg-076f0ca74b68addb2 sg-09176f21ae53f5d60] {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:32.868Z        DEBUG   controller.provisioning.cloudprovider   Discovered kubernetes version 1.21      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:32.929Z        DEBUG   controller.provisioning.cloudprovider   Discovered ami-0413b176c68479e84 for query "/aws/service/eks/optimized-ami/1.21/amazon-linux-2/recommended/image_id"    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:33.105Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-12663282710833670681      {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:35.047Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-004d9de653118ae9d, hostname: ip-192-168-27-254.eu-west-1.compute.internal, type: t3a.2xlarge, zone: eu-west-1a, capacityType: spot {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:35.074Z        INFO    controller.provisioning Created node with 7 pods requesting {"cpu":"7125m","memory":"10752Mi","pods":"9"} from types t3a.2xlarge, c6a.2xlarge, c5a.2xlarge, t3.2xlarge, c6i.2xlarge and 276 other(s)    {"commit": "1f7a67b", "provisioner": "default"}
-2022-07-01T03:13:35.074Z        INFO    controller.provisioning Waiting for unschedulable pods  {"commit": "1f7a67b"}
+2022-09-05T02:40:15.714Z        DEBUG   controller.provisioning 27 out of 509 instance types were excluded because they would breach provisioner limits {"commit": "b157d45"}
+2022-09-05T02:40:15.769Z        INFO    controller.provisioning Found 7 provisionable pod(s)    {"commit": "b157d45"}
+2022-09-05T02:40:15.769Z        INFO    controller.provisioning Computed 1 new node(s) will fit 7 pod(s)        {"commit": "b157d45"}
+2022-09-05T02:40:15.784Z        INFO    controller.provisioning Launching node with 7 pods requesting {"cpu":"7125m","memory":"10752Mi","pods":"9"} from types inf1.2xlarge, c3.2xlarge, r3.2xlarge, c5a.2xlarge, t3a.2xlarge and 280 other(s)     {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:40:16.111Z        DEBUG   controller.provisioning.cloudprovider   Created launch template, Karpenter-eksworkshop-eksctl-6351194516503745500       {"commit": "b157d45", "provisioner": "default"}
+2022-09-05T02:40:18.115Z        INFO    controller.provisioning.cloudprovider   Launched instance: i-0081fc25504eacc93, hostname: ip-192-168-16-71.eu-west-1.compute.internal, type: c5a.2xlarge, zone: eu-west-1a, capacityType: spot     {"commit": "b157d45", "provisioner": "default"}
 ```
 
 Indeed the instances selected this time are larger ! The instances selected in this example were:
 
 ```bash
-from types t3a.2xlarge, c6a.2xlarge, c5a.2xlarge, t3.2xlarge, c6i.2xlarge and 276 other(s) 
+Launching node with 7 pods requesting {"cpu":"7125m","memory":"10752Mi","pods":"9"} from types inf1.2xlarge, c3.2xlarge, r3.2xlarge, c5a.2xlarge, t3a.2xlarge and 280 other(s)
 ```
 
 
@@ -273,15 +272,18 @@ Let's cover the second reason why we started with 0 replicas and why we also end
 {{% /expand %}}
 
 
-## What Have we learned in this section : 
+## What Have we learned in this section: 
 
 In this section we have learned:
 
 * Karpenter scales up nodes in a group-less approach. Karpenter select which nodes to scale , based on the number of pending pods and the *Provisioner* configuration. It selects how the best instances for the workload should look like, and then provisions those instances. This is unlike what Cluster Autoscaler does. In the case of Cluster Autoscaler, first all existing node group are evaluated and to find which one is the best placed to scale, given the Pod constraints.
 
-* Karpenter uses cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) to terminate nodes. The configuration of when a node is terminated can be controlled with `ttlSecondsAfterEmpty`
-
 * Karpenter can scale-out from zero when applications have available working pods and scale-in to zero when there are no running jobs or pods.
 
 * Provisioners can be setup to define governance and rules that define how nodes will be provisioned within a cluster partition. We can setup requirements such as `karpenter.sh/capacity-type` to allow on-demand and spot instances or use `karpenter.k8s.aws/instance-size` to filter smaller sizes. The full list of supported labels is available **[here](https://karpenter.sh/v0.13.1/tasks/scheduling/#selecting-nodes)**
+
+* Karpenter uses cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) to terminate nodes. The configuration of when a node is terminated can be controlled with `ttlSecondsAfterEmpty`
+
+
+The ability to terminate nodes only when they are completely idle is ideal for clusters or provisioners used by **batch** workloads. This is controlled by the setting `ttlSecondsAfterEmpty`. In batch workloads you want to ideally let all the kubernetes `jobs` to complete and for a node to be idle before removing the node. This behaviour is not ideal in scenarios where the workload are long running stateless micro-services. Under this conditions the best approach is to use Karpenter **consolidation** functionality. Let's explore how consolidation works in the next section.
 
