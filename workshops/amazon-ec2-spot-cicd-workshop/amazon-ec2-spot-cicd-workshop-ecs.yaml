@@ -3,10 +3,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: A CloudFormation template that will deploy all AWS resources that are required to run the Amazon EC2 Spot CI/CD Workshop. This template is provided as-is under a modified MIT license - please see https://github.com/aws-samples/amazon-ec2-spot-cicd-workshop/blob/master/LICENSE
 
 Parameters:
-  KeyPair:
-    Description: The Key Pair created earlier in the Preparation Lab
-    Type: AWS::EC2::KeyPair::KeyName
-
   CurrentIP:
     Description: Your current IP address (used to limit access to SSH services on EC2 instances)
     Type: String
@@ -514,7 +510,6 @@ Resources:
           Name: !Ref InstanceProfileECS
         ImageId: !Ref ECSAMI
         InstanceType: t3.medium
-        KeyName: !Ref KeyPair
         SecurityGroupIds:
           - !Ref SecurityGroupJenkins
         TagSpecifications:
