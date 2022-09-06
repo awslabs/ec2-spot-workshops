@@ -27,16 +27,22 @@ Be sure to give it a stack name of **SpotCICDWorkshop** and ensure that you supp
 2. Click on the **Create Stack** button towards the top of the console;
 3. At the Select Template screen, select the **Upload a template file** radio button and choose the CloudFormation template you downloaded before, then click on the **Next** button;
 4. At the Specify Details screen, enter in **SpotCICDWorkshop** as the Stack name. Under the Parameters section:
-    1. Identify what your current public IP address is by going to https://www.google.com.au/search?q=what%27s+my+ip+address. Enter the first three octets of this IP address into the **CurrentIP** parameter field and then add the **.0/24** suffix. For example if your IP address was 54.240.193.193, you would enter 54.240.193.0/24 into the CurrentIP field[^1];
+    1. Identify what your current public IP address is by going to https://www.google.com.au/search?q=what%27s+my+ip+address. Enter the first three octets of this IP address into the **CurrentIP** parameter field and then add the **.0/24** suffix. For example if your IP address was 54.240.193.193, you would enter 54.240.193.0/24 into the CurrentIP field;
     2. Enter in a password that you would like to use for the administrator account within the Jenkins server that will be launched by the CloudFormation template;
     3. Select the **Spot CICD Workshop Key Pair** option in the Keypair dropdown.
 5. Click on the **Next** button;
 6. At the Options screen, there is no need to make any changes to the default options – simply click on the **Next** button;
 7. Finally at the Review screen, verify your settings, mark the **I acknowledge that AWS CloudFormation might create IAM resources with custom names** checkbox and then click on the **Create** button. Wait for the stack to complete provisioning, which should take a couple of minutes.
 
-[^1]: It's good security practice to ensure that the web and SSH services being used in this workshop are not accessible to everyone on the Internet. In most cases, limiting access to the /24 CIDR block that you IP address is in provides a reasonable level of access control - but this may still be too restrictive in some corporate IT environments. If you have trouble accessing resources, additional instructions within this lab guide will guide you through what settings need to be manually changed.
-
 The stack should take around five minutes to deploy.
+
+{{% notice note %}}
+It's good security practice to ensure that the web and SSH services being used in this workshop are not accessible to everyone on the Internet. In most cases, limiting access to the /24 CIDR block that you IP address is in provides a reasonable level of access control - but this may still be too restrictive in some corporate IT environments. If you have trouble accessing resources, additional instructions within this lab guide will guide you through what settings need to be manually changed.
+{{% /notice %}}
+
+{{% notice note %}}
+The CloudFormation template creates a new Launch Template to install and bootstrap Jenkins. However, you can continue using any existing Launch Template that you might already have. 
+{{% /notice %}}
 
 ## Setting Up environment variables
 You need to set up the following environment variables that you'll use in the workshop, to do so, run the following commands:

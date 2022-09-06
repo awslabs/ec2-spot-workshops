@@ -358,57 +358,40 @@ Resources:
           SourceSecurityGroupId: !Ref SecurityGroupJenkins
       VpcId: !Ref VPC
 
-  JenkinsOnDemandEC2Instance: # This workshop starts from a baseline where we have a Jenkins server running on an on-demand EC2 instance. This resource launches and bootstraps this server
-    Type: AWS::EC2::Instance
+  JenkinsMasterGroup:    
+    Type: AWS::AutoScaling::AutoScalingGroup
     DependsOn:
-      - InstanceProfileJenkins
-      - SecurityGroupJenkins
-      - SubnetPublicA
+        - InstanceProfileJenkins
+        - SecurityGroupJenkins
+        - SubnetPublicA
+        - SubnetPublicB
+        - SubnetPublicC
     Properties:
-      BlockDeviceMappings:
-        - DeviceName: "/dev/xvda"
-          Ebs:
-            DeleteOnTermination: "true"
-            VolumeSize: 50
-            VolumeType: gp2
-      IamInstanceProfile: !Ref InstanceProfileJenkins
-      ImageId: !Ref AmazonLinux2LatestAmiId
-      InstanceType: t3.medium
-      KeyName: !Ref KeyPair
-      SecurityGroupIds:
-        - !Ref SecurityGroupJenkins
-      SubnetId: !Ref SubnetPublicA
+      HealthCheckType: EC2
+      HealthCheckGracePeriod: 300
+      MinSize: "1"
+      MaxSize: "1"
+      DesiredCapacity: "1"
+      VPCZoneIdentifier:
+        - Ref: SubnetPublicA
+        - Ref: SubnetPublicB
+        - Ref: SubnetPublicC
+      MixedInstancesPolicy:
+        InstancesDistribution:
+          OnDemandAllocationStrategy: lowest-price
+          OnDemandBaseCapacity: 0
+          OnDemandPercentageAboveBaseCapacity: 100
+        LaunchTemplate:
+          LaunchTemplateSpecification:
+            LaunchTemplateId:
+              Ref: JenkinsMasterLaunchTemplate
+            Version: "1"
+      TargetGroupARNs:
+        - !Ref JenkinsMasterALBTargetGroupEC2
       Tags:
         - Key: Name
-          Value: Jenkins Master (On-demand)
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          # Install all pending updates to the system
-          yum -y update
-          # Install Docker
-          amazon-linux-extras install docker
-          chkconfig docker on
-          service docker start
-          usermod -a -G docker ec2-user
-          # Install Docker Compose
-          curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-          chmod +x /usr/local/bin/docker-compose
-          # Download files from GitHub
-          mkdir -p /jenkins_home/jobs/
-          mkdir -p /usr/share/jenkins
-          cd /usr/share/jenkins
-          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/casc.yaml
-          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/docker-compose.yml
-          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/Dockerfile
-          wget https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/cicd-upgrade/workshops/amazon-ec2-spot-cicd-workshop/container/plugins.txt
-          # Reset the password defined as the JenkinsAdminPassword          
-          sed -i 's/JenkinsAdminPassword/${JenkinsAdminPassword}/' docker-compose.yml
-          # Configure the Jenkins Location
-          curl -s http://169.254.169.254/latest/meta-data/public-ipv4 | xargs -I {} sed -i 's/localhost/{}/' casc.yaml
-          # Start Jenkins
-          docker-compose pull
-          docker-compose up -d --no-build
+          Value: jenkins-master
+          PropagateAtLaunch: true
 
   JenkinsMasterALB: # This is the Application Load Balancer that resides in front of your Jenkins Master instance and is responsible for port-mapping requests from TCP:80 to TCP:8080
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -430,7 +413,6 @@ Resources:
   JenkinsMasterALBTargetGroupEC2: # This is the Target Group used by the JenkinsMasterALB load balancer when Jenkins is running on an EC2 instance
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     DependsOn:
-      - JenkinsOnDemandEC2Instance
       - VPC
     Properties:
       HealthCheckIntervalSeconds: 15
@@ -444,9 +426,7 @@ Resources:
       Name: JenkinsMasterEC2TargetGroup
       Port: 8080
       Protocol: HTTP
-      Targets:
-        - Id: !Ref JenkinsOnDemandEC2Instance
-          Port: 8080
+      TargetType: instance
       UnhealthyThresholdCount: 4
       VpcId: !Ref VPC
 
@@ -479,7 +459,7 @@ Resources:
       ListenerArn: !Ref JenkinsMasterALBListener
       Priority: 1
 
-  JenkinsSpotMasterLaunchTemplate: # This is a launch template that will be used to provision Jenkins Master servers - showing how when used in conjunction with an EFS volume stateful applications can run on self-healing spot architectures.
+  JenkinsMasterLaunchTemplate: # This is a launch template that will be used to provision Jenkins Master servers - showing how when used in conjunction with an EFS volume stateful applications can run on self-healing spot architectures.
     Type: AWS::EC2::LaunchTemplate
     DependsOn:
       - EFSJenkinsHomeVolume
@@ -505,7 +485,7 @@ Resources:
           - ResourceType: instance
             Tags:
               - Key: Name
-                Value: Jenkins Master (Spot)
+                Value: jenkins-master
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash
@@ -562,7 +542,7 @@ Resources:
           - ResourceType: instance
             Tags:
               - Key: Name
-                Value: Jenkins Build Agent
+                Value: jenkins-build-agent
         UserData:
           Fn::Base64: !Sub |
             #!/bin/bash

@@ -42,7 +42,7 @@ Resources:
       Targets:
         SpotIntances:
           ResourceTags:
-            Name: "Jenkins Master (Spot)"
+            Name: "jenkins-build-agent"
           Filters:
             - Path: State.Name
               Values:
