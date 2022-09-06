@@ -48,6 +48,10 @@ Finally, the configuration above, sets the `SpotAllocationStrategy` to `capacity
 
 Let’s now create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the min-size to 0 (*to avoid running instances when there's no need*), max-size to 2 and desired-capacity to 0. You'll override some of this configuration later through Jenkins.
 
+{{% notice note %}}
+We’re initialising the Auto Scaling group with zero instances to reduce costs. However, the impact is that you need to wait around five minutes to launch a new job while the new instance starts. If you want to launch pending jobs faster, you need set up number of minimum number of instances to the ones you'll need as a baseline for capacity of Jenkins agents.
+{{% /notice %}}
+
 Run the following command:
 
 ```bash
