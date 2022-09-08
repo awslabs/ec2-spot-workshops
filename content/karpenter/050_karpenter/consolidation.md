@@ -267,6 +267,14 @@ There are other cases that Karpenter will consider when consolidating. Consolida
 Finally, Karpenter consolidation will not attempt to consolidate a node that is running pods that are not owned by a controller (e.g. a ReplicaSet). In general we cannot assume that these pods would be recreated if they were evicted from the node that they are currently running on.
 {{% /expand %}}
 
+#### 7) Scale the replicas to 0.
+
+In preparation for the next section, scale replicas to 0 using the following command.
+
+```
+kubectl scale deployment inflate --replicas 0
+```
+
 
 ## What Have we learned in this section: 
 
