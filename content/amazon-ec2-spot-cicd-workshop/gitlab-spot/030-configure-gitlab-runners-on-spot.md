@@ -10,7 +10,7 @@ There are also other ways to create GitLab runners on spot instances that we are
 
 ### Create an IAM role for GitLab Runners
 
-1. Create the trust policy document named ec2-role-trust-policy.json. 
+1. Create the trust policy document named `ec2-role-trust-policy.json`. 
 ```
 cat << EOF > ~/environment/ec2-role-trust-policy.json
 {
@@ -26,7 +26,7 @@ cat << EOF > ~/environment/ec2-role-trust-policy.json
 EOF
 ```
 
-2. Create the **gitlab-runner** role and specify the trust policy that you created using the create-role command.
+2. Create the **gitlab-runner** role and specify the trust policy that you created using the `create-role` command.
 ```
 aws iam create-role \
     --role-name gitlab-runner \
@@ -196,7 +196,7 @@ You will now get the runner configuration information from GitLab and then start
 11. In the **The S3 bucket that will be used for a shared runner cache.** leave the default value (do not enter the GitLabCacheBucket value you saved from CloudFormation Output values, as at the moment the template will still try to create policies using the custom bucket and will fail if a different one is provided).
 12. In the **The number of instances that should be configured. Generally 1 for warm HA and 2 for hot HA.** enter `2`.
 13. In the **Override automatic IAM Instance Profile for a precreated one.** type `gitlab-runner`.
-14. In the **The VPC in the account and region should be used**, get the VPC ID by running below command in Cloud9:
+14. In the **The VPC in the account and region should be used**, get the VPC ID (in the format `vpc-...`) by running below command in Cloud9:
 ```
 echo VPC ID = $VPC
 ```
@@ -226,4 +226,4 @@ You had to use the full template to customize the IAM role used by the runners. 
 
 ![GitLab Screenshot: Runner available](/images/gitlab-spot/GitLab-RunnerAvailable.png)
 
-You can now proceed to build your application in [**Building the demo app**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/lab3.html).
+You can now proceed to build your application in [**Building the demo app**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/040-building-demo-app.html).

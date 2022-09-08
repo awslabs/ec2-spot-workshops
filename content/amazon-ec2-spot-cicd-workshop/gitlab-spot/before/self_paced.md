@@ -40,4 +40,4 @@ Now you will deploy a GitLab without any runners. As it is not the purpose of th
 6. In the **Stack name** field enter `mod-gitlab-spot-workshop`, in the **EEKeyPair** field select `ee-default-key-pair` or the name of the key you used in the steps above. Leave the default values in other fields and choose **Next**.
 7. Choose **Next**.
 8. Mark the checkbox **I acknowledge that AWS CloudFormation might create IAM resources.** and choose **Create stack**.
-9. Wait until the stack is in `CREATE_COMPLETE` status (it should take approximately 15 minutes) and continue with [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html).
+9. Wait until the stack is in `CREATE_COMPLETE` status (it should take approximately 15 minutes) and continue with [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/010-prep.html).

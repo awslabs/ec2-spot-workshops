@@ -28,7 +28,7 @@ aws sts get-caller-identity --query Arn | grep GitLabWorkshopC9Role && echo -e "
 
 ![Cloud9 Screenshot: Caller identity](/images/gitlab-spot/Cloud9-CallerIdentity.png)
 
-7. During the workshop, you will need to refer to the identifiers of the resources created by the CloudFormation stack you deployed. To reduce copy and paste across the CloudFormation console and the Cloud9 environment, you will load the CloudFormation Stack Outputs to environment variables. Configure the stack_name environment variable with the name of your CloudFormation template:
+7. During the workshop, you will need to refer to the identifiers of the resources created by the CloudFormation stack you deployed. To reduce copy and paste across the CloudFormation console and the Cloud9 environment, you will load the CloudFormation Stack Outputs to environment variables. Configure the stack_name environment variable with the name of your CloudFormation template (substitute the `mod-gitlab-spot-workshop` with the actual stack name that you created / identified in the [Starting the workshop](before.html) section):
 ```
 export stack_name=mod-gitlab-spot-workshop
 ```
@@ -60,4 +60,4 @@ Subnet1Zone : us-east-1a
 
 ![Cloud9 Screenshot: Show hidden files](/images/gitlab-spot/Cloud9-ShowHiddenFiles.png)
 
-You are now ready to start the main sections of the workshop! Please proceed to [**Create a GitLab repository**](lab1.html).
+You are now ready to start the main sections of the workshop! Please proceed to [**Create a GitLab repository**](020-create-gitlab-repo.html).

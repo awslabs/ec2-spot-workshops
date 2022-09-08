@@ -21,13 +21,13 @@ This workshop will be broken down into a series of sections that flow on from ea
 The exercises that will be covered are:
 
 * [Starting the workshop](gitlab-spot/before.html) where you will log in to AWS accounts and deploy GitLab, if it is not yet deployed
-* [Workshop Preparation](gitlab-spot/prep.html) where you will save GitLab access details and create an AWS Cloud9 environment to execute the workshop steps
-* [Create a GitLab repository](gitlab-spot/lab1.html) where you will create a repository in GitLab CI/CD and create a demo application.
-* [Configure GitLab runners on Spot instances](gitlab-spot/lab2.html) where you will deploy the GitLab Runners in an auto-scaling group on spot instances
-* [Building the demo app](gitlab-spot/lab3.html) where you will push the changes and make sure that your pipeline executes successfully.
-* [Deploying Amazon EKS on Spot instances](gitlab-spot/lab4.html) where you will create a new Kubernetes cluster in Amazon EKS that will only have worker nodes on spot instances
-* [Installing the demo app into Amazon EKS](gitlab-spot/lab5.html) where you will modify your GitLab CI/CD scripts to add a stage of deploying on Amazon EKS and test the result
-* [Workshop Cleanup](gitlab-spot/cleanup.html) where you will remove all the resources created during the workshop
+* [Workshop Preparation](gitlab-spot/010-prep.html) where you will save GitLab access details and create an AWS Cloud9 environment to execute the workshop steps
+* [Create a GitLab repository](gitlab-spot/020-create-gitlab-repo.html) where you will create a repository in GitLab CI/CD and create a demo application.
+* [Configure GitLab runners on Spot instances](gitlab-spot/030-configure-gitlab-runners-on-spot.html) where you will deploy the GitLab Runners in an auto-scaling group on spot instances
+* [Building the demo app](gitlab-spot/040-building-demo-app.html) where you will push the changes and make sure that your pipeline executes successfully.
+* [Deploying Amazon EKS on Spot instances](gitlab-spot/050-deploying-eks-on-spot.html) where you will create a new Kubernetes cluster in Amazon EKS that will only have worker nodes on spot instances
+* [Installing the demo app into Amazon EKS](gitlab-spot/060-deploy-app-to-eks.html) where you will modify your GitLab CI/CD scripts to add a stage of deploying on Amazon EKS and test the result
+* [Workshop Cleanup](gitlab-spot/070-cleanup.html) where you will remove all the resources created during the workshop
 
 The final architecture that we will be building looks the following way:
 

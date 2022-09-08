@@ -5,7 +5,7 @@ weight = 40
 
 In this lab you will push the changes to your origin repository and verify that the pipeline has successfully finished both in GitLab and by checking the image in Amazon ECR.
 
-1. Return to the browser tab with Cloud9 and execute the following command in the terminal. Specify `root` as the username and the same password you used in [**Create a GitLab repository**](lab1.html) to log in to GitLab:
+1. Return to the browser tab with Cloud9 and execute the following command in the terminal. Specify `root` as the username and the same password you used in [**Create a GitLab repository**](020-create-gitlab-repo.html) to log in to GitLab:
 
 ```
 git push -u origin main
@@ -22,11 +22,11 @@ git push -u origin main
 
 ![ECR Console Screenshot: Images](/images/gitlab-spot/AWSConsole-ECRImages.png)
 
-You have successfully built the image and can now proceed to [**Deploying Amazon EKS on Spot instances**](lab4.html).
+You have successfully built the image and can now proceed to [**Deploying Amazon EKS on Spot instances**](050-deploying-eks-on-spot.html).
 
 ### Challenges
 
-If this and previous labs seemed too easy, try completing the following challenges:
+If this and previous sections of the workshop seemed too easy, try completing the following challenges:
 
 **Challenge 1:** Configure shared runners for the whole GitLab CI/CD and not just the current repository. Create an additional repository and verify that your runners serve it too.
 

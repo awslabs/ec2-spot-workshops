@@ -8,4 +8,4 @@ To start the workshop, follow one of the following pages, depending on whether y
 
 {{% children  %}}
 
-Once you are done with either setup, continue with [**Workshop Preparation**](prep.html).
+Once you are done with either setup, continue with [**Workshop Preparation**](010-prep.html).

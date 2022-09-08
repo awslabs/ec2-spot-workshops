@@ -45,4 +45,4 @@ In the next section we will get the login details of the GitLab environment that
 
 If there is no CloudFormation stack present, provision it as specified in the section [**...On your own**](self_paced.html).
 
-You can now proceed to the [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/prep.html) where you will save the required output values from the stack.
+You can now proceed to the [**Workshop Preparation**](/amazon-ec2-spot-cicd-workshop/gitlab-spot/010-prep.html) where you will save the required output values from the stack.

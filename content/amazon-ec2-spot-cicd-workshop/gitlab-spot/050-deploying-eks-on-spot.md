@@ -10,7 +10,7 @@ The Terraform files are located in `~/environment/amazon-ec2-spot-cicd-workshop/
 1. Return to the browser tab with Cloud9 and execute the following commands in the terminal to download and install `kubectl` that you will be using to work with the Kubernetes cluster:
 ```
 cd ~/environment
-export KUBECTL_VERSION=v1.22.10
+export KUBECTL_VERSION=v1.23.7
 sudo curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 sudo chmod +x /usr/local/bin/kubectl
 ```
@@ -27,7 +27,7 @@ terraform apply
 ```
 
 3. When asked for the parameters, enter the following values:
-    * **kubernetes_version**: enter `1.22`
+    * **kubernetes_version**: enter `1.23`
     * **vpc_id**: open a new terminal in Cloud9 and run below command to get the VPC ID
     ```
     echo VPC ID = $VPC
@@ -92,7 +92,7 @@ EoF
 kubectl apply -f aws-auth.yaml
 ```
 
-You are now ready for the final steps to deploy your demo application into the cluster in [**Installing the demo app into Amazon EKS**](lab5.html).
+You are now ready for the final steps to deploy your demo application into the cluster in [**Installing the demo app into Amazon EKS**](060-deploy-app-to-eks.html).
 
 ### Challenge
 

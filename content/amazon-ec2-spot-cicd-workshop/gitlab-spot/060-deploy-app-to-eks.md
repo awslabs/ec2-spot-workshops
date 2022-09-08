@@ -5,7 +5,7 @@ weight = 60
 
 In this section you will deploy the demo application you built earlier in the new Amazon EKS cluster deployed fully on spot instances.
 
-1. In the Cloud9 file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)).
+1. In the Cloud9 file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](010-prep.html)).
 
 2. Change the jobs `deploy_to_eks` and `test_on_eks` to the following ones:
 ```
@@ -16,7 +16,7 @@ deploy_to_eks:
     - aws --version
     - aws eks update-kubeconfig --region $REGION --name $K8S_CLUSTER_NAME
     - apt-get install -y gettext # To get envsubst 
-    - export KUBECTL_VERSION=v1.22.10
+    - export KUBECTL_VERSION=v1.23.7
     - curl --silent --location -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
     - chmod +x /usr/local/bin/kubectl
   script:
@@ -112,4 +112,4 @@ To view the current economy from using spot instances instead of on-demand ones 
 2. Choose **Spot Requests** in the **Instances** section of the navigation pane.
 3. Choose **Savings summary**.
 
-You can now clean all the resources created during the workshop using the steps in [**Workshop Cleanup**](cleanup.html).
+You can now clean all the resources created during the workshop using the steps in [**Workshop Cleanup**](070-cleanup.html).

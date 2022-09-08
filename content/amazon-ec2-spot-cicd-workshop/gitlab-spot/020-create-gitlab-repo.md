@@ -49,8 +49,8 @@ export ECR_NAME=$(echo $ECR_INFO | awk -F'/' '{print $2}')
 sed "s/\${ECR_ADDRESS}/${ECR_ADDRESS}/g" template-gitlab-ci.yml | sed "s/\${ECR_NAME}/${ECR_NAME}/g" | sed "s/\${AWS_REGION}/${REGION}/g" > .gitlab-ci.yml
 ```
 
-3. In the file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](prep.html)). Look through it to understand what it does.
-4. Define your name and email that will be used in Git (replace `Your Name` and `youremail@test.tld` with the values you prefer):
+3. In the file tree on the left open file `amazon-ec2-spot-cicd-workshop/gitlab-spot/demo-app/.gitlab-ci.yml` (if you don't see it, make sure you have enabled the hidden files in [**Workshop Preparation**](010-prep.html)). Look through it to understand what it does.
+4. Return to the terminal tab and execute the following commands to define your name and email that will be used in Git (replace `Your Name` and `youremail@test.tld` with the values you prefer):
 
 ```
 git config --global user.name "Your Name"
@@ -72,4 +72,4 @@ git add .
 git commit -m "Initial commit"
 ```
 
-You are now ready to do the key step in configuring GitLab CI/CD on Spot instances: add the runners. Please proceed to [**Configure GitLab runners on Spot instances**](lab2.html).
+You are now ready to do the key step in configuring GitLab CI/CD on Spot instances: add the runners. Please proceed to [**Configure GitLab runners on Spot instances**](030-configure-gitlab-runners-on-spot.html).
