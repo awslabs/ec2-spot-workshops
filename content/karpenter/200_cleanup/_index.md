@@ -33,7 +33,21 @@ kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/dow
 
 ## Removing the cluster, Managed node groups and Karpenter pre-requisites
 ```
+
+aws cloudformation delete-stack --stack-name eksctl-eksworkshop-eksctl-addon-iamserviceaccount-karpenter-karpenter
+aws cloudformation wait stack-delete-complete --stack-name eksctl-eksworkshop-eksctl-addon-iamserviceaccount-karpenter-karpenter
+
+aws cloudformation delete-stack --stack-name Karpenter-eksworkshop-eksctl
+aws cloudformation wait stack-delete-complete --stack-name Karpenter-eksworkshop-eksctl
+
+aws cloudformation delete-stack --stack-name eksctl-eksworkshop-eksctl-nodegroup-mng-od-m5large
+aws cloudformation wait stack-delete-complete --stack-name eksctl-eksworkshop-eksctl-nodegroup-mng-od-m5large
+
+aws cloudformation delete-stack --stack-name eksctl-eksworkshop-eksctl-cluster
+aws cloudformation wait stack-delete-complete --stack-name eksctl-eksworkshop-eksctl-cluster
+
 aws cloudformation delete-stack --stack-name karpenter-workshop
+aws cloudformation wait stack-delete-complete --stack-name karpenter-workshop
 ```
 
 {{% notice tip %}}
