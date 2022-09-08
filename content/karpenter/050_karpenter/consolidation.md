@@ -92,7 +92,8 @@ kubectl scale deployment inflate --replicas 6
 
 As for what should happen, check out karpenter logs, remember you can read karpenter logs using the following command 
 ```
-kubectl logs -f deployment/karpenter -n karpenter -c controller --tail=20
+alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+kl
 ```
 
 Karpenter logs will display the following lines

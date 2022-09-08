@@ -1,7 +1,7 @@
 ---
 title: "Install Kubernetes Tools"
 chapter: true
-weight: 30
+weight: 40
 ---
 
 # Install Kubernetes tools

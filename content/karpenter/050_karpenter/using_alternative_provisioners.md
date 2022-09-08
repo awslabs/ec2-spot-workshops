@@ -125,7 +125,8 @@ But there is something that does not match with what we have seen so far with Ka
 Well, let's check first Karpenter log. 
 
 ```
-kubectl logs -f deployment/karpenter -c controller -n karpenter
+alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+kl
 ```
 
 The output of Karpenter should look similar to the one below
