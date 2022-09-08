@@ -24,36 +24,20 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
 {{% notice info %}}
-In the interest of time for shorter events we sometimes deploy the resources required as a prerequisite for you. If you were told so, please review the cloudformation outputs of the stack that was deployed by **expanding the instructions below**.
+In the interest of time we have deployed everything required to run Karpenter for this workshop. All the pre-requisites and dependencies have been deployed. The resources deployed can befound in this CloudFormation Template (**[eks-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/010_prerequisites/prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**). The template deploys resourcess such as (a) An [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with all the dependencies and IAM privileges to run the workshop (b) An EKS Cluster with the name `eksworkshop-eksctl` and (c) a [EKS managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html)  with 2 on-demand instances. 
 {{% /notice %}}
 
-{{%expand "Click to reveal detailed instructions" %}}
+#### Getting access to Cloud9  
 
-#### What resources are already deployed {#resources_deployed}
-
-We have deployed the below resources required to get started with the workshop using a CloudFormation Template (**[eks-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/010_prerequisites/prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**), Please reference the below  resources created by the stack.
-
-+ An [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with
-    - An IAM role created and attached to the workspace with Administrator access
-    - Kubernetes tools installed (kubectl, jq and envsubst)
-    - awscli upgraded to v2
-    - Created and imported a key pair to Amazon EC2
-    - [eksctl](https://eksctl.io/) installed, The official CLI for Amazon EKS 
-
-+ An EKS cluster with the name `eksworkshop-eksctl` and a [EKS managed node group](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html)  with 2 on-demand instances.
-
-
-#### Use your resources 
-
-In this workshop, you'll need to reference the resources created by the CloudFormation stack that we setup for you.
+In this workshop, you'll need to reference the resources created by the CloudFormation stack.
 
 1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack name that starts with **mod-** in the list.
 
-1. In the stack details pane, click the **Outputs** tab.
+2. In the stack details pane, click the **Outputs** tab.
 
 ![cnf_output](/images/karpenter/prerequisites/cnf_output.png)
 
-It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.
+It is recommended that you keep this tab / window open so you can easily refer to the outputs and resources throughout the workshop.
 
 {{% notice info %}}
 you will notice additional Cloudformation stacks were also deployed which is the result of the stack that starts with **mod-**. One to deploy the Cloud9 Workspace and two other to create the EKS cluster and managed nodegroup.
@@ -78,9 +62,7 @@ aws sts get-caller-identity
 
 {{% insert-md-from-file file="karpenter/010_prerequisites/at_an_aws_validaterole.md" %}}
 
-Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/karpenter/020_eksctl/test.md"  >}})**
-
-{{% /expand%}}
 
 
+You are now ready to **[Test the Cluster]({{<  relref "/karpenter/test.md"  >}})**
 

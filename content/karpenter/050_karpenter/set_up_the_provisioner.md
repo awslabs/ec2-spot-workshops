@@ -84,10 +84,16 @@ Karpenter has been designed to be generic and support other Cloud and Infrastruc
 You can create a new terminal window within Cloud9 and leave the command below running so you can come back to that terminal every time you want to look for what Karpenter is doing.
 {{% /notice %}}
 
-To read Karpenter logs from the console you can run the following command.
+To read karpenter logs you first need to find the pod that act as elected leader and get the logs out from it. The following line setup an alias that you can use to automate that. The alias just looks for the headers of all the Karpenter controller logs, search for the pod that has the elected leader message and start streaming the line.
 
 ```
-kubectl logs -f deployment/karpenter -c controller -n karpenter
+alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+```
+
+From now on to invoke the alias and get the logs we can just use
+
+```
+kl
 ```
 
 {{% notice info %}}

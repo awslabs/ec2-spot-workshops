@@ -2,7 +2,7 @@
 title: "Karpenter"
 titleMenu: "Karpenter"
 chapter: true
-weight: 40
+weight: 50
 draft: false
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Scaling App and Cluster"
 chapter: true
-weight: 50
+weight: 60
 ---
 
 # Implement AutoScaling with HPA and Karpenter

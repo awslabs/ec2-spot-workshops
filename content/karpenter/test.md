@@ -1,7 +1,7 @@
 ---
 title: "Test the Cluster"
 date: 2018-08-07T13:36:57-07:00
-weight: 30
+weight: 20
 ---
 ## Test the cluster:
 Confirm your Nodes, if we see 2 nodes then we know we have authenticated correctly:

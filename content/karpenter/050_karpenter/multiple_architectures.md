@@ -118,7 +118,8 @@ Before we check the selected node, let's cover what Karpenter is expected to do 
 Let's confirm that was the case and only `amd64` considered for scaling up. We can check karpenter logs by running the following command.
 
 ```
-kubectl logs -f deployment/karpenter -c controller -n karpenter
+alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+kl
 ```
 
 The output should show something similar to the lines below
@@ -194,7 +195,8 @@ Karpenter does support the nodeSelector well-known label `node.kubernetes.io/ins
 So in this case we should expect just one instance being considered. You can check Karpenter logs by running:
 
 ```
-kubectl logs -f deployment/karpenter -c controller -n karpenter
+alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+kl
 ```
 
 The output should show something similar to the lines below

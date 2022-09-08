@@ -1,7 +1,7 @@
 ---
 title: "EKS Console Credentials"
 date: 2018-08-07T13:36:57-07:00
-weight: 40
+weight: 30
 ---
 
 In this section we will set up the configuration you need to explore the Elastic Kubernetes Service (EKS) section in the AWS Console and the properties of the newly created EKS cluster.
