@@ -152,4 +152,4 @@ As things stand now, your projects in Jenkins won't be able to be built - you've
 {{% /expand%}}
 
 ## PROCEED TO WORKSHOP CLEANUP
-Once your Jenkins infrastructure is completely running in your ECS cluster, you've completed all of the labs in this workshop. Congratulations! You may now proceed with the [Workshop Cleanup](/amazon-ec2-spot-cicd-workshop/clea.html).
+Once your Jenkins infrastructure is completely running in your ECS cluster, you've completed all of the labs in this workshop. Congratulations! You may now proceed with the [Workshop Cleanup](/amazon-ec2-spot-cicd-workshop/jenkins-spot/clea.html).

@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spot-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spot-demo
+  template:
+    metadata:
+      labels:
+        app: spot-demo
+    spec:
+      containers:
+        - name: spot-demo
+          image: "${ECR_REGISTRY}/${IMAGE_TAG}"
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spot-demo
+  labels:
+    app: spot-demo
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: NodePort
+  selector:
+    app: spot-demo
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spot-demo
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/healthcheck-path: /info/
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spot-demo
+                port:
+                  number: 80

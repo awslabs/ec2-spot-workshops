@@ -1,0 +1,660 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: GitLab Spot Workshop
+
+Parameters:
+  EEKeyPair:
+    Description: Name of the EC2 key for GitLab
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  EETeamRoleArn:
+    Description: ARN of the user / role that will be owner of Cloud9 environment. Leave empty to use the current entity
+    Type: String
+  AmiId:
+    Description: Do not change
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/canonical/ubuntu/server/focal/stable/current/amd64/hvm/ebs-gp2/ami-id'
+  VpcCIDR:
+    Description: CIDR for the VPC
+    Type: String
+    Default: 10.0.0.0/16
+  Subnet1CIDR:
+    Description: CIDR for the first public subnet
+    Type: String
+    Default: 10.0.10.0/24
+  Subnet2CIDR:
+    Description: CIDR for the second public subnet
+    Type: String
+    Default: 10.0.20.0/24
+  EnvironmentName:
+    Description: Project name for the tags
+    Type: String
+    Default: GitLabSpotWorkshop
+    AllowedPattern : '^[a-zA-Z0-9\-]+$'
+
+Conditions:
+  EmptyC9Owner: !Equals [!Ref EETeamRoleArn, '']
+  IsEERole: !Equals [!Ref EETeamRoleArn, !Sub 'arn:aws:iam::${AWS::AccountId}:role/TeamRole']
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} VPC
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Internet Gateway
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      CidrBlock: !Ref Subnet1CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Subnet 1
+        - Key: Project
+          Value: !Ref EnvironmentName
+        - Key: kubernetes.io/cluster/gitlab-spot-workshop
+          Value: shared
+        - Key: kubernetes.io/role/elb
+          Value: 1
+
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      CidrBlock: !Ref Subnet2CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Subnet 2
+        - Key: Project
+          Value: !Ref EnvironmentName
+        - Key: kubernetes.io/cluster/gitlab-spot-workshop
+          Value: shared
+        - Key: kubernetes.io/role/elb
+          Value: 1
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Route Table
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  Subnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref Subnet1
+
+  Subnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref Subnet2
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: SSH and HTTP
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref VpcCIDR
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId:
+              Ref: ELBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} EC2 Security Group
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  ELBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: HTTP only
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} ELB Security Group
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+        -
+          PolicyName: allowLambdaLogging
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "logs:*"
+                Resource: "*"
+
+  RandomStringLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Architectures:
+        - arm64
+      Code:
+        ZipFile: |
+          import json
+          import cfnresponse
+          import random
+          import string
+
+          def handler(event, context):
+              length = int(event["ResourceProperties"]["Length"])
+
+              responseData = {}
+              responseData["RandomString"] = "".join(random.choices(string.ascii_letters + string.digits, k=length))
+
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+      Handler: index.handler
+      Runtime: python3.8
+      Role: !GetAtt LambdaExecutionRole.Arn
+      MemorySize: 128
+      Timeout: 3
+      Tags:
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  GitLabPassword:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      Length: 16
+      ServiceToken: !GetAtt RandomStringLambdaFunction.Arn
+
+  LowerStringLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Architectures:
+        - arm64
+      Code:
+        ZipFile: |
+          import json
+          import cfnresponse
+          import random
+          import string
+
+          def handler(event, context):
+              responseData = {}
+              responseData["OutputString"] = event["ResourceProperties"]["InputString"].lower()
+
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+      Handler: index.handler
+      Runtime: python3.8
+      Role: !GetAtt LambdaExecutionRole.Arn
+      MemorySize: 128
+      Timeout: 3
+      Tags:
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  EnvironmentNameLower:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      InputString: !Ref EnvironmentName
+      ServiceToken: !GetAtt LowerStringLambdaFunction.Arn
+
+  GitLabLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    DependsOn: CloudFrontDistribution
+    Properties:
+      LaunchTemplateData:
+        ImageId: !Ref AmiId
+        InstanceType: m5.xlarge
+        KeyName: !Ref EEKeyPair
+        NetworkInterfaces:
+          - AssociatePublicIpAddress: true
+            DeviceIndex: 0
+            Groups:
+              - !Ref EC2SecurityGroup
+        UserData:
+            Fn::Base64: !Sub |
+              #!/bin/bash -xe
+              apt-get update
+              apt-get install -y curl openssh-server ca-certificates tzdata perl python3-setuptools
+              curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash
+              GITLAB_ROOT_EMAIL="test@workshop.tld" GITLAB_ROOT_PASSWORD="${GitLabPassword.RandomString}" EXTERNAL_URL="http://${CloudFrontDistribution.DomainName}" apt-get install gitlab-ee
+              sed -i 's|http://${CloudFrontDistribution.DomainName}|https://${CloudFrontDistribution.DomainName}|' /etc/gitlab/gitlab.rb
+              echo "letsencrypt['enable'] = false" >> /etc/gitlab/gitlab.rb
+              echo "nginx['listen_port'] = 80" >> /etc/gitlab/gitlab.rb
+              echo "nginx['listen_https'] = false" >> /etc/gitlab/gitlab.rb
+              gitlab-ctl reconfigure
+              gitlab-rails runner "ApplicationSetting.last.update_attribute(:signup_enabled, false)"
+              wget https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-latest.tar.gz
+              python3 /usr/lib/python3/dist-packages/easy_install.py --script-dir /opt/aws/bin aws-cfn-bootstrap-py3-latest.tar.gz
+              /opt/aws/bin/cfn-signal \
+                -e $? \
+                --stack ${AWS::StackName} \
+                --resource GitLabAutoScalingGroup \
+                --region ${AWS::Region}
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+            - Key: Name
+              Value: !Sub ${EnvironmentName} GitLab
+            - Key: Project
+              Value: !Ref EnvironmentName
+
+  GitLabAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId: !Ref GitLabLaunchTemplate
+        Version: !GetAtt GitLabLaunchTemplate.LatestVersionNumber
+      MinSize: 1
+      MaxSize: 1
+      TargetGroupARNs: [!Ref EC2TargetGroup]
+      VPCZoneIdentifier:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      Tags:
+        - Key: Project
+          PropagateAtLaunch: false
+          Value: !Ref EnvironmentName
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT45M
+        Count: 1
+
+  EC2TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Matcher:
+        HttpCode: 200,302
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} GitLab Target Group
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  ALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn:
+            Ref: EC2TargetGroup
+      LoadBalancerArn:
+          Ref: ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Subnets:
+        - Ref: Subnet1
+        - Ref: Subnet2
+      SecurityGroups:
+        - Ref: ELBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Load Balancer
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !GetAtt ApplicationLoadBalancer.DNSName
+          Id: GitLabOrigin
+          CustomOriginConfig:
+            HTTPPort: 80
+            OriginProtocolPolicy: http-only
+        Enabled: true
+        DefaultCacheBehavior:
+          TargetOriginId: GitLabOrigin
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3
+          ViewerProtocolPolicy: redirect-to-https
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} CloudFront Distribution
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  DemoRepo:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Sub ${EnvironmentNameLower.OutputString}-gitlab-spot-demo
+      Tags:
+          - Key: Project
+            Value: !Ref EnvironmentName
+
+  GitLabCacheBucket:
+    Type: AWS::S3::Bucket
+
+  GitLabWorkshopC9Role:
+    Type: AWS::IAM::Role
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+            - ssm.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AdministratorAccess
+      Path: "/"
+
+  GitLabWorkshopC9LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName:
+          Fn::Join:
+          - ''
+          - - GitLabWorkshopC9LambdaPolicy-
+            - Ref: EnvironmentName
+            - '-'
+            - Ref: AWS::Region
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - cloudformation:DescribeStacks
+            - cloudformation:DescribeStackEvents
+            - cloudformation:DescribeStackResource
+            - cloudformation:DescribeStackResources
+            - ec2:DescribeInstances
+            - ec2:AssociateIamInstanceProfile
+            - ec2:ModifyInstanceAttribute
+            - ec2:ReplaceIamInstanceProfileAssociation
+            - iam:ListInstanceProfiles
+            - iam:PassRole
+            Resource: "*"
+
+  GitLabWorkshopC9BootstrapInstanceLambda:
+    Description: Bootstrap Cloud9 instance
+    Type: Custom::GitLabWorkshopC9BootstrapInstanceLambda
+    DependsOn:
+    - GitLabWorkshopC9BootstrapInstanceLambdaFunction
+    - GitLabWorkshopC9Instance
+    - GitLabWorkshopC9InstanceProfile
+    - GitLabWorkshopC9LambdaExecutionRole
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - GitLabWorkshopC9BootstrapInstanceLambdaFunction
+        - Arn
+      REGION:
+        Ref: AWS::Region
+      StackName:
+        Ref: AWS::StackName
+      EnvironmentId:
+        Ref: GitLabWorkshopC9Instance
+      LabIdeInstanceProfileName:
+        Ref: GitLabWorkshopC9InstanceProfile
+      LabIdeInstanceProfileArn:
+        Fn::GetAtt:
+        - GitLabWorkshopC9InstanceProfile
+        - Arn
+
+  GitLabWorkshopC9BootstrapInstanceLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Role:
+        Fn::GetAtt:
+        - GitLabWorkshopC9LambdaExecutionRole
+        - Arn
+      Runtime: python3.8
+      MemorySize: 256
+      Timeout: 600
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+          import time
+          import traceback
+          import cfnresponse
+          
+          def lambda_handler(event, context):
+              # logger.info('event: {}'.format(event))
+              # logger.info('context: {}'.format(context))
+              responseData = {}
+          
+              if event['RequestType'] == 'Create':
+                  try:
+                      # Open AWS clients
+                      ec2 = boto3.client('ec2')
+          
+                      # Get the InstanceId of the Cloud9 IDE
+                      instance = ec2.describe_instances(Filters=[{'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]
+                      # logger.info('instance: {}'.format(instance))
+          
+                      # Create the IamInstanceProfile request object
+                      iam_instance_profile = {
+                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn'],
+                          'Name': event['ResourceProperties']['LabIdeInstanceProfileName']
+                      }
+                      # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
+          
+                      # Wait for Instance to become ready before adding Role
+                      instance_state = instance['State']['Name']
+                      # logger.info('instance_state: {}'.format(instance_state))
+                      while instance_state != 'running':
+                          time.sleep(5)
+                          instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])
+                          # logger.info('instance_state: {}'.format(instance_state))
+          
+                      # attach instance profile
+                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
+                      # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      r_ec2 = boto3.resource('ec2')
+  
+                      responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
+                      
+                  except Exception as e:
+                      # logger.error(e, exc_info=True)
+                      responseData = {'Error': traceback.format_exc()}
+                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
+              else:
+                responseData = {'Success': 'Nothing to do'}
+                cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData)
+      Tags:
+        - Key: Project
+          Value: !Ref EnvironmentName
+
+  GitLabWorkshopC9InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: GitLabWorkshopC9Role
+
+  GitLabWorkshopC9Instance:
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      Description: AWS Cloud9 instance for GitLab Spot Workshop
+      AutomaticStopTimeMinutes: 3600
+      InstanceType: t2.micro
+      OwnerArn: !If
+        - EmptyC9Owner
+        - !Ref AWS::NoValue
+        -
+          !If [IsEERole, !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey', !Ref EETeamRoleArn]
+      SubnetId: !Ref Subnet1
+      Tags:
+        - Key: Project
+          Value: !Ref EnvironmentName
+        - Key: SSMBootstrap
+          Value: Active
+
+  GitLabWorkshopC9SSMDocument: 
+    Type: AWS::SSM::Document
+    Properties:
+      Content: Yaml
+      DocumentType: Command
+      Content: 
+        schemaVersion: '2.2'
+        description: Bootstrap Cloud9 Instance
+        mainSteps:
+        - action: aws:runShellScript
+          name: GitLabWorkshopC9bootstrap
+          inputs:
+            runCommand:
+            - "#!/bin/bash"
+            - date
+            - echo LANG=en_US.utf-8 >> /etc/environment
+            - echo LC_ALL=en_US.UTF-8 >> /etc/environment
+            - . /home/ec2-user/.bashrc
+            - git clone https://github.com/awslabs/ec2-spot-workshops.git /home/ec2-user/environment/spot-workshop
+            - cp -ar /home/ec2-user/environment/spot-workshop/workshops/amazon-ec2-spot-cicd-workshop/ /home/ec2-user/environment/
+            - rm -rf /home/ec2-user/environment/spot-workshop/
+            - chown -R ec2-user:ec2-user /home/ec2-user/environment/amazon-ec2-spot-cicd-workshop/
+            - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/home/ec2-user/environment/awscliv2.zip"
+            - cd /home/ec2-user/environment
+            - unzip awscliv2.zip
+            - sudo ./aws/install
+            - sudo yum -y install jq
+            - echo "Bootstrap completed with return code $?"
+      Tags:
+        - Key: Project
+          Value: !Ref EnvironmentName
+  
+  GitLabWorkshopC9OutputBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+
+  GitLabWorkshopC9BootstrapAssociation: 
+    Type: AWS::SSM::Association
+    DependsOn: GitLabWorkshopC9OutputBucket 
+    Properties: 
+      Name: !Ref GitLabWorkshopC9SSMDocument
+      OutputLocation: 
+        S3Location:
+          OutputS3BucketName: !Ref GitLabWorkshopC9OutputBucket
+          OutputS3KeyPrefix: bootstrapoutput
+      Targets:
+        - Key: tag:SSMBootstrap
+          Values:
+          - Active
+
+Outputs:
+  VPC:
+    Description: The VPC with GitLab instance
+    Value: !Ref VPC
+
+  Subnet1:
+    Description: The subnet with GitLab instance
+    Value: !Ref Subnet1
+
+  Subnet1Zone:
+    Description: Availability zone of subnet 1
+    Value: !GetAtt Subnet1.AvailabilityZone
+
+  GitLabURL:
+    Description: URL to GitLab installation
+    Value: !Sub https://${CloudFrontDistribution.DomainName}
+
+  GitLabPassword:
+    Description: GitLab access credentials
+    Value: !GetAtt GitLabPassword.RandomString
+
+  GitLabCacheBucket:
+    Description: Cache for GitLab runners
+    Value: !Ref GitLabCacheBucket
