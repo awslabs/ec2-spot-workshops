@@ -40,7 +40,7 @@ as an IAM user with administrator access to the AWS account:
 
 In the interest of time and to focus just on karpenter, we will install everything required to run this Karpenter workshop using cloudformation. 
 
-1. Download locally this cloudformation stack into a file (**[eks-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/010_prerequisites/prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**).
+1. Download locally this cloudformation stack into a file (**[eks-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/karpenter/010_prerequisites/prerequisites.files/eks-spot-workshop-quickstart-cnf.yml)**).
 
 1. Go into the CloudFormation console and select the creation of a new stack. Select **Template is ready**, and then **Upload a template file**, then select the file that you downloaded to your computer and click on **Next**
 
