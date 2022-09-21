@@ -315,6 +315,29 @@ Resources:
     DeletionPolicy: Delete
     Metadata:
       aws:cdk:path: RenderingStack/CustomCloud9Ssm/CustomResource/Default
+  FISCustomRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - fis.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: AllowFISExperimentRoleActions
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+              - 'ec2:SendSpotInstanceInterruptions'
+            Resource: !Sub 'arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*'
+      RoleName: FIS-Custom-Role
   Vpc8378EB38:
     Type: AWS::EC2::VPC
     Properties:
