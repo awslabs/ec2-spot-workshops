@@ -33,7 +33,8 @@ cat <<EoF > spot-compute-environment-config.json
         "launchTemplate": {
             "launchTemplateName": "${LaunchTemplateName}"
         },
-        "instanceRole": "${ECSInstanceProfile}"
+        "instanceRole": "${ECSInstanceProfile}",
+        "tags":{"type":"Spot"}
     }
 }
 EoF
@@ -80,7 +81,8 @@ cat <<EoF > ondemand-compute-environment-config.json
         "launchTemplate": {
             "launchTemplateName": "${LaunchTemplateName}"
         },
-        "instanceRole": "${ECSInstanceProfile}"
+        "instanceRole": "${ECSInstanceProfile}",
+        "tags":{"type":"OnDemand"}
     }
 }
 EoF
