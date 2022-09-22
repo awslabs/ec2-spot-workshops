@@ -94,21 +94,21 @@ aws fis get-experiment --id ${FIS_EXPERIMENT}  | jq -r '.experiment.state'
 ```
 
 If the status is:
-- pending, the job is still underway
-- TODO succeeded 
+- running, the job is still underway
+- completed, the FIS experiment has been run and instances should respond to the 2 minute interruption notice.
 - failed - the FIS Experiment has failed and the reason will help you understand why
   - if the AWS Batch job is not active, the reason code will be "Target resolution returned empty set".  This indicates no EC2 instances with the "Spot" tag were found.
 
-You can look at your AWS EC2 Spot instance request status with the following command
+At any time before, during, or after the FIS experiment, you can look at your AWS EC2 Spot instance request status with the following command
 
 ```
 aws ec2 describe-spot-instance-requests --query 'SpotInstanceRequests[].[InstanceId, Status.Code]'
 ```
 
 The output will show you the EC2 instance IDs and the Spot instance request state:
-  - instance-terminated-by-user - indicates that the EC2 Spot instance fulfilled it's job and was terminated by AWS Batch after no longer being needed.
-  - instance-terminated-by-experiment - indicates that the EC2 Spot instance received the FIS Interruption signal and was terminated
   - fulfilled - indicates and EC2 spot request was fulfilled and is still active
+  - instance-terminated-by-experiment - indicates that the EC2 Spot instance received the FIS Interruption signal and was terminated
+  - instance-terminated-by-user - indicates that the EC2 Spot instance fulfilled it's job and was terminated by AWS Batch after no longer being needed.
 
 {{% notice note %}}
 Even though the FIS Experiments removed 3 EC2 instances from the Spot compute environment, AWS Batch was able to handle the interruptions gracefully and still complete the rendering job
