@@ -120,3 +120,7 @@ Even though the FIS Experiments removed 3 EC2 instances from the Spot compute en
 ### Verify the AWS Batch Job completed successfully
 
 [Follow these steps](/rendering-with-batch/monitor.html) from the Monitoring and Results section
+
+{{% notice info %}}
+Because the Job Definition includes 3 retries for each job, the Spot Interruption is handled automatically via this retry logic.  It is possible to create specific retry logic for Spot Interruptions if desired.  Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
+{{% /notice %}}
