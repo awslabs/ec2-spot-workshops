@@ -113,3 +113,7 @@ The output will show you the EC2 instance IDs and the Spot instance request stat
 {{% notice note %}}
 Even though the FIS Experiments removed 3 EC2 instances from the Spot compute environment, AWS Batch was able to handle the interruptions gracefully and still complete the rendering job
 {{% /notice %}}
+
+### Verify the AWS Batch Job completed successfully
+
+[Follow these steps](/rendering-with-batch/monitor.html) from the Monitoring and Results section
