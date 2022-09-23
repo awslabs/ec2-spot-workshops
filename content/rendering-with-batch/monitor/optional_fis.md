@@ -13,17 +13,19 @@ You should wait until the AWS Batch job from your first experiment has fully com
 
 To experiment with how AWS Batch jobs handles EC2 Spot Interruptions, you can follow this guide...
 
-Run the following command to disable the "OnDemand" compute environment for AWS Batch.
+Run the following command to disable the "OnDemand" compute environment and increase the vCPU count for the Spot compute environment for AWS Batch.
 
 ```
 aws batch update-compute-environment --compute-environment ${ONDEMAND_COMPUTE_ENV_ARN} --state DISABLED
+aws batch update-compute-environment --compute-environment ${SPOT_COMPUTE_ENV_ARN} --compute-resources desiredvCpus=256
+
 ```
 
 Now start a rendering job, by initiating the state machine
 
 ```
-export JOB_NAME="Pottery-FIS"
-export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${StateMachineArn}" --input "{\"jobName\": \"${JOB_NAME}\", \"inputUri\": \"s3://${BucketName}/${BlendFileName}\", \"outputUri\": \"s3://${BucketName}/${JOB_NAME}\", \"jobDefinitionArn\": \"${JOB_DEFINITION_ARN}\", \"jobQueueArn\": \"${JOB_QUEUE_ARN}\", \"framesPerJob\": \"1\"}" | jq -r '.executionArn')
+export FIS_JOB_NAME="Pottery-FIS"
+export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${StateMachineArn}" --input "{\"jobName\": \"${FIS_JOB_NAME}\", \"inputUri\": \"s3://${BucketName}/${BlendFileName}\", \"outputUri\": \"s3://${BucketName}/${FIS_JOB_NAME}\", \"jobDefinitionArn\": \"${JOB_DEFINITION_ARN}\", \"jobQueueArn\": \"${JOB_QUEUE_ARN}\", \"framesPerJob\": \"1\"}" | jq -r '.executionArn')
 echo "State machine started. Execution Arn: ${EXECUTION_ARN}."
 ```
 
@@ -135,7 +137,7 @@ The output will show you the EC2 instance IDs and the Spot instance request stat
 [Follow these steps](/rendering-with-batch/monitor.html) from the Monitoring and Results section
 
 {{% notice note %}}
-Even though the FIS Experiments removes 3 EC2 instances from the Spot compute environment, AWS Batch will still be able to handle the interruptions gracefully and complete the rendering job due to the retry policy. It is possible to create specific retry logic within AWS Batch if desired.  Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
+Even though each run of the FIS Experiment removes 3 EC2 instances from the Spot compute environment, AWS Batch will still be able to handle the interruptions gracefully and complete the rendering job due to the retry policy. It is possible to create specific retry logic within AWS Batch if desired.  Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
 {{% /notice %}}
 
 ### Viewing the automatically retried AWS Batch Jobs
@@ -143,7 +145,7 @@ Even though the FIS Experiments removes 3 EC2 instances from the Spot compute en
 By pasting this script into your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot Interruption signal
 
 ```
-latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=Pottery-FIS | jq -r '.jobSummaryList[0].jobId')
+latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=FIS_JOB_NAME,values=Pottery-FIS | jq -r '.jobSummaryList[0].jobId')
 numJobs=$(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size')
 for ((x=0;x<=numJobs;x++)); do
     echo "Checking Job: $x of $numJobs..."
