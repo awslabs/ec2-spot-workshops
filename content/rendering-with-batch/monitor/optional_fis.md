@@ -124,3 +124,52 @@ Even though the FIS Experiments removed 3 EC2 instances from the Spot compute en
 {{% notice info %}}
 Because the Job Definition includes 3 retries for each job, the Spot Interruption is handled automatically via this retry logic.  It is possible to create specific retry logic for Spot Interruptions if desired.  Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
 {{% /notice %}}
+
+### Viewing the automatically retried AWS Batch Jobs
+
+By pasting this script into your Cloud9 shell, you can see the individual render jobs and if they were multiple attempts due to the Spot Interruption signal
+
+```
+latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=Pottery | jq -r '.jobSummaryList[0].jobId')
+numJobs=$(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size')
+for ((x=i;x<=numJobs;x++)); do
+    echo "Checking Job: $x of $numJobs..."
+    if [[ $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts | length') -gt 1 ]]
+      then
+        echo "------------------------------------------------"
+        echo "Attempts: $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts | length')"
+        echo "Exit Reasons:"  
+        echo "$(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts[].statusReason')"
+        echo "------------------------------------------------"
+      else
+        echo "Attempts: 1 -- Exit reason: $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts[].statusReason')"
+    fi
+done
+
+```
+
+#### Example output from the verification script:
+
+  ```
+Checking Job: 31 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 32 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 33 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 34 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 35 of 199...
+------------------------------------------------
+Attempts: 2
+Exit Reasons:
+"Host EC2 (instance i-04b17daec78ef4a0b) terminated."
+"Essential container in task exited"
+------------------------------------------------
+Checking Job: 36 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 37 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+```
+
+You can see that Job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot Interruption. The second attempt exited normally, allowing the job to complete.
