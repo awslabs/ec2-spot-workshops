@@ -132,7 +132,7 @@ By pasting this script into your Cloud9 shell, you can see the individual render
 ```
 latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=Pottery | jq -r '.jobSummaryList[0].jobId')
 numJobs=$(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size')
-for ((x=i;x<=numJobs;x++)); do
+for ((x=0;x<=numJobs;x++)); do
     echo "Checking Job: $x of $numJobs..."
     if [[ $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts | length') -gt 1 ]]
       then
