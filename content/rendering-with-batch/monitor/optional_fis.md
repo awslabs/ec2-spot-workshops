@@ -163,7 +163,9 @@ done
 
 #### Example output from the verification script:
 
-  ```
+In the example below, you can see that Job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot Interruption. The second attempt exited normally, allowing the job to complete gracefully.
+
+```
 Checking Job: 31 of 199...
 Attempts: 1 -- Exit reason: "Essential container in task exited"
 Checking Job: 32 of 199...
@@ -184,5 +186,3 @@ Attempts: 1 -- Exit reason: "Essential container in task exited"
 Checking Job: 37 of 199...
 Attempts: 1 -- Exit reason: "Essential container in task exited"
 ```
-
-In the example above, you can see that Job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot Interruption. The second attempt exited normally, allowing the job to complete gracefully.
