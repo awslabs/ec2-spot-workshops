@@ -76,6 +76,10 @@ export FIS_TEMPLATE=$(aws fis create-experiment-template --cli-input-json file:/
 echo "FIS Template ID: ${FIS_TEMPLATE}"
 ```
 
+{{% notice warning %}}
+You should wait until the AWS Batch job has around 50 - 75 succeeded Jobs before starting the FIS Experiment.  This allows time to ensure Jobs are running on EC2 Spot instances.
+{{% /notice %}}
+
 Execute this command to start the FIS experiment from the template.
 
 ```
