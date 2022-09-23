@@ -4,11 +4,28 @@ date: 2022-09-20T00:00:00Z
 weight: 145
 ---
 
-{{% notice info %}}
-This step is optional and needs to be run while the AWS Batch job is active
+
+## This step is optional and is not required
+
+{{% notice warning %}}
+You should wait until the AWS Batch job from your first experiment has fully completed before starting this optional lab.
 {{% /notice %}}
 
 To experiment with how AWS Batch jobs handles EC2 Spot Interruptions, you can follow this guide...
+
+Run the following command to disable the "OnDemand" compute environment for AWS Batch.
+
+```
+aws batch update-compute-environment --compute-environment ${ONDEMAND_COMPUTE_ENV_ARN} --state DISABLED
+```
+
+Now start a rendering job, by initiating the state machine
+
+```
+export JOB_NAME="Pottery-FIS"
+export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${StateMachineArn}" --input "{\"jobName\": \"${JOB_NAME}\", \"inputUri\": \"s3://${BucketName}/${BlendFileName}\", \"outputUri\": \"s3://${BucketName}/${JOB_NAME}\", \"jobDefinitionArn\": \"${JOB_DEFINITION_ARN}\", \"jobQueueArn\": \"${JOB_QUEUE_ARN}\", \"framesPerJob\": \"1\"}" | jq -r '.executionArn')
+echo "State machine started. Execution Arn: ${EXECUTION_ARN}."
+```
 
 Run the following command to generate the Fault Injection Simulator(FIS) Experiement template file. The FIS Experiemnt will create an interruption signal for some of the EC2 Spot instances.
 
@@ -76,11 +93,7 @@ export FIS_TEMPLATE=$(aws fis create-experiment-template --cli-input-json file:/
 echo "FIS Template ID: ${FIS_TEMPLATE}"
 ```
 
-{{% notice warning %}}
-You should wait until the AWS Batch job has around 50 - 75 succeeded Jobs before starting the FIS Experiment.  This allows time to ensure Jobs are running on EC2 Spot instances.
-{{% /notice %}}
-
-Execute this command to start the FIS experiment from the template.
+Execute this command to start the FIS experiment from the template.  You can run this command several times during the AWS Batch run to simulate multiple Spot Interruptions.
 
 ```
 export FIS_EXPERIMENT=$(aws fis start-experiment --experiment-template-id ${FIS_TEMPLATE} | jq -r '.experiment.id')
@@ -117,24 +130,20 @@ The output will show you the EC2 instance IDs and the Spot instance request stat
   - **instance-terminated-by-experiment**: indicates that the EC2 Spot instance received the FIS Interruption signal and was terminated
   - **instance-terminated-by-user**: indicates that the EC2 Spot instance fulfilled it's job and was terminated by AWS Batch after no longer being needed.
 
-{{% notice note %}}
-Even though the FIS Experiments removed 3 EC2 instances from the Spot compute environment, AWS Batch was able to handle the interruptions gracefully and still complete the rendering job
-{{% /notice %}}
-
-### Verify the AWS Batch Job completed successfully
+### Allow the job to complete and verify the AWS Batch Job completed successfully
 
 [Follow these steps](/rendering-with-batch/monitor.html) from the Monitoring and Results section
 
-{{% notice info %}}
-Because the Job Definition includes 3 retries for each job, the Spot Interruption is handled automatically via this retry logic.  It is possible to create specific retry logic for Spot Interruptions if desired.  Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
+{{% notice note %}}
+Even though the FIS Experiments removes 3 EC2 instances from the Spot compute environment, AWS Batch will still be able to handle the interruptions gracefully and complete the rendering job due to the retry policy. It is possible to create specific retry logic within AWS Batch if desired.  Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
 {{% /notice %}}
 
 ### Viewing the automatically retried AWS Batch Jobs
 
-By pasting this script into your Cloud9 shell, you can see the individual render jobs and if they were multiple attempts due to the Spot Interruption signal
+By pasting this script into your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot Interruption signal
 
 ```
-latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=Pottery | jq -r '.jobSummaryList[0].jobId')
+latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=Pottery-FIS | jq -r '.jobSummaryList[0].jobId')
 numJobs=$(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size')
 for ((x=0;x<=numJobs;x++)); do
     echo "Checking Job: $x of $numJobs..."
@@ -176,4 +185,4 @@ Checking Job: 37 of 199...
 Attempts: 1 -- Exit reason: "Essential container in task exited"
 ```
 
-You can see that Job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot Interruption. The second attempt exited normally, allowing the job to complete.
+In the example above, you can see that Job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot Interruption. The second attempt exited normally, allowing the job to complete gracefully.
