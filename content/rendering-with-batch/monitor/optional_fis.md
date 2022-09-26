@@ -95,6 +95,10 @@ export FIS_TEMPLATE=$(aws fis create-experiment-template --cli-input-json file:/
 echo "FIS Template ID: ${FIS_TEMPLATE}"
 ```
 
+{{% notice info %}}
+You should wait about 10 minutes after starting the job above for enough EC2 instances to have joined the pool before starting the FIS experiment.
+{{% /notice %}}
+
 Execute this command to start the FIS experiment from the template.  You can run this command several times during the AWS Batch run to simulate multiple Spot Interruptions.
 
 ```
@@ -103,7 +107,7 @@ echo "FIS Experiment ID: ${FIS_EXPERIMENT}"
 ```
 
 {{% notice note %}}
-The FIS experiment starts an asynchronous process to send the interruption signal to 3 EC2 instances
+When started the FIS experiment starts an asynchronous process to send the interruption signal to 3 EC2 instances
 {{% /notice %}}
 
 You can check the status of the FIS Experiment's progress with the following command
@@ -134,6 +138,16 @@ The output will show you the EC2 instance IDs and the Spot instance request stat
 
 ### Allow the job to complete and verify the AWS Batch Job completed successfully
 
+{{% notice tip %}}
+This Spot-only operation can take a little more than an hour. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
+{{% /notice %}}
+
+When the Job is finished, the output video will be available in the following URL:
+
+```
+echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${FIS_JOB_NAME}/output.mp4"
+```
+
 [Follow these steps](/rendering-with-batch/monitor.html) from the Monitoring and Results section
 
 {{% notice note %}}
@@ -145,8 +159,8 @@ Even though each run of the FIS Experiment removes 3 EC2 instances from the Spot
 By pasting this script into your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot Interruption signal
 
 ```
-latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=FIS_JOB_NAME,values=Pottery-FIS | jq -r '.jobSummaryList[0].jobId')
-numJobs=$(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size')
+latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=Pottery-FIS | jq -r '.jobSummaryList[0].jobId')
+numJobs=$(($(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size') - 1))
 for ((x=0;x<=numJobs;x++)); do
     echo "Checking Job: $x of $numJobs..."
     if [[ $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts | length') -gt 1 ]]
