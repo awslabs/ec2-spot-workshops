@@ -13,15 +13,7 @@ You should wait until the AWS Batch job from your first experiment has fully com
 
 To experiment with how AWS Batch jobs handles EC2 Spot Interruptions, you can follow this guide...
 
-Run the following command to disable the "OnDemand" compute environment and increase the vCPU count for the Spot compute environment for AWS Batch.
-
-```
-aws batch update-compute-environment --compute-environment ${ONDEMAND_COMPUTE_ENV_ARN} --state DISABLED
-aws batch update-compute-environment --compute-environment ${SPOT_COMPUTE_ENV_ARN} --compute-resources desiredvCpus=256
-
-```
-
-Now start a rendering job, by initiating the state machine
+Start a rendering job, by initiating the state machine
 
 ```
 export FIS_JOB_NAME="Pottery-FIS"
@@ -49,14 +41,14 @@ cat <<EoF > fis-experiment.json
                     ]
                 }
             ],
-            "selectionMode": "COUNT(3)"
+            "selectionMode": "COUNT(5)"
         }
     },
     "actions": {
         "Spot": {
             "actionId": "aws:ec2:send-spot-instance-interruptions",
             "parameters": {
-                "durationBeforeInterruption": "PT2M"
+                "durationBeforeInterruption": "PT10M"
             },
             "targets": {
                 "SpotInstances": "SpotTags"
@@ -84,7 +76,7 @@ Let's explore the configuration parameters in the structure:
   - **filters**: The filters to apply to identify target resources using specific attributes.  In this case, only instances that are in the "running" state
   - **selectionMode**: Scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target.
     - COUNT(n) - Run the action on the specified number of targets, chosen from the identified targets at random. For example, COUNT(1) selects one of the targets.
-  - **actions**: The actions for the experiment, in this case, sending a 2-minute Spot Interruption notice to the selected instances. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide .
+  - **actions**: The actions for the experiment, in this case, sending a 10-minute Spot Interruption notice to the selected instances. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide .
   - **stopConditions**: Specifies a stop condition for an experiment template.  In this case, we don't have any.
   - **roleArn**: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
 
@@ -96,7 +88,7 @@ echo "FIS Template ID: ${FIS_TEMPLATE}"
 ```
 
 {{% notice info %}}
-You should wait about 10 minutes after starting the job above for enough EC2 instances to have joined the pool before starting the FIS experiment.
+You should wait a few minutes after starting the job above for enough EC2 instances to have joined the pool before starting the FIS experiment.
 {{% /notice %}}
 
 Execute this command to start the FIS experiment from the template.  You can run this command several times during the AWS Batch run to simulate multiple Spot Interruptions.
@@ -107,7 +99,7 @@ echo "FIS Experiment ID: ${FIS_EXPERIMENT}"
 ```
 
 {{% notice note %}}
-When started the FIS experiment starts an asynchronous process to send the interruption signal to 3 EC2 instances
+When started the FIS experiment starts an asynchronous process to send the interruption signal to 5 EC2 instances
 {{% /notice %}}
 
 You can check the status of the FIS Experiment's progress with the following command
@@ -118,7 +110,7 @@ aws fis get-experiment --id ${FIS_EXPERIMENT}  | jq -r '.experiment.state'
 
 If the status is:
 - **running**: the job is still underway
-- **completed**: the FIS experiment has been run and instances should respond to the 2 minute interruption notice.
+- **completed**: the FIS experiment has been run and instances should respond to the interruption notice.
 - **failed**: the FIS Experiment has failed and the reason will help you understand why
 
   {{% notice info %}}
