@@ -49,7 +49,7 @@ cat <<EoF > fis-experiment.json
         "Spot": {
             "actionId": "aws:ec2:send-spot-instance-interruptions",
             "parameters": {
-                "durationBeforeInterruption": "PT10M"
+                "durationBeforeInterruption": "PT2M"
             },
             "targets": {
                 "SpotInstances": "SpotTags"
@@ -77,7 +77,7 @@ Let's explore the configuration parameters in the structure:
   - **filters**: The filters to apply to identify target resources using specific attributes.  In this case, only instances that are in the "running" state
   - **selectionMode**: Scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target.
     - COUNT(n) - Run the action on the specified number of targets, chosen from the identified targets at random. For example, COUNT(1) selects one of the targets.
-  - **actions**: The actions for the experiment, in this case, sending a 10-minute Spot Interruption notice to the selected instances. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide .
+  - **actions**: The actions for the experiment, in this case, sending a 2-minute Spot Interruption notice to the selected instances. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide .
   - **stopConditions**: Specifies a stop condition for an experiment template.  In this case, we don't have any.
   - **roleArn**: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
 
@@ -92,7 +92,20 @@ echo "FIS Template ID: ${FIS_TEMPLATE}"
 You should wait a few minutes after starting the job above for enough EC2 instances to have joined the pool before starting the FIS experiment.
 {{% /notice %}}
 
-Execute this command to start the FIS experiment from the template.  You can run this command several times during the AWS Batch run to simulate multiple Spot Interruptions.
+At any time before, during, or after the FIS experiment, you can look at your AWS EC2 Spot instance request status with the following command
+
+```
+aws ec2 describe-spot-instance-requests --query 'SpotInstanceRequests[].[InstanceId, Status.Code]'
+```
+
+The output will show you the EC2 instance IDs and the Spot instance request state:
+  - **fulfilled**: indicates and EC2 spot request was fulfilled and is still active
+  - **instance-terminated-by-experiment**: indicates that the EC2 Spot instance received the FIS Interruption signal and was terminated
+  - **instance-terminated-by-user**: indicates that the EC2 Spot instance fulfilled it's job and was terminated by AWS Batch after no longer being needed.
+
+
+
+Make sure that you have at least 3 EC2 Spot Requests that are fulfilled, using the command from above before you execute this command to start the FIS experiment from the template.  If desired, you can run this command at several points during the AWS Batch run to simulate multiple Spot Interruptions.
 
 ```
 export FIS_EXPERIMENT=$(aws fis start-experiment --experiment-template-id ${FIS_TEMPLATE} | jq -r '.experiment.id')
@@ -115,19 +128,8 @@ If the status is:
 - **failed**: the FIS Experiment has failed and the reason will help you understand why
 
   {{% notice info %}}
-  If the AWS Batch job is not active, the "failed" reason code will be "Target resolution returned empty set".  This indicates no EC2 instances with the "Spot" tag were found.
+  If the AWS Batch job is not active, the "failed" reason code will be "Target resolution returned empty set".  This indicates no EC2 instances with the "Spot" tag were found.  You should wait a few minutes and start the FIS experiment again.
   {{% /notice %}}
-
-At any time before, during, or after the FIS experiment, you can look at your AWS EC2 Spot instance request status with the following command
-
-```
-aws ec2 describe-spot-instance-requests --query 'SpotInstanceRequests[].[InstanceId, Status.Code]'
-```
-
-The output will show you the EC2 instance IDs and the Spot instance request state:
-  - **fulfilled**: indicates and EC2 spot request was fulfilled and is still active
-  - **instance-terminated-by-experiment**: indicates that the EC2 Spot instance received the FIS Interruption signal and was terminated
-  - **instance-terminated-by-user**: indicates that the EC2 Spot instance fulfilled it's job and was terminated by AWS Batch after no longer being needed.
 
 ### Allow the job to complete and verify the AWS Batch Job completed successfully
 
