@@ -105,7 +105,7 @@ The output will show you the EC2 instance IDs and the Spot instance request stat
 
 
 
-Make sure that you have at least 3 EC2 Spot Requests that are fulfilled, using the command from above before you execute this command to start the FIS experiment from the template.  If desired, you can run this command at several points during the AWS Batch run to simulate multiple Spot Interruptions.
+Make sure that you have at least 3 EC2 Spot Requests that are **fulfilled** using the command from above, before you execute this command to start the FIS experiment from the template.  If desired, you can run this command at several points during the AWS Batch run to simulate multiple Spot Interruptions.
 
 ```
 export FIS_EXPERIMENT=$(aws fis start-experiment --experiment-template-id ${FIS_TEMPLATE} | jq -r '.experiment.id')
