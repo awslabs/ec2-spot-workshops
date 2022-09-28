@@ -872,6 +872,9 @@ Resources:
       aws:cdk:path: RenderingStack/CDKMetadata/Default
     Condition: CDKMetadataAvailable
 Outputs:
+  FISCustomRole:
+    Value:
+      Fn::GetAtt: [FISCustomRole, Arn]
   Subnet1:
     Value:
       Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0

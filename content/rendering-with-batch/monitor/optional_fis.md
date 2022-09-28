@@ -17,7 +17,6 @@ Start a rendering job, by initiating the state machine
 
 ```
 export FIS_JOB_NAME="Pottery-FIS"
-export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${StateMachineArn}" --input "{\"jobName\": \"${FIS_JOB_NAME}\", \"inputUri\": \"s3://${BucketName}/${BlendFileName}\", \"outputUri\": \"s3://${BucketName}/${FIS_JOB_NAME}\", \"jobDefinitionArn\": \"${JOB_DEFINITION_ARN}\", \"jobQueueArn\": \"${JOB_QUEUE_ARN}\", \"framesPerJob\": \"1\"}" | jq -r '.executionArn')
 echo "State machine started. Execution Arn: ${EXECUTION_ARN}."
 ```
@@ -61,7 +60,7 @@ cat <<EoF > fis-experiment.json
             "source": "none"
         }
     ],
-    "roleArn": "arn:aws:iam::${ACCOUNT_ID}:role/FIS-Custom-Role",
+    "roleArn": "${FISCustomRole}",
     "tags": {}
 }
 EoF
