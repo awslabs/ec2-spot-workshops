@@ -1,9 +1,13 @@
 +++
-title = "Launching EC2 Spot Instances via Spot Fleet request"
-weight = 40
+title = "(Optional) - Launching an EC2 Spot Instance via Spot Fleet request"
+weight = 80
 +++
 
 Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Balancer. However, if you are thinking about using Load Balancers, Auto Scaling Groups are a better option.
+
+{{%notice warning%}}
+We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. If you want to manage your instance lifecycle, launch EC2 Spot instance via Auto Scaling group API. If you don't want to manage your instance lifecycle, launch EC2 Spot instance via EC2 Fleet API. See [Spot best practices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) for more details.
+{{% /notice %}}
 
 Spot Fleet does allow you to diversify across different AZs and networks. Unlike Auto Scaling Group, Spot Fleet, by default, does not take into consideration even re-balancing of instances across AZs (use Auto Scaling Groups instead if AZ-rebalance is key for your workload). Spot Fleet does support types `maintain` and `request`. Similar to Auto Scaling groups, the `maintain` type will preserve the number of instances, and provisioning new healthy instances when it detects that one of the existing instances has become un-healthy.
 
@@ -38,7 +42,7 @@ export EC2_SPOT_ROLE=$(aws iam get-role --role-name AWSServiceRoleForEC2SpotFlee
 Copy and paste the following in AWS CloudShell to generate the configuration file:
 
 ```
-cat <<EoF > ~/spot-fleet-request-config.json
+cat <<EoF > ./spot-fleet-request-config.json
 {
    "AllocationStrategy": "capacityOptimized",
    "OnDemandAllocationStrategy": "prioritized",
@@ -166,9 +170,9 @@ There is an allocation Strategy named `capacityOptimizedPrioritized`. What would
 These are some of the features and characteristics that Spot Fleet provides, in addition to the ones covered in this section:
 
 1. **Control Spending**: With Spot Fleet you have finer granularity on how you specify the maximum price you are willing to pay. You can specify separately the maximum price per unit hour that you are willing to pay for a Spot or On-Demand Instance. You can also specify they maximum that you are willing to pay per hour for the fleet. Read more about [Spot Fleet Control Spending here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/how-spot-fleet-works.html#spot-fleet-control-spending)
-2. **Valid from - until**: Spot Fleet allows also to define the duration for which the request is valid by providing the *from* and *until* values.
-4. **Replace unhealthy instances**: Like in the case of Auto Scaling groups, when running in maintain mode you can instruct Spot Fleet to detect and replace un-healthy instances.
-5. **Multiple Launch Templates**: Spot Fleet does allow you to specify multiple Launch Templates in the `LaunchTemplateConfigs` section of the configuration file. By doing so, you can launch a Spot Fleet with instances that vary by instance type, AMI, Availability Zone or subnet.
-6. **Support for Load Balancers**: With Spot Fleet you can specify one or more Classic Load Balancers and target groups that will be attached to the Spot Fleet request. To learn more about Classic Load Balancer, visit this page: [Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html). Consider however using Auto Scaling groups when using Load balancers.
+1. **Valid from - until**: Spot Fleet allows also to define the duration for which the request is valid by providing the *from* and *until* values.
+1. **Replace unhealthy instances**: Like in the case of Auto Scaling groups, when running in maintain mode you can instruct Spot Fleet to detect and replace un-healthy instances.
+1. **Multiple Launch Templates**: Spot Fleet does allow you to specify multiple Launch Templates in the `LaunchTemplateConfigs` section of the configuration file. By doing so, you can launch a Spot Fleet with instances that vary by instance type, AMI, Availability Zone or subnet.
+1. **Support for Load Balancers**: With Spot Fleet you can specify one or more Classic Load Balancers and target groups that will be attached to the Spot Fleet request. To learn more about Classic Load Balancer, visit this page: [Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/introduction.html). Consider however using Auto Scaling groups when using Load balancers.
 
 You can read more about [Spot Fleet here, in the AWS Spot Fleet documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html).

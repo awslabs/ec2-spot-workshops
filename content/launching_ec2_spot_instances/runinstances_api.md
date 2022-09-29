@@ -1,6 +1,6 @@
 +++
-title = "Launching an EC2 Spot Instance via the RunInstances API"
-weight = 60
+title = "(Optional) - Launching an EC2 Spot Instance via the RunInstances API"
+weight = 70
 +++
 
 ## Launching an EC2 Spot Instance via the RunInstances API
@@ -21,7 +21,7 @@ In this case we are adding a Tag to the newly created instance. We will use this
 
 
 ```
-cat <<EoF > ~/runinstances-config.json
+cat <<EoF > ./runinstances-config.json
 {
     "MaxCount": 1,
     "MinCount": 1,
@@ -65,7 +65,7 @@ With what we have seen in the previous sections, try to perform the API call fol
 Configuration file for placing the request:
 
 ```
-cat <<EoF > ~/ec2-fleet-replacement-config.json
+cat <<EoF > ./ec2-fleet-replacement-config.json
 {
    "SpotOptions":{
       "MinTargetCapacity": 1,
@@ -131,6 +131,12 @@ Submit the EC2 Fleet request with this call:
 
 ```bash
 export REPLACEMENT_FLEET_ID=$(aws ec2 create-fleet --cli-input-json file://ec2-fleet-replacement-config.json | jq -r '.FleetId')
+```
+
+Confirm that the newly created instance by the replacement fleet is running on Spot.
+
+```bash
+aws ec2 describe-instances --filters Name=instance-lifecycle,Values=spot Name=tag:aws:ec2:fleet-id,Values=${REPLACEMENT_FLEET_ID} Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].[InstanceId]" --output text
 ```
 
 {{% /expand %}}

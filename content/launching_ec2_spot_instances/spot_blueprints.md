@@ -1,6 +1,6 @@
 +++
 title = "Spot Blueprints"
-weight = 70
+weight = 130
 +++
 
 Spot Blueprints is a functionality provided within the AWS Web Console, in the Spot Request section, that helps to create a few architectures that are most common for Spot, using Infrastructure as code and adhering to Spot Best practices. There are Spot Blueprints for the most popular services including Amazon EC2 Auto Scaling, Amazon EMR, AWS Batch, and Amazon Elastic Kubernetes Service (Amazon EKS).
