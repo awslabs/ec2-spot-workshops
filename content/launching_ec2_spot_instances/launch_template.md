@@ -1,7 +1,7 @@
 ---
 title: "Creating a Launch Template"
 date: 2021-07-07T08:51:33Z
-weight: 20
+weight: 40
 ---
 
 The first step we will do in this workshop is creating a Launch Template.

@@ -8,20 +8,17 @@ pre: "<b>1. </b>"
 
 ## Overview
 
-Amazon EC2 Spot Instances are spare compute capacity in the AWS Cloud
-available to you at steep discounts compared to On-Demand prices. EC2
-Spot enables you to optimize your costs on the AWS cloud and scale your
-application’s throughput up to 10X for the same budget.
+In this workshop, you will learn how to provision, and maintain EC2 Spot Instances capacity using [Amazon EC2 Auto Scaling groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html), and [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) in instant mode, leveraging [Launch Templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html) to specify instance configuration information. You will learn to take advantage of AWS tools to implement EC2 Spot best practices. Firstly, we will use [attribute-based instance selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to implement instance diversity and flexibility based on EC2 metadata.  Secondly, you will use [Spot Placement Score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) to determine which Region/AZ has optimal EC2 Spot capacity for you workloads. Thirdly, you will learn to use [Amazon Fault Injection Simulator](https://aws.amazon.com/fis/) to triggering an EC2 Spot Instance interruption so that you can test resiliency of your workload. Lastly, you will learn to use [Spot Blueprints](https://console.aws.amazon.com/ec2sp/v2/home?region=us-east-1#/spot/blueprints?show_feedback=true) to quickly get complete workload configuration in infrastructure as code templates. In short, this workshop is intended to showcase the steps you need to quickly kick-start your Spot journey using Amazon EC2 Auto Scaling or EC2 Fleet.
 
-This lab will walk you through the APIs and commands used to create EC2 Spot Instances: you will create an EC2 Launch Template, and then use this Launch Template to launch EC2 Spot Instances using: Amazon EC2 Auto Scaling groups, EC2 Spot Fleet, EC2 Fleet and the EC2 RunInstances API.
+## Background
 
-## So which of these methods should I use in my application?
-For most workloads and scenarios the answer will be Auto Scaling groups. With the launch of [EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/), it has become a feature-rich tool for building applications on EC2 using Spot Instances, with allocation strategies as capacity-optimized. [Click here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) to learn more about EC2 Auto Scaling groups.
+[Amazon EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) offer spare compute capacity available in the AWS Cloud at steep discounts compared to On-Demand prices. EC2 can interrupt EC2 Spot Instances with two minutes of notification when EC2 needs the capacity back. You can use EC2 Spot Instances for various fault-tolerant and flexible applications. Spot workloads should be flexible, meaning they can utilize a variety of different EC2 instance types and/or have the ability to be run real time where the spare capacity currently is. 
 
+Some examples of workloads running on EC2 Spot are analytics, containerized workloads, high-performance computing (HPC), stateless web servers, rendering, CI/CD, and other test and development workloads. 
 
-## Pre-Requisites for this lab:
+AWS services including [Amazon EKS](https://aws.amazon.com/eks/), [Amazon ECS](https://aws.amazon.com/ecs/), [Amazon EMR](https://aws.amazon.com/emr/), and [AWS Batch](https://aws.amazon.com/batch/), integrate with Spot to reduce overall compute costs without the need to manage the individual instances or fleets. If one of these AWS integrations is not a fit for your workload, or you want to manage the EC2 Spot capacity directly, you should use [Amazon EC2 Auto Scaling groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html). If you are looking for more control over the provisioning of EC2 Spot instances or fleet, you should use [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) in instant mode. 
 
- - An AWS account. You will create AWS resources during the workshop.
- - A laptop with Wi-Fi running Microsoft Windows, Mac OS X, or Linux.
- - An Internet browser such as Chrome, Firefox, Safari, or Edge.
- - AWS CloudShell configured with your console credentials.
+## Estimated workshop length
+
+45-60 minutes
+

@@ -1,7 +1,7 @@
 ---
 title: "AWS CloudShell"
 date: 2021-07-07T08:51:33Z
-weight: 10
+weight: 30
 ---
 
 ## AWS CloudShell
