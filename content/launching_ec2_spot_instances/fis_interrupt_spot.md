@@ -29,4 +29,6 @@ With these tests, you can validate the resiliency of your workload to the Spot i
 
 ## Resources
 
-[How to use Spot Interruption in FIS](https://docs.aws.amazon.com/fis/latest/userguide/fis-tutorial-spot-interruptions.html)
+You can learn more about Spot Interruption in AWS FIS by reading the [blog post](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/).
+
+To learn how to setup an AS FIS experiment, see this [tutorial](https://docs.aws.amazon.com/fis/latest/userguide/fis-tutorial-spot-interruptions.html)
