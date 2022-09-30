@@ -149,3 +149,121 @@ Create an experiment template using the json configuration.
 export FIS_TEMPLATE_ID=$(aws fis create-experiment-template --cli-input-json file://spot_experiment.json | jq -r '.experimentTemplate.id')
 ```
 
+You have now created an experiment template to send a Spot interruption using Amazon FIS!
+
+Given the configuration we used above, Try to answer the following questions:
+
+1. How can I change the number of Spot Instances which are being interrupted?
+2. How can I send an Rebalance Recommendation signal ahead of the Spot Interruption Notification signal?
+3. How can I create an experiment template for interrupting Spot instances launched via the EC2 Fleet?
+4. How can I create an experiment template for interrupting Spot instances launched via RunInstance API?
+
+{{%expand "Show me the answers:" %}}
+
+1.) **How can I change the number of Spot Instances which are being interrupted?**
+
+You can change the scope of the identified resources by specifying the `selectionMode` of the target instances in the experiment template. AWS FIS selection modes supported shown below can be choosen and the `n` changes per the requirement. Example is to choose `PERCENT(25)` to ramdomly interrupt 25% of the identified targets. 
+
+* `ALL` – Run the action on all targets.
+* `COUNT(n)` – Run the action on the specified number of targets, chosen from the identified targets at random. 
+* `PERCENT(n)` – Run the action on the specified percentage of targets, chosen from the identified targets at random.s.
+
+2.) **How can I send an Rebalance Recommendation signal ahead of the Spot Interruption Notification signal?**
+
+You can change the `durationBeforeInterruption` to more than 2 minutes. The Rebalance Recommendation signal is sent to the identified EC2 Spot targets at the time set in `durationBeforeInterruption` before the FIS experiment interrupts the Spot Instances. Note that exactly 2 minutes before the FIS experiment interrupts the Spot Instance, a Spot Interruption Notification is sent.
+
+An example is if `durationBeforeInterruption` is set to `PT2M`. The Rabalance Recommendation signal is sent 5 minutes before the Spot Interruption, and exactly 2 minutes before the actual Spot interruption, the EC2 Spot instances receive the Spot Interruption Notification.
+
+3.) **How can I create an experiment template for interrupting Spot instances launched via the EC2 Fleet?**
+
+You can change the `resourceTags` to include the instances in the experiment.
+
+```bash
+cat <<EoF > ./spot_experiment.json
+{
+    "description": "Test Spot Instance interruptions",
+    "targets": {
+        "SpotInstancesInASG": {
+            "resourceType": "aws:ec2:spot-instance",
+            "resourceTags": {
+                "aws:ec2:fleet-id": "${FLEET_ID}"
+            },
+            "filters": [
+                {
+                    "path": "State.Name",
+                    "values": [
+                        "running"
+                    ]
+                }
+            ],
+            "selectionMode": "PERCENT(50)"
+        }
+    },
+    "actions": {
+        "interruptSpotInstance": {
+            "actionId": "aws:ec2:send-spot-instance-interruptions",
+            "parameters": {
+                "durationBeforeInterruption": "PT2M"
+            },
+            "targets": {
+                "SpotInstances": "SpotInstancesInASG"
+            }
+        }
+    },
+    "stopConditions": [
+        {
+            "source": "none"
+        }
+    ],
+    "roleArn": "${FIS_ROLE_ARN}",
+    "tags": {}
+}
+EoF
+```
+
+4.) **How can I create an experiment template for interrupting Spot instances launched via RunInstance API?**
+
+In the RunInstance example, we tagged the EC2 Spot Instance with a `Name=EC2SpotWorkshopRunInstance`, and you can use that to update the `resourceTags`. Note the change of `selectionMode` to `ALL` for the experiment to successfully terminate the Spot Instance.
+
+```bash
+cat <<EoF > ./spot_experiment.json
+{
+    "description": "Test Spot Instance interruptions",
+    "targets": {
+        "SpotInstancesInASG": {
+            "resourceType": "aws:ec2:spot-instance",
+            "resourceTags": {
+                "Name": "EC2SpotWorkshopRunInstance"
+            },
+            "filters": [
+                {
+                    "path": "State.Name",
+                    "values": [
+                        "running"
+                    ]
+                }
+            ],
+            "selectionMode": "ALL"
+        }
+    },
+    "actions": {
+        "interruptSpotInstance": {
+            "actionId": "aws:ec2:send-spot-instance-interruptions",
+            "parameters": {
+                "durationBeforeInterruption": "PT2M"
+            },
+            "targets": {
+                "SpotInstances": "SpotInstancesInASG"
+            }
+        }
+    },
+    "stopConditions": [
+        {
+            "source": "none"
+        }
+    ],
+    "roleArn": "${FIS_ROLE_ARN}",
+    "tags": {}
+}
+EoF
+```
