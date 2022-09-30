@@ -5,6 +5,14 @@ weight = 200
 
 Before closing this workshop, let's make sure we clean up all the resources we created so we do not incur in unexpected costs.
 
+#### Delete the AWS FIS experiment template
+
+When you are done with the FIS experiments, you can delete the experiment template.
+
+```bash
+aws fis delete-experiment-template --id $FIS_TEMPLATE_ID
+```
+
 #### Delete Your Auto Scaling Group
 
 **To delete your Auto Scaling group using the CLI**
