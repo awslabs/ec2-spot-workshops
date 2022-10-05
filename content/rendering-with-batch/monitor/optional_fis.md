@@ -11,7 +11,7 @@ weight: 145
 You should wait until the AWS Batch job from your first experiment has fully completed before starting this optional lab.
 {{% /notice %}}
 
-Since AWS Batch workloads are containerized, AWS Batch is a perfect fit for Spot Instances. If a workload is interrupted, Batch will automatically spin-up another Spot Instance you’ve specified. This optional lab allows you to experiment with this feature, by using the AWS Fault Injection Simulator (AWS FIS) to send an to send a interruption signal to the EC2 Spot instances defined within the AWS Batch compute environment.
+Since AWS Batch workloads are containerized, AWS Batch is a perfect fit for Spot Instances. If a workload is interrupted, Batch will automatically spin-up another Spot Instance you’ve specified. This optional lab allows you to experiment with this feature, by using the AWS Fault Injection Simulator (AWS FIS) to send an interruption signal to the EC2 Spot instances defined within the AWS Batch compute environment.
 
 Start a rendering job by initiating the state machine:
 
