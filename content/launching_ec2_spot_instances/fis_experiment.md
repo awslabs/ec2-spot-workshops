@@ -13,6 +13,10 @@ To use AWS FIS, you setup an experiment and run the experiment on the AWS resour
 
 * **Stop conditions**: A stop condition is a mechanism by AWS FIS to stop an experiment if it reaches a threshold that you define as an Amazon CloudWatch alarm. In our case, the experiment will run to completion without a stop condition.
 
+{{% notice warning %}}
+Note: Currently, AWS FIS has a Service Quota of maximum of 5 resources per experiment target per account per region, and Service Quota is not configurable . This means that even if your experiments targets more than 5 EC2 Spot instances, AWS FIS limits itself to 5 EC2 Spot instance being interreupted per experiment. You can get over this limit by running more than 1 experiment at a time.
+{{% /notice %}}
+
 In this section, we will design a template to run the Spot interruption on the EC2 Spot instances launched via Auto Scaling group.
 
 #### Create an IAM Role to execute the experiment
@@ -157,6 +161,7 @@ Given the configuration we used above, Try to answer the following questions:
 2. How can I send an Rebalance Recommendation signal ahead of the Spot Interruption Notification signal?
 3. How can I create an experiment template for interrupting Spot instances launched via the EC2 Fleet?
 4. How can I create an experiment template for interrupting Spot instances launched via RunInstance API?
+5. Can I interrupt an EC2 Spot instances without creating an experiment tempate?
 
 {{%expand "Show me the answers:" %}}
 
@@ -267,3 +272,9 @@ cat <<EoF > ./spot_experiment.json
 }
 EoF
 ```
+
+5.) **Can I interrupt an EC2 Spot instances without creating an experiment tempate?**
+
+You can use the [Spot Requests console](https://console.aws.amazon.com/ec2/home?#SpotInstances:) directly to interrupt the specific EC2 Spot instance, as indicated in the Capacity column and clicking on 'Initiate interruption' in the 'Actions' menu.
+
+![Interrupt EC2 Spot instance from the console](/images/launching_ec2_spot_instances/Interrupt_Spot_from_console.png)

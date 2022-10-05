@@ -13,7 +13,7 @@ To run the experiment, we will use `start-experiment` command to run the templat
 aws fis start-experiment --experiment-template-id $FIS_TEMPLATE_ID
 ```
 
-After you run the experiment, you will see that 50% of the Spot Instances launched by the Auto Scaling group receive the Rebalance Recommendation signals. When the actions on this experiment is complete:
+After you run the experiment, you will see that 50% of the Spot Instances launched by the Auto Scaling group receive the Rebalance Recommendation signals. Note that this is less than the Service Quota of 5, which is the maximum number of EC2 Spot instance that can be interrupted by a single experiment. When the actions on this experiment is complete:
 
 * The target Spot Instance receives an instance rebalance recommendation signal.
 * A Spot instance interruption notice is issued two minutes before Amazon EC2 terminates or stops your instance.
