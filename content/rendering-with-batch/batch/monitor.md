@@ -92,6 +92,8 @@ Attempts: 1 -- Exit reason: "Essential container in task exited"
 This rendering operation will take roughly 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
 {{% /notice %}}
 
+### Viewing the result
+
 When the AWS Batch job finishes, the output video will be available in the following URL:
 
 ```
