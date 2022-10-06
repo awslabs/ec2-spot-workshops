@@ -1,10 +1,8 @@
 ---
-title: "Monitoring and results"
+title: "Monitoring"
 date: 2021-09-06T08:51:33Z
 weight: 140
 ---
-
-## Results
 
 You can check the rendering progress by running these commands in the Cloud9 terminal:
 
@@ -41,11 +39,60 @@ done
 It is normal if the progress is stuck at 0% at the beginning and after it increases rapidly. The reason for this is that AWS Batch is provisioning capacity for the Compute environments as defined earlier, and jobs will remain in the `RUNNABLE` state until sufficient resources are available. You can read more about job states here: [Job States](https://docs.aws.amazon.com/batch/latest/userguide/job_states.html).
 {{% /notice %}}
 
+### Viewing the automatically retried AWS Batch jobs
+
+By running this script in your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot interruption signal:
+
+```
+latestJobId=$(aws batch list-jobs --job-queue RenderingQueue --filters name=JOB_NAME,values=${FIS_JOB_NAME} | jq -r '.jobSummaryList[0].jobId')
+numJobs=$(($(aws batch describe-jobs --jobs $latestJobId | jq -r '.jobs[].arrayProperties.size') - 1))
+for ((x=0;x<=numJobs;x++)); do
+    echo "Checking Job: $x of $numJobs..."
+    if [[ $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts | length') -gt 1 ]]
+      then
+        echo "------------------------------------------------"
+        echo "Attempts: $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts | length')"
+        echo "Exit Reasons:"  
+        echo "$(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts[].statusReason')"
+        echo "------------------------------------------------"
+      else
+        echo "Attempts: 1 -- Exit reason: $(aws batch describe-jobs --jobs $latestJobId:$x | jq '.jobs[].attempts[].statusReason')"
+    fi
+done
+
+```
+
+#### Example output from the verification script:
+
+In the example below, you can see that AWS Batch job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot interruption. The second attempt exited normally, allowing the job to complete gracefully.
+
+```
+Checking Job: 31 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 32 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 33 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 34 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 35 of 199...
+------------------------------------------------
+Attempts: 2
+Exit Reasons:
+"Host EC2 (instance i-04b17daec78ef4a0b) terminated."
+"Essential container in task exited"
+------------------------------------------------
+Checking Job: 36 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+Checking Job: 37 of 199...
+Attempts: 1 -- Exit reason: "Essential container in task exited"
+```
+
 {{% notice tip %}}
-This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
+This rendering operation will take roughly 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
 {{% /notice %}}
 
-When the progress reaches 100%, the output video will be available in the following URL:
+When the AWS Batch job finishes, the output video will be available in the following URL:
 
 ```
 echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
@@ -60,9 +107,6 @@ You will need the appropriate program and video codecs to watch the mp4 generate
 {{% notice tip %}}
 Explore also the rest of the S3 folders and check the frames that were created.
 {{% /notice %}}
-
-
-## Monitoring
 
 ### Viewing the execution of the state machine
 

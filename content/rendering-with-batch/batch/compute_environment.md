@@ -48,7 +48,7 @@ Let's explore the configuration parameters in the `computeResources` structure:
 - **subnets**: the VPC subnets where the compute resources are launched.
 - **launchTemplate**: the launch template to use when launching compute resources. We specify the one we created earlier so that the User data script is applied to every instance that is launched.
 - **instanceRole**: the Amazon ECS instance profile applied to Amazon EC2 instances in the compute environment. AWS Batch compute environments are populated with Amazon ECS container instances, and they run the Amazon ECS container agent locally. The Amazon ECS container agent makes calls to various AWS API operations on your behalf. Therefore, container instances that run the agent require an IAM policy and role for these services to recognize that the agent belongs to you. For more information read [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html).
-- **tags**: the tags that will be applied to EC2 instances launched within this compute environment. These tags can be used to filter EC2 instances for various things like cost or experiments using AWS Fault Injection Simulator (AWS FIS).
+- **tags**: the tags that will be applied to EC2 instances launched within this compute environment. In this lab, we will use the `type : Spot` tag to filter EC2 instances for AWS Fault Injection Simulator (AWS FIS) experiments.
 
 Run this command to create the AWS Batch compute environment and export its ARN to an environment variable. To learn more about this API, see [create-compute-environment CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/create-compute-environment.html).
 
