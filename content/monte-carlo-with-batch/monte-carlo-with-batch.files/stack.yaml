@@ -27,7 +27,7 @@ Resources:
             Ref: AWS::StackId
       OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/Cloud9Ec2Environment
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Cloud9Ec2Environment
   CustomCloud9SsmEc2RoleCE9ACBCB:
     Type: AWS::IAM::Role
     Properties:
@@ -46,7 +46,7 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
       RoleName: CustomCloud9Ssm-CustomCloud9SsmEc2Role
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/Ec2Role/Resource
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2Role/Resource
   CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C:
     Type: AWS::IAM::Policy
     Properties:
@@ -85,7 +85,7 @@ Resources:
       Roles:
         - Ref: CustomCloud9SsmEc2RoleCE9ACBCB
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/Ec2Role/DefaultPolicy/Resource
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2Role/DefaultPolicy/Resource
   CustomCloud9SsmEc2InstanceProfile167B6BF8:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -95,7 +95,7 @@ Resources:
       - CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C
       - CustomCloud9SsmEc2RoleCE9ACBCB
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/Ec2InstanceProfile
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2InstanceProfile
   CustomCloud9SsmSsmDocumentD052D5F9:
     Type: AWS::SSM::Document
     Properties:
@@ -136,7 +136,7 @@ Resources:
       DocumentType: Command
       Name: CustomCloud9Ssm-CustomCloudSsm-SsmDocument
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/SsmDocument
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/SsmDocument
   CustomCloud9SsmSsmAssociationABF443F9:
     Type: AWS::SSM::Association
     Properties:
@@ -149,7 +149,7 @@ Resources:
       - CustomCloud9SsmCloud9Ec2EnvironmentF47DD48C
       - CustomCloud9SsmSsmDocumentD052D5F9
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/SsmAssociation
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/SsmAssociation
   CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074:
     Type: AWS::IAM::Role
     Properties:
@@ -167,7 +167,7 @@ Resources:
               - Ref: AWS::Partition
               - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/Resource
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/Resource
   CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561:
     Type: AWS::IAM::Policy
     Properties:
@@ -189,7 +189,7 @@ Resources:
       Roles:
         - Ref: CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/DefaultPolicy/Resource
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/DefaultPolicy/Resource
   CustomCloud9SsmProfileAttachLambdaFunction01DB4FFC:
     Type: AWS::Lambda::Function
     Properties:
@@ -290,7 +290,7 @@ Resources:
       - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561
       - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/Resource
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/Resource
   CustomCloud9SsmCustomResourceCD940758:
     Type: AWS::CloudFormation::CustomResource
     Properties:
@@ -314,7 +314,7 @@ Resources:
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
-      aws:cdk:path: RenderingStack/CustomCloud9Ssm/CustomResource/Default
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/CustomResource/Default
   Vpc8378EB38:
     Type: AWS::EC2::VPC
     Properties:
@@ -324,10 +324,10 @@ Resources:
       InstanceTenancy: default
       Tags:
         - Key: Name
-          Value: RenderingStack/Vpc
+          Value: MonteCarloStack/Vpc
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/Resource
-  VpcRenderingWithBatchSubnet1SubnetADE6DAA0:
+      aws:cdk:path: MonteCarloStack/Vpc/Resource
+  VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.0.0.0/24
@@ -340,45 +340,45 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: aws-cdk:subnet-name
-          Value: RenderingWithBatch
+          Value: MonteCarloWithBatch
         - Key: aws-cdk:subnet-type
           Value: Public
         - Key: Name
-          Value: RenderingStack/Vpc/RenderingWithBatchSubnet1
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet1/Subnet
-  VpcRenderingWithBatchSubnet1RouteTable1BCC3903:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/Subnet
+  VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId:
         Ref: Vpc8378EB38
       Tags:
         - Key: Name
-          Value: RenderingStack/Vpc/RenderingWithBatchSubnet1
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet1/RouteTable
-  VpcRenderingWithBatchSubnet1RouteTableAssociation9592115F:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/RouteTable
+  VpcMonteCarloWithBatchSubnet1RouteTableAssociation9592115F:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId:
-        Ref: VpcRenderingWithBatchSubnet1RouteTable1BCC3903
+        Ref: VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903
       SubnetId:
-        Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+        Ref: VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet1/RouteTableAssociation
-  VpcRenderingWithBatchSubnet1DefaultRoute58E16100:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/RouteTableAssociation
+  VpcMonteCarloWithBatchSubnet1DefaultRoute58E16100:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId:
-        Ref: VpcRenderingWithBatchSubnet1RouteTable1BCC3903
+        Ref: VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId:
         Ref: VpcIGWD7BA715C
     DependsOn:
       - VpcVPCGWBF912B6E
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet1/DefaultRoute
-  VpcRenderingWithBatchSubnet2SubnetDC61207B:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/DefaultRoute
+  VpcMonteCarloWithBatchSubnet2SubnetDC61207B:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.0.1.0/24
@@ -391,52 +391,52 @@ Resources:
       MapPublicIpOnLaunch: true
       Tags:
         - Key: aws-cdk:subnet-name
-          Value: RenderingWithBatch
+          Value: MonteCarloWithBatch
         - Key: aws-cdk:subnet-type
           Value: Public
         - Key: Name
-          Value: RenderingStack/Vpc/RenderingWithBatchSubnet2
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet2/Subnet
-  VpcRenderingWithBatchSubnet2RouteTable5DF00176:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/Subnet
+  VpcMonteCarloWithBatchSubnet2RouteTable5DF00176:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId:
         Ref: Vpc8378EB38
       Tags:
         - Key: Name
-          Value: RenderingStack/Vpc/RenderingWithBatchSubnet2
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet2/RouteTable
-  VpcRenderingWithBatchSubnet2RouteTableAssociationE3297937:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/RouteTable
+  VpcMonteCarloWithBatchSubnet2RouteTableAssociationE3297937:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId:
-        Ref: VpcRenderingWithBatchSubnet2RouteTable5DF00176
+        Ref: VpcMonteCarloWithBatchSubnet2RouteTable5DF00176
       SubnetId:
-        Ref: VpcRenderingWithBatchSubnet2SubnetDC61207B
+        Ref: VpcMonteCarloWithBatchSubnet2SubnetDC61207B
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet2/RouteTableAssociation
-  VpcRenderingWithBatchSubnet2DefaultRoute42CB5476:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/RouteTableAssociation
+  VpcMonteCarloWithBatchSubnet2DefaultRoute42CB5476:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId:
-        Ref: VpcRenderingWithBatchSubnet2RouteTable5DF00176
+        Ref: VpcMonteCarloWithBatchSubnet2RouteTable5DF00176
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId:
         Ref: VpcIGWD7BA715C
     DependsOn:
       - VpcVPCGWBF912B6E
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/RenderingWithBatchSubnet2/DefaultRoute
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/DefaultRoute
   VpcIGWD7BA715C:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Name
-          Value: RenderingStack/Vpc
+          Value: MonteCarloStack/Vpc
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/IGW
+      aws:cdk:path: MonteCarloStack/Vpc/IGW
   VpcVPCGWBF912B6E:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
@@ -445,12 +445,12 @@ Resources:
       InternetGatewayId:
         Ref: VpcIGWD7BA715C
     Metadata:
-      aws:cdk:path: RenderingStack/Vpc/VPCGW
+      aws:cdk:path: MonteCarloStack/Vpc/VPCGW
   securityGroup32C48086:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: RenderingStack/securityGroup
-      GroupName: RenderingWithBatch
+      GroupDescription: MonteCarloStack/securityGroup
+      GroupName: MonteCarloWithBatch
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           Description: Allow all outbound traffic by default
@@ -459,18 +459,18 @@ Resources:
         Ref: Vpc8378EB38
     DependsOn:
       - VpcIGWD7BA715C
-      - VpcRenderingWithBatchSubnet1DefaultRoute58E16100
-      - VpcRenderingWithBatchSubnet1RouteTable1BCC3903
-      - VpcRenderingWithBatchSubnet1RouteTableAssociation9592115F
-      - VpcRenderingWithBatchSubnet1SubnetADE6DAA0
-      - VpcRenderingWithBatchSubnet2DefaultRoute42CB5476
-      - VpcRenderingWithBatchSubnet2RouteTable5DF00176
-      - VpcRenderingWithBatchSubnet2RouteTableAssociationE3297937
-      - VpcRenderingWithBatchSubnet2SubnetDC61207B
+      - VpcMonteCarloWithBatchSubnet1DefaultRoute58E16100
+      - VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903
+      - VpcMonteCarloWithBatchSubnet1RouteTableAssociation9592115F
+      - VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0
+      - VpcMonteCarloWithBatchSubnet2DefaultRoute42CB5476
+      - VpcMonteCarloWithBatchSubnet2RouteTable5DF00176
+      - VpcMonteCarloWithBatchSubnet2RouteTableAssociationE3297937
+      - VpcMonteCarloWithBatchSubnet2SubnetDC61207B
       - Vpc8378EB38
       - VpcVPCGWBF912B6E
     Metadata:
-      aws:cdk:path: RenderingStack/securityGroup/Resource
+      aws:cdk:path: MonteCarloStack/securityGroup/Resource
   launchTemplateDEE5742D:
     Type: AWS::EC2::LaunchTemplate
     Properties:
@@ -483,11 +483,11 @@ Resources:
           - ResourceType: instance
             Tags:
               - Key: Name
-                Value: RenderingStack/launchTemplate
+                Value: MonteCarloStack/launchTemplate
           - ResourceType: volume
             Tags:
               - Key: Name
-                Value: RenderingStack/launchTemplate
+                Value: MonteCarloStack/launchTemplate
         UserData:
           Fn::Base64: |-
             MIME-Version: 1.0
@@ -503,19 +503,19 @@ Resources:
             echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
 
             --==MYBOUNDARY==--
-      LaunchTemplateName: RenderingWithBatch
+      LaunchTemplateName: MonteCarloWithBatch
     DependsOn:
       - securityGroup32C48086
     Metadata:
-      aws:cdk:path: RenderingStack/launchTemplate/Resource
+      aws:cdk:path: MonteCarloStack/launchTemplate/Resource
   repository9F1A3F0B:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: rendering-with-batch
+      RepositoryName: MonteCarlo-with-batch
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
-      aws:cdk:path: RenderingStack/repository/Resource
+      aws:cdk:path: MonteCarloStack/repository/Resource
   ecsRole157644C0:
     Type: AWS::IAM::Role
     Properties:
@@ -534,7 +534,7 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonS3FullAccess
         - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
     Metadata:
-      aws:cdk:path: RenderingStack/ecsRole/Resource
+      aws:cdk:path: MonteCarloStack/ecsRole/Resource
   ecsinstanceprofile:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -543,13 +543,13 @@ Resources:
     DependsOn:
       - ecsRole157644C0
     Metadata:
-      aws:cdk:path: RenderingStack/ecsinstanceprofile
+      aws:cdk:path: MonteCarloStack/ecsinstanceprofile
   bucket43879C71:
     Type: AWS::S3::Bucket
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
-      aws:cdk:path: RenderingStack/bucket/Resource
+      aws:cdk:path: MonteCarloStack/bucket/Resource
   PreprocessingServiceRole532E6474:
     Type: AWS::IAM::Role
     Properties:
@@ -569,7 +569,7 @@ Resources:
     DependsOn:
       - bucket43879C71
     Metadata:
-      aws:cdk:path: RenderingStack/Preprocessing/ServiceRole/Resource
+      aws:cdk:path: MonteCarloStack/Preprocessing/ServiceRole/Resource
   PreprocessingServiceRoleDefaultPolicyF8800D5C:
     Type: AWS::IAM::Policy
     Properties:
@@ -594,7 +594,7 @@ Resources:
     DependsOn:
       - bucket43879C71
     Metadata:
-      aws:cdk:path: RenderingStack/Preprocessing/ServiceRole/DefaultPolicy/Resource
+      aws:cdk:path: MonteCarloStack/Preprocessing/ServiceRole/DefaultPolicy/Resource
   Preprocessing329E01E4:
     Type: AWS::Lambda::Function
     Properties:
@@ -748,8 +748,8 @@ Resources:
       - PreprocessingServiceRoleDefaultPolicyF8800D5C
       - PreprocessingServiceRole532E6474
     Metadata:
-      aws:cdk:path: RenderingStack/Preprocessing/Resource
-  RenderingPipelineRole4AAB9C07:
+      aws:cdk:path: MonteCarloStack/Preprocessing/Resource
+  MonteCarloPipelineRole4AAB9C07:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -765,8 +765,8 @@ Resources:
                     - .amazonaws.com
         Version: "2012-10-17"
     Metadata:
-      aws:cdk:path: RenderingStack/RenderingPipeline/Role/Resource
-  RenderingPipelineRoleDefaultPolicy951F3306:
+      aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Role/Resource
+  MonteCarloPipelineRoleDefaultPolicy951F3306:
     Type: AWS::IAM::Policy
     Properties:
       PolicyDocument:
@@ -814,49 +814,49 @@ Resources:
                   - Ref: AWS::AccountId
                   - :rule/StepFunctionsGetEventsForBatchJobsRule
         Version: "2012-10-17"
-      PolicyName: RenderingPipelineRoleDefaultPolicy951F3306
+      PolicyName: MonteCarloPipelineRoleDefaultPolicy951F3306
       Roles:
-        - Ref: RenderingPipelineRole4AAB9C07
+        - Ref: MonteCarloPipelineRole4AAB9C07
     Metadata:
-      aws:cdk:path: RenderingStack/RenderingPipeline/Role/DefaultPolicy/Resource
-  RenderingPipeline477A29E4:
+      aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Role/DefaultPolicy/Resource
+  MonteCarloPipeline477A29E4:
     Type: AWS::StepFunctions::StateMachine
     Properties:
       RoleArn:
         Fn::GetAtt:
-          - RenderingPipelineRole4AAB9C07
+          - MonteCarloPipelineRole4AAB9C07
           - Arn
       DefinitionString:
         Fn::Join:
           - ""
-          - - '{"Comment": "Workflow orchestration for a rendering pipeline using AWS Batch","StartAt":"Number of frames extraction","States":{"Number of frames extraction":{"Next":"Rendering","Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","Resource":"arn:'
+          - - '{"Comment": "Workflow orchestration for a MonteCarlo pipeline using AWS Batch","StartAt":"Number of frames extraction","States":{"Number of frames extraction":{"Next":"MonteCarlo","Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","Resource":"arn:'
             - Ref: AWS::Partition
             - :states:::lambda:invoke","Parameters":{"FunctionName":"
             - Fn::GetAtt:
                 - Preprocessing329E01E4
                 - Arn
-            - '","Payload.$":"$"}, "ResultPath":"$.output"},"Rendering":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName.$":"$.jobName","ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"},"Parameters":{"action":"render","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"Next":"Stitching","ResultPath":"$.output"},"Stitching":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName":"Stitching","Parameters":{"action":"stitch","inputUri.$":"$.outputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"End":true}}}'
+            - '","Payload.$":"$"}, "ResultPath":"$.output"},"MonteCarlo":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName.$":"$.jobName","ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"},"Parameters":{"action":"montecarlo-price","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"Next":"Stitching","ResultPath":"$.output"},"Stitching":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName":"Stitching","Parameters":{"action":"stitch","inputUri.$":"$.outputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"End":true}}}'
     DependsOn:
-      - RenderingPipelineRoleDefaultPolicy951F3306
-      - RenderingPipelineRole4AAB9C07
+      - MonteCarloPipelineRoleDefaultPolicy951F3306
+      - MonteCarloPipelineRole4AAB9C07
     Metadata:
-      aws:cdk:path: RenderingStack/RenderingPipeline/Resource
+      aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Resource
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
       Analytics: v2:deflate64:H4sIAAAAAAAA/11RwW7CMAz9Fu4h2+DEkXUMMW1aVRBXlKZGzdrGVeKAqqr/vqRhK9sp9rPj9/y84Ev+OBNXO5dFNa9Vzvs9CVkxD516WaMrVjw5642+KIO6AU2bZMGUaHifYQ3M18Y3xVrJLqRTtNOWhJaQGjyrGgZmrf/mCy8oXRgVmtbWolSCFOqB1aLJC8H7V6dlQELDTzwwkAveH1sZ0GOasNTlnmrvcg3jqCnK0BEcRB4FRnzC7ih/m6NeAuM7t4LgKrobzS1bk/elHFXvQTqjqNsadO1I8Ad4F15xeYCmrUUc/BcJixhvH7RoFaEZiabM27Tk/bOTVdwlRh4laM83L+yJhK2sbxMkS79fo+gNc08d/NvpC1bw78d4WIIPv4TS0Za7fBhYBhadkb7kLGEzpUHcFH86at0oLEFdqHiZtKMS9cOSr/jT7MsqNTdOk2qAZ/H9BoXDYZRoAgAA
     Metadata:
-      aws:cdk:path: RenderingStack/CDKMetadata/Default
+      aws:cdk:path: MonteCarloStack/CDKMetadata/Default
     Condition: CDKMetadataAvailable
 Outputs:
   Subnet1:
     Value:
-      Ref: VpcRenderingWithBatchSubnet1SubnetADE6DAA0
+      Ref: VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0
   Subnet2:
     Value:
-      Ref: VpcRenderingWithBatchSubnet2SubnetDC61207B
+      Ref: VpcMonteCarloWithBatchSubnet2SubnetDC61207B
   LaunchTemplateName:
-    Value: RenderingWithBatch
+    Value: MonteCarloWithBatch
   RepositoryName:
     Value:
       Ref: repository9F1A3F0B
@@ -875,7 +875,7 @@ Outputs:
       Ref: Preprocessing329E01E4
   StateMachineArn:
     Value:
-      Ref: RenderingPipeline477A29E4
+      Ref: MonteCarloPipeline477A29E4
 Conditions:
   NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
   CDKMetadataAvailable:
