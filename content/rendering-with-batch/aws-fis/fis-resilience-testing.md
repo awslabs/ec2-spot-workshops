@@ -1,7 +1,7 @@
 ---
-title: "Resiliency testing"
+title: "Testing resiliency"
 date: 2022-09-20T00:00:00Z
-weight: 130
+weight: 155
 ---
 
 ## Viewing EC2 Spot instance request status

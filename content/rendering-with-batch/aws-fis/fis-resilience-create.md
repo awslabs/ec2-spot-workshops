@@ -1,16 +1,10 @@
 ---
-title: "Create the AWS FIS experiment"
+title: "Creating the AWS FIS experiment"
 date: 2022-09-20T00:00:00Z
-weight: 115
+weight: 153
 ---
 
-If you recall the configuration of the job definition, we specified 3 attempts inside the structure `retryStrategy`. This means that, in case of job failure, AWS Batch will retry running it twice more. In this section we are going to put that to test to see how our architecture would react if any of the Spot instances was terminated.
-
-## AWS Fault Injection Simulator
-
-[AWS Fault Injection Simulator](https://aws.amazon.com/fis/) is a fully managed service for running fault injection experiments on AWS that makes it easier to improve an application’s performance, observability, and resiliency. Fault injection experiments are used in chaos engineering, which is the practice of stressing an application in testing or production environments by creating disruptive events, such as sudden increase in CPU or memory consumption, observing how the system responds, and implementing improvements.
-
-We are going to use AWS FIS to run a fault injection experiment in the ECS cluster associated to the Spot compute environment.
+If you recall the configuration of the job definition, the configuration specified 3 attempts inside the structure `retryStrategy`. This means that, in case of job failure, AWS Batch will retry running that job twice more. This step will define an AWS FIS experiment to test how our architecture will react if any of the Spot instances are terminated.
 
 ## Creating the experiment
 
@@ -70,7 +64,7 @@ Let's explore the configuration parameters in the structure:
   - **selectionMode**: scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target.
     - COUNT(n) - Run the action on the specified number of targets, chosen from the identified targets at random. For example, COUNT(1) selects one of the targets.
   - **actions**: the actions for the experiment, in this case, sending a 2-minute Spot Interruption notice to the selected instances. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide .
-  - **stopConditions**: specifies a stop condition for an experiment template. In this case, we don't have any.
+  - **stopConditions**: specifies a stop condition for an experiment template. In this case, there aren't any.
   - **roleArn**: the Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service permission to perform service actions on your behalf.
 
 Execute this command to create the AWS FIS template from the JSON file defined above. To learn more about this API, see [create-experiment-template CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/fis/create-experiment-template.html).
