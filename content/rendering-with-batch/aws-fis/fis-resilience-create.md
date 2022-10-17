@@ -1,10 +1,10 @@
 ---
-title: "Creating the AWS FIS experiment"
+title: "Creating the experiment"
 date: 2022-09-20T00:00:00Z
 weight: 153
 ---
 
-If you recall the configuration of the job definition, the configuration specified 3 attempts inside the structure `retryStrategy`. This means that, in case of job failure, AWS Batch will retry running that job twice more. This step will define an AWS FIS experiment to test how our architecture will react if any of the Spot instances are terminated.
+You may recall the configuration of the AWS Batch job definition, which specified 3 attempts inside the structure `retryStrategy`. With this configuration in place, in case of job failure, AWS Batch will retry running that job twice more. This step will define an AWS FIS experiment to test how our architecture will react if any of the Spot instances are terminated.
 
 ## Creating the experiment
 

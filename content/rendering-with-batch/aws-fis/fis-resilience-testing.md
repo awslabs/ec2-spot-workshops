@@ -1,5 +1,5 @@
 ---
-title: "Testing resiliency"
+title: "Running the experiment"
 date: 2022-09-20T00:00:00Z
 weight: 155
 ---
@@ -18,12 +18,12 @@ The output will show you the EC2 instance IDs and the Spot instance request stat
   - **instance-terminated-by-user**: indicates that the EC2 Spot instance fulfilled its job and was terminated by AWS Batch after no longer being needed.
 
 {{% notice info %}}
-You should wait a few minutes after starting the rendering workflow for enough EC2 instances to reach the **fulfilled** state before starting the AWS FIS experiment.
+You should wait a few minutes after starting the rendering workflow for several EC2 instances to reach the **fulfilled** state before the next step, starting the AWS FIS experiment.
 {{% /notice %}}
 
-## Start the AWS FIS experiment
+## Starting the AWS FIS experiment
 
-You can run this command twice at several points during the AWS Batch run to simulate multiple Spot interruptions. To learn more about this API, see [start-experiment CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/fis/start-experiment.html).
+You can run this command twice, at two different points during the AWS Batch run, to simulate multiple Spot interruptions. To learn more about this API, see [start-experiment CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/fis/start-experiment.html).
 
 ```
 export FIS_EXPERIMENT=$(aws fis start-experiment --experiment-template-id ${FIS_TEMPLATE} | jq -r '.experiment.id')
@@ -46,7 +46,7 @@ If the status is:
 - **failed**: the FIS experiment has failed, a reason code will be provided to assist in understanding why the experiment failed. (e.g. "Target resolution returned empty set")
 
   {{% notice info %}}
-  If the AWS Batch job is not active, the "failed" reason code will be "Target resolution returned empty set". This indicates no running EC2 instances with the "Spot" tag were found. You should wait a few minutes longer after the AWS Batch job is underway and start the FIS experiment again or the AWS Batch job has completed.
+  If the AWS Batch job is not active, the "failed" reason code will be "**Target resolution returned empty set**". This indicates no running EC2 instances with the "Spot" tag were found. You should wait a few minutes longer after the AWS Batch job is underway and start the FIS experiment again or the AWS Batch job has completed.
   {{% /notice %}}
 
 {{% notice note %}}
