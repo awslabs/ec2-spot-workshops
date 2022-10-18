@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 154
 ---
 
-This section of the lab will start a new rendering job. This second job will be intentially interrupted using AWS FIS.
+This section of the lab will start a new rendering job. This second job will be intentionally interrupted using AWS FIS.
 
 {{% notice warning %}}
 Please ensure the previous job has completed and you have verified the output by following the [monitoring steps in the previous lab]({{< ref monitor.md >}})
