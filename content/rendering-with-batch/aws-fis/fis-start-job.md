@@ -7,7 +7,7 @@ weight: 154
 This section of the lab will start a new rendering job. This second job will be intentionally interrupted using AWS FIS.
 
 {{% notice warning %}}
-This section has dependencies on the completion of the [AWS Batch section]({{< ref batch >}}) of the lab.  Please ensure you have followed all steps, the previous job has completed, and you have verified the output by following the [monitoring steps in the previous lab]({{< ref monitor.md >}})
+This section has dependencies on the completion of the [AWS Batch section]({{< ref batch >}}) of the previous lab.  Please ensure you have followed all steps, the previous job has completed, and you have verified the output by following the [monitoring steps in the previous lab]({{< ref monitor.md >}})
 {{% /notice %}}
 
 You can start the new rendering job by running this command:
