@@ -20,3 +20,4 @@ workflow-aggregator:590.v6a_d052e5a_a_b_5
 ws-cleanup:0.42
 authorize-project:1.4.0
 ec2-fleet:2.5.1
+naginator:1.18.1

@@ -38,7 +38,7 @@ When configuring the plugin, think about how you could force build processes to 
 11. Change the Label field to be **spot-agents** - you'll shortly configure a build job to run on slave instances featuring this label;
 12. Set the **Max Idle Minutes Before Scaledown** to **5**. There's no need to keep a build agent running for too much longer than it's required;
 13. Change the Minimum Cluster Size from **1** to **0** (so that it can scale-in to zero instances);
-14. Change the Maximum Cluster Size from **1** to **5** (so that you can test fleet scale-out);
+14. Change the Maximum Cluster Size from **1** to **3** (so that you can test fleet scale-out);
 15. Finally, click on the **Save** button.
 
 For now, no instances are going to be launched as there are no pending jobs to run. So, let's configure an existing Jenkins job to use Spot instances.

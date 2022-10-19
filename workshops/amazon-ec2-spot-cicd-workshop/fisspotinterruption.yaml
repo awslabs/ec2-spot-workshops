@@ -4,7 +4,7 @@ Description: FIS for Spot Instances
 Parameters:
   InstancesToInterrupt:
     Description: Number of instances to interrupt
-    Default: 1
+    Default: 3
     Type: Number
 
   DurationBeforeInterruption:
@@ -62,7 +62,7 @@ Resources:
         - Source: none
       RoleArn: !GetAtt FISSpotRole.Arn
       Tags:
-        Name: "fis-spot-interruption"
+        Name: "fis-spot-jenkins-interruption"
 
 Outputs:
   FISExperimentID:

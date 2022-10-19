@@ -472,7 +472,7 @@ Resources:
           - DeviceName: "/dev/xvda"
             Ebs:
               DeleteOnTermination: "true"
-              VolumeSize: 8
+              VolumeSize: 50
               VolumeType: gp2
         IamInstanceProfile:
           Name: !Ref InstanceProfileJenkins
@@ -529,7 +529,7 @@ Resources:
           - DeviceName: "/dev/xvda"
             Ebs:
               DeleteOnTermination: "true"
-              VolumeSize: 8
+              VolumeSize: 50
               VolumeType: gp2
         IamInstanceProfile:
           Name: !Ref InstanceProfileJenkins

@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   jenkins:
-    image: christianhxc/amazon-ec2-spot-cicd-workshop-jenkins:2.346.3
+    image: christianhxc/amazon-ec2-spot-cicd-workshop-jenkins:2.361.2
     privileged: true
     user: root
     build: .

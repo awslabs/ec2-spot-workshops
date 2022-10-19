@@ -12,12 +12,13 @@ Before you start launching Spot interruptions with FIS, you need to create an ex
 You're going to use the following CloudFormation template which creates the IAM role (`FISSpotRole`) with the minimum permissions FIS needs to interrupt an instance, and the experiment template (`FISExperimentTemplate`) you're going to use to trigger a Spot interruption:
 
 ```
+---
 AWSTemplateFormatVersion: 2010-09-09
 Description: FIS for Spot Instances
 Parameters:
   InstancesToInterrupt:
     Description: Number of instances to interrupt
-    Default: 3
+    Default: 1
     Type: Number
 
   DurationBeforeInterruption:
@@ -26,16 +27,15 @@ Parameters:
     Type: Number
 
 Resources:
-
   FISSpotRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
         Statement:
-        - Effect: Allow
-          Principal:
-            Service: [fis.amazonaws.com]
-          Action: ["sts:AssumeRole"]
+          - Effect: Allow
+            Principal:
+              Service: [fis.amazonaws.com]
+            Action: ["sts:AssumeRole"]
       Path: /
       Policies:
         - PolicyName: root
@@ -43,38 +43,39 @@ Resources:
             Version: "2012-10-17"
             Statement:
               - Effect: Allow
-                Action: 'ec2:DescribeInstances'
-                Resource: '*'
+                Action: "ec2:DescribeInstances"
+                Resource: "*"
               - Effect: Allow
-                Action: 'ec2:SendSpotInstanceInterruptions'
-                Resource: 'arn:aws:ec2:*:*:instance/*'
+                Action: "ec2:SendSpotInstanceInterruptions"
+                Resource: "arn:aws:ec2:*:*:instance/*"
 
   FISExperimentTemplate:
     Type: AWS::FIS::ExperimentTemplate
-    Properties:       
+    Properties:
       Description: "Interrupt multiple random instances"
-      Targets: 
+      Targets:
         SpotIntances:
-          ResourceTags: 
-            Name: "Jenkins Master (Spot)"
+          ResourceTags:
+            Name: "jenkins-build-agent"
           Filters:
             - Path: State.Name
-              Values: 
-              - running
+              Values:
+                - running
           ResourceType: aws:ec2:spot-instance
           SelectionMode: !Join ["", ["COUNT(", !Ref InstancesToInterrupt, ")"]]
-      Actions: 
+      Actions:
         interrupt:
           ActionId: "aws:ec2:send-spot-instance-interruptions"
           Description: "Interrupt multiple Spot instances"
-          Parameters: 
-            durationBeforeInterruption: !Join ["", ["PT", !Ref DurationBeforeInterruption, "M"]]
-          Targets: 
+          Parameters:
+            durationBeforeInterruption:
+              !Join ["", ["PT", !Ref DurationBeforeInterruption, "M"]]
+          Targets:
             SpotInstances: SpotIntances
       StopConditions:
         - Source: none
       RoleArn: !GetAtt FISSpotRole.Arn
-      Tags: 
+      Tags:
         Name: "fis-spot-interruption"
 
 Outputs:
@@ -100,6 +101,6 @@ wget https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/worksho
 Now, simply run the following commands to create the FIS experiment:
 
 ```
-aws cloudformation create-stack --stack-name fis-spot-interruption --template-body file://fisspotinterruption.yaml --capabilities CAPABILITY_NAMED_IAM
-aws cloudformation wait stack-create-complete --stack-name fis-spot-interruption
+aws cloudformation create-stack --stack-name fis-spot-jenkins-interruption --template-body file://fisspotinterruption.yaml --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation wait stack-create-complete --stack-name fis-spot-jenkins-interruption
 ```
