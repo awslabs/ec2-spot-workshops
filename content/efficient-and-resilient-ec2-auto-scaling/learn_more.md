@@ -1,6 +1,6 @@
 +++
 title = "Learn more"
-weight = 180
+weight = 320
 +++
 
 ### Resources

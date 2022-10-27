@@ -22,16 +22,6 @@ Lifecycle hooks can be used to put instances in wait state before launch or term
 
 Reusing instances, by default when ASG scales in instances it get terminates but you can configure reuse policy to return instances to warm pool. only available in CLI and CDK.
 
-### Create warm pool
-```bash
-aws autoscaling put-warm-pool \
-    --auto-scaling-group-name workshop-predictive-asg \
-    --min-size 2
-```
-
-```bash
-aws autoscaling describe-warm-pool --auto-scaling-group-name workshop-predictive-asg
-```
 
 {{% notice info %}}
 **Limitations**:
