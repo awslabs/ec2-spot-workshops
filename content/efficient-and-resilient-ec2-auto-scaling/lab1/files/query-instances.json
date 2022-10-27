@@ -1,0 +1,25 @@
+{
+    "MetricDataQueries": [
+        {
+            "Id": "myRequest",
+            "MetricStat": {
+                "Metric": {
+                    "Namespace": "AWS/AutoScaling",
+                    "MetricName": "GroupInServiceInstances",
+                    "Dimensions": [
+                        {
+                            "Name": "AutoScalingGroupName",
+                            "Value": "Example Application Auto Scaling Group"
+                        }
+                    ]
+                },
+                "Period": 300,
+                "Stat": "Average"
+            },
+            "Label": "myRequestLabel",
+            "ReturnData": true
+        }
+    ],
+    "StartTime": "2022-09-12T08:00:00Z",
+    "EndTime": "2022-09-14T08:00:00Z"
+}
