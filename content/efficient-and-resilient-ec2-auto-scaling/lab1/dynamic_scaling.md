@@ -1,7 +1,11 @@
 +++
-title = "Using Dynamic Scaling in ASG"
-weight = 10
+title = "Using predictive scaling with dynamic scaling"
+weight = 140
 +++
+
+## Why?
+
+Use predictive scaling with dynamic scaling. Dynamic scaling is used to automatically scale capacity in response to real-time changes in resource utilization. Using it with predictive scaling helps you follow the demand curve for your application closely, scaling in during periods of low traffic and scaling out when traffic is higher than expected. When multiple scaling policies are active, each policy determines the desired capacity independently, and the desired capacity is set to the maximum of those. For example, if 10 instances are required to stay at the target utilization in a target tracking scaling policy, and 8 instances are required to stay at the target utilization in a predictive scaling policy, then the group's desired capacity is set to 10.
 
 Now you are going to configure the Auto Scaling group to automatically scale out and scale in as your application load fluctuates. When you configure dynamic scaling, you must define how to scale in response to changing demand. For example, you have a web application that currently runs on two instances and you do not want the CPU utilization of the Auto Scaling group to exceed 70 percent. You can configure your Auto Scaling group to scale automatically to meet this need. The policy type determines how the scaling action is performed.
 

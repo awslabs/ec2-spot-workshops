@@ -8,6 +8,3 @@ To start the workshop, follow one of the following pages, depending on whether y
 
 {{% children  %}}
 
-Once you are done with either setup, continue with [**Setup with CloudFormation**](/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options/launch_cloudformation.html)
-
-
