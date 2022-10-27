@@ -1,0 +1,76 @@
+{
+    "MetricSpecifications": [
+      {
+        "TargetValue": 25,
+        "CustomizedScalingMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Average CPU Utilization in ASG",
+              "Id": "cpu_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "CustomWSCPUUTILIZATION",
+                  "Namespace": "Workshop Custom Predictive Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "Test Predictive ASG"
+                    }
+                  ]
+                },
+                "Stat": "Average"
+              },
+              "ReturnData": true
+            }
+          ]
+        },
+        "CustomizedLoadMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Average CPU Utilization in ASG",
+              "Id": "cpu_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "CustomWSCPUUTILIZATION",
+                  "Namespace": "Workshop Custom Predictive Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "Test Predictive ASG"
+                    }
+                  ]
+                },
+                "Stat": "Sum"
+              },
+              "ReturnData": true
+            }
+          ]
+        },
+        "CustomizedCapacityMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Number of instances in ASG",
+              "Id": "capacity_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "CustomWSGroupInstances",
+                  "Namespace": "Workshop Custom Predictive Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "Test Predictive ASG"
+                    }
+                  ]
+                },
+                "Stat": "Average"
+              },
+              "ReturnData": true
+            }
+          ]
+        }
+      }
+    ],
+    "Mode": "ForecastAndScale",
+    "SchedulingBufferTime": 300,
+    "MaxCapacityBreachBehavior": "HonorMaxCapacity"
+  }
