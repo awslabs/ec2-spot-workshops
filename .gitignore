@@ -16,3 +16,4 @@ hugo.linux
 
 # Temporary lock file while building
 /.hugo_build.lock
+**/nohup.out
