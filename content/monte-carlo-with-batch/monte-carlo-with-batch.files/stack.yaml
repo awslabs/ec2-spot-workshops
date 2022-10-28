@@ -511,7 +511,7 @@ Resources:
   repository9F1A3F0B:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: MonteCarlo-with-batch
+      RepositoryName: montecarlo-with-batch
     UpdateReplacePolicy: Delete
     DeletionPolicy: Delete
     Metadata:
