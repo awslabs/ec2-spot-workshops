@@ -11,7 +11,6 @@ i=0
 while [ $i -lt $l ]
 do
   time=$(date --d="$[5*$i] minutes ago")
-  echo $i
   cat $file | jq --argjson i $i --arg t "$time" '.[$i].Timestamp |= $t' > tmp.json && mv tmp.json $file
   i=$[$i+1]
 done
