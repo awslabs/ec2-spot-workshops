@@ -183,7 +183,7 @@ Resources:
                         # logger.info('instance_state: {}'.format(instance_state))
 
                       # attach instance profile
-                      #response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
+                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
                       # logger.info('response - associate_iam_instance_profile: {}'.format(response))
                       r_ec2 = boto3.resource('ec2')
 
@@ -243,9 +243,6 @@ Resources:
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-instances.json workshop-predictive-asg"
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-cpu.json workshop-predictive-asg"
 
-
-
-
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
     DependsOn:
@@ -257,7 +254,7 @@ Resources:
           OutputS3BucketName: !Ref C9OutputBucket
           OutputS3KeyPrefix: bootstrapoutput
       Targets:
-        - Key: tag:SSMBootstrap
+        - Key: SSMBootstrap
           Values:
           - Active
 
