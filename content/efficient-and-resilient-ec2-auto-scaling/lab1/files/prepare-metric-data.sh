@@ -8,7 +8,7 @@ l=$(jq length $file)
 i=0
 while [ $i -lt $l ]
 do
-  time=$(date -v $[-5*$i]M)
+  time=$(date --d="$[5*$i] minutes ago")
   echo $i
   cat $file | jq --argjson i $i --arg t $time '.[$i].Timestamp |= $t' > tmp.json && mv tmp.json $file
   i=$[$i+1]
