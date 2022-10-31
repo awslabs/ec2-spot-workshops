@@ -183,7 +183,7 @@ Resources:
                         # logger.info('instance_state: {}'.format(instance_state))
 
                       # attach instance profile
-                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
+                      #response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
                       # logger.info('response - associate_iam_instance_profile: {}'.format(response))
                       r_ec2 = boto3.resource('ec2')
 
@@ -239,7 +239,10 @@ Resources:
             - echo '=== Generate SSH key and import to aws ==='
             - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
             - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "asgworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
-            - sudo -H -u ec2-user git clone https://github.com/awslabs/ec2-spot-workshops.git
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment && git clone -b nadaahm-asg-workshop-reinvent https://github.com/nadaahm/ec2-spot-workshops.git"
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh"            
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && ./prepare-metric-data.sh metric-instances.json"            
+
 
 
   C9BootstrapAssociation:
