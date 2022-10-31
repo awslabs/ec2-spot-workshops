@@ -240,8 +240,7 @@ Resources:
             - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
             - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "asgworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment && git clone -b nadaahm-asg-workshop-reinvent https://github.com/nadaahm/ec2-spot-workshops.git"
-            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh"            
-            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && ./prepare-metric-data.sh metric-instances.json"            
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-instances.json workshop-predictive-asg"
 
 
 
