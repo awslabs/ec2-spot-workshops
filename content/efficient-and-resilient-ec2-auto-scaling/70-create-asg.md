@@ -1,6 +1,6 @@
 +++
 title = "Create an EC2 Auto Scaling Group"
-weight = 80
+weight = 60
 +++
 
 To launch, maintain and scale EC2 instances dynamically for your application, you are going to create an Amazon EC2 Auto Scaling group. To help you meet your cost optimization goals, EC2 Auto Scaling allows you to combine purchase options and instance types within your Auto Scaling group. Stateless web applications are a great fit to run on EC2 Spot Instances as they can tolerate interruptions and are often flexible to run on multiple instance types. In this section, you will create an Auto Scaling group combining a base of On-Demand instances and scaling out with EC2 Spot instances and save an average of 70% in your compute costs. 

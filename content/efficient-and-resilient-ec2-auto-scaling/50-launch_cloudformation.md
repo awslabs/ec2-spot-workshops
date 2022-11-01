@@ -1,6 +1,6 @@
 +++
 title = "Setup with CloudFormation"
-weight = 30
+weight = 50
 +++
 
 ### Launch the CloudFormation stack

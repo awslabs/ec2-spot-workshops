@@ -1,6 +1,6 @@
 +++
 title = "Using the Cloud9 Environment"
-weight = 40
+weight = 50
 +++
 AWS Cloud9 comes with a terminal that includes sudo privileges to the managed Amazon EC2 instance that is hosting your development environment and a preauthenticated AWS Command Line Interface. This makes it easy for you to quickly run commands and directly access AWS services.
 

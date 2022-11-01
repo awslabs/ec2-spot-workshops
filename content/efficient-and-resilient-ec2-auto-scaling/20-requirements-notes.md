@@ -1,6 +1,6 @@
 +++
 title = "Requirements and Notes"
-weight = 10
+weight = 20
 +++
 
 1\. __This workshop is self-paced__. The instructions will primarily be given using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli) - this way the guide will not become outdated as changes or updates are made to the AWS Management Console. However, most steps in the workshop can be done in the AWS Management Console directly. Feel free to use whatever is comfortable for you.
