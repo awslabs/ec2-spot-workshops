@@ -5,11 +5,12 @@ weight = 30
 
 ### Launch the CloudFormation stack
 
-To save time on the initial setup, a CloudFormation template will be used to create the Amazon VPC with subnets in two Availability Zones, as well as various supporting resources including IAM policies and roles, security groups, and a Cloud9 IDE environment for you to run the steps for the workshop in.
+To save time on the initial setup, a **CloudFormation** template will be used to create  various supporting resources including IAM policies and roles, security groups, and a **Cloud9** IDE environment for you to run the steps for the workshop in.
 
 #### To create the stack
 
-1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options.yaml).
+**>>>>>[remove this note when you update the link for the cfn template in final PR]<<<<<**
+1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/nadaahm/ec2-spot-workshops/nadaahm-asg-workshop-reinvent/content/efficient-and-resilient-ec2-auto-scaling/files/efficient-auto-scaling-quickstart-cnf.yml).
                                                                             
 1. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 
@@ -25,7 +26,7 @@ Make sure you are in AWS Region designated by the facilitators of the workshop
 
 1. In the **Specify stack details** section, enter a **Stack name**. For example, use *myEC2Workshop*. The stack name cannot contain spaces.
 
-1. [Optional] In the **Parameters** section, optionally change the **sourceCidr** to restrict instance ssh/http access and load balancer http access.
+1. [Optional] In the **Parameters** section, optionally change the **C9InstanceType** to change the EC2 instance type for the Cloud9 environment.
 
 1. Click **Next**.
 

@@ -7,7 +7,7 @@ weight = 10
 
 2\. While the workshop provides step by step instructions, please do take a moment to look around and understand what is happening at each step. The workshop is meant as a getting started guide, but you will learn the most by digesting each of the steps and thinking about how they would apply in your own environment. You might even consider experimenting with the steps to challenge yourself.
 
-3\. This workshop has been designed to run in any public AWS Region that supports AWS CloudShell. See [Regional Products and Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/) for details.
+3\. This workshop has been designed to run in any public AWS Region that supports AWS Cloud9. See [Regional Products and Services](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/) for details.
 
 {{% notice note %}}
 If you are attending an event, please run in the region suggested by the facilitators of the workshop.

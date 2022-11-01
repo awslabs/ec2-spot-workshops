@@ -1,7 +1,7 @@
 {
     "MetricDataQueries": [
         {
-            "Id": "myRequest",
+            "Id": "queryInstancesId",
             "MetricStat": {
                 "Metric": {
                     "Namespace": "AWS/AutoScaling",
@@ -16,7 +16,7 @@
                 "Period": 300,
                 "Stat": "Average"
             },
-            "Label": "myRequestLabel",
+            "Label": "queryInstances",
             "ReturnData": true
         }
     ],

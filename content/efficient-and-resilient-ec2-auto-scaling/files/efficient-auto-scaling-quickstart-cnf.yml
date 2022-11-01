@@ -193,7 +193,7 @@ Resources:
                   except Exception as e:
                       responseData = {'Error': str(e)}
                       cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
-################## SSM BOOTSRAP HANDLER ###############
+################## SSM BOOTSTRAP HANDLER ###############
   C9OutputBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
@@ -239,9 +239,10 @@ Resources:
             - echo '=== Generate SSH key and import to aws ==='
             - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
             - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "asgworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
+            - echo '=== Update CloudWatch metrics data files ==='
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment && git clone -b nadaahm-asg-workshop-reinvent https://github.com/nadaahm/ec2-spot-workshops.git"
-            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-instances.json workshop-predictive-asg"
-            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/content/efficient-and-resilient-ec2-auto-scaling/lab1/files && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-cpu.json workshop-predictive-asg"
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/lab1 && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-instances.json workshop-predictive-asg"
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/lab1 && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-cpu.json workshop-predictive-asg"
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
@@ -254,7 +255,7 @@ Resources:
           OutputS3BucketName: !Ref C9OutputBucket
           OutputS3KeyPrefix: bootstrapoutput
       Targets:
-        - Key: SSMBootstrap
+        - Key: tag:SSMBootstrap
           Values:
           - Active
 
