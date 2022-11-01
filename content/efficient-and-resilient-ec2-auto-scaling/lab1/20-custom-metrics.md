@@ -11,12 +11,17 @@ When you publish your own metrics, make sure to publish the data points at a min
 {{% /notice %}}
 
 ```bash
+cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/
+```
+
+```bash
 aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-instances.json
 ```
 
 ```bash
 aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-cpu.json
 ```
+#### Verify in CloudWatch
 
 ### 5. Create the predictive scaling policy
 ```bash

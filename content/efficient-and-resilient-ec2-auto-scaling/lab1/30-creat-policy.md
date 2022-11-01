@@ -8,9 +8,7 @@ weight = 115
 
 In a predictive scaling policy, you can use predefined or custom metrics. Custom metrics are useful when the predefined metrics (CPU, network I/O, and Application Load Balancer request count) do not sufficiently describe your application load.
 
-
 For the load metric specification, the most useful metric is a metric that represents the load on an Auto Scaling group as a whole, regardless of the group's capacity.And for the scaling metric specification, the most useful metric to scale by is an average throughput or utilization per instance metric.
-
 
 ## 3. Preload CloudWatch metrics data
 
@@ -18,11 +16,14 @@ If you're creating a new auto scaling group for every time you deploy your appli
 
 ### Prepare custom metric data: scaling metric
 
-Change current directory
+As part of the CloudFormation stack you created, a bash script has been executed to update two metric data files which will be used to push data into CloudWatch metrics.
 
-```bash
-cd lab1/files
-```
+Verify metrics data files have been updated, 
+* Cloud9 IDE
+* Navigate to folder workshop/
+* Check files 
+* it should include today's date in UTC format and the auto scaling group name
+
 
 **Export metric data**
 
@@ -31,45 +32,9 @@ aws cloudwatch get-metric-data --cli-input-json file://query-instances.json | jq
 ```
 
 ```bash
-l=$(jq length metric-instances.json)
-i=0
-while [ $i -lt $l ]
-do
-  time=$(date -v $[-5*$i]M)
-  echo $i
-  cat metric-instances.json | jq --argjson i $i --arg t $time '.[$i].Timestamp |= $t' > tmp.json && mv tmp.json metric-instances.json
-  i=$[$i+1]
-done
-```
-
-Add auto scaling group name
-```bash
-sed -i '' -e 's/ASGPLACEHOLDER/Test Predictive ASG/g' metric-instances.json 
-
-```
-### Prepare custom metric data: load metric
-
-**Export metric data**
-```bash
 aws cloudwatch get-metric-data --cli-input-json file://query-cpu.json | jq '.MetricDataResults[].Values' > cpu-results.json
 ```
 
-Update timestamps
-```bash
-l=$(jq length metric-cpu.json)
-i=0
-while [ $i -lt $l ]
-do
-  time=$(date -v $[-5*$i]M)
-  echo $i
-  cat metric-cpu.json | jq --argjson i $i --arg t $time '.[$i].Timestamp |= $t' > tmp.json && mv tmp.json metric-cpu.json
-  i=$[$i+1]
-done
-```
-Add auto scaling group name
-```bash
-sed -i '' -e 's/ASGPLACEHOLDER/Test Predictive ASG/g' metric-cpu.json 
-```
 
 {{% notice note %}}
 By default, Amazon EC2 Auto Scaling doesn't scale your EC2 capacity higher than your defined maximum capacity. However, it might be helpful to let it scale higher with slightly more capacity to avoid performance or availability issues.

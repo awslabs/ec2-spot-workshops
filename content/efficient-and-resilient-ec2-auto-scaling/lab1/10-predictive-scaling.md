@@ -28,6 +28,9 @@ To generate forecasts, the predictive scaling algorithm needs three metrics as i
 
 ### 1. Enable and Configure Predictive Scaling policy
 
+You can configure predictive scaling in forecast only mode so that you can evaluate the forecast before predictive scaling starts actively scaling capacity. You can then view the forecast and recent metric data from CloudWatch in graph form from the Amazon EC2 Auto Scaling console. You can also access forecast data by using the AWS CLI or one of the SDKs.
+
+When you are ready to start scaling with predictive scaling, switch the policy from forecast only mode to forecast and scale mode. After you switch to forecast and scale mode, your Auto Scaling group starts scaling based on the forecast. 
 
 ```
 cat <<EoF > predictive-scaling-policy-cpu.json
@@ -56,3 +59,5 @@ aws autoscaling put-scaling-policy \
 ```
 aws autoscaling get-predictive-scaling-forecast
 ```
+
+Verify predictive scaling policy in AWS Console
