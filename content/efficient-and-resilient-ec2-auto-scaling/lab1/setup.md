@@ -1,1 +1,0 @@
-aws cloudwatch put-metric-data --namespace "Usage Metrics" --metric-data file://metric.json

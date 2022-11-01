@@ -1,9 +1,11 @@
 ---
-title: "EC2 Auto Scaling"
+title: "Amazon EC2 Auto Scaling"
 menuTitle: "Predictive scaling"
 weight: 100
 pre: "<b>Lab 1: </b>"
 ---
+
+Let's start by learning more about Amazon EC2 Auto Scaling and the several ways to scale your application.
 
 ## What is Amazon EC2 Auto Scaling?
 
@@ -14,7 +16,7 @@ At any time, you can change the size of an existing Auto Scaling group manually.
 
 ## Dynamic scaling
 
-A dynamic scaling policy instructs Amazon EC2 Auto Scaling to track a specific CloudWatch metric, and it defines what action to take when the associated CloudWatch alarm is in ALARM. The metrics that are used to invoke the alarm state are an aggregation of metrics coming from all of the instances in the Auto Scaling group. (For example, let's say you have an Auto Scaling group with two instances where one instance is at 60 percent CPU and the other is at 40 percent CPU. On average, they are at 50 percent CPU.) When the policy is in effect, Amazon EC2 Auto Scaling adjusts the group's desired capacity up or down when the threshold of an alarm is breached.
+A **dynamic scaling** policy instructs Amazon EC2 Auto Scaling to track a specific **CloudWatch** metric, and it defines what action to take when the associated CloudWatch alarm is in ALARM. The metrics that are used to invoke the alarm state are an aggregation of metrics coming from all of the instances in the Auto Scaling group. (For example, let's say you have an Auto Scaling group with two instances where one instance is at 60 percent CPU and the other is at 40 percent CPU. On average, they are at 50 percent CPU.) When the policy is in effect, Amazon EC2 Auto Scaling adjusts the group's desired capacity up or down when the threshold of an alarm is breached.
 
 types of dynamic scaling policies:
 

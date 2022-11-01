@@ -1,13 +1,12 @@
 +++
 title = "...At an AWS event"
-chapter = true
-weight = 5
+weight = 20
 +++
 
 ### Running the workshop at an AWS Event
 
 {{% notice warning %}}
-Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own](/ec2-auto-scaling-with-multiple-instance-types-and-purchase-options/before/self_paced.html).
+Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own](/efficient-and-resilient-ec2-auto-scaling/before/self_paced.html).
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal
