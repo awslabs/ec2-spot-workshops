@@ -1,6 +1,6 @@
 +++
 title = "Architecture"
-weight = 20
+weight = 30
 +++
 
 In this workshop, you will deploy the following:

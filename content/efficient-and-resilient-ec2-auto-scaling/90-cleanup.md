@@ -1,6 +1,6 @@
 +++
 title = "Cleanup"
-weight = 310
+weight = 110
 +++
 
 {{% notice note %}}
