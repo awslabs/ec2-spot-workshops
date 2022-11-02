@@ -12,7 +12,7 @@ You'll be using this Cloud9 environment to execute the steps in the workshop, an
 
 1. Find the name of the AWS Cloud9 environment by checking the value of **cloud9Environment** in the CloudFormation stack outputs.
 
-2. Sign in to the [AWS Cloud9 console](https://console.aws.amazon.com/cloud9/).
+2. Sign in to the [AWS Cloud9 console](https://console.aws.amazon.com/cloud9/home).
 
 3. Find the Cloud9 environment in **Your environments**, and click **Open IDE**.
 {{% notice note %}}
