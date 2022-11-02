@@ -1,6 +1,4 @@
 To do:
-* remove launch template page - done
-* add launch template to cfn
 * update wording in setup with cfn page, update cfn template link before **final PR**
 
 
