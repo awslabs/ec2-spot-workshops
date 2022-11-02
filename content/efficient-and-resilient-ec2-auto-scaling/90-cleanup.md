@@ -14,10 +14,6 @@ If you're running in your own account, make sure you run through these steps to 
 	```
 	aws autoscaling delete-auto-scaling-group --auto-scaling-group-name myEC2Workshop --force-delete
 		
-	aws elbv2 delete-load-balancer --load-balancer-arn $LoadBalancerArn
-	
-	aws ec2 delete-launch-template --launch-template-name myEC2Workshop
-
 	```    
 
 1. Delete the Target Group created (you need to wait until the Application Load Balancer has been completely deleted).
@@ -29,10 +25,4 @@ If you're running in your own account, make sure you run through these steps to 
 	
 	```
 	aws cloudformation delete-stack --stack-name $stack_name
-	```    
-
-1. If you ran the optional Custom Spot Interruption handling exercise, make sure you remove the Spot Interruption handler CloudFormation template deployed by the Serverless Application Repository. 
-
-	```
-	aws cloudformation delete-stack --stack-name serverlessrepo-ec2-spot-interruption-handler
 	```    
