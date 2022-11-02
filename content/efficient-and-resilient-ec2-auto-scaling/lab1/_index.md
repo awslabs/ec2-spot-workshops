@@ -30,6 +30,9 @@ types of dynamic scaling policies:
 
 **Simple scaling**—Increase and decrease the current capacity of the group based on a single scaling adjustment, with a cooldown period between each scaling activity.
 
+{{% notice note %}}
+Scaling policies allow you to define when, and by how much capacity should be scaled. **Dynamic scaling** policies are **reactive**. They allow you to track a specific CloudWatch metric and to take an action when the CloudWatch alarm is triggered. **Predictive scaling** policies are used in combination with dynamic scaling policies when your application demand changes rapidly but with a **recurring pattern** or when your application instances require a longer time to initialize.
+{{% /notice %}}
 
 ## Scheduled scaling
 
