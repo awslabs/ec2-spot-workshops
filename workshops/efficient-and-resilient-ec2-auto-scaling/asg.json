@@ -1,5 +1,5 @@
 {
-  "AutoScalingGroupName": "EC2ScalingWorkshop-Group",
+  "AutoScalingGroupName": "ec2-workshop-asg",
   "MixedInstancesPolicy": {
     "LaunchTemplate": {
       "LaunchTemplateSpecification": {
@@ -13,7 +13,7 @@
   "DesiredCapacity": 0,
   "CapacityRebalance": true,
   "HealthCheckType": "EC2",
-  "VPCZoneIdentifier": "%PrivateSubnet1%,%PrivateSubnet1%",
+  "VPCZoneIdentifier": "%PrivateSubnet1%,%PrivateSubnet2%",
   "Tags": [
     {
       "Key": "App",
