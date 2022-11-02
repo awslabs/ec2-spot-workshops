@@ -7,7 +7,7 @@ draft: false
 
 So far we have seen some advanced use cases of Karpenter. In this section we will see how Karpenter can define different Provisioners. This allows to handle different configurations. 
 
-Each Provisioner CRD (Custom Resource Definition) provides a set of unique configurations, this that define the resources it supports as well as labels and taints that will also be applied to the newly resources created by that Provisioner. In large clusters with multiple applications, new applications may need to create nodes with specific Taints or specific labels. In these scenarios you can configure alternative Provisioners. For this workshop we have already defined a `team1` Provisioner. You can list the available Provisioners by running the following command:
+Each Provisioner CRD (Custom Resource Definition) provides a set of unique configurations that define the resources it supports as well as labels and taints that will also be applied to the new resources created by that Provisioner. In large clusters with multiple applications, new applications may need to create nodes with specific Taints or specific labels. In these scenarios you can configure alternative Provisioners. For this workshop we have already defined a `team1` Provisioner. You can list the available Provisioners by running the following command:
 
 ```
 kubectl get provisioners
@@ -183,4 +183,4 @@ In this section we have learned:
 
 * Karpenter supports **[topologySpreadConstraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/)**. Topology Spread constraints  instruct the kube-scheduler how to place each incoming Pod in relation to the existing Pods across your cluster. In this scenario we discover how to balance pods across Availability Zones.
 
-* For EKS, AL2, Ubuntu and Bottlerocket AMI's Karpenter does the heavy-lifting managing the underlying Launch Templates keeping AMI's up to dates. Karpenter also allows us to configure extra bootstrappign parameters without us having to manage Launch Templates, this significanlty simplifies the life-cycle management and patching of EC2 Instances while removing the heavy-lifting required to apply bootstrapping additional parameters.
+* For AL2, Ubuntu and Bottlerocket AMI's Karpenter does the heavy-lifting of managing the underlying Launch Templates keeping AMI's up to dates. Karpenter also allows us to configure extra bootstrapping parameters without us having to manage Launch Templates, this significanlty simplifies the life-cycle management and patching of EC2 Instances while removing the heavy-lifting required to apply bootstrapping additional parameters.

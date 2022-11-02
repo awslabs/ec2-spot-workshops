@@ -16,16 +16,13 @@ export KARPENTER_IAM_ROLE_ARN="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CLUSTER_NAM
 export CLUSTER_ENDPOINT="$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output text)"
 echo "export KARPENTER_IAM_ROLE_ARN=${KARPENTER_IAM_ROLE_ARN}" >> ~/.bash_profile
 echo "export CLUSTER_ENDPOINT=${CLUSTER_ENDPOINT}" >> ~/.bash_profile
-helm repo add karpenter https://charts.karpenter.sh
-helm repo update
 helm upgrade --install --namespace karpenter --create-namespace \
-  karpenter karpenter/karpenter \
+  karpenter oci://public.ecr.aws/karpenter/karpenter \
   --version ${KARPENTER_VERSION}\
   --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=${KARPENTER_IAM_ROLE_ARN} \
   --set clusterName=${CLUSTER_NAME} \
   --set clusterEndpoint=${CLUSTER_ENDPOINT} \
   --set nodeSelector.intent=control-apps \
-  --set defaultProvisioner.create=false \
   --set aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
   --wait
 ```
@@ -34,13 +31,11 @@ The command above:
 
 * uses the both the **CLUSTER_NAME** and the **CLUSTER_ENDPOINT** so that Karpenter controller can contact the Cluster API Server.
 
-* uses the `--set defaultProvisioner.create=false`. We will set a default Provisioner configuration in the next section. This will help us understand Karpenter Provisioners.
-
 * uses the argument `--set nodeSelector.intent=control-apps` to deploy the controllers in the On-Demand managed node group that was created with the cluster.
 
 * uses the argument `--set aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME}` to use the instance profile we created before to grant permissions necessary to instances to run containers and configure networking.
 
-* Karpenter configuration is provided through a Custom Resource Definition. We will be learning about providers in the next section, the `--wait` notifies the webhook controller to wait until the Provisioner CRD has been deployed.
+* Karpenter configuration is provided through a Custom Resource Definition (CRD). We will be learning about Provisioners in the next section, the `--wait` notifies the webhook controller to wait until the Provisioner Controller has been deployed.
 
 To check Karpenter is running you can check the Pods, Deployment and Service are Running.
 
@@ -63,5 +58,5 @@ kubectl get deployment -n karpenter
 ```
 
 {{% notice info %}}
-Since **v0.16.0** Karpenter deploys 2 replicas. One of the replicas is elected as as a Leader while the other stays in standby mode. Karpenter deployment also uses `topologySpreadConstraints` to spread each replica in a different AZ.
+Since **v0.16.0** Karpenter deploys 2 replicas. One of the replicas is elected as a Leader while the other stays in standby mode. The karpenter deployment also uses `topologySpreadConstraints` to spread each replica in a different AZ.
 {{% /notice %}}
