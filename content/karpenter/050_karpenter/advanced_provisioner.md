@@ -153,7 +153,7 @@ You can repeat the same commands with `kubectl get AWSNodeTemplate` to check the
 ## (Optional Read) Customizing AMIs and Node Bootstrapping 
 
 {{% notice info %}}
-In this workshop we will stick to the default AMI's used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.13.1/aws/launch-templates/)
+In this workshop we will stick to the default AMI used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.18.1/aws/operating-systems/)
 {{% /notice %}}
 
 By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and Encrypted EBS root volumes with the default (AWS Managed) KMS key for nodes. Karpenter does also support [Bottlerocket](https://aws.amazon.com/bottlerocket/). 
