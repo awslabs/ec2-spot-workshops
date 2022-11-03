@@ -26,3 +26,14 @@ MaxCapacityBreachBehavior
     "MaxCapacityBuffer": 10
 }
 ```
+
+
+**Export metric data**
+
+```bash
+aws cloudwatch get-metric-data --cli-input-json file://query-instances.json | jq '.MetricDataResults[].Values' > instances-results.json
+```
+
+```bash
+aws cloudwatch get-metric-data --cli-input-json file://query-cpu.json | jq '.MetricDataResults[].Values' > cpu-results.json
+```

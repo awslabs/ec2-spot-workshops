@@ -41,4 +41,4 @@ Scheduled scaling helps you to set up your own scaling schedule according to pre
 
 ## Predictive scaling
 
-This will be our main focus for this lab, let's get started.
+This will be our main focus for this lab, let's get started...
