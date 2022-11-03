@@ -3,9 +3,6 @@ title = "Create Scaling Policy"
 weight = 140
 +++
 
-
-
-
 ### 5. Create the predictive scaling policy
 
 {{% notice info %}}

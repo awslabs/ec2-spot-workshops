@@ -18,26 +18,15 @@ If you're creating a new auto scaling group for every time you deploy your appli
 
 As part of the CloudFormation stack you created, a bash script has been executed to update two metric data files which will be used to push data into CloudWatch metrics.
 
-Verify metrics data files have been updated, 
-* Cloud9 IDE
-* Navigate to folder workshop/
+Verify metrics data files have been updated:
+* Navigate to Cloud9 IDE
+* Browse folder workshop/
 * Check files 
 * it should include today's date in UTC format and the auto scaling group name
 
 
-{{% notice note %}}
-By default, Amazon EC2 Auto Scaling doesn't scale your EC2 capacity higher than your defined maximum capacity. However, it might be helpful to let it scale higher with slightly more capacity to avoid performance or availability issues.
-{{% /notice %}}
 
 Pre-launch instances, choose how far in advance you want your instances launched before the forecast calls for the load to increase.
 
 When working with predictive scaling and custom metric, you have the option to choose pre-configured pair of metrics or go completely custom metrics for scaling,
 load, capacity metrics.
-
-
-
-```
-aws autoscaling get-predictive-scaling-forecast \
-    --auto-scaling-group-name "ec2-workshop-asg" \
-```
-
