@@ -56,9 +56,8 @@ Please make sure you are using the Cloud9 environment created by the workshop Cl
 	If successful, the output should be similar to the following:
 
 	```bash
-	awsRegionId : eu-west-1
-	VPC : vpc-0f0a34a6f7f3f999f
-	PrivateSubnet1 : subnet-0278bf57661c1f82b
-	PrivateSubnet2 : subnet-0f7bec73da5be90c2
-	cloud9Environment : cloud9Environment-C8KgzeALZ6w0
+	PrivateSubnet1 : subnet-028e48cc979b4896c
+	PrivateSubnet2 : subnet-0b29e19a108a3c69a
+	Cloud9IDE : https://ap-southeast-2.console.aws.amazon.com/cloud9/ide/bcfdc605a9c64d5b8502cb547972af08?region=ap-southeast-2
+	VPC : vpc-05b0e744df476e8d4
 	```      

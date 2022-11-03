@@ -1,51 +1,43 @@
 +++
-title = "Update metric data"
+title = "Custom metrics"
 weight = 120
 +++
 
 
-### 4. Upload metric data to CloudWatch
+## 2. Configure predictive scaling policy using custom CloudWatch metrics
+
+In a predictive scaling policy, you can use predefined or custom metrics. Custom metrics are useful when the predefined metrics (CPU, network I/O, and Application Load Balancer request count) do not sufficiently describe your application load.
+
+For the load metric specification, the most useful metric is a metric that represents the load on an Auto Scaling group as a whole, regardless of the group's capacity.And for the scaling metric specification, the most useful metric to scale by is an average throughput or utilization per instance metric.
+
+## 3. Preload CloudWatch metrics data
+
+If you're creating a new auto scaling group for every time you deploy your application, predictive scaling needs at least 24 hours of metrics data and for this reason we will be loading data into custom CloudWatch metrics to be used for forecasting capacity for this auto scaling group.
+
+### Prepare custom metric data: scaling metric
+
+As part of the CloudFormation stack you created, a bash script has been executed to update two metric data files which will be used to push data into CloudWatch metrics.
+
+Verify metrics data files have been updated, 
+* Cloud9 IDE
+* Navigate to folder workshop/
+* Check files 
+* it should include today's date in UTC format and the auto scaling group name
+
 
 {{% notice note %}}
-When you publish your own metrics, make sure to publish the data points at a minimum frequency of five minutes. Amazon EC2 Auto Scaling retrieves the data points from CloudWatch based on the length of the period that it needs. For example, the load metric specification uses hourly metrics to measure the load on your application
+By default, Amazon EC2 Auto Scaling doesn't scale your EC2 capacity higher than your defined maximum capacity. However, it might be helpful to let it scale higher with slightly more capacity to avoid performance or availability issues.
 {{% /notice %}}
 
-```bash
-cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/
+Pre-launch instances, choose how far in advance you want your instances launched before the forecast calls for the load to increase.
+
+When working with predictive scaling and custom metric, you have the option to choose pre-configured pair of metrics or go completely custom metrics for scaling,
+load, capacity metrics.
+
+
+
+```
+aws autoscaling get-predictive-scaling-forecast \
+    --auto-scaling-group-name "ec2-workshop-asg" \
 ```
 
-```bash
-aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-instances.json
-```
-
-```bash
-aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-cpu.json
-```
-#### Verify in CloudWatch
-
-### 5. Create the predictive scaling policy
-```bash
-aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-policy \
-  --auto-scaling-group-name "Test Predictive ASG" --policy-type PredictiveScaling \
-  --predictive-scaling-configuration file://policy-config.json
-```
-
-{{% notice note %}}
-To edit a predictive scaling policy that uses customized metrics, you must use the AWS CLI or an SDK. Console support for customized metrics will be available soon.
-{{% /notice %}}
-
-```bash
-aws autoscaling get-predictive-scaling-forecast --auto-scaling-group-name "Test Predictive ASG" \
-    --policy-name workshop-predictive-scaling-policy \
-    --start-time "2021-09-12T00:00:00Z" \
-    --end-time "2021-09-13T23:00:00Z"
-```
-
-
-Verify scaling has been created, get predictive scaling policy
-
-```bash
-aws autoscaling describe-policies \
-    --auto-scaling-group-name 'Example Application Auto Scaling Group'
-```
-### 6. Verify predictive scaling policy in AWS Console

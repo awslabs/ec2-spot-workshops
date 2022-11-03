@@ -1,13 +1,13 @@
 +++
-title = "Using predictive scaling with dynamic scaling"
-weight = 140
+title = "Dynamic scaling"
+weight = 150
 +++
+
+## Use predictive scaling with dynamic scaling
 
 {{% notice warning %}}
 When using predictive scaling, Amazon EC2 Auto Scaling scales the number of instances at the **beginning of each hour**. Scales out if actual capacity is less than the predicted, **however** if actual capacity is greater than the predicted capacity, EC2 Auto Scaling **doesn't scale in** capacity. That's why we need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
 {{% /notice %}}
-
-## Use predictive scaling with dynamic scaling
 
 Dynamic scaling is used to automatically scale capacity in response to real-time changes in resource utilization. Using it with predictive scaling helps you follow the demand curve for your application closely, **scaling in** during periods of low traffic and scaling out when traffic is higher than expected.
 
