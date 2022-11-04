@@ -12,16 +12,11 @@ If you're running in your own account, make sure you run through these steps to 
 1. Delete all manually created resources.
 
 	```
-	aws autoscaling delete-auto-scaling-group --auto-scaling-group-name myEC2Workshop --force-delete
+	aws autoscaling delete-auto-scaling-group --auto-scaling-group-name ec2-workshop-asg --force-delete
 		
 	```    
 
-1. Delete the Target Group created (you need to wait until the Application Load Balancer has been completely deleted).
-	```
-	aws elbv2 delete-target-group --target-group-arn $TargetGroupArn
-	```    
-	
-1. Finally, delete the CloudFormation stack itself.
+2. Finally, delete the CloudFormation stack itself.
 	
 	```
 	aws cloudformation delete-stack --stack-name $stack_name
