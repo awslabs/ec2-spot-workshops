@@ -39,7 +39,7 @@ cat <<EoF > predictive-scaling-policy-cpu.json
             }
         }
     ],
-    "Mode": "ForecastAndScale"
+    "Mode": "Forecast"
 }
 EoF
 ```

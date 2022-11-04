@@ -10,11 +10,12 @@ An AWS Cloud9 environment was launched as a part of the CloudFormation stack (yo
 You'll be using this Cloud9 environment to execute the steps in the workshop, and not the local command line on your computer.
 {{% /notice %}}
 
-1. Find the name of the AWS Cloud9 environment by checking the value of **cloud9Environment** in the CloudFormation stack outputs.
+1. Find the url of the AWS Cloud9 environment by checking the value of **Cloud9IDE** in the CloudFormation stack outputs.
+2. Click on the link, this should take you to the provisioned Cloud9 environment.
 
-2. Sign in to the [AWS Cloud9 console](https://console.aws.amazon.com/cloud9/home).
+3. **Or** sign in to the [AWS Cloud9 console](https://console.aws.amazon.com/cloud9/home).
 
-3. Find the Cloud9 environment in **Your environments**, and click **Open IDE**.
+4. Find the Cloud9 environment in **Your environments**, and click **Open IDE**.
 {{% notice note %}}
 Please make sure you are using the Cloud9 environment created by the workshop CloudFormation stack!
 {{% /notice %}}
@@ -23,15 +24,15 @@ Please make sure you are using the Cloud9 environment created by the workshop Cl
 
 #### Let's get started with the environment setup you will need for this workshop:
 
-1. In the **Cloud9 IDE** terminal, change into the workshop directory:
+1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
+2. Check the folders in left navigation, if it doesn't have folder named **ec2-spot-workshops**, wait for few more minutes till the bootstrap script finishes the environment setup.
+3. In the **Cloud9 IDE** terminal, change into the workshop directory:
 
 	```
 	cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling
 	```    
 
-1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
-
-1. During the workshop, you will need to modify the configuration files to refer to the identifiers of the resources created by the CloudFormation stack you deployed. To reduce copy and paste across the CloudFormation console and the Cloud9 environment, we will load the CloudFormation Stack **Outputs** to environment variables. During the workshop the instructions will provide [sed](https://linux.die.net/man/1/sed) commands to populate configuration files. Make sure you open them on the Cloud9 editor to review the files and understand the settings of the resources you will be launching.
+3. During the workshop, you will need to modify the configuration files to refer to the identifiers of the resources created by the CloudFormation stack you deployed. To reduce copy and paste across the CloudFormation console and the Cloud9 environment, we will load the CloudFormation Stack **Outputs** to environment variables. During the workshop the instructions will provide [sed](https://linux.die.net/man/1/sed) commands to populate configuration files. Make sure you open them on the Cloud9 editor to review the files and understand the settings of the resources you will be launching.
 	
 	First, set the stack_name environment variable with the name you choose while creating the CloudFormation stack in the previous step. For example, if the name of your stack is **myEC2Workshop** run the following command:
 	```bash
