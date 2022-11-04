@@ -6,6 +6,7 @@ weight = 130
 
 ### 4. Upload metric data to CloudWatch
 
+
 {{% notice note %}}
 When you publish your own metrics, make sure to publish the data points at a minimum frequency of five minutes. Amazon EC2 Auto Scaling retrieves the data points from CloudWatch based on the length of the period that it needs. For example, the load metric specification uses hourly metrics to measure the load on your application
 {{% /notice %}}
@@ -15,11 +16,11 @@ Make sure you're at the correct directory
 ```bash
 cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling
 ```
-
+Run this command to add **scaling** metric data
 ```bash
 aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://lab1/metric-instances.json
 ```
-
+And this command to add **load** metric data
 ```bash
 aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://lab1/metric-cpu.json
 ```
