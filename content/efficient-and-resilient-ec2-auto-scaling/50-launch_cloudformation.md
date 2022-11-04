@@ -18,7 +18,7 @@ To save time on the initial setup, a **CloudFormation** template will be used to
 {{% notice note %}}
 Make sure you are in AWS Region designated by the facilitators of the workshop
 {{% /notice %}}
-1. Click **Create stack**.
+1. Click **Create stack**, then **With new resources(standard)**.
 
 1. In the **Specify template** section, select **Upload a template file**. Click **Choose file** and, select the template you downloaded in step 1.
 
