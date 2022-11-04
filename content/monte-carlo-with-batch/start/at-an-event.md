@@ -23,4 +23,4 @@ You are now logged in to the AWS console in an account that was created for you,
 
 You can check the CloudFormation stack by downloading the following file: [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/stack.yaml)
 
-{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.md" %}}
+{{% insert-md-from-file file="monte-carlo-with-batch/start/review-outputs.md" %}}

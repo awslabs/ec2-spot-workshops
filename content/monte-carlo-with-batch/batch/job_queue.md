@@ -9,11 +9,11 @@ You are now going to create a Job Queue. The Job Queue is going to be associated
 Run the following to generate the configuration file that will be used to create the job queue:
 
 ```
-export RENDERING_QUEUE_NAME=RenderingQueue
+export MC_QUEUE_NAME=MonteCarloQueue
 
 cat <<EoF > job-queue-config.json
 {
-    "jobQueueName": "${RENDERING_QUEUE_NAME}",
+    "jobQueueName": "${MC_QUEUE_NAME}",
     "state": "ENABLED",
     "priority": 10,
     "computeEnvironmentOrder": [

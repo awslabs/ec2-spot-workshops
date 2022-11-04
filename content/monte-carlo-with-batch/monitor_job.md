@@ -6,16 +6,16 @@ weight: 140
 
 ## Results
 
-You can check the rendering progress by running these commands in the Cloud9 terminal:
+You can check progress by running these commands in the Cloud9 terminal:
 
 ```
 while [ true ]
 do
   while [ true ]
   do
-    export RENDERING_JOB_ID=$(aws batch list-jobs --job-queue "${RENDERING_QUEUE_NAME}" --filters name=JOB_NAME,values="${JOB_NAME}" --query 'jobSummaryList[*].jobId' | jq -r '.[0]')
+    export MC_JOB_ID=$(aws batch list-jobs --job-queue "${MC_QUEUE_NAME}" --filters name=JOB_NAME,values="${JOB_NAME}" --query 'jobSummaryList[*].jobId' | jq -r '.[0]')
 
-    if [ ! -z "$RENDERING_JOB_ID" ] ; then
+    if [ ! -z "$MC_JOB_ID" ] ; then
       break
     fi
 
@@ -23,13 +23,13 @@ do
     sleep 5
   done
 
-  export RENDERING_PROGRESS=$(aws batch describe-jobs --jobs "${RENDERING_JOB_ID}")
-  export RENDER_COUNT=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.statusSummary.SUCCEEDED')
-  export FRAMES_TO_RENDER=$(echo $RENDERING_PROGRESS | jq -r '.jobs[0].arrayProperties.size')
+  export MC_PROGRESS=$(aws batch describe-jobs --jobs "${MC_JOB_ID}")
+  export PV_COUNT=$(echo $MC_PROGRESS | jq -r '.jobs[0].arrayProperties.statusSummary.SUCCEEDED')
+  export PV_TO_CALC=$(echo $MC_PROGRESS | jq -r '.jobs[0].arrayProperties.size')
 
-  awk -v var1=$FRAMES_TO_RENDER -v var2=$RENDER_COUNT 'BEGIN { print  ("Rendering progress: " (var2 / var1) * 100 "% ==> " var2 " out of " var1 " frames rendered") }'
+  awk -v var1=$PV_TO_CALC -v var2=$PV_COUNT 'BEGIN { print  ("PV progress: " (var2 / var1) * 100 "% ==> " var2 " out of " var1 " PVs complete") }'
 
-  if [ "${RENDER_COUNT}" == "${FRAMES_TO_RENDER}" ] ; then
+  if [ "${PV_COUNT}" == "${PV_TO_CALC}" ] ; then
     break
   fi
 

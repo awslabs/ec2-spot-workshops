@@ -35,7 +35,7 @@ Navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open
 
 ```
 export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
-export STACK_NAME="RenderingWithBatch"
+export STACK_NAME="MonteCarloWithBatch"
 
 for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
 do

@@ -19,14 +19,14 @@ As a first step, **download** a [CloudFormation stack](https://raw.githubusercon
 After downloading the template, open the [CloudFormation console](https://console.aws.amazon.com/cloudformation) and on the top-right corner of the screen, click on **Create stack**. Follow the following steps:
 
 1. In the **Create stack** page, click on **Choose file** and upload the CloudFormation template you just downloaded. Don't change any other configuration parameter.
-2. In the **Specify stack details** page, set the stack name as **RenderingWithBatch**.
+2. In the **Specify stack details** page, set the stack name as **MonteCarloWithBatch**.
 3. In the **Configure stack options** page, leave all the configuration as it is. Navigate to the bottom of the page and click on **Next**.
 4. In the **Review** page, leave all the configuration as it is. Navigate to the bottom of the page, and click on **I acknowledge that AWS CloudFormation might create IAM resources** and finally on **Create stack**.
 
 {{% notice warning %}}
-It is important that you use **RenderingWithBatch** as the stack name, as later we will use that value to retrieve some outputs programmatically.
+It is important that you use **MonteCarloWithBatch** as the stack name, as later we will use that value to retrieve some outputs programmatically.
 {{% /notice %}}
 
 The stack creation process will begin. All the resources will be ready to use when the status of the stack is `CREATE_COMPLETE`.
 
-{{% insert-md-from-file file="rendering-with-batch/start/review-outputs.md" %}}
+{{% insert-md-from-file file="monte-carlo-with-batch/start/review-outputs.md" %}}

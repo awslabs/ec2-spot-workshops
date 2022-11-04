@@ -13,7 +13,7 @@ We are going to create two compute environments: one using **Spot** instances an
 Run the following to generate the configuration file that will be used to create the AWS Batch compute environment that uses Spot instances:
 
 ```
-export SPOT_COMPUTE_ENV_NAME="RenderingSpotComputeEnvironment"
+export SPOT_COMPUTE_ENV_NAME="MonteCarloSpotComputeEnvironment"
 
 cat <<EoF > spot-compute-environment-config.json
 {
@@ -60,7 +60,7 @@ echo "Spot compute environment Arn: ${SPOT_COMPUTE_ENV_ARN}"
 Run the following to generate the configuration file that will be used to create the AWS Batch compute environment that uses On-Demand instances:
 
 ```
-export ONDEMAND_COMPUTE_ENV_NAME="RenderingOnDemandComputeEnvironment"
+export ONDEMAND_COMPUTE_ENV_NAME="MonteCarloOnDemandComputeEnvironment"
 
 cat <<EoF > ondemand-compute-environment-config.json
 {
