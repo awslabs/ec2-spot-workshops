@@ -6,17 +6,107 @@ weight = 140
 ### 5. Create the predictive scaling policy
 
 {{% notice info %}}
-A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity. If this isn’t true for your group, forecasted capacity can be inaccurate. 
+A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity. If this isn’t true for your group, forecasted capacity can be inaccurate.
 {{% /notice %}}
 
 [open the policy file configuration in cloud9 IDE]
 
 Pre-launch instances, choose how far in advance you want your instances launched before the forecast calls for the load to increase.
 
+```
+cat <<EoF > policy-config.json
+{
+    "MetricSpecifications": [
+      {
+        "TargetValue": 25,
+        "CustomizedScalingMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Average CPU Utilization in ASG",
+              "Id": "cpu_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "CustomWSCPUUTILIZATION",
+                  "Namespace": "Workshop Custom Predictive Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "ec2-workshop-asg"
+                    }
+                  ]
+                },
+                "Stat": "Average"
+              },
+              "ReturnData": true
+            }
+          ]
+        },
+        "CustomizedLoadMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Average CPU Utilization in ASG",
+              "Id": "cpu_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "CustomWSCPUUTILIZATION",
+                  "Namespace": "Workshop Custom Predictive Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "ec2-workshop-asg"
+                    }
+                  ]
+                },
+                "Stat": "Sum"
+              },
+              "ReturnData": true
+            }
+          ]
+        },
+        "CustomizedCapacityMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Number of instances in ASG",
+              "Id": "capacity_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "CustomWSGroupInstances",
+                  "Namespace": "Workshop Custom Predictive Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "ec2-workshop-asg"
+                    }
+                  ]
+                },
+                "Stat": "Average"
+              },
+              "ReturnData": true
+            }
+          ]
+        }
+      }
+    ],
+    "Mode": "ForecastAndScale",
+    "SchedulingBufferTime": 300,
+    "MaxCapacityBreachBehavior": "HonorMaxCapacity"
+  }
+EoF
+```
+
 ```bash
 aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-policy \
   --auto-scaling-group-name "ec2-workshop-asg" --policy-type PredictiveScaling \
-  --predictive-scaling-configuration file://policy-config.json
+  --predictive-scaling-configuration file://lab1/policy-config.json
+```
+
+If successful, the command should return the created policy ARN.
+
+```
+{
+    "PolicyARN": "arn:aws:autoscaling:ap-southeast-2:115751184547:scalingPolicy:df0e550e-b0d6-4924-8663-d394de77b0e3:autoScalingGroupName/ec2-workshop-asg:policyName/workshop-predictive-scaling-policy",
+    "Alarms": []
+}
 ```
 
 {{% notice note %}}
@@ -32,10 +122,17 @@ aws autoscaling get-predictive-scaling-forecast --auto-scaling-group-name "ec2-w
 ```
 
 
-Verify scaling has been created, get predictive scaling policy
 
+### 6. Verify predictive scaling policy in AWS Console
+
+1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on auto scaling group `ec2-workshop-asg`
+2. Click on tab **Automatic scaling**
+3. A new policy has been created under **Predictive scaling policies**
+
+![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/predictive-scaling-forcast.png)
+
+Or you can use **AWS CLI** to verify the created policy
 ```bash
 aws autoscaling describe-policies \
     --auto-scaling-group-name 'ec2-workshop-asg'
 ```
-### 6. Verify predictive scaling policy in AWS Console

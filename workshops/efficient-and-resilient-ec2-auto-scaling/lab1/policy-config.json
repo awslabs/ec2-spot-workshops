@@ -14,7 +14,7 @@
                   "Dimensions": [
                     {
                       "Name": "AutoScalingGroupName",
-                      "Value": "Test Predictive ASG"
+                      "Value": "ec2-workshop-asg"
                     }
                   ]
                 },
@@ -36,7 +36,7 @@
                   "Dimensions": [
                     {
                       "Name": "AutoScalingGroupName",
-                      "Value": "Test Predictive ASG"
+                      "Value": "ec2-workshop-asg"
                     }
                   ]
                 },
@@ -58,7 +58,7 @@
                   "Dimensions": [
                     {
                       "Name": "AutoScalingGroupName",
-                      "Value": "Test Predictive ASG"
+                      "Value": "ec2-workshop-asg"
                     }
                   ]
                 },
