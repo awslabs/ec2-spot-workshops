@@ -39,7 +39,7 @@ cat <<EoF > predictive-scaling-policy-cpu.json
             }
         }
     ],
-    "Mode": "Forecast"
+    "Mode": "ForecastOnly"
 }
 EoF
 ```
@@ -54,7 +54,7 @@ aws autoscaling put-scaling-policy \
 
 #### Verify predictive scaling policy in AWS Console
 
-1. **Browse** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on auto scaling group `ec2-workshop-asg`
+1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on auto scaling group `ec2-workshop-asg`
 2. Click on tab **Automatic scaling**
 {{% notice info %}}
 Note that Predictive scaling forecast shows **no data** as it requires 24 hours of metric history before it can generate forecasts.

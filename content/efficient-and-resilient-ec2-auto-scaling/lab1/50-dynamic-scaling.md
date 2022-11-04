@@ -25,10 +25,48 @@ Now you are going to configure the Auto Scaling group to automatically scale out
 
  The scaling policy adds or removes capacity as required to keep the metric at, or close to, the specified target value. In addition to keeping the metric close to the target value, a target tracking scaling policy also adjusts to the fluctuations in the metric due to a fluctuating load pattern and minimizes rapid fluctuations in the capacity of the Auto Scaling group.
 
-1. Review **asg-automatic-scaling.json** to understand the options. There are no changes to be made. Then go ahead and apply the scaling policy:
+1. Review this command to understand the options, then go ahead and run it 
 
-	```
-	aws autoscaling put-scaling-policy --cli-input-json file://asg-automatic-scaling.json
-	```   
+```
+cat <<EoF > asg-automatic-scaling.json
+{
+  "AutoScalingGroupName": "ec2-workshop-asg",
+  "PolicyName": "automaticScaling",
+  "PolicyType": "TargetTrackingScaling",
+  "EstimatedInstanceWarmup": 180,
+  "TargetTrackingConfiguration": {
+    "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ASGAverageCPUUtilization"
+    },
+    "TargetValue": 50,
+    "DisableScaleIn": false
+  }
+}
+EoF
+```
 
-1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
+2. Go ahead and apply the scaling policy:
+
+```
+aws autoscaling put-scaling-policy --cli-input-json file://asg-automatic-scaling.json
+```   
+
+Command should return policy and target tracking alarms that have been created.
+
+```
+{
+    "PolicyARN": "arn:aws:autoscaling:ap-southeast-2:115751184547:scalingPolicy:04b7b7eb-6d65-40fb-946d-e5d2a1a55747:autoScalingGroupName/ec2-workshop-asg:policyName/automaticScaling",
+    "Alarms": [
+        {
+            "AlarmName": "TargetTracking-ec2-workshop-asg-AlarmHigh-6c60b9c6-b7e8-4fcf-9733-d9c390754b99",
+            "AlarmARN": "arn:aws:cloudwatch:ap-southeast-2:115751184547:alarm:TargetTracking-ec2-workshop-asg-AlarmHigh-6c60b9c6-b7e8-4fcf-9733-d9c390754b99"
+        },
+        {
+            "AlarmName": "TargetTracking-ec2-workshop-asg-AlarmLow-70cbbd68-5540-4293-a4c5-3ab2d8aa72bb",
+            "AlarmARN": "arn:aws:cloudwatch:ap-southeast-2:115751184547:alarm:TargetTracking-ec2-workshop-asg-AlarmLow-70cbbd68-5540-4293-a4c5-3ab2d8aa72bb"
+        }
+    ]
+}
+```
+
+3. Navigate to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
