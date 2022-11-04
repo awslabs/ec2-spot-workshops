@@ -9,8 +9,6 @@ weight = 140
 A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity. If this isn’t true for your group, forecasted capacity can be inaccurate.
 {{% /notice %}}
 
-[open the policy file configuration in cloud9 IDE]
-
 Pre-launch instances, choose how far in advance you want your instances launched before the forecast calls for the load to increase.
 
 ```
@@ -119,20 +117,4 @@ aws autoscaling get-predictive-scaling-forecast --auto-scaling-group-name "ec2-w
     --policy-name workshop-predictive-scaling-policy \
     --start-time "2021-09-12T00:00:00Z" \
     --end-time "2021-09-13T23:00:00Z"
-```
-
-
-
-### 6. Verify predictive scaling policy in AWS Console
-
-1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on auto scaling group `ec2-workshop-asg`
-2. Click on tab **Automatic scaling**
-3. A new policy has been created under **Predictive scaling policies**
-
-![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/predictive-scaling-forcast.png)
-
-Or you can use **AWS CLI** to verify the created policy
-```bash
-aws autoscaling describe-policies \
-    --auto-scaling-group-name 'ec2-workshop-asg'
 ```
