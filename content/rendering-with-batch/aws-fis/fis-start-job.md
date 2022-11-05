@@ -1,13 +1,13 @@
 ---
-title: "Starting a new render job"
+title: "Starting a new rendering job"
 date: 2021-09-06T08:51:33Z
 weight: 154
 ---
 
-This section of the lab will start a new rendering job. This second job will be intentionally interrupted using AWS FIS.
+In this section you are going to start a new rendering job that will be intentionally interrupted by AWS FIS using the experiment that you have created in the previous section.
 
 {{% notice warning %}}
-This section has dependencies on the completion of the [AWS Batch section]({{< ref batch >}}) of the previous lab.  Please ensure you have followed all steps, the previous job has completed, and you have verified the output by following the [monitoring steps in the previous lab]({{< ref monitor.md >}})
+This section has dependencies on the completion of the [AWS Batch section]({{< ref batch >}}) of the previous lab.  Please, ensure that you have followed all the steps and that the previous job has completed. Also, verify the output by [following the monitoring steps in the previous lab]({{< ref monitor.md >}})
 {{% /notice %}}
 
 You can start the new rendering job by running this command:
@@ -18,4 +18,4 @@ export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${
 echo "State machine started. Execution Arn: ${EXECUTION_ARN}."
 ```
 
-To learn more about this API, see [start-execution CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/stepfunctions/start-execution.html). At this point the state machine is started and you are ready to monitor the progress of the pipeline.
+Next, you are going to interrupt the running job.

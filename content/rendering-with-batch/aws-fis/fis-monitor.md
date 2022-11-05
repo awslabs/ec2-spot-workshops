@@ -5,7 +5,7 @@ weight: 157
 ---
 
 
-### Viewing the automatically retried AWS Batch jobs
+## Viewing the automatically retried AWS Batch jobs
 
 By running this script in your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot interruption signal:
 
@@ -28,9 +28,9 @@ done
 
 ```
 
-#### Example output from the verification script:
+### Example output from the verification script:
 
-In the example below, you can see that AWS Batch job 35 had 2 attempts, the first attempt was the result of the EC2 instance being terminated from the Spot interruption. The second attempt exited normally, allowing the job to complete gracefully.
+In the example below, you can see that AWS Batch job 35 had 2 attempts, the first attempt failed to complete as a result of the Spot interruption leading to the EC2 instance being terminated. The second attempt exited normally, allowing the job to succeed.
 
 ```
 Checking Job: 31 of 199...
@@ -54,10 +54,6 @@ Checking Job: 37 of 199...
 Attempts: 1 -- Exit reason: "Essential container in task exited"
 ```
 
-{{% notice tip %}}
-This rendering operation will take roughly 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
-{{% /notice %}}
-
 ### Viewing the result
 
 When the AWS Batch job finishes, the output video will be available in the following URL:
@@ -73,5 +69,7 @@ You will need the appropriate program and video codecs to watch the mp4 generate
 {{% /notice %}}
 
 {{% notice tip %}}
-Explore also the rest of the S3 folders and check the frames that were created.
+There will be 2 output files, one from the first job and the second from the job we interrupted.
 {{% /notice %}}
+
+Next, you will clean up the resources you have created.

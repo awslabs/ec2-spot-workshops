@@ -1,8 +1,10 @@
 ---
-title: "Monitoring AWS Batch"
+title: "Monitoring and results"
 date: 2021-09-06T08:51:33Z
 weight: 140
 ---
+
+## Results
 
 You can check the rendering progress by running these commands in the Cloud9 terminal:
 
@@ -39,10 +41,12 @@ done
 It is normal if the progress is stuck at 0% at the beginning and after it increases rapidly. The reason for this is that AWS Batch is provisioning capacity for the Compute environments as defined earlier, and jobs will remain in the `RUNNABLE` state until sufficient resources are available. You can read more about job states here: [Job States](https://docs.aws.amazon.com/batch/latest/userguide/job_states.html).
 {{% /notice %}}
 
+{{% notice tip %}}
+This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined. 
 
 ### Viewing the result
 
-When the AWS Batch job finishes, the output video will be available in the following URL:
+When the progress reaches 100%, the output video will be available in the following URL:
 
 ```
 echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"

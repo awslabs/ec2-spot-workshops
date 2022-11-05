@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 120
 ---
 
-You have now all the AWS Batch and AWS Fault Injection Simulator components in place, and are ready to start submitting jobs that will be placed in a queue, then processed by a compute environment when AWS Batch's scheduler starts running them. We are going to use [AWS Step Functions](https://aws.amazon.com/step-functions/?nc1=h_ls&step-functions.sort-by=item.additionalFields.postDateTime&step-functions.sort-order=desc) to orchestrate the execution of our rendering pipeline, from the pre-processing of the Blender file to the stitching of the frames.
+You have now all the AWS Batch components in place, and are ready to start submitting jobs that will be placed in a queue and processed by a compute environment when AWS Batch's scheduler starts running them. We are going to use [AWS Step Functions](https://aws.amazon.com/step-functions/?nc1=h_ls&step-functions.sort-by=item.additionalFields.postDateTime&step-functions.sort-order=desc) to orchestrate the execution of our rendering pipeline, from the pre-processing of the Blender file to the stitching of the frames.
 
 AWS Step Functions helps you orchestrate your AWS Batch jobs using serverless workflows, called state machines. You can use Step Functions to orchestrate preprocessing of data and Batch to handle the large compute executions, providing an automated, scalable, and managed batch computing workflow. The CloudFormation template has created the following state machine:
 
