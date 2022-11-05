@@ -80,4 +80,4 @@ export FIS_TEMPLATE=$(aws fis create-experiment-template --cli-input-json file:/
 echo "FIS Template ID: ${FIS_TEMPLATE}"
 ```
 
-Next, you are going to submit a job request that we will intentionally interrupt using this template.
+Next, you are going to submit a rendering job request.

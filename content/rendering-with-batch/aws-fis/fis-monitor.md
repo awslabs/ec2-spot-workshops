@@ -69,7 +69,7 @@ You will need the appropriate program and video codecs to watch the mp4 generate
 {{% /notice %}}
 
 {{% notice tip %}}
-There will be 2 output files, one from the first job and the second from the job we interrupted.
+There will be 2 separate output files, one from the first rendering job and the second from the rendering job we interrupted.
 {{% /notice %}}
 
 Next, you will clean up the resources you have created.

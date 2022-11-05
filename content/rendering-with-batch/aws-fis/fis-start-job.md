@@ -4,7 +4,7 @@ date: 2021-09-06T08:51:33Z
 weight: 154
 ---
 
-In this section you are going to start a new rendering job that will be intentionally interrupted by AWS FIS using the experiment that you have created in the previous section.
+In this section you are going to start a new rendering job to be used as the target of the experiment template you created in the previous section.
 
 {{% notice warning %}}
 This section has dependencies on the completion of the [AWS Batch section]({{< ref batch >}}) of the previous lab.  Please, ensure that you have followed all the steps and that the previous job has completed. Also, verify the output by [following the monitoring steps in the previous lab]({{< ref monitor.md >}})

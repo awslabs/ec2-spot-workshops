@@ -52,3 +52,5 @@ If the AWS Batch job is not active, the "failed" reason code will be "**Target r
 {{% notice note %}}
 With each run of the AWS FIS Experiment, EC2 Spot interruptions remove EC2 instances from the Spot compute environment. The retry strategy of the AWS Batch job will handle these interruptions automatically. If desired, it is possible to create specific retry logic within AWS Batch. Details about this capability can be viewed in the [AWS Batch Documentation](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html).
 {{% /notice %}}
+
+Next, you will monitor the experiment.
