@@ -26,9 +26,11 @@ In this step, you are going to configure Predictive scaling for the autoscaling 
 
 You can configure predictive scaling in forecast only mode so that you can evaluate the forecast before predictive scaling starts actively scaling capacity. You can then view the forecast and recent metric data from CloudWatch in graph form from the Amazon EC2 Auto Scaling console. You can also access forecast data by using the AWS CLI or one of the SDKs.
 
-When you are ready to start scaling with predictive scaling, switch the policy from forecast only mode to forecast and scale mode. After you switch to forecast and scale mode, your Auto Scaling group starts scaling based on the forecast. 
+When you are ready to start scaling with predictive scaling, switch the policy from forecast only mode to forecast and scale mode. After you switch to forecast and scale mode, your Auto Scaling group starts scaling based on the forecast.
 
-```
+1. In **Cloud9 IDE** terminal, run this command to create a simple configurations file for predictive scaling policy based on predefined metrics pair.
+
+```bash
 cat <<EoF > predictive-scaling-policy-cpu.json
 {
     "MetricSpecifications": [
@@ -44,7 +46,9 @@ cat <<EoF > predictive-scaling-policy-cpu.json
 EoF
 ```
 
-```
+2. Create the predictive scaling policy and attach it to the auto scaling group.
+
+```bash
 aws autoscaling put-scaling-policy \
     --auto-scaling-group-name "ec2-workshop-asg" \
     --policy-name "CPUUtilizationpolicy" \

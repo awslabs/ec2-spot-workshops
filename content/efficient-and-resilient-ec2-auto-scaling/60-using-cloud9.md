@@ -26,7 +26,8 @@ Please make sure you are using the Cloud9 environment created by the workshop Cl
 
 1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
 2. Check the folders in left navigation, if it doesn't have folder named **ec2-spot-workshops**, wait for few more minutes till the bootstrap script finishes the environment setup.
-3. In the **Cloud9 IDE** terminal, change into the workshop directory:
+3. **Don't** proceed with next steps till folder **ec2-spot-workshops** shows in left navigation.
+4. In the **Cloud9 IDE** terminal, change into the workshop directory:
 
 	```
 	cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling

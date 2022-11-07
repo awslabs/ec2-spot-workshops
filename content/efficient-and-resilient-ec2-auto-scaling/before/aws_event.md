@@ -13,7 +13,7 @@ Only complete this section if you are at an AWS hosted event (such as re:Invent,
 
 If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
 
-1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/).
+1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/). **Tip:** Right click the link and Open in a Private Browser Window.
 2. Enter the Hash in the text box, and click **Proceed** 
 3. In the User Dashboard screen, click **AWS Console** 
 4. In the popup page, click **Open Console** 

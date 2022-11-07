@@ -108,13 +108,5 @@ If successful, the command should return the created policy ARN.
 ```
 
 {{% notice note %}}
-To edit a predictive scaling policy that uses customized metrics, you must use the AWS CLI or an SDK. Console support for customized metrics will be available soon.
+To **edit** a predictive scaling policy that uses customized metrics, you must use the **AWS CLI** or an **SDK**. Console support for customized metrics will be available soon.
 {{% /notice %}}
-
-
-```bash
-aws autoscaling get-predictive-scaling-forecast --auto-scaling-group-name "ec2-workshop-asg" \
-    --policy-name workshop-predictive-scaling-policy \
-    --start-time "2021-09-12T00:00:00Z" \
-    --end-time "2021-09-13T23:00:00Z"
-```
