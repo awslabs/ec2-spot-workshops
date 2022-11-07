@@ -6,12 +6,14 @@ weight = 140
 ### 5. Create the predictive scaling policy
 
 {{% notice info %}}
-A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity. If this isn’t true for your group, forecasted capacity can be inaccurate.
+A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity.
 {{% /notice %}}
 
 Pre-launch instances, choose how far in advance you want your instances launched before the forecast calls for the load to increase.
 
-```
+1. In **Cloud9** IDE terminal, run this command to create the predictive scaling policy configuration file.
+
+```bash
 cat <<EoF > policy-config.json
 {
     "MetricSpecifications": [
@@ -92,6 +94,7 @@ cat <<EoF > policy-config.json
 EoF
 ```
 
+2. Then create the policy and attach it to the auto scaling group.
 ```bash
 aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-policy \
   --auto-scaling-group-name "ec2-workshop-asg" --policy-type PredictiveScaling \
