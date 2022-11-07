@@ -10,12 +10,12 @@ To save time on the initial setup, a **CloudFormation** template will be used to
 #### To create the stack
 
 **>>>>>[remove this note when you update the link for the cfn template in final PR]<<<<<**
-1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/nadaahm/ec2-spot-workshops/nadaahm-asg-workshop-reinvent/content/efficient-and-resilient-ec2-auto-scaling/files/efficient-auto-scaling-quickstart-cnf.yml).
+1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/nadaahm/ec2-spot-workshops/nadaahm-asg-workshop-reinvent/content/efficient-and-resilient-ec2-auto-scaling/files/efficient-auto-scaling-quickstart-cnf.yml). **Tip:** Right click the link and Save Link As.. to download the file.
                                                                             
 1. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 
 1. Browse to the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation).
-{{% notice note %}}
+{{% notice info %}}
 Make sure you are in AWS Region designated by the facilitators of the workshop
 {{% /notice %}}
 1. Click **Create stack**, then **With new resources(standard)**.
@@ -42,7 +42,8 @@ It will take roughly 5 minutes for the stack creation to complete.
 
 1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
 
-1. In the stack details pane, click the **Events** tab. You can click the refresh button to update the events in the stack creation.
+1. In the stack details pane, click the **Events** tab.
+2. Click the refresh button to update the events in the stack creation.
  
 The **Events** tab displays each major step in the creation of the stack sorted by the time of each event, with latest events on top.
 
