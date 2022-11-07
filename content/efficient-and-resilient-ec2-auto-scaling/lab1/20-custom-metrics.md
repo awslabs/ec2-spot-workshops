@@ -22,10 +22,9 @@ As part of the CloudFormation stack you created, a bash script has been executed
 
 Verify that metrics data files have been updated:
 
-1. Navigate to Cloud9 IDE
-2. Browse folder workshop/lab1
-3. Open files `metric-cpu.json` and `metric-instances.json`
-4. It should include today's date in UTC format and the auto scaling group name `ec2-workshop-asg`
-5. If the files are not updates with date and auto scaling group name, **DO NOT CONTINUE** with this lab.
+1. Using Cloud9 IDE left navigation, browse folder workshop/efficient-and-resilient-ec2-auto-scaling/lab1
+2. Open files `metric-cpu.json` and `metric-instances.json`
+3. It should include today's date in UTC format and the auto scaling group name `ec2-workshop-asg`
+4. If the files are not updates with date and auto scaling group name, **DO NOT CONTINUE** with this lab.
 
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/metrics-files.png)
