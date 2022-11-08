@@ -601,27 +601,32 @@ Resources:
       Code:
         ZipFile: |
           import json, boto3, sys
-
+  
           def download_file_from_s3(uri):
-              """Downloads the portfolio file from S3 and stores it locally.
-              Keyword arguments:
-              uri -- S3 URI of the file to download
-              """
-              uri_components = uri.split('s3://')[1].split('/')
-              bucket = uri_components[0]
-              file = uri_components[1]
-              s3 = boto3.resource('s3')
-              s3.meta.client.download_file(bucket, file, '/tmp/{}'.format(file))
-              return '/tmp/{}'.format(file)
-          
-          def lambda_handler(event, context):
-              thefilepath = download_file_from_s3(event['inputUri'])
-              array_job_size = len(open(thefilepath).readlines())
-              return {
-                    'statusCode': 200,
-                    'body': {'arrayJobSize': array_job_size}
-                }
-       
+            """Downloads the portfolio file from S3 and stores it locally.
+            Keyword arguments:
+            uri -- S3 URI of the file to download
+            """
+            uri_components = uri.split('s3://')[1].split('/')
+            bucket = uri_components[0]
+            file = uri_components[1]
+            s3 = boto3.resource('s3')
+            s3.meta.client.download_file(bucket, file, '/tmp/{}'.format(file))
+            return '/tmp/{}'.format(file), bucket, file
+  
+            def lambda_handler(event, context):
+                thefilepath, bucket, key = download_file_from_s3(event['inputUri'])
+                array_job_size = len(open(thefilepath).readlines())
+                return {
+                      'statusCode': 200,
+                      'body': 
+                        {
+                            'arrayJobSize': array_job_size,
+                            'bucket': bucket,
+                            'key': key
+                          
+                      }
+                  }
       Role:
         Fn::GetAtt:
           - PreprocessingServiceRole532E6474
