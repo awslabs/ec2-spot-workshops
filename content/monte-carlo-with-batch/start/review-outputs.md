@@ -44,4 +44,4 @@ do
 done
 ```
 
-You can now start the workshop by heading to [**Rendering pipeline**](/rendering-with-batch/rendering_pipeline.html).
+You can now start the workshop by heading to [**Risk pipeline**](/monte-carlo-with-batch/risk_pipeline.html).

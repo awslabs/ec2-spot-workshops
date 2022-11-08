@@ -15,18 +15,12 @@ We will be pricing a portfolio of [https://www.risk.net/definition/autocallable]
 
 ### Uploading the portfolio file
 
-We will use an example portfolio file that is stored in Github. 
-The portfolio file is in CSV format, and has three columns:
-
-```
-notional,strike,autoCallBarrier
-```
-
+We will use an example portfolio file, formatted in JSON, that is stored in Github. 
 
 Run the following command to download the file and upload it to S3:
 
 ```
-wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/montecarlo-with-batch/montecarlo-with-batch.files/portfolio.csv"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/portfolio.json"
 aws s3api put-object --bucket "${BucketName}" --key "${MonteCarloFileName}" --body "${MonteCarloFileName}"
 ```
 
