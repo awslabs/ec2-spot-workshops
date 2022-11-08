@@ -6,12 +6,13 @@ RUN apt-get update && \
     curl \
     sudo \
     zip \
-    python3
+    python3 \
+    jq
 
-#RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-#    unzip awscliv2.zip && \
-#    sudo ./aws/install && \
-#    rm ./aws/install
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip -q awscliv2.zip && \
+    sudo ./aws/install && \
+    rm ./aws/install
 
 RUN curl "https://raw.githubusercontent.com/magriggs/QuantLib.AutoCallable.Memory.Coupon.Note/master/Autocallable.Note.py" -o "Autocallable.Note.py"
 
