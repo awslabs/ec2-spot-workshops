@@ -760,7 +760,7 @@ Outputs:
     Value:
       Ref: bucket43879C71
   MonteCarloFileName:
-    Value: portfolio.csv
+    Value: portfolio.json
   BlendFileName:
     Value: blendfile.blend
   PreprocessingLambda:
