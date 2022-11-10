@@ -17,7 +17,7 @@ types with sufficient number of vCPUs and RAM.
 Let's first install amazon-ec2-instance-selector on Cloud9 IDE:
 
 ```
-curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v2.3.2/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
+curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v2.4.0/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
 sudo mv ec2-instance-selector /usr/local/bin/
 ec2-instance-selector --version
 ```
