@@ -21,7 +21,6 @@ Resources:
         detail-type:
         - EC2 Instance Rebalance Recommendation
       State: ENABLED
-      RoleArn: !GetAtt CloudWatchLogRole.Arn
       Targets:
       - Arn:
           Fn::GetAtt:
@@ -40,7 +39,6 @@ Resources:
         detail-type:
         - EC2 Spot Instance Interruption Warning
       State: ENABLED
-      RoleArn: !GetAtt CloudWatchLogRole.Arn
       Targets:
       - Arn:
           Fn::GetAtt:
@@ -56,25 +54,33 @@ Resources:
         Ref: CloudWatchLogGroupName
       RetentionInDays:
         Ref: CloudWatchLogGroupRetentionPeriodDays
-  CloudWatchLogRole:
-    Type: AWS::IAM::Role
+  LogGroupForEventsPolicy:
+    Type: AWS::Logs::ResourcePolicy
     Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: events.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-      -   PolicyName: "AllowLogging"
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: "Allow"
-                Action:
-                  - 'logs:*'
-                Resource: "*"
+      PolicyName: EventBridgeToCWLogsPolicy
+      PolicyDocument: !Sub >
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "EventBridgetoCWLogsCreateLogStreamPolicy",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "events.amazonaws.com",
+                  "delivery.logs.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Resource": [
+                "${CloudWatchLogGroup.Arn}"
+              ]
+            }
+          ]
+        }
 
 Outputs:
   CloudWatchLogGroupName:
