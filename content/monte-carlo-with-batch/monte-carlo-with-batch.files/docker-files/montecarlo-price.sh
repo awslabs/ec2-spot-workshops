@@ -9,18 +9,15 @@ parse_arguments() {
     echo $0 ": Unrecognised action " ${ACTION}
     exit 2
   fi
-  echo "Action:" $ACTION
 
   while (( "$#" )); do
     case "$1" in
       -b)
         BUCKET=$2
-        echo "Bucket: " $BUCKET
         shift
         ;;
       -k)
         KEY=$2
-        echo "Key: " $KEY
         shift
         ;;
       *)
@@ -38,9 +35,14 @@ price()
     notional=$(jq '.notional' output.json)
     strike=$(jq '.strike' output.json)
     barrier=$(jq '.barrier' output.json)
-    #echo python3 Autocallable.Note.py $notional $strike $barrier
-    echo $notional $strike $barrier
+    pv=$(python3 Autocallable.Note.py $notional $strike $barrier)
     rm output.json
+    
+    filename="result_${AWS_BATCH_JOB_ARRAY_INDEX}"
+    echo $pv >${filename}
+    aws s3 cp ${filename} "${OUTPUT_URI}/${AWS_BATCH_JOB_ID}/${filename}"
+    rm ${filename}
+    
 }
 
 merge()
@@ -49,12 +51,10 @@ merge()
 }
 
 
-echo Your container args are "$@"
 parse_arguments "$@"
 if [ "${ACTION}" == "price" ] ; then
   if [ -z "${AWS_BATCH_JOB_ARRAY_INDEX}" ];
   then
-    echo "Setting AWS_BATCH_JOB_ARRAY_INDEX to 0 because value not found"
     AWS_BATCH_JOB_ARRAY_INDEX=0
   fi
   price
