@@ -614,19 +614,19 @@ Resources:
             s3.meta.client.download_file(bucket, file, '/tmp/{}'.format(file))
             return '/tmp/{}'.format(file), bucket, file
   
-            def lambda_handler(event, context):
-                thefilepath, bucket, key = download_file_from_s3(event['inputUri'])
-                array_job_size = len(open(thefilepath).readlines())
-                return {
-                      'statusCode': 200,
-                      'body': 
-                        {
-                            'arrayJobSize': array_job_size,
-                            'bucket': bucket,
-                            'key': key
-                          
-                      }
-                  }
+          def lambda_handler(event, context):
+            thefilepath, bucket, key = download_file_from_s3(event['inputUri'])
+            array_job_size = len(open(thefilepath).readlines())
+            return {
+              'statusCode': 200,
+              'body': 
+              {
+                'arrayJobSize': array_job_size,
+                'bucket': bucket,
+                'key': key
+                        
+              }
+            }
       Role:
         Fn::GetAtt:
           - PreprocessingServiceRole532E6474
@@ -726,7 +726,7 @@ Resources:
             - Fn::GetAtt:
                 - Preprocessing329E01E4
                 - Arn
-            - '","Payload.$":"$"}, "ResultPath":"$.output"},"MonteCarlo":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName.$":"$.jobName","ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"},"Parameters":{"action":"montecarlo-price","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"Next":"Stitching","ResultPath":"$.output"},"Stitching":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName":"Stitching","Parameters":{"action":"stitch","inputUri.$":"$.outputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"End":true}}}'
+            - '","Payload.$":"$"}, "ResultPath":"$.output"},"MonteCarlo":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName.$":"$.jobName","ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"},"Parameters":{"action":"price","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","bucket.$": "$.output.Payload.body.bucket","key.$": "$.output.Payload.body.key"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"Next":"Merge","ResultPath":"$.output"},"Merge":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName":"Merge","Parameters":{"action":"merge","inputUri.$":"$.outputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"End":true}}}'
     DependsOn:
       - MonteCarloPipelineRoleDefaultPolicy951F3306
       - MonteCarloPipelineRole4AAB9C07
@@ -761,8 +761,6 @@ Outputs:
       Ref: bucket43879C71
   MonteCarloFileName:
     Value: portfolio.json
-  BlendFileName:
-    Value: blendfile.blend
   PreprocessingLambda:
     Value:
       Ref: Preprocessing329E01E4
