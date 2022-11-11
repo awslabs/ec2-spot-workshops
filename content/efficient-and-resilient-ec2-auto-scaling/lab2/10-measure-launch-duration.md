@@ -17,7 +17,7 @@ The lambda managed example uses a Lambda function that executes in response to A
 Set the desired capacity of the Auto Scaling group to 1 to launch an instance directly into the Auto Scaling group.
 
 ```bash
-aws autoscaling set-desired-capacity --auto-scaling-group-name "Example Auto Scaling Group" --desired-capacity 1
+aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 1
 ```
 
 **Step 2: Measure Launch Speed**
@@ -25,7 +25,7 @@ aws autoscaling set-desired-capacity --auto-scaling-group-name "Example Auto Sca
 Now, let's measure the launch speed of the instance. You will need to wait a few minutes for the instance to be launched by the previous step.
 
 ```bash
-activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "Example Auto Scaling Group")
+activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "ec2-workshop-asg")
 for row in $(echo "${activities}" | jq -r '.Activities[] | @base64'); do
     _jq() {
      echo ${row} | base64 --decode | jq -r ${1}
