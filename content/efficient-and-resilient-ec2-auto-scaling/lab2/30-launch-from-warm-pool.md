@@ -12,7 +12,7 @@ Now that we have pre-initialized instance in the Warm Pool, we can scale our Aut
 Let's increase the desired capacity of our Auto Scaling group to 2.
 
 ```bash
-aws autoscaling set-desired-capacity --auto-scaling-group-name "Example Auto Scaling Group" --desired-capacity 2
+aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 2
 ```
 
 **Step 2: Observe Warm Pool Change**
@@ -20,7 +20,7 @@ aws autoscaling set-desired-capacity --auto-scaling-group-name "Example Auto Sca
 Now, let's describe our Warm Pool and observe any changes. As you can see below, the instance we previously launched is no longer in our Warm Pool. This is beause it was launched from the Warm Pool, into the Auto Scaling group in response to our increase in desired capacity.
 
 ```bash
-aws autoscaling describe-warm-pool --auto-scaling-group-name "Example Auto Scaling Group"
+aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
 ```
 
 ```
@@ -38,7 +38,7 @@ aws autoscaling describe-warm-pool --auto-scaling-group-name "Example Auto Scali
 We can now measure the launch speed of the instance from the Warm Pool to the Auto Scaling group.
 
 ```bash
-activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "Example Auto Scaling Group")
+activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "ec2-workshop-asg")
 for row in $(echo "${activities}" | jq -r '.Activities[] | @base64'); do
     _jq() {
      echo ${row} | base64 --decode | jq -r ${1}

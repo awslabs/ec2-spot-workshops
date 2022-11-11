@@ -1,5 +1,5 @@
 +++
-title = "Predictive Scaling"
+title = "How it works?"
 weight = 110
 +++
 

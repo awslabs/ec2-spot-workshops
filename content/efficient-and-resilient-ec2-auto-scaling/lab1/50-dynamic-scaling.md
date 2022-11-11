@@ -51,7 +51,7 @@ EoF
 aws autoscaling put-scaling-policy --cli-input-json file://asg-automatic-scaling.json
 ```   
 
-Command should return policy and target tracking alarms that have been created.
+Command should return policy ARN and target tracking alarms that have been created.
 
 ```
 {
