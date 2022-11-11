@@ -3,6 +3,10 @@ title = "...On your own"
 weight = 20
 +++
 
+{{% notice note %}}
+If you are at an AWS Event, please skip this step!
+{{% /notice %}}
+
 ### Running the workshop self-paced, in your own AWS account
 
 

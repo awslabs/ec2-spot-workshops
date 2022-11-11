@@ -43,8 +43,8 @@ aws cloudwatch list-metrics --namespace "Workshop Custom Predictive Metrics"
 6. To view all metrics data, from the time window filter select **3d** to view data iof the last 3 days
 7. Note the workload pattern in the custom metrics graph, this makes it a good use case for predictive scaling.
 
-![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/cloudwatch-custom-metrics-graph.png)
-
 {{% notice info %}}
 There might be few minutes delay between uploading the data to CloudWatch and actually seeing it on the graph. If the metrics doesn't contain two days of data, give it few minutes and check back again.
 {{% /notice %}}
+
+![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/cloudwatch-custom-metrics-graph.png)

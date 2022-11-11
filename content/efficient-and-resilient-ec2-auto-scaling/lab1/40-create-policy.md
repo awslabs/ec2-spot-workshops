@@ -98,7 +98,7 @@ EoF
 ```bash
 aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-policy \
   --auto-scaling-group-name "ec2-workshop-asg" --policy-type PredictiveScaling \
-  --predictive-scaling-configuration file://lab1/policy-config.json
+  --predictive-scaling-configuration file://policy-config.json
 ```
 
 If successful, the command should return the created policy ARN.

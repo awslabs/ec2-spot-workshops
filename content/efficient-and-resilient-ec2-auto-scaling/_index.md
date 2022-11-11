@@ -5,10 +5,12 @@ weight: 110
 pre: "<b>11. </b>"
 ---
 
-## Overview 
-This workshop is designed to quickly get you familiar with the concepts and best practices for predicting Amazon EC2 capacity needed for workloads running with Auto Scaling groups.
+## Overview
+
+This workshop is designed to get you familiar with the concepts and best practices for predicting Amazon EC2 capacity needed for workloads running with Auto Scaling groups.
 
 ## Estimated workshop length
+
 45-60 minutes
 
 ## Setting
