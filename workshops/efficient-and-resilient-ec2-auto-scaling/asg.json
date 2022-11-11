@@ -1,12 +1,8 @@
 {
   "AutoScalingGroupName": "ec2-workshop-asg",
-  "MixedInstancesPolicy": {
-    "LaunchTemplate": {
-      "LaunchTemplateSpecification": {
-        "LaunchTemplateName": "EC2WorkshopLaunchTemplate",
-        "Version": "1"
-      }
-    }
+  "LaunchTemplate": {
+    "LaunchTemplateName": "EC2WorkshopLaunchTemplate",
+    "Version": "1"
   },
   "MinSize": 0,
   "MaxSize": 20,
