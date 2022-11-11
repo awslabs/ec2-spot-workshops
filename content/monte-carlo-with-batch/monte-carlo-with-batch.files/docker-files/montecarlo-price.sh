@@ -32,17 +32,24 @@ price()
     # select the specific row from the s3 file using S3 SELECT
     aws s3api select-object-content --bucket $BUCKET --key $KEY --expression "SELECT * FROM S3Object[*].Positions[${AWS_BATCH_JOB_ARRAY_INDEX}]" --expression-type SQL --input-serialization '{"JSON": {"Type": "Document"}, "CompressionType": "NONE"}' --output-serialization '{"JSON": {}}' "output.json"
 
+    # extract the parameters for this risk run from the JSON returned by S3 Select
     notional=$(jq '.notional' output.json)
     strike=$(jq '.strike' output.json)
     barrier=$(jq '.barrier' output.json)
-    pv=$(python3 Autocallable.Note.py $notional $strike $barrier)
     rm output.json
     
+    # execute the Python script that calculates the PV based on these inputs
+    pv=$(python3 Autocallable.Note.py $notional $strike $barrier)
+    
+    # create a filename based on our index in the batch job array
     filename="result_${AWS_BATCH_JOB_ARRAY_INDEX}"
-    echo $pv >${filename}
+    
+    # create a simple JSON output of strike and PV, for later aggregation
+    content=$( jq -n --arg st "$strike" --arg pv "$pv" '{strike: $st, pv: $pv}')
+
+    # upload the resulting file to S3    
     aws s3 cp ${filename} "${OUTPUT_URI}/${AWS_BATCH_JOB_ID}/${filename}"
     rm ${filename}
-    
 }
 
 merge()
