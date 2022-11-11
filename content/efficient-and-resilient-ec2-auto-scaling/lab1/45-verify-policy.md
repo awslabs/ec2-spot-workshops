@@ -3,9 +3,9 @@ title = "Review the outcome of predictive scaling"
 weight = 145
 +++
 
-### 6. Verify predictive scaling policy in AWS Console
+### Verify predictive scaling policy in AWS Console
 
-{{% notice warning %}}
+{{% notice info %}}
 Predictive scaling scales the number of instances at the **beginning of each hour**.
 {{% /notice %}}
 

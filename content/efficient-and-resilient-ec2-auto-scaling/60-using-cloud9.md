@@ -16,11 +16,8 @@ You'll be using this Cloud9 environment to execute the steps in the workshop, an
 3. **Or** sign in to the [AWS Cloud9 console](https://console.aws.amazon.com/cloud9/home).
 
 4. Find the Cloud9 environment in **Your environments**, and click **Open IDE**.
-{{% notice note %}}
-Please make sure you are using the Cloud9 environment created by the workshop CloudFormation stack!
-{{% /notice %}}
 
-1. Take a moment to get familiar with the Cloud9 environment. You can even take a quick tour of Cloud9 [here](https://docs.aws.amazon.com/cloud9/latest/user-guide/tutorial.html#tutorial-tour-ide) if you'd like.
+5. Take a moment to get familiar with the Cloud9 environment. You can even take a quick tour of Cloud9 [here](https://docs.aws.amazon.com/cloud9/latest/user-guide/tutorial.html#tutorial-tour-ide) if you'd like.
 
 #### Let's get started with the environment setup you will need for this workshop:
 

@@ -3,7 +3,7 @@ title = "Create Scaling Policy"
 weight = 140
 +++
 
-### 5. Create the predictive scaling policy
+### Create the predictive scaling policy
 
 {{% notice info %}}
 A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity.
