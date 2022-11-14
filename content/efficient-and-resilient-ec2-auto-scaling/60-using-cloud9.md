@@ -4,27 +4,17 @@ weight = 60
 +++
 AWS Cloud9 comes with a terminal that includes sudo privileges to the managed Amazon EC2 instance that is hosting your development environment and a preauthenticated AWS Command Line Interface. This makes it easy for you to quickly run commands and directly access AWS services.
 
-An AWS Cloud9 environment was launched as a part of the CloudFormation stack (you may have noticed a second CloudFormation stack created by Cloud9).
-
 {{% notice note %}}
 You'll be using this Cloud9 environment to execute the steps in the workshop, and not the local command line on your computer.
 {{% /notice %}}
 
-1. Find the url of the AWS Cloud9 environment by checking the value of **Cloud9IDE** in the CloudFormation stack outputs.
-2. Click on the link, this should take you to the provisioned Cloud9 environment.
-
-3. **Or** sign in to the [AWS Cloud9 console](https://console.aws.amazon.com/cloud9/home).
-
-4. Find the Cloud9 environment in **Your environments**, and click **Open IDE**.
-
-5. Take a moment to get familiar with the Cloud9 environment. You can even take a quick tour of Cloud9 [here](https://docs.aws.amazon.com/cloud9/latest/user-guide/tutorial.html#tutorial-tour-ide) if you'd like.
 
 #### Let's get started with the environment setup you will need for this workshop:
 
-1. Feel free to browse around. You can also browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
+1. In the Cloud9 IDE, you can browse the directory structure in the **Environment** tab on the left, and even edit files directly there by double clicking on them.
 2. Check the folders in left navigation, look for folder named **ec2-spot-workshops**.
 {{% notice info %}}
-If folder is not visible yet, wait for up to **5 minutes** till the bootstrap script finishes the environment setup.
+You should expect the folder **ec2-spot-workshops** to be visible within **5 minutes** as the bootstrap script finishes the environment setup.
 {{% /notice %}}
 1. **Don't** proceed with next steps till folder **ec2-spot-workshops** shows in left navigation.
 2. In the **Cloud9 IDE** terminal, change into the workshop directory:

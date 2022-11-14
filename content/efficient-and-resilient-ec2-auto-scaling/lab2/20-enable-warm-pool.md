@@ -132,11 +132,11 @@ for row in $(echo "${activities}" | jq -r '.Activities[] | @base64'); do
      echo ${row} | base64 --decode | jq -r ${1}
     }
 
-   start_time=$(_jq '.StartTime')
-   end_time=$(_jq '.EndTime')
+   start_time=$(date -d "$(_jq '.StartTime')" "+%s")
+   end_time=$(date -d "$(_jq '.EndTime')" "+%s")
    activity=$(_jq '.Description')
 
-   echo $activity Duration: $(datediff $start_time $end_time)
+   echo $activity Duration: $(($end_time - $start_time))"s"
 done
 ```
 

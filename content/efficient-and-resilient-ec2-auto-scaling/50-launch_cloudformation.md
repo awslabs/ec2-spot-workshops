@@ -43,20 +43,9 @@ It will take roughly 5 minutes for the stack creation to complete.
 1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
 
 1. In the stack details pane, click the **Events** tab.
-2. Click the refresh button to update the events in the stack creation.
- 
-The **Events** tab displays each major step in the creation of the stack sorted by the time of each event, with latest events on top.
+2. Click the refresh button to update the events in the stack creation
+3. When AWS CloudFormation has successfully created the stack, you will see the **CREATE_COMPLETE** event at the top of the Events tab.
+4. In the stack details pane, click the **Outputs** tab.
+5. Click on the url of the AWS Cloud9 environment, it's the value of **Cloud9IDE** in the CloudFormation stack outputs.
 
-The **CREATE\_IN\_PROGRESS** event is logged when AWS CloudFormation reports that it has begun to create the resource. The **CREATE_COMPLETE** event is logged when the resource is successfully created.
-
-When AWS CloudFormation has successfully created the stack, you will see the **CREATE_COMPLETE** event at the top of the Events tab:
-
-#### Use your stack resources
-
-In this workshop, you'll need to reference the resources created by the CloudFormation stack.
-
-1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack in the list.
-
-1. In the stack details pane, click the **Outputs** tab.
-
-It is recommended that you keep this window open so you can easily refer to the outputs and resources throughout the workshop.
+![cloudformation-create-complete](/images/efficient-and-resilient-ec2-auto-scaling/cloudformation-create-complete.png)

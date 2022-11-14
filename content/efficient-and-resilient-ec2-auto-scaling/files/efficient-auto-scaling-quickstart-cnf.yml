@@ -37,10 +37,6 @@ Parameters:
     Type: String
     Default: 10.192.21.0/24
 
-  LatestAmiId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
-
   C9InstanceType:
     Description: Cloud9 instance type
     Type: String
@@ -98,7 +94,7 @@ Resources:
     Properties:
       LaunchTemplateName: EC2WorkshopLaunchTemplate
       LaunchTemplateData:
-        ImageId: !Ref LatestAmiId
+        ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
         InstanceType: t3.micro
 ################## PERMISSIONS AND ROLES #################
   C9Role:
@@ -336,7 +332,8 @@ Resources:
     Type: AWS::Cloud9::EnvironmentEC2
     Properties:
       Description: AWS Cloud9 instance for Examples
-      AutomaticStopTimeMinutes: 3600
+      AutomaticStopTimeMinutes: 240
+      ImageId: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64
       InstanceType:
         Ref: C9InstanceType
       Name: 
@@ -374,3 +371,7 @@ Outputs:
   PrivateSubnet2:
     Description: A reference to the private subnet in the 2nd Availability Zone
     Value: !Ref PrivateSubnet2
+  
+  StackName:
+    Description: A reference to the created stack
+    Value: !Ref AWS::StackName
