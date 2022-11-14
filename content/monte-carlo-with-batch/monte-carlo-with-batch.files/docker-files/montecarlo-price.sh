@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 parse_arguments() {
   # Parses the command line arguments and stores the values in global variables.
@@ -18,6 +18,10 @@ parse_arguments() {
         ;;
       -k)
         KEY=$2
+        shift
+        ;;
+      -o)
+        OUTPUT_URI=$2
         shift
         ;;
       *)
@@ -45,9 +49,13 @@ price()
     filename="result_${AWS_BATCH_JOB_ARRAY_INDEX}"
     
     # create a simple JSON output of strike and PV, for later aggregation
-    content=$( jq -n --arg st "$strike" --arg pv "$pv" '{strike: $st, pv: $pv}')
+    jq -n --arg st "$strike" --arg pv "$pv" '{strike: $st, pv: $pv}' >${filename}
 
     # upload the resulting file to S3    
+    echo "filename: " $filename
+    echo "output_uri: " $OUTPUT_URI
+    echo "aws_batch_job_id: " $AWS_BATCH_JOB_ID
+    
     aws s3 cp ${filename} "${OUTPUT_URI}/${AWS_BATCH_JOB_ID}/${filename}"
     rm ${filename}
 }
