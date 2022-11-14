@@ -24,8 +24,8 @@ The state machine will:
 To start the process, perform the following api call to pass a payload to the state machine with the job name, input path, output path, ARNs of the Job Definition and Job queue for AWS Batch to use and the number of frames each job has to render:
 
 ```
-export JOB_NAME="Pottery"
-export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${StateMachineArn}" --input "{\"jobName\": \"${JOB_NAME}\", \"inputUri\": \"s3://${BucketName}/${BlendFileName}\", \"outputUri\": \"s3://${BucketName}/${JOB_NAME}\", \"jobDefinitionArn\": \"${JOB_DEFINITION_ARN}\", \"jobQueueArn\": \"${JOB_QUEUE_ARN}\", \"framesPerJob\": \"1\"}" | jq -r '.executionArn')
+export JOB_NAME="MCAutocallable"
+export EXECUTION_ARN=$(aws stepfunctions start-execution --state-machine-arn "${StateMachineArn}" --input "{\"jobName\": \"${JOB_NAME}\", \"inputUri\": \"s3://${BucketName}/${MonteCarloFileName}\", \"outputUri\": \"s3://${BucketName}/${JOB_NAME}\", \"jobDefinitionArn\": \"${JOB_DEFINITION_ARN}\", \"jobQueueArn\": \"${JOB_QUEUE_ARN}\"}" | jq -r '.executionArn')
 echo "State machine started. Execution Arn: ${EXECUTION_ARN}."
 ```
 
