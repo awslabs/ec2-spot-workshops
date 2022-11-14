@@ -5,24 +5,39 @@ weight: 98
 
 In this section, you're going to launch a Spot Interruption using FIS and then verify that the capacity has been replenished and EMR was able to continue running the Spark job. This will help you to confirm the low impact of your workloads when implementing Spot effectively. Moreover, you can discover hidden weaknesses, and make your workloads fault-tolerant and resilient.
 
-#### (Optional) Re-Launch the Spark Application
+#### Launch the Spark Application
 
 The Spark job could take around seven to eight minutes to finish. However, when you arrive to this part of the workshop, either the job is about to finish or has finished already. So, here are the commands you need to run to re-launch the Spark job in EMR.
 
 First, you need to empty the results folder in the S3 bucket. Run the following command (replace the bucket name with yours):
 
 ```
-export S3_BUCKET=your_bucket_name
-aws s3 rm --recursive s3://$S3_BUCKET/results/
+aws s3 rm --recursive s3://$S3_BUCKET/resultsspot/
 ```
 
-Then, get the EMR cluster ID and replace it with `YOUR_CLUSTER_ID` in the following command to re-launch the Spark application:
+Get the Cluster ID by running the following commands: 
 
 ```
-aws emr add-steps --cluster-id YOUR_CLUSTER_ID --steps Type=CUSTOM_JAR,Name="Spark application",Jar="command-runner.jar",ActionOnFailure=CONTINUE,Args=[spark-submit,--deploy-mode,cluster,--executor-memory,18G,--executor-cores,4,s3://$S3_BUCKET/script.py,s3://$S3_BUCKET/results/]
+export EMRClusterName="emr-spot-workshop";
+export EMRClusterID=$(aws emr list-clusters --active | jq -c '.Clusters[] | select( .Name == '\"$EMRClusterName\"' )' | jq -r '.Id');
+aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.Status';
+```
+
+{{% notice warning %}}
+If you got an error about not getting the a proper value for `--cluster-id`, you may have picked a different name for the EMR Cluster. Make sure the `EMRClusterName` enviroment variable matches with your EMR cluster name and run the above commands again.
+{{% /notice %}}
+
+Then, launch a new job using the initial Spark application but store the results at a different location:
+
+```
+aws emr add-steps --cluster-id $EMRClusterID --steps Type=CUSTOM_JAR,Name="Spark application",Jar="command-runner.jar",ActionOnFailure=CONTINUE,Args=[spark-submit,--deploy-mode,cluster,--executor-memory,18G,--executor-cores,4,s3://$S3_BUCKET/script.py,s3://$S3_BUCKET/resultsspot/]
 ```
 
 Now go ahead an run the Spot interruption experiment before the jobs completes.
+
+{{% notice note %}}
+EMR might not have task nodes running at the moment because of managed scaling. If that's the case, wait around two minutes (or less) until you have at least three task instances in a `RUNNING` state to interrupt them while the Spark job is running.
+{{% /notice %}}
 
 #### Launch the Spot Interruption Experiment
 After creating the experiment template in FIS, you can start a new experiment to interrupt three (unless you changed the template) Spot instances. Run the following command:
@@ -74,13 +89,42 @@ You should see a list of instances with the date and time when they were launche
 
 #### Verify that the Spark application completed successfully
 
-Follow the same steps from ["Examining the cluster"](/running_spark_apps_with_emr_on_spot_instances/examining_cluster.html) to launch the Spark History Server and explore the details of the recent Spark job submission. In the home screen, click on the latest App ID (if it's empty, wait for the job to finish) to see the execution details. You should see something like this:
+Follow the same steps from ["Examining the cluster"](/running_spark_apps_with_emr_on_spot_instances/examining_cluster.html) to launch the **Spark History Server** and explore the details of the recent Spark job submission. In the home screen, click on the latest App ID (if it's empty, wait for the job to finish) to see the execution details. You should see something like this:
 
 ![SparkJobCompleted](/images/running-emr-spark-apps-on-spot/sparkjobcompleted.png)
 
 Notice how two minutes around after the job started, three executors were removed (each executor is a Spot instance). If your job runs long enough then you can see new executors being launched to catch-up on completing the job. In this example the job took around eight minutes to finish. If you don't see executors being added, you could re-launch the Spark job and start the FIS experiment as soon as the spark job starts.
 
-{{%expand "Question: As a result of Spot interruptions you might see different results, for example: all stages of your Spark jobs passed without any error, or a single stage was failed and then re-tried. Do you know why this happens and what actions are taken by EMR on the instances that were interrupted? Click to expand the answer." %}}
+#### Script to Run the whole Experiment
+
+If you'd like to run the Spot experiment again, here's a script that groups all the above commands to run them all at once. After running this script, you should be able to see the Spark job timeline in the **Spark History Server** page.
+
+```
+cat <<'EOF' > spotexperiment.sh
+#!/bin/bash
+aws s3 rm --recursive s3://$S3_BUCKET/resultsspot/;
+export EMRClusterName="emr-spot-workshop";
+export EMRClusterID=$(aws emr list-clusters --active | jq -c '.Clusters[] | select( .Name == '\"$EMRClusterName\"' )' | jq -r '.Id');
+aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.Status';
+aws emr add-steps --cluster-id $EMRClusterID --steps Type=CUSTOM_JAR,Name="Spark application",Jar="command-runner.jar",ActionOnFailure=CONTINUE,Args=[spark-submit,--deploy-mode,cluster,--executor-memory,18G,--executor-cores,4,s3://$S3_BUCKET/script.py,s3://$S3_BUCKET/resultsspot/];
+export FIS_EXP_TEMP_ID=$(aws cloudformation describe-stacks --stack-name $FIS_EXP_NAME --query "Stacks[0].Outputs[?OutputKey=='FISExperimentID'].OutputValue" --output text);
+echo "Waiting two minutes for running Task nodes ..."
+sleep 120;
+export FIS_EXP_ID=$(aws fis start-experiment --experiment-template-id $FIS_EXP_TEMP_ID --no-cli-pager --query "experiment.id" --output text);
+export EMRClusterDNS=$(aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.MasterPublicDnsName');
+ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:18080 hadoop@$EMRClusterDNS;
+EOF
+```
+
+Then run the script like this:
+
+```
+sh spotexperiment.sh
+```
+
+Now open the Spark History Sever using the `Preview Running Application` feature from Cloud9 to review the job timeline.
+
+{{%expand "QUESTION: As a result of Spot interruptions you might see different results, for example: all stages of your Spark jobs passed without any error, or a single stage was failed and then re-tried. Do you know why this happens and what actions are taken by EMR on the instances that were interrupted? Click to expand the answer." %}}
 
 #### Actions for decommissioned nodes
 When a Spot Instance is interrupted, no new tasks get scheduled, and the active containers become idle (or the timeout expires), the node gets decommissioned. When the Spark driver receives the decommissioned signal, it can take the following additional actions to start the recovery process sooner rather than waiting for a fetch failure to occur:

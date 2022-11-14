@@ -3,10 +3,12 @@ title: "Launch a cluster - Step 1"
 weight: 60
 ---
 
-In this step first you will launch EMR cluster that runs on a mix of On-Demand and Spot Instances. Next, you will add step that runs a simple wordcount Spark application against a public dataset of Amazon product reviews located in an Amazon S3 bucket in the N. Virginia region. 
+### Step 1: Software and Steps
+
+In this step first you will launch EMR cluster that runs on a mix of On-Demand and Spot Instances. Next, you will add step that runs a simple wordcount Spark application against a public dataset of Amazon product reviews located in an Amazon S3 bucket in the N. Virginia region. For this workshop, use the region where the CloudFormation stack was deployed.
 
 {{% notice note %}}
-Ideally your dataset on S3 would be located in the same region where you run EMR clusters. In this workshop you might run EMR in a different region than N. Virginia, however Spark application will work without any issues with the dataset located in S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here] (https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
+Ideally your dataset on S3 would be located in the same region where you run EMR clusters. In this workshop you might run EMR in a different region than N. Virginia, however Spark application will work without any issues with the dataset located in S3 bucket in the N. Virginia region. If you want to know more about the Amazon Customer Reviews Dataset, [click here](https://s3.amazonaws.com/amazon-reviews-pds/readme.html)
 {{% /notice %}}
 
 To launch the cluster, follow these steps:
@@ -15,7 +17,7 @@ To launch the cluster, follow these steps:
 1. Click "**Create cluster**"  
 1. Click "**Go to advanced options**"  
 1. Select the latest EMR 5.x.x release (the console will default to it), and in the list of components, only select **Hadoop**, **Spark** and **Ganglia**. You will use Ganglia to monitor our cluster resource utilization.  
-1. Skip to "**Steps (Optional)**" section and add a step as per below instructions:
+1. Skip to the "**Steps (Optional)**" section in the same page, and add a step as per below instructions:
 
 * For the option **After last step completes** select **Clusters enters waiting state**. Since you will be examining the cluster during and after the Spark application, you can terminate the cluster at the end of the workshop manually instead of EMR auto-terminating immediately after the completion of step.
 
@@ -27,10 +29,11 @@ To launch the cluster, follow these steps:
 * In the **Step type** drop down menu, select **Spark application** and click on **Add step**, then add the following details in the **Add step** dialog window:  
 
   * **Spark-submit options**: here you configure the memory and core count for each executor, as described in the previous section. Use these settings (make sure you have two '-' chars):  
+
   ```
   --executor-memory 18G --executor-cores 4
   ```
-  * **Application location**: here you configure the location of Spark application. Save the following python code to a file (or download it from the Attachment box) and upload it to your S3 bucket using the AWS management console. You can refer to the [S3 Getting Started guide](https://docs.aws.amazon.com/AmazonS3/latest/gsg/PuttingAnObjectInABucket.html) for detailed instructions
+  * **Application location**: here you configure the location of Spark application. We've uploaded a Python application to S3 with Cloudformation when [starting the workshop](/running_spark_apps_with_emr_on_spot_instances/before.html). Here's the code of the application you'll be using:
 
     ```python
     import sys
@@ -40,15 +43,22 @@ To launch the cluster, follow these steps:
     df.selectExpr("explode(split(lower(review_body), ' ')) as words").groupBy("words").count().write.mode("overwrite").parquet(sys.argv[1])
     exit()
     ```
-    {{%attachments style="orange" /%}}
 
+  * Next add the location of the file under the **Application location** field, i.e: `s3://\<your-bucket-name\>/script.py`. Run the following command in the Cloud9 terminal to get the name of the S3 bucket for your environment, then browse it and choose the `script.py` file:
 
-  * Next add the location of the file under the **Application location** field, i.e: s3://\<your-bucket-name\>/script.py
+      ```
+      echo $S3_BUCKET
+      ```
 
-      * **Arguments**: Here you will configure the location of where Spark will write the results of the job. Enter: s3://\<your-bucket-name\>/results/  
-      * **Action on failure**: Leave this as **Continue** 
-      
+      * **Arguments**: Here you will configure the location of where Spark will write the results of the job. Enter: s3://\<your-bucket-name\>/results/. Run the following command in the Cloud9 terminal to get the name of the S3 bucket for your environment:
 
+      ```
+      echo "s3://$S3_BUCKET/results/"
+      ```
+
+    **Note:** If the `S3_BUCKET` variable is empty, you can get bucket name from the CloudFormation stack Outputs at `SparkAppBucket`
+
+      * **Action on failure**: Leave this as **Continue**. Here's a screenshot of how the configuration should look like:
 
     ![sparksubmit](/images/running-emr-spark-apps-on-spot/sparksubmitstep1.png)
 

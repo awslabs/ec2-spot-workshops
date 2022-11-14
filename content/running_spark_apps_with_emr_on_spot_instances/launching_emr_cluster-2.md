@@ -2,7 +2,8 @@
 title: "Launch a cluster - Step 2"
 weight: 70
 ---
-### Hardware Configuration
+
+### Step 2: Hadware
 
 * Under **Cluster Composition** >> **Instance group configuration**, select Instance fleets. 
 

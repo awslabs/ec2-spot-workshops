@@ -44,7 +44,7 @@ ec2-instance-selector --vcpus-min 4  --vcpus-max 16  --vcpus-to-memory-ratio 1:8
 ```
 
 Internally ec2-instance-selector is making calls to the [DescribeInstanceTypes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceTypes.html) for the specific region and filtering
-the instance types based on the criteria selected in the command line. Above command should display a list like the one that follows (note results might differ depending on the region). We will use below instance types as part of our EMR Core and Task instance fleets.
+the instance types based on the criteria selected in the command line. Above command should display a list like the one that follows (**note results might differ depending on the region**). We will use below instance types as part of our EMR Core and Task instance fleets.
 
 ```
 r4.2xlarge
