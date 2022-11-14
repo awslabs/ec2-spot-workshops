@@ -3,6 +3,8 @@ title = "Dynamic scaling"
 weight = 150
 +++
 
+Now the predictive scaling policy is in place, you notice that the auto scaling group scales out successfully. However, you notice that the auto scaling group doesn't scales down when the predicted capacity is less than the actual capacity.
+
 ## Use predictive scaling with dynamic scaling
 
 {{% notice info %}}
@@ -17,7 +19,6 @@ When **multiple** scaling policies are active, each policy determines the desire
 
 Now you are going to configure the Auto Scaling group to automatically scale out and scale in as your **application load** fluctuates.
 
- The scaling policy adds or removes capacity as required to keep the metric at, or close to, the specified target value. In addition to keeping the metric close to the target value, a target tracking scaling policy also adjusts to the fluctuations in the metric due to a fluctuating load pattern and minimizes rapid fluctuations in the capacity of the Auto Scaling group.
 
 1. Review this command to understand the options, then go ahead and run it 
 
@@ -64,3 +65,5 @@ Command should return policy ARN and target tracking alarms that have been creat
 ```
 
 3. Navigate to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
+4. If you will not be running Lab2, please make sure to clean up the created resources. Navigate to [Clean up](/efficient-and-resilient-ec2-auto-scaling/90-cleanup.html)
+5. You have successfully completed this lab.

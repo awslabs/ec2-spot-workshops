@@ -18,19 +18,15 @@ In your own workloads, if this isn’t true for your auto scaling group, forecas
 cat ./asg.json
 ```
 
-1. You will notice there are placeholder values for **`%PrivateSubnet1%`** and **`%PrivateSubnet2%`**. To update the configuration file with the values of the outputs from the CloudFormation stack, execute the following command:
+2. You will notice there are placeholder values for **`%PrivateSubnet1%`** and **`%PrivateSubnet2%`**. To update the configuration file with the values of the outputs from the CloudFormation stack, execute the following command:
 ```
 sed -i.bak -e "s#%PrivateSubnet1%#$PrivateSubnet1#g" -e "s#%PrivateSubnet2%#$PrivateSubnet2#g" asg.json
 ```
 
-3. Now create the auto scaling group.
+3. Now create the auto scaling group. This command will not return any output if it is successful.
 
 ```bash
 aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
 ```
 
-{{% notice note %}}
-This command will not return any output if it is successful.
-{{% /notice %}}
-
-1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created auto scaling group. At this step of the workshop, the auto scaling group will have **no instances running**, as the desired number of instances is set to **0**.
+4. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created auto scaling group. At this step of the workshop, the auto scaling group will have **no instances running**, as the desired number of instances is set to **0**.
