@@ -93,5 +93,5 @@ Cloud9 requires third-party-cookies. You can whitelist the [specific domains]( h
 - If you like this theme, you can choose it yourself by selecting **View / Themes / Solarized / Solarized Dark**
 in the Cloud9 workspace menu.
 
-You are now ready to **[EMR Instance Fleets]((/running_spark_apps_with_emr_on_spot_instances/emr_instance_fleets.html))**
+You are now ready to **[EMR Instance Fleets](/running_spark_apps_with_emr_on_spot_instances/emr_instance_fleets.html)**
 
