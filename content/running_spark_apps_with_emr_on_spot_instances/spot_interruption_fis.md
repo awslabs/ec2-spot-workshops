@@ -105,7 +105,7 @@ Notice how two minutes around after the job started, three executors were remove
 
 #### Script to Run the whole Experiment
 
-If you'd like to run the Spot experiment again, here's a script that groups all the above commands to run them all at once. After running this script, you should be able to see the Spark job timeline in the **Spark History Server** page.
+If you'd like to run the Spot experiment again, here's a script that groups all the above commands to run them all at once. After running this script, you should be able to see the Spark job timeline in the **Spark History Server** page. You can tweak the sleep time to interrupt instances in the middle of the Spark job execution.
 
 ```
 cat <<'EOF' > spotexperiment.sh
