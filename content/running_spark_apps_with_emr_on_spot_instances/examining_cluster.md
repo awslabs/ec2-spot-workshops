@@ -18,13 +18,13 @@ aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.Status';
 If you got an error about not getting the a proper value for `--cluster-id`, you may have picked a different name for the EMR Cluster. Make sure the `EMRClusterName` enviroment variable matches with your EMR cluster name and run the above commands again.
 {{% /notice %}}
 
-Wait until you get the cluster status on `WAITING` with eather a message of `Waiting for steps to run` or `Cluster ready after last step completed`, like the following output:
+Wait until you get the cluster status on `RUNNING` with eather a message of `Running step`, like the following output:
 
 ```
 {
-  "State": "WAITING",
+  "State": "RUNNING",
   "StateChangeReason": {
-    "Message": "Waiting for steps to run."
+    "Message": "Running step"
   },
   "Timeline": {
     "CreationDateTime": "2022-11-14T15:07:08.730000+00:00",
