@@ -43,7 +43,7 @@ In the interest of time and to focus just on the EMR with Spot, we will install 
 
 1. Go into the CloudFormation console and select the creation of a new stack. Select **Template is ready**, and then **Upload a template file**, then select the file that you downloaded to your computer and click on **Next**
 
-1. Fill in the **Stack Name** using 'emrspot-workshop', Leave all the settings in the parameters section with the default prarameters and click **Next**
+1. Fill in the **Stack Name** using `emrspot-workshop`, Leave all the settings in the parameters section with the default prarameters and click **Next**
 
 1. In the Configure Stack options just scroll to the bottom of the page and click **Next**
 
