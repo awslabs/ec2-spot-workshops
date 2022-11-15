@@ -37,6 +37,9 @@ price()
     aws s3api select-object-content --bucket $BUCKET --key $KEY --expression "SELECT * FROM S3Object[*].Positions[${AWS_BATCH_JOB_ARRAY_INDEX}]" --expression-type SQL --input-serialization '{"JSON": {"Type": "Document"}, "CompressionType": "NONE"}' --output-serialization '{"JSON": {}}' "output.json"
 
     # extract the parameters for this risk run from the JSON returned by S3 Select
+    echo "output.json: " 
+    cat output.json
+    
     notional=$(jq '.notional' output.json)
     strike=$(jq '.strike' output.json)
     barrier=$(jq '.barrier' output.json)
@@ -47,7 +50,7 @@ price()
     
     # create a filename based on our index in the batch job array
     filename="result_${AWS_BATCH_JOB_ARRAY_INDEX}"
-    
+
     # create a simple JSON output of strike and PV, for later aggregation
     jq -n --arg st "$strike" --arg pv "$pv" '{strike: $st, pv: $pv}' >${filename}
 
@@ -62,7 +65,7 @@ price()
 
 merge()
 {
-    echo "hello"   
+    echo "Not implemented"   
 }
 
 
