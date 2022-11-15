@@ -121,6 +121,7 @@ sleep 90;
 echo "Sending the Spot interruption ...";
 export FIS_EXP_ID=$(aws fis start-experiment --experiment-template-id $FIS_EXP_TEMP_ID --no-cli-pager --query "experiment.id" --output text);
 export EMRClusterDNS=$(aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.MasterPublicDnsName');
+echo "Done! You can now open the Preview Application Server to review the Spark History Server ..."
 ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:18080 hadoop@$EMRClusterDNS;
 EOF
 ```
