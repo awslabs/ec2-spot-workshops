@@ -116,8 +116,8 @@ export EMRClusterID=$(aws emr list-clusters --active | jq -c '.Clusters[] | sele
 aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.Status';
 aws emr add-steps --cluster-id $EMRClusterID --steps Type=CUSTOM_JAR,Name="Spark application",Jar="command-runner.jar",ActionOnFailure=CONTINUE,Args=[spark-submit,--deploy-mode,cluster,--executor-memory,18G,--executor-cores,4,s3://$S3_BUCKET/script.py,s3://$S3_BUCKET/resultsspot/];
 export FIS_EXP_TEMP_ID=$(aws cloudformation describe-stacks --stack-name $FIS_EXP_NAME --query "Stacks[0].Outputs[?OutputKey=='FISExperimentID'].OutputValue" --output text);
-echo "Waiting two minutes for running Task nodes ..."
-sleep 120;
+echo "Waiting 90 seconds to have Task nodes running ..."
+sleep 90;
 export FIS_EXP_ID=$(aws fis start-experiment --experiment-template-id $FIS_EXP_TEMP_ID --no-cli-pager --query "experiment.id" --output text);
 export EMRClusterDNS=$(aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.MasterPublicDnsName');
 ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:18080 hadoop@$EMRClusterDNS;
