@@ -5,7 +5,7 @@ weight: 90
 
 In this section you will look at the utilization of instance fleets and examine Spark executors, while the Spark application is running.
 
-### EMR Management Console
+### EMR Cluster Status
 To get started, let's check that your EMR cluster and Spark application are running.  
 
 ```
@@ -91,7 +91,7 @@ In the following steps, you might not see full utilization of vCPUs and Memory o
 ![Cloud9-Resource-Manager](/images/running-emr-spark-apps-on-spot/cloud9-resource-manager-browser.png)
 
 {{% notice warning %}}
-If you can't access the Resource Manager page, try using a different browser or check the network security policies in your computer. Maybe a VPN connection in your computer isn't allowing you to use an SSH tunnel.
+If you can't access the Resource Manager page, try using a different browser or check the network security policies in your computer. Your browser might have third-party cookies disabled, to enable them check this link: https://docs.aws.amazon.com/cloud9/latest/user-guide/troubleshooting.html#troubleshooting-preview.
 {{% /notice %}}
 
 ### Challenge 
