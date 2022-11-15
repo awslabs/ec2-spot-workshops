@@ -89,7 +89,15 @@ You should see a list of instances with the date and time when they were launche
 
 #### Verify that the Spark application completed successfully
 
-Follow the same steps from ["Examining the cluster"](/running_spark_apps_with_emr_on_spot_instances/examining_cluster.html) to launch the **Spark History Server** and explore the details of the recent Spark job submission. In the home screen, click on the latest App ID (if it's empty, wait for the job to finish) to see the execution details. You should see something like this:
+Follow the same steps from ["Examining the cluster"](/running_spark_apps_with_emr_on_spot_instances/examining_cluster.html) to launch the **Spark History Server** and explore the details of the recent Spark job submission. Here's the command you need to run:
+
+```
+ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:18080 hadoop@$EMRClusterDNS
+```
+
+Now click on the `Preview Running Application` under the `Preview` menu at the top. You’ll see a browser window opening with in the Cloud9 environment with a refused connection error page. Click on the button next to Browser (arrow inside a box) to open web UI in a dedicated browser page. 
+
+In the home screen, click on the latest App ID (if it's empty, wait for the job to finish) to see the execution details. You should see something like this:
 
 ![SparkJobCompleted](/images/running-emr-spark-apps-on-spot/sparkjobcompleted.png)
 
