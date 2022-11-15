@@ -292,8 +292,8 @@ Resources:
             - sudo -H -u ec2-user aws configure get default.region
             - sudo -H -u ec2-user aws sts get-caller-identity
             - echo '=== Generate SSH key and import to aws ==='
-            - sudo -H -u ec2-user aws ec2 create-key-pair --key-name emr-workshop-key-pair --query "KeyMaterial" --output text > ~/environment/emr-workshop-key-pair.pem
-            - sudo -H -u ec2-user chmod 400 ~/environment/emr-workshop-key-pair.pem
+            - sudo -H -u ec2-user aws ec2 create-key-pair --key-name emr-workshop-key-pair --query "KeyMaterial" --output text > /home/ec2-user/environment/emr-workshop-key-pair.pem
+            - sudo -H -u ec2-user chmod 400 /home/ec2-user/environment/emr-workshop-key-pair.pem
             - echo '=== Upload Spark App to S3 ==='
             - curl "https://ec2spotworkshops.com/running_spark_apps_with_emr_on_spot_instances/launching_emr_cluster-1.files/script.py" -o "script.py"
             - !Sub sudo -H -u ec2-user aws s3 cp script.py s3://${SparkAppBucket}
