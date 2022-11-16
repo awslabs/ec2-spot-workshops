@@ -49,7 +49,7 @@ cat <<EoF > ./asg-policy.json
    "InstancesDistribution":{
       "OnDemandBaseCapacity":2,
       "OnDemandPercentageAboveBaseCapacity":25,
-      "SpotAllocationStrategy":"capacity-optimized"
+      "SpotAllocationStrategy":"price-capacity-optimized"
    }
 }
 EoF
@@ -57,7 +57,7 @@ EoF
 
 #### Using attribute-based instance type selection
 
-In this configuration, we are using [*attribute-based instance type selection (ABS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to select instance families for the Auto Scaling group. *Attribute-based instance type selection (ABS)* offers an alternative to manually choosing instance types when creating an Amazon EC2 Auto Scaling (ASG) or EC2 Fleet, by specifying a set of instance attributes `InstanceRequirements` that describe your compute requirements. As ASG or EC2 Fleet launches instances, any instance types used by them will match your required instance attributes. *ABS* can be utilized on ASG or EC2 Fleet via the AWS Management Console, AWS CLI, or SDKs. *ABS* only supports `lowest-price` allocation strategy for On-Demand, and `capacity-optimized` or `lowest-price`  allocation strategy for Spot instances. 
+In this configuration, we are using [*attribute-based instance type selection (ABS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to select instance families for the Auto Scaling group. *Attribute-based instance type selection (ABS)* offers an alternative to manually choosing instance types when creating an Amazon EC2 Auto Scaling (ASG) or EC2 Fleet, by specifying a set of instance attributes `InstanceRequirements` that describe your compute requirements. As ASG or EC2 Fleet launches instances, any instance types used by them will match your required instance attributes. *ABS* can be utilized on ASG or EC2 Fleet via the AWS Management Console, AWS CLI, or SDKs. *ABS* only supports `lowest-price` allocation strategy for On-Demand, and `price-capacity-optimized`, `capacity-optimized` or `lowest-price`  allocation strategy for Spot instances. 
 
 *ABS* is suitable for picking a set of Amazon EC2 instances that can run a flexible workloads and/or frameworks. *By using ABS to select the list of Amazon EC2 instances for your workload, your application will follow the Spot best practice of diversifying instances across as many Spot pools, thus enabling your ASG or EC2 Fleet to optimally provision Spot capacity.*
 
@@ -69,7 +69,10 @@ In this configuration, we are using *ABS* to select all instances that have a mi
 
 With Auto Scaling groups you can define what is the balance between Spot vs On-Demand Instances that makes sense for your workload. `OnDemandBaseCapacity` allows you to set an initial capacity of On-Demand Instances to use. After that, any new procured capacity will be a mix of Spot and On-Demand Instances as defined by the `OnDemandPercentageAboveBaseCapacity`.
 
-The configuration above, sets the `SpotAllocationStrategy` to `capacity-optimized`. The `capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of used Spot Instances. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance allocation in action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/).
+The configuration above, sets the `SpotAllocationStrategy` to `price-capacity-optimized`. The `price-capacity-optimized` allocation strategy <b>not only</b> allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, <b>but also</b> provision Spot instances with the lowest price. The benefit of using this allocation strategy is Spot allocation looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price, thus maintaining an interruption rate comparable to the `capacity-optimized` allocation strategy, while keeping the total price of your Spot Instances lower. You can read more about the `price-capacity-optimized` allocation strategy in the launch post [Amazon EC2 announces new price and capacity optimized allocation strategy for provisioning Amazon EC2 Spot Instances](https://aws.amazon.com/about-aws/whats-new/2022/11/amazon-ec2-price-capacity-optimized-allocation-strategy-provisioning-ec2-spot-instances/)
+
+<!-- The configuration above, sets the `SpotAllocationStrategy` to `capacity-optimized`. The `capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of used Spot Instances. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance allocation in action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/). 
+-->
 
 Let's create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the `min-size` to 4, `max-size` to 20 and `desired-capacity` to 8 in vcpu units.
 
@@ -109,6 +112,8 @@ To check the instances within the newly created Auto Scaling group we can use `d
 ```bash
 aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names EC2SpotWorkshopASG
 ```
+
+To check the newly created instances Auto Scaling group in the AWS Console, head to [EC2 Dashboard home](https://console.aws.amazon.com/ec2/home?#Home:), click on "Instances (running), and filter the list of instances using `aws:autoscaling:groupName = EC2SpotWorkshopASG`.
 
 4.) **How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?**
 
@@ -166,7 +171,7 @@ cat <<EoF > ./asg-policy.json
    "InstancesDistribution":{
       "OnDemandBaseCapacity":2,
       "OnDemandPercentageAboveBaseCapacity":25,
-      "SpotAllocationStrategy":"capacity-optimized"
+      "SpotAllocationStrategy":"price-capacity-optimized"
    }
 }
 EoF
@@ -226,7 +231,7 @@ cat <<EoF > ./asg-policy.json
    "InstancesDistribution":{
       "OnDemandBaseCapacity":2,
       "OnDemandPercentageAboveBaseCapacity":25,
-      "SpotAllocationStrategy":"capacity-optimized"
+      "SpotAllocationStrategy":"price-capacity-optimized"
    }
 }
 EoF
@@ -249,6 +254,58 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorks
 {{% notice tip %}}
 Auto Scaling group has rich functionality that helps reduce the heavy lifting of managing capacity. Auto Scaling groups can dynamically increase and decrease capacity as needed.
 {{% /notice %}}
+
+#### Other Spot allocation strategies
+
+The `capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of used Spot Instances. Use `capacity-optimized` Spot allocation strategy works well for workloads where the cost of a Spot interruption is very high or `price-capacity-optimized` strategy is experiencing higher Spot interruptions. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance allocation in action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/). 
+
+{{%expand "How to use the strategy" %}}
+
+```
+cat <<EoF > ./asg-policy.json
+{
+   "LaunchTemplate":{
+      "LaunchTemplateSpecification":{
+         "LaunchTemplateId":"${LAUNCH_TEMPLATE_ID}",
+         "Version":"1"
+      },
+      "Overrides":[{
+         "InstanceRequirements": {
+            "VCpuCount": {
+               "Min": 4, 
+               "Max": 8
+            },
+            "MemoryMiB": {
+               "Min": 16384
+            },
+            "CpuManufacturers": [
+               "intel",
+               "amd"
+            ]
+         }
+      }]
+   },
+   "InstancesDistribution":{
+      "OnDemandBaseCapacity":2,
+      "OnDemandPercentageAboveBaseCapacity":25,
+      "SpotAllocationStrategy":"capacity-optimized"
+   }
+}
+EoF
+```
+Delete the Auto Scaling group if it has been created. 
+
+```bash
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --force-delete
+```
+
+To create the Auto Scaling group, use this command.
+
+```
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
+```
+
+{{% /expand %}}
 
 
 #### Brief Summary of Auto Scaling group functionality
