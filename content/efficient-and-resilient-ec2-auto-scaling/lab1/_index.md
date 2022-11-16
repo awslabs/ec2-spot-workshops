@@ -1,8 +1,8 @@
 ---
 title: "Amazon EC2 Auto Scaling"
-menuTitle: "Predictive scaling"
+menuTitle: "Amazon EC2 Auto Scaling"
 weight: 80
-pre: "<b>Lab 1: </b>"
+# pre: "<b>Lab 1: </b>"
 ---
 
 Let's start by learning more about Amazon EC2 Auto Scaling and the several ways to scale your application.

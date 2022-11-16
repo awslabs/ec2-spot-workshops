@@ -1,6 +1,6 @@
 +++
 title = "Enable Warm Pools"
-weight = 40
+weight = 190
 +++
 
 ### Enable Warm Pools for the Auto Scaling Group
