@@ -8,7 +8,7 @@ weight = 70
 This API allows you to launch one or more instances, using a Launch Template that you have previously configured. Typically you would use the RunInstances API to launch one or more instances of the same type in situations where you are not planning to replace or manage the instances as a group entity.
 
 {{%notice note%}}
-Even though RunInstances API allows you to launch Spot instances, it doesn't allow you to specify a replacement strategy or an allocation strategy. Remember that by specifying multiple Spot capacity pools we can apply instance diversification and by using `capacity-optimized` allocation strategy, Amazon EC2 will automatically launch Spot Instances from the optimal capacity pools. This is why it is recommended to use EC2 Fleet in `instant` mode as a drop-in replacement for RunInstances API.
+Even though RunInstances API allows you to launch Spot instances, it doesn't allow you to specify a replacement strategy or an allocation strategy. Remember that by specifying multiple Spot capacity pools we can apply instance diversification and by using `price-capacity-optimized` allocation strategy, Amazon EC2 will automatically launch Spot Instances from the most optimal capacity pools having the lowest Spot pool prices. This is why it is recommended to use EC2 Fleet in `instant` mode as a drop-in replacement for RunInstances API.
 {{% /notice %}}
 
 ## RunInstance example: Launching a single instance

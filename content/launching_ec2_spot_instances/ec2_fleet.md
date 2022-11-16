@@ -150,11 +150,14 @@ Similarly, you can run the following command to retrieve the identifiers of the 
 ```bash
 aws ec2 describe-instances --filters Name=tag:aws:ec2:fleet-id,Values=${FLEET_ID} Name=instance-state-name,Values=running --query "Reservations[*].Instances[? InstanceLifecycle==null].[InstanceId]" --output text
 ```
+
+To check the newly created instances Auto Scaling group in the AWS Console, head to [EC2 Dashboard home](https://console.aws.amazon.com/ec2/home?#Home:), click on "Instances (running), and filter the list of instances using `aws:ec2:fleet-id = $FLEET_ID` and `Instance lifecycle = spot`.
+
 {{% /expand %}}
 
 #### How about using attribute-based instance type selection
 
-[*Attribute-based instance type selection (ABS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) offers an alternative to manually choosing instance types when creating an Amazon EC2 Auto Scaling (ASG) or EC2 Fleet, by specifying a set of instance attributes `InstanceRequirements` that describe your compute requirements. As ASG or EC2 Fleet launches instances, any instance types used by them will match your required instance attributes.  *ABS* only supports `lowest-price` allocation strategy for On-Demand, and `capacity-optimized` or `lowest-price`  allocation strategy for Spot instances. 
+[*Attribute-based instance type selection (ABS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) offers an alternative to manually choosing instance types when creating an Amazon EC2 Auto Scaling (ASG) or EC2 Fleet, by specifying a set of instance attributes `InstanceRequirements` that describe your compute requirements. As ASG or EC2 Fleet launches instances, any instance types used by them will match your required instance attributes.  *ABS* only supports `lowest-price` allocation strategy for On-Demand, and `price-capacity-optimized`, `capacity-optimized` or `lowest-price`  allocation strategy for Spot instances. 
 
 *ABS* can be utilized on ASG or EC2 Fleet via the AWS Management Console, AWS CLI, or SDKs. *ABS* is suitable for picking a set of Amazon EC2 instances that can run a flexible workloads and/or frameworks. *By using ABS to select the list of Amazon EC2 instances for your workload, your application will follow the Spot best practice of diversifying instances across as many Spot pools, thus enabling your ASG or EC2 Fleet to optimally provision Spot capacity.*
 
@@ -164,7 +167,7 @@ aws ec2 describe-instances --filters Name=tag:aws:ec2:fleet-id,Values=${FLEET_ID
 
 To create an EC2 Fleet with *attribute-based instance type selection*, you can use a *json* file that is given below. The example selects *intel* instances via `CpuManufacturers` with vcpus between 2 and 4 using `VCpuCount` attribute, and memory between 8Gib and 32Gib using `MemoryMiB` attribute. The selection will include instances including c5.xlarge, m5.xlarge, r5.xlarge, and many other instance types. We will only use the default price protection thresholds for both On-Demand and Spot instances.
 
-Note the changes to these allocation strategies in the EC2 Fleet request as *ABS* only supports `lowest-price` allocation strategy for On-Demand and `capacity-optimized`  allocation strategy for Spot instances. 
+Note the changes to these allocation strategies in the EC2 Fleet request as *ABS* only supports `lowest-price` allocation strategy for On-Demand and `price-capacity-optimized`  allocation strategy for Spot instances. 
 
 ```bash
 cat <<EoF > ./ec2-fleet-config.json
@@ -173,7 +176,7 @@ cat <<EoF > ./ec2-fleet-config.json
       "SingleInstanceType": true,
       "SingleAvailabilityZone": true,
       "MinTargetCapacity": 4,
-      "AllocationStrategy": "capacity-optimized",
+      "AllocationStrategy": "price-capacity-optimized",
       "InstanceInterruptionBehavior": "terminate"
    },
    "OnDemandOptions":{
