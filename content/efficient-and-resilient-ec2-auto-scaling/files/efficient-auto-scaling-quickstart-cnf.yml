@@ -96,6 +96,18 @@ Resources:
       LaunchTemplateData:
         ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
         InstanceType: t3.micro
+        UserData: 
+          'Fn::Base64': |
+            #!/bin/bash
+            sudo amazon-linux-extras install epel -y
+            echo "Application is not installed, install and start it."
+            INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
+            sudo yum -y install httpd && \
+            sudo service httpd start && \
+            echo "Sleeping for 180 seconds to simulate additional configuration time." && \
+            sleep 180 \
+            # INSERT LIFECYCLE HOOK CODE HERE
+
 ################## PERMISSIONS AND ROLES #################
   C9Role:
     Type: AWS::IAM::Role
