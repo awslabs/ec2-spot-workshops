@@ -1,6 +1,6 @@
 +++
 title = "Measure the Launch Speed of Instances"
-weight = 30
+weight = 180
 +++
 
 
