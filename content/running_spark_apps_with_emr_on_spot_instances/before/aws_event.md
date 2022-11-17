@@ -7,7 +7,7 @@ weight: 10
 ### Running the workshop at an AWS Event
 
 {{% notice warning %}}
-Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee). If you are running the workshop on your own, go to: [Start the workshop on your own](/running_spark_apps_with_emr_on_spot_instances/self_paced.html).
+Only complete this section if you are at an AWS hosted event such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee. If you are running the workshop on your own, then go to [Start the workshop on your own](/running_spark_apps_with_emr_on_spot_instances/self_paced.html) directly.
 {{% /notice %}}
 
 ### Login to the AWS Workshop Portal
@@ -22,7 +22,7 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
 {{% notice info %}}
-In the interest of time we have deployed everything required to this workshop. All the pre-requisites and dependencies have been deployed. The resources deployed can befound in this CloudFormation Template (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yml)**). The template deploys resourcess such as (a) An [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with all the dependencies and IAM privileges to run the workshop (b) All the S3 buckets needed to complete the workshop. 
+In the interest of time we have deployed everything required to this workshop. All the pre-requisites and dependencies have been deployed. The resources deployed can be found in this CloudFormation Template (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yml)**). The template deploys a Amazon S3 bucket and an [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with all the dependencies to run the workshop. 
 {{% /notice %}}
 
 #### Getting access to Cloud9  

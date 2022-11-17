@@ -3,59 +3,33 @@ title: "...on your own"
 chapter: false
 weight: 20
 ---
-
-{{% notice warning %}}
-Only complete this section if you are running the workshop on your own. If you are at an AWS hosted event (such as re:Invent, Kubecon, Immersion Day, etc), go to [Start the workshop at an AWS event]({{< ref "/running_spark_apps_with_emr_on_spot_instances/before/aws_event.md" >}}).
-{{% /notice %}}
-
 ## Running the workshop on your own
 
-### Creating an account to run the workshop
-
 {{% notice warning %}}
-Your account must have the ability to create new IAM roles and scope other IAM permissions.
+Only complete this section if you are running the workshop **on your own**. If you are at an AWS hosted event such as re:Invent, Kubecon, Immersion Day, etc, then go to [Start the workshop at an AWS event]({{< ref "/running_spark_apps_with_emr_on_spot_instances/before/aws_event.md" >}}).
 {{% /notice %}}
 
-1. If you don't already have an AWS account with Administrator access: [create
-one now by clicking here](https://aws.amazon.com/getting-started/)
+To run this workshop you need an AWS account with Administrator or similar privileged access. If you don't already have an AWS account with Administrator access, then you can create a new AWS account by following steps provided in this [getting started guide](https://aws.amazon.com/getting-started/).
 
-1. Once you have an AWS account, ensure you are following the remaining workshop steps
-as an IAM user with administrator access to the AWS account:
-[Create a new IAM user to use for the workshop](https://console.aws.amazon.com/iam/home?#/users$new)
+### Deploying AWS CloudFormation template
 
-1. Enter the user details:
-![Create User](/images/running-emr-spark-apps-on-spot/prerequisites/iam-1-create-user.png)
-
-1. Attach the AdministratorAccess IAM Policy:
-![Attach Policy](/images/running-emr-spark-apps-on-spot/prerequisites/iam-2-attach-policy.png)
-
-1. Click to create the new user:
-![Confirm User](/images/running-emr-spark-apps-on-spot/prerequisites/iam-3-create-user.png)
-
-1. Take note of the login URL and save:
-![Login URL](/images/running-emr-spark-apps-on-spot/prerequisites/iam-4-save-url.png)
-
-### Deploying CloudFormation 
-
-In the interest of time and to focus just on the EMR with Spot, we will install everything required to run this workshop using cloudformation. 
+The workshop requires an [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace and a S3 buckets as the prerequisites. To save time you install these prerequisites using a cloudformation template. 
 
 1. Download locally this cloudformation stack into a file (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yml)**).
+2. Go to the [CloudFormation console](https://us-east-1.console.aws.amazon.com/cloudformation/home) and select **With new resources(standard)** option in **Create stack** drop down. 
+3. In the **Create stack** stack form in **Prerequisite - Prepare template** section select **Template is ready**.
+4. In **Specify template** section select **Upload a template file** and click on **Choose file** button to upload the CloudFormation template you downloaded in step 1. 
+5. Enter **Stack Name** `emrspot-workshop` in the **Stack Name**  and leave all the settings in the parameters section with the default parameters and click **Next**
+6. In the Configure Stack options just scroll to the bottom of the page and click **Next**
+7. Finally in the **Review emrspot-workshop** go to the bottom of the page and tick the **Capabilities section *I acknowledge that AWS CloudFormation might create IAM resources.* then click **Create stack**
 
-1. Go into the CloudFormation console and select the creation of a new stack. Select **Template is ready**, and then **Upload a template file**, then select the file that you downloaded to your computer and click on **Next**
-
-1. Fill in the **Stack Name** using `emrspot-workshop`, Leave all the settings in the parameters section with the default prarameters and click **Next**
-
-1. In the Configure Stack options just scroll to the bottom of the page and click **Next**
-
-1. Finally in the **Review emrspot-workshop** go to the bottom of the page and tick the `Capabilities` section *I acknowledge that AWS CloudFormation might create IAM resources.* then click **Create stack**
-
-{{% notice warning %}}
-The deployment of this stack may take up to 10minutes. You should wait until all the resources in the cloudformation stack have been completed before you start the rest of the workshop. The template deploys resourcess such as (a) An [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with all the dependencies and IAM privileges to run the workshop (b) All the S3 buckets needed to complete the workshop. 
+{{% notice note %}}
+The deployment of this stack may take up to 10 minutes. You should wait until all the resources in the cloudformation stack have been completed before you start the rest of the workshop.  
 {{% /notice %}}
 
 ### Checking the completion of the stack deployment
 
-One way to check your stack has been fully deployed is to check that all the cloudformation dependencies are green and succedded in the cloudformation dashboard; This should look similar to the state below.
+One way to check your stack has been fully deployed is to check that all the cloudformation dependencies are green and succeeded in the cloudformation dashboard; This should look similar to the state below.
 
 ![cnf_output](/images/running-emr-spark-apps-on-spot/prerequisites/cfn_stak_completion.png)
 

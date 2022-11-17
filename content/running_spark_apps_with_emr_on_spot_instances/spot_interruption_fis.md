@@ -95,7 +95,7 @@ Follow the same steps from ["Examining the cluster"](/running_spark_apps_with_em
 ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:18080 hadoop@$EMRClusterDNS
 ```
 
-Now click on the `Preview Running Application` under the `Preview` menu at the top. You’ll see a browser window opening with in the Cloud9 environment with a refused connection error page. Click on the button next to Browser (arrow inside a box) to open web UI in a dedicated browser page. 
+Now click on the **Preview Running Application** under the **Preview** menu at the top. You’ll see a browser window opening with in the Cloud9 environment with a refused connection error page. Click on the button next to Browser (arrow inside a box) to open web UI in a dedicated browser page. 
 
 In the home screen, click on the latest App ID (if it's empty, wait for the job to finish) to see the execution details. You should see something like this:
 
@@ -103,9 +103,26 @@ In the home screen, click on the latest App ID (if it's empty, wait for the job 
 
 Notice how two minutes around after the job started, three executors were removed (each executor is a Spot instance). If your job runs long enough then you can see new executors being launched to catch-up on completing the job. In this example the job took around eight minutes to finish. If you don't see executors being added, you could re-launch the Spark job and start the FIS experiment as soon as the spark job starts.
 
-#### Script to Run the whole Experiment
+{{%expand "QUESTION: As a result of Spot interruptions you might see different results. For example, all stages of your Spark jobs passed without any error, or a single stage was failed and then re-tried. Do you know why this happens and what actions are taken by EMR on the instances that were interrupted? Click to expand the answer." %}}
 
-If you'd like to run the Spot experiment again, here's a script that groups all the above commands to run them all at once. After running this script, you should be able to see the Spark job timeline in the **Spark History Server** page. You can tweak the sleep time to interrupt instances in the middle of the Spark job execution.
+#### Actions for decommissioned nodes
+When a Spot Instance is interrupted, no new tasks get scheduled, and the active containers become idle (or the timeout expires), the node gets decommissioned. When the Spark driver receives the decommissioned signal, it can take the following additional actions to start the recovery process sooner rather than waiting for a fetch failure to occur:
+
+* All of the shuffle outputs on the decommissioned node are unregistered, thus marking them as unavailable. Amazon EMR enables this by default with the setting spark.resourceManager.cleanupExpiredHost set to true. This has the following advantages:
+
+    * **If a single node is decommissioned during map stage**: lost shuffle is recomputed elsewhere before proceeding to the next Stage. Faster recovery as shuffle blocks computed during the map stage instead failures during shuffle stage. 
+
+    * **If a single node is decommissioned during shuffle stage**: target executors immediately sends the fetch failure to the driver instead of multiple retrying fetch the lost shuffle block. The driver then immediately fails the stage and starts recomputing the lost shuffle output. Reduces the time spent trying to fetch shuffle blocks from lost nodes.
+
+    * **If multiple nodes are decommissioned  during any stage**: Spark schedules the first re-attempt to compute the missing blocks, it notices all of the missing blocks from decommissioned nodes and recovers in a single attempt. This speeds up the recovery process significantly over the open-source Spark implementation.
+
+When a stage fails because of fetch failures from a node being decommissioned, by default, Amazon EMR does not count the stage failure toward the maximum number of failures allowed for a stage by the setting spark.stage.attempt.ignoreOnDecommissionFetchFailure set to true. This prevents a job from failing if a stage fails multiple times because of node failures due to Spot Instance termination.
+{{% /expand%}}
+
+
+{{%expand "If you want to run the Spot interruptions experiment again using a script, then expand this section." %}}
+
+Below is a script that groups all the above commands to run them all at once. After running this script, you should be able to see the Spark job timeline in the **Spark History Server** page. You can tweak the sleep time to interrupt instances in the middle of the Spark job execution.
 
 ```
 cat <<'EOF' > spotexperiment.sh
@@ -132,20 +149,5 @@ Then run the script like this:
 sh spotexperiment.sh
 ```
 
-Now open the Spark History Sever using the `Preview Running Application` feature from Cloud9 to review the job timeline.
-
-{{%expand "QUESTION: As a result of Spot interruptions you might see different results, for example: all stages of your Spark jobs passed without any error, or a single stage was failed and then re-tried. Do you know why this happens and what actions are taken by EMR on the instances that were interrupted? Click to expand the answer." %}}
-
-#### Actions for decommissioned nodes
-When a Spot Instance is interrupted, no new tasks get scheduled, and the active containers become idle (or the timeout expires), the node gets decommissioned. When the Spark driver receives the decommissioned signal, it can take the following additional actions to start the recovery process sooner rather than waiting for a fetch failure to occur:
-
-* All of the shuffle outputs on the decommissioned node are unregistered, thus marking them as unavailable. Amazon EMR enables this by default with the setting spark.resourceManager.cleanupExpiredHost set to true. This has the following advantages:
-
-    * **If a single node is decommissioned during map stage**: lost shuffle is recomputed elsewhere before proceeding to the next Stage. Faster recovery as shuffle blocks computed during the map stage instead failures during shuffle stage. 
-
-    * **If a single node is decommissioned during shuffle stage**: target executors immediately sends the fetch failure to the driver instead of multiple retrying fetch the lost shuffle block. The driver then immediately fails the stage and starts recomputing the lost shuffle output. Reduces the time spent trying to fetch shuffle blocks from lost nodes.
-
-    * **If multiple nodes are decommissioned  during any stage**: Spark schedules the first re-attempt to compute the missing blocks, it notices all of the missing blocks from decommissioned nodes and recovers in a single attempt. This speeds up the recovery process significantly over the open-source Spark implementation.
-
-When a stage fails because of fetch failures from a node being decommissioned, by default, Amazon EMR does not count the stage failure toward the maximum number of failures allowed for a stage by the setting spark.stage.attempt.ignoreOnDecommissionFetchFailure set to true. This prevents a job from failing if a stage fails multiple times because of node failures due to Spot Instance termination.
+Now open the Spark History Sever using the **Preview Running Application** feature from Cloud9 to review the job timeline.
 {{% /expand%}}

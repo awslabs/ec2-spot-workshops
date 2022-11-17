@@ -44,13 +44,13 @@ To launch the cluster, follow these steps:
     exit()
     ```
 
-  * Next add the location of the file under the **Application location** field, i.e: `s3://\<your-bucket-name\>/script.py`. Run the following command in the Cloud9 terminal to get the name of the S3 bucket for your environment, then browse it and choose the `script.py` file:
+  * Next add the location of the file under the **Application location** field. Run the following command in the Cloud9 terminal to get the location of `script.py` file:
 
       ```
-      echo $S3_BUCKET
+      echo "s3://$S3_BUCKET/script.py"
       ```
 
-      * **Arguments**: Here you will configure the location of where Spark will write the results of the job. Enter: s3://\<your-bucket-name\>/results/. Run the following command in the Cloud9 terminal to get the name of the S3 bucket for your environment:
+  * **Arguments**: Here you will configure the location of where Spark will write the results of the job. Run the following command in the Cloud9 terminal to get the location of S3 result bucket:
 
       ```
       echo "s3://$S3_BUCKET/results/"
