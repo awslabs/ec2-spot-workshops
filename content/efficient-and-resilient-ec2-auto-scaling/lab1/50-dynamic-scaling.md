@@ -17,7 +17,7 @@ When using predictive scaling, Amazon EC2 Auto Scaling scales the number of inst
 When **multiple** scaling policies are active, each policy determines the desired capacity independently, and the desired capacity is set to the maximum of those.
 {{% /notice %}}
 
-Now you are going to configure the Auto Scaling group to automatically scale out and scale in as your **application load** fluctuates.
+Now you are going to configure the Auto Scaling group to automatically scale out and scale in as your **application load** fluctuates. We will be using a predefined metric that uses average CPU utilization across the Auto Scaling group instances.
 
 
 1. Review this command to understand the options, then go ahead and run it 
@@ -33,7 +33,7 @@ cat <<EoF > asg-automatic-scaling.json
     "PredefinedMetricSpecification": {
       "PredefinedMetricType": "ASGAverageCPUUtilization"
     },
-    "TargetValue": 50,
+    "TargetValue": 75,
     "DisableScaleIn": false
   }
 }
@@ -65,5 +65,4 @@ Command should return policy ARN and target tracking alarms that have been creat
 ```
 
 3. Navigate to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
-4. If you will not be running Lab2, please make sure to clean up the created resources. Navigate to [Clean up](/efficient-and-resilient-ec2-auto-scaling/90-cleanup.html)
-5. You have successfully completed this lab.
+4. Now you have predictive and dynamic scaling polices in place, you have successfully completed the first task you've been asked to do.

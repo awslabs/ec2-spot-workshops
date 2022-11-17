@@ -18,10 +18,10 @@ When you publish your own metrics, make sure to publish the data points at a min
 ```bash
 echo "Uploading metric data to CloudWatch.."
 
-aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://lab1/metric-instances.json
+aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-instances.json
 echo "waiting for 10 seconds to avoid throttling.."
 sleep 10
-aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://lab1/metric-cpu.json
+aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-cpu.json
 aws cloudwatch list-metrics --namespace "Workshop Custom Predictive Metrics"
 
 echo "Uploading metric data to CloudWatch..Completed!"

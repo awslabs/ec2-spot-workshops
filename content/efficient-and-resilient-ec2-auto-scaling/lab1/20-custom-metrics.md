@@ -20,7 +20,7 @@ As part of the CloudFormation stack you created, a bash script has been executed
 
 **Verify** that metrics data files have been updated during the bootstrap:
 
-1. Using **Cloud9 IDE** left navigation, browse folder `workshop/efficient-and-resilient-ec2-auto-scaling/lab1`
+1. Using **Cloud9 IDE** left navigation, browse folder `workshop/efficient-and-resilient-ec2-auto-scaling`
 2. Open files `metric-cpu.json` and `metric-instances.json`
 3. It should include today's date in UTC format and the auto scaling group name `ec2-workshop-asg`
 4. **DO NOT CONTINUE** with this lab, if the files are **not updated** with the date and auto scaling group name.
