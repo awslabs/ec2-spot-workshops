@@ -1,11 +1,11 @@
 +++
-title = "Deploy CloudFormation Stack"
+title = "Environment Setup"
 weight = 50
 +++
 
 To save time on the initial setup, a **CloudFormation** template will be used to create  various supporting resources including IAM policies and roles, EC2 Launch Template, VPC, Subnets and a **Cloud9** IDE environment for you to run the steps for the workshop in.
 
-#### Create the CloudFormation stack
+#### Deploy CloudFormation Stack
 
 **>>>>>[remove this note when you update the link for the cfn template in final PR]<<<<<**
 1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/nadaahm/ec2-spot-workshops/nadaahm-asg-workshop-reinvent/content/efficient-and-resilient-ec2-auto-scaling/files/efficient-auto-scaling-quickstart-cnf.yml). **Tip:** Right click the link and Save Link As.. to download the file.

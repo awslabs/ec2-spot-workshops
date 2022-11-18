@@ -5,7 +5,8 @@ weight: 80
 # pre: "<b>Lab 1: </b>"
 ---
 
-Let's start by learning more about Amazon EC2 Auto Scaling and the several ways to scale your application.
+You have decided to optimize your EC2 Auto Scaling to make it more efficient and resilient.
+In this step, you will learn more about Amazon EC2 Auto Scaling and the several ways to configure scaling for your application.
 
 **Amazon EC2 Auto Scaling** helps you maintain application availability and allows you to dynamically scale your Amazon EC2 capacity up or down automatically according to conditions you define. You can use Amazon EC2 Auto Scaling for fleet management of EC2 instances to help maintain the health and availability of your fleet and ensure that you are running your desired number of Amazon EC2 instances.
 
