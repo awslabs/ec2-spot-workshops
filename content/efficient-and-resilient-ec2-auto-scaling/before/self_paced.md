@@ -3,7 +3,7 @@ title = "...On your own"
 weight = 20
 +++
 
-{{% notice note %}}
+{{% notice warning %}}
 If you are at an AWS Event, please skip this step!
 {{% /notice %}}
 
