@@ -297,6 +297,7 @@ Resources:
             - echo '=== Upload Spark App to S3 ==='
             - curl "https://ec2spotworkshops.com/running_spark_apps_with_emr_on_spot_instances/launching_emr_cluster-1.files/script.py" -o "script.py"
             - !Sub sudo -H -u ec2-user aws s3 cp script.py s3://${SparkAppBucket}
+            - . /home/ec2-user/.bash_profile
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
