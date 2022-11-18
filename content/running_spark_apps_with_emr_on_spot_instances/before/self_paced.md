@@ -15,7 +15,7 @@ To run this workshop you need an AWS account with Administrator or similar privi
 
 The workshop requires an [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace and a S3 buckets as the prerequisites. To save time you install these prerequisites using a cloudformation template. 
 
-1. Download locally this cloudformation stack into a file (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yml)**).
+1. Download locally this cloudformation stack into a file (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yaml)**).
 2. Go to the [CloudFormation console](https://us-east-1.console.aws.amazon.com/cloudformation/home) and select **With new resources(standard)** option in **Create stack** drop down. 
 3. In the **Create stack** stack form in **Prerequisite - Prepare template** section select **Template is ready**.
 4. In **Specify template** section select **Upload a template file** and click on **Choose file** button to upload the CloudFormation template you downloaded in step 1. 
