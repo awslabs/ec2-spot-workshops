@@ -7,7 +7,7 @@ weight = 200
 
 Now that we have pre-initialized instance in the Warm Pool, we can scale our Auto Scaling group and launch the pre-initialized instance rather than launching a new instance that has not been pre-initialized.
 
-**Step 1: Increase Desired Capacity**
+#### Increase Desired Capacity
 
 Let's increase the desired capacity of our Auto Scaling group to 2.
 
@@ -15,9 +15,9 @@ Let's increase the desired capacity of our Auto Scaling group to 2.
 aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 2
 ```
 
-**Step 2: Observe Warm Pool Change**
+#### Observe Warm Pool Change
 
-Now, let's describe our Warm Pool and observe any changes. As you can see below, the instance we previously launched is no longer in our Warm Pool. This is beause it was launched from the Warm Pool, into the Auto Scaling group in response to our increase in desired capacity.
+Now, let's describe our Warm Pool and observe any changes. As you can see below, the instance we previously launched is no longer in our Warm Pool. This is because it was launched from the Warm Pool, into the Auto Scaling group in response to our increase in desired capacity.
 
 ```bash
 aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
@@ -33,7 +33,7 @@ aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
 }
 ```
 
-**Step 3: Measure Launch Speed**
+#### Measure Launch Speed
 
 We can now measure the launch speed of the instance from the Warm Pool to the Auto Scaling group.
 

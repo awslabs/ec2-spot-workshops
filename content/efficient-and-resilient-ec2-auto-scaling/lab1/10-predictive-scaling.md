@@ -67,6 +67,6 @@ aws autoscaling put-scaling-policy \
 1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on auto scaling group `ec2-workshop-asg`
 2. Click on tab **Automatic scaling**
 {{% notice info %}}
-Note that Predictive scaling forecast shows **no data** as it requires 24 hours of metric history before it can generate forecasts.
+Note that Predictive scaling forecast shows **no data** as it requires 24 hours of metric history before it can generate forecasts. Therefore we will be using CloudWatch custom metrics to create a history of data which can be used to create a predictive scaling policy and we can see it in action in this workshop. Learn more in next step..
 {{% /notice %}}
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/predictive-scaling-no-data.png)

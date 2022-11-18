@@ -1,100 +1,26 @@
 +++
-title = "Create Scaling Policy"
+title = "Create Predictive Scaling Policy"
 weight = 140
 +++
 
 ### Create the predictive scaling policy
 
-{{% notice info %}}
-A core assumption of predictive scaling is that the Auto Scaling group is homogenous and all instances are of equal capacity.
-{{% /notice %}}
+Following up with our scenario, one of the requirements is to reduce the impact of time the application takes to become ready. You found out that the predictive scaling policy can pre-launch instances, Using parameter **SchedulingBufferTime** in policy configuration you can choose how far in advance (seconds) you want your instances launched before the forecast calls for the load to increase.
 
-Pre-launch instances, choose how far in advance you want your instances launched before the forecast calls for the load to increase.
+1. In **Cloud9** IDE terminal, check you're at this directory `ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling`
 
-1. In **Cloud9** IDE terminal, run this command to create the predictive scaling policy configuration file.
+2. Review the policy configuration file and note how the custom metrics have been used in it.
+  ```bash
+  cat ./policy-config.json
+  ```
 
-```bash
-cat <<EoF > policy-config.json
-{
-    "MetricSpecifications": [
-      {
-        "TargetValue": 25,
-        "CustomizedScalingMetricSpecification": {
-          "MetricDataQueries": [
-            {
-              "Label": "Average CPU Utilization in ASG",
-              "Id": "cpu_avg",
-              "MetricStat": {
-                "Metric": {
-                  "MetricName": "CustomWSCPUUTILIZATION",
-                  "Namespace": "Workshop Custom Predictive Metrics",
-                  "Dimensions": [
-                    {
-                      "Name": "AutoScalingGroupName",
-                      "Value": "ec2-workshop-asg"
-                    }
-                  ]
-                },
-                "Stat": "Average"
-              },
-              "ReturnData": true
-            }
-          ]
-        },
-        "CustomizedLoadMetricSpecification": {
-          "MetricDataQueries": [
-            {
-              "Label": "Average CPU Utilization in ASG",
-              "Id": "cpu_avg",
-              "MetricStat": {
-                "Metric": {
-                  "MetricName": "CustomWSCPUUTILIZATION",
-                  "Namespace": "Workshop Custom Predictive Metrics",
-                  "Dimensions": [
-                    {
-                      "Name": "AutoScalingGroupName",
-                      "Value": "ec2-workshop-asg"
-                    }
-                  ]
-                },
-                "Stat": "Sum"
-              },
-              "ReturnData": true
-            }
-          ]
-        },
-        "CustomizedCapacityMetricSpecification": {
-          "MetricDataQueries": [
-            {
-              "Label": "Number of instances in ASG",
-              "Id": "capacity_avg",
-              "MetricStat": {
-                "Metric": {
-                  "MetricName": "CustomWSGroupInstances",
-                  "Namespace": "Workshop Custom Predictive Metrics",
-                  "Dimensions": [
-                    {
-                      "Name": "AutoScalingGroupName",
-                      "Value": "ec2-workshop-asg"
-                    }
-                  ]
-                },
-                "Stat": "Average"
-              },
-              "ReturnData": true
-            }
-          ]
-        }
-      }
-    ],
+```json
     "Mode": "ForecastAndScale",
     "SchedulingBufferTime": 300,
     "MaxCapacityBreachBehavior": "HonorMaxCapacity"
-  }
-EoF
 ```
 
-2. Then create the policy and attach it to the auto scaling group.
+2. Run this command to create the policy with the custom metrics and attach it to the auto scaling group.
 ```bash
 aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-policy \
   --auto-scaling-group-name "ec2-workshop-asg" --policy-type PredictiveScaling \

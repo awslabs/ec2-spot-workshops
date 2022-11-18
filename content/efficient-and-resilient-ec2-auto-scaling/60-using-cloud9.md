@@ -21,3 +21,5 @@ You should expect the folder **ec2-spot-workshops** to be visible within **5 min
 	```bash
 	cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling
 	```  
+
+![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/cloud9-workshop-directory.png)
