@@ -13,9 +13,13 @@ Amazon EC2 Auto Scaling offers the ability to add lifecycle hooks to your Auto S
 
 An Amazon EC2 instance transitions through different states from the time it launches until it is terminated. You can create lifecycle hooks to act when an instance transitions into a wait state.
 
-### Events of Lifecycle hooks
+![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/lifecycle-hooks.png)
+
+### Create a Lifecycle hook
 
 Instance launching
+
+Run this command to create a lifecycle hook to control instance launching.
 
 ```bash
 aws autoscaling put-lifecycle-hook \
@@ -24,5 +28,3 @@ aws autoscaling put-lifecycle-hook \
     --lifecycle-transition autoscaling:EC2_INSTANCE_LAUNCHING \
     --heartbeat-timeout 300
 ```
-
-Instance terminating
