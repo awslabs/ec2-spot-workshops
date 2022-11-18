@@ -24,3 +24,5 @@ If you're running in your own account, make sure you run through these steps to 
 	```    
 
 **Congratulations** on completing the workshop...*or at least giving it a good go*!  This is the workshop's permanent home, so feel free to revisit as often as you'd like.  In typical Amazon fashion, we'll be listening to your feedback and iterating to make it better.  If you have feedback, we're all ears!
+
+Check the resources on next page to [**learn more**](/efficient-and-resilient-ec2-auto-scaling/100-learn-more.html) about the topics we discussed..
