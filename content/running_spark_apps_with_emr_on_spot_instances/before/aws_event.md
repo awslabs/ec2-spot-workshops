@@ -22,7 +22,7 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
 {{% notice info %}}
-In the interest of time we have deployed everything required to this workshop. All the pre-requisites and dependencies have been deployed. The resources deployed can be found in this CloudFormation Template (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yml)**). The template deploys a Amazon S3 bucket and an [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace with all the dependencies to run the workshop. 
+ The workshop requires an [AWS Cloud9](https://console.aws.amazon.com/cloud9) workspace and a S3 buckets as the prerequisites. To save time these pre-requisites and dependencies have been already deployed using this CloudFormation Template (**[emr-spark-spot-workshop-quickstarter-cnf.yml](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/workshops/running_spark_apps_with_emr_on_spot_instances/emr-spark-spot-workshop-quickstarter-cnf.yml)**).
 {{% /notice %}}
 
 #### Getting access to Cloud9  
