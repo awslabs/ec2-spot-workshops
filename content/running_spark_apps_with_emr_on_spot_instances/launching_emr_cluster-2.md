@@ -2,9 +2,10 @@
 title: "Launch a cluster - Step 2"
 weight: 70
 ---
-### Hardware Configuration
 
-* Under **Cluster Composition** >> **Instance group configuration**, select Instance fleets. 
+### Step 2: Hadware
+
+* Under **Cluster Composition** >> **Instance group configuration**, select **Instance fleets**. 
 
 * Under **Network**, select the VPC that you deployed using the CloudFormation template earlier in the workshop (or the default VPC if you're running the workshop in an AWS event), and select all subnets in the VPC. 
 
@@ -27,7 +28,7 @@ The master node does not typically have large computational requirements. For cl
 You may experience insufficient capacity when using On-Demand Instances with allocation strategy for instance fleets. We recommend specifying a larger number of instance types for On-Demand Instances also, to diversify and reduce the chance of experiencing insufficient capacity. 
 {{% /notice %}}
 
-Under **Node type** >> **Master**, click **Add / remove instance types to fleet** and select General Purpose instance types - i.e m4.xlarge, m5.xlarge, m5a.xlarge and m5d.xlarge. EMR will only provision one instance, but will select the cheapest On-Demand instance type for the Master node from the given instance types.
+Under **Node type** >> **Master**, click **Add / remove instance types to fleet** and select General Purpose instance types - i.e `m4.xlarge`, `m5.xlarge`, `m5a.xlarge` and `m5d.xlarge`. EMR will only provision one instance, but will select the cheapest On-Demand instance type for the Master node from the given instance types.
 ![FleetSelection1](/images/running-emr-spark-apps-on-spot/emrinstancefleets-master.png)
 
 {{% notice warning %}}
@@ -35,7 +36,7 @@ Unless your cluster is very short-lived and the runs are cost-driven, avoid runn
 {{% /notice %}}
 
 #### Core fleet
-When using EMR instance fleets, one core node is mandatory. Since we don't use HDFS in this workshop, you will auto-scale task fleet and keep only one mandatory core node using On-Demand Instances. Specify **4 On-demand units**, to allow single core node to run one executor and YARN application master.
+When using EMR instance fleets, one core node is mandatory. Since you don't use HDFS in this workshop, you will auto-scale task fleet and keep only one mandatory core node using On-Demand Instances. Specify **4 On-demand units**, to allow single core node to run one executor and YARN application master.
 
 Under the **Node type** >> **Core** , click **Add / remove instance types to fleet** and select five instance types that you noted before as suitable to run an executor (given the 18G executor size), for example: 
 ![FleetSelection2](/images/running-emr-spark-apps-on-spot/emrinstancefleets-core.png)
@@ -45,7 +46,7 @@ Core nodes process data and store information using HDFS, terminating a core ins
 {{% /notice %}}
 
 #### Task fleet
-Task nodes run only Spark executors and no HDFS DataNodes, therefore Task nodes are a great fit for scaling out and increasing parallel executions to achieve faster execution times.
+Task nodes run only Spark executors and no HDFS DataNodes, therefore task nodes are a great fit for scaling out and increasing parallel executions to achieve faster execution times.
 
 
 Under the  **Node type** >> **Task** , click **Add / remove instance types to fleet** and select **up to 15 instance types** you noted before as suitable for your executor size. Since the executor size is 4 vCore, let's specify **32 Spot units** in order to run 8 executors to start with.

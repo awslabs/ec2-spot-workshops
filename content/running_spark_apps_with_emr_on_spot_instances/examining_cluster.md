@@ -5,21 +5,47 @@ weight: 90
 
 In this section you will look at the utilization of instance fleets and examine Spark executors, while the Spark application is running.
 
-### EMR Management Console
+### EMR Cluster Status
 To get started, let's check that your EMR cluster and Spark application are running.  
-1. In our EMR Cluster page, the status of the cluster will either be **Starting** or **Running**. If the status is **Starting** then you can see the status of instance fleets in the Hardware tab, while you wait for cluster to reach **Running** stage.
-2. Move to the Steps tab, the Spark application will either be **Pending** or **Running**. If the status is **Pending** then Wait for Spark application to reach **Running** stage
+
+```
+export EMRClusterName="emr-spot-workshop";
+export EMRClusterID=$(aws emr list-clusters --active | jq -c '.Clusters[] | select( .Name == '\"$EMRClusterName\"' )' | jq -r '.Id');
+aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.Status';
+```
+
+{{% notice warning %}}
+If you got an error about not getting the a proper value for `--cluster-id`, you may have picked a different name for the EMR Cluster. Make sure the `EMRClusterName` enviroment variable matches with your EMR cluster name and run the above commands again.
+{{% /notice %}}
+
+Wait until you get the cluster status on `RUNNING` with eather a message of `Running step`, like the following output:
+
+```
+{
+  "State": "RUNNING",
+  "StateChangeReason": {
+    "Message": "Running step"
+  },
+  "Timeline": {
+    "CreationDateTime": "2022-11-14T15:07:08.730000+00:00",
+    "ReadyDateTime": "2022-11-14T15:12:18.753000+00:00"
+  }
+}
+```
 
 ### EMR On-cluster application user interfaces
 To connect to the application user interfaces running on our EMR cluster you need to use SSH tunneling. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-web-interfaces.html) to learn more about connecting to EMR interfaces.  
 
-First, we need to grant SSH access from the Cloud9 environment to the EMR cluster master node:  
-1. In your EMR cluster page, in the AWS Management Console, go to the **Summary** tab  
-1. Click on the ID of the security group in **Security groups for Master**  
-1. Check the Security Group with the name **ElasticMapReduce-master**  
-1. In the lower pane, click the **Inbound tab** and click the **Edit inbound rules**  
-1. Click **Add Rule**. Under Type, select **SSH**, under Source, select **Custom**. As the Cloud9 environment and the EMR cluster are on the default VPC, introduce the CIDR of your Default VPC (e.g. 172.16.0.0/16). To check your VPC CIDR, go to the [VPC console](https://console.aws.amazon.com/vpc/home?#) and look for the CIDR of the **Default VPC**. 
-1. Click **Save**
+First, we need to grant SSH access from the Cloud9 environment to the EMR cluster master node. To do so, run the following commands:
+
+```
+export EMRMasterSG=$(aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.Ec2InstanceAttributes.EmrManagedMasterSecurityGroup');
+aws ec2 authorize-security-group-ingress \
+    --group-id $EMRMasterSG \
+    --protocol tcp \
+    --port 22 \
+    --cidr 172.31.0.0/16;
+```
 
 At this stage, you will be able to ssh into the EMR master node. 
 
@@ -29,12 +55,16 @@ In the following steps, you might not see full utilization of vCPUs and Memory o
 
 #### Access Resource Manager web interface
 
-1. Go to the EMR Management Console, click on your cluster, and open the **Application user interfaces** tab. You'll see the list of on-cluster application interfaces. 
-1. Copy the **Master public DNS** from the **Summary** section, it will look like ec2.xx-xxx-xxx-xxx.<region>.compute.amazonaws.com
-1. Establish an SSH tunnel to port 8088, where Resource Manager is bound, by executing the below command on your Cloud9 environment (update the command with your master node DNS name): 
+1. Get the EMR Cluster DNS endpoint by running the following command on your Cloud9 environment:\
 
     ```
-    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:8088 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+    export EMRClusterDNS=$(aws emr describe-cluster --cluster-id $EMRClusterID | jq -r '.Cluster.MasterPublicDnsName');
+    ```
+
+1. Establish an SSH tunnel to port 8088, where Resource Manager is bound, by executing the below command: 
+
+    ```    
+    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:8088 hadoop@$EMRClusterDNS;
     ```
 
     You'll get a message saying the authenticity of the host can't be established. Type 'yes' and hit enter. The message will look similar to the following:
@@ -54,11 +84,15 @@ In the following steps, you might not see full utilization of vCPUs and Memory o
 
 1. On the left pane, click on **Nodes**:
 
-* If the Spark App is **Running**, then in the **Cluster Metrics** table the **Containers Running** will be  **18**. In **Cluster Nodes Metrics** table, the number of **Active Nodes** will be **17** (1 core node with CORE Label and 16 task nodes without any Node Label). 
+    * If the Spark App is **Running**, then in the **Cluster Metrics** table the **Containers Running** will be  **18**. In **Cluster Nodes Metrics** table, the number of **Active Nodes** will be **17** (1 core node with CORE Label and 16 task nodes without any Node Label). 
 
-* If the Spark App is **Completed**, then **Containers Running** will be 0, **Active Nodes** will be  **1** (1 core node with CORE Label) and 16 **Decommissioned Nodes** (16 task nodes will be decommissioned by EMR managed cluster scaling).
+    * If the Spark App is **Completed**, then **Containers Running** will be 0, **Active Nodes** will be  **1** (1 core node with CORE Label) and 16 **Decommissioned Nodes** (16 task nodes will be decommissioned by EMR managed cluster scaling).
 
 ![Cloud9-Resource-Manager](/images/running-emr-spark-apps-on-spot/cloud9-resource-manager-browser.png)
+
+{{% notice warning %}}
+If you can't access the Resource Manager page, try using a different browser or check the network security policies in your computer. Your browser might have third-party cookies disabled, to enable them check this link: https://docs.aws.amazon.com/cloud9/latest/user-guide/troubleshooting.html#troubleshooting-preview.
+{{% /notice %}}
 
 ### Challenge 
 
@@ -70,17 +104,16 @@ Go to **Application user interfaces** tab to see the user interfaces URLs for  *
 
 {{% expand "Show answers" %}}
 
-
 #### Access Ganglia user interface
 
 1. Go to the Cloud9 terminal where you have established the ssh tunnel, and press ctrl+c to close the tunnel used by the previous web UI. 
-1. Establish an SSH tunnel to port 80, where Ganglia is bound, by executing the below command on your Cloud9 environment (update the command with your master node DNS name): 
+1. Establish an SSH tunnel to port 80, where Ganglia is bound, by executing the below command on your Cloud9 environment: 
 
     ```
-    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:80 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:80 hadoop@$EMRClusterDNS
     ```
 
-1. Now, go back to the browser where Resource Manager was running, and append /ganglia/ to the URL access the Ganglia Interface The URL should look like: https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/ganglia/
+1. Now, go back to the browser where Resource Manager was running, and append /ganglia/ to the URL access the Ganglia Interface The URL should look like: `https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/ganglia/`
 
 
 1. Take notice of the heatmap (**Server Load Distribution**). Notable graphs are:  
@@ -93,36 +126,19 @@ Go to **Application user interfaces** tab to see the user interfaces URLs for  *
 #### Access Spark History Server application user interface
 
 1. Go to the Cloud9 terminal where you have established the ssh tunnel, and press ctrl+c to close the tunnel used by the previous web UI. 
-1. Establish an SSH tunnel to port 18080, where Spark History Server is bound, by executing the below command on your Cloud9 environment (update the command with your master node DNS name): 
+1. Establish an SSH tunnel to port 18080, where Spark History Server is bound, by executing the below command on your Cloud9: 
 
 
     ```
-    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:ec2-###-##-##-###.compute-1.amazonaws.com:18080 hadoop@ec2-###-##-##-###.compute-1.amazonaws.com
+    ssh -i ~/environment/emr-workshop-key-pair.pem -N -L 8080:$EMRClusterDNS:18080 hadoop@$EMRClusterDNS
     ```
 
-1. Now, on your browser, go to the base URL of your Cloud9 preview application i.e. https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/
+1. Now, on your browser, go to the base URL of your Cloud9 preview application i.e. `https://xxxxxx.vfs.cloud9.eu-west-1.amazonaws.com/`
 1. Click on the App ID in the table (where App Name = Amazon reviews word count) and go to the **Executors** tab  
 1. You can again see the number of executors that are running in your EMR cluster under the **Executors table**
     ![Cloud9-Spark-History-Server](/images/running-emr-spark-apps-on-spot/cloud9-spark-history-server.png)
 
 {{% /expand %}}
-
-### Using CloudWatch Metrics
-
-EMR emits several useful metrics to CloudWatch metrics. You can use the AWS Management Console to look at the metrics in two ways:  
-
-1. In the EMR console, under the **Monitoring** tab in your cluster's page  
-1. By browsing to the CloudWatch service, and under Metrics, searching for the name of your cluster (copy it from the EMR Management Console) and clicking **EMR > Job Flow Metrics**
-
-{{% notice note %}}
-The metrics will take a few minutes to populate.
-{{% /notice %}}
-
-Some notable metrics:
-
-* **AppsRunning** - you should see 1 since we only submitted one step to the cluster.  
-* **ContainerAllocated** - this represents the number of containers that are running on core and task fleets. These would the be Spark executors and the Spark Driver.   
-* **Memory allocated MB** & **Memory available MB** - you can graph them both to see how much memory the cluster is actually consuming for the wordcount Spark application out of the memory that the instances have.  
 
 ### Managed Scaling in Action
 

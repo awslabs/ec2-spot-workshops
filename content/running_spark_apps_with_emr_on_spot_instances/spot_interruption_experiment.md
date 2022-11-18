@@ -3,7 +3,7 @@ title: "Creating the Spot Interruption Experiment"
 weight: 97
 ---
 
-In this section, you're going to start creating the experiment to [trigger the interruption of Amazon EC2 Spot Instances using AWS Fault Injection Simulator (FIS)](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/). When using Spot Instances, you need to be prepared to be interrupted. With FIS, you can test the resiliency of your workload and validate that your application is reacting to the interruption notices that EC2 sends before terminating your instances. You can target individual Spot Instances or a subset of instances in clusters managed by services that tag your instances such as ASG, Fleet and EMR.
+In this section, you're going to start creating the experiment to trigger the interruption of Amazon EC2 Spot Instances using [AWS Fault Injection Simulator (FIS)](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/). When using Spot Instances, you need to be prepared to be interrupted. With FIS, you can test the resiliency of your workload and validate that your application is reacting to the interruption notices that EC2 sends before terminating your instances. You can target individual Spot Instances or a subset of instances in clusters managed by services that tag your instances such as ASG, Fleet and EMR.
 
 You're going to use the CLI, so launch your terminal to run the commands included in this section.
 

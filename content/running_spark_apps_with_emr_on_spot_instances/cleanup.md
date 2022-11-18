@@ -3,7 +3,6 @@ title: "Cleanup"
 weight: 150
 ---
 
-#### Cleanup
 
 Select the correct tab, depending on where you are running the workshop:
 {{< tabs name="EventorOwnAccount" >}}
