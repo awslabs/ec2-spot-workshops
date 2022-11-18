@@ -5,7 +5,7 @@ parse_arguments() {
 
   ACTION=$1
   
-  if [ "${ACTION}" != "price" ] && [ "${ACTION}" != "merge" ] ; then
+  if [ "${ACTION}" != "price" ] ; then
     echo $0 ": Unrecognised action " ${ACTION}
     exit 2
   fi
@@ -62,12 +62,6 @@ price()
     aws s3 cp ${filename} "${OUTPUT_URI}/${AWS_BATCH_JOB_ID}/${filename}"
     rm ${filename}
 }
-
-merge()
-{
-    echo "Not implemented"   
-}
-
 
 parse_arguments "$@"
 if [ "${ACTION}" == "price" ] ; then
