@@ -3,6 +3,7 @@ title = "Predictive scaling"
 weight = 110
 +++
 
+After reviewing the differences between Scaling policies, you have decided to go with Predictive Scaling because it is modelled on historic CloudWatch metric data and powered by Machine Learning.
 
 ### What is Predictive scaling?
 

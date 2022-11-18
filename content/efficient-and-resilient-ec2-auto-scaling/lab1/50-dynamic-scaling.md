@@ -1,9 +1,9 @@
 +++
-title = "Dynamic scaling"
+title = "Configure Dynamic scaling"
 weight = 150
 +++
 
-Now the predictive scaling policy is in place, you notice that the auto scaling group scales out successfully. However, you notice that the auto scaling group doesn't scales down when the predicted capacity is less than the actual capacity.
+Now the predictive scaling policy is in place, you notice that the auto scaling group scales out successfully. However, you notice that the auto scaling group doesn't scale in when the predicted capacity is less than the actual capacity.
 
 ## Use predictive scaling with dynamic scaling
 

@@ -25,101 +25,17 @@ aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
 
 When an instance is launched into a Warm Pool it will transition through lifecycle states, with Warmed:Pending.
 
-```
-{
-    "WarmPoolConfiguration": {
-        "MinSize": 0,
-        "PoolState": "Stopped"
-    },
-    "Instances": [
-        {
-            "InstanceId": "i-0ea10fdc59a07df6e",
-            "InstanceType": "t2.micro",
-            "AvailabilityZone": "us-west-2a",
-            "LifecycleState": "Warmed:Pending",
-            "HealthStatus": "Healthy",
-            "LaunchTemplate": {
-                "LaunchTemplateId": "lt-0356f1c452b0eb0eb",
-                "LaunchTemplateName": "LaunchTemplate_O7hvkiPu9hmf",
-                "Version": "1"
-            }
-        }
-    ]
-}
-```
+
 
 If a lifecycle hook is configured, the instance can wait in a Warmed:Pending:Wait state until initialization actions are completed.
 
-```
-{
-    "WarmPoolConfiguration": {
-        "MinSize": 0,
-        "PoolState": "Stopped"
-    },
-    "Instances": [
-        {
-            "InstanceId": "i-0ea10fdc59a07df6e",
-            "InstanceType": "t2.micro",
-            "AvailabilityZone": "us-west-2a",
-            "LifecycleState": "Warmed:Pending:Wait",
-            "HealthStatus": "Healthy",
-            "LaunchTemplate": {
-                "LaunchTemplateId": "lt-0356f1c452b0eb0eb",
-                "LaunchTemplateName": "LaunchTemplate_O7hvkiPu9hmf",
-                "Version": "1"
-            }
-        }
-    ]
-}
-```
+
 After initialization actions are completed, and the lifecycle hook is sent a CONTINUE signal, the instance will move to a Warmed:Pending:Proceed state.
-```
-{
-    "WarmPoolConfiguration": {
-        "MinSize": 0,
-        "PoolState": "Stopped"
-    },
-    "Instances": [
-        {
-            "InstanceId": "i-0ea10fdc59a07df6e",
-            "InstanceType": "t2.micro",
-            "AvailabilityZone": "us-west-2a",
-            "LifecycleState": "Warmed:Pending:Proceed",
-            "HealthStatus": "Healthy",
-            "LaunchTemplate": {
-                "LaunchTemplateId": "lt-0356f1c452b0eb0eb",
-                "LaunchTemplateName": "LaunchTemplate_O7hvkiPu9hmf",
-                "Version": "1"
-            }
-        }
-    ]
-}
-```
+
 
 Since we configured instances in our Warm Pool to be stopped after initialization, the instance launch will complete with the instance in a Warmed:Stopped state. The instance is now pre-initialized and ready to be launched into the Auto Scaling group as additional capacity is needed.
 
-```
-{
-    "WarmPoolConfiguration": {
-        "MinSize": 0,
-        "PoolState": "Stopped"
-    },
-    "Instances": [
-        {
-            "InstanceId": "i-0ea10fdc59a07df6e",
-            "InstanceType": "t2.micro",
-            "AvailabilityZone": "us-west-2a",
-            "LifecycleState": "Warmed:Stopped",
-            "HealthStatus": "Healthy",
-            "LaunchTemplate": {
-                "LaunchTemplateId": "lt-0356f1c452b0eb0eb",
-                "LaunchTemplateName": "LaunchTemplate_O7hvkiPu9hmf",
-                "Version": "1"
-            }
-        }
-    ]
-}
-```
+
 
 **Observe Launch Speed into Warm Pool**
 
