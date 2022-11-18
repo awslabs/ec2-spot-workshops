@@ -9,19 +9,19 @@ If you're running in your own account, make sure you run through these steps to 
 
 ### Clean up
 
-1. **Delete** all manually created resources.
+**Delete** all manually created resources.
 
-	```
-	aws autoscaling delete-auto-scaling-group --auto-scaling-group-name ec2-workshop-asg --force-delete
-	```    
+```bash
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name ec2-workshop-asg --force-delete
+aws ec2 delete-key-pair --key-name asgworkshop
+```    
 
-2. **Finally**, delete the CloudFormation stack itself.
+**Finally**, delete the CloudFormation stack itself.
 	
-	```
-	aws cloudformation delete-stack --stack-name $stack_name
-	aws cloudformation wait stack-delete-complete --stack-name $stack_name
-	aws ec2 delete-key-pair --key-name asgworkshop
-	```    
+```bash
+aws cloudformation delete-stack --stack-name $stack_name
+aws cloudformation wait stack-delete-complete --stack-name $stack_name
+```
 
 **Congratulations** on completing the workshop...*or at least giving it a good go*!  This is the workshop's permanent home, so feel free to revisit as often as you'd like.  In typical Amazon fashion, we'll be listening to your feedback and iterating to make it better.  If you have feedback, we're all ears!
 

@@ -26,5 +26,6 @@ aws autoscaling put-lifecycle-hook \
     --auto-scaling-group-name ec2-workshop-asg \
     --lifecycle-hook-name ec2-workshop-launch-hook \
     --lifecycle-transition autoscaling:EC2_INSTANCE_LAUNCHING \
-    --heartbeat-timeout 300
+    --heartbeat-timeout 300 \
+    --default-result CONTINUE
 ```
