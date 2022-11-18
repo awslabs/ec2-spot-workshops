@@ -289,12 +289,14 @@ Resources:
             - date
             - . /home/ec2-user/.bashrc
             - whoami
+            - sudo -H -u ec2-user aws sts get-caller-identity
             - echo '=== Install JQ and envsubst ==='
             - sudo yum -y install jq gettext
             - echo '=== Update to the latest AWS CLI ==='
             - sudo -H -u ec2-user aws --version
-            - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            - unzip awscliv2.zip
+            - sudo rm -rf /usr/bin/aws
+            - sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            - sudo unzip awscliv2.zip
             - sudo ./aws/install
             - . /home/ec2-user/.bash_profile
             - sudo -H -u ec2-user aws --version
@@ -314,7 +316,19 @@ Resources:
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment && git clone -b nadaahm-asg-workshop-reinvent https://github.com/nadaahm/ec2-spot-workshops.git"
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-instances.json ec2-workshop-asg"
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-cpu.json ec2-workshop-asg"
-            - sudo -H -u ec2-user bash -c "export stack_name=$(aws cloudformation list-stacks --query "StackSummaries[1].StackName" --output text)"
+            - echo '=== Export CloudFormation Stack Outputs ==='
+            - !Sub 'export stack_name=${AWS::StackName}'
+            - echo "export stack_name=${stack_name}" >> /home/ec2-user/.bash_profile
+            - aws configure set default.region ${AWS_REGION}
+            - aws cloudformation wait stack-create-complete --stack-name ${stack_name} && export PrivateSubnet1=$(aws cloudformation describe-stacks --stack-name ${stack_name} --query "Stacks[0].Outputs[?OutputKey=='PrivateSubnet1'].OutputValue" --output text)
+            - aws cloudformation wait stack-create-complete --stack-name $stack_name && export PrivateSubnet2=$(aws cloudformation describe-stacks --stack-name $stack_name --query "Stacks[0].Outputs[?OutputKey=='PrivateSubnet2'].OutputValue" --output text) 
+            - sudo sed -i.bak -e "s#%PrivateSubnet1%#$PrivateSubnet1#g" -e "s#%PrivateSubnet2%#$PrivateSubnet2#g" /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/asg.json
+            - date
+            - echo '=== Upload CloudWatch Metrics Data ==='
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-instances.json"
+            - sleep 10
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace "Workshop Custom Predictive Metrics" --metric-data file://metric-cpu.json"
+            - echo '=== Cloud9 bootstrap Completed ==='
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
@@ -388,3 +402,7 @@ Outputs:
   StackName:
     Description: A reference to the created stack
     Value: !Ref AWS::StackName
+  
+  S3BucketName:
+    Description: S3 bootstrap output bucket name
+    Value: !Ref C9OutputBucket

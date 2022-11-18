@@ -20,6 +20,11 @@ To generate forecasts, the predictive scaling algorithm needs three metrics as i
 Predictive scaling requires 24 hours of metric history before it can generate forecasts. Predictive scaling finds patterns in CloudWatch metric data from the previous 14 days to create an hourly forecast for the next 48 hours. Forecast data is updated daily based on the most recent CloudWatch metric data.
 {{% /notice %}}
 
+{{% notice note %}}
+A core assumption of **predictive scaling** is that the Auto Scaling group is **homogenous** and all instances are of **equal capacity**. In this workshop we will be using single instance type in the auto scaling group **t3.micro**.
+In your own workloads, if this isn’t true for your auto scaling group, forecasted capacity can be inaccurate. Therefore, use caution when creating predictive scaling policies for mixed instances groups, because instances of different types can be provisioned that are of unequal capacity.
+{{% /notice %}}
+
 ### 1. Enable and Configure Predictive Scaling policy
 
 In this step, you are going to configure Predictive scaling for the autoscaling group.
