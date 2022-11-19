@@ -3,6 +3,8 @@ title = "Check CloudWatch Custom Metrics"
 weight = 130
 +++
 
+As part of the CloudFormation stack you created, a bash script has been executed to update two CloudWatch custom metrics which will be used in creating the predictive scaling policy.
+
 #### Verify in CloudWatch metrics using AWS Console
 
 Verify **scaling** and **load** metrics data in CloudWatch.
