@@ -1,6 +1,6 @@
 +++
 title = "Clean Up"
-weight = 200
+weight = 300
 +++
 
 Before closing this workshop, let's make sure we clean up all the resources we created so we do not incur in unexpected costs.

@@ -1,6 +1,6 @@
 +++
-title = "(Optional) - Launching an EC2 Spot Instance via Spot Fleet request"
-weight = 80
+title = "(Not recommended) - Launching an EC2 Spot Instance via Spot Fleet request"
+weight = 210
 +++
 
 Spot Fleet is an API ideal for workloads that have a start and and end (batch workloads), specially when the workload requires you to have control over which instances to terminate in your own code. You can benefit from integrations with other services such as Load Balancer. However, if you are thinking about using Load Balancers, Auto Scaling Groups are a better option.
@@ -44,7 +44,7 @@ Copy and paste the following in AWS CloudShell to generate the configuration fil
 ```
 cat <<EoF > ./spot-fleet-request-config.json
 {
-   "AllocationStrategy": "priceCapacityOptimizeds",
+   "AllocationStrategy": "priceCapacityOptimized",
    "OnDemandAllocationStrategy": "prioritized",
    "SpotMaintenanceStrategies": {
       "CapacityRebalance": {
