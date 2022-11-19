@@ -21,6 +21,10 @@ After you run the experiment, you will see that 50% of the Spot Instances launch
 
 Note that a Spot Instance that was stopped by AWS FIS remains stopped until you restart it.
 
+{{% notice note %}}
+The experiment will fail if you do not have any Spot instances running in your EC2 Auto Scaling group or EC2 Fleet. If you encounter an error that the experiment has failed, scale up the EC2 Auto Scaling group or EC2 Fleet so that EC2 Spot instances are provisioned.
+{{% /notice %}}
+
 The Auto Scaling group setup in the example has Capacity Rebalance enabled, and hence the Auto Scaling group will start to launch EC2 Spot replacement instances when the Spot instances receive the interruption signal. You can see these events in the ASG.
 
 ![Spot Interruption signals in EC2 ASG Events](/images/launching_ec2_spot_instances/rebalance_recommendation_asg.png)
