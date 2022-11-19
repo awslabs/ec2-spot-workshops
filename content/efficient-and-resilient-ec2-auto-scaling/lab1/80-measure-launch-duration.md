@@ -10,6 +10,20 @@ In this step we will launch an instance directly into an Auto Scaling group. The
 
 You can also use a Lambda function that executes in response to Amazon EventBridge events that are generated as instances transition through their lifecycle.
 
+#### Before we get started with the next activity
+
+We need to ensure it won't be interrupted by the auto scaling of the policies we created. Therefore, we will pause the predictive scaling and reset desired capacity to 0, incase there were any instances added.
+
+1. In AWS Console window, navigate to [EC2 Auto Scaling](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details).
+2. Click on tab **Automatic scaling**
+3. Under **Predictive scaling policies**, find policy `workshop-predictive-scaling-policy` and turn off toggle **Scaling based on forecast**.
+4. Click **Yes, turn of scaling** in the confirmation message.
+5. If there are any instances running, then in **Cloud9 IDE** terminal run this command to ensure current capacity sets at 0 instances and **wait two minutes** to get all running instances terminated.
+    ```bash
+    aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 0
+    ```
+
+
 #### Increase Desired Capacity
 
 Set the desired capacity of the Auto Scaling group to 1 to launch an instance directly into the Auto Scaling group.

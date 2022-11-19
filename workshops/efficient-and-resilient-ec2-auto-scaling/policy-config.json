@@ -1,7 +1,7 @@
 {
     "MetricSpecifications": [
       {
-        "TargetValue": 25,
+        "TargetValue": 50,
         "CustomizedScalingMetricSpecification": {
           "MetricDataQueries": [
             {
