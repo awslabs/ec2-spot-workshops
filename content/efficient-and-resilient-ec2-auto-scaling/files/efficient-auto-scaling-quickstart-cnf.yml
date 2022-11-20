@@ -40,9 +40,9 @@ Parameters:
   C9InstanceType:
     Description: Cloud9 instance type
     Type: String
-    Default: t3.micro
+    Default: t3.large
     AllowedValues:
-      - t3.micro
+      - t3.large
       - m5.large
     ConstraintDescription: Must be a valid Cloud9 instance type
   #Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
@@ -227,21 +227,6 @@ Resources:
     Properties:
       KeyName: EC2WorkshopInstanceKeyPair
 
-  # MyEC2AutoScalingGroup:
-  #   Type: AWS::AutoScaling::AutoScalingGroup
-  #   Properties:
-  #     AutoScalingGroupName: ec2-workshop-asg
-  #     VPCZoneIdentifier:
-  #     - !Ref PublicSubnet1
-  #     - !Ref PublicSubnet2
-  #     LaunchTemplate:
-  #       LaunchTemplateId: !Ref MyLaunchTemplate
-  #       Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
-  #     MaxSize: '20'
-  #     MinSize: '0'
-  #     DesiredCapacity: '0'
-
-           
 
 ################## PERMISSIONS AND ROLES #################
   C9Role:
@@ -434,16 +419,16 @@ Resources:
             - sudo unzip awscliv2.zip
             - sudo ./aws/install
             - . /home/ec2-user/.bash_profile
-            - sudo -H -u ec2-user /usr/local/bin/aws --version
+            - sudo -H -u ec2-user aws --version
             - echo '=== setup AWS configs ==='
             - rm -vf /home/ec2-user/.aws/credentials
             - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
             - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
             - echo "export ACCOUNT_ID=${ACCOUNT_ID}" >> /home/ec2-user/.bash_profile
             - echo "export AWS_REGION=${AWS_REGION}" >> /home/ec2-user/.bash_profile
-            - sudo -H -u ec2-user /usr/local/bin/aws configure set default.region ${AWS_REGION}
-            - sudo -H -u ec2-user /usr/local/bin/aws configure get default.region
-            - sudo -H -u ec2-user /usr/local/bin/aws sts get-caller-identity
+            - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
+            - sudo -H -u ec2-user aws configure get default.region
+            - sudo -H -u ec2-user aws sts get-caller-identity
             - echo '=== Generate SSH key and import to aws ==='
             - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
             - sudo -H -u ec2-user /usr/local/bin/aws ec2 import-key-pair --key-name "asgworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
@@ -459,6 +444,7 @@ Resources:
             - aws cloudformation wait stack-create-complete --stack-name $stack_name && export PublicSubnet2=$(aws cloudformation describe-stacks --stack-name $stack_name --query "Stacks[0].Outputs[?OutputKey=='PublicSubnet2'].OutputValue" --output text) 
             - sudo sed -i.bak -e "s#%PublicSubnet1%#$PublicSubnet1#g" -e "s#%PublicSubnet2%#$PublicSubnet2#g" /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/asg.json
             - date
+            - sleep 5
             - echo '=== Upload CloudWatch Metrics Data ==='
             - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace 'EC2 Workshop Custom Metrics' --metric-data file://metric-instances.json"
             - sleep 5
