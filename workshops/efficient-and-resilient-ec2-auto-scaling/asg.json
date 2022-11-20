@@ -9,7 +9,7 @@
   "DesiredCapacity": 0,
   "CapacityRebalance": true,
   "HealthCheckType": "EC2",
-  "VPCZoneIdentifier": "%PrivateSubnet1%,%PrivateSubnet2%",
+  "VPCZoneIdentifier": "%PublicSubnet1%,%PublicSubnet2%",
   "Tags": [
     {
       "Key": "App",
