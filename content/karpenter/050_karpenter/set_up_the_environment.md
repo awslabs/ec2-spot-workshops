@@ -7,12 +7,14 @@ draft: false
 
 Before we install Karpenter, there are a few things that we will need to prepare in our environment for it to work as expected.
 
-## Create the IAM Role and Instance profile for Karpenter Nodes 
+## Create the Prerequisite Karpenter Infrastructure
 
 Instances launched by Karpenter must run with an InstanceProfile that grants permissions necessary to run containers and configure networking. Karpenter discovers the InstanceProfile using the name `KarpenterNodeRole-${ClusterName}`.
 
+Karpenter also utilizes an SQS queue and EventBridge rules to handle Spot Interruption Notifications and AWS Health Events.
+
 ```
-export KARPENTER_VERSION=v0.18.1
+export KARPENTER_VERSION=v0.19.2
 echo "export KARPENTER_VERSION=${KARPENTER_VERSION}" >> ~/.bash_profile
 TEMPOUT=$(mktemp)
 curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml > $TEMPOUT \
@@ -24,7 +26,7 @@ curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-s
 ```
 
 {{% notice tip %}}
-This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.18.1/getting-started/getting-started-with-eksctl/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
+This step may take about 2 minutes. In the meantime, you can [download the file](https://karpenter.sh/v0.19.2/getting-started/getting-started-with-eksctl/cloudformation.yaml) and check the content of the CloudFormation Stack. Check how the stack defines a policy, a role and and Instance profile that will be used to associate to the instances launched. You can also head to the **CloudFormation** console and check which resources does the stack deploy.
 {{% /notice %}}
 
 Second, grant access to instances using the profile to connect to the cluster. This command adds the Karpenter node role to your aws-auth configmap, allowing nodes with this role to connect to the cluster.

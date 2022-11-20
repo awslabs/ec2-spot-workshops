@@ -5,33 +5,27 @@ weight: 70
 draft: false
 ---
 
-In the previous sections we've already used EC2 Spot instances. We have learned so far that when using EC2 Spot Karpenter selects a diversified list of instances and uses the allocation strategy `capacity-optimized-prioritized` to select the EC2 Spot pools that are optimal to reduce the frequency of Spot terminations while still being ideal for reducing the waste of the pending pods to place. 
+In the previous sections we've already used EC2 Spot instances. We have learned so far that when using EC2 Spot Karpenter selects a diversified list of instances and uses the allocation strategy `price-capacity-optimized` to select the EC2 Spot pools that are optimal to reduce the frequency of Spot terminations while still being ideal for reducing the waste of the pending pods to place. 
 
-In this section we will check how to set up the node termination handler to gracefully handle Spot terminations and rebalancing recommendation signals. To support this configuration we will use the `default` Provisioner. 
+In this section we will look at how Karpenter handles Spot interruptions and set up the node termination handler to gracefully handle rebalancing recommendation signals since Karpenter does not currently support rebalance recommedations. To support this configuration we will use the `default` Provisioner. 
 
 Before moving to the exercises. Let's apply Spot Best practices and make sure we handle Spot instances properly from now on.
 
-## Deploy Node-Termination-Handler on EC2 Spot Instances
+## How do Spot Interruptions Work?
 
 When users requests On-Demand Instances from a pool to the point that the pool is depleted, the system will select a set of Spot Instances from the pool to be terminated. A Spot Instance pool is a set of unused EC2 instances with the same instance type (for example, m5.large), operating system, Availability Zone, and network platform. The Spot Instance is sent an interruption notice two minutes ahead to gracefully wrap up things.
 
-Amazon EC2 terminates, your Spot Instance when Amazon EC2 needs the capacity back (or the Spot price exceeds the maximum price for your request). More recently Spot instances support also instance rebalancing recommendation. Amazon EC2 emits an instance rebalance recommendation signal to notify you that a Spot Instance is at an elevated risk of interruption. This signal gives you the opportunity to proactively rebalance your workloads across existing or new Spot Instances without having to wait for the two-minute Spot Instance interruption notice.
+Amazon EC2 terminates, your Spot Instance when Amazon EC2 needs the capacity back (or the Spot price exceeds the maximum price for your request). More recently Spot instances also support instance rebalance recommendations. Amazon EC2 emits an instance rebalance recommendation signal to notify you that a Spot Instance is at an elevated risk of interruption. This signal gives you the opportunity to proactively rebalance your workloads across existing or new Spot Instances without having to wait for the two-minute Spot Instance interruption notice.
 
-To capture this signals and handle graceful termination of our nodes, we will deploy a project called **[AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler)**. Node termination handler operates in two different modes Queue Mode and Instance Metadata Mode. We will use Instance Metadata mode. In this mode the aws-node-termination-handler [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) Monitor will run a small pod ([DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)) on each host to perform monitoring of IMDS paths like /spot or /events and react accordingly to drain and/or cordon the corresponding node.
+## Karpenter and Spot Interruption
 
-To deploy the Node Termination Handler run the following command:
-```
-helm repo add eks https://aws.github.io/eks-charts
-helm install aws-node-termination-handler \
-             --namespace kube-system \
-             --version 0.19.2 \
-             --set nodeSelector."karpenter\\.sh/capacity-type"=spot \
-             eks/aws-node-termination-handler
-```
+Karpenter natively handles Spot Interruption Notifications by consuming events from an SQS queue which is populated with Spot Interruption Notifications via EventBridge. All of the infrastructure is setup by Karpenter's CloudFormation template that was applied previously. When Karpenter receives a Spot Interruption Notification, it will gracefully drain the interrupted node of any running pods while also provisioning a new node for those pods to quickly schedule onto.
 
-{{% notice note %}}
-The helm command above does make use of the `nodeSelector` pointing to `kubernetes.sh/capacity-type: spot`. This way will only install the node-termination-handler in Spot nodes.
-{{% /notice %}}
+## Deploy Node-Termination-Handler on EC2 Spot Instances
+
+Karepnter does not yet support Rebalance Recommendation signals, so to capture these signals and handle graceful termination of our nodes, we can  deploy a project called **[AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler)**. Node termination handler operates in two different modes Queue Mode and Instance Metadata Mode. When using Instance Metadata Mode, the aws-node-termination-handler will monitor the [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) with a small pod running as a ([DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)) on each host. The DaemonSet will perform monitoring of IMDS paths like /spot and /events and react accordingly to drain and/or cordon the corresponding node. 
+
+We will not deploy the Node-Termination-Handler in this workshop since we are using Karpenter's native Spot Interruption handling. But the Node-Termination-Handler is required if you need to handle Rebalance Recommendation signals and can be run safely with Karpenter's Spot Interruption Handling.
 
 
 ## Create a Spot Deployment
@@ -77,62 +71,41 @@ You can use **Kube-ops-view** or just plain **kubectl** cli to visualize the cha
 
 Answer the following questions. You can expand each question to get a detailed answer and validate your understanding.
 
-#### 1) Scale up the number of replicas to 2. How can you confirm only the Spot instance has the **Node-Termination-Handler** installed ? 
+#### 1) Scale up the number of Spot replicas to 2.
 
 {{%expand "Click here to show the answer" %}} 
 
-Let's start with increasing the number of replicas for the `inflate-spot` deployment to 2. Run the following command 
+Let’s start with increasing the number of replicas for the inflate-spot deployment to 2. Run the following command
 
 ```
 kubectl scale deployment inflate-spot --replicas 2
 ```
 
-A new Spot node will be provisioned, once it's done you can run the following command to describe the content of the new Spot node:
+Observe a Spot node provisioned in response to scaling the inflate-spot deploy to 2 replicas:
 
 ```
-kubectl describe node $(kubectl get node --selector=intent=apps,karpenter.sh/capacity-type=spot -o json | jq ".items[].metadata.name"| sed s/\"//g)
+kubectl get node --selector=intent=apps -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type
 ```
 
-The output of the command will also showcase there is a new Pod in the node in the `kube-system` namespace running the node-termination handler. The output of the command will show a section similar to the one below
-
-```bash
-Non-terminated Pods:          (5 in total)
-  Namespace                   Name                                  CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
-  ---------                   ----                                  ------------  ----------  ---------------  -------------  ---
-  default                     inflate-spot-76f4658fc6-jgtkb         1 (25%)       0 (0%)      256M (3%)        0 (0%)         16m
-  default                     inflate-spot-76f4658fc6-ldnmm         1 (25%)       0 (0%)      256M (3%)        0 (0%)         16m
-  kube-system                 aws-node-termination-handler-7bn86    50m (1%)      100m (2%)   64Mi (0%)        128Mi (1%)     15m
-  kube-system                 aws-node-xdhvh                        10m (0%)      0 (0%)      0 (0%)           0 (0%)         15m
-  kube-system                 kube-proxy-bbxx7                      100m (2%)     0 (0%)      0 (0%)           0 (0%)         15m
-```
-
-While this confirms that the `aws-node-termination-handler` has only been deployed in the Spot instances, we should check the how many deployments of this type are to confirm it has only been deployed once (On Demand instances are not running node-termination handler)
-
-Run the following command
-```
-kubectl get daemonset aws-node-termination-handler --namespace kube-system
-```
-
-The output should show just one instance of the node-termination-handler running.
 
 {{% /expand %}}
 
-#### 2) (Optional) Is that all for EC2 Spot Best practices ? 
+#### 2) (Optional) Is that all for EC2 Spot Best practices? 
 
 {{%expand "Click here to show the answer" %}} 
 
 Hmmmm nope... There are a few things that may worth advancing on what's to come with Karpenter
 
-*  There are plans in Karpenter to embed part of the functionality of the node termination handler queue mode into the controller to integrate the handling of bothe Spot termination and rebalancing recommendation signals.  Rebalancing recommendation signals will allow Karpenter to procure new capacity in advance to a termination event and speed up the provisioning of instances. This functionality is already available in Spot Managed Node groups.
+*  There are plans in Karpenter to handle rebalancing recommendation signals. Rebalancing recommendation signals will allow Karpenter to procure new capacity in advance to a termination event and speed up the provisioning of instances. This functionality is already available in Spot Managed Node groups and Self Managed Node Groups with the help of the AWS Node Termination Handler.
 
-The following diagram depicts how the integration will consider rebalancing recommendations in the future. The diagram shows how when a **rebalancing recomendation** arrives indicating an instance is at elevated risk of termination, the controller will provision new instances from using `capacity-optimized-prioritized` this has the effect of rebalancing instances proactively and selecting them from the optimal pools that reduce the frequency of terminations. Once the new node is up and ready, the controller will follow node termination best practices to decommission the node at elevated risk of termination using cordon and drain, so that the pods migrate into the newly created instance. 
+The following diagram depicts how the integration will consider rebalancing recommendations in the future. The diagram shows how when a **rebalancing recomendation** arrives indicating an instance is at elevated risk of termination, the controller will provision new instances using `price-capacity-optimized`. This has the effect of rebalancing instances proactively and selecting them from the optimal pools that reduce the frequency of terminations. Once the new node is up and ready, the controller will follow node termination best practices to decommission the node at elevated risk of termination using cordon and drain, so that the pods migrate into the newly created instance. 
 
 ![Rebalancing Recommendations](/images/karpenter/spotworkers/rebalance_recommendation.png)
 
 
-* One question that comes often is what happens if the instances I selected cannot be provision. Since version 0.6.0 Karpenter prioritizes Spot offerings if the provisioner allows Spot and on-demand instances. If the provider API (e.g. EC2 Fleet’s API) indicates Spot capacity is unavailable, Karpenter caches that result across all attempts to provision EC2 capacity for that instance type and zone for the next 45 seconds. If there are no other possible offerings available for Spot, Karpenter will attempt to provision on-demand instances, generally within milliseconds.
+* One question that comes up often is "what happens if the instances I selected cannot be provisioned?". Since version v0.6.0 Karpenter prioritizes Spot offerings if the provisioner allows Spot and On-Demand instances. If the provider API (e.g. EC2 Fleet’s API) indicates Spot capacity is unavailable, Karpenter caches that result across all attempts to provision EC2 capacity for that instance type and zone for the next 3 minutes. If there are no other possible offerings available for Spot, Karpenter will attempt to provision on-demand instances, generally within milliseconds.
 
-* The scenario where Karpenter cannot provision specific selected instances can happen with other configurations. In general since 0.4.0 Karpenter can use soft affinities (`preferredDuringSchedulingIgnoredDuringExecution`) so that, if for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint.
+* The scenario where Karpenter cannot provision specific selected instances can happen with other configurations. In general since v0.4.0 Karpenter can use soft affinities (`preferredDuringSchedulingIgnoredDuringExecution`) so that, if for whatever reason Karpenter cannot satisfy this condition, Karpenter will remove the soft constraint.
 
 {{% /expand %}}
 
@@ -154,7 +127,7 @@ kubectl scale deployment inflate-spot --replicas 0
 
 In this section we have learned:
 
-* How to apply Spot best practices and deploy the AWS Node Termination handler to manage Spot terminations and rebalancing recommendations.
+* How to apply Spot best practices and use Karpenter to handle Spot interruptions.
 
 * How future versions of Karpenter will enable a better integration of Spot Best practices by proactively managing rebalancing signals. 
 
