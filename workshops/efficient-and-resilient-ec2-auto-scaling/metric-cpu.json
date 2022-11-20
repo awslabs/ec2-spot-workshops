@@ -1,6 +1,6 @@
 [
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.4562120656598485,
     "Dimensions": [
@@ -11,7 +11,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25393931313703694,
     "Dimensions": [
@@ -22,7 +22,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2392425202060606,
     "Dimensions": [
@@ -33,7 +33,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.47484812121818165,
     "Dimensions": [
@@ -44,7 +44,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24439107770731813,
     "Dimensions": [
@@ -55,7 +55,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30136389395143104,
     "Dimensions": [
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27318183586342587,
     "Dimensions": [
@@ -77,7 +77,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3599831758045837,
     "Dimensions": [
@@ -88,7 +88,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.236111021609002,
     "Dimensions": [
@@ -99,7 +99,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.5603704506212962,
     "Dimensions": [
@@ -110,7 +110,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2537037037037036,
     "Dimensions": [
@@ -121,7 +121,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2257407253114711,
     "Dimensions": [
@@ -132,7 +132,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.505555564817644,
     "Dimensions": [
@@ -143,7 +143,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25277769753518514,
     "Dimensions": [
@@ -154,7 +154,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23537030556023655,
     "Dimensions": [
@@ -165,7 +165,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2675926484415638,
     "Dimensions": [
@@ -176,7 +176,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2299999938326131,
     "Dimensions": [
@@ -187,7 +187,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3216666851906379,
     "Dimensions": [
@@ -198,7 +198,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 8.536107271985081,
     "Dimensions": [
@@ -209,7 +209,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.055952845447136,
     "Dimensions": [
@@ -220,7 +220,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2502777777777779,
     "Dimensions": [
@@ -231,7 +231,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24611111111111103,
     "Dimensions": [
@@ -242,7 +242,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3127777824116513,
     "Dimensions": [
@@ -253,7 +253,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27694456030285575,
     "Dimensions": [
@@ -264,7 +264,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26916666666666667,
     "Dimensions": [
@@ -275,7 +275,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2672222222222222,
     "Dimensions": [
@@ -286,7 +286,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25555570370617287,
     "Dimensions": [
@@ -297,7 +297,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30666645371589496,
     "Dimensions": [
@@ -308,7 +308,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24166666667067907,
     "Dimensions": [
@@ -319,7 +319,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2433333333333333,
     "Dimensions": [
@@ -330,7 +330,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.43916666666666665,
     "Dimensions": [
@@ -341,7 +341,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24416668518904314,
     "Dimensions": [
@@ -352,7 +352,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2508333518564815,
     "Dimensions": [
@@ -363,7 +363,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2530556990764661,
     "Dimensions": [
@@ -374,7 +374,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3022220787060957,
     "Dimensions": [
@@ -385,7 +385,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26638889352245365,
     "Dimensions": [
@@ -396,7 +396,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3755555601897376,
     "Dimensions": [
@@ -407,7 +407,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.32749999999999996,
     "Dimensions": [
@@ -418,7 +418,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.4290597617741571,
     "Dimensions": [
@@ -429,7 +429,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.48538232927022595,
     "Dimensions": [
@@ -440,7 +440,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3850196140104571,
     "Dimensions": [
@@ -451,7 +451,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.36020406889741585,
     "Dimensions": [
@@ -462,7 +462,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.379669536259909,
     "Dimensions": [
@@ -473,7 +473,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 17.12783397858259,
     "Dimensions": [
@@ -484,7 +484,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.488242670573104,
     "Dimensions": [
@@ -495,7 +495,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.41025156060332,
     "Dimensions": [
@@ -506,7 +506,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.845335003789778,
     "Dimensions": [
@@ -517,7 +517,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.66150017630701,
     "Dimensions": [
@@ -528,7 +528,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.489154773824094,
     "Dimensions": [
@@ -539,7 +539,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.76801420781523,
     "Dimensions": [
@@ -550,7 +550,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.65899958754619,
     "Dimensions": [
@@ -561,7 +561,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.607412258346876,
     "Dimensions": [
@@ -572,7 +572,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.502087916506962,
     "Dimensions": [
@@ -583,7 +583,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.6612448205668,
     "Dimensions": [
@@ -594,7 +594,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.55125471593531,
     "Dimensions": [
@@ -605,7 +605,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.53558081546484,
     "Dimensions": [
@@ -616,7 +616,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.471751422469833,
     "Dimensions": [
@@ -627,7 +627,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.58950011851791,
     "Dimensions": [
@@ -638,7 +638,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.51057823545739,
     "Dimensions": [
@@ -649,7 +649,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.59559356135104,
     "Dimensions": [
@@ -660,7 +660,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.53582852778243,
     "Dimensions": [
@@ -671,7 +671,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.60816632598374,
     "Dimensions": [
@@ -682,7 +682,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.645487666752885,
     "Dimensions": [
@@ -693,7 +693,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 50.48481860732317,
     "Dimensions": [
@@ -704,7 +704,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 45.0076119286403,
     "Dimensions": [
@@ -715,7 +715,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.078670220226623,
     "Dimensions": [
@@ -726,7 +726,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 5.17865293519046,
     "Dimensions": [
@@ -737,7 +737,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.018686523204825,
     "Dimensions": [
@@ -748,7 +748,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.235555402780324,
     "Dimensions": [
@@ -759,7 +759,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23361121759837963,
     "Dimensions": [
@@ -770,7 +770,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3025001435209106,
     "Dimensions": [
@@ -781,7 +781,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2311108796334875,
     "Dimensions": [
@@ -792,7 +792,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.42916666666666675,
     "Dimensions": [
@@ -803,7 +803,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.321111726865818,
     "Dimensions": [
@@ -814,7 +814,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26888875001604934,
     "Dimensions": [
@@ -825,7 +825,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2388889074155864,
     "Dimensions": [
@@ -836,7 +836,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24500000000000002,
     "Dimensions": [
@@ -847,7 +847,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23666678242152786,
     "Dimensions": [
@@ -858,7 +858,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2916667176039352,
     "Dimensions": [
@@ -869,7 +869,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22861101390748453,
     "Dimensions": [
@@ -880,7 +880,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24055560649714505,
     "Dimensions": [
@@ -891,7 +891,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22805546760547835,
     "Dimensions": [
@@ -902,7 +902,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.29888887963395055,
     "Dimensions": [
@@ -913,7 +913,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2263888935263117,
     "Dimensions": [
@@ -924,7 +924,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2366666759302469,
     "Dimensions": [
@@ -935,7 +935,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.31861068983063257,
     "Dimensions": [
@@ -946,7 +946,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25238041667943106,
     "Dimensions": [
@@ -957,7 +957,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22227005747621326,
     "Dimensions": [
@@ -968,7 +968,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23937507986961806,
     "Dimensions": [
@@ -979,7 +979,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27946733534571877,
     "Dimensions": [
@@ -990,7 +990,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 1.9725810792677074,
     "Dimensions": [
@@ -1001,7 +1001,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.812086060481608,
     "Dimensions": [
@@ -1012,7 +1012,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.301582194857218,
     "Dimensions": [
@@ -1023,7 +1023,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.412912455990472,
     "Dimensions": [
@@ -1034,7 +1034,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.472755104000548,
     "Dimensions": [
@@ -1045,7 +1045,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.582250218872282,
     "Dimensions": [
@@ -1056,7 +1056,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.52033807435124,
     "Dimensions": [
@@ -1067,7 +1067,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.73057858407092,
     "Dimensions": [
@@ -1078,7 +1078,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.53300988121431,
     "Dimensions": [
@@ -1089,7 +1089,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.396657057922194,
     "Dimensions": [
@@ -1100,7 +1100,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.393416649912506,
     "Dimensions": [
@@ -1111,7 +1111,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.422245219283294,
     "Dimensions": [
@@ -1122,7 +1122,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.36775076622632,
     "Dimensions": [
@@ -1133,7 +1133,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.505014661166623,
     "Dimensions": [
@@ -1144,7 +1144,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.342333216093497,
     "Dimensions": [
@@ -1155,7 +1155,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.43840712907977,
     "Dimensions": [
@@ -1166,7 +1166,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.494921428507784,
     "Dimensions": [
@@ -1177,7 +1177,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.449416690769095,
     "Dimensions": [
@@ -1188,7 +1188,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.391828327770437,
     "Dimensions": [
@@ -1199,7 +1199,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.482588506787266,
     "Dimensions": [
@@ -1210,7 +1210,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.421489831255517,
     "Dimensions": [
@@ -1221,7 +1221,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 42.75029809311142,
     "Dimensions": [
@@ -1232,7 +1232,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 46.09551709472936,
     "Dimensions": [
@@ -1243,7 +1243,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.678996375330875,
     "Dimensions": [
@@ -1254,7 +1254,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 5.365669447880471,
     "Dimensions": [
@@ -1265,7 +1265,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.08248427496029,
     "Dimensions": [
@@ -1276,7 +1276,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23388913890138893,
     "Dimensions": [
@@ -1287,7 +1287,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2336110000018518,
     "Dimensions": [
@@ -1298,7 +1298,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26999999999999985,
     "Dimensions": [
@@ -1309,7 +1309,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3852777777777778,
     "Dimensions": [
@@ -1320,7 +1320,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2374999027881944,
     "Dimensions": [
@@ -1331,7 +1331,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.321388782413503,
     "Dimensions": [
@@ -1342,7 +1342,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2952777638934413,
     "Dimensions": [
@@ -1353,7 +1353,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.229722337964892,
     "Dimensions": [
@@ -1364,7 +1364,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2388900898779097,
     "Dimensions": [
@@ -1375,7 +1375,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23861125000231484,
     "Dimensions": [
@@ -1386,7 +1386,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2527775000094135,
     "Dimensions": [
@@ -1397,7 +1397,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23027806508379894,
     "Dimensions": [
@@ -1408,7 +1408,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23250000926373451,
     "Dimensions": [
@@ -1419,7 +1419,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23027763889120365,
     "Dimensions": [
@@ -1430,7 +1430,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27750012037237654,
     "Dimensions": [
@@ -1441,7 +1441,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27222203241844134,
     "Dimensions": [
@@ -1452,7 +1452,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.33388888888888885,
     "Dimensions": [
@@ -1463,7 +1463,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2991666666666667,
     "Dimensions": [
@@ -1474,7 +1474,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.28952388492189146,
     "Dimensions": [
@@ -1485,7 +1485,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30486096528877304,
     "Dimensions": [
@@ -1496,7 +1496,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.28765068608271976,
     "Dimensions": [
@@ -1507,7 +1507,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.28479427046335476,
     "Dimensions": [
@@ -1518,7 +1518,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.077250563073883,
     "Dimensions": [
@@ -1529,7 +1529,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.94101506967934,
     "Dimensions": [
@@ -1540,7 +1540,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.482066358913457,
     "Dimensions": [
@@ -1551,7 +1551,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.308153396992566,
     "Dimensions": [
@@ -1562,7 +1562,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.897333138975387,
     "Dimensions": [
@@ -1573,7 +1573,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.631679882850914,
     "Dimensions": [
@@ -1584,7 +1584,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.670813698692076,
     "Dimensions": [
@@ -1595,7 +1595,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.811514985999974,
     "Dimensions": [
@@ -1606,7 +1606,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.928176190254312,
     "Dimensions": [
@@ -1617,7 +1617,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.00397392829469,
     "Dimensions": [
@@ -1628,7 +1628,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.16926464329119,
     "Dimensions": [
@@ -1639,7 +1639,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.97475127355332,
     "Dimensions": [
@@ -1650,7 +1650,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.482985148286893,
     "Dimensions": [
@@ -1661,7 +1661,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.519098222961812,
     "Dimensions": [
@@ -1672,7 +1672,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.44757340302428,
     "Dimensions": [
@@ -1683,7 +1683,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.5410198710815,
     "Dimensions": [
@@ -1694,7 +1694,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.521994655557652,
     "Dimensions": [
@@ -1705,7 +1705,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.4383137384876,
     "Dimensions": [
@@ -1716,7 +1716,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.601344102728632,
     "Dimensions": [
@@ -1727,7 +1727,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.638500058250962,
     "Dimensions": [
@@ -1738,7 +1738,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.617868595558207,
     "Dimensions": [
@@ -1749,7 +1749,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 37.79502562571239,
     "Dimensions": [
@@ -1760,7 +1760,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 41.72438761595012,
     "Dimensions": [
@@ -1771,7 +1771,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 15.104077659439344,
     "Dimensions": [
@@ -1782,7 +1782,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 4.877122523315363,
     "Dimensions": [
@@ -1793,7 +1793,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.346910503405562,
     "Dimensions": [
@@ -1804,7 +1804,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24333501916251996,
     "Dimensions": [
@@ -1815,7 +1815,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24777750000462948,
     "Dimensions": [
@@ -1826,7 +1826,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26583334259722224,
     "Dimensions": [
@@ -1837,7 +1837,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2677777916709105,
     "Dimensions": [
@@ -1848,7 +1848,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2802777777777778,
     "Dimensions": [
@@ -1859,7 +1859,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26477667002679856,
     "Dimensions": [
@@ -1870,7 +1870,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30499999999999994,
     "Dimensions": [
@@ -1881,7 +1881,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23416678703904323,
     "Dimensions": [
@@ -1892,7 +1892,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24138877777962955,
     "Dimensions": [
@@ -1903,7 +1903,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23916668981905867,
     "Dimensions": [
@@ -1914,7 +1914,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24694458333564817,
     "Dimensions": [
@@ -1925,7 +1925,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22833321296913572,
     "Dimensions": [
@@ -1936,7 +1936,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24027779766877116,
     "Dimensions": [
@@ -1947,7 +1947,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23416665278202156,
     "Dimensions": [
@@ -1958,7 +1958,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27055555556435185,
     "Dimensions": [
@@ -1969,7 +1969,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26833629631077677,
     "Dimensions": [
@@ -1980,7 +1980,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2561827822665024,
     "Dimensions": [
@@ -1991,7 +1991,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2627658599359239,
     "Dimensions": [
@@ -2002,7 +2002,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2711267194901213,
     "Dimensions": [
@@ -2013,7 +2013,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23918440455351156,
     "Dimensions": [
@@ -2024,7 +2024,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2566667915841595,
     "Dimensions": [
@@ -2035,7 +2035,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.37175015556328717,
     "Dimensions": [
@@ -2046,7 +2046,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 3.3776619014709,
     "Dimensions": [
@@ -2057,7 +2057,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 31.686427246712427,
     "Dimensions": [
@@ -2068,7 +2068,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 43.743517129918736,
     "Dimensions": [
@@ -2079,7 +2079,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 55.64024306006871,
     "Dimensions": [
@@ -2090,7 +2090,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.12108331626384,
     "Dimensions": [
@@ -2101,7 +2101,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.13199761216114,
     "Dimensions": [
@@ -2112,7 +2112,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.11060327623451,
     "Dimensions": [
@@ -2123,7 +2123,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.080480348137804,
     "Dimensions": [
@@ -2134,7 +2134,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 58.999980500581906,
     "Dimensions": [
@@ -2145,7 +2145,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.16176625568787,
     "Dimensions": [
@@ -2156,7 +2156,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.27047550951806,
     "Dimensions": [
@@ -2167,7 +2167,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.175103131143395,
     "Dimensions": [
@@ -2178,7 +2178,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.07025003774888,
     "Dimensions": [
@@ -2189,7 +2189,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.069868380211275,
     "Dimensions": [
@@ -2200,7 +2200,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.21697030769373,
     "Dimensions": [
@@ -2211,7 +2211,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.2680119179959,
     "Dimensions": [
@@ -2222,7 +2222,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.199813625582834,
     "Dimensions": [
@@ -2233,7 +2233,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.27252955320019,
     "Dimensions": [
@@ -2244,7 +2244,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.43114675998424,
     "Dimensions": [
@@ -2255,7 +2255,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.2068434500906,
     "Dimensions": [
@@ -2266,7 +2266,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.45782335360177,
     "Dimensions": [
@@ -2277,7 +2277,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.33158312248094,
     "Dimensions": [
@@ -2288,7 +2288,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.492167670721656,
     "Dimensions": [
@@ -2299,7 +2299,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.69691621856483,
     "Dimensions": [
@@ -2310,7 +2310,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 49.36050752929708,
     "Dimensions": [
@@ -2321,7 +2321,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 3.3819632736808516,
     "Dimensions": [
@@ -2332,7 +2332,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23861110185601853,
     "Dimensions": [
@@ -2343,7 +2343,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23638900463155865,
     "Dimensions": [
@@ -2354,7 +2354,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23500013426597227,
     "Dimensions": [
@@ -2365,7 +2365,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2983381789480973,
     "Dimensions": [
@@ -2376,7 +2376,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.41030589150187674,
     "Dimensions": [
@@ -2387,7 +2387,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.36222222222222217,
     "Dimensions": [
@@ -2398,7 +2398,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3111113750168981,
     "Dimensions": [
@@ -2409,7 +2409,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.26166654167260794,
     "Dimensions": [
@@ -2420,7 +2420,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24555562500887348,
     "Dimensions": [
@@ -2431,7 +2431,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23805556945331788,
     "Dimensions": [
@@ -2442,7 +2442,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3333333287085648,
     "Dimensions": [
@@ -2453,7 +2453,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23388894909328728,
     "Dimensions": [
@@ -2464,7 +2464,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24111108797291667,
     "Dimensions": [
@@ -2475,7 +2475,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23861113426859568,
     "Dimensions": [
@@ -2486,7 +2486,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24166666666666664,
     "Dimensions": [
@@ -2497,7 +2497,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.4191647917158174,
     "Dimensions": [
@@ -2508,7 +2508,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2358332129692901,
     "Dimensions": [
@@ -2519,7 +2519,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3052777500092593,
     "Dimensions": [
@@ -2530,7 +2530,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27139651276470217,
     "Dimensions": [
@@ -2541,7 +2541,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2799706993210282,
     "Dimensions": [
@@ -2552,7 +2552,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2461459479244213,
     "Dimensions": [
@@ -2563,7 +2563,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23676906599187655,
     "Dimensions": [
@@ -2574,7 +2574,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 1.809166777786667,
     "Dimensions": [
@@ -2585,7 +2585,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.87366624490703,
     "Dimensions": [
@@ -2596,7 +2596,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.350003404737667,
     "Dimensions": [
@@ -2607,7 +2607,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.29900507432493,
     "Dimensions": [
@@ -2618,7 +2618,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.574990663825176,
     "Dimensions": [
@@ -2629,7 +2629,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.748166660379965,
     "Dimensions": [
@@ -2640,7 +2640,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.58233833890059,
     "Dimensions": [
@@ -2651,7 +2651,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.901833947181427,
     "Dimensions": [
@@ -2662,7 +2662,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.639828874337258,
     "Dimensions": [
@@ -2673,7 +2673,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.648922018631925,
     "Dimensions": [
@@ -2684,7 +2684,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.591499997877175,
     "Dimensions": [
@@ -2695,7 +2695,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.582578514799998,
     "Dimensions": [
@@ -2706,7 +2706,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.598909581228288,
     "Dimensions": [
@@ -2717,7 +2717,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.583078339465683,
     "Dimensions": [
@@ -2728,7 +2728,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.504505232847805,
     "Dimensions": [
@@ -2739,7 +2739,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.531583328763194,
     "Dimensions": [
@@ -2750,7 +2750,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.49716170024476,
     "Dimensions": [
@@ -2761,7 +2761,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.70642159778934,
     "Dimensions": [
@@ -2772,7 +2772,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.65474526046345,
     "Dimensions": [
@@ -2783,7 +2783,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.597254930230616,
     "Dimensions": [
@@ -2794,7 +2794,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.767253962041853,
     "Dimensions": [
@@ -2805,7 +2805,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 38.48575543140496,
     "Dimensions": [
@@ -2816,7 +2816,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 46.6141507291488,
     "Dimensions": [
@@ -2827,7 +2827,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 17.152672308836898,
     "Dimensions": [
@@ -2838,7 +2838,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 5.456330955989812,
     "Dimensions": [
@@ -2849,7 +2849,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 3.0408664815917406,
     "Dimensions": [
@@ -2860,7 +2860,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24111111111111105,
     "Dimensions": [
@@ -2871,7 +2871,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24611112037453703,
     "Dimensions": [
@@ -2882,7 +2882,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25805578704089516,
     "Dimensions": [
@@ -2893,7 +2893,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3080552222415121,
     "Dimensions": [
@@ -2904,7 +2904,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24722222685702158,
     "Dimensions": [
@@ -2915,7 +2915,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.278610981483642,
     "Dimensions": [
@@ -2926,7 +2926,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24416677778395057,
     "Dimensions": [
@@ -2937,7 +2937,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3291666666708333,
     "Dimensions": [
@@ -2948,7 +2948,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25194444907893515,
     "Dimensions": [
@@ -2959,7 +2959,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23388889816080238,
     "Dimensions": [
@@ -2970,7 +2970,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2402777824165895,
     "Dimensions": [
@@ -2981,7 +2981,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24194431945594128,
     "Dimensions": [
@@ -2992,7 +2992,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2455555231571759,
     "Dimensions": [
@@ -3003,7 +3003,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24416680555787043,
     "Dimensions": [
@@ -3014,7 +3014,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23333332870810183,
     "Dimensions": [
@@ -3025,7 +3025,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2983333333376542,
     "Dimensions": [
@@ -3036,7 +3036,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24305550463433642,
     "Dimensions": [
@@ -3047,7 +3047,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.269949364484638,
     "Dimensions": [
@@ -3058,7 +3058,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24903852031178772,
     "Dimensions": [
@@ -3069,7 +3069,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.34254351975633524,
     "Dimensions": [
@@ -3080,7 +3080,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24079868490299475,
     "Dimensions": [
@@ -3091,7 +3091,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24675025139946755,
     "Dimensions": [
@@ -3102,7 +3102,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.593335602883982,
     "Dimensions": [
@@ -3113,7 +3113,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 17.316242067839813,
     "Dimensions": [
@@ -3124,7 +3124,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.818669738198995,
     "Dimensions": [
@@ -3135,7 +3135,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.88158275714195,
     "Dimensions": [
@@ -3146,7 +3146,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.857916959163195,
     "Dimensions": [
@@ -3157,7 +3157,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.11901036350148,
     "Dimensions": [
@@ -3168,7 +3168,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.06883322648031,
     "Dimensions": [
@@ -3179,7 +3179,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.94175158543068,
     "Dimensions": [
@@ -3190,7 +3190,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.96893644175861,
     "Dimensions": [
@@ -3201,7 +3201,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.32405826552258,
     "Dimensions": [
@@ -3212,7 +3212,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.40617624888495,
     "Dimensions": [
@@ -3223,7 +3223,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.971647502401893,
     "Dimensions": [
@@ -3234,7 +3234,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.637357075101846,
     "Dimensions": [
@@ -3245,7 +3245,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.964666642488975,
     "Dimensions": [
@@ -3256,7 +3256,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.70716525149131,
     "Dimensions": [
@@ -3267,7 +3267,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.74958835768817,
     "Dimensions": [
@@ -3278,7 +3278,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.780990167325736,
     "Dimensions": [
@@ -3289,7 +3289,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.65333317337635,
     "Dimensions": [
@@ -3300,7 +3300,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.713583578934443,
     "Dimensions": [
@@ -3311,7 +3311,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.741998364617974,
     "Dimensions": [
@@ -3322,7 +3322,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.97125541024896,
     "Dimensions": [
@@ -3333,7 +3333,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 52.95115001299404,
     "Dimensions": [
@@ -3344,7 +3344,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 49.65919821850301,
     "Dimensions": [
@@ -3355,7 +3355,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 17.469972834726974,
     "Dimensions": [
@@ -3366,7 +3366,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 9.326495460447687,
     "Dimensions": [
@@ -3377,7 +3377,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 1.602396361657065,
     "Dimensions": [
@@ -3388,7 +3388,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.25444444445416664,
     "Dimensions": [
@@ -3399,7 +3399,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23833337037870367,
     "Dimensions": [
@@ -3410,7 +3410,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30555600927145066,
     "Dimensions": [
@@ -3421,7 +3421,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2952779120434414,
     "Dimensions": [
@@ -3432,7 +3432,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2752776342616512,
     "Dimensions": [
@@ -3443,7 +3443,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2616666666666666,
     "Dimensions": [
@@ -3454,7 +3454,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2394444490834105,
     "Dimensions": [
@@ -3465,7 +3465,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2333333333333333,
     "Dimensions": [
@@ -3476,7 +3476,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23944445370771603,
     "Dimensions": [
@@ -3487,7 +3487,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23722220834189808,
     "Dimensions": [
@@ -3498,7 +3498,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3652777731527006,
     "Dimensions": [
@@ -3509,7 +3509,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23472222222222222,
     "Dimensions": [
@@ -3520,7 +3520,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2438888888888889,
     "Dimensions": [
@@ -3531,7 +3531,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23861110648572528,
     "Dimensions": [
@@ -3542,7 +3542,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30472222696612666,
     "Dimensions": [
@@ -3553,7 +3553,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3102777777777777,
     "Dimensions": [
@@ -3564,7 +3564,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24083339815725313,
     "Dimensions": [
@@ -3575,7 +3575,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.29499999999999993,
     "Dimensions": [
@@ -3586,7 +3586,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2422348484884259,
     "Dimensions": [
@@ -3597,7 +3597,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22981217136952262,
     "Dimensions": [
@@ -3608,7 +3608,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24640356287346496,
     "Dimensions": [
@@ -3619,7 +3619,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27974994583803225,
     "Dimensions": [
@@ -3630,7 +3630,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.3026724473290754,
     "Dimensions": [
@@ -3641,7 +3641,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 17.165995367034352,
     "Dimensions": [
@@ -3652,7 +3652,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.677078456623754,
     "Dimensions": [
@@ -3663,7 +3663,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.62617428585655,
     "Dimensions": [
@@ -3674,7 +3674,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.917000190380186,
     "Dimensions": [
@@ -3685,7 +3685,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 30.012828531469708,
     "Dimensions": [
@@ -3696,7 +3696,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.975328256627066,
     "Dimensions": [
@@ -3707,7 +3707,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.922006033933435,
     "Dimensions": [
@@ -3718,7 +3718,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.869161623298105,
     "Dimensions": [
@@ -3729,7 +3729,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.93917108500559,
     "Dimensions": [
@@ -3740,7 +3740,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.83968177869645,
     "Dimensions": [
@@ -3751,7 +3751,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.899729958261247,
     "Dimensions": [
@@ -3762,7 +3762,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.849759920435464,
     "Dimensions": [
@@ -3773,7 +3773,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.748411967739816,
     "Dimensions": [
@@ -3784,7 +3784,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.765411461692327,
     "Dimensions": [
@@ -3795,7 +3795,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.80351006831245,
     "Dimensions": [
@@ -3806,7 +3806,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.753568440860203,
     "Dimensions": [
@@ -3817,7 +3817,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.725759848211673,
     "Dimensions": [
@@ -3828,7 +3828,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.799245002039534,
     "Dimensions": [
@@ -3839,7 +3839,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.769004520858786,
     "Dimensions": [
@@ -3850,7 +3850,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.843548892922843,
     "Dimensions": [
@@ -3861,7 +3861,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 42.454327532416166,
     "Dimensions": [
@@ -3872,7 +3872,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 45.45768432138532,
     "Dimensions": [
@@ -3883,7 +3883,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 17.136174705757455,
     "Dimensions": [
@@ -3894,7 +3894,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 5.337497680728564,
     "Dimensions": [
@@ -3905,7 +3905,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.456233058704932,
     "Dimensions": [
@@ -3916,7 +3916,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2825000324118055,
     "Dimensions": [
@@ -3927,7 +3927,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2483332870509259,
     "Dimensions": [
@@ -3938,7 +3938,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.31027778704614195,
     "Dimensions": [
@@ -3949,7 +3949,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27611109259706784,
     "Dimensions": [
@@ -3960,7 +3960,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.28388873612152765,
     "Dimensions": [
@@ -3971,7 +3971,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3705557037149691,
     "Dimensions": [
@@ -3982,7 +3982,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2777776111138889,
     "Dimensions": [
@@ -3993,7 +3993,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2433334351912037,
     "Dimensions": [
@@ -4004,7 +4004,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23888902315038585,
     "Dimensions": [
@@ -4015,7 +4015,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2630553564926696,
     "Dimensions": [
@@ -4026,7 +4026,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2486111620420525,
     "Dimensions": [
@@ -4037,7 +4037,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23722220833757715,
     "Dimensions": [
@@ -4048,7 +4048,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23277778704120375,
     "Dimensions": [
@@ -4059,7 +4059,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23333322686304006,
     "Dimensions": [
@@ -4070,7 +4070,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.32583344444629625,
     "Dimensions": [
@@ -4081,7 +4081,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3033334259313271,
     "Dimensions": [
@@ -4092,7 +4092,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27777792129868834,
     "Dimensions": [
@@ -4103,7 +4103,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.29083323148734563,
     "Dimensions": [
@@ -4114,7 +4114,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.242156862745098,
     "Dimensions": [
@@ -4125,7 +4125,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22901779762483462,
     "Dimensions": [
@@ -4136,7 +4136,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24487947792051531,
     "Dimensions": [
@@ -4147,7 +4147,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2779516472595382,
     "Dimensions": [
@@ -4158,7 +4158,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 2.222162775068749,
     "Dimensions": [
@@ -4169,7 +4169,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.989420225476803,
     "Dimensions": [
@@ -4180,7 +4180,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.450411856485,
     "Dimensions": [
@@ -4191,7 +4191,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.202170386977777,
     "Dimensions": [
@@ -4202,7 +4202,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.397078270837675,
     "Dimensions": [
@@ -4213,7 +4213,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.83576298165302,
     "Dimensions": [
@@ -4224,7 +4224,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.413759584072796,
     "Dimensions": [
@@ -4235,7 +4235,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.487063905398585,
     "Dimensions": [
@@ -4246,7 +4246,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.63440583832937,
     "Dimensions": [
@@ -4257,7 +4257,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.494088388240534,
     "Dimensions": [
@@ -4268,7 +4268,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.34924511062595,
     "Dimensions": [
@@ -4279,7 +4279,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.620755058743008,
     "Dimensions": [
@@ -4290,7 +4290,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.42809314631827,
     "Dimensions": [
@@ -4301,7 +4301,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.41042175645564,
     "Dimensions": [
@@ -4312,7 +4312,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.35841175089805,
     "Dimensions": [
@@ -4323,7 +4323,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.426073375654532,
     "Dimensions": [
@@ -4334,7 +4334,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.549333602533174,
     "Dimensions": [
@@ -4345,7 +4345,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.393259679981366,
     "Dimensions": [
@@ -4356,7 +4356,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.481328316176324,
     "Dimensions": [
@@ -4367,7 +4367,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.48175512884427,
     "Dimensions": [
@@ -4378,7 +4378,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.53008089530544,
     "Dimensions": [
@@ -4389,7 +4389,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 46.85234304524167,
     "Dimensions": [
@@ -4400,7 +4400,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 45.1514724199041,
     "Dimensions": [
@@ -4411,7 +4411,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.653181578811765,
     "Dimensions": [
@@ -4422,7 +4422,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 5.200333244509075,
     "Dimensions": [
@@ -4433,7 +4433,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 1.6691767489541356,
     "Dimensions": [
@@ -4444,7 +4444,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24222236111342596,
     "Dimensions": [
@@ -4455,7 +4455,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3530555555555555,
     "Dimensions": [
@@ -4466,7 +4466,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24472222685640432,
     "Dimensions": [
@@ -4477,7 +4477,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2980554351912037,
     "Dimensions": [
@@ -4488,7 +4488,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3319440694593363,
     "Dimensions": [
@@ -4499,7 +4499,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2663888796339506,
     "Dimensions": [
@@ -4510,7 +4510,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2313888148290123,
     "Dimensions": [
@@ -4521,7 +4521,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24277765278912028,
     "Dimensions": [
@@ -4532,7 +4532,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.241389055562963,
     "Dimensions": [
@@ -4543,7 +4543,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.251666634267824,
     "Dimensions": [
@@ -4554,7 +4554,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2813892916877316,
     "Dimensions": [
@@ -4565,7 +4565,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2658333426006173,
     "Dimensions": [
@@ -4576,7 +4576,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24055614358480432,
     "Dimensions": [
@@ -4587,7 +4587,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2291660972726042,
     "Dimensions": [
@@ -4598,7 +4598,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23833333796736114,
     "Dimensions": [
@@ -4609,7 +4609,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2927777916706018,
     "Dimensions": [
@@ -4620,7 +4620,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3308333055601852,
     "Dimensions": [
@@ -4631,7 +4631,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2952778703768519,
     "Dimensions": [
@@ -4642,7 +4642,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23402781636535494,
     "Dimensions": [
@@ -4653,7 +4653,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2468054398231481,
     "Dimensions": [
@@ -4664,7 +4664,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.34806927850835667,
     "Dimensions": [
@@ -4675,7 +4675,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3441576532378054,
     "Dimensions": [
@@ -4686,7 +4686,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 1.976419515356505,
     "Dimensions": [
@@ -4697,7 +4697,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 16.871330511645134,
     "Dimensions": [
@@ -4708,7 +4708,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 22.467087581713987,
     "Dimensions": [
@@ -4719,7 +4719,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 28.323166492463706,
     "Dimensions": [
@@ -4730,7 +4730,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.640823547886356,
     "Dimensions": [
@@ -4741,7 +4741,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.567593218888877,
     "Dimensions": [
@@ -4752,7 +4752,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.728416610877204,
     "Dimensions": [
@@ -4763,7 +4763,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.872333625665743,
     "Dimensions": [
@@ -4774,7 +4774,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.84841992801367,
     "Dimensions": [
@@ -4785,7 +4785,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.643583353771348,
     "Dimensions": [
@@ -4796,7 +4796,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.68249999854426,
     "Dimensions": [
@@ -4807,7 +4807,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.730500158113262,
     "Dimensions": [
@@ -4818,7 +4818,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.542588422808805,
     "Dimensions": [
@@ -4829,7 +4829,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.526749964141462,
     "Dimensions": [
@@ -4840,7 +4840,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.623744483692743,
     "Dimensions": [
@@ -4851,7 +4851,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.62508359839282,
     "Dimensions": [
@@ -4862,7 +4862,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.683348650019102,
     "Dimensions": [
@@ -4873,7 +4873,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.6590731072054,
     "Dimensions": [
@@ -4884,7 +4884,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.610912074515806,
     "Dimensions": [
@@ -4895,7 +4895,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.673416714322187,
     "Dimensions": [
@@ -4906,7 +4906,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 29.94149461498509,
     "Dimensions": [
@@ -4917,7 +4917,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 43.00919387343737,
     "Dimensions": [
@@ -4928,7 +4928,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 41.71971692866302,
     "Dimensions": [
@@ -4939,7 +4939,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 15.421064414430045,
     "Dimensions": [
@@ -4950,7 +4950,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 4.925907649237328,
     "Dimensions": [
@@ -4961,7 +4961,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 3.2270473035971743,
     "Dimensions": [
@@ -4972,7 +4972,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22861122685378082,
     "Dimensions": [
@@ -4983,7 +4983,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23194444444444443,
     "Dimensions": [
@@ -4994,7 +4994,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23999998148564808,
     "Dimensions": [
@@ -5005,7 +5005,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.30999982408101834,
     "Dimensions": [
@@ -5016,7 +5016,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3794445694465279,
     "Dimensions": [
@@ -5027,7 +5027,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.38305555093047844,
     "Dimensions": [
@@ -5038,7 +5038,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23777778704151237,
     "Dimensions": [
@@ -5049,7 +5049,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23166666666666663,
     "Dimensions": [
@@ -5060,7 +5060,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24083314815524678,
     "Dimensions": [
@@ -5071,7 +5071,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22972235648371916,
     "Dimensions": [
@@ -5082,7 +5082,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23888876390038577,
     "Dimensions": [
@@ -5093,7 +5093,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.22972222222700608,
     "Dimensions": [
@@ -5104,7 +5104,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23611111574529314,
     "Dimensions": [
@@ -5115,7 +5115,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23555569908094137,
     "Dimensions": [
@@ -5126,7 +5126,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24666654166874996,
     "Dimensions": [
@@ -5137,7 +5137,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.2930556666729939,
     "Dimensions": [
@@ -5148,7 +5148,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.29505192708593747,
     "Dimensions": [
@@ -5159,7 +5159,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.27812507234505207,
     "Dimensions": [
@@ -5170,7 +5170,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23133809272747136,
     "Dimensions": [
@@ -5181,7 +5181,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.23862842159068756,
     "Dimensions": [
@@ -5192,7 +5192,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.24508335139187495,
     "Dimensions": [
@@ -5203,7 +5203,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 0.3661665069526158,
     "Dimensions": [
@@ -5214,7 +5214,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 3.082161743180438,
     "Dimensions": [
@@ -5225,7 +5225,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 31.679582881558428,
     "Dimensions": [
@@ -5236,7 +5236,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 43.61400817914036,
     "Dimensions": [
@@ -5247,7 +5247,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 55.67207372147163,
     "Dimensions": [
@@ -5258,7 +5258,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.040103090934046,
     "Dimensions": [
@@ -5269,7 +5269,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.41624979437798,
     "Dimensions": [
@@ -5280,7 +5280,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.30515705704107,
     "Dimensions": [
@@ -5291,7 +5291,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.29650000237662,
     "Dimensions": [
@@ -5302,7 +5302,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.23584322132625,
     "Dimensions": [
@@ -5313,7 +5313,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.32050978620253,
     "Dimensions": [
@@ -5324,7 +5324,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.232646935712665,
     "Dimensions": [
@@ -5335,7 +5335,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.28640371241024,
     "Dimensions": [
@@ -5346,7 +5346,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.306779987268435,
     "Dimensions": [
@@ -5357,7 +5357,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.182053929263056,
     "Dimensions": [
@@ -5368,7 +5368,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.272676367818896,
     "Dimensions": [
@@ -5379,7 +5379,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.347166764149776,
     "Dimensions": [
@@ -5390,7 +5390,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.34709159971494,
     "Dimensions": [
@@ -5401,7 +5401,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.31433345335533,
     "Dimensions": [
@@ -5412,7 +5412,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.2581462820253,
     "Dimensions": [
@@ -5423,7 +5423,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.39766696904107,
     "Dimensions": [
@@ -5434,7 +5434,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.47009360973649,
     "Dimensions": [
@@ -5445,7 +5445,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.42731253353236,
     "Dimensions": [
@@ -5456,7 +5456,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.52119487128584,
     "Dimensions": [
@@ -5467,7 +5467,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 59.48312269063915,
     "Dimensions": [
@@ -5478,7 +5478,7 @@
     ]
   },
   {
-    "MetricName": "CustomWSCPUUTILIZATION",
+    "MetricName": "WSCustomCPUUTILIZATION",
     "Timestamp": "#TIMEPLACEHOLDER#",
     "Value": 50.05701991537047,
     "Dimensions": [
