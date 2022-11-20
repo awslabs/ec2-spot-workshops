@@ -118,7 +118,7 @@ Before we check the selected node, let's cover what Karpenter is expected to do 
 Let's confirm that was the case and only `amd64` considered for scaling up. We can check karpenter logs by running the following command.
 
 ```
-alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
 kl
 ```
 
@@ -152,25 +152,26 @@ This will display the last call to the `CreateFleet` done in this account. The o
 
 ```
 "OnDemandOptions":{
-    "AllocationStrategy": "lowest-price"\
+    "AllocationStrategy": "lowest-price"
 }
 "SpotOptions":{ 
-    "AllocationStrategy":"capacity-optimized-prioritized"
+    "AllocationStrategy":"price-capacity-optimized"
 }
 ```
  
 We can also get more information about the instance selected by running the following command that filters for `intent:apps` and `kubernetes.io/arch:amd64`.
 
 ```
-kubectl get node --selector=intent=apps,kubernetes.io/arch=amd64 --show-labels
+kubectl get node --selector=intent=apps -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type
 ```
 
 This should display the instance with all the labels it has, similar to the output below. 
 
 ```bash
-$ kubectl get node --selector=intent=apps,kubernetes.io/arch=amd64 --show-labels
-NAME                                          STATUS   ROLES    AGE   VERSION               LABELS
-xxxxxxxxxxxxxxxx.compute.internal   Ready    <none>   43m   v1.21.5-eks-bc4871b   beta.kubernetes.io/arch=amd64,beta.kubernetes.io/instance-type=t3a.xlarge,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1a,intent=apps,karpenter.sh/provisioner-name=default,kubernetes.io/arch=amd64,kubernetes.io/hostname=xxxxxxxxxxxxxxxx.compute.internal,kubernetes.io/os=linux,kubernetes.hs/capacity-type=on-demand,node.kubernetes.io/instance-type=t3a.xlarge,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1a
+kubectl get node --selector=intent=apps -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type
+NAME                                           STATUS   ROLES    AGE     VERSION                ARCH    INSTANCE-TYPE   PROVISIONER-NAME   ZONE         CAPACITY-TYPE
+ip-192-168-49-164.us-east-2.compute.internal   Ready    <none>   14m     v1.23.13-eks-fb459a0   amd64   c5ad.2xlarge    default            us-east-2b   spot
+ip-192-168-52-232.us-east-2.compute.internal   Ready    <none>   3m19s   v1.23.13-eks-fb459a0   amd64   c6a.xlarge      default            us-east-2b   on-demand
 ``` 
 {{% /expand %}}
 
@@ -195,7 +196,7 @@ Karpenter does support the nodeSelector well-known label `node.kubernetes.io/ins
 So in this case we should expect just one instance being considered. You can check Karpenter logs by running:
 
 ```
-alias kl='for pod in $(kubectl get pods -n karpenter | grep karpenter | awk NF=1) ; do if [[ $(kubectl logs ${pod} -c controller -n karpenter --limit-bytes=4096) =~ .*acquired.* ]]; then kubectl logs ${pod} -c controller -n karpenter -f --tail=20; fi; done'
+alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
 kl
 ```
 
@@ -223,15 +224,15 @@ We leave as an optional exersice the following setup. What would happen if you c
 We can also get more information about the instance selected by running the following command that filters for `intent:apps` and `kubernetes.io/arch:arm64`.
 
 ```
-kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 --show-labels
+kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type
 ```
 
 This should display the instance with all the labels it has, similar to the output below. 
 
 ```bash
-$ kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 --show-labels
-NAME                                          STATUS   ROLES    AGE     VERSION               LABELS
-xxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal   Ready    <none>   5m55s   v1.21.5-eks-bc4871b   beta.kubernetes.io/arch=arm64,beta.kubernetes.io/instance-type=c6g.xlarge,beta.kubernetes.io/os=linux,failure-domain.beta.kubernetes.io/region=eu-west-1,failure-domain.beta.kubernetes.io/zone=eu-west-1b,intent=apps,karpenter.sh/provisioner-name=default,kubernetes.io/arch=arm64,kubernetes.io/hostname=xxxxxxxxxxxxxxxxxxxxxxxxxx.compute.internal,kubernetes.io/os=linux,kubernetes.sh/capacity-type=on-demand,node.kubernetes.io/instance-type=a1.xlarge,topology.kubernetes.io/region=eu-west-1,topology.kubernetes.io/zone=eu-west-1b
+$ kubectl get node --selector=intent=apps,kubernetes.io/arch=arm64 -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type
+NAME                                          STATUS   ROLES    AGE   VERSION                ARCH    INSTANCE-TYPE   PROVISIONER-NAME   ZONE         CAPACITY-TYPE
+ip-192-168-5-202.us-east-2.compute.internal   Ready    <none>   66s   v1.23.13-eks-fb459a0   arm64   c6g.xlarge      default            us-east-2a   spot
 ``` 
 {{% /expand %}}
 

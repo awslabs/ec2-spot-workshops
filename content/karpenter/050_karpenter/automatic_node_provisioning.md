@@ -84,13 +84,7 @@ kubectl get deployment inflate
 You can check which instance type was used running the following command:
 
 ```
-kubectl get node --selector=intent=apps --show-labels
-```
-
-This will show a single instance created with the label set to `intent: apps`. To get the type of instance in this case, we can describe the node and look at the label `beta.kubernetes.io/instance-type` 
-
-```
-echo type: $(kubectl describe node --selector=intent=apps | grep "beta.kubernetes.io/instance-type" | sed s/.*=//g)
+kubectl get node --selector=intent=apps -L kubernetes.io/arch -L node.kubernetes.io/instance-type -L karpenter.sh/provisioner-name -L topology.kubernetes.io/zone -L karpenter.sh/capacity-type
 ```
 
 There is something even more interesting to learn about how the node was provisioned. Check out Karpenter logs and look at the new Karpenter created. The lines should be similar to the ones below 
@@ -124,16 +118,16 @@ Instances types might be different depending on the region selected.
 
 All this instances are the suitable instances that reduce the waste of resources (memory and CPU) for the pod submitted. If you are interested in Algorithms, internally Karpenter is using a [First Fit Decreasing (FFD)](https://en.wikipedia.org/wiki/Bin_packing_problem#First_Fit_Decreasing_(FFD)) approach. Note however this can change in the future.
 
-We did set Karpenter Provisioner to use [EC2 Spot instances](https://aws.amazon.com/ec2/spot/), and there was no `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/v0.18.1/provisioner/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances.Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
+We did set Karpenter Provisioner to use [EC2 Spot instances](https://aws.amazon.com/ec2/spot/), and there was no `instance-types` [requirement section in the Provisioner to filter the type of instances](https://karpenter.sh/v0.19.2/provisioner/#instance-types). This means that Karpenter will use the default value of instances types to use. The default value includes all instance types with the exclusion of metal (non-virtualized), [non-HVM](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html), and GPU instances.Internally Karpenter used **EC2 Fleet in Instant mode** to provision the instances. You can read more about EC2 Fleet Instant mode [**here**](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instant-fleet.html). Here are a few properties to mention about EC2 Fleet instant mode that are key for Karpenter. 
 
 * EC2 Fleet instant mode provides a synchronous call to procure instances, including EC2 Spot, this simplifies and avoid error when provisioning instances. For those of you familiar with [Cluster Autoscaler on AWS](https://github.com/kubernetes/autoscaler/blob/c4b56ea56136681e8a8ff654dfcd813c0d459442/cluster-autoscaler/cloudprovider/aws/auto_scaling_groups.go#L33-L36), you may know about how it uses `i-placeholder` to coordinate instances that have been created in asynchronous ways.
 
-* The call to EC2 Fleet in instant mode is done using `capacity-optimized-prioritized` selecting the instances that reduce the likelihood of provisioning an extremely large instance. `Capacity-optimized` allocation strategies select instances from the Spot capacity pools with optimal capacity for the number of instances launched thus reducing the frequency of Spot terminations for the instances selected. You can read more about [Allocation Strategies here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) 
+* The call to EC2 Fleet in instant mode is done using `price-capacity-optimized` selecting the instances that reduce the likelihood of provisioning an extremely large instance. `Capacity-Optimized` allocation strategies select instances from the Spot capacity pools with optimal capacity for the number of instances launched thus reducing the frequency of Spot terminations for the instances selected. You can read more about [Allocation Strategies here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html) 
 
-* Calls to EC2 Fleet in instant mode are not considered as Spot fleets. They do not count towards the Spot Fleet limits. The implication is that Karpenter can make calls to this API as many times over time as needed.
+* Calls to EC2 Fleet in instant mode are not considered Spot fleets. They do not count towards the Spot Fleet limits. The implication is that Karpenter can make calls to this API as many times over time as needed.
 
 
-By implementing techniques such as: Bin-packing using First Fit Decreasing, Instance diversification using EC2 Fleet instant fleet and `capacity-optimized-prioritized`, Karpenter removes the need from customer to define multiple Auto Scaling groups each one for the type of capacity constraints and sizes that all the applications need to fit in. This simplifies considerably the operational support of kubernetes clusters.
+By implementing techniques such as: Bin-packing using First Fit Decreasing, Instance diversification using EC2 Fleet instant fleet and `price-capacity-optimized`, Karpenter removes the need from customer to define multiple Auto Scaling groups each one for the type of capacity constraints and sizes that all the applications need to fit in. This simplifies considerably the operational support of kubernetes clusters.
 
 {{% /expand %}}
 
@@ -179,7 +173,7 @@ System Info:
   ...
 ```
 
-* The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/v0.18.1/provisioner/#architecture) has not been provided.
+* The instance selected has been created with the default architecture Karpenter will use when the Provisioner CRD requirement for `kubernetes.io/arch` [Architecture](https://karpenter.sh/v0.19.2/provisioner/#architecture) has not been provided.
 
 * The Container Runtime used for Karpenter nodes is containerd. You can read more about containerd [**here**](https://containerd.io/)  
 
@@ -280,7 +274,7 @@ In this section we have learned:
 
 * Karpenter can scale-out from zero when applications have available working pods and scale-in to zero when there are no running jobs or pods.
 
-* Provisioners can be setup to define governance and rules that define how nodes will be provisioned within a cluster partition. We can setup requirements such as `karpenter.sh/capacity-type` to allow on-demand and spot instances or use `karpenter.k8s.aws/instance-size` to filter smaller sizes. The full list of supported labels is available **[here](https://karpenter.sh/v0.18.1/tasks/scheduling/#selecting-nodes)**
+* Provisioners can be setup to define governance and rules that define how nodes will be provisioned within a cluster partition. We can setup requirements such as `karpenter.sh/capacity-type` to allow on-demand and spot instances or use `karpenter.k8s.aws/instance-size` to filter smaller sizes. The full list of supported labels is available **[here](https://karpenter.sh/v0.19.2/tasks/scheduling/#selecting-nodes)**
 
 * Karpenter uses cordon and drain [best practices](https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/) to terminate nodes. The configuration of when a node is terminated can be controlled with `ttlSecondsAfterEmpty`
 

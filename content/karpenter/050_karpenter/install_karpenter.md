@@ -20,20 +20,23 @@ helm upgrade --install --namespace karpenter --create-namespace \
   karpenter oci://public.ecr.aws/karpenter/karpenter \
   --version ${KARPENTER_VERSION}\
   --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"=${KARPENTER_IAM_ROLE_ARN} \
-  --set clusterName=${CLUSTER_NAME} \
-  --set clusterEndpoint=${CLUSTER_ENDPOINT} \
+  --set settings.aws.clusterName=${CLUSTER_NAME} \
+  --set settings.aws.clusterEndpoint=${CLUSTER_ENDPOINT} \
+  --set settings.aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
+  --set settings.aws.interruptionQueueName=${CLUSTER_NAME} \
   --set nodeSelector.intent=control-apps \
-  --set aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
   --wait
 ```
 
 The command above:
 
-* uses the both the **CLUSTER_NAME** and the **CLUSTER_ENDPOINT** so that Karpenter controller can contact the Cluster API Server.
+* uses both the **CLUSTER_NAME** and the **CLUSTER_ENDPOINT** so that Karpenter controller can contact the Cluster API Server.
 
 * uses the argument `--set nodeSelector.intent=control-apps` to deploy the controllers in the On-Demand managed node group that was created with the cluster.
 
-* uses the argument `--set aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME}` to use the instance profile we created before to grant permissions necessary to instances to run containers and configure networking.
+* uses the argument `--set settings.aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME}` to use the instance profile we created before to grant permissions necessary to instances to run containers and configure networking.
+
+* uses the argument `--set settings.aws.interruptionQueueName=${CLUSTER_NAME}` to use the SQS queue created in the previous CloudFormation stack to handle Spot interruption notifications and AWS Health events.
 
 * Karpenter configuration is provided through a Custom Resource Definition (CRD). We will be learning about Provisioners in the next section, the `--wait` notifies the webhook controller to wait until the Provisioner Controller has been deployed.
 
@@ -47,8 +50,8 @@ kubectl get pods --namespace karpenter
 You should see an output similar to the one below. 
 ```
 NAME                         READY   STATUS    RESTARTS   AGE
-karpenter-6c59fc5c96-l8fwv   2/2     Running   0          3m51s
-karpenter-6c59fc5c96-zw5jf   2/2     Running   0          3m51s
+karpenter-75f6596894-pgrsd   1/1     Running   0          48s
+karpenter-75f6596894-t4mrx   1/1     Running   0          48s
 ```
 
 
