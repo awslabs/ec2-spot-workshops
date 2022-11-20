@@ -227,19 +227,19 @@ Resources:
     Properties:
       KeyName: EC2WorkshopInstanceKeyPair
 
-  MyEC2AutoScalingGroup:
-    Type: AWS::AutoScaling::AutoScalingGroup
-    Properties:
-      AutoScalingGroupName: ec2-workshop-asg
-      VPCZoneIdentifier:
-      - !Ref PublicSubnet1
-      - !Ref PublicSubnet2
-      LaunchTemplate:
-        LaunchTemplateId: !Ref MyLaunchTemplate
-        Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
-      MaxSize: '20'
-      MinSize: '0'
-      DesiredCapacity: '0'
+  # MyEC2AutoScalingGroup:
+  #   Type: AWS::AutoScaling::AutoScalingGroup
+  #   Properties:
+  #     AutoScalingGroupName: ec2-workshop-asg
+  #     VPCZoneIdentifier:
+  #     - !Ref PublicSubnet1
+  #     - !Ref PublicSubnet2
+  #     LaunchTemplate:
+  #       LaunchTemplateId: !Ref MyLaunchTemplate
+  #       Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+  #     MaxSize: '20'
+  #     MinSize: '0'
+  #     DesiredCapacity: '0'
 
            
 
@@ -434,16 +434,16 @@ Resources:
             - sudo unzip awscliv2.zip
             - sudo ./aws/install
             - . /home/ec2-user/.bash_profile
-            - sudo -H -u ec2-user aws --version
+            - sudo -H -u ec2-user /usr/local/bin/aws --version
             - echo '=== setup AWS configs ==='
             - rm -vf /home/ec2-user/.aws/credentials
             - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
             - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
             - echo "export ACCOUNT_ID=${ACCOUNT_ID}" >> /home/ec2-user/.bash_profile
             - echo "export AWS_REGION=${AWS_REGION}" >> /home/ec2-user/.bash_profile
-            - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
-            - sudo -H -u ec2-user aws configure get default.region
-            - sudo -H -u ec2-user aws sts get-caller-identity
+            - sudo -H -u ec2-user /usr/local/bin/aws configure set default.region ${AWS_REGION}
+            - sudo -H -u ec2-user /usr/local/bin/aws configure get default.region
+            - sudo -H -u ec2-user /usr/local/bin/aws sts get-caller-identity
             - echo '=== Generate SSH key and import to aws ==='
             - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
             - sudo -H -u ec2-user /usr/local/bin/aws ec2 import-key-pair --key-name "asgworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
@@ -460,11 +460,9 @@ Resources:
             - sudo sed -i.bak -e "s#%PublicSubnet1%#$PublicSubnet1#g" -e "s#%PublicSubnet2%#$PublicSubnet2#g" /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/asg.json
             - date
             - echo '=== Upload CloudWatch Metrics Data ==='
-            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace "EC2 Workshop Custom Metrics" --metric-data file://metric-instances.json"
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace 'EC2 Workshop Custom Metrics' --metric-data file://metric-instances.json"
             - sleep 5
-            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace "EC2 Workshop Custom Metrics" --metric-data file://metric-cpu.json"
-            - sleep 5
-            - aws autoscaling delete-auto-scaling-group --auto-scaling-group-name ec2-workshop-asg --force-delete
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace 'EC2 Workshop Custom Metrics' --metric-data file://metric-cpu.json"
             - echo '=== Cloud9 bootstrap Completed ==='
 
   C9BootstrapAssociation:

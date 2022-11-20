@@ -12,7 +12,7 @@ Verify **scaling** and **load** metrics data in CloudWatch.
 1. Navigate to [Amazon CloudWatch Console](https://console.aws.amazon.com/cloudwatch).
 2. Make sure the correct **region** is selected in the **AWS Console**.
 3. From left side navigation, click on **Metrics** then **All metrics**.
-4. In the Browse tab select **Workshop Customer Predictive Metrics** under Custom namespaces
+4. In the Browse tab select **EC2 Workshop Custom Metrics** under Custom namespaces
 5. Select **AutoScalingGroupName**, then select the two metrics attached with **ec2-workshop-asg**. This should add the metrics to the graph.
 6. To view all metrics data, from the time window filter select **3d** to view data of the last 3 days
 7. Note the workload pattern in the custom metrics graph, this makes it a good use case for predictive scaling.
