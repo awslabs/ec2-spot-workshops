@@ -3,11 +3,17 @@ title = "Take control of instance Lifecycle"
 weight = 170
 +++
 
-You have successfully deployed a Predictive Scaling policy to your Auto Scaling Group. However, you still need to solve the challenge of instances taking 5-10 minutes to start up. Previously, you were manually scaling ahead of time, attempting to beat the increase in traffic. Manually scaling with the long warm up time was not accurate and reduced the effectiveness or missed scale event.
+You have successfully configured scaling policies in your Auto Scaling Group. However, you still need to solve **the challenge of instances long time of initiation, taking 5-10 minutes to start up**. Previously, you were manually scaling ahead of time, attempting to beat the increase in traffic. Manually scaling with the long warm up time was not accurate and reduced the effectiveness or missed scale event.
+
+You have attempted to work with the application owners to speed up boot strapping and instance warm up time, whilst there has been some improvement, it is not possible to speed this process up further without a complete re-architecture of the application.
+
+When looking at how to fix slow warm up times in Auto Scaling Groups, you came across a feature called Warm Pools. You can now pre-initialize instances and stop them, ready for scale-out when needed. You hope this will significantly reduce the time it takes to scale-out and reduce the time of the boot strapping procedure that currently is impacting your ability to scale-out efficiently.
+
+You've also came across another feature called **Lifecycle hooks**, which could help you in taking control of the instances lifecycle , **let's explore it first** before we start working with warm pools.
 
 ### Lifecycle hooks
 
-Amazon EC2 Auto Scaling offers the ability to add lifecycle hooks to your Auto Scaling groups. These hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. A lifecycle hook provides a specified amount of time (one hour by default) to wait for the action to complete before the instance transitions to the next state.
+Amazon EC2 Auto Scaling offers the ability to add lifecycle hooks to your Auto Scaling groups. These hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs.
 
 ### How it works?
 
