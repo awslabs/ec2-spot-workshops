@@ -37,18 +37,11 @@ aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg
 Now, let's measure the launch speed of the instance. You will need to wait a few minutes for the instance to be launched by the previous step.
 
 ```bash
-activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "ec2-workshop-asg")
-for row in $(echo "${activities}" | jq -r '.Activities[] | @base64'); do
-    _jq() {
-     echo ${row} | base64 --decode | jq -r ${1}
-    }
-
-   start_time=$(date -d "$(_jq '.StartTime')" "+%s")
-   end_time=$(date -d "$(_jq '.EndTime')" "+%s")
-   activity=$(_jq '.Description')
-
-   echo $activity Duration: $(($end_time - $start_time))"s"
-done
+activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "ec2-workshop-asg" | jq -r '.Activities[0]') && \
+start_time=$(date -d "$(echo $activities | jq -r '.StartTime')" "+%s") && \
+end_time=$(date -d "$(echo $activities | jq -r '.EndTime')" "+%s") && \
+activity=$(echo $activities | jq -r '.Description') && \
+echo $activity Duration: $(($end_time - $start_time))"s" || echo "Current activity is still in progress.."
 ```
 
 #### Observe Launch Duration

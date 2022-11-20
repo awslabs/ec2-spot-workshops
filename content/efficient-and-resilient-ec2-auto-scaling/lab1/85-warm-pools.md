@@ -11,10 +11,11 @@ A warm pool is a pool of pre-initialized EC2 instances that sits alongside an Au
 
 **Three options to set the warm pool size:**
 
-1. Warm pool size is the difference between the number of currently running instances and the maximum capacity.
-2. Another method to seth the size is by setting the maximum prepared instances, the warm pool size in this case is calculated as  the difference between the maximum prepared and the current desired capacity.
-3. You can also set the minimum size setting for warm pool to statically set minimum number of instance in the warm pool
+It's important to decide how to set the warm pools size as it will make huge difference in associated cost.
 
+1. By default warm pool size is the difference between the number of currently running instances and the maximum capacity.
+2. However if you're running a large Auto Scaling group that won't be the best cost optimized option, in that case you can set a maximum prepared capacity which counts current running instances as part of it.
+3. Or you can also set a static number as the minimum pool size.
 
 You can keep instances in the warm pool in one of **three** states: **Stopped**, **Running**, or **Hibernated**.
 Keeping instances in a **Stopped** state is an effective way to **minimize costs**. With stopped instances, you pay only for the volumes that you use and the Elastic IP addresses attached to the instances.
@@ -28,6 +29,8 @@ Lifecycle hooks can be used to put instances in wait state before launch or term
 **Limitations**:
 You cannot add a warm pool to Auto Scaling groups that have a mixed instances policy or that launch Spot Instances.
 {{% /notice %}}
+
+![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/warm-pools-lifecycle-diagram.png)
 
 #### Enable Warm Pools for the Auto Scaling Group
 

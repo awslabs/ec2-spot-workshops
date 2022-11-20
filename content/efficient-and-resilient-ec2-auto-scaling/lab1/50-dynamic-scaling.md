@@ -65,4 +65,7 @@ Command should return policy ARN and target tracking alarms that have been creat
 ```
 
 3. Navigate to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
-4. Now you have predictive and dynamic scaling polices in place, you have successfully completed the first task you've been asked to do.
+4. The dynamic scaling policy will **reduce** the capacity at the times with low demand using the **average CPU utilization** metric.
+5. Now you have predictive and dynamic scaling polices in place to ensure application responsiveness at the times of increased demand, **you have successfully completed the first task** you've been asked to do. **Great work!**
+
+#### **We got one more task to do...**
