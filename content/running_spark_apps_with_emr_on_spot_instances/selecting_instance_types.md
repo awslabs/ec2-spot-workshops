@@ -17,7 +17,7 @@ types with sufficient number of vCPUs and RAM.
 Let's first install amazon-ec2-instance-selector on Cloud9 IDE:
 
 ```
-curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v2.3.2/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
+curl -Lo ec2-instance-selector https://github.com/aws/amazon-ec2-instance-selector/releases/download/v2.4.0/ec2-instance-selector-`uname | tr '[:upper:]' '[:lower:]'`-amd64 && chmod +x ec2-instance-selector
 sudo mv ec2-instance-selector /usr/local/bin/
 ec2-instance-selector --version
 ```
@@ -44,7 +44,7 @@ ec2-instance-selector --vcpus-min 4  --vcpus-max 16  --vcpus-to-memory-ratio 1:8
 ```
 
 Internally ec2-instance-selector is making calls to the [DescribeInstanceTypes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstanceTypes.html) for the specific region and filtering
-the instance types based on the criteria selected in the command line. Above command should display a list like the one that follows (note results might differ depending on the region). We will use below instance types as part of our EMR Core and Task instance fleets.
+the instance types based on the criteria selected in the command line. Above command should display a list like the one that follows (**note results might differ depending on the region**). We will use below instance types as part of our EMR Core and Task instance fleets.
 
 ```
 r4.2xlarge

@@ -11,7 +11,7 @@ Select the correct tab, depending on where you are running the workshop:
     {{< tab name="In an AWS event" include="costs_event.md" />}}
 {{< /tabs >}}
 
-In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=**Name**, Value=**EMRTransientCluster1**. This tag can be used to identify resources in your AWS account, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
+In Step 4 of the EMR cluster launch, we tagged the cluster with the following Tag: Key=**Name**, Value=**emr-spot-workshop**. This tag can be used to identify resources in your AWS account, and can also be used to identify the costs associated with usage in case the tag Key has been enabled as a Cost Allocation Tag. [Click here](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/) to learn more about tagging in AWS.
 
 
 ### Analyzing costs with AWS Cost Explorer
@@ -24,12 +24,16 @@ If the Name tag Key was not enabled as a Cost Allocation Tag, you will not be ab
 
 Let's use Cost Explorer to analyze the costs of running our EMR application.  
 1. Navigate to Cost Explorer by opening the AWS Management Console -> Click your username in the top right corner -> click **My Billing Dashboard** -> click **Cost Explorer in the left pane**. or [click here](https://console.aws.amazon.com/billing/home#/costexplorer) for a direct link.  
-2. We know that we gave our EMR cluster a unique Name tag, so let's filter according to it. In the right pane, click Tags -> Name -> enter "**EMRTransientCluster1**"  
+2. We know that we gave our EMR cluster a unique Name tag, so let's filter according to it. In the right pane, click Tags -> Name -> enter "**emr-spot-workshop**"  
 3. Instead of the default 45 days view, let's narrow down the time span to just the day when we ran the cluster. In the data selection dropdown, mark that day as start and end.  
 4. You are now looking at the total cost to run the cluster (**$0.30**), including: EMR, EC2, EBS, and possible AWS Cross-Region data transfer costs, depending on where you ran your cluster relative to where the S3 dataset is located (in N. Virginia).  
 5. Group by **Usage Type** to get a breakdown of the costs
 
 ![costexplorer](/images/running-emr-spark-apps-on-spot/costexplorer1.png)
+
+{{% notice note %}}
+Above's screenshot references to a sample workload deployed at an European region. You'll get a similar graph regardless of the region.
+{{% /notice %}}
 
 * EU-SpotUsage:r5.xlarge: This was the instance type that ran in the EMR Task Instance fleet and accrued the largest cost, since EMR launched 10 instances ($0.17)  
 * EU-BoxUsage:r5.xlarge: The EMR costs. [Click here](https://aws.amazon.com/emr/pricing/) to learn more about EMR pricing. ($0.06)  
