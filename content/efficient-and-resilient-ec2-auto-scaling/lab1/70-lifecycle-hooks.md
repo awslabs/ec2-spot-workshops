@@ -3,13 +3,13 @@ title = "Take control of instance Lifecycle"
 weight = 170
 +++
 
-You have successfully configured scaling policies in your Auto Scaling Group. However, you still need to solve **the challenge of instances long time of initiation, taking 5-10 minutes to start up**. Previously, you were manually scaling ahead of time, attempting to beat the increase in traffic. Manually scaling with the long warm up time was not accurate and reduced the effectiveness or missed scale event.
+You have successfully configured scaling policies in your Auto Scaling Group. However, you still need to solve **the challenge of instances long time of initiation, taking 5-10 minutes to start up**. 
 
-You have attempted to work with the application owners to speed up boot strapping and instance warm up time, whilst there has been some improvement, it is not possible to speed this process up further without a complete re-architecture of the application.
+To elaborate the challenge further, the application provided to you has long warm up time (10 minutes) and you have attempted to work with the application owners to speed up boot strapping and instance warm up time. Whilst there has been some improvement, it is not possible to speed this process up further without a complete re-architecture of the application.
 
-When looking at how to fix slow warm up times in Auto Scaling Groups, you came across a feature called Warm Pools. You can now pre-initialize instances and stop them, ready for scale-out when needed. You hope this will significantly reduce the time it takes to scale-out and reduce the time of the boot strapping procedure that currently is impacting your ability to scale-out efficiently.
+In the following chapters, you explore how you can fix the challenge of slow boot strapping times with [**warm pools**](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html). With warm pools you can pre-initialize instances and stop them, ready for scale-out when needed. This approach significantly reduces the overall scale-out time.
 
-You've also came across another feature called **Lifecycle hooks**, which could help you in taking control of the instances lifecycle , **let's explore it first** before we start working with warm pools.
+Before you start working with warm pools, you explore **Lifecycle hooks**, another feature that helps in taking control of the instances lifecycle.
 
 ### Lifecycle hooks
 
@@ -21,9 +21,7 @@ An Amazon EC2 instance transitions through different states from the time it lau
 
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/lifecycle-hooks.png)
 
-### Create a Lifecycle hook
-
-Instance launching
+### Create a Lifecycle hook for instance launching
 
 Run this command to create a lifecycle hook to control instance launching.
 

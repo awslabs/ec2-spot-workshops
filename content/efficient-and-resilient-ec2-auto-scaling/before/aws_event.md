@@ -16,10 +16,15 @@ To **save time** on the initial setup, **a CloudFormation stack has been deploye
 If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
 
 1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/). **Tip:** Right click the link and Open in a Private Browser Window.
-2. Enter the Hash in the text box, and click **Proceed** 
-3. In the User Dashboard screen, click **AWS Console** 
-4. In the popup page, click **Open Console**
-5. You are now logged in to the AWS console in an account that was created for you, and **will be available only throughout the workshop run time**.
-6. Browse to [AWS Cloud9](https://console.aws.amazon.com/cloud9control/home), you should find one environment has been created, then within Cloud9 IDE column click **Open**
-
-![cloudformation-create-complete](/images/efficient-and-resilient-ec2-auto-scaling/open-cloud9-ide.png)
+1. Enter the Hash in the text box, and click **Proceed** 
+1. In the User Dashboard screen, click **AWS Console** 
+1. In the popup page, click **Open Console**
+1. You are now logged in to the AWS console in an account that was created for you, and **will be available only throughout the workshop run time**.
+1. Browse to [AWS Cloud9](https://console.aws.amazon.com/cloud9control/home), you should find one environment has been created, then within Cloud9 IDE column click **Open**
+    ![cloudformation-create-complete](/images/efficient-and-resilient-ec2-auto-scaling/open-cloud9-ide.png)
+1. In the **Cloud9 IDE**, check the folders in left navigation, look for folder named **ec2-spot-workshops**, confirm it **exists**.
+1. In the Cloud9 terminal, change into the workshop directory
+	```bash
+	cd ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling
+	```  
+    ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/cloud9-workshop-directory.png)

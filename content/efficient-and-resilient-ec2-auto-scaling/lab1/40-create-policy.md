@@ -3,9 +3,11 @@ title = "Create Predictive Scaling Policy"
 weight = 140
 +++
 
-### Create the predictive scaling policy
+Following up with our scenario, one of the requirements is to reduce the impact of time the application takes to become ready.
 
-Following up with our scenario, one of the requirements is to reduce the impact of time the application takes to become ready. You found out that the predictive scaling policy can pre-launch instances, Using parameter **SchedulingBufferTime** in policy configuration you can choose how far in advance (seconds) you want your instances launched before the forecast calls for the load to increase.
+Predictive scaling has a **SchedulingBufferTime** parameter that  allows instances to launch in advance. For example, the forecast says to add capacity at 10:00 AM, and you choose to pre-launch instances by 5 minutes. In that case, the instances will be launched at 9:55 AM. The intention is to give resources time to be provisioned.
+
+### Create the predictive scaling policy
 
 1. In **Cloud9** IDE terminal, check you're at this directory `ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling`
 

@@ -18,14 +18,20 @@ Predictive scaling scales the number of instances at the **beginning of each hou
 At the head of next hour, predictive scaling is forecasting capacity of 5 instances
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/capacity-forcast.png)
 
-5 minutes before the head of the hour, predictive scaling starts launching instances. (Can you guess why 5 minutes?)
+### Challenges 
+
+{{% expand "Do you know at what time predictive scaling will start launching instances? Expand to see the answer." %}}
+Predictive scaling starts launching instances 5 minutes before the head of the hour, because you have set SchedulingBufferTime as 300 seconds (5 minutes).
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/asg-activity.png)
 
-Now we have 5 healthy instances proactively launched, running and ready for the forecasted load.
+Below screenshot shows 5 proactively launched instances pass the health check and ready for the forecasted load.
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/asg-instances.png)
+{{% /expand %}}
 
-Also you can use **AWS CLI** to verify the created predictive policy
+{{% expand "Do you know the AWS CLI command to verify the created predictive policy? Expand to see the answer." %}}
+
 ```bash
 aws autoscaling describe-policies \
     --auto-scaling-group-name 'ec2-workshop-asg'
 ```
+{{% /expand %}}
