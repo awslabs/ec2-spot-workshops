@@ -11,7 +11,7 @@ To save time on the initial setup, a **CloudFormation** template will be used to
 
 #### Deploy CloudFormation Stack
 
-1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/nadaahm/ec2-spot-workshops/nadaahm-asg-workshop-reinvent/content/efficient-and-resilient-ec2-auto-scaling/files/efficient-auto-scaling-quickstart-cnf.yml). **Tip:** Right click the link and Save Link As.. to download the file.
+1. You can view and download the CloudFormation template from GitHub [here](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/efficient-and-resilient-ec2-auto-scaling/files/efficient-auto-scaling-quickstart-cnf.yml). **Tip:** Right click the link and Save Link As.. to download the file.
                                                                             
 2. Take a moment to review the CloudFormation template so you understand the resources it will be creating.
 
