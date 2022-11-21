@@ -7,17 +7,12 @@ pre: "<b>11. </b>"
 
 ## Overview
 
-Welcome! This workshop is designed to get you familiar with the concepts and best practices for managing Amazon EC2 capacity needed for workloads running with Auto Scaling groups. We will deep dive using hands-on guidance to effectively and efficiently scale capacity using [Predictive Scaling for EC2](https://aws.amazon.com/blogs/aws/new-predictive-scaling-for-ec2-powered-by-machine-learning/) and [EC2 Warm Pools](https://aws.amazon.com/blogs/compute/scaling-your-applications-faster-with-ec2-auto-scaling-warm-pools/).
+Welcome! This workshop is designed to get you familiar with the concepts and best practices for effectively and efficiently scaling [Amazon EC2](https://aws.amazon.com/ec2/) capacity using [Amazon EC2 Auto Scaling](https://aws.amazon.com/ec2/autoscaling/) and it's features including [predictive scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html) and [warm pools](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html).
 
-In this workshop we will running this **scenario** where **you are a Cloud Architect working for a software provider company**. Your company provides a software-as-a-service application for hundreds of customers including government entities and asset-intensive industries. The software your company runs is a **monolithic** application, while it’s easy to test and deploy, it’s not flexible and adds complexity to the automatic scaling and capacity planning of the application. Due to application dependencies, it also requires initiation logic to run with each new instance added to its compute capacity which could take between **5-10 minutes**.
+In this workshop you assume the role of a Cloud Architect tasked to find an efficient Auto Scaling solution for a sample application. You have been provided with monolithic application which receives cyclical traffic, such as high use of resources during regular business hours and low use of resources during evenings and weekends. The application takes a long time (over 10 minutes) to initialize, causing a noticeable latency impact on application performance during scale-out events. You go through the hands-on labs to find an efficient Auto Scaling solution that ensures the application is **ready in minimal time** and scales faster by **launching capacity in advance of forecasted load** without the need to overprovision capacity.
 
-Your company is facing a challenge with growing customers demand and you have been asked to **1) ensure the service continues to be responsive at any time especially during the peak hours without any waste or underutilization of cloud resources.**
+## Estimated time and cost to run this workshop
+The estimated time for completing the workshop is 60-90 minutes and cost of running this workshop is less than $5 USD.
 
-So far you have been **manually** controlling the desired capacity for the application based on your experience with the customers demand. There have been few incidents where the application were not available to limited number of users due to unexpected demand in capacity. The business wants to remove or reduce the likelihood of this happening again. So you have been asked to **2) ensure the service is ready to scale and operate with minimum readiness time.**
-
-Requirements include the ability to **automatically** scale the service for traffic patterns, all without breaking the budget.
-
-
-{{% notice info %}}
-The estimated time for completing the workshop is **60-90 minutes.**
-{{% /notice %}}
+## Prerequisites 
+This is L300 workshop, we expect readers to be already familiar with basics of [Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html), [Amazon EC2 Auto Scaling groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) and [AWS CloudWatch metrics for EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html).

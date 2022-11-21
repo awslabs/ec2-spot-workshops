@@ -3,13 +3,16 @@ title = "Configure Dynamic scaling"
 weight = 150
 +++
 
-Now the predictive scaling policy is in place, you notice that the auto scaling group scales out successfully. However, you notice that the auto scaling group doesn't scale in when the predicted capacity is less than the actual capacity.
+In previous chapter you verified that the Auto Scaling group scales out successfully with predictive scaling policy. 
 
-## Use predictive scaling with dynamic scaling
+{{% expand "Did you notice that the Auto Scaling group does not scale in when the predicted capacity is less than the actual capacity? Do you know why this happens? Expand to see the answer." %}}
 
-{{% notice info %}}
-When using predictive scaling, Amazon EC2 Auto Scaling scales the number of instances at the **beginning of each hour**. Scales out if actual capacity is less than the predicted, **however** if actual capacity is greater than the predicted capacity, EC2 Auto Scaling **doesn't scale in** capacity. That's why we need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
-{{% /notice %}}
+When using predictive scaling, Amazon EC2 Auto Scaling scales the number of instances at the **beginning of each hour**. Scale out happens if the actual capacity is less than the predicted capacity. However if the actual capacity is more than the predicted capacity, EC2 Auto Scaling **doesn't scale in** capacity. 
+
+Due to this behavior you need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
+{{% /expand %}}
+
+### Configure Dynamic scaling for scale in 
 
 **Dynamic scaling** is used to automatically scale capacity in response to real-time changes in resource utilization. Using it with predictive scaling helps you follow the demand curve for your application closely, **scaling in** during periods of low traffic and scaling out when traffic is higher than expected.
 
@@ -17,8 +20,7 @@ When using predictive scaling, Amazon EC2 Auto Scaling scales the number of inst
 When **multiple** scaling policies are active, each policy determines the desired capacity independently, and the desired capacity is set to the maximum of those.
 {{% /notice %}}
 
-Now you are going to configure the Auto Scaling group to automatically scale out and scale in as your **application load** fluctuates. We will be using a predefined metric that uses average CPU utilization across the Auto Scaling group instances.
-
+In this section, you configure the Auto Scaling group to automatically scale out and scale in as your **application load** fluctuates. You use a average CPU utilization across the Auto Scaling group instances.
 
 1. Review this command to understand the options, then go ahead and run it 
 
@@ -65,7 +67,9 @@ Command should return policy ARN and target tracking alarms that have been creat
 ```
 
 3. Navigate to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
-4. The dynamic scaling policy will **reduce** the capacity at the times with low demand using the **average CPU utilization** metric.
-5. Now you have predictive and dynamic scaling polices in place to ensure application responsiveness at the times of increased demand, **you have successfully completed the first task** you've been asked to do. **Great work!**
+4. The dynamic scaling policy **reduces** the capacity at the times with low demand using the **average CPU utilization** metric.
 
-#### **We got one more task to do...**
+
+Now you have predictive and dynamic scaling polices in place to ensure application responsiveness at the times of increased demand. **You have successfully completed the first task** you've been asked to do. **Great work!**
+
+#### **You have one more task to do, proceed to next chapter to find out..**
