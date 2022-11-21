@@ -9,6 +9,8 @@ weight = 10
 Only complete this section if you are at an AWS hosted event (such as re:Invent, public workshop, Immersion Day, or any other event hosted by an AWS employee).
 {{% /notice %}}
 
+To **save time** on the initial setup, **a CloudFormation stack has been deployed** to your workshop account to create various supporting resources including IAM policies and roles, EC2 Launch Template, VPC, Subnets and a Cloud9 IDE environment for you to run the steps for the workshop in.
+
 ### Login to the AWS Workshop Portal
 
 If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
@@ -16,8 +18,8 @@ If you are at an AWS event, an AWS account was created for you to use throughout
 1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/). **Tip:** Right click the link and Open in a Private Browser Window.
 2. Enter the Hash in the text box, and click **Proceed** 
 3. In the User Dashboard screen, click **AWS Console** 
-4. In the popup page, click **Open Console** 
+4. In the popup page, click **Open Console**
+5. You are now logged in to the AWS console in an account that was created for you, and **will be available only throughout the workshop run time**.
+6. Browse to [AWS Cloud9](https://console.aws.amazon.com/cloud9control/home), you should find one environment has been created, then within Cloud9 IDE column click **Open**
 
-You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
-
-{{% children %}}
+![cloudformation-create-complete](/images/efficient-and-resilient-ec2-auto-scaling/open-cloud9-ide.png)

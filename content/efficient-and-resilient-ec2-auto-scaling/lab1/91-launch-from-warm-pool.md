@@ -45,7 +45,7 @@ activity=$(echo $activities | jq -r '.Description') && \
 echo $activity Duration: $(($end_time - $start_time))"s" || echo "Current activity is still in progress.."
 ```
 
-As you can see from the following results, because our instance was pre-initialized our launch was duration was significantly reduced. This means we can now more rapidly place instances into service in response to load placed on our workload by launching pre-initialized instances from the Warm Pool.
+As you can see from the following results, because the instance was pre-initialized, the instance launch duration was **significantly reduced**. This means we can now more rapidly place instances into service in response to load placed on our workload by launching pre-initialized instances from the Warm Pool.
 
 ```
 Launching a new EC2 instance from warm pool: i-0ea10fdc59a07df6e Duration: 36s
