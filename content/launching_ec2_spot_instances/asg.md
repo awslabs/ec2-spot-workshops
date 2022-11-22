@@ -107,7 +107,7 @@ aws ec2 describe-instances --filters Name=tag:aws:autoscaling:groupName,Values=E
 
 {{%expand "5. How can you select specific instance types instead of ABIS in your Auto Scaling group?" %}}
 
-To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.xlarge, c5.xlarge, r5.xlarge, m4.xlarge, c4.xlarge, and r4.xlarge. 
+To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m4.large, c4.large, and r4.large. 
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -119,22 +119,22 @@ cat <<EoF > ./asg-policy.json
       },
       "Overrides":[
          {
-            "InstanceType":"m5.xlarge"
+            "InstanceType":"m5.large"
          },
          {
-            "InstanceType":"c5.xlarge"
+            "InstanceType":"c5.large"
          },
          {
-            "InstanceType":"r5.xlarge"
+            "InstanceType":"r5.large"
          },
          {
-            "InstanceType":"m4.xlarge"
+            "InstanceType":"m4.large"
          },
          {
-            "InstanceType":"c4.xlarge"
+            "InstanceType":"c4.large"
          },
          {
-            "InstanceType":"r4.xlarge"
+            "InstanceType":"r4.large"
          }
       ]
    },
