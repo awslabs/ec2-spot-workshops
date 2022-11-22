@@ -1,10 +1,10 @@
 +++
 title = "How Warm Pools work?"
-weight = 190
+weight = 90
 +++
 
-#### Describe Warm Pool Configuration
-You can now see that one instance was launched into our warm pool. This is because your warm's maximum prepared capacity is equal to the Auto Scaling group max size. Since you have one instance already in service, only one additional instance was launched into the warm pool to equal the maximum prepared capacity of 2.
+#### Describe warm pool Configuration
+You can now see that one instance was launched into your warm pool. This is because your warm's maximum prepared capacity is equal to the Auto Scaling group max size. Since you have one instance already in service, only one additional instance was launched into the warm pool to equal the maximum prepared capacity of 2.
 
 ```bash
 aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
@@ -16,7 +16,7 @@ If a lifecycle hook is configured, the instance can wait in a Warmed:Pending:Wai
 
 After initialization actions are completed, and the lifecycle hook is sent a CONTINUE signal, the instance will move to a Warmed:Pending:Proceed state.
 
-Since you configured instances in our warm pool to be stopped after initialization, the instance launch will complete with the instance in a Warmed:Stopped state. The instance is now pre-initialized and ready to be launched into the Auto Scaling group as additional capacity is needed.
+Since you configured instances in your warm pool to be stopped after initialization, the instance launch will complete with the instance in a Warmed:Stopped state. The instance is now pre-initialized and ready to be launched into the Auto Scaling group as additional capacity is needed.
 
 
 #### Observe Launch Speed into warm pool
@@ -31,7 +31,7 @@ activity=$(echo $activities | jq -r '.Description') && \
 echo $activity Duration: $(($end_time - $start_time))"s" || echo "Current activity is still in progress.."
 ```
 
-As you can see from the following results, launching an instance into a Warm Pool took a similar length of time to launching an instance directly into the Auto Scaling group.
+As you can see from the following results, launching an instance into a warm pool took a similar length of time to launching an instance directly into the Auto Scaling group.
 
 ```
 Launching a new EC2 instance into warm pool: i-0ea10fdc59a07df6e Duration: 260s

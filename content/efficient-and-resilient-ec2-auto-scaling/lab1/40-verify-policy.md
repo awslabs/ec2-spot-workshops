@@ -1,6 +1,6 @@
 +++
 title = "Review the outcome of predictive scaling"
-weight = 145
+weight = 40
 +++
 
 ### Verify predictive scaling policy in AWS Console
@@ -24,7 +24,7 @@ At the head of next hour, predictive scaling is forecasting capacity of 5 instan
 Predictive scaling starts launching instances 5 minutes before the head of the hour, because you have set SchedulingBufferTime as 300 seconds (5 minutes).
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/asg-activity.png)
 
-Below screenshot shows 5 proactively launched instances pass the health check and ready for the forecasted load.
+Predictive scaling starts launching instances only **beginning of each hour**, therefore you have to wait for the current hour to end before you can see the actual launch of 5 instances. To save time and continue with the workshop you can back to this step by end of hour and compare ASG activity.
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/asg-instances.png)
 {{% /expand %}}
 

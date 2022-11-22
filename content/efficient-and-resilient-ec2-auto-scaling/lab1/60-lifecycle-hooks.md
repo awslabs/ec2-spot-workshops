@@ -1,6 +1,6 @@
 +++
 title = "Take control of instance Lifecycle"
-weight = 170
+weight = 60
 +++
 
 You have successfully configured scaling policies in your Auto Scaling Group. However, you still need to solve **the challenge of instances long time of initiation, taking 5-10 minutes to start up**. 

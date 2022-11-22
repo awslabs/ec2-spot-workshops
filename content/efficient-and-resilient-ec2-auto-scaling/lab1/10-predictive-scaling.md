@@ -1,6 +1,6 @@
 +++
 title = "Predictive scaling"
-weight = 110
+weight = 10
 +++
 
 After reviewing the differences between Scaling policies, you have decided to go with Predictive Scaling because it can help you scale faster by launching capacity in advance of forecasted load, compared to using only dynamic scaling, which is reactive in nature. Predictive scaling can also potentially save you money on your EC2 bill by helping you avoid the need to overprovision capacity.

@@ -1,16 +1,15 @@
 +++
 title = "Configure Dynamic scaling"
-weight = 150
+weight = 50
 +++
 
-In previous chapter you verified that the Auto Scaling group scales out successfully with predictive scaling policy. 
+{{% notice note %}}
+In previous chapter you verified that the Auto Scaling group successfully forecasted with predictive scaling policy. As predictive scaling starts launching instances only **beginning of each hour**, to save time you can proceed with this next step.
+{{% /notice %}}
 
-{{% expand "Did you notice that the Auto Scaling group does not scale in when the predicted capacity is less than the actual capacity? Do you know why this happens? Expand to see the answer." %}}
-
-When using predictive scaling, Amazon EC2 Auto Scaling scales the number of instances at the **beginning of each hour**. Scale out happens if the actual capacity is less than the predicted capacity. However if the actual capacity is more than the predicted capacity, EC2 Auto Scaling **doesn't scale in** capacity. 
-
-Due to this behavior you need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
-{{% /expand %}}
+{{% notice info %}}
+EC2 Auto Scaling does not **scale in** when the actual capacity is more than the predicted capacity. Due to this behavior you need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
+{{% /notice %}}
 
 ### Configure Dynamic scaling for scale in 
 
@@ -68,6 +67,10 @@ Command should return policy ARN and target tracking alarms that have been creat
 
 3. Navigate to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created scaling policy in the **Scaling Policies** tab.
 4. The dynamic scaling policy **reduces** the capacity at the times with low demand using the **average CPU utilization** metric.
+
+{{% notice note %}}
+Because predictive scaling starts launching instances only **beginning of each hour**, you have to wait for the end of the hour to see dynamic scaling in action alongside predictive scaling. To save time you can proceed with this next chapters.
+{{% /notice %}}
 
 
 Now you have predictive and dynamic scaling polices in place to ensure application responsiveness at the times of increased demand. **You have successfully completed the first task** you've been asked to do. **Great work!**

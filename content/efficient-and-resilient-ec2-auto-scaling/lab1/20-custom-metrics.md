@@ -1,6 +1,6 @@
 +++
 title = "Working with Custom Metrics"
-weight = 120
+weight = 20
 +++
 
 {{% notice info %}}

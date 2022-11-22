@@ -1,6 +1,6 @@
 +++
 title = "Measure the Launch Speed of Instances"
-weight = 180
+weight = 70
 +++
 
 In this section, you launch an instance directly into an Auto Scaling group. The Auto Scaling group you created `ec2-workshop-asg` uses lifecycle hooks to manage the application installation process. 
@@ -42,7 +42,7 @@ echo $activity Duration: $(($end_time - $start_time))"s" || echo "Current activi
 
 #### Observe Launch Duration
 
-Because the instance launched directly into the Auto Scaling group, all initialization actions needed to complete to prepare the instance to be placed in-service. From the results below you can see that these actions took a long time to complete, delaying how quickly our Auto Scaling group can scale.
+Because the instance launched directly into the Auto Scaling group, all initialization actions needed to complete to prepare the instance to be placed in-service. From the results below you can see that these actions took a long time to complete, delaying how quickly your Auto Scaling group can scale.
 
 ```
 Launching a new EC2 instance: i-075fa0ad6a018cdfc Duration: 243s
