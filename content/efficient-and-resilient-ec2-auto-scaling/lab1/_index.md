@@ -10,15 +10,21 @@ weight: 20
 You have decided to leverage EC2 Auto Scaling to scale your application efficiently. To start, you create an EC2 Auto Scaling group without any Auto Scaling policies. 
 
 1. In **Cloud9** IDE terminal, check you're at this directory `ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling`. 
-1. You create an Auto Scaling group using **asg.json** configuration file, open the file to review the configuration.
+2. You create an Auto Scaling group using **asg.json** configuration file, open the file to review the configuration.
     ```bash
     cat ./asg.json
     ```
-1. Create the auto scaling group using below command. This command does not return any output if it is successful.
+3. Create the auto scaling group using below command. This command does not return any output if it is successful.
     ```bash
     aws autoscaling create-auto-scaling-group --cli-input-json file://asg.json
     ```
-1. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created auto scaling group. At this step of the workshop, the auto scaling group will have **no instances running**, as the desired number of instances is set to **0**.
+4. Then run this command to enable CloudWatch metrics collection for the Auto Scaling group, which will help you in monitoring the capacity in the group.
+   ```bash
+   aws autoscaling enable-metrics-collection \
+    --auto-scaling-group-name ec2-workshop-asg \
+    --granularity "1Minute"
+    ```
+5. Browse to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details) and check out your newly created auto scaling group. At this step of the workshop, the auto scaling group will have **no instances running**, as the desired number of instances is set to **0**.
 
 ### Challenge 
 
