@@ -22,7 +22,7 @@ Verify **scaling** and **load** metrics data in CloudWatch.
 7. Note the workload pattern in the custom metrics graph, this makes it a good use case for predictive scaling.
 
 {{% notice info %}}
-There might be few minutes delay between uploading the data to CloudWatch and actually seeing it on the graph. If the metrics graph doesn't show two days of data, give it 3 minutes and check back again.
+If you're running the workshop in your own account, there might be up to 30 minutes delay for CloudWatch to make the metric data available.
 {{% /notice %}}
 
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/cloudwatch-custom-metrics-graph.png)

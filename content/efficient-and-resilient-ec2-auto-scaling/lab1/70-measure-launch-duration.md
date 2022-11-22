@@ -27,7 +27,12 @@ Set the desired capacity of the Auto Scaling group to 1 to launch an instance di
 ```bash
 aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 1
 ```
+**Watch the instance being launched in the AWS Console**
 
+1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on Auto Scaling group `ec2-workshop-asg`
+2. Click on tab **Instance management**
+
+![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/instance-launch.png)
 #### Measure Launch Speed
 
 Now, let's measure the launch speed of the instance. You need to wait a few minutes for the instance to be launched by the previous step.
@@ -42,7 +47,7 @@ echo $activity Duration: $(($end_time - $start_time))"s" || echo "Current activi
 
 #### Observe Launch Duration
 
-Because the instance launched directly into the Auto Scaling group, all initialization actions needed to complete to prepare the instance to be placed in-service. From the results below you can see that these actions took a long time to complete, delaying how quickly your Auto Scaling group can scale.
+Because the instance launched directly into the Auto Scaling group, all initialization actions needed to complete to prepare the instance to be placed in-service. From the results below you can see that these actions took a long time to complete, delaying how quickly your Auto Scaling group can scale and increases the application response time.
 
 ```
 Launching a new EC2 instance: i-075fa0ad6a018cdfc Duration: 243s

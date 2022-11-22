@@ -6,7 +6,7 @@ weight = 30
 Following up with your scenario, one of the requirements is to reduce the impact of time the application takes to become ready.
 
 {{% notice info %}}
-Predictive scaling has a **SchedulingBufferTime** parameter that  allows instances to launch in advance. For example, the forecast says to add capacity at 10:00 AM, and you choose to pre-launch instances by 5 minutes. In that case, the instances will be launched at 9:55 AM. The intention is to give resources time to be provisioned..
+Predictive scaling has a **SchedulingBufferTime** parameter that  allows instances to launch in advance. For example, the forecast says to add capacity at 10:00 AM, and you choose to pre-launch instances by 5 minutes. In that case, the instances will be launched at 9:55 AM. The intention is to give the instances time to be initialized..
 {{% /notice %}}
 
 ### Create the predictive scaling policy

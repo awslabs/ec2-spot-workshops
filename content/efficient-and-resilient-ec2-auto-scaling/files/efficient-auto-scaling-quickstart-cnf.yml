@@ -128,6 +128,13 @@ Resources:
       Properties:
           RouteTableId: !Ref RouteTable
           SubnetId: !Ref PublicSubnet2
+
+  autoScalingServiceLinkedRole:
+    Properties:
+      AWSServiceName: autoscaling.amazonaws.com
+      Description: Default Service-Linked Role enables access to AWS Services and Resources
+        used or managed by Auto Scaling
+    Type: AWS::IAM::ServiceLinkedRole
 ################## Launch Template #################
   MyLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
