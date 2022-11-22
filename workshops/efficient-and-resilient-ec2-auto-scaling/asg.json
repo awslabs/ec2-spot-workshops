@@ -5,7 +5,7 @@
     "Version": "1"
   },
   "MinSize": 0,
-  "MaxSize": 20,
+  "MaxSize": 5,
   "DesiredCapacity": 0,
   "CapacityRebalance": true,
   "HealthCheckType": "EC2",
