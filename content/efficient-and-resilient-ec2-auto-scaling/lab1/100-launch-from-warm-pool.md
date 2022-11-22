@@ -58,7 +58,9 @@ Since you have enabled the CloudWatch metrics collection for the Auto Scaling gr
 3. In the **Browse** tab select **Auto Scaling** under AWS namespaces
 4. Select **Group Metrics**, then select these two metrics **GroupDesiredCapacity** and **GroupInServiceCapacity** attached with **ec2-workshop-asg**. This should add the metrics to the graph.
 5. Switch to **Graphed metrics** tab and change granularity **Period** to 1 minute for both metrics.
-6. Note the difference in time between **DesiredCapacity** and **InServiceCapacity** before and after enabling warm pools
+6. Note the difference in time between **DesiredCapacity** and **InServiceCapacity** before and after enabling warm pools.
 
+**Before**
 ![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/warm-pool-before.png)
+**After**
 ![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/warm-pool-after.png)
