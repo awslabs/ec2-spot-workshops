@@ -13,7 +13,11 @@ To generate forecasts, the predictive scaling algorithm needs **three** metrics 
 - **the number of instances** that represents the capacity of the Auto Scaling groups
 - **a scaling metric** that represents the average utilization of the instances in the Auto Scaling groups. For the **scaling** metric specification, the most useful metric to scale by is an average throughput or utilization per instance metric.
 
+{{% notice info %}}
 Read more about predictive scaling in the [New – Predictive Scaling for EC2, Powered by Machine Learning](https://aws.amazon.com/blogs/aws/new-predictive-scaling-for-ec2-powered-by-machine-learning/) blog post.
+{{% /notice %}}
+
+
 
 {{% notice warning %}}
 A core assumption of predictive scaling is that the Auto Scaling group is **homogenous** and all instances are of **equal capacity**. In this workshop you use **t3.micro**, a single instance type, in the Auto Scaling group.

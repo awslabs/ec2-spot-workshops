@@ -10,7 +10,7 @@ If you are at an AWS Event, **please skip this step!**
 {{% /notice %}}
 
 {{% notice warning %}}
-To avoid unwanted costs in your account, don't forget to go through the [**Cleanup step**](/efficient-and-resilient-ec2-auto-scaling/90-cleanup.html) when you finish the workshop, or if you deploy the CloudFormation template but don't complete the workshop.
+To avoid unwanted costs in your account, don't forget to go through the **Cleanup step** when you finish the workshop, or if you deploy the CloudFormation template but don't complete the workshop.
 {{% /notice %}}
 
 {{% notice note %}}
