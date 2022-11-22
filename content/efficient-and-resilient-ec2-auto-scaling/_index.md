@@ -15,4 +15,4 @@ In this workshop you assume the role of a Cloud Architect tasked to find an effi
 The estimated time for completing the workshop is 60-90 minutes and cost of running this workshop is less than $5 USD.
 
 ## Prerequisites 
-This is L300 workshop, we expect readers to be already familiar with basics of [Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html), [Amazon EC2 Auto Scaling groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) and [AWS CloudWatch metrics for EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html).
+This is L400 workshop, we expect readers to be already familiar with basics of [Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html), [Amazon EC2 Auto Scaling groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) and [AWS CloudWatch metrics for EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html).
