@@ -1,0 +1,532 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation template to create a Cloud9 environment.
+Metadata:
+  Author:
+    Description: Ahmed Nada <nadaahm@amazon.com>
+  License:
+    Description: 'Copyright 2020 Amazon.com, Inc. and its affiliates. All Rights Reserved.
+
+      Licensed under the Amazon Software License (the "License"). You may not use this file
+      except in compliance with the License. A copy of the License is located at
+
+      http://aws.amazon.com/asl/
+
+      or in the "license" file accompanying this file. This file is distributed on an "AS IS"
+      BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+      License for the specific language governing permissions and limitations under the License.'
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that is prefixed to resource names
+    Type: String
+    Default: EC2Workshop
+
+  VpcCIDR:
+    Description: Please enter the IP range (CIDR notation) for this VPC
+    Type: String
+    Default: 10.192.0.0/16
+
+  PublicSubnet1CIDR:
+    Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
+    Type: String
+    Default: 10.192.20.0/24
+
+  PublicSubnet2CIDR:
+    Description: Please enter the IP range (CIDR notation) for the private subnet in the second Availability Zone
+    Type: String
+    Default: 10.192.21.0/24
+
+  C9InstanceType:
+    Description: Cloud9 instance type
+    Type: String
+    Default: t3.large
+    AllowedValues:
+      - t3.large
+      - m5.large
+    ConstraintDescription: Must be a valid Cloud9 instance type
+  #Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
+  EETeamRoleArn:
+    Description: "ARN of the Team Role"
+    Default: NONE
+    Type: String
+    ConstraintDescription: This is ONLY used Event Engine, dont change this if you are self-deploying the stack
+
+Conditions: 
+  NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
+
+Resources:
+################## VPC AND SUBNETs #################
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  InternetGatewayAttachment:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+          InternetGatewayId: !Ref InternetGateway
+          VpcId: !Ref VPC
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+      CidrBlock: !Ref PublicSubnet1CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Subnet (AZ1)
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      CidrBlock: !Ref PublicSubnet2CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Public Subnet (AZ2)
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+        VpcId: !Ref VPC
+        GroupDescription: EC2 Workshop Instance Security Group
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties: 
+        VpcId: !Ref VPC
+
+  DefaultPublicRoute: 
+      Type: AWS::EC2::Route
+      DependsOn: InternetGatewayAttachment
+      Properties: 
+          RouteTableId: !Ref RouteTable
+          DestinationCidrBlock: 0.0.0.0/0
+          GatewayId: !Ref InternetGateway
+
+  PublicSubnet1RouteTableAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+          RouteTableId: !Ref RouteTable
+          SubnetId: !Ref PublicSubnet1
+
+  PublicSubnet2RouteTableAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+          RouteTableId: !Ref RouteTable
+          SubnetId: !Ref PublicSubnet2
+################## Launch Template #################
+  MyLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: EC2WorkshopLaunchTemplate
+      LaunchTemplateData:
+        ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+        InstanceType: t3.micro
+        KeyName: !Ref EC2WorkshopInstanceKeyPair
+        SecurityGroupIds:
+          - !Ref InstanceSecurityGroup
+        IamInstanceProfile:
+          Arn: !GetAtt
+            - InstanceProfile
+            - Arn
+        UserData: 
+          'Fn::Base64':
+            |-
+            Content-Type: multipart/mixed; boundary="//"
+            MIME-Version: 1.0
+            --//
+            Content-Type: text/cloud-config; charset="us-ascii"
+            MIME-Version: 1.0
+            Content-Transfer-Encoding: 7bit
+            Content-Disposition: attachment; filename="cloud-config.txt"
+            #cloud-config
+            cloud_final_modules:
+            - [scripts-user, always]
+            --//
+            Content-Type: text/x-shellscript; charset="us-ascii"
+            MIME-Version: 1.0
+            Content-Transfer-Encoding: 7bit
+            Content-Disposition: attachment; filename="userdata.txt"
+            #!/bin/bash
+            rpm -q httpd &> /dev/null
+            if [ $? -ne 0 ]
+              then
+                sudo amazon-linux-extras install epel -y
+                sudo yum install stress -y
+            fi
+            rpm -q httpd &> /dev/null
+            
+            if [ $? -ne 0 ]
+              then
+                echo "Application is not installed, install and start it."
+                INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
+                REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
+                sudo yum -y install httpd && \
+                sudo service httpd start && \
+                echo "Sleeping for 120 seconds to simulate additional configuration time." && \
+                sleep 120 && \
+                aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
+                aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
+              else
+                echo "Application is installed, start it."
+                INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
+                REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
+                sudo service httpd start && \
+                aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
+                aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
+            fi
+            --//
+  InstanceRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Policies:
+        -
+          PolicyName: "CompleteLifecycleActionAllowPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action: "autoscaling:CompleteLifecycleAction"
+                Resource: '*'                         
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - 
+            Effect: "Allow"
+            Principal: 
+              Service: 
+                - "ec2.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      Path: "/"
+      ManagedPolicyArns:
+              - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+              
+  InstanceProfile: 
+    Type: "AWS::IAM::InstanceProfile"
+    Properties: 
+      Path: "/"
+      Roles: 
+        - 
+          Ref: "InstanceRole"
+
+  EC2WorkshopInstanceKeyPair:
+    Type: 'AWS::EC2::KeyPair'
+    Properties:
+      KeyName: EC2WorkshopInstanceKeyPair
+
+
+################## PERMISSIONS AND ROLES #################
+  C9Role:
+    Type: AWS::IAM::Role
+    Condition: NotEventEngine
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+            - ssm.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/AdministratorAccess
+      Path: "/"
+  C9LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName:
+          Fn::Join:
+          - ''
+          - - C9LambdaPolicy-
+            - Ref: AWS::Region
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - cloudformation:DescribeStacks
+            - cloudformation:DescribeStackEvents
+            - cloudformation:DescribeStackResource
+            - cloudformation:DescribeStackResources
+            - ec2:DescribeInstances
+            - ec2:AssociateIamInstanceProfile
+            - ec2:ModifyInstanceAttribute
+            - ec2:ReplaceIamInstanceProfileAssociation
+            - iam:ListInstanceProfiles
+            - iam:PassRole
+            Resource: "*"
+
+################## LAMBDA BOOTSTRAP FUNCTION ################
+
+  C9BootstrapInstanceLambda:
+    Description: Bootstrap Cloud9 instance
+    Type: Custom::C9BootstrapInstanceLambda
+    DependsOn:
+    - C9BootstrapInstanceLambdaFunction
+    - C9Instance
+    - C9LambdaExecutionRole
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      ServiceToken:
+        Fn::GetAtt:
+        - C9BootstrapInstanceLambdaFunction
+        - Arn
+      REGION:
+        Ref: AWS::Region
+      StackName:
+        Ref: AWS::StackName
+      EnvironmentId:
+        Ref: C9Instance
+      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
+
+  C9BootstrapInstanceLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      Handler: index.lambda_handler
+      Role:
+        Fn::GetAtt:
+        - C9LambdaExecutionRole
+        - Arn
+      Runtime: python3.9
+      MemorySize: 256
+      Timeout: '600'
+      Code:
+        ZipFile: |
+          from __future__ import print_function
+          import boto3
+          # import logging
+          import json
+          import os
+          import time
+          import traceback
+          import cfnresponse
+
+          # logging.basicConfig(level=logging.INFO)
+          # logger = logging.getLogger(__name__)
+
+          def lambda_handler(event, context):
+              # logger.info('event: {}'.format(event))
+              # logger.info('context: {}'.format(context))
+              responseData = {}
+
+              if event['RequestType'] == 'Create':
+                  try:
+                      # Open AWS clients
+                      ec2 = boto3.client('ec2')
+
+                      # Get the InstanceId of the Cloud9 IDE
+                      # print(str({'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}))
+                      instance = ec2.describe_instances(Filters=[{'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]
+                      # logger.info('instance: {}'.format(instance))
+
+                      # Create the IamInstanceProfile request object
+                      iam_instance_profile = {
+                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn']
+                      }
+                      # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
+
+                      # Wait for Instance to become ready before adding Role
+                      instance_state = instance['State']['Name']
+                      # logger.info('instance_state: {}'.format(instance_state))
+                      while instance_state != 'running':
+                          time.sleep(5)
+                          instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])
+                        # logger.info('instance_state: {}'.format(instance_state))
+
+                      # attach instance profile
+                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
+                      # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      r_ec2 = boto3.resource('ec2')
+
+                      responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
+
+                  except Exception as e:
+                      responseData = {'Error': str(e)}
+                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
+################## SSM BOOTSTRAP HANDLER ###############
+  C9OutputBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+
+  C9SSMDocument:
+    Type: AWS::SSM::Document
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: AWS Example
+      Content: Yaml
+      DocumentType: Command
+      Content:
+        schemaVersion: '2.2'
+        description: Bootstrap Cloud9 Instance
+        mainSteps:
+        - action: aws:runShellScript
+          name: C9bootstrap
+          inputs:
+            runCommand:
+            - "#!/bin/bash"
+            - date
+            - . /home/ec2-user/.bashrc
+            - whoami
+            - sudo -H -u ec2-user aws sts get-caller-identity
+            - echo '=== Install JQ and envsubst ==='
+            - sudo yum -y install jq gettext
+            - echo '=== Update to the latest AWS CLI ==='
+            - sudo -H -u ec2-user aws --version
+            - sudo rm -rf /usr/bin/aws
+            - sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            - sudo unzip awscliv2.zip
+            - sudo ./aws/install
+            - . /home/ec2-user/.bash_profile
+            - sudo -H -u ec2-user aws --version
+            - echo '=== setup AWS configs ==='
+            - rm -vf /home/ec2-user/.aws/credentials
+            - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
+            - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+            - echo "export ACCOUNT_ID=${ACCOUNT_ID}" >> /home/ec2-user/.bash_profile
+            - echo "export AWS_REGION=${AWS_REGION}" >> /home/ec2-user/.bash_profile
+            - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
+            - sudo -H -u ec2-user aws configure get default.region
+            - sudo -H -u ec2-user aws sts get-caller-identity
+            - echo '=== Generate SSH key and import to aws ==='
+            - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
+            - sudo -H -u ec2-user /usr/local/bin/aws ec2 import-key-pair --key-name "asgworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
+            - echo '=== Update CloudWatch metrics data files ==='
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment && git clone https://github.com/awslabs/ec2-spot-workshops.git"
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-instances.json ec2-workshop-asg"
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && chmod u+x ./prepare-metric-data.sh && ./prepare-metric-data.sh metric-cpu.json ec2-workshop-asg"
+            - echo '=== Export CloudFormation Stack Outputs ==='
+            - !Sub 'export stack_name=${AWS::StackName}'
+            - echo "export stack_name=${stack_name}" >> /home/ec2-user/.bash_profile
+            - aws configure set default.region ${AWS_REGION}
+            - aws cloudformation wait stack-create-complete --stack-name ${stack_name} && export PublicSubnet1=$(aws cloudformation describe-stacks --stack-name ${stack_name} --query "Stacks[0].Outputs[?OutputKey=='PublicSubnet1'].OutputValue" --output text)
+            - aws cloudformation wait stack-create-complete --stack-name $stack_name && export PublicSubnet2=$(aws cloudformation describe-stacks --stack-name $stack_name --query "Stacks[0].Outputs[?OutputKey=='PublicSubnet2'].OutputValue" --output text) 
+            - sudo sed -i.bak -e "s#%PublicSubnet1%#$PublicSubnet1#g" -e "s#%PublicSubnet2%#$PublicSubnet2#g" /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling/asg.json
+            - date
+            - sleep 5
+            - echo '=== Upload CloudWatch Metrics Data ==='
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace 'EC2 Workshop Custom Metrics' --metric-data file://metric-instances.json"
+            - sleep 5
+            - sudo -H -u ec2-user bash -c "cd /home/ec2-user/environment/ec2-spot-workshops/workshops/efficient-and-resilient-ec2-auto-scaling && /usr/local/bin/aws cloudwatch put-metric-data --namespace 'EC2 Workshop Custom Metrics' --metric-data file://metric-cpu.json"
+            - echo '=== Cloud9 bootstrap Completed ==='
+
+  C9BootstrapAssociation:
+    Type: AWS::SSM::Association
+    DependsOn:
+    - C9OutputBucket
+    Properties:
+      Name: !Ref C9SSMDocument
+      OutputLocation:
+        S3Location:
+          OutputS3BucketName: !Ref C9OutputBucket
+          OutputS3KeyPrefix: bootstrapoutput
+      Targets:
+        - Key: tag:SSMBootstrap
+          Values:
+          - Active
+
+################## INSTANCE #####################
+  C9InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Condition: NotEventEngine
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: C9Role
+  C9Instance:
+    Description: "-"
+    DependsOn: C9BootstrapAssociation
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      Description: AWS Cloud9 instance for Examples
+      AutomaticStopTimeMinutes: 240
+      ImageId: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64
+      InstanceType:
+        Ref: C9InstanceType
+      Name: 
+        Ref: AWS::StackName
+      # OwnerArn: !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey'
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
+      Tags:
+        -
+          Key: SSMBootstrap
+          Value: Active
+        -
+          Key: Environment
+          Value:
+            Ref: AWS::StackName
+
+Outputs:
+  Cloud9IDE:
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Ref: AWS::Region
+        - ".console.aws.amazon.com/cloud9/ide/"
+        - Ref: C9Instance
+        - "?region="
+        - Ref: AWS::Region
+  VPC:
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+
+  PublicSubnet1:
+    Description: A reference to the private subnet in the 1st Availability Zone
+    Value: !Ref PublicSubnet1
+
+  PublicSubnet2:
+    Description: A reference to the private subnet in the 2nd Availability Zone
+    Value: !Ref PublicSubnet2
+  
+  StackName:
+    Description: A reference to the created stack
+    Value: !Ref AWS::StackName
+  
+  S3BucketName:
+    Description: S3 bootstrap output bucket name
+    Value: !Ref C9OutputBucket

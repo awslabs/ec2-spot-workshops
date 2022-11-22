@@ -1,0 +1,20 @@
+{
+  "AutoScalingGroupName": "ec2-workshop-asg",
+  "LaunchTemplate": {
+    "LaunchTemplateName": "EC2WorkshopLaunchTemplate",
+    "Version": "1"
+  },
+  "MinSize": 0,
+  "MaxSize": 5,
+  "DesiredCapacity": 0,
+  "CapacityRebalance": true,
+  "HealthCheckType": "EC2",
+  "VPCZoneIdentifier": "%PublicSubnet1%,%PublicSubnet2%",
+  "Tags": [
+    {
+      "Key": "App",
+      "Value": "EC2ScalingWorkshop",
+      "PropagateAtLaunch": true
+    }
+  ]
+}

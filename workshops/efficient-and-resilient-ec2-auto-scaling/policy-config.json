@@ -1,0 +1,76 @@
+{
+    "MetricSpecifications": [
+      {
+        "TargetValue": 50,
+        "CustomizedScalingMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Average CPU Utilization in ASG",
+              "Id": "cpu_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "WSCustomCPUUTILIZATION",
+                  "Namespace": "EC2 Workshop Custom Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "ec2-workshop-asg"
+                    }
+                  ]
+                },
+                "Stat": "Average"
+              },
+              "ReturnData": true
+            }
+          ]
+        },
+        "CustomizedLoadMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Total CPU Utilization in ASG",
+              "Id": "cpu_sum",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "WSCustomCPUUTILIZATION",
+                  "Namespace": "EC2 Workshop Custom Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "ec2-workshop-asg"
+                    }
+                  ]
+                },
+                "Stat": "Sum"
+              },
+              "ReturnData": true
+            }
+          ]
+        },
+        "CustomizedCapacityMetricSpecification": {
+          "MetricDataQueries": [
+            {
+              "Label": "Number of instances in ASG",
+              "Id": "capacity_avg",
+              "MetricStat": {
+                "Metric": {
+                  "MetricName": "WSCustomGroupInstances",
+                  "Namespace": "EC2 Workshop Custom Metrics",
+                  "Dimensions": [
+                    {
+                      "Name": "AutoScalingGroupName",
+                      "Value": "ec2-workshop-asg"
+                    }
+                  ]
+                },
+                "Stat": "Average"
+              },
+              "ReturnData": true
+            }
+          ]
+        }
+      }
+    ],
+    "Mode": "ForecastAndScale",
+    "SchedulingBufferTime": 300,
+    "MaxCapacityBreachBehavior": "HonorMaxCapacity"
+  }
