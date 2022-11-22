@@ -40,3 +40,12 @@ You keep your warm pool instances in a stopped state after they have completed t
 ```bash
 aws autoscaling put-warm-pool --auto-scaling-group-name "ec2-workshop-asg" --pool-state Stopped --min-size 2
 ```
+
+**Now let's check the warm pool in the AWS Console**
+
+1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on Auto Scaling group `ec2-workshop-asg`
+2. Click on tab **Instance management**
+3. A warm pool has been created and the instances have started initiating, note the current lifecycle for the instances is **Warmed:Pending:Wait**
+4. Once the instances are initialized, the lifecycle will be changed to **Warmed:Stopped**
+
+![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/enable-warm-pool.png)
