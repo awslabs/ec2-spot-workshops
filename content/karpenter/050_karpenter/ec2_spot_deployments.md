@@ -17,11 +17,9 @@ When users requests On-Demand Instances from a pool to the point that the pool i
 
 Amazon EC2 terminates, your Spot Instance when Amazon EC2 needs the capacity back (or the Spot price exceeds the maximum price for your request). More recently Spot instances also support instance rebalance recommendations. Amazon EC2 emits an instance rebalance recommendation signal to notify you that a Spot Instance is at an elevated risk of interruption. This signal gives you the opportunity to proactively rebalance your workloads across existing or new Spot Instances without having to wait for the two-minute Spot Instance interruption notice.
 
-## Karpenter and Spot Interruption
+## Karpenter and Spot Interruptions
 
-Karpenter natively handles Spot Interruption Notifications by consuming events from an SQS queue which is populated with Spot Interruption Notifications via EventBridge. All of the infrastructure is setup by Karpenter's CloudFormation template that was applied previously. When Karpenter receives a Spot Interruption Notification, it will gracefully drain the interrupted node of any running pods while also provisioning a new node for those pods to quickly schedule onto.
-
-## Deploy Node-Termination-Handler on EC2 Spot Instances
+Karpenter natively handles Spot Interruption Notifications (as of [v0.19.0](https://github.com/aws/karpenter/releases/tag/v0.19.0)) by consuming events from an SQS queue which is populated with Spot Interruption Notifications via EventBridge. All of the infrastructure is setup by Karpenter's CloudFormation template that was applied previously. When Karpenter receives a Spot Interruption Notification, it will gracefully drain the interrupted node of any running pods while also provisioning a new node for those pods to quickly schedule onto.
 
 Karepnter does not yet support Rebalance Recommendation signals, so to capture these signals and handle graceful termination of our nodes, we can  deploy a project called **[AWS Node Termination Handler](https://github.com/aws/aws-node-termination-handler)**. Node termination handler operates in two different modes Queue Mode and Instance Metadata Mode. When using Instance Metadata Mode, the aws-node-termination-handler will monitor the [Instance Metadata Service](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) with a small pod running as a ([DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)) on each host. The DaemonSet will perform monitoring of IMDS paths like /spot and /events and react accordingly to drain and/or cordon the corresponding node. 
 
