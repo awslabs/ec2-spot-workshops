@@ -1,6 +1,6 @@
 +++
-title = "Launch From Warm Pools"
-weight = 100
+title = "Launch From Warm Pool"
+weight = 200
 +++
 
 ### Measure the Launch Speed of Instances Launched From warm pool into an Auto Scaling group

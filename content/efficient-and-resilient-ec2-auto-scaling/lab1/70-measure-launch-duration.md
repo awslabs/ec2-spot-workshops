@@ -48,9 +48,5 @@ Because the instance launched directly into the Auto Scaling group, all initiali
 Launching a new EC2 instance: i-075fa0ad6a018cdfc Duration: 243s
 ```
 
-{{% notice info %}}
-You can run a Lambda function in response to Amazon EventBridge events that are generated as instances transition through their lifecycle.
-{{% /notice %}}
-
 
 

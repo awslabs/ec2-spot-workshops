@@ -9,7 +9,7 @@ weight = 40
 Predictive scaling scales the number of instances at the **beginning of each hour**.
 {{% /notice %}}
 
-1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on auto scaling group `ec2-workshop-asg`
+1. **Navigate** to the [Auto Scaling console](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details), click on Auto Scaling group `ec2-workshop-asg`
 2. Click on tab **Automatic scaling**
 3. A new policy has been created under **Predictive scaling policies**
 
