@@ -1,7 +1,7 @@
 ---
 title: "Amazon EC2 Auto Scaling"
 menuTitle: "Amazon EC2 Auto Scaling"
-weight: 80
+weight: 20
 # pre: "<b>Lab 1: </b>"
 ---
 

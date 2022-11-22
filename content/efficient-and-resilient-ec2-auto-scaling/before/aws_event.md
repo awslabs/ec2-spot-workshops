@@ -1,6 +1,6 @@
 +++
 title = "...At an AWS event"
-weight = 10
+weight = 20
 +++
 
 ### Running the workshop at an AWS Event

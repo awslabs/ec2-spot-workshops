@@ -1,11 +1,11 @@
 ---
 title: "Scaling your application faster"
 menuTitle: "Warm pools"
-weight: 182
+weight: 80
 
 ---
 
-## Warm Pools
+## Warm pools
 
 A warm pool is a pool of pre-initialized EC2 instances that sits alongside an Auto Scaling group. Whenever your application needs to scale out, gives you the ability to decrease latency for your applications that have exceptionally long boot times.
 
@@ -31,11 +31,11 @@ You cannot add a warm pool to Auto Scaling groups that have a mixed instances po
 
 ![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/warm-pools-lifecycle-diagram.png)
 
-#### Add Warm Pools to the Auto Scaling Group
+#### Add warm pools to the Auto Scaling Group
 
 In this step, you add a warm pool to your Auto Scaling group to pre-initialize your instances, so that instances can be brought into service more rapidly.
 
-You keep your warm pool instances in a stopped state after they have completed their initialization actions. You set the optional warm pool sizing parameters `--min-size` to 2 and leave `--max-group-prepared-capacity` empty. This means that this warm pool has a minimum size of 2 and a maximum prepared capacity equal to the max size of the Auto Scaling group. The maximum prepared capacity includes instances launched into the Auto Scaling group, and instances launched into the Warm Pool.
+You keep your warm pool instances in a stopped state after they have completed their initialization actions. You set the optional warm pool sizing parameters `--min-size` to 2 and leave `--max-group-prepared-capacity` empty. This means that this warm pool has a minimum size of 2 and a maximum prepared capacity equal to the max size of the Auto Scaling group. The maximum prepared capacity includes instances launched into the Auto Scaling group, and instances launched into the warm pool.
 
 ```bash
 aws autoscaling put-warm-pool --auto-scaling-group-name "ec2-workshop-asg" --pool-state Stopped --min-size 2
