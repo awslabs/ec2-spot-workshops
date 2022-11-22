@@ -3,24 +3,21 @@ title = "Launching EC2 Spot Instances via EC2 Auto Scaling group"
 weight = 50
 +++
 
-An Auto Scaling group contains a collection of Amazon EC2 Instances that are treated as a logical grouping for the purposes of automatic scaling and management. An Auto Scaling group also enables you to use Amazon EC2 Auto Scaling features such as health check replacements and scaling policies. Both maintaining the number of instances in an Auto Scaling group and automatic scaling are the core functionality of the Amazon EC2 Auto Scaling service.
-
-Amazon EC2 Auto Scaling helps you ensure that you have the correct number of Amazon EC2 Instances available to handle the load for your application. You can specify the minimum and maximum number of instances, and Amazon EC2 Auto Scaling ensures that your group never goes below or above this size.
-
-**When adopting EC2 Spot Instances, our recommendation is to consider first Auto Scaling group since it offers a very rich API with benefits like attribute-based instance type selection, health checks, lifecycle hooks, rebalance recommendation integration, manual and targetted scaling, scheduled scaling, predictive scaling, scale-in protection, warm pools and many more functionalities that we list below.**
-
 {{% notice note %}}
-In the past, Auto Scaling groups used Launch Configurations. Applications using Launch Configurations should migrate to Launch Templates so that you can leverage the latest features. With Launch Templates you can provision capacity across multiple instance types using both Spot Instances and On-Demand Instances to achieve the desired scale, performance, and cost optimization.
+When adopting EC2 Spot Instances, we recommend you to consider Amazon EC2 Auto Scaling group (ASG) since it offers the most up to date EC2 features such as attribute-based instance type selection, capacity rebalancing, scaling policies and many more functionalities.
 {{% /notice %}}
 
-## Auto Scaling group example: Using attribute-based instance type selection and mixed instance groups
+[Amazon EC2 Auto Scaling groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html) contain a collection of Amazon EC2 Instances that are treated as a logical grouping for the purposes of automatic scaling and management. Auto Scaling groups also enable you to use Amazon EC2 Auto Scaling features such as health check replacements and scaling policies. Both maintaining the number of instances in an Auto Scaling group and automatic scaling are the core functionality of the Amazon EC2 Auto Scaling service.
 
-A common case when using Auto Scaling groups, is to use it with workloads that require a mix
-of Spot and On-Demand capacity.
+{{% notice info %}}
+In the past, Auto Scaling groups used launch configurations. Applications using launch configurations should migrate to **launch templates** so that you can leverage the latest features. With launch templates you can provision capacity across multiple instance types using both Spot Instances and On-Demand Instances to achieve the desired scale, performance, and cost optimization.
+{{% /notice %}}
 
-To apply Spot best practices we will launch a mixed instance Auto Scaling group using Spot and On-demand Instances.
+## Using attribute-based instance type selection and mixed instance groups
 
-This first step does create a *json* file. The file describes a mixed-instance-policy section with a set of overrides that drive diversification of Spot Instance pools. The configuration of the Auto Scaling group does refer to the Launch Template that we created in the previous steps.
+A common case when using Auto Scaling groups, is to use it with workloads that require a mix of Spot and On-Demand capacity. Being instance flexible is an important Spot best practice, you can use [*attribute-based instance type selection (ABIS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to automatically select multiple instance types matching your requirements.
+
+In this step you create a *json* file for Auto Scaling groups CLI. The configuration of the Auto Scaling group uses the launch template that you created in the previous steps and ABIS for any instance types with `4 vCPU` and maximum of `16 GiB` memory. `OnDemandBaseCapacity` allows you to set an initial capacity of `2` On-Demand Instances. Remaining capacity is mix of `25%` On-Demand Instances and `75%` Spot Instances defined by the `OnDemandPercentageAboveBaseCapacity`.
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -34,10 +31,10 @@ cat <<EoF > ./asg-policy.json
          "InstanceRequirements": {
             "VCpuCount": {
                "Min": 4, 
-               "Max": 8
+               "Max": 4
             },
             "MemoryMiB": {
-               "Min": 16384
+               "Max": 32768
             },
             "CpuManufacturers": [
                "intel",
@@ -54,27 +51,11 @@ cat <<EoF > ./asg-policy.json
 }
 EoF
 ```
+{{% notice info %}}
+The configuration above, sets the `SpotAllocationStrategy` to `price-capacity-optimized`. The `price-capacity-optimized` allocation strategy allocates instances from the Spot Instance pools that offer low prices and high capacity availability. You can read more about the `price-capacity-optimized` allocation strategy in [Introducing the price-capacity-optimized allocation strategy for EC2 Spot Instances](https://aws.amazon.com/blogs/compute/introducing-price-capacity-optimized-allocation-strategy-for-ec2-spot-instances/) blog post.
+{{% /notice %}}
 
-#### Using attribute-based instance type selection
-
-In this configuration, we are using [*attribute-based instance type selection (ABS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to select instance families for the Auto Scaling group. *Attribute-based instance type selection (ABS)* offers an alternative to manually choosing instance types when creating an Amazon EC2 Auto Scaling (ASG) or EC2 Fleet, by specifying a set of instance attributes `InstanceRequirements` that describe your compute requirements. As ASG or EC2 Fleet launches instances, any instance types used by them will match your required instance attributes. *ABS* can be utilized on ASG or EC2 Fleet via the AWS Management Console, AWS CLI, or SDKs. *ABS* only supports `lowest-price` allocation strategy for On-Demand, and `price-capacity-optimized`, `capacity-optimized` or `lowest-price`  allocation strategy for Spot instances. 
-
-*ABS* is suitable for picking a set of Amazon EC2 instances that can run a flexible workloads and/or frameworks. *By using ABS to select the list of Amazon EC2 instances for your workload, your application will follow the Spot best practice of diversifying instances across as many Spot pools, thus enabling your ASG or EC2 Fleet to optimally provision Spot capacity.*
-
-*Attribute-based instance type selection* also provides for two price protection thresholds -  `OnDemandMaxPricePercentageOverLowestPrice` for On-Demand instances, and `SpotMaxPricePercentageOverLowestPrice` for Spot instances, so that you can prevent Amazon EC2 Auto Scaling or EC2 Fleet from launching more expensive instance types. Price protection is enabled by default when using ASG or EC2 Fleet, with a default threshold of 20 percent for On-Demand instances and 100 percent for Spot instances. The thresholds represent what you are willing to pay, defined in terms of a percentage above a baseline, rather than as absolute values. The baseline is determined by the price of the least expensive current generation M, C, or R instance type with your specified attributes. If your attributes don't match any M, C, or R instance types, we use the lowest priced instance type. When ASG or EC2 Fleet selects instance types with your attributes, it excludes instance types priced above your threshold. 
-
-In this configuration, we are using *ABS* to select all instances that have a minimum of 4 vcpu's and a maximum of 8 vcpu's using `VCpuCount` attribute, have a minimum of 16 Gib memory using `MemoryMiB` attribute, and have intel/amd chip manufacturers `CpuManufacturers`. We will only use the default price protection thresholds for both On-Demand and Spot instances. A sample of the instances selected by this configuration include c5.2xlarge, c6i.2xlarge, c6a.2xlarge, m5.2xlarge, m5a.2xlarge, r5.2xlarge, r5a.2xlarge, r6i.2xlarge, and r6a.2xlarge. 
-
-#### Using mixed instance groups with Spot and On-Demand capacity
-
-With Auto Scaling groups you can define what is the balance between Spot vs On-Demand Instances that makes sense for your workload. `OnDemandBaseCapacity` allows you to set an initial capacity of On-Demand Instances to use. After that, any new procured capacity will be a mix of Spot and On-Demand Instances as defined by the `OnDemandPercentageAboveBaseCapacity`.
-
-The configuration above, sets the `SpotAllocationStrategy` to `price-capacity-optimized`. The `price-capacity-optimized` allocation strategy <b>not only</b> allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, <b>but also</b> provision Spot instances with the lowest price. The benefit of using this allocation strategy is Spot allocation looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price, thus maintaining an interruption rate comparable to the `capacity-optimized` allocation strategy, while keeping the total price of your Spot Instances lower. You can read more about the `price-capacity-optimized` allocation strategy in the launch post [Amazon EC2 announces new price and capacity optimized allocation strategy for provisioning Amazon EC2 Spot Instances](https://aws.amazon.com/about-aws/whats-new/2022/11/amazon-ec2-price-capacity-optimized-allocation-strategy-provisioning-ec2-spot-instances/)
-
-<!-- The configuration above, sets the `SpotAllocationStrategy` to `capacity-optimized`. The `capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of used Spot Instances. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance allocation in action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/). 
--->
-
-Let's create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the `min-size` to 4, `max-size` to 20 and `desired-capacity` to 8 in vcpu units.
+Let's create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the `min-size` to `4`, `max-size` to `20` and `desired-capacity` to `8` in vCPU units.
 
 ```
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --desired-capacity-type vcpu --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
@@ -82,46 +63,34 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorks
 
 You have now created a mixed instances Auto Scaling group!
 
-Given the configuration we used above, **Try to answer the following questions:**
+### Challenges
+Given the configuration we used above, try to answer the following questions. Click to expand and see the answers. 
 
-1. How many Spot Instance pools does the Auto Scaling group consider when applying Spot
-diversification?
-2. How many Spot vs On-Demand Instances have been requested by the Auto Scaling group?
-3. How can you confirm which instances have been created within the Auto Scaling group?
-4. How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?
-5. How can I select specific instance types instead of ABS in my Auto Scaling group?
-6. How can I select a mix of instance types of different sizes in my Auto Scaling group?
+{{%expand "1. How may Spot Instance pools does the Auto Scaling group consider when applying Spot diversification?" %}}
 
-To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m4.large, c4.large, and r4.large.
+A Spot capacity pool is a set of unused EC2 Instances with the same instance type (for example, m5.large) and Availability Zone. At the time of creation of the workshop, our example matched 96 instance types and 3 Availability Zones, which makes a total of **(96*3)=288 Spot pools**. Increasing the number of Spot pools we diversify on, is key for adopting Spot best practices.
 
-{{%expand "Show me the answers:" %}}
+{{% /expand %}}
 
-1.) **How may Spot Instance pools does the Auto Scaling group consider when applying Spot
-diversification?**
-
-Remember: A Spot capacity pool is a set of unused EC2 Instances with the same instance type (for example, m5.large) and Availability Zone. At the time of creation of the workshop, our example matched 96 instance types and 3 Availability Zones, which makes a total of **(96*3)=288 Spot pools**. Increasing the number of Spot pools we diversify on, is key for adopting Spot best practices.
-
-2.) **How many Spot vs On-Demand Instances have been requested by the Auto Scaling group?**
+{{%expand "2. How many Spot vs On-Demand Instances have been requested by the Auto Scaling group?" %}}
 
 The `desired-capacity` of 8 vcpus is below the `max-size` of 20, so instances having a sum of 6 vcpus are provisioned. Out of them, the first 2 EC2 instances are On-Demand as requested by the `OnDemandBaseCapacity`. The rest of the instances, follow a proportion of 75% Spot and 25% On-Demand according to `OnDemandPercentageAboveBaseCapacity`. 
 
-3.) **How can you confirm which instances have been created within the Auto Scaling group?**
+{{% /expand %}}
 
+{{%expand "3. How can you confirm which instances have been created within the Auto Scaling group?" %}}
 To check the instances within the newly created Auto Scaling group we can use `describe-auto-scaling-groups`.
-
 ```bash
 aws autoscaling describe-auto-scaling-groups --auto-scaling-group-names EC2SpotWorkshopASG
 ```
 
 To check the newly created instances Auto Scaling group in the AWS Console, head to [EC2 Dashboard home](https://console.aws.amazon.com/ec2/home?#Home:), click on "Instances (running), and filter the list of instances using `aws:autoscaling:groupName = EC2SpotWorkshopASG`.
 
-4.) **How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?**
+{{% /expand %}}
 
-To describe one or more instances we use `describe-instances`. To retrieve all the Spot Instances that have been launched with the Auto Scaling group, we apply two filters: `instance-lifecycle` set to `spot` to retrieve only Spot Instances and the custom tag `aws:autoscaling:groupName` that must be set to `EC2SpotWorkshopASG`.
+{{%expand "4. How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?" %}}
 
-{{% notice note %}}
-When launching instances using an Auto Scaling group, the Auto Scaling group automatically adds a tag to the instances with a key of aws:autoscaling:groupName and a value of the name of the Auto Scaling group. We are going to use that tag to retrieve the instances that were launched by the ASG we just created. To learn more about Tagging lifecycle, review [this documentation](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-tagging.html#tag-lifecycle).
-{{% /notice %}}
+To describe one or more instances we use `describe-instances`. To retrieve all the Spot Instances that have been launched with the Auto Scaling group, we apply two filters: `instance-lifecycle` set to `spot` to retrieve only Spot Instances and the custom tag `aws:autoscaling:groupName` that must be set to `EC2SpotWorkshopASG`. To learn more about Tagging lifecycle, review [this documentation](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-tagging.html#tag-lifecycle).
 
 ```bash
 aws ec2 describe-instances --filters Name=instance-lifecycle,Values=spot Name=tag:aws:autoscaling:groupName,Values=EC2SpotWorkshopASG Name=instance-state-name,Values=running --query "Reservations[*].Instances[*].[InstanceId]" --output text
@@ -134,10 +103,11 @@ Similarly, you can run the following command to retrieve the identifiers of the 
 ```bash
 aws ec2 describe-instances --filters Name=tag:aws:autoscaling:groupName,Values=EC2SpotWorkshopASG Name=instance-state-name,Values=running --query "Reservations[*].Instances[? InstanceLifecycle==null].[InstanceId]" --output text
 ```
+{{% /expand %}}
 
-5.) **How can I select specific instance types instead of ABS in my Auto Scaling group?**
+{{%expand "5. How can you select specific instance types instead of ABIS in your Auto Scaling group?" %}}
 
-To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m4.large, c4.large, and r4.large. 
+To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.xlarge, c5.xlarge, r5.xlarge, m4.xlarge, c4.xlarge, and r4.xlarge. 
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -149,22 +119,22 @@ cat <<EoF > ./asg-policy.json
       },
       "Overrides":[
          {
-            "InstanceType":"m5.large"
+            "InstanceType":"m5.xlarge"
          },
          {
-            "InstanceType":"c5.large"
+            "InstanceType":"c5.xlarge"
          },
          {
-            "InstanceType":"r5.large"
+            "InstanceType":"r5.xlarge"
          },
          {
-            "InstanceType":"m4.large"
+            "InstanceType":"m4.xlarge"
          },
          {
-            "InstanceType":"c4.large"
+            "InstanceType":"c4.xlarge"
          },
          {
-            "InstanceType":"r4.large"
+            "InstanceType":"r4.xlarge"
          }
       ]
    },
@@ -188,10 +158,11 @@ To create the Auto Scaling group, use this command to create a `min-size` to 4, 
 ```bash
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
+{{% /expand %}}
 
-6.) **How can I select a mix of instance types of different sizes in my Auto Scaling group?**
 
-To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m5.xlarge, c5.xlarge, and r5.xlarge. Note the use of the instance weights to indicate the unit weight contribution for each instance. In our example, we have used the number of vcpu's as a indicator of the unit. 
+{{%expand "6. How can you select a mix of instance types of different sizes in your Auto Scaling group?" %}}
+ To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m5.xlarge, c5.xlarge, and r5.xlarge. Note the use of the instance weights to indicate the unit weight contribution for each instance. In this example, you use the number of VCPUs as a indicator of the unit. 
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -251,15 +222,9 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorks
 
 {{% /expand %}}
 
-{{% notice tip %}}
-Auto Scaling group has rich functionality that helps reduce the heavy lifting of managing capacity. Auto Scaling groups can dynamically increase and decrease capacity as needed.
-{{% /notice %}}
+{{%expand "7. How can you select capacity-optimized Spot allocation strategy in your Auto Scaling group?" %}}
 
-#### Other Spot allocation strategies
-
-The `capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of used Spot Instances. Use `capacity-optimized` Spot allocation strategy works well for workloads where the cost of a Spot interruption is very high or `price-capacity-optimized` strategy is experiencing higher Spot interruptions. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance allocation in action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/). 
-
-{{%expand "How to use the strategy" %}}
+The `capacity-optimized` allocation strategy allocates instances from the Spot Instance pools with the optimal capacity for the number of instances that are launching, making use of real-time capacity data and optimizing the selection of used Spot Instances. Use `capacity-optimized` Spot allocation strategy works well for workloads where the cost of a Spot interruption is very significant. You can read about the benefits of using `capcity-optimized` in the blog post [Capacity-Optimized Spot Instance allocation in action at Mobileye and Skyscanner](https://aws.amazon.com/blogs/aws/capacity-optimized-spot-instance-allocation-in-action-at-mobileye-and-skyscanner/). 
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -273,7 +238,7 @@ cat <<EoF > ./asg-policy.json
          "InstanceRequirements": {
             "VCpuCount": {
                "Min": 4, 
-               "Max": 8
+               "Max": 4
             },
             "MemoryMiB": {
                "Min": 16384
@@ -304,11 +269,12 @@ To create the Auto Scaling group, use this command.
 ```
 aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
-
 {{% /expand %}}
 
 
-#### Brief Summary of Auto Scaling group functionality
+
+
+#### Optional reads
 These are some of the characteristics and functionality that make Amazon EC2 Auto Scaling groups the right choice for most workloads:
 
 1. **Attribute-based instance type selection**: Amazon EC2 Auto Scaling groups selects a number of instance families and sizes based a set of instance attributes that describe your compute requirements. [Attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html).
