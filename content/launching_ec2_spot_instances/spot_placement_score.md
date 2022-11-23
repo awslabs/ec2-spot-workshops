@@ -71,16 +71,11 @@ aws ec2 get-spot-placement-scores --cli-input-json file://./sps-input.json
 
 Spot placement score returns the top 10 regions or top 10 Availability Zones where the specific Spot request is most likely to succeed. You can narrow down the Regions to be considered in the response. You can combine the Region filter and a request for scored Availability Zones to return a scored list of all of the Availability Zones.
 
-Given the configuration we used above, **Try to answer the following questions:**
+### Challenges
 
-1. What are the Spot placement scores for the specific requirements in the different regions?
-2. How can I filter the regions in the Spot placement score request?
-3. How can I see Spot placement scores by individual Availability Zones?
-4. How can I specify instance types in the Spot placement score request?
+Given the configuration you used above, try to answer the following questions. Click to expand and see the answers.
 
-{{%expand "Show me the answers:" %}}
-
-1.) **What are the Spot placement scores for the specific requirements in the different regions?**
+{{%expand "1. What are the Spot placement scores for the specific requirements in the different regions?" %}}
 
 The Spot placement scores might differ in different regions. A sample response for the request is shown below. Note the `Score` for the region which is between a 1 and 10.
 
@@ -131,7 +126,9 @@ The Spot placement scores might differ in different regions. A sample response f
 }
 ```
 
-2.) **How can I filter the regions in the Spot placement score request?**
+{{% /expand %}}
+
+{{%expand "2. How can I filter the regions in the Spot placement score request?" %}}
 
 To create an Spot placement score input request with certain regions, you can use `RegionNames` filter as shown in the *json* file below. This example uses us-east-1, us-east-2, us-west-1, and us-west-2 regions. 
 
@@ -171,7 +168,9 @@ To run the request, use the command:
 aws ec2 get-spot-placement-scores --cli-input-json file://./sps-input.json
 ```
 
-3.) **How can I see Spot placement scores by individual Availability Zones?**
+{{% /expand %}}
+
+{{%expand "3. How can I see Spot placement scores by individual Availability Zones?" %}}
 
 To create an Spot placement score input request at the Availability Zones level, set the `SingleAvailabilityZone` parameter to `true`, as shown in the configuration below.
 
@@ -205,7 +204,9 @@ To run the request, use the command:
 aws ec2 get-spot-placement-scores --cli-input-json file://./sps-input.json
 ```
 
-4.) **How can I specify instance types in the Spot placement score request?**
+{{% /expand %}}
+
+{{%expand "4. How can I specify instance types in the Spot placement score request?" %}}
 
 To create an Spot placement score input request using specific instance types, use the *json* below that includes instance types - .
 
@@ -236,5 +237,7 @@ aws ec2 get-spot-placement-scores --cli-input-json file://./sps-input.json
 ```
 
 {{% /expand %}}
+
+#### Optional reads
 
 You can learn more about spot placement score by reading the [launch blog post](https://aws.amazon.com/blogs/compute/identifying-optimal-locations-for-flexible-workloads-with-spot-placement-score/).

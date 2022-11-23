@@ -5,7 +5,7 @@ weight = 100
 
 To use AWS FIS, you setup an experiment and run the experiment on the AWS resources. We setup an experiment in the earlier section to interrupt the EC2 Spot instances launched via the Auto Scaling group. In this section, we will run the experiment and review the results.
 
-#### Run the Spot interruption experiment
+#### 3. Run the Spot interruption experiment
 
 To run the experiment, we will use `start-experiment` command to run the template created earlier. The experiment can be run multiple times to validate the results of running your application on EC2 Spot.
 
@@ -31,7 +31,7 @@ The Auto Scaling group setup in the example has Capacity Rebalance enabled, and 
 
 With these tests, you can validate the resiliency of your workload to the Spot interruptions, and optionally improve the workload resiliency by implementing check-pointing or cleanup tasks.
 
-## Resources
+#### Optional reads
 
 You can learn more about Spot Interruption in AWS FIS by reading the [blog post](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/).
 

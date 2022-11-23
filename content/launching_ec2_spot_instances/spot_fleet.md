@@ -121,24 +121,21 @@ You have now created a Spot Fleet that uses weights and combines Spot and On-Dem
 
 Given the configuration we used above. **Try to answer the following questions:**
 
-1. How many Spot vs On-Demand Instances have been requested by the Spot Fleet?
-2. For On-Demand Capacity, what does it mean the `Priority` section?
-3. How can we check the state of the created Spot Fleet?
-
-{{%expand "Show me the answers:" %}}
-
-1.) **How many Spot vs On-Demand Instances have been requested by the Spot Fleet?**
+{{%expand "1. How many Spot vs On-Demand Instances have been requested by the Spot Fleet?" %}}
 
 This Spot Fleet will maintain a weighted target capacity of 12, as specified in the value for `TargetCapacity`. Additionally, we are specifying an On-Demand target capacity of 4. Remember that Amazon EC2 calculates the difference between the total capacity and On-Demand capacity in order to launch Spot Instances. This would result in **1** On-Demand Instance being launched and in the case of Spot Instances, given that we are using `priceCapacityOptimized` allocation strategy, a few things may happen; the most common is that out of the 18 pools, one is selected as optimal (has more capacity, etc). If the selected pool is one of the 9 pools defined as **large**, 4 Spot Instances will be added. If the pool selected is one of the 9 **xlarge**, 2 Spot Instances will be created.
 
-2.) **For On-Demand Capacity, what does it mean the `Priority` section?**
+{{% /expand %}}
+
+{{%expand "2. For On-Demand Capacity, what does it mean the `Priority` section?" %}}
 
 We did specify `prioritized` as the allocation strategy for On-Demand Instances. Therefore, the order in which Spot Fleet will attempt to fulfill the On-Demand capacity is defined by the value of `Priority` in the list of overrides. It will aim first to launch capacity from the `c5.xlarge` pools with the highest priority. If there are [Insufficient Capacity Errors](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/troubleshooting-launch.html#troubleshooting-launch-capacity), it will go into the pools with the next higher priority `m5.xlarge`, and so on.  
 
 For Spot, the `priority` attribute will have no effect in the example. We have specified `priceCapacityOptimized` as allocation strategy to follow the best practices associated with Spot. This will make the Spot Fleet launch instances from Spot Instance pools with optimal capacity.
 
+{{% /expand %}}
 
-3.) **How can we check the state of the Spot Fleet created?**
+{{%expand "3. How can we check the state of the Spot Fleet created?" %}}
 
 While the command below will provide us the description of the Spot Fleet Request
 

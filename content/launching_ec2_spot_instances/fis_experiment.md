@@ -17,9 +17,25 @@ To use AWS FIS, you setup an experiment and run the experiment on the AWS resour
 Note: Currently, AWS FIS has a Service Quota of maximum of 5 resources per experiment target per account per region, and Service Quota is not configurable . This means that even if your experiments targets more than 5 EC2 Spot instances, AWS FIS limits itself to 5 EC2 Spot instance being interreupted per experiment. You can get over this limit by running more than 1 experiment at a time.
 {{% /notice %}}
 
+### Interrupt a Spot instance in the AWS Console without using AWS FIS
+
+You can use the [Spot Requests console](https://console.aws.amazon.com/ec2/home?#SpotInstances:) directly to interrupt the specific EC2 Spot instance, as indicated in the Capacity column and clicking on 'Initiate interruption' in the 'Actions' menu.
+
+![Interrupt EC2 Spot instance from the console](/images/launching_ec2_spot_instances/Interrupt_Spot_from_console.png)
+
+### Interrupt a Spot instance in AWS FIS using AWS CLI
+
 In this section, we will design a template to run the Spot interruption on the EC2 Spot instances launched via Auto Scaling group.
 
-#### Create an IAM Role to execute the experiment
+To interrupt Spot instances using AWS FIS CLI, you will have to follow 3 steps:
+
+1. Create an IAM Role to execute the experiment
+1. Create the Spot interruption experiment template
+1. Run the Spot interruption experiment
+
+In this section we will run the first 2 steps.
+
+#### 1. Create an IAM Role to execute the experiment
 
 To use AWS FIS, you must create an IAM role that grants AWS FIS the permissions required so that AWS FIS can run experiments on your behalf. You specify this experiment role when you create an experiment template. The IAM policy for the experiment role must grant permission to modify the resources that you specify as targets in your experiment template. For more information, see [Create an IAM role for AWS FIS experiments](https://docs.aws.amazon.com/fis/latest/userguide/getting-started-iam-service-role.html).
 
@@ -98,7 +114,7 @@ export FIS_ROLE_ARN=$(aws iam get-role --role-name my-fis-role | jq -r '.Role.Ar
 ```
 
 
-#### Create the Spot interruption experiment template
+#### 2. Create the Spot interruption experiment template
 
 Let us design an experiment template that sends a Spot Interruption notice to the EC2 Spot instances launched via the Auto Scaling group. We will setup an a preconfigured *Action* `aws:ec2:send-spot-instance-interruptions` with `durationBeforeInterruption` set to 2 minutes. We will set a *Target* with `aws:ec2:spot-instance` as the resource type, filter the EC2 Spot instances launched via ASG using `resourceTags` set to `"aws:autoscaling:groupName": "EC2SpotWorkshopASG"`. Our Target will also filter EC2 Spot instances in the running state via `filters` as shown below. We will not have any *Stop* condition for our experiment.
 
@@ -155,17 +171,12 @@ export FIS_TEMPLATE_ID=$(aws fis create-experiment-template --cli-input-json fil
 
 You have now created an experiment template to send a Spot interruption using Amazon FIS!
 
-Given the configuration we used above, Try to answer the following questions:
+### Challenges
 
-1. How can I change the number of Spot Instances which are being interrupted?
-2. How can I send an Rebalance Recommendation signal ahead of the Spot Interruption Notification signal?
-3. How can I create an experiment template for interrupting Spot instances launched via the EC2 Fleet?
-4. How can I create an experiment template for interrupting Spot instances launched via RunInstance API?
-5. Can I interrupt an EC2 Spot instances without creating an experiment tempate?
+Given the configuration you used above, try to answer the following questions. Click to expand and see the answers.
 
-{{%expand "Show me the answers:" %}}
 
-1.) **How can I change the number of Spot Instances which are being interrupted?**
+{{%expand "1. How can I change the number of Spot Instances which are being interrupted?" %}}
 
 You can change the scope of the identified resources by specifying the `selectionMode` of the target instances in the experiment template. AWS FIS selection modes supported shown below can be choosen and the `n` changes per the requirement. Example is to choose `PERCENT(25)` to ramdomly interrupt 25% of the identified targets. 
 
@@ -173,13 +184,17 @@ You can change the scope of the identified resources by specifying the `selectio
 * `COUNT(n)` – Run the action on the specified number of targets, chosen from the identified targets at random. 
 * `PERCENT(n)` – Run the action on the specified percentage of targets, chosen from the identified targets at random.s.
 
-2.) **How can I send an Rebalance Recommendation signal ahead of the Spot Interruption Notification signal?**
+{{% /expand %}}
+
+{{%expand "2. How can I send an Rebalance Recommendation signal ahead of the Spot Interruption Notification signal?" %}}
 
 You can change the `durationBeforeInterruption` to more than 2 minutes. The Rebalance Recommendation signal is sent to the identified EC2 Spot targets at the time set in `durationBeforeInterruption` before the FIS experiment interrupts the Spot Instances. Note that exactly 2 minutes before the FIS experiment interrupts the Spot Instance, a Spot Interruption Notification is sent.
 
 An example is if `durationBeforeInterruption` is set to `PT2M`. The Rabalance Recommendation signal is sent 5 minutes before the Spot Interruption, and exactly 2 minutes before the actual Spot interruption, the EC2 Spot instances receive the Spot Interruption Notification.
 
-3.) **How can I create an experiment template for interrupting Spot instances launched via the EC2 Fleet?**
+{{% /expand %}}
+
+{{%expand "3. How can I create an experiment template for interrupting Spot instances launched via the EC2 Fleet?" %}}
 
 You can change the `resourceTags` to include the instances in the experiment.
 
@@ -226,7 +241,9 @@ cat <<EoF > ./spot_experiment.json
 EoF
 ```
 
-4.) **How can I create an experiment template for interrupting Spot instances launched via RunInstance API?**
+{{% /expand %}}
+
+{{%expand "4. How can I create an experiment template for interrupting Spot instances launched via RunInstance API?" %}}
 
 In the RunInstance example, we tagged the EC2 Spot Instance with a `Name=EC2SpotWorkshopRunInstance`, and you can use that to update the `resourceTags`. Note the change of `selectionMode` to `ALL` for the experiment to successfully terminate the Spot Instance.
 
@@ -273,8 +290,4 @@ cat <<EoF > ./spot_experiment.json
 EoF
 ```
 
-5.) **Can I interrupt an EC2 Spot instances without creating an experiment tempate?**
-
-You can use the [Spot Requests console](https://console.aws.amazon.com/ec2/home?#SpotInstances:) directly to interrupt the specific EC2 Spot instance, as indicated in the Capacity column and clicking on 'Initiate interruption' in the 'Actions' menu.
-
-![Interrupt EC2 Spot instance from the console](/images/launching_ec2_spot_instances/Interrupt_Spot_from_console.png)
+{{% /expand %}}
