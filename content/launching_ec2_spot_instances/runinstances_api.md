@@ -1,5 +1,5 @@
 +++
-title = "(Not recommended) - Launching an EC2 Spot Instance via the RunInstances API"
+title = "(Optional) - Launching an EC2 Spot Instance via the RunInstances API"
 weight = 200
 +++
 

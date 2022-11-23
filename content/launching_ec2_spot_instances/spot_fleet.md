@@ -1,5 +1,5 @@
 +++
-title = "(Not recommended) - Launching an EC2 Spot Instance via Spot Fleet request"
+title = "(Optional) - Launching an EC2 Spot Instance via Spot Fleet request"
 weight = 210
 +++
 
