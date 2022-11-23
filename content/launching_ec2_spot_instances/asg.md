@@ -77,7 +77,7 @@ aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorks
 You have now created a mixed instances Auto Scaling group!
 
 ### Challenges
-Given the configuration we used above, try to answer the following questions. Click to expand and see the answers. 
+Given the configuration you used above, try to answer the following questions. Click to expand and see the answers. 
 
 {{%expand "1. How may Spot Instance pools does the Auto Scaling group consider when applying Spot diversification?" %}}
 

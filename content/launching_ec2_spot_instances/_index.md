@@ -15,4 +15,4 @@ You play the role of a DevOps engineer who is given a sample application and tas
 The estimated time for completing the workshop is 45 to 60 minutes. The estimated cost is less than $5.
 
 ## Prerequisites
-(Level 200): This is self-paced workshop that requires a basic knowledge of [Amazon EC2](https://aws.amazon.com/ec2/)and [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli).
+(Level 300): This is self-paced workshop that requires a basic knowledge of [Amazon EC2](https://aws.amazon.com/ec2/)and [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli).
