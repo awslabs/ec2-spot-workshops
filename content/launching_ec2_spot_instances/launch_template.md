@@ -40,7 +40,7 @@ EOF
 # First, this command looks up the latest Amazon Linux 2 AMI
 export ami_id=$(aws ec2 describe-images --owners amazon --filters "Name=name,Values=amzn2-ami-kernel*gp2" "Name=virtualization-type,Values=hvm" "Name=root-device-type,Values=ebs" --query "sort_by(Images, &CreationDate)[-1].ImageId" --output text)
 
-sed -i.bak -e "s#%instanceProfile%#$instanceProfile#g" -e "s#%ami-id%#$ami_id#g" -e "s#%UserData%#$(cat user-data.txt | base64 --wrap=0)#g" launch-template-data.json
+sed -i.bak -e "s#%instanceProfile%#$instanceProfile#g" -e "s#%ami-id%#$ami_id#g" launch-template-data.json
 ```
 
 3. Create the launch template from the launch template config you just updated. You can check which other parameters Launch Templates could take [here](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
