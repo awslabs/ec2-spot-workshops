@@ -15,9 +15,9 @@ In the past, Auto Scaling groups used launch configurations. Applications using 
 
 ## Using attribute-based instance type selection and mixed instance groups
 
-A common case when using Auto Scaling groups, is to use it with workloads that require a mix of Spot and On-Demand capacity. Being instance flexible is an important Spot best practice, you can use [*attribute-based instance type selection (ABIS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to automatically select multiple instance types matching your requirements.
+Being instance flexible is an important [Spot best practice](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html), you can use [*attribute-based instance type selection (ABIS)*](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) to automatically select multiple instance types matching your requirements. A common case when using Auto Scaling groups, is to use it with workloads that require a mix of Spot and On-Demand capacity.
 
-In this step you create a *json* file for Auto Scaling groups CLI. The configuration of the Auto Scaling group uses the launch template that you created in the previous steps and ABIS for any instance types with `4 vCPU` and maximum of `16 GiB` memory. `OnDemandBaseCapacity` allows you to set an initial capacity of `2` On-Demand Instances. Remaining capacity is mix of `25%` On-Demand Instances and `75%` Spot Instances defined by the `OnDemandPercentageAboveBaseCapacity`.
+In this step you create a *json* file for Auto Scaling groups CLI. The configuration of the Auto Scaling group uses the launch template that you created in the previous steps and ABIS for any current generation non-GPU instance types with `2 vCPU` and no limit on memory. `OnDemandBaseCapacity` allows you to set an initial capacity of `1` On-Demand Instance. Remaining capacity is mix of `25%` On-Demand Instances and `75%` Spot Instances defined by the `OnDemandPercentageAboveBaseCapacity`.
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -30,21 +30,27 @@ cat <<EoF > ./asg-policy.json
       "Overrides":[{
          "InstanceRequirements": {
             "VCpuCount": {
-               "Min": 4, 
-               "Max": 4
+               "Min": 2, 
+               "Max": 2
             },
             "MemoryMiB": {
-               "Max": 32768
+               "Min": 0
             },
             "CpuManufacturers": [
                "intel",
                "amd"
-            ]
+            ],
+            "InstanceGenerations": [
+               "current"
+            ],
+            "AcceleratorCount": {
+               "Max": 0
+            }
          }
       }]
    },
    "InstancesDistribution":{
-      "OnDemandBaseCapacity":2,
+      "OnDemandBaseCapacity":1,
       "OnDemandPercentageAboveBaseCapacity":25,
       "SpotAllocationStrategy":"price-capacity-optimized"
    }
@@ -55,10 +61,17 @@ EoF
 The configuration above, sets the `SpotAllocationStrategy` to `price-capacity-optimized`. The `price-capacity-optimized` allocation strategy allocates instances from the Spot Instance pools that offer low prices and high capacity availability. You can read more about the `price-capacity-optimized` allocation strategy in [Introducing the price-capacity-optimized allocation strategy for EC2 Spot Instances](https://aws.amazon.com/blogs/compute/introducing-price-capacity-optimized-allocation-strategy-for-ec2-spot-instances/) blog post.
 {{% /notice %}}
 
-Let's create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the `min-size` to `4`, `max-size` to `20` and `desired-capacity` to `8` in vCPU units.
-
+1. Gathering subnet information: Run the following commands to retrieve your default VPC and then its subnets. To learn more about these APIs, see describe vpcs and describe subnets.
 ```
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --desired-capacity-type vcpu --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
+export VPC_ID=$(aws ec2 describe-vpcs --filters Name=isDefault,Values=true | jq -r '.Vpcs[0].VpcId')
+export SUBNETS=$(aws ec2 describe-subnets --filters Name=vpc-id,Values="${VPC_ID}")
+export SUBNET_1=$((echo $SUBNETS) | jq -r '.Subnets[0].SubnetId')
+export SUBNET_2=$((echo $SUBNETS) | jq -r '.Subnets[1].SubnetId')
+```
+
+2. Let's create the Auto Scaling group. In this case the Auto Scaling group spans across 3 Availability Zones, and sets the `min-size` to `2`, `max-size` to `20` and `desired-capacity` to `10` in vCPU units.
+```
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 2 --max-size 20 --desired-capacity 10 --desired-capacity-type vcpu --vpc-zone-identifier "${SUBNET_1},${SUBNET_2}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
 
 You have now created a mixed instances Auto Scaling group!
@@ -68,13 +81,13 @@ Given the configuration we used above, try to answer the following questions. Cl
 
 {{%expand "1. How may Spot Instance pools does the Auto Scaling group consider when applying Spot diversification?" %}}
 
-A Spot capacity pool is a set of unused EC2 Instances with the same instance type (for example, m5.large) and Availability Zone. At the time of creation of the workshop, our example matched 96 instance types and 3 Availability Zones, which makes a total of **(96*3)=288 Spot pools**. Increasing the number of Spot pools we diversify on, is key for adopting Spot best practices.
+A Spot capacity pool is a set of unused EC2 Instances with the same instance type (for example, m5.large) and Availability Zone. At the time of creation of the workshop, our example matched 35 instance types and 3 Availability Zones, which makes a total of **(35*2)=70 Spot pools**. Increasing the number of Spot pools we diversify on, is key for adopting Spot best practices.
 
 {{% /expand %}}
 
 {{%expand "2. How many Spot vs On-Demand Instances have been requested by the Auto Scaling group?" %}}
 
-The `desired-capacity` of 8 vcpus is below the `max-size` of 20, so instances having a sum of 6 vcpus are provisioned. Out of them, the first 2 EC2 instances are On-Demand as requested by the `OnDemandBaseCapacity`. The rest of the instances, follow a proportion of 75% Spot and 25% On-Demand according to `OnDemandPercentageAboveBaseCapacity`. 
+The desired capacity is `10` vCPUs, so 5 instances having a sum of 10 vCPUs are provisioned. Out of them, the first 1 EC2 instance is On-Demand as requested by the **OnDemandBaseCapacity**. The rest of the instances, follow a proportion of `25%` On-Demand (1 instances) and `75%` Spot (3 Instances) according to **OnDemandPercentageAboveBaseCapacity**. 
 
 {{% /expand %}}
 
@@ -105,7 +118,7 @@ aws ec2 describe-instances --filters Name=tag:aws:autoscaling:groupName,Values=E
 ```
 {{% /expand %}}
 
-{{%expand "5. How can you select specific instance types instead of ABIS in your Auto Scaling group?" %}}
+{{%expand "5. How can you select specific instance types manually instead of ABIS in your Auto Scaling group?" %}}
 
 To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m4.large, c4.large, and r4.large. 
 
@@ -139,30 +152,18 @@ cat <<EoF > ./asg-policy.json
       ]
    },
    "InstancesDistribution":{
-      "OnDemandBaseCapacity":2,
+      "OnDemandBaseCapacity":1,
       "OnDemandPercentageAboveBaseCapacity":25,
       "SpotAllocationStrategy":"price-capacity-optimized"
    }
 }
 EoF
 ```
-
-Delete the Auto Scaling group if it has been created. 
-
-```bash
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --force-delete
-```
-
-To create the Auto Scaling group, use this command to create a `min-size` to 4, `max-size` to 20 and `desired-capacity` to 8 instances. Not the use of instances as the unit for Auto Scaling group capacity.
-
-```bash
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
-```
 {{% /expand %}}
 
 
 {{%expand "6. How can you select a mix of instance types of different sizes in your Auto Scaling group?" %}}
- To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example uses m5.large, c5.large, r5.large, m5.xlarge, c5.xlarge, and r5.xlarge. Note the use of the instance weights to indicate the unit weight contribution for each instance. In this example, you use the number of VCPUs as a indicator of the unit. 
+ To create an Auto Scaling group with specific/individual instance types, you can use a *json* file that is given below. The example instances that have 2 vCPUs and 4 vCPUs example m5.large, c5.large, r5.large, m5.xlarge, c5.xlarge, and r5.xlarge.
 
 ```
 cat <<EoF > ./asg-policy.json
@@ -172,52 +173,35 @@ cat <<EoF > ./asg-policy.json
          "LaunchTemplateId":"${LAUNCH_TEMPLATE_ID}",
          "Version":"1"
       },
-      "Overrides":[
-         {
-            "InstanceType":"m5.large",
-            "WeightedCapacity": "2"
-         },
-         {
-            "InstanceType":"c5.large",
-            "WeightedCapacity": "2"
-         },
-         {
-            "InstanceType":"r5.large",
-            "WeightedCapacity": "2"
-         },
-         {
-            "InstanceType":"m5.xlarge",
-            "WeightedCapacity": "4"
-         },
-         {
-            "InstanceType":"c5.xlarge",
-            "WeightedCapacity": "4"
-         },
-         {
-            "InstanceType":"r5.xlarge",
-            "WeightedCapacity": "4"
+      "Overrides":[{
+         "InstanceRequirements": {
+            "VCpuCount": {
+               "Min": 2, 
+               "Max": 4
+            },
+            "MemoryMiB": {
+               "Min": 0
+            },
+            "CpuManufacturers": [
+               "intel",
+               "amd"
+            ],
+            "InstanceGenerations": [
+               "current"
+            ],
+            "AcceleratorCount": {
+               "Max": 0
+            }
          }
-      ]
+      }]
    },
    "InstancesDistribution":{
-      "OnDemandBaseCapacity":2,
+      "OnDemandBaseCapacity":1,
       "OnDemandPercentageAboveBaseCapacity":25,
-      "SpotAllocationStrategy":"price-capacity-optimized"
+      "SpotAllocationStrategy":"capacity-optimized"
    }
 }
 EoF
-```
-
-Delete the Auto Scaling group if it has been created. 
-
-```bash
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --force-delete
-```
-
-To create the Auto Scaling group, use this command to create a `min-size` to 4, `max-size` to 20 and `desired-capacity` to 8 all defined by the weights associated with the instances.
-
-```
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
 
 {{% /expand %}}
@@ -237,37 +221,32 @@ cat <<EoF > ./asg-policy.json
       "Overrides":[{
          "InstanceRequirements": {
             "VCpuCount": {
-               "Min": 4, 
-               "Max": 4
+               "Min": 2, 
+               "Max": 2
             },
             "MemoryMiB": {
-               "Min": 16384
+               "Min": 0
             },
             "CpuManufacturers": [
                "intel",
                "amd"
-            ]
+            ],
+            "InstanceGenerations": [
+               "current"
+            ],
+            "AcceleratorCount": {
+               "Max": 0
+            }
          }
       }]
    },
    "InstancesDistribution":{
-      "OnDemandBaseCapacity":2,
+      "OnDemandBaseCapacity":1,
       "OnDemandPercentageAboveBaseCapacity":25,
       "SpotAllocationStrategy":"capacity-optimized"
    }
 }
 EoF
-```
-Delete the Auto Scaling group if it has been created. 
-
-```bash
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --force-delete
-```
-
-To create the Auto Scaling group, use this command.
-
-```
-aws autoscaling create-auto-scaling-group --auto-scaling-group-name EC2SpotWorkshopASG --min-size 4 --max-size 20 --desired-capacity 8 --vpc-zone-identifier "${SUBNET_1},${SUBNET_2},${SUBNET_3}" --capacity-rebalance --mixed-instances-policy file://asg-policy.json
 ```
 {{% /expand %}}
 
