@@ -17,20 +17,16 @@ aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg
 
 #### Observe warm pool change
 
-Now, let's describe the warm pool and observe any changes. As you can see below, the instance you previously launched is no longer in the warm pool. This is because it was launched from the warm pool, into the Auto Scaling group in response to your increase in desired capacity.
+Now, let's describe the warm pool and observe changes. As you can see below, the additional instance you just launched is no longer in the warm pool. It was launched from the warm pool into the Auto Scaling group in response to your increase in desired capacity.
 
 ```bash
-aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg" --no-paginate
+aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg" | jq -r '.Instances[]| "\(.InstanceId)\t\(.LifecycleState)"'
 ```
 
-```json
-{
-    "WarmPoolConfiguration": {
-        "MinSize": 2,
-        "PoolState": "Stopped"
-    },
-    "Instances": [...]
-}
+```
+i-0851feaba1df1fcc5     Warmed:Stopped
+i-0d3f75c968995f1dc     Warmed:Stopped
+i-0e6f840558778cbd4     Warmed:Stopped
 ```
 
 #### Measure launch speed
