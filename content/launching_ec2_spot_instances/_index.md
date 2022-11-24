@@ -7,21 +7,12 @@ pre: "<b>1. </b>"
 ---
 
 ## Overview
+In this workshop you learn about the fundamentals of [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/) and recommended tools to launch Spot Instances, test for resiliency, and view pricing history.
 
-Amazon EC2 Spot Instances are spare compute capacity in the AWS Cloud
-available to you at steep discounts compared to On-Demand prices. EC2
-Spot enables you to optimize your costs on the AWS cloud and scale your
-application’s throughput up to 10X for the same budget.
+You play the role of a DevOps engineer who is given a sample application and tasked to deploy it cost efficiently using EC2 Auto Scaling groups and EC2 Fleet in an optimal AWS Region. Post deployment you simulate Spot Instance interruptions to test the resiliency of Auto Scaling groups, and  finally calculate the estimated cost savings.
 
-This lab will walk you through the APIs and commands used to create EC2 Spot Instances: you will create an EC2 Launch Template, and then use this Launch Template to launch EC2 Spot Instances using: Amazon EC2 Auto Scaling groups, EC2 Spot Fleet, EC2 Fleet and the EC2 RunInstances API.
+## Estimated time and cost to run this workshop
+The estimated time for completing the workshop is **45 to 60** minutes. The estimated cost is less than **$5**.
 
-## So which of these methods should I use in my application?
-For most workloads and scenarios the answer will be Auto Scaling groups. With the launch of [EC2 Auto Scaling Groups With Multiple Instance Types & Purchase Options](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/), it has become a feature-rich tool for building applications on EC2 using Spot Instances, with allocation strategies as capacity-optimized. [Click here](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) to learn more about EC2 Auto Scaling groups.
-
-
-## Pre-Requisites for this lab:
-
- - An AWS account. You will create AWS resources during the workshop.
- - A laptop with Wi-Fi running Microsoft Windows, Mac OS X, or Linux.
- - An Internet browser such as Chrome, Firefox, Safari, or Edge.
- - AWS CloudShell configured with your console credentials.
+## Prerequisites
+(Level 300): This is self-paced workshop that requires a basic knowledge of [Amazon EC2](https://aws.amazon.com/ec2/) and [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli).
