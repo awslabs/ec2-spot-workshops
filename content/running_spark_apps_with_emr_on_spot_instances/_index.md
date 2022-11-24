@@ -14,4 +14,4 @@ pre: "<b>7. </b>"
 The **estimated time** for completing the workshop is 60-90 minutes and the **estimated cost** for running the workshop's resources in your AWS account is less than **$2**.
 
 ## Prerequisites
-This is a level 300 workshop, we expect readers be already familiar with fundamentals of [Apache Spark](https://spark.apache.org/docs/2.2.0/running-on-yarn.html), [Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-overview.html), and [EC2 Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html).
+This is a level 400 workshop, we expect readers be already familiar with fundamentals of [Apache Spark](https://spark.apache.org/docs/2.2.0/running-on-yarn.html), [Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-overview.html), and [EC2 Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html).
