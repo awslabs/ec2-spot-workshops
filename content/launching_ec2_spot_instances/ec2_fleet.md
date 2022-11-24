@@ -12,7 +12,7 @@ Workloads that can benefit from EC2 Fleet API are among other bespoke capacity o
 
 #### EC2 Fleet example : Applying instance diversification on HPC tightly coupled workloads with EC2 Fleet instant mode
 
-In this part of the workshop we tackle a common workload for with EC2 Fleet provides benefit when running.
+In this part of the workshop you tackle a common workload for with EC2 Fleet provides benefit when running.
 
 {{% notice warning %}}
 Note that while using Spot Instances, most of MPI workloads, specially those that run for hours and do not use checkpointing, are not appropriate for Spot Instances. Remember Spot Instances are suited for fault tolerant applications that can recover from the loss and replacement of one or more instances.
@@ -76,7 +76,7 @@ EoF
 
 - The EC2 Fleet request specifies separately the target capacity for Spot and On-Demand Instances using the `OnDemandTargetCapacity` and `SpotTargetCapacity` fields inside the `TargetCapacitySpecification` structure. The value for `DefaultTargetCapacityType` specifies whether Spot or On-Demand Instances should be used to meet the `TotalTargetCapacity`.
 
-- By setting `SingleInstanceType` and `SingleAvailabilityZone` to true, we are forcing the EC2 Fleet request to provision all the instances in the same Availability Zone and of the same type.  
+- By setting `SingleInstanceType` and `SingleAvailabilityZone` to true, you are forcing the EC2 Fleet request to provision all the instances in the same Availability Zone and of the same type.  
 
 2. Copy and paste this command to create the EC2 Fleet and export its identifier to an environment variable to later monitor the status of the fleet.
 
@@ -91,12 +91,12 @@ Given the configuration you used above, try to answer the following questions. C
 
 {{%expand "1. What would happen if the EC2 Fleet is not able to meet the target capacity of Spot or On-Demand instances?" %}}
 
-We have specified a value for `MinTargetCapacity` inside `SpotOptions` and `OnDemandOptions` structures. This parameter sets the minimum target capacity that needs to be reached. If it is not reached, the fleet launches no instances and the response provides an error indicating that the minimum request for instances could not be met.
+You have specified a value for `MinTargetCapacity` inside `SpotOptions` and `OnDemandOptions` structures. This parameter sets the minimum target capacity that needs to be reached. If it is not reached, the fleet launches no instances and the response provides an error indicating that the minimum request for instances could not be met.
 
 Note that that by providing additional diversification, EC2 Fleet will check into more pools and be able to reach more capacity. Consider adding more diversification in those cases.
 {{% /expand %}}
 
-{{%expand "2. How can you check the status of the request we just created?" %}}
+{{%expand "2. How can you check the status of the request you just created?" %}}
 You can view the configuration parameters of your EC2 Fleet using this command:
 
 ```bash
@@ -106,10 +106,10 @@ aws ec2 describe-fleets --fleet-ids "${FLEET_ID}"
 
 {{%expand "3. How can you check which instances have been launched using the Spot purchasing model and which ones using the On-Demand?" %}}
 
-To describe one or more instances we use `describe-fleets`. To retrieve all the Spot Instances that have been launched by the EC2 Fleet, we apply two filters: `instance-lifecycle` set to `spot` to retrieve only Spot Instances and the custom tag `aws:ec2:fleet-id` that must be set to $FLEET_ID.
+To describe one or more instances you use `describe-fleets`. To retrieve all the Spot Instances that have been launched by the EC2 Fleet, you apply two filters: `instance-lifecycle` set to `spot` to retrieve only Spot Instances and the custom tag `aws:ec2:fleet-id` that must be set to $FLEET_ID.
 
 {{% notice note %}}
-When launching instances using an EC2 Fleet, EC2 Fleet automatically adds a tag to the instances with a key of aws:ec2:fleet-id and a value of the fleet id. We are going to use that tag to retrieve the instances that were launched by the EC2 Fleet we just created. 
+When launching instances using an EC2 Fleet, EC2 Fleet automatically adds a tag to the instances with a key of aws:ec2:fleet-id and a value of the fleet id. You are going to use that tag to retrieve the instances that were launched by the EC2 Fleet you just created. 
 {{% /notice %}}
 
 ```bash
@@ -124,13 +124,11 @@ To check the newly created instances in the AWS Console, head to [EC2 Dashboard 
 
 These are some of the features and characteristics that EC2 Fleet provides, in addition to the ones covered in this section:
 
-1. **Instant mode support**: EC2 Fleet supports `instant` mode, the mode we used during this workshop. A synchronous call that can be used as a drop-in-replacement for RunInstances but that offers a selection of pools and diversification using allocation strategies.
+1. **Instant mode support**: EC2 Fleet supports `instant` mode, the mode you used during this workshop. A synchronous call that can be used as a drop-in-replacement for RunInstances but that offers a selection of pools and diversification using allocation strategies.
 1. **Attribute-based instance type selection**: EC2 Fleet selects a number of instance families and sizes based a set of instance attributes that describe your compute requirements. [Attribute-based instance type selection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html).
 1. **Control Spending**: With EC2 Fleet you have finer granularity on how you specify the maximum price you are willing to pay. You can specify separately the maximum price per unit hour that you are willing to pay for a Spot or On-Demand Instance. You can also specify they maximum that you are willing to pay per hour for the fleet. Documentation to [EC2 Fleet control spending is available here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-control-spending)
 1. **Valid from - until**: EC2 Fleet allows also to define the duration for which EC2 Fleet requests are valid by providing a *from* and *until* value.
 1. **Replace unhealthy instances**: Like in the case of Auto Scaling groups, when running in `maintain` mode you can instruct EC2 Fleet to detect and replace un-healthy instances.
 1. **Instance weighting**: Same as Amazon EC2 Auto Scaling group, EC2 Fleet supports weights and priorities.
 1. **On-demand as primary capacity**: In EC2 Fleet, you can select which type of capacity (OnDemand or Spot) will be selected as primary when scaling out. [You can read more here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-on-demand-walkthrough)
-1. **On-Demand Backup**: Everything that we have learned about diversification does not only apply to Spot Instances. It might apply, also, for very large workloads with On-Demand Instances. Although is really rare, there might be cases where if a specific type of an On-Demand Instance is not available, the workload would benefit from an [On-Demand Backup selection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-on-demand-backup)
-
-If you want to learn more about EC2 Fleets, you can find more information in the [Amazon EC2 Fleet documentation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html).
+1. **On-Demand Backup**: Everything that you have learned about diversification does not only apply to Spot Instances. It might apply, also, for very large workloads with On-Demand Instances. Although is really rare, there might be cases where if a specific type of an On-Demand Instance is not available, the workload would benefit from an [On-Demand Backup selection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-on-demand-backup)
