@@ -3,23 +3,34 @@ title = "How Warm Pools work?"
 weight = 90
 +++
 
-#### Describe warm pool Configuration
-You can now see that multiple instances were launched into your warm pool. This is because your warm's maximum prepared capacity is equal to the Auto Scaling group max size. Since you have one instance already in service, (Auto Scaling group max size - 1) additional instances were launched into the warm pool.
+#### Observe warm pool changes
+
+You can also use AWS CLI to observe changes in the warm pool at any state of the instances lifecycle. Run this command to list all instances with their state in the warm pool now.
 
 ```bash
-aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg" --no-paginate 
+aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg" | jq -r '.Instances[]| "\(.InstanceId)\t\(.LifecycleState)"'
+```
+
+You can see that multiple instances were launched into the warm pool. The number of instances is the difference between the number of current running instances and the Auto Scaling group max capacity. Since you have one instance already in service, (Auto Scaling group max size - 1) additional instances were launched into the warm pool.
+
+```
+i-02875409c2488c8d0     Warmed:Stopped
+i-0851feaba1df1fcc5     Warmed:Stopped
+i-0d3f75c968995f1dc     Warmed:Stopped
+i-0e6f840558778cbd4     Warmed:Stopped
 ```
 
 When an instance is launched into a warm pool it will transition through lifecycle states, with **Warmed:Pending**.
 
-If a lifecycle hook is configured, the instance can wait in a **Warmed:Pending:Wait** state until initialization actions are completed.
+If a **lifecycle hook** is configured, the instance can wait in a **Warmed:Pending:Wait** state until initialization actions are completed.
 
 After initialization actions are completed, and the lifecycle hook is sent a **CONTINUE** signal, the instance will move to a **Warmed:Pending:Proceed** state.
 
 Since you configured instances in your warm pool to be stopped after initialization, the instance launch will complete with the instance in a **Warmed:Stopped** state. The instance is now pre-initialized and ready to be launched into the Auto Scaling group as additional capacity is needed.
 
+![predictive-scaling](/images/efficient-and-resilient-ec2-auto-scaling/warm-pools-scale-out-event-diagram.png)
 
-#### Observe Launch Speed into warm pool
+#### Observe launch speed into warm pool
 
 Now let's see how long it took to launch an instance into the warm pool.
 

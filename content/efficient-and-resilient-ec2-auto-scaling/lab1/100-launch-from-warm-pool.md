@@ -3,27 +3,27 @@ title = "Launch From Warm Pool"
 weight = 200
 +++
 
-### Measure the Launch Speed of Instances Launched From warm pool into an Auto Scaling group
+### Measure the launch speed of instances launched from warm pool into an Auto Scaling group
 
 Now that you have pre-initialized instances in the warm pool, you can scale your Auto Scaling group and launch a pre-initialized instance rather than launching a new instance that has not been pre-initialized.
 
-#### Increase Desired Capacity
+#### Increase desired capacity
 
-Let's increase the desired capacity of your Auto Scaling group to 2.
+Let's increase the desired capacity of your Auto Scaling group to 2 instances.
 
 ```bash
 aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 2
 ```
 
-#### Observe warm pool Change
+#### Observe warm pool change
 
-Now, let's describe your warm pool and observe any changes. As you can see below, the instance you previously launched is no longer in your warm pool. This is because it was launched from the warm pool, into the Auto Scaling group in response to your increase in desired capacity.
+Now, let's describe the warm pool and observe any changes. As you can see below, the instance you previously launched is no longer in the warm pool. This is because it was launched from the warm pool, into the Auto Scaling group in response to your increase in desired capacity.
 
 ```bash
-aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
+aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg" --no-paginate
 ```
 
-```
+```json
 {
     "WarmPoolConfiguration": {
         "MinSize": 2,
@@ -33,9 +33,9 @@ aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
 }
 ```
 
-#### Measure Launch Speed
+#### Measure launch speed
 
-You can now measure the launch speed of the instance from the warm pool to the Auto Scaling group.
+Let's measure how long did that instance take to be ready as it moved from the warm pool to the Auto Scaling group.
 
 ```bash
 activities=$(aws autoscaling describe-scaling-activities --auto-scaling-group-name "ec2-workshop-asg" | jq -r '.Activities[0]') && \
