@@ -8,12 +8,12 @@ As a prerequisite step before creating EC2 Auto Scaling groups or EC2 Fleet, you
 launch an instance. It includes the ID of the Amazon Machine Image (AMI), the instance type, a key pair, security groups, and other parameters used to launch EC2 instances.
 
 {{% notice note %}}
-Note: During this workshop, we will use your account's default VPC to create the instances. If your account does not have a default VPC you can create or nominate one following [this link](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)
+Note: During this workshop, you use your account's default VPC to create the instances. If your account does not have a default VPC you can create or nominate one following [this link](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#create-default-vpc)
 {{% /notice %}}
 
 ### Creating a launch template
 
-1. Create **launch-template-data.json** configuration file in CloudShell by running below commands. When you examine the configuration, you notice that **ImageId** parameter has a placeholder value `%ami-id%`, and **UserData** contains a base64 encoded Webserver install steps. Once you have created the launch template you can decode to see the script content.
+1. Create **launch-template-data.json** configuration file in CloudShell by running below commands. When you examine the configuration, you notice that **ImageId** parameter has a placeholder value `%ami-id%`, and **UserData** contains a base64 encoded Webserver installation steps. Once you have created the launch template, you can describe it and decode the user-data to view the content.
 
 ```bash
 cat << EOF > launch-template-data.json
@@ -43,7 +43,7 @@ export ami_id=$(aws ec2 describe-images --owners amazon --filters "Name=name,Val
 sed -i.bak -e "s#%instanceProfile%#$instanceProfile#g" -e "s#%ami-id%#$ami_id#g" launch-template-data.json
 ```
 
-3. Create the launch template from the launch template config you just updated. You can check which other parameters Launch Templates could take [here](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
+3. Create the launch template using the config you just updated. You can check other parameters supported by launch template [here](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-launch-template.html).
 
 ```
 aws ec2 create-launch-template --launch-template-name TemplateForWebServer --launch-template-data file://launch-template-data.json
@@ -62,15 +62,15 @@ aws ec2 create-launch-template --launch-template-name TemplateForWebServer --lau
     }
 }
 ```
-3. Take a look at the user-data script configured on the launch template to understand what is installed on the instances while being bootstrapped. 
+4. Take a look at the user-data script configured on the launch template to understand what is installed on the instances while being bootstrapped. 
 
 ```
 aws ec2 describe-launch-template-versions  --launch-template-name TemplateForWebServer --output json | jq -r '.LaunchTemplateVersions[].LaunchTemplateData.UserData' | base64 --decode
 ```
 
-4. As the last step of this section, you are going to perform an additional API call to retrieve the identifier of the Launch Template that was just created and store it in an environment variable. We will use this ID when creating Auto Scaling groups, Spot Fleets, EC2 Fleets, etc.
+5. As the last step of this section, you are going to perform an additional API call to retrieve the identifier of the launch template that was just created and store it in an environment variable. You use this launch template ID when creating Auto Scaling groups, EC2 Fleets, and Spot Fleets.
 ```
 export LAUNCH_TEMPLATE_ID=$(aws ec2 describe-launch-templates --filters Name=launch-template-name,Values=TemplateForWebServer | jq -r '.LaunchTemplates[0].LaunchTemplateId')
 ```
 
-Well done! You have created a Launch Template and stored into environment variables all the details that we will need to refer to it in the next steps. Let's now move to Auto Scaling groups.
+Well done! You have created a launch template and stored into environment variables all the details that you need to refer to it in the next steps.
