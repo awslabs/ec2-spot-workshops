@@ -20,7 +20,7 @@ To ensure that no instances are added or removed by the Auto Scaling policies yo
     aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg" --desired-capacity 0
     ```
 
-#### Increase Desired Capacity
+#### Increase desired capacity
 
 **Set** the desired capacity of the Auto Scaling group to **1** to launch an instance directly into the Auto Scaling group.
 
@@ -33,7 +33,7 @@ aws autoscaling set-desired-capacity --auto-scaling-group-name "ec2-workshop-asg
 2. Click on tab **Instance management**
 
 ![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/instance-launch.png)
-#### Measure Launch Speed
+#### Measure launch speed
 
 You need to wait a few minutes for the instance to be launched by the previous step. Then run this script to measure the launch speed of the instance.
 
@@ -45,7 +45,7 @@ activity=$(echo $activities | jq -r '.Description') && \
 echo $activity Duration: $(($end_time - $start_time))"s" || echo "Current activity is still in progress.."
 ```
 
-#### Observe Launch Duration
+#### Observe launch duration
 
 Because the instance launched directly into the Auto Scaling group, all initialization actions needed to complete to prepare the instance to be placed in-service. From the results below you can see that these actions took a **long time** to complete, delaying how quickly your Auto Scaling group can scale and **increases** the application response time.
 
