@@ -23,7 +23,7 @@ Note: Currently, AWS FIS has a Service Quota of maximum of 5 resources per exper
 
 To use AWS FIS, you run experiments on your AWS resources to test your theory of how an application or system will perform under fault conditions. To run experiments, you first create an experiment template. An experiment template is the blueprint of your experiment. It contains the actions, targets, and stop conditions for the experiment. 
 
-In this section, you create 1) an IAM role that grants AWS FIS the permissions to execute the experiment, 2) create a FIS experiment template, and  3) run the experiment to trigger Spot Instance interruption.
+In this section, you 1) create an IAM role that grants AWS FIS the permissions to execute the experiment, 2) create a FIS experiment template, and  3) and run the experiment to trigger Spot Instance interruption.
 
 #### Create an IAM Role for AWS FIS
 
@@ -173,7 +173,7 @@ To run the experiment, you use `start-experiment` command to run the template cr
 aws fis start-experiment --experiment-template-id $FIS_TEMPLATE_ID
 ```
 
-After you run the experiment, you will see that 50% of the Spot Instances launched by the Auto Scaling group receive the Rebalance Recommendation signals. Note that this is less than the Service Quota of 5, which is the maximum number of EC2 Spot instance that can be interrupted by a single experiment. When the actions on this experiment is complete:
+As the result of this experiment, you see that 50% of the Spot Instances launched by the Auto Scaling group receive the Rebalance Recommendation signals. Note that this is less than the Service Quota of 5, which is the maximum number of EC2 Spot instance that can be interrupted by a single experiment. When the actions on this experiment is complete:
 
 * The target Spot Instance receives an instance rebalance recommendation signal.
 * A Spot instance interruption notice is issued two minutes before Amazon EC2 terminates your instance.

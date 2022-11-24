@@ -35,6 +35,5 @@ You can also view the Spot Savings using [AWS Cost Explorer](https://aws.amazon.
 
 ![AWS Cost Explorer](/images/launching_ec2_spot_instances/cost_explorer.png)
 
-AWS Customers have access to raw cost and usage data through the AWS Cost and Usage (AWS CUR) reports. These reports contain the most comprehensive information about your AWS usage and costs. If you’re using Spot Instances for your compute needs, then AWS CUR populates the Amazon EC2 Spot usage pricing/* columns and the product/* columns. With this data, you can calculate the past savings achieved with Spot through the AWS CUR. 
+AWS Customers have access to raw cost and usage data through the AWS Cost and Usage (AWS CUR) reports. These reports contain the most comprehensive information about your AWS usage and costs. If you’re using Spot Instances for your compute needs, then AWS CUR populates the Amazon EC2 Spot usage pricing columns and the product columns. With this data, you can calculate the past savings achieved with Spot through the AWS CUR. 
 
-For more information on Cost Management Tools, you can read the [Diving Deep into EC2 Spot Instance Cost and Operational Practices blog](https://aws.amazon.com/blogs/compute/diving-deep-into-ec2-spot-instance-cost-and-operational-practices/)
