@@ -8,15 +8,15 @@ In previous chapter you verified that the Auto Scaling group successfully foreca
 {{% /notice %}}
 
 {{% notice info %}}
-EC2 Auto Scaling does not **scale in** when the actual capacity is more than the predicted capacity. Due to this behavior you need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
+With predictive scaling, EC2 Auto Scaling does not **scale in** when the predicted capacity is lower than the actual capacity. Due to this behavior, you need to combine predictive scaling with another scaling policy to scale in capacity when it's not needed.
 {{% /notice %}}
 
-### Configure Dynamic scaling for scale in 
+### Configure Dynamic scaling for scale in and demand changes
 
-**Dynamic scaling** is used to automatically scale capacity in response to real-time changes in resource utilization. Using it with predictive scaling helps you follow the demand curve for your application closely, **scaling in** during periods of low traffic and scaling out when traffic is higher than expected.
+**Dynamic scaling** is used to automatically scale capacity in response to real-time changes in resource utilization. Using it with predictive scaling helps you follow the demand curve for your application closely, **scaling in** during periods of low traffic and scaling out when traffic is higher than expected to react to demand changes or spikes that were not forecasted by predictive scaling.
 
 {{% notice note %}}
-When **multiple** scaling policies are active, each policy determines the desired capacity independently, and the desired capacity is set to the maximum of those.
+When **multiple** scaling policies are active, each policy determines the desired capacity independently, and the desired capacity is set to the **maximum** of those.
 {{% /notice %}}
 
 In this section, you configure the Auto Scaling group to automatically scale out and scale in as your **application load** fluctuates. You use a average CPU utilization across the Auto Scaling group instances.

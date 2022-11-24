@@ -7,7 +7,7 @@ weight = 90
 You can now see that multiple instances were launched into your warm pool. This is because your warm's maximum prepared capacity is equal to the Auto Scaling group max size. Since you have one instance already in service, (Auto Scaling group max size - 1) additional instances were launched into the warm pool.
 
 ```bash
-aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg"
+aws autoscaling describe-warm-pool --auto-scaling-group-name "ec2-workshop-asg" --no-paginate 
 ```
 
 When an instance is launched into a warm pool it will transition through lifecycle states, with **Warmed:Pending**.

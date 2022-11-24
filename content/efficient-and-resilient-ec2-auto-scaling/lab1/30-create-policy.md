@@ -17,14 +17,18 @@ Predictive scaling has a **SchedulingBufferTime** parameter that  allows instanc
   ```bash
   cat ./policy-config.json
   ```
-
+Note this section in the outcome, what effect do you think the parameter **MaxCapacityBreachBehavior** could have on the Auto Scaling group capacity?
+{{% expand "Show answer" %}}
+The forecasted capacity could be higher than the Auto Scaling group maximum capacity, when it happens, the **MaxCapacityBreachBehavior** parameter defines the behavior of the Auto Scaling group. It's currently set to **HonorMaxCapacity** to enforce the maximum capacity as a hard limit. You can also set it to **IncreaseMaxCapacity** to allow exceeding the maximum capacity with an upper limit that can be set by another parameter called **MaxCapacityBuffer**
+{{% /expand %}}
 ```json
     "Mode": "ForecastAndScale",
     "SchedulingBufferTime": 300,
     "MaxCapacityBreachBehavior": "HonorMaxCapacity"
 ```
 
-2. Run this command to create the policy with the custom metrics and attach it to the auto scaling group.
+3. Run this command to create the policy with the custom metrics and attach it to the auto scaling group.
+
 ```bash
 aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-policy \
   --auto-scaling-group-name "ec2-workshop-asg" --policy-type PredictiveScaling \
@@ -33,7 +37,7 @@ aws autoscaling put-scaling-policy --policy-name workshop-predictive-scaling-pol
 
 If successful, the command should return the created policy ARN.
 
-```
+```json
 {
     "PolicyARN": "arn:aws:autoscaling:ap-southeast-2:115751184547:scalingPolicy:df0e550e-b0d6-4924-8663-d394de77b0e3:autoScalingGroupName/ec2-workshop-asg:policyName/workshop-predictive-scaling-policy",
     "Alarms": []
