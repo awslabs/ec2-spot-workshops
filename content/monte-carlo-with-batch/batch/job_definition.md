@@ -19,7 +19,7 @@ cat <<EoF > job-definition-config.json
         "image": "${IMAGE}",
         "vcpus": 1,
         "memory": 8000,
-        "command": ["Ref::action", "-b", "Ref::bucket", "-k", "Ref::key"]
+        "command": ["Ref::action", "-b", "Ref::bucket", "-k", "Ref::key", "-o", "Ref::outputUri"]
     },
     "retryStrategy": {
         "attempts": 3
