@@ -9,9 +9,9 @@ weight: 160
 1. Learned about AWS Batch, its use cases and components.
 2. Seen how easy it is to adopt Spot best practices when using AWS Batch, by defining several compute environments with the appropriate allocation strategies.
 3. Learned the different types of jobs you find in AWS Batch (array and single). Also, you have learned how to define dependencies between them and how to work with the AWS_BATCH_JOB_ARRAY_INDEX environment variable.
-4. Learned the concepts required to create a rendering pipeline using Blender and FFmpeg.
+4. Learned the concepts required to create a derivatives pricing and risk pipeline using QuantLib and AWS Lambda.
 5. Used AWS Step Functions to orchestrate the workflow of the pipeline.
-6. Built and published in ECR a Docker image that runs Blender and FFmpeg.
+6. Built and published a Docker image that prices a non-trivial derivative product using AWS Batch.
 
 
 ## Savings

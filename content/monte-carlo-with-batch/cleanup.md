@@ -19,7 +19,7 @@ To learn more about these APIs, see [Emptying a bucket](https://docs.aws.amazon.
 
 ## AWS Batch
 
-When deleting AWS Batch components, the order matters; a CE cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue. Job queues and compute environments have to be disabled bore deleting them.
+When deleting AWS Batch components, the order matters; a Compute Environment cannot be deleted if it is associated to a valid queue, so we have to start by deleting the queue. Job Queues and Compute Environments have to be disabled before deleting them.
 
 To disable the components:
 
@@ -55,4 +55,4 @@ To learn more about this API, see [deregister-job-definition CLI Command Referen
 
 ## Deleting the CloudFormation stack
 
-Deleting the CloudFormation Stack will delete all the resources it created. To do that, navigate to [CloudFormation in the AWS Console](https://console.aws.amazon.com/cloudformation/home), select the stack **RenderingWithBatch** and delete it.
+Deleting the CloudFormation Stack will delete all the resources it created. To do that, navigate to [CloudFormation in the AWS Console](https://console.aws.amazon.com/cloudformation/home), select the stack **MonteCarloWithBatch** and delete it.
