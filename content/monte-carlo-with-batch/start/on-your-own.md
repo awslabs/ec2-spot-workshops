@@ -6,7 +6,7 @@ weight: 27
 
 ## Deploying the CloudFormation stack
 
-As a first step, **download** a [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/rendering-with-batch/rendering-with-batch.files/stack.yaml) that will deploy for you the following resources:
+As a first step, **download** a [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/montecarlo-with-batch/montecarlo-with-batch.files/stack.yaml) that will deploy for you the following resources:
 
 - A VPC
 - An S3 bucket
