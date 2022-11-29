@@ -7,7 +7,7 @@ pre: "<b>11. </b>"
 ---
 
 {{% notice info %}}
-The estimated completion time of this lab is **90 minutes**. Please note that pricing the derivatives presented below can incur in costs up to **$XX**.
+The estimated completion time of this lab is **90 minutes**. Please note that pricing the derivatives presented below can incur in costs up to **$15**.
 {{% /notice %}}
 ## Overview
 
