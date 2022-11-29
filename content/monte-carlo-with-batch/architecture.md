@@ -6,7 +6,7 @@ weight: 20
 
 The following diagram illustrates what you will deploy:
 
-![Architecture diagram](/images/rendering-with-batch/architecture.png)
+![Architecture diagram](/images/montecarlo-with-batch/architecture.png)
 
 ## Pre-Requisites for this lab:
 
