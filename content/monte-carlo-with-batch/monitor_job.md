@@ -19,7 +19,7 @@ do
       break
     fi
 
-    echo "Rendering not started yet"
+    echo "Calculation not started yet"
     sleep 5
   done
 
@@ -45,35 +45,27 @@ It is normal if the progress is stuck at 0% at the beginning and after it increa
 This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
 {{% /notice %}}
 
-When the progress reaches 100%, the output video will be available in the following URL:
+When the progress reaches 100%, the aggregate PV file will be available in the following URL:
 
 ```
-echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=${JOB_NAME}/output.mp4"
+echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=aggregation_${JOB_NAME}.json"
 ```
 
-Copy the output of the command into your browser. It will take you to the S3 page where the output file `output.mp4` has been stored. You can just click on the **Download** button to download it to your own computer and play it.
-
-{{% notice warning %}}
-You will need the appropriate program and video codecs to watch the mp4 generated video. You can use [VLC media player](https://www.videolan.org/vlc/).
-{{% /notice %}}
-
-{{% notice tip %}}
-Explore also the rest of the S3 folders and check the frames that were created.
-{{% /notice %}}
+Copy the output of the command into your browser. It will take you to the S3 page where the output PV aggregation file has been stored. You can just click on the **Download** button to download it to your own computer and view it.
 
 
 ## Monitoring
 
 ### Viewing the execution of the state machine
 
-You can follow the progress of the rendering pipeline by navigating to the executions tab of the state machine. To do it:
+You can follow the progress of the pipeline by navigating to the executions tab of the state machine. To do it:
 
 1. Navigate to the AWS Step Functions service page.
-2. Select the state machine whose name begins with **RenderingPipeline**.
+2. Select the state machine whose name begins with **MonteCarloPipeline**.
 3. In the executions tab, select the first entry.
 4. In the graph inspector, you can select a state to see the input it receives and the output it produces.
 
-![AWS Step Functions console](/images/rendering-with-batch/step-functions.png)
+![AWS Step Functions console](/images/montecarlo-with-batch/step-functions.png)
 
 
 ### Viewing the logs of a job
@@ -85,14 +77,14 @@ To view the logs of a job using the console:
 3. Select the job of which you want to view the logs.
 4. Follow the link under **Log stream name** inside the **Job information** section.
 
-![AWS Batch console](/images/rendering-with-batch/logs.png)
+![AWS Batch console](/images/montecarlo-with-batch/logs.png)
 
 ### Monitoring the status of a job
 
 You can monitor the status of a job using the following command:
 
 ```
-aws batch describe-jobs --jobs "${RENDERING_JOB_ID}"
+aws batch describe-jobs --jobs "${MC_JOB_ID}"
 ```
 
 To learn more about this command, you can review the [describe-jobs CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-jobs.html).
@@ -102,7 +94,7 @@ To learn more about this command, you can review the [describe-jobs CLI command 
 You can review the configuration of a queue using the following command:
 
 ```
-aws batch describe-job-queues --job-queues "${RENDERING_QUEUE_NAME}"
+aws batch describe-job-queues --job-queues "${MC_QUEUE_NAME}"
 ```
 
 To learn more about this command, you can review the [describe-job-queues CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/batch/describe-job-queues.html).
