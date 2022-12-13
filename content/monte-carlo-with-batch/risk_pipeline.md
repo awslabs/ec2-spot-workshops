@@ -4,8 +4,6 @@ date: 2021-09-06T08:51:33Z
 weight: 30
 ---
 
-<!-- ![Rendering pipeline](/images/rendering-with-batch/pipeline.png) -->
-
 ## Overview
 
 The risk pipeline that we will implemented has two jobs: to calculate the PV of every entry in the portfolio, and to combine the results into a single output. 

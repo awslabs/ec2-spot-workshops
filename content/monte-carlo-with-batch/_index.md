@@ -14,6 +14,4 @@ The estimated completion time of this lab is **90 minutes**. Please note that pr
 In this workshop you will learn how to submit jobs with [AWS Batch](https://aws.amazon.com/batch/) following Spot best practices to price a financial derivative product using Monte Carlo methods. 
 You will be creating a Docker container and publishing it in Amazon Elastic Container Registry (ECR). You will then use that container in AWS Batch and run on [EC2 Spot](https://aws.amazon.com/ec2/spot/) instances. 
 
-
-
-
+=======
