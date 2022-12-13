@@ -5,7 +5,7 @@ hidden: true
 
 ## Reviewing the Launch Template
 
-You can check the CloudFormation stack by downloading the following file: [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/montecarlo-with-batch/montecarlo-with-batch.files/stack.yaml)
+You can check the CloudFormation stack by downloading the following file: [CloudFormation stack](https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/stack.yaml)
 
 Note that the `UserData` of the created Launch Template contains the following script:
 
