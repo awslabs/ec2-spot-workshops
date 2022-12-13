@@ -10,7 +10,7 @@ AWS Step Functions helps you orchestrate your AWS Batch jobs using serverless wo
 
 ![State machine](/images/montecarlo-with-batch/state_machine.png)
 
-You can notice that each step in the rendering pipeline has been mapped to a state. In AWS Step Functions, you can create state machines using the [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) or the [AWS Step Functions Workflow Studio](https://docs.aws.amazon.com/step-functions/latest/dg/tutorial-workflow-studio-using.html).
+You will notice that each step in the pipeline has been mapped to a state. In AWS Step Functions, you can create state machines using the [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) or the [AWS Step Functions Workflow Studio](https://docs.aws.amazon.com/step-functions/latest/dg/tutorial-workflow-studio-using.html).
 
 
 The script needs: (a) the location of the portfolio.json file, (b) the location where results will be uploaded, \(c\) the Job Definition that will be used to submit the job, (d) the Job Queue where it will be placed and (e) the name that will be used to submit it.
@@ -21,7 +21,7 @@ The state machine will:
 2. Submit a Batch array job that will run our Autocallable pricing code to PV each position.
 3. Run an AWS Lambda function to collate the individual position results into an aggregate file.
 
-To start the process, perform the following api call to pass a payload to the state machine with the job name, input path, output path, ARNs of the Job Definition and Job queue for AWS Batch to use and the number of frames each job has to render:
+To start the process, perform the following api call to pass a payload to the state machine with the job name, input path, output path, ARNs of the Job Definition and Job queue for AWS Batch to use: 
 
 ```
 export JOB_NAME="MCAutocallable"
