@@ -71,7 +71,7 @@ Let's explore the configuration parameters in the structure:
     - COUNT(n) - Run the action on the specified number of targets, chosen from the identified targets at random. For example, COUNT(1) selects one of the targets.
   - **actions**: the actions for the experiment, in this case, sending a 2-minute Spot Interruption notice to the selected instances. For more information, see [Actions](https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the Fault Injection Simulator User Guide.
   - **stopConditions**: specifies a stop condition for an experiment template. In this case, there aren't any.
-  - **roleArn**: the Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service permission to perform service actions on your behalf.
+  - **roleArn**: the Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service permission to perform service actions on your behalf.  The FISCustomRole environment variable contains the ARN of the IAM Role that was deployed in the Cloud Formation stack. That role grants AWS FIS permission to send Spot Instance interruptions.
 
 Execute this command to create the AWS FIS template from the JSON file defined above. To learn more about this API, see [create-experiment-template CLI command reference](https://docs.aws.amazon.com/cli/latest/reference/fis/create-experiment-template.html).
 
