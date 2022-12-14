@@ -15,6 +15,7 @@ As a first step, **download** a [CloudFormation stack](https://raw.githubusercon
 - An AWS Step Functions state machine
 - An instance profile for AWS Batch compute environment
 - The Cloud9 environment where you will run all the commands
+- An AWS IAM Role used by AWS Fault Injection Simulator
 
 After downloading the template, open the [CloudFormation console](https://console.aws.amazon.com/cloudformation) and on the top-right corner of the screen, click on **Create stack**. Follow the following steps:
 
