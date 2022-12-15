@@ -8,7 +8,7 @@ weight: 157
 ## Viewing the automatically retried AWS Batch jobs
 
 {{% notice note %}}
-Before you run this command, you should wait a few minutes after running the FIS experiment from the previous step. This pause allows enough time for the AWS FIS experiment to interrupt a host.
+Wait a few minutes after running the AWS FIS experiment from the previous step. This pause allows enough time for the AWS FIS experiment to interrupt a host.
 {{% /notice %}}
 
 By running this script in your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot interruption signal:
