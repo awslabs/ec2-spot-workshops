@@ -7,6 +7,10 @@ weight: 157
 
 ## Viewing the automatically retried AWS Batch jobs
 
+{{% notice note %}}
+You should wait a few minutes after running the FIS experiment from the previous step before you run this command, to give the AWS FIS experiment time to interrupt a host. The script loops through all of the rendering job's tasks to show you the results. If you do not see attempt counts greater than `1` in the results, wait a few minutes and rerun the script.
+{{% /notice %}}
+
 By running this script in your Cloud9 shell, you can see the individual render jobs and where there were multiple attempts due to the Spot interruption signal:
 
 ```
@@ -27,6 +31,10 @@ for ((x=0;x<=numJobs;x++)); do
 done
 
 ```
+
+{{% notice note %}}
+You should wait a few minutes after running the FIS experiment from the previous step before you run this command, to give the AWS FIS experiment time to interrupt a host. The script loops through all of the rendering job's tasks to show you the results. If you do not see attempt counts greater than `1` in the results, wait a few minutes and rerun the script.
+{{% /notice %}}
 
 ### Example output from the verification script:
 
