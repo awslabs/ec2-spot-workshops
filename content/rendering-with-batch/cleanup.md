@@ -1,10 +1,10 @@
 ---
 title: "Clean Up"
 date: 2021-09-06T08:51:33Z
-weight: 150
+weight: 170
 ---
 
-Before closing this workshop, let's make sure we clean up all the resources we created so we do not incur in unexpected costs.
+Before closing this workshop, let's make sure we clean up all the resources we created so we do not incur any unexpected costs.
 
 ## S3 and ECR
 
@@ -52,6 +52,15 @@ aws batch deregister-job-definition --job-definition "${JOB_DEFINITION_ARN}"
 ```
 
 To learn more about this API, see [deregister-job-definition CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/batch/deregister-job-definition.html).
+
+## AWS FIS
+
+To remove the AWS FIS template:
+```
+aws fis delete-experiment-template --id ${FIS_TEMPLATE}
+```
+
+To learn more about this API, see [delete-experiment-template CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/fis/delete-experiment-template.html).
 
 ## Deleting the CloudFormation stack
 

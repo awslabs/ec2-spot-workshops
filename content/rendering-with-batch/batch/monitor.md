@@ -42,8 +42,10 @@ It is normal if the progress is stuck at 0% at the beginning and after it increa
 {{% /notice %}}
 
 {{% notice tip %}}
-This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
+This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.
 {{% /notice %}}
+
+### Viewing the result
 
 When the progress reaches 100%, the output video will be available in the following URL:
 
@@ -60,7 +62,6 @@ You will need the appropriate program and video codecs to watch the mp4 generate
 {{% notice tip %}}
 Explore also the rest of the S3 folders and check the frames that were created.
 {{% /notice %}}
-
 
 ## Monitoring
 

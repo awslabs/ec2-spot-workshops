@@ -38,6 +38,7 @@ Let's explore the configuration parameters in the structure:
 - **vcpus**: The number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares.
 - **memory**: hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated.
 - **command**: this is the command that will be executed in the container when the job is started. It has placeholders for some parameters that will be substituted when submitting the job using AWS Batch.
+- **retryStrategy**: this sections applies a retry strategy to your job definitions that allows failed jobs to be automatically retried. to learn more about these strategies, visit [automated job retries](https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html).
 - **platformCapabilities**: the platform capabilities required by the job definition. Either `EC2` or `FARGATE`.
 
 {{% notice info %}}
