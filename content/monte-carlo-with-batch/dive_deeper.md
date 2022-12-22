@@ -2,7 +2,6 @@
 title: "Diving Deep into the technical details"
 date: 2022-12-22T08:51:33Z
 weight: 120
-hidden: True
 ---
 ## Dive Deeper
 This optional section will give you more knowledge of how the underlying technology is used to calculate our risk metrics. 
