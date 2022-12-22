@@ -10,6 +10,7 @@ node_modules/
 hugo_stats.json
 
 # Executable may be added to repository
+hugo
 hugo.exe
 hugo.darwin
 hugo.linux
