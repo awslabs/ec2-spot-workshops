@@ -24,7 +24,7 @@ When deleting AWS Batch components, the order matters; a Compute Environment can
 To disable the components:
 
 ```
-aws batch update-job-queue --job-queue "${RENDERING_QUEUE_NAME}" --state DISABLED && \
+aws batch update-job-queue --job-queue "${JOB_QUEUE_ARN}" --state DISABLED && \
 aws batch update-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}" --state DISABLED && \
 aws batch update-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}" --state DISABLED
 ```
@@ -38,7 +38,7 @@ The previous operation may take up to 2 minutes. Job queues and compute environm
 To delete the components:
 
 ```
-aws batch delete-job-queue --job-queue "${RENDERING_QUEUE_NAME}"
+aws batch delete-job-queue --job-queue "${JOB_QUEUE_ARN}"
 aws batch delete-compute-environment --compute-environment "${SPOT_COMPUTE_ENV_ARN}"
 aws batch delete-compute-environment --compute-environment "${ONDEMAND_COMPUTE_ENV_ARN}"
 ```
