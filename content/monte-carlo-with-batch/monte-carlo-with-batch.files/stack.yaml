@@ -1,320 +1,4 @@
-Parameters:
-  C9InstanceType:
-    Description: Cloud9 instance type
-    Type: String
-    Default: m5.large
-    AllowedValues:
-      - t3.small
-      - t3.medium
-      - m4.large
-      - m5.large
-    ConstraintDescription: Must be a valid Cloud9 instance type
-  # Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
-  EETeamRoleArn:
-    Description: "ARN of the Team Role"
-    Default: NONE
-    Type: String
-    ConstraintDescription: This is ONLY used Event Engine, don't change this if you are self-deploying the stack
 Resources:
-  CustomCloud9SsmCloud9Ec2EnvironmentF47DD48C:
-    Type: AWS::Cloud9::EnvironmentEC2
-    Properties:
-      InstanceType:
-        Ref: C9InstanceType
-      Tags:
-        - Key: stack-id
-          Value:
-            Ref: AWS::StackId
-      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Cloud9Ec2Environment
-  CustomCloud9SsmEc2RoleCE9ACBCB:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action: sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service:
-                Fn::Join:
-                  - ""
-                  - - ec2.
-                    - Ref: AWS::URLSuffix
-        Version: "2012-10-17"
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-      RoleName: CustomCloud9Ssm-CustomCloud9SsmEc2Role
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2Role/Resource
-  CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyDocument:
-        Statement:
-          - Action:
-              - ec2:DescribeInstances
-              - ec2:ModifyVolume
-              - ec2:DescribeVolumesModifications
-              - batch:DescribeJobQueues
-              - batch:CreateComputeEnvironment
-              - batch:DeleteComputeEnvironment
-              - batch:SubmitJob
-              - batch:UpdateComputeEnvironment
-              - batch:ListJobs
-              - batch:ListJobs
-              - ecr:*
-              - batch:DescribeComputeEnvironments
-              - cloudformation:DescribeStacks
-              - batch:DeregisterJobDefinition
-              - s3:PutObject
-              - s3:ListBucket
-              - s3:DeleteObject
-              - batch:CreateJobQueue
-              - batch:DescribeJobs
-              - batch:RegisterJobDefinition
-              - states:StartExecution
-              - batch:DescribeJobDefinitions
-              - batch:DeleteJobQueue
-              - batch:UpdateJobQueue
-              - iam:PassRole
-            Effect: Allow
-            Resource: "*"
-        Version: "2012-10-17"
-      PolicyName: CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C
-      Roles:
-        - Ref: CustomCloud9SsmEc2RoleCE9ACBCB
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2Role/DefaultPolicy/Resource
-  CustomCloud9SsmEc2InstanceProfile167B6BF8:
-    Type: AWS::IAM::InstanceProfile
-    Properties:
-      Roles:
-        - Ref: CustomCloud9SsmEc2RoleCE9ACBCB
-    DependsOn:
-      - CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C
-      - CustomCloud9SsmEc2RoleCE9ACBCB
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2InstanceProfile
-  CustomCloud9SsmSsmDocumentD052D5F9:
-    Type: AWS::SSM::Document
-    Properties:
-      Content:
-        schemaVersion: "2.2"
-        description: Bootstrap Cloud9 EC2 instance
-        mainSteps:
-          - name: ResizeEBS
-            action: aws:runShellScript
-            inputs:
-              runCommand:
-                - "#!/bin/bash"
-                - echo '=== Installing packages ==='
-                - sudo yum -y install jq
-                - sudo pip install boto3
-                - echo '=== Exporting current region ==='
-                - export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
-                - echo 'Region is ${AWS_DEFAULT_REGION}'
-                - echo '=== Gathering instance Id ==='
-                - instanceId=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.instanceId')
-                - echo 'Instance Id is ${instanceId}'
-                - echo '=== Resizing EBS volume ==='
-                - volumeId=$(aws ec2 describe-instances --instance-ids $instanceId | jq -r '.Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId')
-                - echo 'Volume Id is ${volumeId}'
-                - aws ec2 modify-volume --volume-id $volumeId --size 100
-                - echo '=== Waiting for the volume to enter the optimizing state ==='
-                - while [ true ]
-                - do
-                - modificationState=$(aws ec2 describe-volumes-modifications --volume-ids $volumeId | jq -r '.VolumesModifications[0].ModificationState')
-                - if [ $modificationState == "optimizing" ] ; then
-                - break
-                - fi
-                - sleep 5
-                - done
-                - echo '=== Resizing file system ==='
-                - sudo growpart /dev/xvda 1
-                - sudo resize2fs $(df -h |awk '/^\/dev/{print $1}')
-      DocumentType: Command
-      Name: CustomCloud9Ssm-CustomCloudSsm-SsmDocument
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/SsmDocument
-  CustomCloud9SsmSsmAssociationABF443F9:
-    Type: AWS::SSM::Association
-    Properties:
-      Name: CustomCloud9Ssm-CustomCloudSsm-SsmDocument
-      Targets:
-        - Key: tag:stack-id
-          Values:
-            - Ref: AWS::StackId
-    DependsOn:
-      - CustomCloud9SsmCloud9Ec2EnvironmentF47DD48C
-      - CustomCloud9SsmSsmDocumentD052D5F9
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/SsmAssociation
-  CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action: sts:AssumeRole
-            Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-        Version: "2012-10-17"
-      ManagedPolicyArns:
-        - Fn::Join:
-            - ""
-            - - "arn:"
-              - Ref: AWS::Partition
-              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/Resource
-  CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyDocument:
-        Statement:
-          - Action:
-              - ec2:DescribeInstances
-              - ec2:AssociateIamInstanceProfile
-              - ec2:ReplaceIamInstanceProfileAssociation
-              - ec2:RebootInstances
-              - iam:ListInstanceProfiles
-              - iam:PassRole
-              - ssm:DescribeAssociationExecutions
-              - ssm:DescribeAssociationExecutionTargets
-            Effect: Allow
-            Resource: "*"
-        Version: "2012-10-17"
-      PolicyName: CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561
-      Roles:
-        - Ref: CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/DefaultPolicy/Resource
-  CustomCloud9SsmProfileAttachLambdaFunction01DB4FFC:
-    Type: AWS::Lambda::Function
-    Properties:
-      Code:
-        ZipFile: |
-          import boto3
-          import cfnresponse
-          import time
-
-
-          def is_association_applied(association_id):
-              client = boto3.client('ssm')
-
-              # Retrieve the execution history of the association
-              response = client.describe_association_executions(
-                  AssociationId=association_id,
-                  Filters=[
-                      {
-                          'Key': 'Status',
-                          'Value': 'Success',
-                          'Type': 'EQUAL'
-                      }
-                  ]
-              )
-
-              # There are no executions yet
-              if 'AssociationExecutions' not in response or not response['AssociationExecutions']:
-                  return False
-
-              # Retrieve the targets of the execution to see if the SSM agent has picked up the EC2 instance yet
-              response = client.describe_association_execution_targets(
-                  AssociationId=association_id,
-                  ExecutionId=response['AssociationExecutions'][0]['ExecutionId'],
-                  Filters=[
-                      {
-                          'Key': 'Status',
-                          'Value': 'Success'
-                      }
-                  ]
-              )
-
-              return 'AssociationExecutionTargets' in response and response['AssociationExecutionTargets']
-
-
-          def handler(event, context):
-              if event['RequestType'] == 'Create':
-                  # Extract context variables
-                  stack_id = event['ResourceProperties']['stack_id']
-                  profile_arn = event['ResourceProperties']['profile_arn']
-                  association_id = event['ResourceProperties']['association_id']
-
-                  try:
-                      client = boto3.client('ec2')
-
-                      # Retrieve EC2 instance's identifier
-                      print('Retrieving EC2 instance Id')
-
-                      instance_id = client.describe_instances(
-                          Filters=[{'Name': 'tag:stack-id', 'Values': [stack_id]}]
-                      )['Reservations'][0]['Instances'][0]['InstanceId']
-
-                      # Associate the SSM instance profile
-                      print('Associating the SSM instance profile to the instance')
-
-                      client.associate_iam_instance_profile(
-                          IamInstanceProfile={'Arn': profile_arn},
-                          InstanceId=instance_id
-                      )
-
-                      # Reboot the instance to restart the SSM agent
-                      print('Rebooting the instance so that the SSM agent picks up the association')
-
-                      client.reboot_instances(
-                          InstanceIds=[instance_id]
-                      )
-
-                      # Wait for the SSM association to be applied
-                      while True:
-                          print('Waiting for the association to be applied')
-
-                          if is_association_applied(association_id):
-                              break
-                          else:
-                              time.sleep(5)
-                  except Exception as e:
-                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': e.args[0]})
-                      return
-
-              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
-      Role:
-        Fn::GetAtt:
-          - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
-          - Arn
-      Handler: index.handler
-      Runtime: python3.9
-      Timeout: 800
-    DependsOn:
-      - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561
-      - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/Resource
-  CustomCloud9SsmCustomResourceCD940758:
-    Type: AWS::CloudFormation::CustomResource
-    Properties:
-      ServiceToken:
-        Fn::GetAtt:
-          - CustomCloud9SsmProfileAttachLambdaFunction01DB4FFC
-          - Arn
-      stack_id:
-        Ref: AWS::StackId
-      profile_arn:
-        Fn::GetAtt:
-          - CustomCloud9SsmEc2InstanceProfile167B6BF8
-          - Arn
-      association_id:
-        Fn::GetAtt:
-          - CustomCloud9SsmSsmAssociationABF443F9
-          - AssociationId
-    DependsOn:
-      - CustomCloud9SsmEc2InstanceProfile167B6BF8
-      - CustomCloud9SsmSsmAssociationABF443F9
-    UpdateReplacePolicy: Delete
-    DeletionPolicy: Delete
-    Metadata:
-      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/CustomResource/Default
   Vpc8378EB38:
     Type: AWS::EC2::VPC
     Properties:
@@ -327,7 +11,7 @@ Resources:
           Value: MonteCarloStack/Vpc
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/Resource
-  VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0:
+  VpcMonteCarloWithBatchSubnet1SubnetACD507E2:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.0.0.0/24
@@ -347,7 +31,7 @@ Resources:
           Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/Subnet
-  VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903:
+  VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId:
@@ -357,20 +41,20 @@ Resources:
           Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/RouteTable
-  VpcMonteCarloWithBatchSubnet1RouteTableAssociation9592115F:
+  VpcMonteCarloWithBatchSubnet1RouteTableAssociation764CCDCB:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId:
-        Ref: VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903
+        Ref: VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8
       SubnetId:
-        Ref: VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0
+        Ref: VpcMonteCarloWithBatchSubnet1SubnetACD507E2
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/RouteTableAssociation
-  VpcMonteCarloWithBatchSubnet1DefaultRoute58E16100:
+  VpcMonteCarloWithBatchSubnet1DefaultRoute756AD8AE:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId:
-        Ref: VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903
+        Ref: VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId:
         Ref: VpcIGWD7BA715C
@@ -378,7 +62,7 @@ Resources:
       - VpcVPCGWBF912B6E
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/DefaultRoute
-  VpcMonteCarloWithBatchSubnet2SubnetDC61207B:
+  VpcMonteCarloWithBatchSubnet2Subnet503CB79F:
     Type: AWS::EC2::Subnet
     Properties:
       CidrBlock: 10.0.1.0/24
@@ -398,7 +82,7 @@ Resources:
           Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/Subnet
-  VpcMonteCarloWithBatchSubnet2RouteTable5DF00176:
+  VpcMonteCarloWithBatchSubnet2RouteTable38661A82:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId:
@@ -408,20 +92,20 @@ Resources:
           Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/RouteTable
-  VpcMonteCarloWithBatchSubnet2RouteTableAssociationE3297937:
+  VpcMonteCarloWithBatchSubnet2RouteTableAssociationA6624D36:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId:
-        Ref: VpcMonteCarloWithBatchSubnet2RouteTable5DF00176
+        Ref: VpcMonteCarloWithBatchSubnet2RouteTable38661A82
       SubnetId:
-        Ref: VpcMonteCarloWithBatchSubnet2SubnetDC61207B
+        Ref: VpcMonteCarloWithBatchSubnet2Subnet503CB79F
     Metadata:
       aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/RouteTableAssociation
-  VpcMonteCarloWithBatchSubnet2DefaultRoute42CB5476:
+  VpcMonteCarloWithBatchSubnet2DefaultRouteFBA27C07:
     Type: AWS::EC2::Route
     Properties:
       RouteTableId:
-        Ref: VpcMonteCarloWithBatchSubnet2RouteTable5DF00176
+        Ref: VpcMonteCarloWithBatchSubnet2RouteTable38661A82
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId:
         Ref: VpcIGWD7BA715C
@@ -459,14 +143,14 @@ Resources:
         Ref: Vpc8378EB38
     DependsOn:
       - VpcIGWD7BA715C
-      - VpcMonteCarloWithBatchSubnet1DefaultRoute58E16100
-      - VpcMonteCarloWithBatchSubnet1RouteTable1BCC3903
-      - VpcMonteCarloWithBatchSubnet1RouteTableAssociation9592115F
-      - VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0
-      - VpcMonteCarloWithBatchSubnet2DefaultRoute42CB5476
-      - VpcMonteCarloWithBatchSubnet2RouteTable5DF00176
-      - VpcMonteCarloWithBatchSubnet2RouteTableAssociationE3297937
-      - VpcMonteCarloWithBatchSubnet2SubnetDC61207B
+      - VpcMonteCarloWithBatchSubnet1DefaultRoute756AD8AE
+      - VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8
+      - VpcMonteCarloWithBatchSubnet1RouteTableAssociation764CCDCB
+      - VpcMonteCarloWithBatchSubnet1SubnetACD507E2
+      - VpcMonteCarloWithBatchSubnet2DefaultRouteFBA27C07
+      - VpcMonteCarloWithBatchSubnet2RouteTable38661A82
+      - VpcMonteCarloWithBatchSubnet2RouteTableAssociationA6624D36
+      - VpcMonteCarloWithBatchSubnet2Subnet503CB79F
       - Vpc8378EB38
       - VpcVPCGWBF912B6E
     Metadata:
@@ -599,34 +283,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Code:
-        ZipFile: |
-          import json, boto3, sys
-  
-          def download_file_from_s3(uri):
-            """Downloads the portfolio file from S3 and stores it locally.
-            Keyword arguments:
-            uri -- S3 URI of the file to download
-            """
-            uri_components = uri.split('s3://')[1].split('/')
-            bucket = uri_components[0]
-            file = uri_components[1]
-            s3 = boto3.resource('s3')
-            s3.meta.client.download_file(bucket, file, '/tmp/{}'.format(file))
-            return '/tmp/{}'.format(file), bucket, file
-  
-          def lambda_handler(event, context):
-            thefilepath, bucket, key = download_file_from_s3(event['inputUri'])
-            array_job_size = len(open(thefilepath).readlines())
-            return {
-              'statusCode': 200,
-              'body': 
-              {
-                'arrayJobSize': array_job_size,
-                'bucket': bucket,
-                'key': key
-                        
-              }
-            }
+        ZipFile: "import json, boto3, sys\n\ndef lambda_handler(event, context):\n uri = event['inputUri']\n uri_components = uri.split('s3://')[1].split('/')\n bucket = uri_components[0]\n key = uri_components[1]\n s3 = boto3.resource('s3')\n obj = s3.Object(bucket, key)\n \n raw_data = obj.get()['Body'].read().decode('utf-8') \n json_data = json.loads(raw_data)\n array_job_size = len(json_data[\"positions\"])\n return {\n   'statusCode': 200,\n   'body': \n   {\n     'arrayJobSize': array_job_size,\n     'bucket': bucket,\n     'key': key\n   }\n }"
       Role:
         Fn::GetAtt:
           - PreprocessingServiceRole532E6474
@@ -640,7 +297,70 @@ Resources:
       - PreprocessingServiceRole532E6474
     Metadata:
       aws:cdk:path: MonteCarloStack/Preprocessing/Resource
-  MonteCarloPipelineRole4AAB9C07:
+  PostprocessingServiceRole0C11EC1F:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    DependsOn:
+      - bucket43879C71
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Postprocessing/ServiceRole/Resource
+  PostprocessingServiceRoleDefaultPolicyC0902B61:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: "*"
+            Effect: Allow
+            Resource:
+              - Fn::GetAtt:
+                  - bucket43879C71
+                  - Arn
+              - Fn::Join:
+                  - ""
+                  - - Fn::GetAtt:
+                        - bucket43879C71
+                        - Arn
+                    - /*
+        Version: "2012-10-17"
+      PolicyName: PostprocessingServiceRoleDefaultPolicyC0902B61
+      Roles:
+        - Ref: PostprocessingServiceRole0C11EC1F
+    DependsOn:
+      - bucket43879C71
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Postprocessing/ServiceRole/DefaultPolicy/Resource
+  Postprocessing42790026:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: "import json, boto3, sys \n\ndef lambda_handler(event, context):\n    uri = event['outputUri'] # the location that the AWS Batch result files were written to\n    uri_components = uri.split('s3://')[1].split('/')\n    bucket = uri_components[0]\n    prefix = uri_components[1]\n    \n    s3 = boto3.resource('s3')\n    result = s3.meta.client.list_objects_v2(Bucket=bucket, Prefix=prefix)    \n\n    items = result[\"Contents\"]\n    aggregation = {} # Dictionary for aggregating by strike\n    for item in items:\n        \n        # get handle to S3 object\n        s3key = item[\"Key\"]\n        obj = s3.Object(bucket, s3key)\n        \n        # each file contains a single line of JSON containing the strike and PV\n        strike_pv_pair = obj.get()['Body'].read().decode('utf-8') \n        pair = json.loads(strike_pv_pair)\n        if pair:\n          if pair[\"strike\"] and not pair[\"strike\"] == 'null':\n            if pair[\"strike\"] in aggregation.keys():\n              aggregation[pair[\"strike\"]] += float(pair[\"pv\"])\n            else:\n              aggregation[pair[\"strike\"]] = float(pair[\"pv\"])\n          \n    # upload to S3\n    obj = s3.Object(bucket, \"aggregation_\"+prefix+\".json\")\n    obj.put(Body=(bytes(json.dumps(aggregation).encode('utf-8'))))\n\n    return {\n        'statusCode': 200,\n        'body': json.dumps(aggregation, default=str)\n    }\n"
+      Role:
+        Fn::GetAtt:
+          - PostprocessingServiceRole0C11EC1F
+          - Arn
+      Handler: index.lambda_handler
+      Runtime: python3.9
+      Timeout: 300
+    DependsOn:
+      - bucket43879C71
+      - PostprocessingServiceRoleDefaultPolicyC0902B61
+      - PostprocessingServiceRole0C11EC1F
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Postprocessing/Resource
+  MonteCarloPipelineRoleDBF0A505:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -657,7 +377,7 @@ Resources:
         Version: "2012-10-17"
     Metadata:
       aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Role/Resource
-  MonteCarloPipelineRoleDefaultPolicy951F3306:
+  MonteCarloPipelineRoleDefaultPolicy3E3E3B10:
     Type: AWS::IAM::Policy
     Properties:
       PolicyDocument:
@@ -680,15 +400,7 @@ Resources:
                     - ":"
                     - Ref: AWS::AccountId
                     - :job-definition/*
-              - Fn::Join:
-                  - ""
-                  - - "arn:"
-                    - Ref: AWS::Partition
-                    - ":batch:"
-                    - Ref: AWS::Region
-                    - ":"
-                    - Ref: AWS::AccountId
-                    - :job-queue/*
+              - $.jobQueueArn
           - Action:
               - events:PutTargets
               - events:PutRule
@@ -704,48 +416,62 @@ Resources:
                   - ":"
                   - Ref: AWS::AccountId
                   - :rule/StepFunctionsGetEventsForBatchJobsRule
+          - Action: lambda:InvokeFunction
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - Postprocessing42790026
+                - Arn
         Version: "2012-10-17"
-      PolicyName: MonteCarloPipelineRoleDefaultPolicy951F3306
+      PolicyName: MonteCarloPipelineRoleDefaultPolicy3E3E3B10
       Roles:
-        - Ref: MonteCarloPipelineRole4AAB9C07
+        - Ref: MonteCarloPipelineRoleDBF0A505
     Metadata:
       aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Role/DefaultPolicy/Resource
-  MonteCarloPipeline477A29E4:
+  MonteCarloPipeline047F16B3:
     Type: AWS::StepFunctions::StateMachine
     Properties:
       RoleArn:
         Fn::GetAtt:
-          - MonteCarloPipelineRole4AAB9C07
+          - MonteCarloPipelineRoleDBF0A505
           - Arn
       DefinitionString:
         Fn::Join:
           - ""
-          - - '{"Comment": "Workflow orchestration for a MonteCarlo pipeline using AWS Batch","StartAt":"Number of frames extraction","States":{"Number of frames extraction":{"Next":"MonteCarlo","Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","Resource":"arn:'
+          - - '{"StartAt":"Portfolio Extraction","States":{"Portfolio Extraction":{"Next":"MonteCarlo","Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","TimeoutSeconds":300,"ResultPath":"$.output","Resource":"arn:'
             - Ref: AWS::Partition
             - :states:::lambda:invoke","Parameters":{"FunctionName":"
             - Fn::GetAtt:
                 - Preprocessing329E01E4
                 - Arn
-            - '","Payload.$":"$"}, "ResultPath":"$.output"},"MonteCarlo":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName.$":"$.jobName","ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"},"Parameters":{"action":"price","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","bucket.$": "$.output.Payload.body.bucket","key.$": "$.output.Payload.body.key"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"Next":"Merge","ResultPath":"$.output"},"Merge":{"Type":"Task","Resource":"arn:aws:states:::batch:submitJob.sync","Parameters":{"JobName":"Merge","Parameters":{"action":"merge","inputUri.$":"$.outputUri","outputUri.$":"$.outputUri","framesPerJob.$":"$.framesPerJob"},"JobDefinition.$":"$.jobDefinitionArn","JobQueue.$":"$.jobQueueArn"},"End":true}}}'
+            - '","Payload.$":"$"}},"MonteCarlo":{"Next":"Merge","Type":"Task","ResultPath":"$.output","Resource":"arn:'
+            - Ref: AWS::Partition
+            - ':states:::batch:submitJob.sync","Parameters":{"JobDefinition.$":"$.jobDefinitionArn","JobName.$":"$.jobName","JobQueue.$":"$.jobQueueArn","Parameters":{"action":"price","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","bucket.$":"$.output.Payload.body.bucket","key.$":"$.output.Payload.body.key"},"ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"}}},"Merge":{"End":true,"Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","TimeoutSeconds":300,"Resource":"arn:'
+            - Ref: AWS::Partition
+            - :states:::lambda:invoke","Parameters":{"FunctionName":"
+            - Fn::GetAtt:
+                - Postprocessing42790026
+                - Arn
+            - '","Payload.$":"$"}}},"TimeoutSeconds":86400}'
     DependsOn:
-      - MonteCarloPipelineRoleDefaultPolicy951F3306
-      - MonteCarloPipelineRole4AAB9C07
+      - MonteCarloPipelineRoleDefaultPolicy3E3E3B10
+      - MonteCarloPipelineRoleDBF0A505
     Metadata:
       aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Resource
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
-      Analytics: v2:deflate64:H4sIAAAAAAAA/11RwW7CMAz9Fu4h2+DEkXUMMW1aVRBXlKZGzdrGVeKAqqr/vqRhK9sp9rPj9/y84Ev+OBNXO5dFNa9Vzvs9CVkxD516WaMrVjw5642+KIO6AU2bZMGUaHifYQ3M18Y3xVrJLqRTtNOWhJaQGjyrGgZmrf/mCy8oXRgVmtbWolSCFOqB1aLJC8H7V6dlQELDTzwwkAveH1sZ0GOasNTlnmrvcg3jqCnK0BEcRB4FRnzC7ih/m6NeAuM7t4LgKrobzS1bk/elHFXvQTqjqNsadO1I8Ad4F15xeYCmrUUc/BcJixhvH7RoFaEZiabM27Tk/bOTVdwlRh4laM83L+yJhK2sbxMkS79fo+gNc08d/NvpC1bw78d4WIIPv4TS0Za7fBhYBhadkb7kLGEzpUHcFH86at0oLEFdqHiZtKMS9cOSr/jT7MsqNTdOk2qAZ/H9BoXDYZRoAgAA
+      Analytics: v2:deflate64:H4sIAAAAAAAA/11RwW7CMAz9Fu4hm0CatCMgDTExrSqIK3KDUUPbuEqcIRT13xcaWGEnPz/H8fPzRE7l6wjObqwO1bjWhQwbBlWJSO0DqokMu1aJxdHssoXIfFFrtfGFQb5yA8rJM26hqHHgB27mHCkNrMn8Pb6ClWG08eUSGM9wuY25ZTOOQsoGDYsNKm81X5aWfNsPeCLW4I0qt9i0NaSPn5lOoLIy5NiS00y2HzRkndDQxDIl8fe4Mo7BKMwsHXWkMoq7960JdcJNZZh7VSULEupEDU1xABk+ooT7xnccexjb4y1zewZXORnWfcvK/FCFYg6syuhgo/mTin8d/XkYv6Iz2iSvH/KuEzk68lb1pW/PrU/neWAXZA46ickuXJJ5mcp3+TY6Oa3H1hvWDco8xV/AY8aoHwIAAA==
     Metadata:
       aws:cdk:path: MonteCarloStack/CDKMetadata/Default
     Condition: CDKMetadataAvailable
 Outputs:
   Subnet1:
     Value:
-      Ref: VpcMonteCarloWithBatchSubnet1SubnetADE6DAA0
+      Ref: VpcMonteCarloWithBatchSubnet1SubnetACD507E2
   Subnet2:
     Value:
-      Ref: VpcMonteCarloWithBatchSubnet2SubnetDC61207B
+      Ref: VpcMonteCarloWithBatchSubnet2Subnet503CB79F
   LaunchTemplateName:
     Value: MonteCarloWithBatch
   RepositoryName:
@@ -764,11 +490,13 @@ Outputs:
   PreprocessingLambda:
     Value:
       Ref: Preprocessing329E01E4
+  PostprocessingLambda:
+    Value:
+      Ref: Postprocessing42790026
   StateMachineArn:
     Value:
-      Ref: MonteCarloPipeline477A29E4
+      Ref: MonteCarloPipeline047F16B3
 Conditions:
-  NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
   CDKMetadataAvailable:
     Fn::Or:
       - Fn::Or:

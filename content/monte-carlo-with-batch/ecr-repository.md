@@ -17,9 +17,9 @@ If you want to learn more about containers, read [this containers deep dive](htt
 
 ### Download image files
 
-To create the Docker image you will need two files; the DockerFile, which is a text document that contains all the commands a user could call on the command line to assemble an image, and the bash script that will be executed when running the Docker container.
+To create the Docker image you will need three files: the DockerFile, which is a text document that contains all the commands a user could call on the command line to assemble an image, a requirements file for Python dependencies, and the bash script that will be executed when running the Docker container.
 
-Download both files executing these commands:
+Download the files by executing these commands:
 
 ```
 wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/Dockerfile"
