@@ -8,7 +8,7 @@ weight: 30
 
 The risk pipeline that we will implemented has two jobs: to calculate the PV of every entry in the portfolio, and to combine the results into a single output. 
 
-We will be pricing a portfolio of (https://www.risk.net/definition/autocallable)[autocallables], using QuantLib.
+We will be pricing a portfolio of [autocallables](https://www.risk.net/definition/autocallable), using QuantLib.
 
 
 ### Uploading the portfolio file
