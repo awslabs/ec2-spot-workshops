@@ -1,4 +1,302 @@
 Resources:
+  CustomCloud9SsmCloud9Ec2EnvironmentF47DD48C:
+    Type: AWS::Cloud9::EnvironmentEC2
+    Properties:
+      InstanceType: t3.large
+      Tags:
+        - Key: stack-id
+          Value:
+            Ref: AWS::StackId
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Cloud9Ec2Environment
+  CustomCloud9SsmEc2RoleCE9ACBCB:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      RoleName: CustomCloud9Ssm-CustomCloud9SsmEc2Role
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2Role/Resource
+  CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ec2:DescribeInstances
+              - ec2:ModifyVolume
+              - ec2:DescribeVolumesModifications
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - batch:DescribeJobQueues
+              - batch:CreateComputeEnvironment
+              - batch:DeleteComputeEnvironment
+              - batch:SubmitJob
+              - batch:UpdateComputeEnvironment
+              - batch:ListJobs
+              - batch:DescribeComputeEnvironments
+              - batch:DeregisterJobDefinition
+              - batch:CreateJobQueue
+              - batch:DescribeJobs
+              - batch:RegisterJobDefinition
+              - batch:DescribeJobDefinitions
+              - batch:DeleteJobQueue
+              - batch:UpdateJobQueue
+              - cloudformation:DescribeStacks
+              - s3:PutObject
+              - s3:ListBucket
+              - s3:DeleteObject
+              - ecr:*
+              - states:StartExecution
+              - iam:PassRole
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C
+      Roles:
+        - Ref: CustomCloud9SsmEc2RoleCE9ACBCB
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2Role/DefaultPolicy/Resource
+  CustomCloud9SsmEc2InstanceProfile167B6BF8:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: CustomCloud9SsmEc2RoleCE9ACBCB
+    DependsOn:
+      - CustomCloud9SsmEc2RoleDefaultPolicy92A07C4C
+      - CustomCloud9SsmEc2RoleCE9ACBCB
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/Ec2InstanceProfile
+  CustomCloud9SsmSsmDocumentD052D5F9:
+    Type: AWS::SSM::Document
+    Properties:
+      Content:
+        schemaVersion: "2.2"
+        description: Bootstrap Cloud9 EC2 instance
+        mainSteps:
+          - name: ResizeEBS
+            action: aws:runShellScript
+            inputs:
+              runCommand:
+                - "#!/bin/bash"
+                - echo '=== Installing jq ==='
+                - sudo yum -y install jq
+                - echo '=== Exporting current region ==='
+                - export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+                - echo 'Region is ${AWS_DEFAULT_REGION}'
+                - echo '=== Gathering instance Id ==='
+                - instanceId=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.instanceId')
+                - echo 'Instance Id is ${instanceId}'
+                - echo '=== Resizing EBS volume ==='
+                - volumeId=$(aws ec2 describe-instances --instance-ids $instanceId | jq -r '.Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId')
+                - echo 'Volume Id is ${volumeId}'
+                - aws ec2 modify-volume --volume-id $volumeId --size 100
+                - echo '=== Waiting for the volume to enter the optimizing state ==='
+                - while [ true ]
+                - do
+                - modificationState=$(aws ec2 describe-volumes-modifications --volume-ids $volumeId | jq -r '.VolumesModifications[0].ModificationState')
+                - if [ $modificationState == "optimizing" ] ; then
+                - break
+                - fi
+                - sleep 5
+                - done
+                - echo '=== Resizing file system ==='
+                - sudo growpart /dev/xvda 1
+                - sudo resize2fs $(df -h |awk '/^\/dev/{print $1}')
+      DocumentType: Command
+      Name: CustomCloud9Ssm-CustomCloudSsm-SsmDocument
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/SsmDocument
+  CustomCloud9SsmSsmAssociationABF443F9:
+    Type: AWS::SSM::Association
+    Properties:
+      Name: CustomCloud9Ssm-CustomCloudSsm-SsmDocument
+      Targets:
+        - Key: tag:stack-id
+          Values:
+            - Ref: AWS::StackId
+    DependsOn:
+      - CustomCloud9SsmCloud9Ec2EnvironmentF47DD48C
+      - CustomCloud9SsmSsmDocumentD052D5F9
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/SsmAssociation
+  CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/Resource
+  CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ec2:DescribeInstances
+              - ec2:AssociateIamInstanceProfile
+              - ec2:ReplaceIamInstanceProfileAssociation
+              - ec2:RebootInstances
+              - iam:ListInstanceProfiles
+              - iam:PassRole
+              - ssm:DescribeAssociationExecutions
+              - ssm:DescribeAssociationExecutionTargets
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561
+      Roles:
+        - Ref: CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/ServiceRole/DefaultPolicy/Resource
+  CustomCloud9SsmProfileAttachLambdaFunction01DB4FFC:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import time
+
+
+          def is_association_applied(association_id):
+              client = boto3.client('ssm')
+
+              # Retrieve the execution history of the association
+              response = client.describe_association_executions(
+                  AssociationId=association_id,
+                  Filters=[
+                      {
+                          'Key': 'Status',
+                          'Value': 'Success',
+                          'Type': 'EQUAL'
+                      }
+                  ]
+              )
+
+              # There are no executions yet
+              if 'AssociationExecutions' not in response or not response['AssociationExecutions']:
+                  return False
+
+              # Retrieve the targets of the execution to see if the SSM agent has picked up the EC2 instance yet
+              response = client.describe_association_execution_targets(
+                  AssociationId=association_id,
+                  ExecutionId=response['AssociationExecutions'][0]['ExecutionId'],
+                  Filters=[
+                      {
+                          'Key': 'Status',
+                          'Value': 'Success'
+                      }
+                  ]
+              )
+
+              return 'AssociationExecutionTargets' in response and response['AssociationExecutionTargets']
+
+
+          def handler(event, context):
+              if event['RequestType'] == 'Create':
+                  # Extract context variables
+                  stack_id = event['ResourceProperties']['stack_id']
+                  profile_arn = event['ResourceProperties']['profile_arn']
+                  association_id = event['ResourceProperties']['association_id']
+
+                  try:
+                      client = boto3.client('ec2')
+
+                      # Retrieve EC2 instance's identifier
+                      print('Retrieving EC2 instance Id')
+
+                      instance_id = client.describe_instances(
+                          Filters=[{'Name': 'tag:stack-id', 'Values': [stack_id]}]
+                      )['Reservations'][0]['Instances'][0]['InstanceId']
+
+                      # Associate the SSM instance profile
+                      print('Associating the SSM instance profile to the instance')
+
+                      client.associate_iam_instance_profile(
+                          IamInstanceProfile={'Arn': profile_arn},
+                          InstanceId=instance_id
+                      )
+
+                      # Reboot the instance to restart the SSM agent
+                      print('Rebooting the instance so that the SSM agent picks up the association')
+
+                      client.reboot_instances(
+                          InstanceIds=[instance_id]
+                      )
+
+                      # Wait for the SSM association to be applied
+                      while True:
+                          print('Waiting for the association to be applied')
+
+                          if is_association_applied(association_id):
+                              break
+                          else:
+                              time.sleep(5)
+                  except Exception as e:
+                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': e.args[0]})
+                      return
+
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+      Role:
+        Fn::GetAtt:
+          - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
+          - Arn
+      Handler: index.handler
+      Runtime: python3.6
+      Timeout: 800
+    DependsOn:
+      - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561
+      - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/ProfileAttachLambdaFunction/Resource
+  CustomCloud9SsmCustomResourceCD940758:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - CustomCloud9SsmProfileAttachLambdaFunction01DB4FFC
+          - Arn
+      stack_id:
+        Ref: AWS::StackId
+      profile_arn:
+        Fn::GetAtt:
+          - CustomCloud9SsmEc2InstanceProfile167B6BF8
+          - Arn
+      association_id:
+        Fn::GetAtt:
+          - CustomCloud9SsmSsmAssociationABF443F9
+          - AssociationId
+    DependsOn:
+      - CustomCloud9SsmEc2InstanceProfile167B6BF8
+      - CustomCloud9SsmSsmAssociationABF443F9
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CustomCloud9Ssm/CustomResource/Default
   Vpc8378EB38:
     Type: AWS::EC2::VPC
     Properties:
@@ -400,6 +698,15 @@ Resources:
                     - ":"
                     - Ref: AWS::AccountId
                     - :job-definition/*
+              - Fn::Join:
+                  - ""
+                  - - "arn:"
+                    - Ref: AWS::Partition
+                    - ":batch:"
+                    - Ref: AWS::Region
+                    - ":"
+                    - Ref: AWS::AccountId
+                    - :job-queue/*            
           - Action:
               - events:PutTargets
               - events:PutRule
@@ -460,7 +767,7 @@ Resources:
   CDKMetadata:
     Type: AWS::CDK::Metadata
     Properties:
-      Analytics: v2:deflate64:H4sIAAAAAAAA/11RwW7CMAz9Fu4hm0CatCMgDTExrSqIK3KDUUPbuEqcIRT13xcaWGEnPz/H8fPzRE7l6wjObqwO1bjWhQwbBlWJSO0DqokMu1aJxdHssoXIfFFrtfGFQb5yA8rJM26hqHHgB27mHCkNrMn8Pb6ClWG08eUSGM9wuY25ZTOOQsoGDYsNKm81X5aWfNsPeCLW4I0qt9i0NaSPn5lOoLIy5NiS00y2HzRkndDQxDIl8fe4Mo7BKMwsHXWkMoq7960JdcJNZZh7VSULEupEDU1xABk+ooT7xnccexjb4y1zewZXORnWfcvK/FCFYg6syuhgo/mTin8d/XkYv6Iz2iSvH/KuEzk68lb1pW/PrU/neWAXZA46ickuXJJ5mcp3+TY6Oa3H1hvWDco8xV/AY8aoHwIAAA==
+      Analytics: v2:deflate64:H4sIAAAAAAAA/11RwW7CMAz9Fu4h20DTtCN0DDExrSqIK0pTo2Zt4ypxQFXVf1/asBV2iv3s+D0/z/icP07ExU5lVkxLlfJ2R0IWzEPHVpboslcenfRKn5VBXYGmVTRjSlS8TbAE5mvDG2OpZNOnY7TRloSWEBs8qRI6Zq3/5gtvKF0/qm9aWItSCVKoO1aKKs0Eb9+dlj3SN/zGHQM54+2hlj16iCMWu9RT7VyqYRg1Rgk6gr1Ig8CAj9gN5V9z0EtgfOdaEFxEc6W5ZgvyvuSD6h1IZxQ1a4OuHgjugK3wivM9VHUpwuB7pF/EePugRqsIzUA0Zt6mOW+XThZhlxB5lKA+Xb2wRxK2sLzdDoZt9BkLYEtBMvfLVoo+MP33YzgswadfQulgy03edSwBi85IX3KWsBrTXtwYfzmq3SAsQp2pcJm4oRz1w5y/8KfnybdVamqcJlUBT8L7Awj4WL1pAgAA
     Metadata:
       aws:cdk:path: MonteCarloStack/CDKMetadata/Default
     Condition: CDKMetadataAvailable
