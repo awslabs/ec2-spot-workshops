@@ -400,7 +400,6 @@ Resources:
                     - ":"
                     - Ref: AWS::AccountId
                     - :job-definition/*
-              - $.jobQueueArn
           - Action:
               - events:PutTargets
               - events:PutRule
