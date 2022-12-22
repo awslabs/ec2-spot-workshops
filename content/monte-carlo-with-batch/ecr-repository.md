@@ -28,7 +28,7 @@ wget "https://raw.githubusercontent.com/magriggs/ec2-spot-workshops/master/conte
 ```
 
 ### Optional: Take a look under the hood
-The three files you just downloaded help create and then execute a Docker container that will perform the risk calculations. If you're interested, you can [dive deeper](monte-carlo-with-batch.files/docker-files/dive_deeper.md).
+The three files you just downloaded help create and then execute a Docker container that will perform the risk calculations. If you're interested, you can [dive deeper](dive_deeper.md).
 
 ### Push the image to ECR
 
