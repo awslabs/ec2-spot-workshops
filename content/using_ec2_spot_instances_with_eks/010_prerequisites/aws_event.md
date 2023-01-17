@@ -79,7 +79,7 @@ aws sts get-caller-identity
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/at_an_aws_validaterole.md" %}}
 
 {{% notice note %}}
-Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/020_eksctl/test.md"  >}})**
+Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/021_terraform/test.md"  >}})**
 {{% /notice %}}
 
 {{% /expand%}}
