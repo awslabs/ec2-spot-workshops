@@ -9,7 +9,7 @@ draft: false
 If you are starting with **self managed Spot workers** chapter directly and planning to run only self managed node groups with Spot Instances, then first complete below chapters and then return back here:<br>
 <br>
 [Start the workshop]({{< relref "/using_ec2_spot_instances_with_eks/010_prerequisites" >}})<br>
-[Launch using eksctl]({{< relref "/using_ec2_spot_instances_with_eks/020_eksctl" >}})<br>
+[Launch using Terraform]({{< relref "/using_ec2_spot_instances_with_eks/021_terraform" >}})<br>
 [Install Kubernetes Tools]({{< relref "/using_ec2_spot_instances_with_eks/030_k8s_tools" >}})<br>
 [Select Instance Types for Diversification]({{< relref "/using_ec2_spot_instances_with_eks/040_eksmanagednodegroupswithspot/selecting_instance_types.md" >}})
 
