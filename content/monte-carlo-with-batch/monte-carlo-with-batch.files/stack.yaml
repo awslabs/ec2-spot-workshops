@@ -266,7 +266,7 @@ Resources:
           - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
           - Arn
       Handler: index.handler
-      Runtime: python3.6
+      Runtime: python3.9
       Timeout: 800
     DependsOn:
       - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleDefaultPolicy9CC20561
