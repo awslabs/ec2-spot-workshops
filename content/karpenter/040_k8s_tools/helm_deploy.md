@@ -40,12 +40,3 @@ We can verify the version
 ```
 helm version --short
 ```
-
-Finally, let's configure Bash completion for the `helm` command:
-
-```
-helm completion bash >> ~/.bash_completion
-. /etc/profile.d/bash_completion.sh
-. ~/.bash_completion
-source <(helm completion bash)
-```
