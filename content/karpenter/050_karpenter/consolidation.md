@@ -245,7 +245,7 @@ Run the following command to set the number of replicas to 6
 kubectl scale deployment inflate --replicas 3
 ```
 
-For spot nodes, Karpenter only uses the **Delete** consolidation mechanism. It will not replace a spot node with a cheaper spot node. Spot instance types are selected with the `price-capacity-optimized` strategy and often the cheapest spot instance type is not launched due to the likelihood of interruption. Consolidation would then replace the spot instance with a cheaper instance negating the `price-capacity-optimized` strategy entirely and increasing interruption rate.
+For spot nodes, Karpenter only uses the **Deletion** consolidation mechanism. It will not replace a spot node with a cheaper spot node. Spot instance types are selected with the `price-capacity-optimized` strategy and often the cheapest spot instance type is not launched due to the likelihood of interruption. Consolidation would then replace the spot instance with a cheaper instance negating the `price-capacity-optimized` strategy entirely and increasing interruption rate.
 
 Effectively no changes will happen at this stage with your cluster.
 {{% /expand %}}
