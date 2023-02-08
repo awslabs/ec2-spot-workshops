@@ -9,10 +9,10 @@ draft: false
 
 Use the AWS Management Console to inspect the managed node groups deployed in your Kubernetes cluster. 
 
-* Go to **Elastic Kubernetes Service** >> click on **Clusters** >> select **eksworkshop-eksctl** cluster >> select **Configuration** tab >> go to **Compute** tab in the bottom pane.
+* Go to **Elastic Kubernetes Service** >> click on **Clusters** >> select **eksspotworkshop** cluster >> select **Configuration** tab >> go to **Compute** tab in the bottom pane.
 * You can see 3 node groups created; one On-Demand node group and two Spot node groups.
 * Click on **mng-spot-4vcpu-16gb** node group and you can see the instance types we selected in earlier section.
-* Click on the Auto Scaling Group name in the **Details** tab. Scroll to the Purchase options and instance types settings. Note how Spot best practices are applied out of the box:
+* Click on the `Auto Scaling Group name` in the **Details** tab. Scroll to the Purchase options and instance types settings. Note how Spot best practices are applied out of the box:
     * **Capacity Optimized** allocation strategy, which will launch Spot Instances from the most-available spare capacity pools. This results in minimizing the Spot Interruptions.
     * **Capacity Rebalance** helps EKS managed node groups manage the lifecycle of the Spot Instance by proactively replacing instances that are at higher risk of being interrupted. Node groups use Auto Scaling Group's Capacity Rebalance feature to launch replacement nodes in response to Rebalance Recommendation notice, thus proactively maintaining desired node capacity.
 
