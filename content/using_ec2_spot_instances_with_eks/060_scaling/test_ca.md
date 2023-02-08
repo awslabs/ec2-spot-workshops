@@ -21,7 +21,7 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 {{%expand "Show me how to tail Cluster Autoscaler logs" %}}
 Execute the following command on Cloud9 terminal
 ```
-kubectl logs -f deployment/cluster-autoscaler -n kube-system --tail=10
+kubectl logs -f deployment/cluster-autoscaler-aws-cluster-autoscaler -n kube-system --tail=10
 ```
 {{% /expand %}}
 
@@ -39,7 +39,7 @@ kubectl scale deployment/monte-carlo-pi-service --replicas=0
 {{%expand "Show me the answer" %}}
 The configuration that we applied to procure our node groups states that the minimum number of instances in the auto scaling group is 0 for both node groups. Starting from `1.14` version Cluster Autoscaler supports scaling down to 0. 
 
-By setting the number of replicas to 0, Cluster Autoscaler will detect that the current instances are idle and can be removed to the minSize of the Auto Scaling Group. This may take up to 3 minutes. Cluster autoscaler will log lines such as the one below flagging that the instance is unneeded. 
+By setting the number of replicas to 0, Cluster Autoscaler will detect that the current instances are idle and can be removed to the `min_size` of the Auto Scaling Group. This may take up to 3 minutes. Cluster autoscaler will log lines such as the one below flagging that the instance is unneeded. 
 
 ```
 I1120 00:22:37.204988       1 static_autoscaler.go:382] ip-192-168-54-241.eu-west-1.compute.internal is unneeded since 2021-03-20 00:21:16.651612719 +0000 UTC m=+4789.747568996 duration 1m20.552551794s
@@ -56,9 +56,7 @@ ip-192-168-165-163.ap-southeast-1.compute.internal   Ready    <none>   4h1m   v1
 ip-192-168-99-237.ap-southeast-1.compute.internal    Ready    <none>   4h1m   v1.21.4-eks-033ce7e   ON_DEMAND
 ```
 
-{{% notice tip %}}
-Check in the AWS console that Spot auto-scaling groups have now the Desired capacity set to 0. You can **[follow this link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details)** to get into the Auto Scaling Group AWS console.
-{{% /notice %}}
+**NOTE:** Check in the AWS console that Spot auto-scaling groups have now the Desired capacity set to 0. You can **[follow this link](https://console.aws.amazon.com/ec2/autoscaling/home?#AutoScalingGroups:filter=eksctl-eksworkshop-eksctl-nodegroup-dev;view=details)** to get into the Auto Scaling Group AWS console. If there's a node group that haven't scale down yet, and you want to confirm this behavior, you might need to wait around 10 more minutes.
 
 {{% /expand %}}
 
@@ -116,7 +114,7 @@ Kube-ops-view, will show pending yellow pods outside the node.
 
 When inspecting cluster-autoscaler logs with the command line below.
 ```
-kubectl logs -f deployment/cluster-autoscaler -n kube-system
+kubectl logs -f deployment/cluster-autoscaler-aws-cluster-autoscaler -n kube-system
 ```
 you will notice Cluster Autoscaler events similar to:
 ![CA Scale Up events](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-up2.png)
@@ -131,11 +129,9 @@ You can verify in AWS Management Console to confirm that the Auto Scaling groups
 
 ![Scale Up](/images/using_ec2_spot_instances_with_eks/scaling/scaling-asg-20.png)
 
-{{% notice info %}}
-Cluster Autoscaler expands capacity according to the [**Expander**](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) configuration. By default, Cluster Autoscaler uses the **random** expander. This means that there is equal probability of cluster autoscaler selecting the 4vCPUs 16GB RAM group or the 8vCPUs 32GB RAM group. You may consider also using other expanders like **least-waste**, or the **priority** expander.
-{{% /notice %}}
+**NOTE:** Cluster Autoscaler expands capacity according to the [**Expander**](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) configuration. By default, Cluster Autoscaler uses the **random** expander. This means that there is equal probability of cluster autoscaler selecting the 4vCPUs 16GB RAM group or the 8vCPUs 32GB RAM group. You may consider also using other expanders like **least-waste**, or the **priority** expander.
 
-As for the EC2 Instance type that was selected, by default the Auto Scaling groups that we created with eksctl use [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies), this makes the Auto Scaling group procure capacity from the pools that has less chances of interruptions.
+As for the EC2 Instance type that was selected, by default the Auto Scaling groups that we created use the [capacity-optimized allocation strategy](https://docs.aws.amazon.com/en_pv/autoscaling/ec2/userguide/asg-purchase-options.html#asg-allocation-strategies), this makes the Auto Scaling group procure capacity from the pools that has less chances of interruptions.
 
 {{% /expand %}}
 

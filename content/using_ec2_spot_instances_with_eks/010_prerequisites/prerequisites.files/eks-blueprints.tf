@@ -114,14 +114,17 @@ module "eks_blueprints" {
       max_size        = 3
       desired_size    = 2
       min_size        = 0
-      create_iam_role = false # Changing `create_iam_role=false` to bring your own IAM Role
+      create_iam_role = false
       iam_role_arn    = aws_iam_role.managed_ng.arn
-      disk_size       = 100 # Disk size is used only with Managed Node Groups without Launch Templates
+      disk_size       = 100
       update_config = [{
         max_unavailable_percentage = 30
       }]
-      launch_template_os = "amazonlinux2eks" # amazonlinux2eks or bottlerocket
-      kubelet_extra_args = "--node-labels=intent=control-apps"
+      launch_template_os = "amazonlinux2eks"
+
+      k8s_labels = {
+        intent = "control-apps"
+      }
     },
 
     // ### -->> SPOT NODE GROUPS GO HERE <<--- ###

@@ -11,42 +11,30 @@ We will start by deploying [Cluster Autoscaler](https://github.com/kubernetes/au
 * **Auto-Discovery** - This is what we will use
 * Master Node setup
 
-In this workshop we will configure Cluster Autoscaler to scale using **[Cluster Autoscaler Auto-Discovery functionality](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md)**. When configured in Auto-Discovery mode on AWS, Cluster Autoscaler will look for Auto Scaling groups that match a set of pre-set AWS tags. As a convention we use the tags : `k8s.io/cluster-autoscaler/enabled`, and `k8s.io/cluster-autoscaler/eksworkshop-eksctl` .
-
-This will select the two Auto Scaling groups that have been created for Spot Instances.
-
-{{% notice note %}}
-The  **[following link](https://console.aws.amazon.com/ec2autoscaling/home?#/details)** should take you to the
-Auto Scaling groups console. Type 'eks' in the search bar to see managed node groups we created previously . Verify 
-the tags `k8s.io/cluster-autoscaler/enabled`, and `k8s.io/cluster-autoscaler/eksworkshop-eksctl` are present 
-in all managed node groups. These tags were automatically added by EKS upon the creation of managed node groups.
-{{% /notice %}}
-
-We have provided a manifest file to deploy the CA. Copy the commands below into your Cloud9 Terminal. 
-
-```
-mkdir -p ~/environment/cluster-autoscaler
-curl -o ~/environment/cluster-autoscaler/cluster_autoscaler.yml https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/060_scaling/deploy_ca.files/cluster_autoscaler.yml
-sed -i "s/--AWS_REGION--/${AWS_REGION}/g" ~/environment/cluster-autoscaler/cluster_autoscaler.yml
-```
+In this workshop we will configure Cluster Autoscaler to scale using **[Cluster Autoscaler Auto-Discovery functionality](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md)**. When configured in Auto-Discovery mode on AWS, Cluster Autoscaler will call the EKS DescribeNodegroup API to get the information it needs about managed node group resources, labels, and taints. 
 
 ### Deploy the Cluster Autoscaler
+Let's take advantage of using EKS Blueprints, and simply enable the Cluster Autoscaler addon.
 
-{{% notice info %}}
-You are encouraged to look at the configuration that you downloaded for cluster autoscaler in the directory `cluster-autoscaler` and find out about some of the parameter we are passing to it. The full list of parameters can be found in **[Cluster Autoscaler documentation](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-the-parameters-to-ca)**. 
-{{% /notice %}}
+Go to the `eks_blueprints_kubernetes_addons` section in the Terraform template, below the `enable_metrics_server = true` line, include the following lines:
+
+```  
+  enable_cluster_autoscaler = true
+```
+
+To apply this change with Terraform, run the following commands:
+
+```
+terraform fmt
+terraform apply --auto-approve
+```
 
 Cluster Autoscaler gets deployed like any other pod. In this case we will use the **[kube-system namespace](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)**, similar to what we do with other management pods.
 
-```
-kubectl apply -f ~/environment/cluster-autoscaler/cluster_autoscaler.yml
-```
-
 To watch Cluster Autoscaler logs we can use the following command:
+
 ```
-kubectl logs -f deployment/cluster-autoscaler -n kube-system --tail=10
+kubectl logs -f deployment/cluster-autoscaler-aws-cluster-autoscaler -n kube-system --tail=10
 ```
 
-#### We are now ready to scale our cluster !!
-
-{{%attachments title="Related files" pattern=".yml"/%}}
+We are now ready to scale our cluster!!

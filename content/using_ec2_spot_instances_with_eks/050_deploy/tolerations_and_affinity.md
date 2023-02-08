@@ -6,7 +6,7 @@ weight: 20
 
 ## Add Tolerations
 
-In the previous chapter [Create EKS managed node groups with Spot capacity]({{< ref "/using_ec2_spot_instances_with_eks/040_eksmanagednodegroupswithspot/workers_eksctl.md" >}}) we added a taint `spotInstance: "true:PreferNoSchedule"` to both node groups. **PreferNoSchedule** is used to indicate we prefer pods not to be scheduled on Spot Instances. **NoSchedule** can also be used to enforce a hard discrimination as a taint. To overcome this taint, we need to add a toleration in the deployment. Read about how [tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) are applied and modify the **monte-carlo-pi-service.yml** file accordingly.
+In the previous chapter [Create EKS managed node groups with Spot capacity]({{< ref "/using_ec2_spot_instances_with_eks/040_eksmanagednodegroupswithspot/workers_terraform.md" >}}) we added a taint `spotInstance: "true:PreferNoSchedule"` to both node groups. **PreferNoSchedule** is used to indicate we prefer pods not to be scheduled on Spot Instances. **NoSchedule** can also be used to enforce a hard discrimination as a taint. To overcome this taint, we need to add a toleration in the deployment. Read about how [tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) are applied and modify the **monte-carlo-pi-service.yml** file accordingly.
 
 {{%expand "Show me a hint for implementing this." %}}
 As per the [tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/) documentation 
