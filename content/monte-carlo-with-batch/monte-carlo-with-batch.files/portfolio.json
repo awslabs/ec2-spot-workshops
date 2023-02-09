@@ -40,6 +40,205 @@
             "notional": 10000000,
             "strike": 3350,
             "barrier": 0.98
+        },
+                {
+            "notional": 10000000,
+            "strike": 3500,
+            "barrier": 1.0
+        },
+           {
+            "notional": 10000000,
+            "strike": 3550,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3750,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.92
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.93
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.94
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.99
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.98
+        },
+                {
+            "notional": 10000000,
+            "strike": 3500,
+            "barrier": 1.0
+        },
+           {
+            "notional": 10000000,
+            "strike": 3550,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3750,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.92
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.93
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.94
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.99
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.98
+        },
+                {
+            "notional": 10000000,
+            "strike": 3500,
+            "barrier": 1.0
+        },
+           {
+            "notional": 10000000,
+            "strike": 3550,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3750,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.92
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.93
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.94
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.99
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.98
+        },
+                {
+            "notional": 10000000,
+            "strike": 3500,
+            "barrier": 1.0
+        },
+           {
+            "notional": 10000000,
+            "strike": 3550,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3750,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.92
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.93
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.94
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.99
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.98
+        },        {
+            "notional": 10000000,
+            "strike": 3500,
+            "barrier": 1.0
+        },
+           {
+            "notional": 10000000,
+            "strike": 3550,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3750,
+            "barrier": 0.95
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.92
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.93
+        },
+                {
+            "notional": 10000000,
+            "strike": 3650,
+            "barrier": 0.94
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.99
+        },
+                {
+            "notional": 10000000,
+            "strike": 3350,
+            "barrier": 0.98
         }
         ]
 }
