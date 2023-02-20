@@ -199,7 +199,7 @@ spec:
 EOF
 ```
 
-For deployments that do not provide a preferemce, Karpenter prioritizes Spot offerings if the provisioner allows Spot and on-demand instances. Changes in a Provisioner do also result in a re-evaluation of the consolidation policies. As a result of this changes, we should expect for Karpenter to change the nodes in the cluster from `on-demand` to Spot. As we learned in the solution to the first challenge, when there are multiple nodes that can be consolidated, Karpenter will start from the one that causes less disruption. In this case we are expecting the **xlarge** instance to be **Replaced** first. The replacement follows the same steps that we have seen previously. First a new `spot` instance is created and then the `on-demand` instance that was selected to be replaced will be terminated. The same sequence of events happens after that with the **2xlarge** instance.
+For deployments that do not provide a preference, Karpenter prioritizes Spot offerings if the provisioner allows Spot and on-demand instances. Changes in a Provisioner do also result in a re-evaluation of the consolidation policies. As a result of this changes, we should expect for Karpenter to change the nodes in the cluster from `on-demand` to Spot. As we learned in the solution to the first challenge, when there are multiple nodes that can be consolidated, Karpenter will start from the one that causes less disruption. In this case we are expecting the **xlarge** instance to be **Replaced** first. The replacement follows the same steps that we have seen previously. First a new `spot` instance is created and then the `on-demand` instance that was selected to be replaced will be terminated. The same sequence of events happens after that with the **2xlarge** instance.
 
 Karpenter logs should show a sequence of events similar to the one below.
 ```
@@ -245,7 +245,7 @@ Run the following command to set the number of replicas to 6
 kubectl scale deployment inflate --replicas 3
 ```
 
-As of version 0.16.1, Karpenter only uses the **Delete** consolidation mechanism for spot nodes. It will not replace a spot node with a cheaper spot node. Spot instance types are selected with the `capacity-optimized-prioritized` strategy and often the cheapest spot instance type is not launched due to the likelihood of interruption. Consolidation would then replace the spot instance with a cheaper instance negating the `capacity-optimized-prioritized` strategy entirely and increasing interruption rate.
+For spot nodes, Karpenter only uses the **Deletion** consolidation mechanism. It will not replace a spot node with a cheaper spot node. Spot instance types are selected with the `price-capacity-optimized` strategy and often the cheapest spot instance type is not launched due to the likelihood of interruption. Consolidation would then replace the spot instance with a cheaper instance negating the `price-capacity-optimized` strategy entirely and increasing interruption rate.
 
 Effectively no changes will happen at this stage with your cluster.
 {{% /expand %}}
