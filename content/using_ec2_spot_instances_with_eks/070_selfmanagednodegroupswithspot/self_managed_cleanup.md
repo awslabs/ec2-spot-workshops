@@ -13,8 +13,3 @@ If you're running in your own account, make sure you run through these steps to 
 ```
 helm delete aws-node-termination-handler --namespace kube-system
 ```
-
-### Removing self managed node groups
-```
-eksctl delete nodegroup -f add-ngs-spot.yaml --approve
-```
