@@ -3,7 +3,7 @@ title: "Prerequisites"
 weight: 10
 ---
 
-For this module, we need to download and install the [Terraform](https://www.terraform.io/) binary:
+For this module, we need to download and install the [Terraform](https://www.terraform.io/) binary. In Cloud9 workspace, run these commands:
 
 ```
 sudo yum install -y yum-utils

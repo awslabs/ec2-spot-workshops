@@ -4,7 +4,7 @@ chapter: true
 weight: 25
 ---
 
-# Launch using [Terraform](https://www.terraform.io/)
+# Launch using Terraform
 
 [Terraform](https://www.terraform.io/) is an infrastructure as code tool that lets you build, change, and version infrastructure safely and efficiently in AWS.
 

@@ -5,7 +5,7 @@ disableToc: true
 hidden: true
 ---
 
-Create a Terraform template file (eksblueprints.yaml) to create an EKS cluster:
+In your Cloud9 workspace, create a new folder, and change directory to the new folder. Then, create a Terraform template file (`eksblueprints.yaml`) to create an EKS cluster:
 
 
 ```
