@@ -122,23 +122,25 @@ module "eks_blueprints" {
   managed_node_groups = {
     # Managed Node groups with minimum config
     mg5 = {
-      node_group_name = "mng-od-m5large"
+      node_group_name = "mg5"
       instance_types  = ["m5.large"]
-      max_size        = 3
-      desired_size    = 2
-      min_size        = 0
+      min_size        = 2
       create_iam_role = false # Changing `create_iam_role=false` to bring your own IAM Role
       iam_role_arn    = aws_iam_role.managed_ng.arn
       disk_size       = 100 # Disk size is used only with Managed Node Groups without Launch Templates
       update_config = [{
         max_unavailable_percentage = 30
       }]
-      launch_template_os = "amazonlinux2eks" # amazonlinux2eks or bottlerocket
-      kubelet_extra_args = "--node-labels=intent=control-apps"
+
+      k8s_labels = {
+        intent = "control-apps"
+      }
     },
 
     // ### -->> SPOT NODE GROUPS GO HERE <<--- ###
   }
+
+  // ### -->> SPOT SELF-MANAGED NODE GROUPS GO HERE <<--- ###
 
   tags = local.tags
 }
