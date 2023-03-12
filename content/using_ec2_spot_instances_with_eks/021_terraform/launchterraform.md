@@ -5,17 +5,12 @@ weight: 20
 
 
 {{% notice warning %}}
-**DO NOT PROCEED** with this step unless you have [validated the IAM role]({{< relref "../010_prerequisites/update_workspaceiam.md#validate_iam" >}}) in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
+**DO NOT PROCEED** with this step unless you have validated the IAM role in use by the Cloud9 IDE. You will not be able to run the necessary kubectl commands in the later modules unless the EKS cluster is built using the IAM role.
 {{% /notice %}}
-
-#### Challenge:
-**How do I check the IAM role on the workspace?**
-
-{{%expand "Expand here to see the solution" %}}
 
 ### Validate the IAM role {#validate_iam}
 
-Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
+Use the `get-caller-identity` CLI command to validate that the Cloud9 IDE is using the correct IAM role.
 
 ```
 aws sts get-caller-identity
@@ -23,9 +18,6 @@ aws sts get-caller-identity
 ```
 
 You can verify what the output an correct role shoulld be in the **[validate the IAM role section]({{< relref "../010_prerequisites/update_workspaceiam.md" >}})**. If you do see the correct role, proceed to next step to create an EKS cluster.
-
-{{% /expand %}}
-
 
 ### Create an EKS cluster
 
