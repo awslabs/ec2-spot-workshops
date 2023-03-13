@@ -276,9 +276,10 @@ Resources:
             - sudo yum -y install terraform-1.3.7-1
             - echo '=== Create EKS Cluster ==='        
             - sudo -H -u ec2-user mkdir -p /home/ec2-user/environment/eksworkshop/
-            - sudo -H -u ec2-user curl --silent --location -o /home/ec2-user/environment/eksworkshop/main.tf "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/using_ec2_spot_instances_with_eks/010_prerequisites/prerequisites.files/eks-blueprints.tf"
+            - sudo -H -u ec2-user curl --silent --location -o /home/ec2-user/environment/eksworkshop/main.tf "https://raw.githubusercontent.com/christianhxc/ec2-spot-workshops/issue-232/content/using_ec2_spot_instances_with_eks/010_prerequisites/prerequisites.files/eks-blueprints.tf"
             - !Sub sed -i.bak -e 's/--AWS_REGION--/${AWS::Region}/' /home/ec2-user/environment/eksworkshop/main.tf
-            - !Sub sed -i.bak -e 's/--EKS_VERSION--/"'"${EKSClusterVersion}"'"/' /home/ec2-user/environment/eksworkshop/main.tf            
+            - !Sub sed -i.bak -e 's/--EKS_VERSION--/"'"${EKSClusterVersion}"'"/' /home/ec2-user/environment/eksworkshop/main.tf
+            - cd /home/ec2-user/environment/eksworkshop/            
             - sudo -H -u ec2-user /usr/bin/terraform init
             - sudo -H -u ec2-user /usr/bin/terraform apply --auto-approve
             - $(sudo -H -u ec2-user /usr/bin/terraform output -raw configure_kubectl)
