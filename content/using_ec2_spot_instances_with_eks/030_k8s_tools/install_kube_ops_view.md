@@ -4,8 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 30
 ---
 
-Now that we have helm installed, we are ready to use the stable helm catalog and install tools 
-In this step we will install [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from **[Henning Jacobs](https://github.com/hjacobs)**. Kube-ops-view will help with understanding our cluster setup in a visual way
+In this step we will install [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from **[Henning Jacobs](https://github.com/hjacobs)**. Kube-ops-view will help with understanding our cluster setup in a visual way.
 
 The following lines download the spec required to deploy kube-ops-view using a LoadBalancer Service type and creating a RBAC (Resource Base Access Control) entry for the read-only service account to read nodes and pods information from the cluster.
 
@@ -15,23 +14,7 @@ for file in kustomization.yaml rbac.yaml deployment.yaml service.yaml; do mkdir 
 kubectl apply -k $HOME/environment/kube-ops-view
 ```
 
-{{% notice warning %}}
-Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view using a Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`. Kube-ops-view does also [support Oauth 2](https://github.com/hjacobs/kube-ops-view#configuration) 
-{{% /notice %}}
-
-To check the chart was installed successfully:
-
-```
-helm list
-```
-
-should display : 
-```
-NAME            NAMESPACE   REVISION   UPDATED               STATUS     CHART              
-kube-ops-view   default     1          2020-11-20 05:16:47   deployed   kube-ops-view-1.2.4
-```
-
-With this we can explore kube-ops-view output by checking the details about the newly service created. 
+Open the kube-ops-view site by checking the details about the newly service created.
 
 ```
 kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
