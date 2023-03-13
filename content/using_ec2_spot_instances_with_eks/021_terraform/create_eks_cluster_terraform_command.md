@@ -5,11 +5,9 @@ disableToc: true
 hidden: true
 ---
 
-In your Cloud9 workspace, create a new folder, and change directory to the new folder. Then, create a Terraform template file (`main.tf`) to create an EKS cluster:
-
+In your **Cloud9** workspace, create a new folder (`tf`), and change directory to the new folder. Then, create a Terraform template file (`main.tf`) and copy this code to it.
 
 ```
-cat > main.tf <<EOF
 terraform {
   required_version = ">= 1.0.0"
 
@@ -249,7 +247,6 @@ output "configure_kubectl" {
   description = "Configure kubectl: make sure you're logged in with the correct AWS profile and run the following command to update your kubeconfig"
   value       = module.eks_blueprints.configure_kubectl
 }
-EOF
 ```
 
 Next, run the following command to download all Terraform libraries:
