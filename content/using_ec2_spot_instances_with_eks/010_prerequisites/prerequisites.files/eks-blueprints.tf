@@ -17,6 +17,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = local.region
+}
+
 provider "kubernetes" {
   host                   = module.eks_blueprints.eks_cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks_blueprints.eks_cluster_certificate_authority_data)
@@ -49,9 +53,10 @@ data "aws_ami" "amazonlinux2eks" {
 data "aws_availability_zones" "available" {}
 
 locals {
-  name = "eksspotworkshop"
+  name   = "eksspotworkshop"
+  region = "--AWS_REGION--"
 
-  cluster_version = "1.24"
+  cluster_version = "--EKS_VERSION--"
 
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -109,18 +114,15 @@ module "eks_blueprints" {
   managed_node_groups = {
     # Managed Node groups with minimum config
     mg5 = {
-      node_group_name = "mng-od-m5large"
+      node_group_name = "mg5"
       instance_types  = ["m5.large"]
-      max_size        = 3
-      desired_size    = 2
-      min_size        = 0
-      create_iam_role = false
+      min_size        = 2
+      create_iam_role = false # Changing `create_iam_role=false` to bring your own IAM Role
       iam_role_arn    = aws_iam_role.managed_ng.arn
-      disk_size       = 100
+      disk_size       = 100 # Disk size is used only with Managed Node Groups without Launch Templates
       update_config = [{
         max_unavailable_percentage = 30
       }]
-      launch_template_os = "amazonlinux2eks"
 
       k8s_labels = {
         intent = "control-apps"
@@ -129,6 +131,8 @@ module "eks_blueprints" {
 
     // ### -->> SPOT NODE GROUPS GO HERE <<--- ###
   }
+
+  // ### -->> SPOT SELF-MANAGED NODE GROUPS GO HERE <<--- ###
 
   tags = local.tags
 }
