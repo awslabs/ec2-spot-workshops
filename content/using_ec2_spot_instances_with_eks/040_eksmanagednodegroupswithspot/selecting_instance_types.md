@@ -47,7 +47,7 @@ we need to first get a group of instances that meet the 4 vCPUs and 16 GB of RAM
 Run the following command to get the list of instances.
 
 {{% notice note %}}
-The results might differ if you created Cloud9 in any other region than the five regions (N. Virginia, Oregon, Ireland, Ohio and Singapore) suggested in [Create a Workspace]({{< relref "/using_ec2_spot_instances_with_eks/010_prerequisites/workspace" >}}) chapter. We will use **`--deny-list`** for filtering out the instances that are not supported across these five regions. 
+The results might differ if you created Cloud9 in any other region than the five regions (N. Virginia, Oregon, Ireland, Ohio and Singapore) suggested when starting the workshop. We will use **`--deny-list`** for filtering out the instances that are not supported across these five regions. 
 {{% /notice %}}
 
 ```
