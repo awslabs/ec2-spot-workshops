@@ -115,11 +115,11 @@ module "eks_blueprints" {
     # Managed Node groups with minimum config
     mg5 = {
       node_group_name = "mg5"
-      instance_types  = ["m5.large"]
+      instance_types  = ["m4.xlarge", "m5.xlarge", "m5a.xlarge", "m5ad.xlarge", "m5d.xlarge", "t2.xlarge", "t3.xlarge", "t3a.xlarge"]
       min_size        = 2
-      create_iam_role = false # Changing `create_iam_role=false` to bring your own IAM Role
+      create_iam_role = false
       iam_role_arn    = aws_iam_role.managed_ng.arn
-      disk_size       = 100 # Disk size is used only with Managed Node Groups without Launch Templates
+      disk_size       = 100
       update_config = [{
         max_unavailable_percentage = 30
       }]

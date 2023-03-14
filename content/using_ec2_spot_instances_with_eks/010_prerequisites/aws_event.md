@@ -1,7 +1,7 @@
 ---
 title: "...at an AWS event"
 chapter: false
-weight: 20
+weight: 10
 ---
 
 ### Running the workshop at an AWS Event
@@ -26,8 +26,6 @@ You are now logged in to the AWS console in an account that was created for you,
 {{% notice info %}}
 In the interest of time for shorter events we sometimes deploy the resources required as a prerequisite for you. If you were told so, please review the cloudformation outputs of the stack that was deployed by **expanding the instructions below**.
 {{% /notice %}}
-
-{{%expand "Click to reveal detailed instructions" %}}
 
 #### What resources are already deployed {#resources_deployed}
 
@@ -67,18 +65,4 @@ you will notice additional Cloudformation stacks were also deployed which is the
 
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/update_workspace_settings.md" %}}
 
-### Validate the IAM role {#validate_iam}
-
-Use the [GetCallerIdentity](https://docs.aws.amazon.com/cli/latest/reference/sts/get-caller-identity.html) CLI command to validate that the Cloud9 IDE is using the correct IAM role.
-
-```
-aws sts get-caller-identity
-
-```
-
-{{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/at_an_aws_validaterole.md" %}}
-
-**Note:** Since we have already setup the prerequisites, **you can head straight to [Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/021_terraform/test.md"  >}})**
-
-{{% /expand%}}
-
+You are now ready to **[Test the Cluster]({{<  relref "/using_ec2_spot_instances_with_eks/021_terraform/"  >}})**

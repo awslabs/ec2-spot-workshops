@@ -1,7 +1,6 @@
 ---
-title: "Update IAM settings for your Workspace"
-chapter: false
-weight: 60
+disableToc: true
+hidden: true
 ---
 
 {{% insert-md-from-file file="using_ec2_spot_instances_with_eks/010_prerequisites/update_workspace_settings.md" %}}
