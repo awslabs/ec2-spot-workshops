@@ -6,7 +6,13 @@ draft: false
 
 In this section we will deploy the instance types we selected in previous chapter and create managed node groups that adhere to Spot diversification best practices. We will update the existing Terraform template used to create the cluster. **Remember to continue using your Cloud9 workspace to run all commands.**
 
-Within the `main.tf` template file, there's a seccion within the `managed_node_groups` section with the following comment:
+Head over to the `eksworkshop` folder in your Cloud9 workspace.
+
+```
+cd $HOME/environment/eksworkshop
+```
+
+Open the `main.tf` template file, there's a seccion within the `managed_node_groups` section with the following comment:
 
 ```
 // ### -->> SPOT NODE GROUP GOES HERE <<--- ###
