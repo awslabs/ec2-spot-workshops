@@ -12,13 +12,11 @@ Head over to the `eksworkshop` folder in your Cloud9 workspace.
 cd $HOME/environment/eksworkshop
 ```
 
-Open the `main.tf` template file, there's a seccion within the `managed_node_groups` section with the following comment:
+Open the `main.tf` template file, there's a seccion within the `managed_node_groups` section with the following comment `// ### -->> SPOT NODE GROUP GOES HERE <<--- ###`. Here's a screenshot for reference:
 
-```
-// ### -->> SPOT NODE GROUP GOES HERE <<--- ###
-```
+![EKS Blueprints - Spot Node Groups Block](/images/using_ec2_spot_instances_with_eks/prerequisites/eksblueprints_spot_nodegroups.png)
 
-Just below that line, paste the following code snippet to create two Spot node groups:
+Now copy the following code snippet, and paste it just below the `// ### -->> SPOT NODE GROUP GOES HERE <<--- ###` line to create two Spot node groups:
 
 ```
     spot_4vcpu_16mem = {
@@ -56,7 +54,17 @@ Just below that line, paste the following code snippet to create two Spot node g
     }
 ```
 
-Run a `terraform fmt` to fix any identation problem (if any), then run:
+Now your `main.tf` file should look like this:
+
+![EKS Blueprints - Spot Node Groups Block](/images/using_ec2_spot_instances_with_eks/prerequisites/eksblueprints_spot_nodegroups_final.png)
+
+Run the following command to fix any identation or configuration problem (if any):
+
+```
+terraform fmt
+```
+
+Then, apply the changes by running the following command:
 
 ```
 terraform apply --auto-approve
