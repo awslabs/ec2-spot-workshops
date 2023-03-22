@@ -12,7 +12,7 @@ Head over to the `eksworkshop` folder in your Cloud9 workspace.
 cd $HOME/environment/eksworkshop
 ```
 
-Open the `main.tf` template file, there's a seccion within the `managed_node_groups` section with the following comment `// ### -->> SPOT NODE GROUP GOES HERE <<--- ###`. Here's a screenshot for reference:
+Open the `main.tf` template file, there's a section within the `managed_node_groups` section with the following comment `// ### -->> SPOT NODE GROUP GOES HERE <<--- ###`. Here's a screenshot for reference:
 
 ![EKS Blueprints - Spot Node Groups Block](/images/using_ec2_spot_instances_with_eks/prerequisites/eksblueprints_spot_nodegroups.png)
 
