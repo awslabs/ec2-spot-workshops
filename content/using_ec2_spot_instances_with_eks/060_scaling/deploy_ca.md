@@ -16,11 +16,15 @@ In this workshop we will configure Cluster Autoscaler to scale using **[Cluster 
 ### Deploy the Cluster Autoscaler
 Let's take advantage of using EKS Blueprints, and simply enable the Cluster Autoscaler addon.
 
-In your Cloud9 workspace, open the Terraform template file (`eksblueprints.yaml`) you created before. Go to the `eks_blueprints_kubernetes_addons` section in the Terraform template, below the `enable_metrics_server = true` line, include the following lines:
+In your Cloud9 workspace, open the Terraform template file (`main.tf`). Go to the `eks_blueprints_kubernetes_addons` section in the Terraform template, below the `enable_metrics_server = true` line, include the following lines:
 
 ```  
   enable_cluster_autoscaler = true
 ```
+
+Now your `main.tf` file should look like this:
+
+![EKS Blueprints - Cluster Autoscaler Plugin](/images/using_ec2_spot_instances_with_eks/prerequisites/eksblueprints_clusterautoscaler.png)
 
 To apply this change with Terraform, run the following commands:
 
