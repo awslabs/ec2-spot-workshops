@@ -60,14 +60,3 @@ Since you have enabled the CloudWatch metrics collection for the Auto Scaling gr
 ![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/warm-pool-before.png)
 **After**
 ![warm-pool](/images/efficient-and-resilient-ec2-auto-scaling/warm-pool-after.png)
-
-At the beginning of this activity, you paused the predictive scaling policy. **Let's turn it back on.**
-1. In AWS Console window, navigate to [EC2 Auto Scaling](https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:view=details).
-2. Click on tab **Automatic scaling**, find policy `workshop-predictive-scaling-policy` and turn on toggle **Scaling based on forecast**.
-3. Click **Yes, turn on scaling** in the confirmation message.
-
-{{% notice info %}}
-If the current time is close to the head of the hour, you can wait till 5 minutes to the hour to see both predictive scaling and warm pools in action as the Auto Scaling starts the scaling out activities.
-{{% /notice %}}
-
-At this stage, **you have successfully completed all tasks** you've been asked to do. **Great work!** One more step before you finish, proceed to next page..
