@@ -14,7 +14,7 @@ Instances launched by Karpenter must run with an InstanceProfile that grants per
 Karpenter also utilizes an SQS queue and EventBridge rules to handle Spot Interruption Notifications and AWS Health Events.
 
 ```
-export KARPENTER_VERSION=v0.23.0
+export KARPENTER_VERSION=v0.26.1
 echo "export KARPENTER_VERSION=${KARPENTER_VERSION}" >> ~/.bash_profile
 TEMPOUT=$(mktemp)
 curl -fsSL https://karpenter.sh/"${KARPENTER_VERSION}"/getting-started/getting-started-with-eksctl/cloudformation.yaml > $TEMPOUT \
