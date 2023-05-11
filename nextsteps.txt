@@ -1,8 +1,0 @@
-1. Use an AWS Batch array job https://docs.aws.amazon.com/batch/latest/userguide/array_index_example.html 
-2. Create an S3 file with the spot values, one spot per line - spotprices.txt 
-3. Create an S3 file with the portfolio values, on [strike,notional] per line - portfolio.txt. Simplify to a single portfolio for initial development.
-4. The montecarlo-price.sh script gets the appropriate row from the spotprices.txt file, then passes that as the command line param to the python script.
-
-Then need to gather all of the results and combine into a set of PVs for the entire set of portfolios. Maybe do this in Step Functions, but maybe not?
-
-
