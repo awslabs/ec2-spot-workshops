@@ -160,6 +160,7 @@ Resources:
               - ec2:AssociateIamInstanceProfile
               - ec2:ReplaceIamInstanceProfileAssociation
               - ec2:RebootInstances
+              - ec2:DescribeIamInstanceProfileAssociations
               - iam:ListInstanceProfiles
               - iam:PassRole
               - ssm:DescribeAssociationExecutions
@@ -220,7 +221,7 @@ Resources:
               if event['RequestType'] == 'Create':
                   # Extract context variables
                   stack_id = event['ResourceProperties']['stack_id']
-                  profile_arn = event['ResourceProperties']['profile_arn']
+                  profile_arn = {'Arn': event['ResourceProperties']['profile_arn']}
                   association_id = event['ResourceProperties']['association_id']
 
                   try:
@@ -233,13 +234,28 @@ Resources:
                           Filters=[{'Name': 'tag:stack-id', 'Values': [stack_id]}]
                       )['Reservations'][0]['Instances'][0]['InstanceId']
 
+                     
+                      # removed any pre-attached instance profile
+                      response = client.describe_iam_instance_profile_associations(
+                          Filters=[
+                              {
+                                  'Name': 'instance-id',
+                                  'Values': [instance_id],
+                              },
+                          ],
+                      )
+
                       # Associate the SSM instance profile
                       print('Associating the SSM instance profile to the instance')
 
-                      client.associate_iam_instance_profile(
-                          IamInstanceProfile={'Arn': profile_arn},
-                          InstanceId=instance_id
-                      )
+                      if len(response['IamInstanceProfileAssociations']) > 0:
+                          for association in response['IamInstanceProfileAssociations']:
+                              if association['State'] == 'associated':
+                                  print("{} is active with state {}".format(association['AssociationId'], association['State']))
+                                  client.replace_iam_instance_profile_association(AssociationId=association['AssociationId'], IamInstanceProfile=profile_arn)
+                      else:
+                          client.associate_iam_instance_profile(IamInstanceProfile=profile_arn, InstanceId=instance_id)
+
 
                       # Reboot the instance to restart the SSM agent
                       print('Rebooting the instance so that the SSM agent picks up the association')
@@ -248,19 +264,13 @@ Resources:
                           InstanceIds=[instance_id]
                       )
 
-                      # Wait for the SSM association to be applied
-                      while True:
-                          print('Waiting for the association to be applied')
+                      responseData = {'Success': 'Started bootstrapping for instance: '+instance_id}
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
 
-                          if is_association_applied(association_id):
-                              break
-                          else:
-                              time.sleep(5)
                   except Exception as e:
-                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': e.args[0]})
-                      return
-
-              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+                      responseData = {'Error': str(e)}
+                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
+            
       Role:
         Fn::GetAtt:
           - CustomCloud9SsmProfileAttachLambdaFunctionServiceRoleF610D074
