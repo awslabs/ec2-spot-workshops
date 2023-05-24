@@ -22,9 +22,9 @@ To create the Docker image you will need three files: the DockerFile, which is a
 Download the files by executing these commands:
 
 ```
-wget "https://raw.githubusercontent.com/magriggs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/Dockerfile"
-wget "https://raw.githubusercontent.com/magriggs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/montecarlo-price.sh"
-wget "https://raw.githubusercontent.com/magriggs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/requirements.txt"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/Dockerfile"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/montecarlo-price.sh"
+wget "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/monte-carlo-with-batch/monte-carlo-with-batch.files/docker-files/requirements.txt"
 ```
 
 ### Optional: Take a look under the hood
