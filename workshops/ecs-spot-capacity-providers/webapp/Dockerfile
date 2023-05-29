@@ -2,7 +2,7 @@ FROM amazonlinux:latest
 
 RUN yum update -y
 
-RUN yum -y install python3 python3-wheel python-pi
+RUN yum -y install python3 python3-wheel python-pip
 
 COPY / /app
  
