@@ -35,13 +35,8 @@ Navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open
 
 ```
 export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
-export STACK_NAME="MonteCarloWithBatch"
 
-for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
-do
-    export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
-    eval "echo $output : \"\$$output\""
-done
+aws cloudformation list-stacks | jq '.StackSummaries[] | {StackId, StackName}'
 ```
 
 You can now start the workshop by heading to [**Risk pipeline**](/monte-carlo-with-batch/risk_pipeline.html).
