@@ -34,8 +34,6 @@ You will create other AWS resources using the AWS CLI in [Cloud9](https://aws.am
 Navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack:
 
 ```
-export AWS_DEFAULT_REGION=$(curl -s  169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
-
 aws cloudformation list-stacks | jq '.StackSummaries[] | {StackId, StackName}'
 ```
 
