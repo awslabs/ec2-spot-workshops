@@ -34,9 +34,10 @@ You will create other AWS resources using the AWS CLI in [Cloud9](https://aws.am
 Navigate to the [Cloud9 console](https://console.aws.amazon.com/cloud9) and open the environment that was created for you. Execute the following commands to retrieve the outputs of the CloudFormation stack:
 
 ```
-for output in $(aws cloudformation describe-stacks --stack-name $STACK_NAME --query 'Stacks[].Outputs[].OutputKey' --output text)
+for output in $(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[].OutputKey' --output text)
 do
-    echo "export $output=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue --output text)"" > /home/ec2-user/tmp_outputs.txt
+    echo export $output=$(aws cloudformation describe-stacks --stack-name ${STACK_NAME} --query 'Stacks[].Outputs[?OutputKey==`'$output'`].OutputValue' --output text)
+    eval "echo $output : \"\$$output\""
 done
 ```
 
