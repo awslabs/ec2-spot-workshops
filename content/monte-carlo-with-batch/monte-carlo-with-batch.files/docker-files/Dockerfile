@@ -14,7 +14,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     sudo ./aws/install && \
     rm ./aws/install
 
-RUN curl "https://raw.githubusercontent.com/magriggs/QuantLib.AutoCallable.Memory.Coupon.Note/master/Autocallable.Note.py" -o "Autocallable.Note.py"
+COPY Autocallable.Note.py .
+#RUN curl "https://raw.githubusercontent.com/magriggs/QuantLib.AutoCallable.Memory.Coupon.Note/master/Autocallable.Note.py" -o "Autocallable.Note.py"
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
