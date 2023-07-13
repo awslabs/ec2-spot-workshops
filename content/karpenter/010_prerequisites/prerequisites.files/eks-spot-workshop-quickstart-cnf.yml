@@ -281,6 +281,7 @@ Resources:
             - !Sub sed -i.bak -e 's/--AZA--/${AWS::Region}a/' /home/ec2-user/environment/eksworkshop.yaml
             - !Sub sed -i.bak -e 's/--AZB--/${AWS::Region}b/' /home/ec2-user/environment/eksworkshop.yaml
             - !Sub sed -i.bak -e 's/--EKS_VERSION--/"'"${EKSClusterVersion}"'"/' /home/ec2-user/environment/eksworkshop.yaml
+            - !Sub sed -i.bak -e 's/--AWS_ACCOUNT_ID--/"'"${AWS::AccountId}"'"/' /home/ec2-user/environment/eksworkshop.yaml
             - sudo -H -u ec2-user /usr/local/bin/eksctl create cluster -f /home/ec2-user/environment/eksworkshop.yaml
             - sudo -H -u ec2-user /usr/local/bin/aws eks update-kubeconfig --name eksworkshop-eksctl
             - sudo -H -u ec2-user /usr/local/bin/kubectl get nodes

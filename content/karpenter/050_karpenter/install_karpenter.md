@@ -24,6 +24,10 @@ helm upgrade --install --namespace karpenter --create-namespace \
   --set settings.aws.clusterEndpoint=${CLUSTER_ENDPOINT} \
   --set settings.aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
   --set settings.aws.interruptionQueueName=${CLUSTER_NAME} \
+  --set controller.resources.requests.cpu=1 \
+  --set controller.resources.requests.memory=1Gi \
+  --set controller.resources.limits.cpu=1 \
+  --set controller.resources.limits.memory=1Gi \
   --set nodeSelector.intent=control-apps \
   --wait
 ```
