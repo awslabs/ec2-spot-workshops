@@ -12,6 +12,7 @@ In this section we will install Karpenter and learn how to configure a default [
 We will use helm to deploy Karpenter to the cluster. 
 
 ```
+export KARPENTER_VERSION=v0.29.0
 export KARPENTER_IAM_ROLE_ARN="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CLUSTER_NAME}-karpenter"
 export CLUSTER_ENDPOINT="$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output text)"
 echo "export KARPENTER_IAM_ROLE_ARN=${KARPENTER_IAM_ROLE_ARN}" >> ~/.bash_profile
