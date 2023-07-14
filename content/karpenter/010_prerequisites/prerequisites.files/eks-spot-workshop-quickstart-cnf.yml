@@ -275,6 +275,11 @@ Resources:
             - echo '=== Generate SSH key and import to aws ==='
             - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
             - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
+            - echo '=== Update Golang ==='
+            - sudo rm -r /usr/lib/golang/ /usr/local/go/
+            - sudo wget https://storage.googleapis.com/golang/go1.20.6.linux-amd64.tar.gz
+            - sudo tar -C /usr/local -xzf ./go1.20.6.linux-amd64.tar.gz
+            - sudo rm ./go1.20.6.linux-amd64.tar.gz
             - echo '=== Install EKSCTL ==='
             - !Sub 'export EKSCTL_VERSION=${C9EKSctlVersion}'
             - sudo -H -u ec2-user curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
