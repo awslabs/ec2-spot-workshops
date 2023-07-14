@@ -38,7 +38,7 @@ Parameters:
   C9EKSctlVersion:
     Description: Cloud9 instance eksctl version
     Type: String
-    Default: v0.148.0
+    Default: v0.149.0
     ConstraintDescription: Must be a valid eksctl version
   C9KarpenterVersion:
     Description: Cloud9 instance Karpenter version
