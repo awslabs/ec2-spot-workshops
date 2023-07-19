@@ -64,7 +64,7 @@ One of the cool things it brings, is the display of the cost associated with you
 To install it, open a new terminal in your cloud9 environment and type:
 
 ```
-go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@latest
+go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@v0.4.1
 echo "export PATH=$HOME/go/bin:$PATH" >> $HOME/.bashrc
 source $HOME/.bashrc
 ```
