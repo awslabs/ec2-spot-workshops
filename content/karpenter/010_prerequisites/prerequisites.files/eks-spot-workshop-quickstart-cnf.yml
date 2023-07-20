@@ -43,7 +43,7 @@ Parameters:
   C9KarpenterVersion:
     Description: Cloud9 instance Karpenter version
     Type: String
-    Default: v0.29.1
+    Default: v0.29.2
     ConstraintDescription: Must be a valid Karpenter version
   EKSClusterVersion:
     Description: EKS Cluster Version
