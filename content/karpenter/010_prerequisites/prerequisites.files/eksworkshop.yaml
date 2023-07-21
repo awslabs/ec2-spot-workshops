@@ -11,6 +11,28 @@ metadata:
 
 availabilityZones: [--AZA--, --AZB--]
 
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: karpenter
+      namespace: karpenter
+    roleName: eksworkshop-eksctl-karpenter
+    attachPolicyARNs:
+    - arn:aws:iam::--AWS_ACCOUNT_ID--:policy/KarpenterControllerPolicy-eksworkshop-eksctl
+    roleOnly: true
+
+iamIdentityMappings:
+- arn: "arn:aws:iam::--AWS_ACCOUNT_ID--:role/KarpenterNodeRole-eksworkshop-eksctl"
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+  - system:bootstrappers
+  - system:nodes
+- arn: "arn:aws:iam::--AWS_ACCOUNT_ID--:role/TeamRole"
+  username: admin
+  groups:
+  - system:masters
+
 managedNodeGroups:
 - amiFamily: AmazonLinux2
   instanceType: m5.large

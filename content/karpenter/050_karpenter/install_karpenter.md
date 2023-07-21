@@ -12,10 +12,12 @@ In this section we will install Karpenter and learn how to configure a default [
 We will use helm to deploy Karpenter to the cluster. 
 
 ```
+export KARPENTER_VERSION=v0.29.2
 export KARPENTER_IAM_ROLE_ARN="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${CLUSTER_NAME}-karpenter"
 export CLUSTER_ENDPOINT="$(aws eks describe-cluster --name ${CLUSTER_NAME} --query "cluster.endpoint" --output text)"
 echo "export KARPENTER_IAM_ROLE_ARN=${KARPENTER_IAM_ROLE_ARN}" >> ~/.bash_profile
 echo "export CLUSTER_ENDPOINT=${CLUSTER_ENDPOINT}" >> ~/.bash_profile
+helm registry logout public.ecr.aws
 helm upgrade --install --namespace karpenter --create-namespace \
   karpenter oci://public.ecr.aws/karpenter/karpenter \
   --version ${KARPENTER_VERSION}\
@@ -24,6 +26,10 @@ helm upgrade --install --namespace karpenter --create-namespace \
   --set settings.aws.clusterEndpoint=${CLUSTER_ENDPOINT} \
   --set settings.aws.defaultInstanceProfile=KarpenterNodeInstanceProfile-${CLUSTER_NAME} \
   --set settings.aws.interruptionQueueName=${CLUSTER_NAME} \
+  --set controller.resources.requests.cpu=1 \
+  --set controller.resources.requests.memory=1Gi \
+  --set controller.resources.limits.cpu=1 \
+  --set controller.resources.limits.memory=1Gi \
   --set nodeSelector.intent=control-apps \
   --wait
 ```

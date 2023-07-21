@@ -97,9 +97,9 @@ kubectl describe provisioner default
 
 * There a nodeSelector for the `kubernetes.io/arch` set to `amd64` well-known label. If you check the compilation steps fo the microservice we just created, we did only push the `amd64` version of it.  
 
-* There are nodeSelector defined for `intet:apps` so that the application does not get deployed into the OnDemand Managed Node groups
+* There are nodeSelector defined for `intet:apps` so that the application does not get deployed into the OnDemand Managed Node groups.
 
-* There is also a nodeSelector for `karpenter.sh/capacity-type: spot`. We are expecting all the instances to be of Spot type. This means that the **AWS Node-Termination-Handler** Daemonset will get deployed automatically to the new Spot nodes created
+* There is also a nodeSelector for `karpenter.sh/capacity-type: spot`. We are expecting all the instances to be of Spot type.
 
 We can confirm the statements above by checking Karpenter logs using the following command. By now you should be very familiar with the log lines expected.
 
