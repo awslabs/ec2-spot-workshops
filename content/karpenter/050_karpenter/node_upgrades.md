@@ -5,7 +5,7 @@ weight: 100
 draft: false
 ---
 
-In the previous section we created a Karpenter provisioner and explored different compute requirements. In this section, we will explore two mechnisms to support upgrades of node provisioned with Karpenter when there is a newer AMI using `ttlSecondsUntilExpired` or Drift. Using these mechnisms can simplify managing operational activities and help you patch at scale.
+In the previous section we created a Karpenter provisioner and explored different compute requirements. In this section, we will explore two mechnisms to support upgrades of nodes provisioned with Karpenter when there is a newer AMI using `ttlSecondsUntilExpired` or Drift. Using these mechnisms can simplify managing operational activities and help you patch at scale.
 
 The `ttlSecondsUntilExpired` provisioner setting can be used to instruct Karpenter to deprovision nodes that have reached an expiry. Karpenter will annotate nodes that have expired and deprovision.  One use case for node expiry is to periodically recycle nodes. Old nodes (with a potentially outdated Kubernetes version or operating system) are deleted, and replaced with nodes on the latest version of the AMI (assuming that you requested the latest version, rather than a specific version).
 
