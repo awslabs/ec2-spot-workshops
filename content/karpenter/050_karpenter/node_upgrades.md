@@ -172,4 +172,4 @@ kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter | grep drift
 In this section we have learned:
 * Two different mechanisms for upgrading Kubernetes nodes AMI, using `ttlSecondsUntilExpired` or Karpenter drift which uses the K8s Eviction API when deprovisioning nodes to respect PDBs.
 * Demonstrated how Karpenter drift can be used to promote AMIs between environments using the `amiSelector`.
-* Demonstrated how by using Karpenter with Drift or `ttlSecondsUntilExpired` it can help you achieve operations at scale, moving patching from a point in time strategy to a continous mechanisms.
+* Demonstrated how by using Karpenter with Drift or `ttlSecondsUntilExpired` it can help you achieve operations at scale, moving patching from a point in time strategy to a continuous mechanisms.
