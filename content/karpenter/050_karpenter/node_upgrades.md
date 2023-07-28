@@ -109,7 +109,7 @@ kubectl get nodes
 
 ```
 
-You will see a version 1.26 (v1.23.xx-eks-xxxx) when the node is ready.
+You will see a version 1.26 (v1.26.xx-eks-xxxx) when the node is ready.
 
 ```
 ...
