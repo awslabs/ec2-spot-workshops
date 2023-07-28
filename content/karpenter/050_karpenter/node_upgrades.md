@@ -118,7 +118,7 @@ ip-10-0-12-106.eu-west-1.compute.internal           Ready    <none>   114s    v1
 ...
 ```
 
-3. Now let's remove the `amiSelector` to enable Karpenter to select the latets AMI from the SSM param.
+3. Now let's remove the `amiSelector` to enable Karpenter to select the latest Amazon EKS Optimised AMI from the SSM param for the cluster's current Kubernetes versions.
 
 ```
 cat << EOF > updated_nodetemplate.yaml
