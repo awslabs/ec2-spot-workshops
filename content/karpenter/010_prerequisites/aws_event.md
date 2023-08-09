@@ -16,7 +16,7 @@ are running the workshop on your own, go to: [Start the workshop on your own]({{
 
 If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Event access code** provided to you by the event's organizers.
 
-1. Connect to the portal by browsing to [Workshop Studio](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba/en-US).
+1. Connect to the portal by browsing to [Workshop Studio](https://catalog.us-east-1.prod.workshops.aws/join).
 2. Sign in by clicking on the `Email one-time password (OTP)` button.
 3. Enter your email address in the text box, and click **Send Passcode**. You should receive a passcode within 5 minutes. Enter the passcode in the text box, and click **Sign in***.
 4. Enter the `Event access code` in the text box, and click **Next** 
