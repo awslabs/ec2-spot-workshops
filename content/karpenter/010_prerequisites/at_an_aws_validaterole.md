@@ -5,7 +5,7 @@ hidden: true
 
 The output assumed-role name should contain:
 ```
-TeamRole
+WSParticipantRole
 ```
 
 #### VALID
@@ -15,7 +15,7 @@ If the _Arn_ contains the role name from above and an Instance ID, you may proce
 ```output
 {
     "Account": "123456789012", 
-    "UserId": "AROA1SAMPLEAWSIAMROLE:i-01234567890abcdef", 
-    "Arn": "arn:aws:sts::216876048363:assumed-role/TeamRole/i-0dd09eac19be01448"
+    "UserId": "AROA1SAMPLEAWSIAMROLE:Participant", 
+    "Arn": "arn:aws:sts::123456789012:assumed-role/WSParticipantRole/Participant"
 }
 ```
