@@ -22,21 +22,21 @@ provider "aws" {
 }
 
 provider "kubernetes" {
-  host                   = module.eks_blueprints.eks_cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_blueprints.eks_cluster_certificate_authority_data)
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   token                  = data.aws_eks_cluster_auth.this.token
 }
 
 provider "helm" {
   kubernetes {
-    host                   = module.eks_blueprints.eks_cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_blueprints.eks_cluster_certificate_authority_data)
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
     token                  = data.aws_eks_cluster_auth.this.token
   }
 }
 
 data "aws_eks_cluster_auth" "this" {
-  name = module.eks_blueprints.eks_cluster_id
+  name = module.eks.cluster_name
 }
 
 data "aws_ami" "amazonlinux2eks" {
@@ -66,68 +66,65 @@ locals {
   }
 }
 
-#---------------------------------------------------------------
-# EKS Blueprints
-#---------------------------------------------------------------
-module "eks_blueprints" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints?ref=v4.21.0"
+################################################################################
+# Cluster
+################################################################################
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "19.16.0"
 
-  cluster_name    = local.name
-  cluster_version = local.cluster_version
+  cluster_name                   = local.name
+  cluster_version                = local.cluster_version
+  cluster_endpoint_public_access = true
 
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnets
+  cluster_addons = {
+    # aws-ebs-csi-driver = { most_recent = true }
+    kube-proxy = { most_recent = true }
+    coredns    = { most_recent = true }
 
-  node_security_group_additional_rules = {
-    # Extend node-to-node security group rules. Recommended and required for the Add-ons
-    ingress_self_all = {
-      description = "Node to node all ports/protocols"
-      protocol    = "-1"
-      from_port   = 0
-      to_port     = 0
-      type        = "ingress"
-      self        = true
-    }
-    # Recommended outbound traffic for Node groups
-    egress_all = {
-      description      = "Node all egress"
-      protocol         = "-1"
-      from_port        = 0
-      to_port          = 0
-      type             = "egress"
-      cidr_blocks      = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
-    }
-    # Allows Control Plane Nodes to talk to Worker nodes on all ports. Added this to simplify the example and further avoid issues with Add-ons communication with Control plane.
-    # This can be restricted further to specific port based on the requirement for each Add-on e.g., metrics-server 4443, spark-operator 8080, karpenter 8443 etc.
-    # Change this according to your security requirements if needed
-    ingress_cluster_to_node_all_traffic = {
-      description                   = "Cluster API to Nodegroup all traffic"
-      protocol                      = "-1"
-      from_port                     = 0
-      to_port                       = 0
-      type                          = "ingress"
-      source_cluster_security_group = true
+    vpc-cni = {
+      most_recent    = true
+      before_compute = true
+      configuration_values = jsonencode({
+        env = {
+          ENABLE_PREFIX_DELEGATION = "true"
+          WARM_PREFIX_TARGET       = "1"
+        }
+      })
     }
   }
 
-  managed_node_groups = {
-    # Managed Node groups with minimum config
-    mg5 = {
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+
+  create_cloudwatch_log_group = false
+
+  manage_aws_auth_configmap = true
+
+  eks_managed_node_groups = {
+    mg_5 = {
       node_group_name = "mg5"
       instance_types  = ["m4.xlarge", "m5.xlarge", "m5a.xlarge", "m5ad.xlarge", "m5d.xlarge", "t2.xlarge", "t3.xlarge", "t3a.xlarge"]
-      min_size        = 2
+
+      create_security_group = false
+
+      subnet_ids   = module.vpc.private_subnets
+      max_size     = 2
+      desired_size = 2
+      min_size     = 2
+
       create_iam_role = false
       iam_role_arn    = aws_iam_role.managed_ng.arn
       disk_size       = 100
-      update_config = [{
-        max_unavailable_percentage = 30
-      }]
 
-      k8s_labels = {
+      # Launch template configuration
+      create_launch_template = true              # false will use the default launch template
+      launch_template_os     = "amazonlinux2eks" # amazonlinux2eks or bottlerocket`
+
+      labels = {
         intent = "control-apps"
       }
-    },
+    }
 
     // ### -->> SPOT NODE GROUPS GO HERE <<--- ###
   }
@@ -137,21 +134,20 @@ module "eks_blueprints" {
   tags = local.tags
 }
 
-module "eks_blueprints_kubernetes_addons" {
-  source = "github.com/aws-ia/terraform-aws-eks-blueprints//modules/kubernetes-addons?ref=v4.21.0"
+module "eks_blueprints_addons" {
+  source  = "aws-ia/eks-blueprints-addons/aws"
+  version = "1.7.0"
 
-  eks_cluster_id       = module.eks_blueprints.eks_cluster_id
-  eks_cluster_endpoint = module.eks_blueprints.eks_cluster_endpoint
-  eks_oidc_provider    = module.eks_blueprints.oidc_provider
-  eks_cluster_version  = module.eks_blueprints.eks_cluster_version
+  cluster_name      = module.eks.cluster_name
+  cluster_endpoint  = module.eks.cluster_endpoint
+  cluster_version   = module.eks.cluster_version
+  oidc_provider_arn = module.eks.oidc_provider_arn
+
+  create_delay_dependencies = [for prof in module.eks.eks_managed_node_groups : prof.node_group_arn]
 
   enable_metrics_server = true
 
   tags = local.tags
-
-  depends_on = [
-    module.eks_blueprints
-  ]
 }
 
 #---------------------------------------------------------------
@@ -159,7 +155,7 @@ module "eks_blueprints_kubernetes_addons" {
 #---------------------------------------------------------------
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "4.0.2"
+  version = "5.0.0"
 
   name = local.name
   cidr = local.vpc_cidr
@@ -240,5 +236,5 @@ resource "aws_iam_instance_profile" "managed_ng" {
 
 output "configure_kubectl" {
   description = "Configure kubectl: make sure you're logged in with the correct AWS profile and run the following command to update your kubeconfig"
-  value       = module.eks_blueprints.configure_kubectl
+  value       = "aws eks --region ${local.region} update-kubeconfig --name ${module.eks.cluster_name}"
 }

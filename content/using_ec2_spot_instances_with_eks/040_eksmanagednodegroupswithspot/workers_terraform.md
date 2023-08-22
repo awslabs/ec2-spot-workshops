@@ -27,11 +27,17 @@ Now copy the following code snippet, and paste it just below the `// ### -->> SP
       desired_size    = 2
       min_size        = 0
 
-      subnet_type = "private"
-      subnet_ids  = []
+      subnet_ids = module.vpc.private_subnets
 
-      k8s_taints = [{ key = "spotInstance", value = "true", effect = "PREFER_NO_SCHEDULE" }]
-      k8s_labels = {
+      taints = {
+        spotInstance = {
+          key    = "spotInstance"
+          value  = "true"
+          effect = "PREFER_NO_SCHEDULE"
+        }
+      }
+
+      labels = {
         intent = "apps"
       }
     },
@@ -44,19 +50,21 @@ Now copy the following code snippet, and paste it just below the `// ### -->> SP
       desired_size    = 1
       min_size        = 0
 
-      subnet_type = "private"
-      subnet_ids  = []
+      subnet_ids = module.vpc.private_subnets
 
-      k8s_taints = [{ key = "spotInstance", value = "true", effect = "PREFER_NO_SCHEDULE" }]
-      k8s_labels = {
+      taints = {
+        spotInstance = {
+          key    = "spotInstance"
+          value  = "true"
+          effect = "PREFER_NO_SCHEDULE"
+        }
+      }
+
+      labels = {
         intent = "apps"
       }
     }
 ```
-
-Now your `main.tf` file should look like this:
-
-![EKS Blueprints - Spot Node Groups Block](/images/using_ec2_spot_instances_with_eks/prerequisites/eksblueprints_spot_nodegroups_final.png)
 
 Run the following command to fix any identation or configuration problem (if any):
 
