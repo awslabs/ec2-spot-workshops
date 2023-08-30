@@ -7,6 +7,5 @@ pre: "<b>8. </b>"
 ---
 
 ## Overview 
-Amazon EC2 Spot Instances are a good fit in DevOps scenarios: to run your CI/CD pipelines (including build and test runners) and to deploy your testing environments. In this section you can select one of the two workshops for CI/CD depending on the tool that you use:
-* [Jenkins](/amazon-ec2-spot-cicd-workshop/jenkins-spot.html)
+Amazon EC2 Spot Instances are a good fit in DevOps scenarios: to run your CI/CD pipelines (including build and test runners) and to deploy your testing environments:
 * [GitLab](/amazon-ec2-spot-cicd-workshop/gitlab-spot.html)
