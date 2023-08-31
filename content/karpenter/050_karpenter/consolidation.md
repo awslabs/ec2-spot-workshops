@@ -46,9 +46,9 @@ metadata:
   name: default
 spec:
   subnetSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   securityGroupSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   tags:
     KarpenerProvisionerName: "default"
     NodeType: "karpenter-workshop"
@@ -189,9 +189,9 @@ metadata:
   name: default
 spec:
   subnetSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   securityGroupSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   tags:
     KarpenerProvisionerName: "default"
     NodeType: "karpenter-workshop"

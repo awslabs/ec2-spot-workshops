@@ -49,9 +49,9 @@ metadata:
   name: default
 spec:
   subnetSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   securityGroupSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   tags:
     KarpenerProvisionerName: "default"
     NodeType: "karpenter-workshop"
@@ -75,7 +75,7 @@ The configuration for the provider is split into two parts. The first one define
 
 
 {{% notice info %}}
-Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop, **Karpenter v0.19.2** is the main implementation and only available on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/v0.19.2/aws/)**. 
+Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop, **Karpenter v0.19.2** is the main implementation and only available on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/docs/concepts/provisioners/)**. 
 {{% /notice %}}
 
 ## Displaying Karpenter Logs
