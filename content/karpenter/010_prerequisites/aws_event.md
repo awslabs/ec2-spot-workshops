@@ -14,12 +14,14 @@ are running the workshop on your own, go to: [Start the workshop on your own]({{
 
 ### Login to the AWS Workshop Portal
 
-If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Participant Hash** provided to you by the event's organizers.
+If you are at an AWS event, an AWS account was created for you to use throughout the workshop. You will need the **Event access code** provided to you by the event's organizers.
 
-1. Connect to the portal by browsing to [https://dashboard.eventengine.run/](https://dashboard.eventengine.run/).
-2. Enter the Hash in the text box, and click **Proceed** 
-3. In the User Dashboard screen, click **AWS Console** 
-4. In the popup page, click **Open Console** 
+1. Connect to the portal by browsing to [Workshop Studio](https://catalog.us-east-1.prod.workshops.aws/join).
+2. Sign in by clicking on the `Email one-time password (OTP)` button.
+3. Enter your email address in the text box, and click **Send Passcode**. You should receive a passcode within 5 minutes. Enter the passcode in the text box, and click **Sign in***.
+4. Enter the `Event access code` in the text box, and click **Next** 
+5. Review the `Terms and Conditions` and check the `I agree with the Terms and Conditions` box, and click **Join event** 
+6. In the left panel, click **Open AWS console** 
 
 You are now logged in to the AWS console in an account that was created for you, and will be available only throughout the workshop run time.
 
@@ -31,7 +33,7 @@ In the interest of time we have deployed everything required to run Karpenter fo
 
 In this workshop, you'll need to reference the resources created by the CloudFormation stack.
 
-1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack name that starts with **mod-** in the list.
+1. On the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation), select the stack name **eks-spot-workshop-quickstart-cnf** in the list.
 
 2. In the stack details pane, click the **Outputs** tab.
 

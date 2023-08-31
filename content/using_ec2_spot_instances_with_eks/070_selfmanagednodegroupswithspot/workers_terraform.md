@@ -34,43 +34,77 @@ Just below that line, paste the following code snippet to create two Spot self-m
 ```
   self_managed_node_groups = {
     smng_spot_4vcpu_16mem = {
-      node_group_name    = "smng-spot-4vcpu-16mem"
-      capacity_type      = "spot"
-      capacity_rebalance = true
-      instance_types     = ["m4.xlarge", "m5.xlarge", "m5a.xlarge", "m5ad.xlarge", "m5d.xlarge", "t2.xlarge", "t3.xlarge", "t3a.xlarge"]
-      
-      max_size           = 4
-      desired_size       = 2
-      min_size           = 0
+      node_group_name            = "smng-spot-4vcpu-16mem"
+      capacity_rebalance         = true
+      use_mixed_instances_policy = true      
+      create_iam_role            = false
+      iam_role_arn               = aws_iam_role.managed_ng.arn
+      instance_type              = "m5.xlarge"
+
+      bootstrap_extra_args = "--kubelet-extra-args '--node-labels=eks.amazonaws.com/capacityType=SPOT,intent=apps,type=self-managed-spot --register-with-taints=spotInstance=true:PreferNoSchedule'"
+
+      mixed_instances_policy = {
+        instances_distribution = {
+          on_demand_base_capacity                  = 0
+          on_demand_percentage_above_base_capacity = 0
+          spot_allocation_strategy                 = "price-capacity-optimized"
+        }
+
+        override = [
+          { instance_type = "m4.xlarge" },
+          { instance_type = "m5.xlarge" },
+          { instance_type = "m5a.xlarge" },
+          { instance_type = "m5ad.xlarge" },
+          { instance_type = "m5d.xlarge" },
+          { instance_type = "t2.xlarge" },
+          { instance_type = "t3.xlarge" },
+          { instance_type = "t3a.xlarge" }
+        ]
+      }
+
+      max_size     = 4
+      desired_size = 2
+      min_size     = 0
 
       subnet_ids         = module.vpc.private_subnets
       launch_template_os = "amazonlinux2eks"
-
-      k8s_taints = [{ key = "spotInstance", value = "true", effect = "PREFER_NO_SCHEDULE" }]
-      k8s_labels = {
-        intent = "apps"
-        type   = "self-managed-spot"
-      }
     }
 
     smng_spot_8vcpu_32mem = {
-      node_group_name    = "smng-spot-8vcpu-32mem"
-      capacity_type      = "spot"
-      capacity_rebalance = true
-      instance_types     = ["m4.2xlarge", "m5.2xlarge", "m5a.2xlarge", "m5ad.2xlarge", "m5d.2xlarge", "t2.2xlarge", "t3.2xlarge", "t3a.2xlarge"]
-      
-      max_size           = 2
-      desired_size       = 1
-      min_size           = 0
+      node_group_name            = "smng-spot-8vcpu-32mem"
+      capacity_rebalance         = true
+      use_mixed_instances_policy = true      
+      create_iam_role            = false
+      iam_role_arn               = aws_iam_role.managed_ng.arn
+      instance_type              = "m5.2xlarge"
+
+      bootstrap_extra_args = "--kubelet-extra-args '--node-labels=eks.amazonaws.com/capacityType=SPOT,intent=apps,type=self-managed-spot --register-with-taints=spotInstance=true:PreferNoSchedule'"
+
+      mixed_instances_policy = {
+        instances_distribution = {
+          on_demand_base_capacity                  = 0
+          on_demand_percentage_above_base_capacity = 0
+          spot_allocation_strategy                 = "price-capacity-optimized"
+        }
+
+        override = [
+          { instance_type = "m4.2xlarge" },
+          { instance_type = "m5.2xlarge" },
+          { instance_type = "m5a.2xlarge" },
+          { instance_type = "m5ad.2xlarge" },
+          { instance_type = "m5d.2xlarge" },
+          { instance_type = "t2.2xlarge" },
+          { instance_type = "t3.2xlarge" },
+          { instance_type = "t3a.2xlarge" }
+        ]
+      }
+
+      max_size     = 2
+      desired_size = 1
+      min_size     = 0
 
       subnet_ids         = module.vpc.private_subnets
-      launch_template_os = "amazonlinux2eks"
-
-      k8s_taints = [{ key = "spotInstance", value = "true", effect = "PREFER_NO_SCHEDULE" }]
-      k8s_labels = {
-        intent = "apps"
-        type   = "self-managed-spot"
-      }
+      launch_template_os = "amazonlinux2eks"      
     }
   }
 ```
