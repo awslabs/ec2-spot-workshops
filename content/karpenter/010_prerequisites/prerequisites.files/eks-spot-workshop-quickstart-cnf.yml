@@ -267,8 +267,6 @@ Resources:
             - sudo -H -u ec2-user aws --version
             - echo '=== setup AWS configs ==='            
             - rm -vf /home/ec2-user/.aws/credentials
-            - aws cloud9 update-environment --environment-id ${C9_PID} --managed-credentials-action DISABLE
-            - rm -vf ${HOME}/.aws/credentials
             - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
             - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
             - echo "export ACCOUNT_ID=${ACCOUNT_ID}" >> /home/ec2-user/.bash_profile
