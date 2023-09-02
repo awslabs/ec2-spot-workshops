@@ -45,7 +45,9 @@ EOF
 kubectl apply -f inflate.yaml
 ```
 
-
+{{% notice tip %}}
+As Karpenter provisions nodes based on resource requests and any scheduling constraints it is important to apply accurate resource requests to all workloads. Guidance for configuring and sizing resource requests/limits can be found in the [reliability](https://aws.github.io/aws-eks-best-practices/reliability/docs/dataplane/#configure-and-size-resource-requestslimits-for-all-workloads) section of the Amazon EKS best practices guide.
+{{% /notice %}}
 
 ## Challenge
 

@@ -56,6 +56,10 @@ spec:
 EOF
 ```
 
+{{% notice tip %}}
+When consolidation is enabled it is recommended you configure requests=limits for all non-CPU resources. As an example, pods that have a memory limit that is larger than the memory request can burst above the request. If several pods on the same node burst at the same time, this can cause some of the pods to be terminated due to an out of memory (OOM) condition. Consolidation can make this more likely to occur as it works to pack pods onto nodes only considering their requests.
+{{% /notice %}}
+
 ## Challenge
 
 {{% notice tip %}}
