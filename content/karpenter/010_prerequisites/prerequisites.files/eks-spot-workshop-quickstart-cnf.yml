@@ -281,9 +281,6 @@ Resources:
             - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
             - sudo -H -u ec2-user aws configure get default.region
             - sudo -H -u ec2-user aws sts get-caller-identity
-            - echo '=== Generate SSH key and import to aws ==='
-            - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
-            - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
             - echo '=== Update Golang ==='
             - sudo rm -r /usr/lib/golang/
             - sudo wget https://storage.googleapis.com/golang/go1.20.6.linux-amd64.tar.gz
@@ -307,10 +304,6 @@ Resources:
             - cd /home/ec2-user/environment/eksworkshop/
             - sudo -H -u ec2-user /usr/bin/terraform init
             - sudo -H -u ec2-user /usr/bin/terraform apply --auto-approve
-            - echo '=== Install Helm ==='
-            - curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-            - helm repo add stable https://charts.helm.sh/stable/
-            - helm repo update
             - echo '=== Finishing ==='
 
   C9BootstrapAssociation:
