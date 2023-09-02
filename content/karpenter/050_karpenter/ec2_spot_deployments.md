@@ -60,12 +60,15 @@ EOF
 kubectl apply -f inflate-spot.yaml
 ```
 
+{{% notice tip %}}
+When dealing with disruptions, it is important your application can shutdown safely by handling the SIGTERM signal. A SIGTERM signal is sent to the main process (PID 1) of each container in the Pods being evicted. After the SIGTERM signal is sent, Kubernetes will give the process some time (grace period) before a SIGKILL signal is sent. This grace period is 30 seconds by default; you can override the default by using grace-period flag in kubectl or declare terminationGracePeriodSeconds in your Pod spec. For more information on dealing with disruptions checkout the [reliability](https://aws.github.io/aws-eks-best-practices/reliability/docs/application/#dealing-with-disruptions) section of the Amazon EKS best practices guide.
+{{% notice tip %}}
 
 ## Challenge
 
 {{% notice tip %}}
 You can use **Kube-ops-view** or just plain **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the resposnes. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`
-{{% /notice %}}
+{{% notice tip %}}
 
 Answer the following questions. You can expand each question to get a detailed answer and validate your understanding.
 
