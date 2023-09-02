@@ -97,5 +97,5 @@ kl
 ```
 
 {{% notice info %}}
-Karpenter log configuration is stored as a Kubernetes ConfigMap. You can read the configuration by running the following command `kubectl describe configmap config-logging -n karpenter`. You can increase the logging level to `debug` by upgrading the Karpenter Helm release using the following command `helm upgrade --namespace karpenter karpenter karpenter/karpenter --set logLevel=debug --reuse-values`
+Karpenter log configuration is stored as a Kubernetes ConfigMap. You can read the configuration by running the following command `kubectl describe configmap config-logging -n karpenter`. You can increase the logging level to `debug` by following [this](https://karpenter.sh/docs/troubleshooting/#enable-debug-logging) guide.
 {{% /notice %}}
