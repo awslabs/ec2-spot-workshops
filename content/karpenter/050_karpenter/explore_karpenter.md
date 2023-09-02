@@ -47,5 +47,5 @@ kubectl get deployment -n karpenter
 ```
 
 {{% notice info %}}
-Since **v0.16.0** Karpenter deploys 2 replicas. One of the replicas is elected as a Leader while the other stays in standby mode. The karpenter deployment also uses `topologySpreadConstraints` to spread each replica in a different AZ.
+Since **v0.16.0** Karpenter deploys 2 replicas. One of the replicas is elected as a Leader while the other stays in standby mode. The karpenter deployment also uses `podAntiAffinity` to spread each replica across different hosts.
 {{% /notice %}}
