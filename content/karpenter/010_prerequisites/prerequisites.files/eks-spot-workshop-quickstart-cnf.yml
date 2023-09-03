@@ -282,7 +282,6 @@ Resources:
             - echo '=== Install eks-node-viewer ==='
             - sudo -H -u ec2-user go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@v0.4.1
             - sudo -H -u ec2-user echo "export PATH=/home/ec2-user/go/bin:$PATH" >> /home/ec2-user/.bashrc
-            - sudo -H -u ec2-user source $HOME/.bashrc
             - echo '=== Install Terraform ==='
             - sudo yum install -y yum-utils
             - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo

@@ -67,7 +67,7 @@ locals {
   region = "--AWS_REGION--"
 
   cluster_version = "--EKS_VERSION--"
-  
+
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
@@ -114,7 +114,7 @@ module "eks" {
   manage_aws_auth_configmap = true
   aws_auth_roles = [
     {
-      rolearn  = module.eks_blueprints_addons_karpenter.karpenter.node_iam_role_arn
+      rolearn  = module.eks_blueprints_addons.karpenter.node_iam_role_arn
       username = "system:node:{{EC2PrivateDNSName}}"
       groups = [
         "system:bootstrappers",
@@ -131,7 +131,7 @@ module "eks" {
   ]
 
   eks_managed_node_groups = {
-    mg_5 = {
+    managed-ondemand = {
       node_group_name = "managed-ondemand"
       instance_types  = ["m4.xlarge", "m5.xlarge", "m5a.xlarge", "m5ad.xlarge", "m5d.xlarge", "t2.xlarge", "t3.xlarge", "t3a.xlarge"]
 
@@ -157,7 +157,7 @@ module "eks" {
   })
 }
 
-module "eks_blueprints_addons_load_balancer" {
+module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
   version = "1.7.0"
 
@@ -167,14 +167,20 @@ module "eks_blueprints_addons_load_balancer" {
   oidc_provider_arn = module.eks.oidc_provider_arn
 
   create_delay_dependencies = [for prof in module.eks.eks_managed_node_groups : prof.node_group_arn]
-  enable_aws_load_balancer_controller = true
 
+  enable_metrics_server               = true
 
+  enable_karpenter = true
+  karpenter = {
+    repository_username = data.aws_ecrpublic_authorization_token.token.user_name
+    repository_password = data.aws_ecrpublic_authorization_token.token.password
+  }
+  karpenter_enable_spot_termination = true
   tags = local.tags
+
 }
 
-
-module "eks_blueprints_addons_karpenter" {
+module "eks_blueprints_addons_load_balancer_controller" {
   source  = "aws-ia/eks-blueprints-addons/aws"
   version = "1.7.0"
 
@@ -183,19 +189,11 @@ module "eks_blueprints_addons_karpenter" {
   cluster_version   = module.eks.cluster_version
   oidc_provider_arn = module.eks.oidc_provider_arn
 
-  enable_metrics_server               = true
-
-  enable_karpenter = true
-  karpenter = {
-    repository_username = data.aws_ecrpublic_authorization_token.token.user_name
-    repository_password = data.aws_ecrpublic_authorization_token.token.password
-    chart_version = "v0.29.2"
-  }
-  karpenter_enable_spot_termination = true
-
-  depends_on = [module.eks_blueprints_addons_load_balancer]
+  enable_aws_load_balancer_controller = true
 
   tags = local.tags
+
+  depends_on = [module.eks_blueprints_addons]
 }
 
 #---------------------------------------------------------------
@@ -301,7 +299,7 @@ resource "kubectl_manifest" "kube_ops_view_deployment" {
   YAML
 
   depends_on = [
-    module.eks_blueprints_addons_load_balancer
+    module.eks
   ]
 }
 
@@ -314,7 +312,7 @@ resource "kubectl_manifest" "kube_ops_view_sa" {
   YAML
 
   depends_on = [
-   module.eks_blueprints_addons_load_balancer
+    module.eks
   ]
 }
 
@@ -337,7 +335,7 @@ resource "kubectl_manifest" "kube_ops_view_clusterrole" {
   YAML
 
   depends_on = [
-    module.eks_blueprints_addons_load_balancer
+    module.eks
   ]
 }
 
@@ -358,7 +356,7 @@ resource "kubectl_manifest" "kube_ops_view_clusterrole_binding" {
   YAML
 
   depends_on = [
-    module.eks_blueprints_addons_load_balancer
+    module.eks
   ]
 }
 
@@ -387,7 +385,7 @@ resource "kubectl_manifest" "kube_ops_view_service" {
   YAML
 
   depends_on = [
-    module.eks_blueprints_addons_load_balancer
+    module.eks
   ]
 }
 

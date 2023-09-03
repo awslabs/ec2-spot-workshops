@@ -19,6 +19,7 @@ kind: Service
 metadata: 
   name: monte-carlo-pi-service
   annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
     service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
     service.beta.kubernetes.io/aws-load-balancer-manage-backend-security-group-rules: "true"
