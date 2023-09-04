@@ -88,7 +88,7 @@ Before we use Karpenter, there are a few things that we will need to prepare in 
 
 ## Create the Amazon EC2 Spot Linked Role
 
-To finish the set-up we need to crteat the spot [EC2 Spot Linked role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#service-linked-roles-spot-instance-requests).
+To finish the set-up we need to create the spot [EC2 Spot Linked role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html#service-linked-roles-spot-instance-requests).
 
 {{% notice warning %}}
 This step is only necessary if this is the first time you’re using EC2 Spot in this account. If the role has already been successfully created, you will see: *An error occurred (InvalidInput) when calling the CreateServiceLinkedRole operation: Service role name AWSServiceRoleForEC2Spot has been taken in this account, please try a different suffix.* . Just ignore the error and proceed with the rest of the workshop.
