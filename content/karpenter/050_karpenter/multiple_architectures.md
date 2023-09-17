@@ -118,7 +118,7 @@ Before we check the selected node, let's cover what Karpenter is expected to do 
 Let's confirm that was the case and only `amd64` considered for scaling up. We can check karpenter logs by running the following command.
 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 kl
 ```
 
@@ -196,7 +196,7 @@ Karpenter does support the nodeSelector well-known label `node.kubernetes.io/ins
 So in this case we should expect just one instance being considered. You can check Karpenter logs by running:
 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 kl
 ```
 

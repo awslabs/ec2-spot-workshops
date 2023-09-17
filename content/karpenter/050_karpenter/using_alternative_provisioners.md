@@ -125,7 +125,7 @@ But there is something that does not match with what we have seen so far with Ka
 Well, let's check first Karpenter log. 
 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 kl
 ```
 

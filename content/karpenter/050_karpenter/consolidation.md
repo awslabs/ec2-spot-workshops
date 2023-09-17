@@ -96,7 +96,7 @@ kubectl scale deployment inflate --replicas 6
 
 As for what should happen, check out karpenter logs, remember you can read karpenter logs using the following command 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 kl
 ```
 
@@ -156,7 +156,7 @@ To scale up the deployment bach to 10 ,run the following command:
 kubectl scale deployment inflate --replicas 10
 ```
 
-There should not be any surprise here, like in previous cases a new **2xlarge** node should be selected to place the extra 7 pods.
+There should not be any surprise here, like in previous cases a new **2xlarge** node might be selected to place the extra 7 pods. Note, the provisioned instance type can depend on available spot capacity.
 
 To apply the change to the provisioner, we will re-deploy the default provisioner, this time using both `on-demand` and `spot`. Run the following command
 ```
@@ -219,28 +219,7 @@ Karpenter logs should show a sequence of events similar to the one below.
 2022-09-05T08:57:06.000Z        INFO    controller.termination  Deleted node    {"commit": "b157d45", "node": "ip-192-168-8-39.eu-west-1.compute.internal"}
 ```
 
-{{% /expand %}}
-
-#### 4) Scale the `inflate` service to 6 replicas, what should happen ?
-{{%expand "Click here to show the answer" %}} 
-
-Run the following command to set the number of replicas to 6
-
-```
-kubectl scale deployment inflate --replicas 6
-```
-
-As a result from reducing the replicas to 6 pods, the **2xlarge** instance should be able to cope with all the load. Karpenter will launch a consolidation cycle and delete **xlarge** node, as a result any remaining pod from the **xlarge** will move to the **2xlarge** instance.
-
-Karpenter logs will show the following sequence of events
-```
-2022-09-05T09:04:55.912Z        INFO    controller.consolidation        Consolidating via Delete, terminating 1 nodes ip-192-168-49-94.eu-west-1.compute.internal/c5.xlarge  {"commit": "b157d45"}
-2022-09-05T09:04:55.959Z        INFO    controller.termination  Cordoned node   {"commit": "b157d45", "node": "ip-192-168-49-94.eu-west-1.compute.internal"}
-2022-09-05T09:04:58.759Z        INFO    controller.termination  Deleted node    {"commit": "b157d45", "node": "ip-192-168-49-94.eu-west-1.compute.internal"}
-```
-{{% /expand %}}
-
-#### 5) Scale the `inflate` service to 3 replicas, what should happen ?
+#### 4) Scale the `inflate` service to 3 replicas, what should happen ?
 {{%expand "Click here to show the answer" %}} 
 
 Run the following command to set the number of replicas to 6
@@ -254,7 +233,7 @@ For spot nodes, Karpenter only uses the **Deletion** consolidation mechanism. It
 Effectively no changes will happen at this stage with your cluster.
 {{% /expand %}}
 
-#### 6) What other scenarios could prevent **Consolidation** events in your cluster ?
+#### 5) What other scenarios could prevent **Consolidation** events in your cluster ?
 {{%expand "Click here to show the answer" %}} 
 
 There are a few cases where requesting to deprovision a Karpenter node will not work. These include **Pod Disruption Budgets** and pods that have the **do-not-evict** annotation set. 
@@ -271,7 +250,7 @@ There are other cases that Karpenter will consider when consolidating. Consolida
 Finally, Karpenter consolidation will not attempt to consolidate a node that is running pods that are not owned by a controller (e.g. a ReplicaSet). In general we cannot assume that these pods would be recreated if they were evicted from the node that they are currently running on.
 {{% /expand %}}
 
-#### 7) Scale the replicas to 0.
+#### 6) Scale the replicas to 0.
 
 In preparation for the next section, scale replicas to 0 using the following command.
 

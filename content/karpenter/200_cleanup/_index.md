@@ -25,6 +25,8 @@ kubectl delete -f inflate-amd64.yaml
 kubectl delete -f inflate-team1.yaml
 kubectl delete -f inflate-spot.yaml
 kubectl delete -f inflate.yaml
+
+aws ecr delete-repository --repository-name monte-carlo-sim --force
 ```
 
 ## Removing the cluster, Managed node groups and Karpenter pre-requisites

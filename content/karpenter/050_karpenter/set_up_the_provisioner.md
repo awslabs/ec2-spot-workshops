@@ -87,7 +87,7 @@ You can create a new terminal window within Cloud9 and leave the command below r
 To read karpenter logs you first need to find the pod that act as elected leader and get the logs out from it. The following line setup an alias that you can use to automate that. The alias just looks for the headers of all the Karpenter controller logs, search for the pod that has the elected leader message and start streaming the line.
 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 ```
 
 From now on to invoke the alias and get the logs we can just use

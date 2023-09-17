@@ -50,7 +50,7 @@ Spend some time checking the state and properties of your EKS cluster.
 
 Alternatively or at the same time that you use Kube-ops-view, you can also use a [eks-node-viewer](https://github.com/awslabs/eks-node-viewer). `eks-node-viewer` is a tool for visualizing dynamic node usage within a cluster. It was originally developed as an internal tool at AWS for demonstrating consolidation with Karpenter. It displays the scheduled pod resource requests vs the allocatable capacity on the node. It does not look at the actual pod resource usage.
 
-To launch it execute:
+To launch it execute the following in a new Cloud9 terminal:
 
 ```
 eks-node-viewer
@@ -59,3 +59,7 @@ eks-node-viewer
 It will display a console similar to the one below. You can keep it running and keep coming to this Tab to check how the console changes over time with new nodes apearing as we go through the workshop.
 
 ![eks-node-viewer screenshot](/images/karpenter/helm/eks-node-viewer.png)
+
+{{% notice tip %}}
+You might not see all the colours as you see in the screenshot but that’s fine. This can be fixed if you open a new terminal in Cloud9 and run the command.
+{{% /notice %}}

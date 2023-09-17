@@ -25,6 +25,12 @@ The command above outputs the following settings:
 
 * `aws.interruptionQueueName=${CLUSTER_NAME}` to use the SQS queue created to handle Spot interruption notifications and AWS Health events.
 
+*  `batchIdleDuration` is the maximum amount of time with no new pending pods that if exceeded ends the current batching window. If pods arrive faster than this time, the batching window will be extended up to the maxDuration. If they arrive slower, the pods will be batched separately.
+
+* `batchMaxDuration` is the maximum length of a batch window. The longer this is, the more pods we can consider for provisioning at one time which usually results in fewer but larger nodes.
+
+Checkout the [Karpenter documentation](https://karpenter.sh/v0.30/concepts/settings/) for information on the other configuration options.
+
 To check Karpenter is running you can check the Pods, Deployment and Service are Running.
 
 To check running pods run the command below. There should be at least two pods names `karpenter`
