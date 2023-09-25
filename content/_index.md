@@ -3,8 +3,6 @@ title: "Amazon EC2 Spot Workshops"
 date: 2019-01-06T12:22:13Z
 draft: false
 ---
-[![dev_days](/images/devdays.png)](https://computecostoptimization.splashthat.com/)
-
 # Welcome to the Amazon EC2 Spot Instances Workshops website
 
 ![spot_logo](/images/spotlogo.png )
