@@ -49,9 +49,9 @@ metadata:
   name: default
 spec:
   subnetSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   securityGroupSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   tags:
     KarpenerProvisionerName: "default"
     NodeType: "karpenter-workshop"
@@ -75,7 +75,7 @@ The configuration for the provider is split into two parts. The first one define
 
 
 {{% notice info %}}
-Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop, **Karpenter v0.19.2** is the main implementation and only available on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/v0.19.2/aws/)**. 
+Karpenter has been designed to be generic and support other Cloud and Infrastructure providers. At the moment of writing this workshop, **Karpenter v0.19.2** is the main implementation and only available on AWS. You can read more about the **[configuration available for the AWS Provisioner here](https://karpenter.sh/docs/concepts/provisioners/)**. 
 {{% /notice %}}
 
 ## Displaying Karpenter Logs
@@ -87,7 +87,7 @@ You can create a new terminal window within Cloud9 and leave the command below r
 To read karpenter logs you first need to find the pod that act as elected leader and get the logs out from it. The following line setup an alias that you can use to automate that. The alias just looks for the headers of all the Karpenter controller logs, search for the pod that has the elected leader message and start streaming the line.
 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 ```
 
 From now on to invoke the alias and get the logs we can just use
@@ -97,5 +97,5 @@ kl
 ```
 
 {{% notice info %}}
-Karpenter log configuration is stored as a Kubernetes ConfigMap. You can read the configuration by running the following command `kubectl describe configmap config-logging -n karpenter`. You can increase the logging level to `debug` by upgrading the Karpenter Helm release using the following command `helm upgrade --namespace karpenter karpenter karpenter/karpenter --set logLevel=debug --reuse-values`
+Karpenter log configuration is stored as a Kubernetes ConfigMap. You can read the configuration by running the following command `kubectl describe configmap config-logging -n karpenter`. You can increase the logging level to `debug` by following [this](https://karpenter.sh/docs/troubleshooting/#enable-debug-logging) guide.
 {{% /notice %}}

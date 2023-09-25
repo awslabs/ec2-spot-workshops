@@ -3,9 +3,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS CloudFormation template to create a Cloud9 environment setup with kubectl, eksctl and an EKS cluster with a managed node group. Please allow ~20min for the EKS cluster to be ready.
 Metadata:
   Author:
-    Description: Carlos Rueda <ruecarlo@amazon.com>
+    Description: Christian Melendez <chrismld@amazon.com>
   License:
-    Description: 'Copyright 2020 Amazon.com, Inc. and its affiliates. All Rights Reserved.
+    Description: 'Copyright 2023 Amazon.com, Inc. and its affiliates. All Rights Reserved.
 
       Licensed under the Amazon Software License (the "License"). You may not use this file
       except in compliance with the License. A copy of the License is located at
@@ -38,13 +38,8 @@ Parameters:
   C9EKSctlVersion:
     Description: Cloud9 instance eksctl version
     Type: String
-    Default: v0.149.0
+    Default: v0.153.0
     ConstraintDescription: Must be a valid eksctl version
-  C9KarpenterVersion:
-    Description: Cloud9 instance Karpenter version
-    Type: String
-    Default: v0.29.2
-    ConstraintDescription: Must be a valid Karpenter version
   EKSClusterVersion:
     Description: EKS Cluster Version
     Type: String
@@ -53,24 +48,32 @@ Parameters:
   EKSClusterName:
     Description: EKS Cluster Name
     Type: String
-    Default: eksworkshop-eksctl
+    Default: eksspotworkshop
     ConstraintDescription: Must be a valid eks version
-  #Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
-  EETeamRoleArn:
+  #Used only by Workshop Studio, if you are self-deploying the stack leave the default value to NONE
+  ParticipantRoleArn:
     Description: "ARN of the Team Role"
     Default: NONE
     Type: String
-    ConstraintDescription: This is ONLY used Event Engine, dont change this if you are self-deploying the stack
+  
+  ParticipantAssumedRoleArn:
+    Description: "ARN of Assumed Team Role"
+    Default: NONE
+    Type: String
+  
+  ParticipantRoleName:
+    Description: "Name of the Team Role"
+    Default: NONE
+    Type: String
 
 Conditions: 
-  NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
+  NotEventEngine: !Equals [!Ref ParticipantRoleArn, NONE]
 
 Resources:
 
 ################## PERMISSIONS AND ROLES #################
   C9Role:
     Type: AWS::IAM::Role
-    Condition: NotEventEngine
     Properties:
       Tags:
         - Key: Environment
@@ -153,7 +156,7 @@ Resources:
         Ref: AWS::StackName
       EnvironmentId:
         Ref: C9Instance
-      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
+      LabIdeInstanceProfileArn: !GetAtt C9InstanceProfile.Arn
 
   C9BootstrapInstanceLambdaFunction:
     Type: AWS::Lambda::Function
@@ -260,10 +263,9 @@ Resources:
             - sudo -H -u ec2-user aws --version
             - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             - unzip awscliv2.zip
-            - sudo ./aws/install
-            - . /home/ec2-user/.bash_profile
+            - sudo ./aws/install            
             - sudo -H -u ec2-user aws --version
-            - echo '=== setup AWS configs ==='
+            - echo '=== setup AWS configs ==='            
             - rm -vf /home/ec2-user/.aws/credentials
             - export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account)
             - export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
@@ -272,32 +274,28 @@ Resources:
             - sudo -H -u ec2-user aws configure set default.region ${AWS_REGION}
             - sudo -H -u ec2-user aws configure get default.region
             - sudo -H -u ec2-user aws sts get-caller-identity
-            - echo '=== Generate SSH key and import to aws ==='
-            - sudo -H -u ec2-user ssh-keygen -f /home/ec2-user/.ssh/id_rsa1 -P ''
-            - sudo -H -u ec2-user aws ec2 import-key-pair --key-name "eksworkshop" --public-key-material file:///home/ec2-user/.ssh/id_rsa1.pub
             - echo '=== Update Golang ==='
             - sudo rm -r /usr/lib/golang/
             - sudo wget https://storage.googleapis.com/golang/go1.20.6.linux-amd64.tar.gz
             - sudo tar -C /usr/lib/ -xzf ./go1.20.6.linux-amd64.tar.gz
             - sudo ln -s /usr/lib/go /usr/lib/golang
-            - echo '=== Install EKSCTL ==='
-            - !Sub 'export EKSCTL_VERSION=${C9EKSctlVersion}'
-            - sudo -H -u ec2-user curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/${EKSCTL_VERSION}/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-            - sudo mv -v /tmp/eksctl /usr/local/bin
-            - sudo -H -u ec2-user /usr/local/bin/eksctl version
+            - echo '=== Install eks-node-viewer ==='
+            - sudo -H -u ec2-user go install github.com/awslabs/eks-node-viewer/cmd/eks-node-viewer@v0.4.1
+            - sudo -H -u ec2-user echo "export PATH=/home/ec2-user/go/bin:$PATH" >> /home/ec2-user/.bashrc
+            - echo '=== Install Terraform ==='
+            - sudo yum install -y yum-utils
+            - sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+            - sudo yum -y install terraform-1.5.5
             - echo '=== Create EKS Cluster ==='
-            - !Sub 'export KARPENTER_VERSION=${C9KarpenterVersion}'
-            - sudo -H -u ec2-user curl --silent --location -o /home/ec2-user/environment/cloudformation.yaml "https://raw.githubusercontent.com/aws/karpenter/"${KARPENTER_VERSION}"/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml"
-            - sudo -H -u ec2-user aws cloudformation deploy --stack-name "Karpenter-eksworkshop-eksctl" --template-file "/home/ec2-user/environment/cloudformation.yaml" --capabilities CAPABILITY_NAMED_IAM --parameter-overrides "ClusterName=eksworkshop-eksctl"
-            - sudo -H -u ec2-user curl --silent --location -o /home/ec2-user/environment/eksworkshop.yaml "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/master/content/karpenter/010_prerequisites/prerequisites.files/eksworkshop.yaml"
-            - !Sub sed -i.bak -e 's/--AWS_REGION--/${AWS::Region}/' /home/ec2-user/environment/eksworkshop.yaml
-            - !Sub sed -i.bak -e 's/--AZA--/${AWS::Region}a/' /home/ec2-user/environment/eksworkshop.yaml
-            - !Sub sed -i.bak -e 's/--AZB--/${AWS::Region}b/' /home/ec2-user/environment/eksworkshop.yaml
-            - !Sub sed -i.bak -e 's/--EKS_VERSION--/"'"${EKSClusterVersion}"'"/' /home/ec2-user/environment/eksworkshop.yaml
-            - !Sub sed -i.bak -e 's/--AWS_ACCOUNT_ID--/${AWS::AccountId}/' /home/ec2-user/environment/eksworkshop.yaml
-            - sudo -H -u ec2-user /usr/local/bin/eksctl create cluster -f /home/ec2-user/environment/eksworkshop.yaml
-            - sudo -H -u ec2-user /usr/local/bin/aws eks update-kubeconfig --name eksworkshop-eksctl
-            - sudo -H -u ec2-user /usr/local/bin/kubectl get nodes
+            - sudo -H -u ec2-user mkdir -p /home/ec2-user/environment/eksworkshop/
+            - sudo -H -u ec2-user curl --silent --location -o /home/ec2-user/environment/eksworkshop/main.tf "https://raw.githubusercontent.com/awslabs/ec2-spot-workshops/karpenter-eks-blueprints/content/karpenter/010_prerequisites/prerequisites.files/eks-blueprints.tf"
+            - !Sub sed -i.bak -e 's/--AWS_REGION--/${AWS::Region}/' /home/ec2-user/environment/eksworkshop/main.tf
+            - !Sub sed -i.bak -e 's/--EKS_VERSION--/${EKSClusterVersion}/' /home/ec2-user/environment/eksworkshop/main.tf              
+            - !Sub sed -i.bak -e 's/--AWS_ACCOUNT_ID--/${AWS::AccountId}/' /home/ec2-user/environment/eksworkshop/main.tf
+            - cd /home/ec2-user/environment/eksworkshop/
+            - sudo -H -u ec2-user /usr/bin/terraform init
+            - sudo -H -u ec2-user /usr/bin/terraform apply --auto-approve
+            - echo '=== Finishing ==='
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
@@ -317,7 +315,6 @@ Resources:
 ################## INSTANCE #####################
   C9InstanceProfile:
     Type: AWS::IAM::InstanceProfile
-    Condition: NotEventEngine
     Properties:
       Path: "/"
       Roles:
@@ -329,12 +326,12 @@ Resources:
     Properties:
       Description: AWS Cloud9 instance for Examples
       AutomaticStopTimeMinutes: 3600
+      ImageId: amazonlinux-2-x86_64
       InstanceType:
         Ref: C9InstanceType
       Name: 
         Ref: AWS::StackName
-      # OwnerArn: !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey'
-      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Ref ParticipantAssumedRoleArn ]
       Tags:
         -
           Key: SSMBootstrap

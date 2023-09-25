@@ -17,7 +17,12 @@ cat <<EoF > monte-carlo-pi-service.yaml
 apiVersion: v1 
 kind: Service 
 metadata: 
-  name: monte-carlo-pi-service 
+  name: monte-carlo-pi-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-manage-backend-security-group-rules: "true"
 spec: 
   type: LoadBalancer 
   ports: 
@@ -104,7 +109,7 @@ kubectl describe provisioner default
 We can confirm the statements above by checking Karpenter logs using the following command. By now you should be very familiar with the log lines expected.
 
 ```
-alias kl='kubectl logs deploy/karpenter -n karpenter -f --tail=20'
+alias kl='kubectl -n karpenter logs -l app.kubernetes.io/name=karpenter --all-containers=true -f --tail=20'
 kl
 ```
 

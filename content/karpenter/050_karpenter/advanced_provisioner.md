@@ -54,9 +54,9 @@ metadata:
   name: default
 spec:
   subnetSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   securityGroupSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   tags:
     KarpenerProvisionerName: "default"
     NodeType: "karpenter-workshop"
@@ -101,9 +101,9 @@ metadata:
 spec:
   amiFamily: Bottlerocket
   subnetSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   securityGroupSelector:
-    alpha.eksctl.io/cluster-name: ${CLUSTER_NAME}
+    karpenter.sh/discovery: eksspotworkshop
   tags:
     KarpenerProvisionerName: "team1"
     NodeType: "karpenter-workshop"
@@ -149,48 +149,3 @@ kubectl describe provisioners default
 ```
 
 You can repeat the same commands with `kubectl get AWSNodeTemplate` to check the provider section within the provisioner.
-
-## (Optional Read) Customizing AMIs and Node Bootstrapping 
-
-{{% notice info %}}
-In this workshop we will stick to the default AMI used by Karpenter. This section does not contain any exercise or command. The section describes how the AMI and node bootsrapping can be adapted when needed. If you want to deep dive into this topic you can [read the following karpenter documentation link](https://karpenter.sh/v0.19.2/aws/operating-systems/)
-{{% /notice %}}
-
-By default, Karpenter generates [launch templates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/LaunchTemplates.html) that use the [EKS Optimized AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) and Encrypted EBS root volumes with the default (AWS Managed) KMS key for nodes. Karpenter also supports [Bottlerocket](https://aws.amazon.com/bottlerocket/). 
-
-Under the hood Karpenter manages [LaunchTemplates](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html) that point to the right AMIs. Karpenter also dynamically updates new versions of the EKS and Bottlerocket AMIs when there are new versions available. To automate the patching of AMIs, Provisioners can use `ttlSecondsUntilExpired` to force nodes to terminate so that new nodes that use the new AMIs replace older versions. 
-
-Karpenter supports passing a `UserData` configuration for EKS (AL2, and Ubuntu as well) and Bottlerocket AMIs. This significantly simplifies the management of nodes while enabling users to customize their nodes for aspects such as governance, security or just optimizing with specific bootstrapping parameter. You can read more about how bootstrapping can be applied **[here](https://karpenter.sh/v0.19.2/aws/operating-systems/)**. Note Bottlerocket and EKS have different data formats, multi-part MIME for AL2 and Ubuntu and TOML for Bottlerocket.
-
-Often, users may need to customize the AMI to integrate with existing infrastructure, meet compliance requirements, add extra storage, etc. Karpenter supports custom node images and bootstrapping through Launch Templates. If you need to customize the node outside of what is offered in the [AWSNodeTemplate](https://karpenter.sh/v0.19.2/aws/provisioning/#awsnodetemplate), then you need a custom launch template. 
-
-{{%notice note %}}
-Using custom launch templates prevents multi-architecture support, the ability to automatically upgrade nodes, and securityGroup discovery. Using launch templates may also cause confusion because certain fields are duplicated within Karpenter’s provisioners while others are ignored by Karpenter, e.g. subnets and instance types.
-{{% /notice%}}
-
-{{% notice warning %}}
-By customizing the image, you are taking responsibility for maintaining it, including security updates. In the default configuration, Karpenter will use the latest version of the EKS optimized AMI, which is maintained by AWS.
-{{% /notice %}}
-
-
-
-The selection of the Launch Template can be configured in the provider by setting up the `launchTemplate` property.
-
-```yaml
-apiVersion: karpenter.k8s.aws/v1alpha1
-kind: AWSNodeTemplate
-metadata:
-  name: team1
-spec:
-  launchTemplate: CustomKarpenterLaunchTemplateDemo
-  ...
-```
-
-Launch Templates specifiy instance configuration information. It includes the ID of the Amazon Machine Image (AMI), the instance type, an SSH key pair, storage, user data and other parameters used to launch EC2 instances. Launch Template user data can be used to customize the node bootstrapping to the cluster. In the default configuration, Karpenter uses an EKS optimized version of AL2 and passes the hostname of the Kubernetes API server, and a certificate for the node to bootstrap the process with the default configuration. The EKS Optimized AMI includes a `bootstrap.sh` script which connects the instance to the cluster, based on the passed data. Alternatively, you may reference AWS's [`bootstrap.sh`
-file](https://github.com/awslabs/amazon-eks-ami/blob/master/files/bootstrap.sh)
-when building a custom base image. 
-
-{{% notice warning %}}
-Specifying max-pods can break Karpenter's bin-packing logic (it has no way to know what this setting is). If Karpenter attempts to pack more than this number of pods, the instance may be oversized, and additional pods will reschedule.
-{{% /notice %}}
-

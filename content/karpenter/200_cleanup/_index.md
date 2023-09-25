@@ -25,25 +25,14 @@ kubectl delete -f inflate-amd64.yaml
 kubectl delete -f inflate-team1.yaml
 kubectl delete -f inflate-spot.yaml
 kubectl delete -f inflate.yaml
-helm uninstall karpenter -n karpenter
-kubectl delete -k $HOME/environment/kube-ops-view
-kubectl delete -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.1/components.yaml
+
+aws ecr delete-repository --repository-name monte-carlo-sim --force
 ```
 
 ## Removing the cluster, Managed node groups and Karpenter pre-requisites
 ```
-
-aws cloudformation delete-stack --stack-name eksctl-eksworkshop-eksctl-addon-iamserviceaccount-karpenter-karpenter
-aws cloudformation wait stack-delete-complete --stack-name eksctl-eksworkshop-eksctl-addon-iamserviceaccount-karpenter-karpenter
-
-aws cloudformation delete-stack --stack-name Karpenter-eksworkshop-eksctl
-aws cloudformation wait stack-delete-complete --stack-name Karpenter-eksworkshop-eksctl
-
-aws cloudformation delete-stack --stack-name eksctl-eksworkshop-eksctl-nodegroup-mng-od-m5large
-aws cloudformation wait stack-delete-complete --stack-name eksctl-eksworkshop-eksctl-nodegroup-mng-od-m5large
-
-aws cloudformation delete-stack --stack-name eksctl-eksworkshop-eksctl-cluster
-aws cloudformation wait stack-delete-complete --stack-name eksctl-eksworkshop-eksctl-cluster
+cd ~/enviroment/eksworkshop
+terraform destroy --auto-approve
 
 aws cloudformation delete-stack --stack-name karpenter-workshop
 aws cloudformation wait stack-delete-complete --stack-name karpenter-workshop

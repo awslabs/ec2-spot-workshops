@@ -156,10 +156,20 @@ If the experiment completed successfully you should see a response like this:
 
 If `status` is listed as `running`, wait a few seconds and run the command again. If `status` is listed as `failed` with `reason` as `Target resolution returned empty set` it means you do not have any Spot instances running with the `intent: apps` label and so no instance was selected for termination.
 
-You can watch how your cluster reacts to the notice with kube-ops-view. Recall you can get the URL for your kube-ops-view by running:
+You can watch how your cluster reacts to the notice with eks-node-viewer. Recall you can access by running:
+
+```bash
+eks-node-viewer
+```
+
+In the Karpenter logs you will see something like this:
 
 ```
-kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'
+controller.interruption removing offering from offerings {"commit": "34d50bf-dirty", "queue": "karpenter-eksspotworkshop", "messageKind": "SpotInterruptionKind", "machine": "default-4z4fx", "action": "CordonAndDrain", "node": "ip-10-0-101-91.eu-west-1.compute.internal", "reason": "SpotInterruptionKind", "instance-type": "m5.xlarge", "zone": "eu-west-1c", "capacity-type": "spot", "ttl": "3m0s"}
+
+controller.interruption initiating delete for machine from interruption message {"commit": "34d50bf-dirty", "queue": "karpenter-eksspotworkshop", "messageKind": "SpotInterruptionKind", "machine": "default-4z4fx", "action": "CordonAndDrain", "node": "ip-10-0-101-91.eu-west-1.compute.internal"}
+
+controller.termination  cordoned node   {"commit": "34d50bf-dirty", "node": "ip-10-0-101-91.eu-west-1.compute.internal"}
 ```
 
 {{% notice note %}}
