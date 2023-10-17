@@ -43,7 +43,7 @@ Parameters:
   EKSClusterVersion:
     Description: EKS Cluster Version
     Type: String
-    Default: 1.27
+    Default: 1.28
     ConstraintDescription: Must be a valid eks version
   EKSClusterName:
     Description: EKS Cluster Name
@@ -129,6 +129,7 @@ Resources:
             - ec2:AssociateIamInstanceProfile
             - ec2:ModifyInstanceAttribute
             - ec2:ReplaceIamInstanceProfileAssociation
+            - ec2:RebootInstances
             - iam:ListInstanceProfiles
             - iam:PassRole
             Resource: "*"
@@ -186,6 +187,21 @@ Resources:
           # logging.basicConfig(level=logging.INFO)
           # logger = logging.getLogger(__name__)
 
+          def restart_instance(instance_id):
+              #logger.info('Restart EC2 instance to restart SSM Agent')
+              ec2 = boto3.client('ec2')
+
+              try:
+                  response = ec2.reboot_instances(
+                      InstanceIds=[
+                          instance_id
+                      ]
+                  )
+              except Exception as e:
+                  raise e
+
+              #logger.info('response: %s', response)
+
           def lambda_handler(event, context):
               # logger.info('event: {}'.format(event))
               # logger.info('context: {}'.format(context))
@@ -218,6 +234,7 @@ Resources:
                       # attach instance profile
                       response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
                       # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      restart_instance(instance['InstanceId'])
                       r_ec2 = boto3.resource('ec2')
 
                       responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
