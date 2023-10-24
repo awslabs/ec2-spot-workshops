@@ -44,7 +44,7 @@ By default, **[aws-node-termination-handler](https://github.com/aws/aws-node-ter
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-node-termination-handler \
              --namespace kube-system \
-             --version 0.15.4 \
+             --version 0.21.0 \
              --set nodeSelector.type=self-managed-spot \
              eks/aws-node-termination-handler
 ```
