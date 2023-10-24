@@ -222,7 +222,7 @@ Karpenter logs should show a sequence of events similar to the one below.
 #### 4) Scale the `inflate` service to 3 replicas, what should happen ?
 {{%expand "Click here to show the answer" %}} 
 
-Run the following command to set the number of replicas to 6
+Run the following command to set the number of replicas to 3.
 
 ```
 kubectl scale deployment inflate --replicas 3

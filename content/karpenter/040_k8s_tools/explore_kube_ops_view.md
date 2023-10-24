@@ -4,7 +4,7 @@ date: 2018-08-07T08:30:11-07:00
 weight: 30
 ---
 
-We installed [Kube-ops-view](https://github.com/hjacobs/kube-ops-view) from **[Henning Jacobs](https://github.com/hjacobs)**. Kube-ops-view will help with understanding our cluster setup in a visual way, similar to `eks-node-viewer`.
+We installed [Kube-ops-view](https://codeberg.org/hjacobs/kube-ops-view) from **[Henning Jacobs](https://codeberg.org/hjacobs)**. Kube-ops-view will help with understanding our cluster setup in a visual way, similar to `eks-node-viewer`.
 
 {{% notice warning %}}
 Monitoring and visualization shouldn't be typically be exposed publicly unless the service is properly secured and provide methods for authentication and authorization. You can still deploy kube-ops-view as Service of type **ClusterIP** by removing the  `--set service.type=LoadBalancer` section and using `kubectl proxy`. Kube-ops-view does also [support Oauth 2](https://github.com/hjacobs/kube-ops-view#configuration) 
