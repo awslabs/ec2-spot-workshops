@@ -35,7 +35,7 @@ The steps above:
 
 
 * Create a new registry in ECR for the monte-carlo-sim application
-* Build the application using the Dockerfile. The Dockerfile uses a [multi-stage](https:/docs.docker.com/develop/develop-images/multistage-build/) build that
+* Build the application using the Dockerfile. The Dockerfile uses a [multi-stage](https://docs.docker.com/build/building/multi-stage/) build that
 compiles the Go application and then packages it in a minimal image that pulls from [scratch](https://hub.docker.com/_/scratch/). The size of this Docker image is ~ 3.2 MiB.
 * The newly created image is pushed into the registry and the registry is stored as an environment variable so we can refer to it in the rest of the workshop.
 
