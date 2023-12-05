@@ -5,6 +5,12 @@ weight: 70
 draft: false
 ---
 
+{{% notice info %}}
+Please note: this EKS and Karpenter workshop version is now deprecated since the launch of Karpenter v1beta, and has been updated to a new home on AWS Workshop Studio here: **[Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba)**.
+
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for running Karpenter on version v1alpha5.
+{{% /notice %}}
+
 In the previous sections we've already used EC2 Spot instances. We have learned so far that when using EC2 Spot Karpenter selects a diversified list of instances and uses the allocation strategy `price-capacity-optimized` to select the EC2 Spot pools that are optimal to reduce the frequency of Spot terminations while still being ideal for reducing the waste of the pending pods to place. 
 
 In this section we will look at how Karpenter handles Spot interruptions and set up the node termination handler to gracefully handle rebalancing recommendation signals since Karpenter does not currently support rebalance recommedations. To support this configuration we will use the `default` Provisioner. 
