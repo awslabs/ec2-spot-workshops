@@ -5,6 +5,12 @@ weight: 20
 draft: false
 ---
 
+{{% notice info %}}
+Please note: this EKS and Karpenter workshop version is now deprecated since the launch of Karpenter v1beta, and has been updated to a new home on AWS Workshop Studio here: **[Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba)**.
+
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for running Karpenter on version v1alpha5.
+{{% /notice %}}
+
 In this section, we will review Karpenter which we have pre-installed and learn how to configure a default [Provisioner CRD](https://karpenter.sh/docs/concepts/provisioners/) to set the configuration. Karpenter can installed in clusters with a [helm](https://helm.sh/) chart, we used Amazon EKS blueprints. Karpenter follows best practices for kubernetes controllers for its configuration. Karpenter uses [Custom Resource Definition(CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to declare its configuration. Custom Resources are extensions of the Kubernetes API. One of the premises of Kubernetes is the [declarative aspect of its APIs](https://kubernetes.io/docs/concepts/overview/kubernetes-api/). Karpenter simplifies its configuration by adhering to that principle.
 
 ## Explore the Karpenter installation

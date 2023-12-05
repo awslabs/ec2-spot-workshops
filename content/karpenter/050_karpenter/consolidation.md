@@ -5,6 +5,12 @@ weight: 50
 draft: false
 ---
 
+{{% notice info %}}
+Please note: this EKS and Karpenter workshop version is now deprecated since the launch of Karpenter v1beta, and has been updated to a new home on AWS Workshop Studio here: **[Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba)**.
+
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for running Karpenter on version v1alpha5.
+{{% /notice %}}
+
 In the previous section we did set the default provisioner configured with a specific `ttlSecondsAfterEmpty`. This instructs Karpenter to remove nodes after `ttlSecondsAfterEmpty` of a node being empty. Note Karpenter will take Daemonset into consideration.We also know that nodes can be removed when they reach the `ttlSecondsUntilExpired`. This is ideal to force node termination on the cluster while bringing new nodes that will pick up the latest AMI's.
 
 {{% notice note %}}

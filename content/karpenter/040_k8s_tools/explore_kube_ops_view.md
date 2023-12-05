@@ -4,6 +4,12 @@ date: 2018-08-07T08:30:11-07:00
 weight: 30
 ---
 
+{{% notice info %}}
+Please note: this EKS and Karpenter workshop version is now deprecated since the launch of Karpenter v1beta, and has been updated to a new home on AWS Workshop Studio here: **[Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba)**.
+
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for running Karpenter on version v1alpha5.
+{{% /notice %}}
+
 We installed [Kube-ops-view](https://codeberg.org/hjacobs/kube-ops-view) from **[Henning Jacobs](https://codeberg.org/hjacobs)**. Kube-ops-view will help with understanding our cluster setup in a visual way, similar to `eks-node-viewer`.
 
 {{% notice warning %}}

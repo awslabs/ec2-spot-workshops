@@ -5,6 +5,12 @@ weight: 90
 draft: false
 ---
 
+{{% notice info %}}
+Please note: this EKS and Karpenter workshop version is now deprecated since the launch of Karpenter v1beta, and has been updated to a new home on AWS Workshop Studio here: **[Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba)**.
+
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for running Karpenter on version v1alpha5.
+{{% /notice %}}
+
 So far we have seen some advanced use cases of Karpenter. In this section we will see how Karpenter can define different Provisioners. This allows to handle different configurations. 
 
 Each Provisioner CRD (Custom Resource Definition) provides a set of unique configurations that define the resources it supports as well as labels and taints that will also be applied to the new resources created by that Provisioner. In large clusters with multiple applications, new applications may need to create nodes with specific Taints or specific labels. In these scenarios you can configure alternative Provisioners. For this workshop we have already defined a `team1` Provisioner. You can list the available Provisioners by running the following command:
