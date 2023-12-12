@@ -5,6 +5,12 @@ weight: 110
 pre: "<b>11. </b>"
 ---
 
+
+{{% notice warning %}}
+Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference earlier version of this workshp.
+{{% /notice %}}
+
 ## Overview
 
 Welcome! This workshop is designed to get you familiar with the concepts and best practices for effectively and efficiently scaling [Amazon EC2](https://aws.amazon.com/ec2/) capacity using [Amazon EC2 Auto Scaling](https://aws.amazon.com/ec2/autoscaling/) and it's features including [predictive scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html) and [warm pools](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html).
