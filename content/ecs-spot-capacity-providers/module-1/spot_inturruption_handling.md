@@ -25,7 +25,7 @@ When Amazon ECS Spot instance draining is enabled on the instance, the ECS conta
 
 By enabling the `ECS_ENABLE_SPOT_INSTANCE_DRAINING` in the ECS agent configuration, the ECS agent will monitor the Spot interruption
 signal and place the instance in `DRAINING` status. When an instance is set to `DRAINING` Amazon ECS prevents new tasks from being scheduled
-on the instance. Tasks will also are moved from RUNNING to STOPPED state using the [SpotTask API](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_StopTask.html). The StopTask API is the equivalent of docker stop, it is issued to the containers running in the task and results in 
+on the instance. Tasks will also are moved from RUNNING to STOPPED state using the [StopTask API](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_StopTask.html). The StopTask API is the equivalent of docker stop, it is issued to the containers running in the task and results in 
 a **SIGTERM** System V signal sent to the application. 
 
 As a best practice application should capture the **SIGTERM** signal and implement a graceful termination mechanism. By default ECS Agent does
