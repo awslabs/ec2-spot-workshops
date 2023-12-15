@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM lscr.io/linuxserver/blender:latest
 
 # Install dependencies
 RUN apt-get update && \
@@ -19,12 +19,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     unzip awscliv2.zip && \
     sudo ./aws/install && \
     rm ./aws/install
-
-# Download and install Blender
-RUN curl "https://ftp.halifax.rwth-aachen.de/blender/release/Blender2.93/blender-2.93.5-linux-x64.tar.xz" -o "blender.tar.xz" && \
-    tar -xvf blender.tar.xz --strip-components=1 -C /bin && \
-    rm -rf blender.tar.xz && \
-    rm -rf blender
 
 # Copy FFmpeg to the root of the container and unzip it
 RUN curl "https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz" -o "ffmpeg.tar.xz" && \
