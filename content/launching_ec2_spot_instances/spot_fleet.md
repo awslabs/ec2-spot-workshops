@@ -7,9 +7,9 @@ weight = 210
 We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. If you want to manage your instance lifecycle, launch EC2 Spot instance via Auto Scaling group API. If you don't want to manage your instance lifecycle, launch EC2 Spot instance via EC2 Fleet API. See [Spot best practices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) for more details.
 {{% /notice %}}
 
- Spot Fleet allows you to diversify across different AZs and networks. However, unlike Auto Scaling groups, it does re-balance instances across AZs. Therefore, consider using Auto Scaling groups instead if AZ-rebalance is key for your workload. Spot Fleet supports types `maintain` and `request`. Similar to Auto Scaling groups, the `maintain` type preserves the number of instances by provisioning new healthy instances when it detects that one of the existing instances has become un-healthy.
+Spot Fleet allows you to diversify across different AZs and networks. However, unlike Auto Scaling groups, Spot Fleet does not re-balance instances across AZs. Therefore, consider using Auto Scaling groups instead if AZ-rebalance is key for your workload. Spot Fleet supports types `maintain` and `request`. Similar to Auto Scaling groups, the `maintain` type preserves the number of instances by provisioning new healthy instances when it detects that one of the existing instances has become un-healthy.
 
-To support mix instances with different types and purchasing options, Spot Fleet must use **launch templates**. In this exercise, you re-use the same launch template that you created before.
+To support mixed instances with different types and purchasing options, Spot Fleet must use **launch templates**. In this exercise, you re-use the same launch template that you created before.
 
 
 #### Spot Fleet example: Using weighted mixed instances with Spot Fleet for batch workloads
@@ -97,7 +97,7 @@ cat <<EoF > ./spot-fleet-request-config.json
 EoF
 ```
 
-Note how the Spot Fleet request file specifies the `TargetCapacity` and `OnDemandTargetCapacity`. The split between those two will go into Spot capacity (i.e: to have all on Spot capacity, just set the `OnDemandTargetCapacity` to 0).
+Note how the Spot Fleet request file specifies the `TargetCapacity` and `OnDemandTargetCapacity`. The split between those two will go into Spot capacity. To request that  all the capacity be Spot instances, set `OnDemandTargetCapacity` to 0.
 
 When `AllocationStrategy` is set to `priceCapacityOptimized`, Spot Fleet launches instances from optimal Spot pools for the target capacity of instances (in this case weights) that you are launching. Spot Fleet then requests Spot Instances from the lowest priced of these pools.
 
