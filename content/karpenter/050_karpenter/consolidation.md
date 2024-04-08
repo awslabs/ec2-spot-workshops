@@ -7,7 +7,6 @@ draft: false
 
 {{% notice info %}}
 Please note: this EKS and Karpenter workshop version is now deprecated since the launch of Karpenter v1beta, and has been updated to a new home on AWS Workshop Studio here: **[Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization](https://catalog.us-east-1.prod.workshops.aws/workshops/f6b4587e-b8a5-4a43-be87-26bd85a70aba)**.
-
 This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for running Karpenter on version v1alpha5.
 {{% /notice %}}
 
@@ -133,7 +132,9 @@ The log does also show something interesting lines that refer to `Cordon` and `D
 {{% /expand %}}
 
 #### 2) What should happen when we move to just 3 replicas ?
-{{%expand "Click here to show the answer" %}} 
+
+{{%expand "Click here to show the answer" %}}
+
 To scale up the deployment run the following command: 
 
 ```
@@ -151,11 +152,12 @@ Karpenter logs will show the sequence of events on the output, similar to the on
 2022-09-05T08:37:38.649Z        INFO    controller.termination  Deleted node    {"commit": "b157d45", "node": "ip-192-168-15-83.eu-west-1.compute.internal"}
 ```
 
-
 {{% /expand %}}
 
 #### 3) Increase the replicas to 10. What will happen if we change the provisioner to support both `on-demand` and `spot` ?
+
 {{%expand "Click here to show the answer" %}} 
+
 To scale up the deployment bach to 10 ,run the following command: 
 
 ```
@@ -165,6 +167,7 @@ kubectl scale deployment inflate --replicas 10
 There should not be any surprise here, like in previous cases a new **2xlarge** node might be selected to place the extra 7 pods. Note, the provisioned instance type can depend on available spot capacity.
 
 To apply the change to the provisioner, we will re-deploy the default provisioner, this time using both `on-demand` and `spot`. Run the following command
+
 ```
 cat <<EOF | kubectl apply -f -
 apiVersion: karpenter.sh/v1alpha5
@@ -225,7 +228,10 @@ Karpenter logs should show a sequence of events similar to the one below.
 2022-09-05T08:57:06.000Z        INFO    controller.termination  Deleted node    {"commit": "b157d45", "node": "ip-192-168-8-39.eu-west-1.compute.internal"}
 ```
 
+{{% /expand %}}
+
 #### 4) Scale the `inflate` service to 3 replicas, what should happen ?
+
 {{%expand "Click here to show the answer" %}} 
 
 Run the following command to set the number of replicas to 3.
@@ -237,9 +243,11 @@ kubectl scale deployment inflate --replicas 3
 For spot nodes, Karpenter only uses the **Deletion** consolidation mechanism. It will not replace a spot node with a cheaper spot node. Spot instance types are selected with the `price-capacity-optimized` strategy and often the cheapest spot instance type is not launched due to the likelihood of interruption. Consolidation would then replace the spot instance with a cheaper instance negating the `price-capacity-optimized` strategy entirely and increasing interruption rate.
 
 Effectively no changes will happen at this stage with your cluster.
+
 {{% /expand %}}
 
 #### 5) What other scenarios could prevent **Consolidation** events in your cluster ?
+
 {{%expand "Click here to show the answer" %}} 
 
 There are a few cases where requesting to deprovision a Karpenter node will not work. These include **Pod Disruption Budgets** and pods that have the **do-not-evict** annotation set. 
@@ -254,9 +262,12 @@ There are other cases that Karpenter will consider when consolidating. Consolida
 * or some other scheduling restriction that couldn’t be fulfilled.
 
 Finally, Karpenter consolidation will not attempt to consolidate a node that is running pods that are not owned by a controller (e.g. a ReplicaSet). In general we cannot assume that these pods would be recreated if they were evicted from the node that they are currently running on.
+
 {{% /expand %}}
 
 #### 6) Scale the replicas to 0.
+
+{{%expand "Click here to show the answer" %}} 
 
 In preparation for the next section, scale replicas to 0 using the following command.
 
@@ -264,6 +275,7 @@ In preparation for the next section, scale replicas to 0 using the following com
 kubectl scale deployment inflate --replicas 0
 ```
 
+{{% /expand %}}
 
 ## What Have we learned in this section: 
 
