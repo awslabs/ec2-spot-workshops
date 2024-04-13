@@ -37,6 +37,7 @@ CI/CD and other test & development workloads.
 EKS with Karpenter workshop
 {{< /card >}}
 
+
 {{< card important_workshop 
     "running-amazon-ec2-workloads-at-scale" 
     "Running EC2 Workloads at Scale with EC2 Auto Scaling"
