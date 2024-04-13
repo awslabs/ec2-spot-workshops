@@ -6,6 +6,8 @@ weight: 20
 pre: "<b>2. </b>"
 ---
 
+___ 
+
 ## Overview 
 This workshop is designed to quickly get you familiar with the concepts and best practices for requesting Amazon EC2 capacity at scale in a cost optimized architecture.
 
