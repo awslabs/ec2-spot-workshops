@@ -8,8 +8,8 @@ draft: false
 ---
 
 
-#### This website contains a set of workshops designed for you to get familiar with EC2 Spot Instances and how to use them in different scenarios. 
-#### With these workshops, you learn best practices to follow when using EC2 Spot instances in your applications and workloads.
+#### Efficient Compute Workshops offers a comprehensive series of hands-on workshops designed to enhance your proficiency with Amazon EC2 Spot Instances and AWS Graviton Instances across various workloads. These workshops emphasize best practices for efficiently utilizing compute resources, selecting suitable EC2 purchasing options to optimize costs, and improving efficiency by selecting the appropriate CPU architecture (such as ARM and x86)
+
 
 ## About Spot Instances
 
@@ -32,7 +32,7 @@ CI/CD and other test & development workloads.
 {{< card important_workshop
     "karpenter" 
     "Karpenter: Amazon EKS Best Practice and Cloud Cost Optimization"
-    "/karpenter/Karptneter-51cf5a76-32fe-48b1-a550-d0a97e6e36ed.png" 
+    "/karpenter/Karptneter-small.png" 
 >}}
 In this workshop, you will learn how to provision, manage, and maintain your Kubernetes clusters with Amazon Elastic Kubernetes Service (Amazon EKS ) scaling optimally using Karpenter . Karpenter is a node lifecycle management solution used to scale your Kubernetes cluster. Karpenter observes incoming pods and launches the right-sized Amazon EC2 Instance appropriately for the workload. Instance selection decisions are intent based and driven by the specification of incoming pods, including resource requests and scheduling constraints.
 {{< /card >}}
