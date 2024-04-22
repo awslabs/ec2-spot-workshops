@@ -4,6 +4,13 @@ date: 2021-07-07T08:51:33Z
 weight: 40
 ---
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
+
 As a prerequisite step before creating EC2 Auto Scaling groups or EC2 Fleet, you create a [launch template](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html). Launch templates enable you to define launch parameters so that you do not have to specify them every time you
 launch an instance. It includes the ID of the Amazon Machine Image (AMI), the instance type, a key pair, security groups, and other parameters used to launch EC2 instances.
 

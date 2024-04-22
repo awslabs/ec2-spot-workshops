@@ -3,6 +3,13 @@ title = "Measure the Launch Speed of Instances"
 weight = 70
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Efficient and Resilient Workloads with Amazon EC2 Auto Scaling](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
+
+{{% /notice %}}
+
+
 In this section, you launch an instance directly into an Auto Scaling group. The Auto Scaling group you created `ec2-workshop-asg` uses lifecycle hooks to manage the application installation process.
 
 As a part of initial set up with CloudFormation, you created a launch template with user data script. This script is executed on the instance during the the boot up, to install and starts the application. Once the application is installed, another command is executed to complete the lifecycle action and allow the instance to transition to the next lifecycle step.

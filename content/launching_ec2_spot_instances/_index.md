@@ -5,10 +5,10 @@ weight: 10
 pre: "<b>1 </b>"
 ---
 
-
 {{% notice warning %}}
-Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
-This workshop remains here for reference to those who have used this workshop before, or those who want to reference earlier version of this workshp.
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
 {{% /notice %}}
 
 ## Overview

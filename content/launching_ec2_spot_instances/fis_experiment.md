@@ -3,6 +3,13 @@ title = "Creating a Spot Interruption Experiment"
 weight = 90
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
+
 {{% notice info %}}
 You can launch Spot Instances on spare EC2 capacity for steep discounts in exchange for returning them when Amazon EC2 needs the capacity back. When Amazon EC2 reclaims a Spot Instance, we call this event a [Spot Instance interruptions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html). 
 {{% /notice %}}

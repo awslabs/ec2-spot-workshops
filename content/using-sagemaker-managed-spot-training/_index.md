@@ -2,8 +2,8 @@
 title: "Using Amazon SageMaker Managed Spot Training"
 menuTitle: "ML Model Training"
 date: 2019-10-30T09:05:54Z
-weight: 60
-pre: "<b>6. </b>"
+weight: 120
+pre: "<b>12. </b>"
 ---
 
 In this workshop, you will learn how to leverage Managed Spot Training with Amazon SageMaker to save up to 70-90% on your Amazon SageMaker Training Jobs.

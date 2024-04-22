@@ -3,6 +3,13 @@ title = "...At an AWS event"
 weight = 20
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Efficient and Resilient Workloads with Amazon EC2 Auto Scaling](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
+
+{{% /notice %}}
+
+
 ### Running the workshop at an AWS Event
 
 {{% notice warning %}}

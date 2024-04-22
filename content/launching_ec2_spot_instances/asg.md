@@ -3,6 +3,12 @@ title = "Launching EC2 Spot Instances via EC2 Auto Scaling group"
 weight = 50
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
 {{% notice note %}}
 When adopting EC2 Spot Instances, we recommend you to consider Amazon EC2 Auto Scaling group (ASG) since it offers the most up to date EC2 features such as attribute-based instance type selection, capacity rebalancing, scaling policies and many more functionalities.
 {{% /notice %}}

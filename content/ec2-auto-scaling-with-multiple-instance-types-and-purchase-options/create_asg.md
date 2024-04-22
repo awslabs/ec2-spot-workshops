@@ -3,6 +3,13 @@ title = "Create an EC2 Auto Scaling Group"
 weight = 100
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Amazon EC2 Auto Scaling Workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/0a0fe16c-8693-4d23-8679-4f1701dbd2b0/en-US)**.
+
+{{% /notice %}}
+
+
 To launch, maintain and scale EC2 instances dynamically for your application, you are going to create an Amazon EC2 Auto Scaling group. To help you meet your cost optimization goals, EC2 Auto Scaling allows you to combine purchase options and instance types within your Auto Scaling group. Stateless web applications are a great fit to run on EC2 Spot Instances as they can tolerate interruptions and are often flexible to run on multiple instance types. In this section, you will create an Auto Scaling group combining a base of On-Demand instances and scaling out with EC2 Spot instances and save an average of 70% in your compute costs. 
 
 Amazon EC2 Auto Scaling helps you maintain application availability and allows you to dynamically scale your Amazon EC2 capacity up or down automatically according to conditions you define. You can use Amazon EC2 Auto Scaling for fleet management of EC2 instances to help maintain the health and availability of your fleet and ensure that you are running your desired number of Amazon EC2 instances. You can also use Amazon EC2 Auto Scaling for dynamic scaling of EC2 instances in order to automatically increase the number of Amazon EC2 instances during demand spikes to maintain performance and decrease capacity during lulls to reduce costs. Amazon EC2 Auto Scaling is well suited both to applications that have stable demand patterns or that experience hourly, daily, or weekly variability in usage. You can find more information on the [Auto Scaling documentation](https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html). 

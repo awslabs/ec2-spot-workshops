@@ -3,6 +3,12 @@ title = "Launching EC2 Spot Instances via EC2 Fleet"
 weight = 60
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
 EC2 Fleet provides an API that allows to operate and procure capacity with quite granular controls. An *EC2 Fleet* contains the configuration information to launch a fleet or group of instances. Using EC2 Fleet, you can define separate On-Demand and Spot capacity targets, specify the instance types that work best for your applications, and specify how Amazon EC2 should distribute your fleet capacity within each purchasing model.
 
 Workloads that can benefit from EC2 Fleet API are among other bespoke capacity orchestrators that implement tuned up and optimized logic to provision capacity. Just to name a few, the following projects use EC2 Fleet to manage capacity:

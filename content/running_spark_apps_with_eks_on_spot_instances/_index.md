@@ -2,8 +2,8 @@
 title: "DoEKS: Running Spark apps with EKS on Spot Instances"
 menuTitle: "DoEKS: Spark apps with EKS"
 date: 2019-01-24T09:05:54Z
-weight: 71
-pre: "<b>7.1 </b>"
+weight: 60
+pre: "<b>6. </b>"
 ---
 
 

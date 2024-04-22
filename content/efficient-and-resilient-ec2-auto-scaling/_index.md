@@ -1,14 +1,14 @@
 ---
 title: "Running Efficient and Resilient Workloads with Amazon EC2 Auto Scaling"
 menuTitle: "Efficient EC2 Auto Scaling"
-weight: 110
-pre: "<b>11. </b>"
+weight: 30
+pre: "<b>3. </b>"
 ---
 
-
 {{% notice warning %}}
-Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
-This workshop remains here for reference to those who have used this workshop before, or those who want to reference earlier version of this workshp.
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Efficient and Resilient Workloads with Amazon EC2 Auto Scaling](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
+
 {{% /notice %}}
 
 ## Overview

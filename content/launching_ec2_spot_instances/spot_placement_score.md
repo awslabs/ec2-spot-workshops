@@ -3,6 +3,13 @@ title = "Spot Placement Score (SPS)"
 weight = 120
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
+
 As Spot capacity fluctuates,  you can't be sure that you'll always get the capacity that you need. The [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) feature can recommend an AWS Region(s) or Availability Zone(s) where you can run the workload based on your Spot capacity requirements. The Spot placement score gives the Region(s) or Availability Zone(s) a score of 1 to 10 indicating how likely a Spot request will succeed. A score of 10 indicates that your Spot request is highly likely—but not guaranteed—to succeed, and a score of 1 indicates that your Spot request is not likely to succeed at all. For SPS to return a meaningful score, the SPS request must be configured with at least three instance types. 
 
 You can calculate a Spot placement score by using the *Amazon EC2 console* or the *AWS CLI*.

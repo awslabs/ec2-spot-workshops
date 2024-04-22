@@ -1,8 +1,8 @@
 ---
-title: "EKS and Karpenter"
+title: "EKS with Karpenter"
 date: 2019-01-24T09:05:54Z
-weight: 50
-pre: "<b>5. </b>"
+weight: 40
+pre: "<b>4. </b>"
 ---
 
 {{% notice warning %}}

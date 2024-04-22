@@ -3,6 +3,13 @@ title = "(Optional) - Launching an EC2 Spot Instance via Spot Fleet request"
 weight = 210
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
+
 {{%notice warning%}}
 We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. If you want to manage your instance lifecycle, launch EC2 Spot instance via Auto Scaling group API. If you don't want to manage your instance lifecycle, launch EC2 Spot instance via EC2 Fleet API. See [Spot best practices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) for more details.
 {{% /notice %}}

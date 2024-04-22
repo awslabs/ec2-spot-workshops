@@ -3,6 +3,13 @@ title = "Create an EC2 launch template"
 weight = 70
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Amazon EC2 Auto Scaling Workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/0a0fe16c-8693-4d23-8679-4f1701dbd2b0/en-US)**.
+
+{{% /notice %}}
+
+
 In this step, you are going to create a Launch Template to specify configuration parameters for launching instances with EC2 Auto Scaling in this workshop. Click here to learn more about **Launch Templates**
 
 

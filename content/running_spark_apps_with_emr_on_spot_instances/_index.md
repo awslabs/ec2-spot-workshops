@@ -1,8 +1,8 @@
 ---
 title: "Running Spark apps with EMR on Spot Instances"
 date: 2019-01-24T09:05:54Z
-weight: 60
-pre: "<b>7. </b>"
+weight: 80
+pre: "<b>8. </b>"
 ---
 
 
