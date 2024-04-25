@@ -2,8 +2,8 @@
 title: "Running EC2 Workloads at Scale with EC2 Auto Scaling"
 menuTitle: "EC2 Workloads at Scale"
 date: 2019-01-24T09:05:54Z
-weight: 130
-pre: "<b>13. </b>"
+weight: 120
+pre: "<b>12. </b>"
 ---
 
 ## Overview 

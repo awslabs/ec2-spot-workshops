@@ -2,6 +2,14 @@
 title: "EMR Instance Fleets"
 weight: 30
 ---
+
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Cost efficient Spark applications on Amazon EMR](https://catalog.us-east-1.prod.workshops.aws/workshops/aaa003a7-9c9e-46ad-af28-477b0d906f47/en-US)**.
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for earlier version.
+{{% /notice %}}
+
+
 The **[instance fleet](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-fleet.html)** configuration for Amazon EMR clusters lets you select a wide variety of provisioning options for Amazon EC2 instances, and helps you develop a flexible and elastic resourcing strategy for each node type in your cluster. You can have only one instance fleet per  master, core, and task node type. In an instance fleet configuration, you specify a *target capacity* for **[On-Demand Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-on-demand-instances.html)** and **[Spot Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html)** within each fleet. 
 
 When adopting Spot Instances into your workload, it is recommended to be flexible with selection of instance types across family, generation, sizes, and Availability Zones. With higher instance type diversification, Amazon EMR has more capacity pools to allocate capacity from, and chooses the Spot Instances which are least likely to be interrupted. 

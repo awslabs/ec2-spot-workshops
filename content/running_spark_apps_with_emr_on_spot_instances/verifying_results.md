@@ -3,6 +3,13 @@ title: "Verifying the app's results"
 weight: 99
 ---
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Cost efficient Spark applications on Amazon EMR](https://catalog.us-east-1.prod.workshops.aws/workshops/aaa003a7-9c9e-46ad-af28-477b0d906f47/en-US)**.
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for earlier version.
+{{% /notice %}}
+
+
 In this section we will use Amazon Athena to run a SQL query against the results of our Spark application in order to make sure that it completed successfully. We'll compare the results when you didn't interrupt the Spark job when creating the cluster, with the results when you interrupt three Spot task nodes.
 
 1. In the AWS Management Console, go to the [Athena service](https://console.aws.amazon.com/athena/home/query-editor) and verify that you are in the correct region where you ran your EMR cluster.

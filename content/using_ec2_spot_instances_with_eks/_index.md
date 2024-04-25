@@ -1,6 +1,6 @@
 ---
 title: "Using Spot Instances with EKS"
-menuTitle: "EKS with Cluater Autoscaler"
+menuTitle: "EKS with Cluster Autoscaler"
 date: 2019-01-24T09:05:54Z
 weight: 50
 pre: "<b>5. </b>"
