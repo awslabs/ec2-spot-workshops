@@ -62,13 +62,6 @@ Amazon EC2 capacity at scale in a cost optimized architecture.
 In this workshop, you will learn how to leverage Managed Spot Training with Amazon SageMaker to save up to 70-90% on your Amazon SageMaker Training Jobs.
 {{< /card >}}
 
-{{< card important_workshop 
-    "using-sagemaker-managed-spot-training"
-    "Using Amazon SageMaker Managed Spot Training"
-    "Amazon-SageMaker_Model_light-bg.png" 
->}}
-In this workshop, you will learn how to leverage Managed Spot Training with Amazon SageMaker to save up to 70-90% on your Amazon SageMaker Training Jobs.
-{{< /card >}}
 
 
 
