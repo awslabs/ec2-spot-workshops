@@ -2,8 +2,8 @@
 title: "ECS: Cost Optimize Container Workloads using EC2 Spot"
 menuTitle: "Containers with ECS"
 date: 2020-04-15T09:05:54Z
-weight: 30
-pre: "<b>3. </b>"
+weight: 70
+pre: "<b>7. </b>"
 ---
 
 ## Overview

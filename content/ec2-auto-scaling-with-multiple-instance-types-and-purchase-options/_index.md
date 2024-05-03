@@ -6,6 +6,14 @@ weight: 20
 pre: "<b>2. </b>"
 ---
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Amazon EC2 Auto Scaling Workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/0a0fe16c-8693-4d23-8679-4f1701dbd2b0/en-US)**.
+
+{{% /notice %}}
+
+___ 
+
 ## Overview 
 This workshop is designed to quickly get you familiar with the concepts and best practices for requesting Amazon EC2 capacity at scale in a cost optimized architecture.
 

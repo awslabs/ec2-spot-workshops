@@ -2,8 +2,8 @@
 menuTitle: "Pricing Financial Derivatives with AWS Batch"
 title: "Pricing Financial Derivatives with AWS Batch"
 date: 2021-09-06T08:51:33Z
-weight: 120
-pre: "<b>12. </b>"
+weight: 90
+pre: "<b>9. </b>"
 ---
 
 {{% notice info %}}

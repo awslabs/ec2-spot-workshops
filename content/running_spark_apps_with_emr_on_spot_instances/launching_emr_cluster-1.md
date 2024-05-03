@@ -3,6 +3,13 @@ title: "Launch a cluster - Step 1"
 weight: 60
 ---
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Cost efficient Spark applications on Amazon EMR](https://catalog.us-east-1.prod.workshops.aws/workshops/aaa003a7-9c9e-46ad-af28-477b0d906f47/en-US)**.
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for earlier version.
+{{% /notice %}}
+
+
 ### Step 1: Software and Steps
 
 In this step first you will launch EMR cluster that runs on a mix of On-Demand and Spot Instances. Next, you will add step that runs a simple wordcount Spark application against a public dataset of Amazon product reviews located in an Amazon S3 bucket in the N. Virginia region. For this workshop, use the region where the CloudFormation stack was deployed.

@@ -3,6 +3,13 @@ title = "Spot Blueprints"
 weight = 130
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
+
 Spot Blueprints is a functionality provided within the AWS Web Console, in the Spot Request section, that helps to create a few architectures that are most common for Spot, using Infrastructure as code and adhering to Spot Best practices. There are Spot Blueprints for the most popular services including Amazon EC2 Auto Scaling, Amazon EMR, AWS Batch, and Amazon Elastic Kubernetes Service (Amazon EKS).
 
 Spot Blueprints gives you a jump start in using Spot architectures by providing a simple-to-follow infrastructure code template generator that is designed to gather your workload requirements while explaining and configuring Spot best practices along the way. The output of the process is a Cloudformation or Terraform IaaC (Infrastructure as Code) file that you can use and adapt for your projects.

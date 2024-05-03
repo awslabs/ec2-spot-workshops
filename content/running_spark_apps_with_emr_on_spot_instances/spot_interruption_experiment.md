@@ -3,6 +3,13 @@ title: "Creating the Spot Interruption Experiment"
 weight: 97
 ---
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: That this workshop has been deprecated. For the latest and updated version featuring the newest features, please access the Workshop at the following link: **[Cost efficient Spark applications on Amazon EMR](https://catalog.us-east-1.prod.workshops.aws/workshops/aaa003a7-9c9e-46ad-af28-477b0d906f47/en-US)**.
+This workshop remains here for reference to those who have used this workshop before, or those who want to reference this workshop for earlier version.
+{{% /notice %}}
+
+
 In this section, you're going to start creating the experiment to trigger the interruption of Amazon EC2 Spot Instances using [AWS Fault Injection Simulator (FIS)](https://aws.amazon.com/blogs/compute/implementing-interruption-tolerance-in-amazon-ec2-spot-with-aws-fault-injection-simulator/). When using Spot Instances, you need to be prepared to be interrupted. With FIS, you can test the resiliency of your workload and validate that your application is reacting to the interruption notices that EC2 sends before terminating your instances. You can target individual Spot Instances or a subset of instances in clusters managed by services that tag your instances such as ASG, Fleet and EMR.
 
 You're going to use the CLI, so launch your terminal to run the commands included in this section.

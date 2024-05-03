@@ -3,6 +3,13 @@ title = "Take control of instance Lifecycle"
 weight = 60
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Efficient and Resilient Workloads with Amazon EC2 Auto Scaling](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
+
+{{% /notice %}}
+
+
 You have successfully configured scaling policies in your Auto Scaling Group. You still need to solve **the challenge of instances long time of initiation, taking 5-10 minutes to start up**.
 
 To elaborate the challenge further, the application provided to you has a long warm up time (10 minutes) and you have attempted to work with the application owners to speed up boot strapping and instance warm up time. Whilst there has been some improvement, it is not possible to speed this process up further without a complete re-architecture of the application.

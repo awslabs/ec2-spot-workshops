@@ -3,6 +3,13 @@ title = "(Optional) - Launching an EC2 Spot Instance via the RunInstances API"
 weight = 200
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Launching EC2 Spot Instances](https://catalog.us-east-1.prod.workshops.aws/workshops/36a2c2bb-b92d-4428-8626-3a75df01efcc/en-US)**.
+
+{{% /notice %}}
+
+
 {{%notice warning%}}
 We strongly discourage using the RunInstances API for launching Spot Instances because doesn't allow you to specify a replacement strategy or an allocation strategy. Remember that by specifying multiple Spot capacity pools you can apply instance diversification and by using `price-capacity-optimized` allocation strategy, Amazon EC2 will automatically launch Spot Instances from the most optimal capacity pools with low prices. This is why we recommended to use EC2 Fleet in `instant` mode as a drop-in replacement for RunInstances API or use Auto Scaling group to manage the instance lifecycle.
 {{% /notice %}}

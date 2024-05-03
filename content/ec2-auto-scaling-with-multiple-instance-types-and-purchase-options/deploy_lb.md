@@ -3,6 +3,13 @@ title = "Deploy the AWS Elastic Load Balancer"
 weight = 90
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Amazon EC2 Auto Scaling Workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/0a0fe16c-8693-4d23-8679-4f1701dbd2b0/en-US)**.
+
+{{% /notice %}}
+
+
 {{%expand "Now, you are going to deploy a load balancer to distribute incoming traffic to your application across the EC2 Instances. To learn more about AWS Elastic Load Balancer click here" %}}
 A load balancer serves as the single point of contact for clients. The load balancer distributes incoming application traffic across multiple targets, such as EC2 instances, in multiple Availability Zones. This increases the availability of your application. You add one or more listeners to your load balancer.
 

@@ -5,7 +5,7 @@ draft: false
 ---
 # EC2スポットインスタンスワークショップへようこそ！
 
-![spot_logo](/images/spotlogo.png )
+![spot_logo](/images/spotlogo_small.png )
 
 ### Overview
 

@@ -3,6 +3,13 @@ title = "Instance Refresh and Rollback"
 weight = 210
 +++
 
+{{% notice warning %}}
+![STOP](../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Efficient and Resilient Workloads with Amazon EC2 Auto Scaling](https://catalog.us-east-1.prod.workshops.aws/workshops/20c57d32-162e-4ad5-86a6-dff1f8de4b3c/en-US)**.
+
+{{% /notice %}}
+
+
 **Instance refresh** allows you to programmatically update your instances in your Auto Scaling Group instead of manually replacing instances. You can use instance refresh to update to a new Amazon Machine Image (AMI), a new user data script, a new launch template, or new version of your launch template. Once started, an instance refresh will proceed to replace the instances in your Auto Scaling Group in batches according to parameters you define. If configured appropriately, it is also possible to rollback an in-progress instance refresh to the previous configuration.
 
 For this section, you have been tasked with updating the instances in your Auto Scaling Group to larger instances with zero workload downtime while being sensitive to cost (so no full blue/green strategies). You decide instance refresh enables exactly the kind of rolling update you need while also allowing you to monitor the progress and cancel or rollback the changes.
