@@ -587,7 +587,7 @@ Resources:
   GitLabWorkshopC9SSMDocument: 
     Type: AWS::SSM::Document
     Properties:
-      DocumentFormat: Yaml
+      DocumentFormat: YAML
       DocumentType: Command
       Content: 
         schemaVersion: '2.2'
