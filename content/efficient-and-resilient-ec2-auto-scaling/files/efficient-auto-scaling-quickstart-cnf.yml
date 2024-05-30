@@ -161,34 +161,33 @@ Resources:
             Content-Transfer-Encoding: 7bit
             Content-Disposition: attachment; filename="userdata.txt"
             #!/bin/bash
-            rpm -q httpd &> /dev/null
+            rpm -q stress &> /dev/null
             if [ $? -ne 0 ]
               then
                 sudo amazon-linux-extras install epel -y
                 sudo yum install stress -y
             fi
-            rpm -q httpd &> /dev/null
-            
+
+            rpm -q httpd &> /dev/null            
             if [ $? -ne 0 ]
               then
                 echo "Application is not installed, install and start it."
-                INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
-                REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
                 sudo yum -y install httpd && \
                 sudo service httpd start && \
                 echo "Sleeping for 120 seconds to simulate additional configuration time." && \
-                sleep 120 && \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
+                sleep 120
               else
                 echo "Application is installed, start it."
-                INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
-                REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
-                sudo service httpd start && \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
+                sudo service httpd start
             fi
+
+            # TODO check if aws cli is preinstalled
+            INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
+            REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
             --//
+
   InstanceRole:
     Type: "AWS::IAM::Role"
     Properties:
