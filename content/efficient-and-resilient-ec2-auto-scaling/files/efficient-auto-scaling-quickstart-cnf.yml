@@ -45,6 +45,16 @@ Parameters:
       - t3.large
       - m5.large
     ConstraintDescription: Must be a valid Cloud9 instance type
+
+  InstanceOSFamily:
+    Description: Instance OS Family
+    Type: String
+    Default: Linux
+    AllowedValues:
+      - Linux
+      - Windows
+    ConstraintDescription: Must be a valid OS family
+
   #Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
   EETeamRoleArn:
     Description: "ARN of the Team Role"
@@ -54,6 +64,8 @@ Parameters:
 
 Conditions: 
   NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
+  UseLinux: !Equals [!Ref InstanceOSFamily, Linux]
+  UseWindows: !Equals [!Ref InstanceOSFamily, Windows]
 
 Resources:
 ################## VPC AND SUBNETs #################
@@ -132,6 +144,7 @@ Resources:
 ################## Launch Template #################
   MyLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
+    Condition: UseLinux
     Properties:
       LaunchTemplateName: EC2WorkshopLaunchTemplate
       LaunchTemplateData:
@@ -187,6 +200,38 @@ Resources:
             aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
             aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
             --//
+
+  MyLaunchTemplateWindows:
+    Type: AWS::EC2::LaunchTemplate
+    Condition: UseWindows
+    Properties:
+      LaunchTemplateName: EC2WorkshopLaunchTemplateWindows
+      LaunchTemplateData:
+        ImageId: resolve:ssm:/aws/service/ami-windows-latest/Windows_Server-2022-English-Core-Base
+        InstanceType: t3.micro
+        KeyName: !Ref EC2WorkshopInstanceKeyPair
+        SecurityGroupIds:
+          - !Ref InstanceSecurityGroup
+        IamInstanceProfile:
+          Arn: !GetAtt InstanceProfile.Arn
+        UserData:
+          'Fn::Base64':
+            |-
+            <powershell>
+            # Minial IIS setup
+            Install-WindowsFeature Web-Server
+
+            $AWS_CLI_INSTALLED=(Get-Command aws -ErrorAction SilentlyContinue)
+            if ($AWS_CLI_INSTALLED -eq $null) {
+              Start-Process msiexec.exe -ArgumentList "/i `"https://awscli.amazonaws.com/AWSCLIV2.msi`" /q" -Wait
+              $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+            }
+
+            $INSTANCE_ID=(Invoke-WebRequest -Uri http://169.254.169.254/latest/meta-data/instance-id -UseBasicParsing).Content
+            $REGION=(Invoke-WebRequest -Uri http://169.254.169.254/latest/meta-data/placement/region -UseBasicParsing).Content
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id "$INSTANCE_ID" --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region "$REGION"
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id "$INSTANCE_ID" --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region "$REGION"
+            </powershell>
 
   InstanceRole:
     Type: "AWS::IAM::Role"
