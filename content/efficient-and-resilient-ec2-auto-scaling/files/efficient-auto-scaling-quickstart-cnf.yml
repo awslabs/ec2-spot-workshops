@@ -141,9 +141,7 @@ Resources:
         SecurityGroupIds:
           - !Ref InstanceSecurityGroup
         IamInstanceProfile:
-          Arn: !GetAtt
-            - InstanceProfile
-            - Arn
+          Arn: !GetAtt InstanceProfile.Arn
         UserData: 
           'Fn::Base64':
             |-
@@ -267,11 +265,7 @@ Resources:
           - sts:AssumeRole
       Path: "/"
       Policies:
-      - PolicyName:
-          Fn::Join:
-          - ''
-          - - C9LambdaPolicy-
-            - Ref: AWS::Region
+      - PolicyName: !Sub 'C9LambdaPolicy-${AWS::Region}'
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -298,27 +292,22 @@ Resources:
 ################## LAMBDA BOOTSTRAP FUNCTION ################
 
   C9BootstrapInstanceLambda:
-    Description: Bootstrap Cloud9 instance
     Type: Custom::C9BootstrapInstanceLambda
     DependsOn:
-    - C9BootstrapInstanceLambdaFunction
-    - C9Instance
     - C9LambdaExecutionRole
     Properties:
+      Description: Bootstrap Cloud9 instance
       Tags:
         - Key: Environment
           Value: AWS Example
-      ServiceToken:
-        Fn::GetAtt:
-        - C9BootstrapInstanceLambdaFunction
-        - Arn
+      ServiceToken: !GetAtt C9BootstrapInstanceLambdaFunction.Arn
       REGION:
         Ref: AWS::Region
       StackName:
         Ref: AWS::StackName
       EnvironmentId:
         Ref: C9Instance
-      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
+      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
 
   C9BootstrapInstanceLambdaFunction:
     Type: AWS::Lambda::Function
@@ -327,10 +316,7 @@ Resources:
         - Key: Environment
           Value: AWS Example
       Handler: index.lambda_handler
-      Role:
-        Fn::GetAtt:
-        - C9LambdaExecutionRole
-        - Arn
+      Role: !GetAtt C9LambdaExecutionRole.Arn
       Runtime: python3.9
       MemorySize: 256
       Timeout: '600'
@@ -399,7 +385,7 @@ Resources:
       Tags:
         - Key: Environment
           Value: AWS Example
-      Content: Yaml
+      DocumentFormat: YAML
       DocumentType: Command
       Content:
         schemaVersion: '2.2'
@@ -457,8 +443,6 @@ Resources:
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
-    DependsOn:
-    - C9OutputBucket
     Properties:
       Name: !Ref C9SSMDocument
       OutputLocation:
@@ -479,9 +463,8 @@ Resources:
       Roles:
       - Ref: C9Role
   C9Instance:
-    Description: "-"
-    DependsOn: C9BootstrapAssociation
     Type: AWS::Cloud9::EnvironmentEC2
+    DependsOn: C9BootstrapAssociation
     Properties:
       Description: AWS Cloud9 instance for Examples
       AutomaticStopTimeMinutes: 240
@@ -491,7 +474,7 @@ Resources:
       Name: 
         Ref: AWS::StackName
       # OwnerArn: !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey'
-      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:${AWS::Partition}:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
       Tags:
         -
           Key: SSMBootstrap
@@ -504,14 +487,8 @@ Resources:
 Outputs:
   Cloud9IDE:
     Value:
-      Fn::Join:
-      - ''
-      - - https://
-        - Ref: AWS::Region
-        - ".console.aws.amazon.com/cloud9/ide/"
-        - Ref: C9Instance
-        - "?region="
-        - Ref: AWS::Region
+      !Sub 'https://${AWS::Region}.console.aws.amazon.com/cloud9/ide/${C9Instance}?region=${AWS::Region}'
+
   VPC:
     Description: A reference to the created VPC
     Value: !Ref VPC
