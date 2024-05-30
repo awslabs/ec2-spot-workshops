@@ -1,7 +1,7 @@
 {
   "AutoScalingGroupName": "ec2-workshop-asg",
   "LaunchTemplate": {
-    "LaunchTemplateName": "EC2WorkshopLaunchTemplate",
+    "LaunchTemplateName": "EC2WorkshopLaunchTemplateWindows",
     "Version": "$Latest"
   },
   "MinSize": 0,
