@@ -18,7 +18,7 @@ In the previous section we did set the default provisioner configured with a spe
 Automated deprovisioning is configured through the ProvisionerSpec `.ttlSecondsAfterEmpty`, `.ttlSecondsUntilExpired` and `.consolidation.enabled` fields. If these are not configured, Karpenter will not default values for them and will not terminate nodes.
 {{% /notice %}}
 
-There is another way to configure Karpenter to deprovision nodes called **Consolidation**. This mode is preferred for workloads such as microservices and is imcompatible with setting up the `ttlSecondsAfterEmpty` . When set in consolidation mode Karpenter works to actively reduce cluster cost by identifying when nodes can be removed as their workloads will run on other nodes in the cluster and when nodes can be replaced with cheaper variants due to a change in the workloads.
+There is another way to configure Karpenter to deprovision nodes called **Consolidation**. This mode is preferred for workloads such as microservices and is incompatible with setting up the `ttlSecondsAfterEmpty` . When set in consolidation mode Karpenter works to actively reduce cluster cost by identifying when nodes can be removed as their workloads will run on other nodes in the cluster and when nodes can be replaced with cheaper variants due to a change in the workloads.
 
 Before we proceed to see how Consolidation works, let's change the default provisioner configuration:
 ```
@@ -70,7 +70,7 @@ When consolidation is enabled it is recommended you configure requests=limits fo
 ## Challenge
 
 {{% notice tip %}}
-You can use **Kube-ops-view** or just plain **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the resposnes. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`.
+You can use **Kube-ops-view** or just plain **kubectl** cli to visualize the changes and answer the questions below. In the answers we will provide the CLI commands that will help you check the responses. Remember: to get the url of **kube-ops-view** you can run the following command `kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = http://"$4 }'`.
 Note the current version of Kube-ops-view sometimes takes time to reflect the correct state of the cluster.
 {{% /notice %}}
 
