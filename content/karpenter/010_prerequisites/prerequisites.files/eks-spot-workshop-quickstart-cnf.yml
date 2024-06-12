@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: AWS CloudFormation template to create a Cloud9 environment setup with kubectl, eksctl and an EKS cluster with a managed node group. Please allow ~20min for the EKS cluster to be ready.
+Description: AWS CloudFormation template to create a Cloud9 environment setup with kubectl and Terraform.
 Metadata:
   Author:
     Description: Christian Melendez <chrismld@amazon.com>
@@ -66,6 +66,11 @@ Parameters:
     Default: NONE
     Type: String
 
+  eksBlueprint:
+    Description: "S3 Bucket location for EKS blueprint"
+    Default: NONE
+    Type: String
+
 Conditions: 
   NotEventEngine: !Equals [!Ref ParticipantRoleArn, NONE]
 
@@ -91,6 +96,7 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/AdministratorAccess
       Path: "/"
+
   C9LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
@@ -130,37 +136,58 @@ Resources:
             - ec2:ModifyInstanceAttribute
             - ec2:ReplaceIamInstanceProfileAssociation
             - ec2:RebootInstances
+            - ec2:DescribeIamInstanceProfileAssociations
             - iam:ListInstanceProfiles
             - iam:PassRole
             Resource: "*"
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+              - s3:DeleteObject
+            Resource:
+              - !Sub arn:${AWS::Partition}:s3:::${C9OutputBucket}
+              - !Sub arn:${AWS::Partition}:s3:::${C9OutputBucket}/*
+
 
 ################## LAMBDA BOOTSTRAP FUNCTION ################
-
   C9BootstrapInstanceLambda:
-    Description: Bootstrap Cloud9 instance
-    Type: Custom::C9BootstrapInstanceLambda
+    Type: Custom::Cloud9BootstrapInstanceLambda
     DependsOn:
-    - C9BootstrapInstanceLambdaFunction
-    - C9Instance
-    - C9LambdaExecutionRole
+      - C9LambdaExecutionRole
     Properties:
       Tags:
         - Key: Environment
           Value: AWS Example
       ServiceToken:
         Fn::GetAtt:
-        - C9BootstrapInstanceLambdaFunction
-        - Arn
-      REGION:
+          - C9BootstrapInstanceLambdaFunction
+          - Arn
+      Region:
         Ref: AWS::Region
       StackName:
         Ref: AWS::StackName
       EnvironmentId:
         Ref: C9Instance
-      LabIdeInstanceProfileArn: !GetAtt C9InstanceProfile.Arn
+      LabIdeInstanceProfileName:
+        Ref: C9InstanceProfile
+      LabIdeInstanceProfileArn:
+        Fn::GetAtt:
+          - C9InstanceProfile
+          - Arn
+      LogBucket:
+        Ref: C9OutputBucket
 
   C9BootstrapInstanceLambdaFunction:
     Type: AWS::Lambda::Function
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W58
+            reason: Cloud9LambdaExecutionRole has the AWSLambdaBasicExecutionRole managed policy attached, allowing writing to CloudWatch logs
+          - id: W89
+            reason: Bootstrap function does not need the scaffolding of a VPC or provisioned concurrency
+          - id: W92
+            reason: Bootstrap function does not need provisioned concurrency   
     Properties:
       Tags:
         - Key: Environment
@@ -168,27 +195,27 @@ Resources:
       Handler: index.lambda_handler
       Role:
         Fn::GetAtt:
-        - C9LambdaExecutionRole
-        - Arn
+          - C9LambdaExecutionRole
+          - Arn
       Runtime: python3.9
-      MemorySize: 256
-      Timeout: '600'
+      MemorySize: 1024
+      Timeout: 400
       Code:
         ZipFile: |
           from __future__ import print_function
           import boto3
-          # import logging
           import json
           import os
           import time
           import traceback
           import cfnresponse
+          import logging
 
-          # logging.basicConfig(level=logging.INFO)
-          # logger = logging.getLogger(__name__)
+          logger = logging.getLogger(__name__)
+          logger.setLevel(logging.INFO)
 
           def restart_instance(instance_id):
-              #logger.info('Restart EC2 instance to restart SSM Agent')
+              logger.info('Restart EC2 instance to restart SSM Agent')
               ec2 = boto3.client('ec2')
 
               try:
@@ -197,52 +224,156 @@ Resources:
                           instance_id
                       ]
                   )
-              except Exception as e:
-                  raise e
+              except Exception as error:
+                  raise error
 
-              #logger.info('response: %s', response)
+              logger.info('response: %s', response)
 
           def lambda_handler(event, context):
-              # logger.info('event: {}'.format(event))
-              # logger.info('context: {}'.format(context))
+              logger.info("event: {}".format(event))
+              logger.info("context: {}".format(context))
               responseData = {}
 
-              if event['RequestType'] == 'Create':
+              if event["RequestType"] == "Create":
                   try:
                       # Open AWS clients
-                      ec2 = boto3.client('ec2')
+                      ec2 = boto3.client("ec2")
 
                       # Get the InstanceId of the Cloud9 IDE
-                      # print(str({'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}))
-                      instance = ec2.describe_instances(Filters=[{'Name': 'tag:aws:cloud9:environment','Values': [event['ResourceProperties']['EnvironmentId']]}])['Reservations'][0]['Instances'][0]
-                      # logger.info('instance: {}'.format(instance))
+                      instance = ec2.describe_instances(
+                          Filters=[
+                              {
+                                  "Name": "tag:aws:cloud9:environment",
+                                  "Values": [event["ResourceProperties"]["EnvironmentId"]],
+                              }
+                          ]
+                      )["Reservations"][0]["Instances"][0]
+                      logger.info("instance: {}".format(instance))
 
                       # Create the IamInstanceProfile request object
                       iam_instance_profile = {
-                          'Arn': event['ResourceProperties']['LabIdeInstanceProfileArn']
+                          "Arn": event["ResourceProperties"]["LabIdeInstanceProfileArn"],
+                          "Name": event["ResourceProperties"]["LabIdeInstanceProfileName"],
                       }
-                      # logger.info('iam_instance_profile: {}'.format(iam_instance_profile))
+                      logger.info("iam_instance_profile: {}".format(iam_instance_profile))
 
                       # Wait for Instance to become ready before adding Role
-                      instance_state = instance['State']['Name']
-                      # logger.info('instance_state: {}'.format(instance_state))
-                      while instance_state != 'running':
+                      instance_state = instance["State"]["Name"]
+                      logger.info("instance_state: {}".format(instance_state))
+                      while instance_state != "running":
                           time.sleep(5)
-                          instance_state = ec2.describe_instances(InstanceIds=[instance['InstanceId']])
-                        # logger.info('instance_state: {}'.format(instance_state))
+                          instance_state = ec2.describe_instances(
+                              InstanceIds=[instance["InstanceId"]]
+                          )
+                          logger.info("instance_state: {}".format(instance_state))
 
-                      # attach instance profile
-                      response = ec2.associate_iam_instance_profile(IamInstanceProfile=iam_instance_profile, InstanceId=instance['InstanceId'])
-                      # logger.info('response - associate_iam_instance_profile: {}'.format(response))
+                      response = ec2.describe_iam_instance_profile_associations(
+                          Filters=[
+                              {
+                                  "Name": "instance-id",
+                                  "Values": [instance["InstanceId"]],
+                              }
+                          ]
+                      )
+                      
+                      if len(response['IamInstanceProfileAssociations']) > 0:
+                          for association in response['IamInstanceProfileAssociations']:
+                              if association['State'] == 'associated':
+                                  print("{} is active with state {}".format(association['AssociationId'], association['State']))
+                                  logger.info(
+                                      "{} is active with state {}".format(association['AssociationId'], association['State'])
+                                  )
+                                  time.sleep(120)
+                                  ec2.replace_iam_instance_profile_association(
+                                    AssociationId=association['AssociationId'], 
+                                    IamInstanceProfile=iam_instance_profile
+                                  )
+                      else:
+                          time.sleep(120)
+                          # attach instance profile
+                          response = ec2.associate_iam_instance_profile(
+                              IamInstanceProfile=iam_instance_profile,
+                              InstanceId=instance["InstanceId"],
+                          )
+                          logger.info(
+                              "response - associate_iam_instance_profile: {}".format(response)
+                          )
+                          # r_ec2 = boto3.resource('ec2')
+
                       restart_instance(instance['InstanceId'])
-                      r_ec2 = boto3.resource('ec2')
 
-                      responseData = {'Success': 'Started bootstrapping for instance: '+instance['InstanceId']}
-                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, 'CustomResourcePhysicalID')
+                      responseData = {
+                          "Success": "Started bootstrapping for instance: "
+                          + instance["InstanceId"]
+                      }
+                      cfnresponse.send( 
+                          event,
+                          context,
+                          cfnresponse.SUCCESS,
+                          responseData,
+                          "CustomResourcePhysicalID",
+                      )
 
                   except Exception as e:
-                      responseData = {'Error': str(e)}
-                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData, 'CustomResourcePhysicalID')
+                      logger.error(e, exc_info=True)
+                      # responseData = {'Error': traceback.format_exc(e)}
+                      responseData = {
+                          "Error": "There was a problem associating IAM profile to the Cloud9 Instance"
+                      }
+                      cfnresponse.send(
+                          event,
+                          context,
+                          cfnresponse.FAILED,
+                          responseData,
+                          "CustomResourcePhysicalID",
+                      )
+              elif event["RequestType"] == "Update":
+                  responseData["Message"] = {"Success": "Update event"}
+                  cfnresponse.send(
+                      event,
+                      context,
+                      cfnresponse.SUCCESS,
+                      responseData,
+                      "CustomResourcePhysicalID",
+                  )
+              elif event["RequestType"] == "Delete":
+                  try:
+                      # Need to empty the S3 bucket before it is deleted
+                      AssetsBucketName = (event["ResourceProperties"]["LogBucket"])
+                      s3 = boto3.resource("s3")
+                      bucket = s3.Bucket(AssetsBucketName)
+                      bucket.objects.all().delete()
+                      responseData = {
+                          "Success": "S3 Log bucket emptied for S3 Log Bucket: " + AssetsBucketName
+                      }
+                      cfnresponse.send(
+                          event,
+                          context,
+                          cfnresponse.SUCCESS,
+                          responseData,
+                          "CustomResourcePhysicalID",
+                      )
+                  except Exception as e:
+                      logger.error(e, exc_info=True)
+                      # responseData = {'Error': traceback.format_exc(e)}
+                      responseData = {"Error": "There was a problem emptying the S3 bucket"}
+                      cfnresponse.send(
+                          event,
+                          context,
+                          cfnresponse.FAILED,
+                          responseData,
+                          "CustomResourcePhysicalID",
+                      )
+              else:
+                  responseData = {"Success": "Other event"}
+                  cfnresponse.send(
+                      event,
+                      context,
+                      cfnresponse.SUCCESS,
+                      responseData,
+                      "CustomResourcePhysicalID",
+                  )
+
 ################## SSM BOOTSRAP HANDLER ###############
   C9OutputBucket:
     Type: AWS::S3::Bucket
@@ -263,11 +394,31 @@ Resources:
         - action: aws:runShellScript
           name: C9bootstrap
           inputs:
+            timeoutSeconds: '7200'
             runCommand:
             - "#!/bin/bash"
             - date
             - . /home/ec2-user/.bashrc
             - whoami
+            - echo '=== Resizing the Instance volume'
+            - !Sub export AWS_REGION=${AWS::Region}
+            - !Sub export AWS_ACCOUNTID=${AWS::AccountId}
+            - !Sub export SIZE=20
+            - |
+              INSTANCEID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+              VOLUMEID=$(aws ec2 describe-instances \
+                --instance-id $INSTANCEID \
+                --query "Reservations[0].Instances[0].BlockDeviceMappings[0].Ebs.VolumeId" \
+                --output text --region $AWS_REGION)
+              aws ec2 modify-volume --volume-id $VOLUMEID --size $SIZE --region $AWS_REGION
+              while [ \
+                "$(aws ec2 describe-volumes-modifications \
+                  --volume-id $VOLUMEID \
+                  --filters Name=modification-state,Values="optimizing","completed" \
+                  --query "length(VolumesModifications)"\
+                  --output text --region $AWS_REGION)" != "1" ]; do
+              sleep 1
+              done
             - !Sub 'echo "export KUBECTL_VERSION=${C9KubectlVersion}"'
             - sudo -H -u ec2-user aws sts get-caller-identity
             - echo '=== INSTALL kubectl ==='
@@ -276,11 +427,6 @@ Resources:
             - sudo chmod +x /usr/local/bin/kubectl
             - echo '=== Install JQ and envsubst ==='
             - sudo yum -y install jq gettext
-            - echo '=== Update to the latest AWS CLI ==='
-            - sudo -H -u ec2-user aws --version
-            - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            - unzip awscliv2.zip
-            - sudo ./aws/install            
             - sudo -H -u ec2-user aws --version
             - echo '=== setup AWS configs ==='            
             - rm -vf /home/ec2-user/.aws/credentials
@@ -310,9 +456,15 @@ Resources:
             - !Sub sed -i.bak -e 's/--EKS_VERSION--/${EKSClusterVersion}/' /home/ec2-user/environment/eksworkshop/main.tf              
             - !Sub sed -i.bak -e 's/--AWS_ACCOUNT_ID--/${AWS::AccountId}/' /home/ec2-user/environment/eksworkshop/main.tf
             - cd /home/ec2-user/environment/eksworkshop/
+            - !Sub 'export CFN_RESPONSE_URL="${WaitForStackCreationHandle}"'
             - sudo -H -u ec2-user /usr/bin/terraform init
+            - sudo -H -u ec2-user /usr/bin/terraform apply -target="module.vpc" -auto-approve
+            - sudo -H -u ec2-user /usr/bin/terraform apply -target="module.eks" -auto-approve
             - sudo -H -u ec2-user /usr/bin/terraform apply --auto-approve
-            - echo '=== Finishing ==='
+            - sudo -H -u ec2-user /usr/bin/terraform apply --auto-approve
+            - |
+              curl -X PUT -H 'Content-Type:' --data-binary '{"Status" : "SUCCESS","Reason" : "Creation Complete", "UniqueId" : "1","Data" : "Creation complete"}' $CFN_RESPONSE_URL
+            - sudo shutdown --reboot 1
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
@@ -328,6 +480,18 @@ Resources:
         - Key: tag:SSMBootstrap
           Values:
           - Active
+      WaitForSuccessTimeoutSeconds: 7200
+
+  WaitForStackCreationHandle:
+      Type: AWS::CloudFormation::WaitConditionHandle
+
+  WaitCondition:
+    Type: AWS::CloudFormation::WaitCondition
+    DependsOn: [C9BootstrapInstanceLambda]
+    Properties:
+      Handle: !Ref WaitForStackCreationHandle
+      Timeout: 7200
+      Count: 1
 
 ################## INSTANCE #####################
   C9InstanceProfile:
