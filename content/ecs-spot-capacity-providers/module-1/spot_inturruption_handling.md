@@ -1,6 +1,6 @@
 ---
 title: "EC2 Spot Interruption Handling in ECS"
-weight: 100
+weight: 94
 ---
 
 The Amazon EC2 service interrupts your Spot instance when it needs the capacity back. It provides a Spot instance interruption notice, 2 minutes before the instance gets terminated. The EC2 spot interruption notification is available in two ways:
@@ -31,7 +31,11 @@ a **SIGTERM** System V signal sent to the application.
 As a best practice application should capture the **SIGTERM** signal and implement a graceful termination mechanism. By default ECS Agent does
 up to `ECS_CONTAINER_STOP_TIMEOUT`, by default 30 seconds, to handle the graceful termination of the process. After the 30 seconds a **SIGKILL** 
 signal is sent and the containers are forcibly stopped. The `ECS_CONTAINER_STOP_TIMEOUT` can be extended to provide some extra time, but 
-note that anything above the 120 seconds (2 minute notification for Spot) will result in a Spot termination.
+note that anything above the 120 seconds (2 minute notification for Spot) will result in a Spot termination. Similarly it is recommended to set `Deregistration delay` for ELB Target Group ~90 secs ( default: 300 secs ), such that `DeregistrationDelay + StopTimeout` interval is less than 120 secs .
+
+
+![HandlingSpotTerminations](/images/running-ecs-on-spot/HandlingSpotTerminations.png)
+
 
 For this workshop we used a Python application. The code snippet below shows how our python application can capture the 
 IPC (Inter Process Communication) relevant signals and call a specific method `exit_gracefully` to coordinate graceful termination
