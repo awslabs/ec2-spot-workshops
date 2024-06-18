@@ -4,6 +4,13 @@ date: 2018-08-07T08:30:11-07:00
 weight: 50
 ---
 
+{{% notice warning %}}
+![STOP](../../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Using Spot Instances with EKS and Cluster Autoscaler](https://catalog.us-east-1.prod.workshops.aws/workshops/f2826b1b-f057-4782-bc49-91004eafd48f/en-US)**.
+
+{{% /notice %}}
+
+
 {{% notice info %}}
 We added same labels (**intent: apps** and **eks.amazonaws.com/capacityType: SPOT**) and taint (**spotInstance: "true:PreferNoSchedule"**) to EKS managed node groups and Self managed node groups, therefore the same example service can be scaled on both types of node groups.
 {{% /notice %}}

@@ -4,6 +4,13 @@ date: 2018-08-07T08:30:11-07:00
 weight: 10
 ---
 
+{{% notice warning %}}
+![STOP](../../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Using Spot Instances with EKS and Cluster Autoscaler](https://catalog.us-east-1.prod.workshops.aws/workshops/f2826b1b-f057-4782-bc49-91004eafd48f/en-US)**.
+
+{{% /notice %}}
+
+
 #### Create EKS managed node group with Spot capacity for Jenkins agent
 
 Earlier in the workshop, in the **Add EKS managed Spot workers** chapter, we created node groups that run a diversified set of Spot Instances to run our applications. Let's create a new nodegroup configuration section within the `main.tf` Terraform template. **Remember to continue using your Cloud9 workspace to run all commands.** 
