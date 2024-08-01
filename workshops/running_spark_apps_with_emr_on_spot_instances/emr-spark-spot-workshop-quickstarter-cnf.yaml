@@ -257,7 +257,7 @@ Resources:
       Tags:
         - Key: Environment
           Value: AWS Example
-      Content: Yaml
+      DocumentFormat: YAML
       DocumentType: Command
       Content:
         schemaVersion: '2.2'
