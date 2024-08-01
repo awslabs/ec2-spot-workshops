@@ -4,6 +4,12 @@ weight: 30
 draft: false
 ---
 
+{{% notice warning %}}
+![STOP](../../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Using Spot Instances with EKS and Cluster Autoscaler](https://catalog.us-east-1.prod.workshops.aws/workshops/f2826b1b-f057-4782-bc49-91004eafd48f/en-US)**.
+
+{{% /notice %}}
+
 In this section we will deploy the instance types we selected in previous chapter and create managed node groups that adhere to Spot diversification best practices. We will update the existing Terraform template used to create the cluster. **Remember to continue using your Cloud9 workspace to run all commands.**
 
 Head over to the `eksworkshop` folder in your Cloud9 workspace.

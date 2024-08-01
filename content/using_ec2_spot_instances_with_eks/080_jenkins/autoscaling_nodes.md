@@ -4,6 +4,12 @@ date: 2018-08-07T08:30:11-07:00
 weight: 80
 ---
 
+{{% notice warning %}}
+![STOP](../../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Using Spot Instances with EKS and Cluster Autoscaler](https://catalog.us-east-1.prod.workshops.aws/workshops/f2826b1b-f057-4782-bc49-91004eafd48f/en-US)**.
+
+{{% /notice %}}
+
 In a previous module in this workshop, we saw that we can use Kubernetes cluster-autoscaler to automatically increase the size of our node groups (EC2 Auto Scaling groups) when our Kubernetes deployment scaled out, and some of the pods remained in `pending` state due to lack of resources on the cluster. Let's check the same concept applies for our Jenkins worker nodes and see this in action.
 
 If you recall, Cluster Autoscaler was configured to Auto-Discover Auto Scaling groups created with the tags : k8s.io/cluster-autoscaler/enabled, and k8s.io/cluster-autoscaler/eksworkshop-eksctl. You can find out in the AWS Console section for **EC2 -> Auto Scaling Group**, that the new jenkins node group does indeed have the right tags defined.

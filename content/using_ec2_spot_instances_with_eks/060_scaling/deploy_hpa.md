@@ -4,6 +4,12 @@ date: 2018-08-07T08:30:11-07:00
 weight: 40
 ---
 
+{{% notice warning %}}
+![STOP](../../images/stop_small.png)
+Please note: This workshop version is now deprecated, and an updated version has been moved to AWS Workshop Studio. This workshop remains here for reference to those who have used this workshop before for reference only. Link to updated workshop is here: **[Using Spot Instances with EKS and Cluster Autoscaler](https://catalog.us-east-1.prod.workshops.aws/workshops/f2826b1b-f057-4782-bc49-91004eafd48f/en-US)**.
+
+{{% /notice %}}
+
 So far we have scaled the number of replicas manually. We also have built an understanding around how Cluster Autoscaler does scale the cluster.
 In this section we will deploy the **[Horizontal Pod Autoscaler (HPA)](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)** and a rule to scale our application once it reaches a CPU threshold. The Horizontal Pod Autoscaler automatically scales the number of pods in a replication controller, deployment or replica set based on observed CPU utilization or memory. 
 
