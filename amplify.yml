@@ -5,9 +5,13 @@ frontend:
       commands:
         - wget https://github.com/gohugoio/hugo/releases/download/v0.92.0/hugo_0.92.0_Linux-64bit.tar.gz
         - tar -xf hugo_0.92.0_Linux-64bit.tar.gz hugo
-        - mv hugo /usr/bin/hugo
         - rm -rf hugo_0.92.0_Linux-64bit.tar.gz
-        - hugo
+        - pushd themes/learn
+        - git submodule init
+        - git submodule update --checkout --recursive
+        - popd   
+        - ./hugo version     
+        - ./hugo
   artifacts:
     baseDirectory: public
     files:
