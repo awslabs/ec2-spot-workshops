@@ -3,7 +3,7 @@ title: "Setup Cloud9 Environment"
 weight: 20
 ---
 
-## Seting up Cloud 9 Environment
+## Setting up Cloud 9 Environment
 
 {{% notice warning %}}
 If you are running the workshop on your own, the Cloud9 workspace should be built by an IAM user with Administrator privileges, not the root account user. 
