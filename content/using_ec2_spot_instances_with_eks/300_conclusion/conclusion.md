@@ -37,4 +37,4 @@ There is one more thing that we've accomplished!
 We have achieved a significant cost saving over On-Demand prices that we can apply in a controlled way and at scale. We hope this savings will help you try new experiments or build other cool projects. **Now Go Build** !
 {{% /notice %}}
 
-{{< youtube 3wGeqmSwz9k >}}
+[Watch: Workshop Conclusion Video](https://www.youtube.com/watch?v=3wGeqmSwz9k)

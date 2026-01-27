@@ -15,7 +15,7 @@ The CloudFormation stack created the EKS cluster using [**Terraform**](https://w
 
 **Terraform** is an infrastructure as code tool that lets you build, change, and version infrastructure safely and efficiently in AWS. **EKS Blueprints for Terraform** helps you compose complete EKS clusters that are fully bootstrapped with the operational software that is needed to deploy and operate workloads. With EKS Blueprints, you describe the configuration for the desired state of your EKS environment, such as the control plane, worker nodes, and Kubernetes add-ons, as an IaC blueprint. Once a blueprint is configured, you can use it to stamp out consistent environments across multiple AWS accounts and Regions using continuous deployment automation.
 
-{{< youtube DhoZMbqwwsw >}}
+[Watch: EKS Blueprints for Terraform Overview](https://www.youtube.com/watch?v=DhoZMbqwwsw)
 
 #### Update the kube-config file:
 Before you can start running all the commands included in this workshop, you need to update the kube-config file with the proper credentials to access the cluster. To do so, in your Cloud9 workspace run the following command:
