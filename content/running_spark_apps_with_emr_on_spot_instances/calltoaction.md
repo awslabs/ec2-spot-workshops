@@ -22,6 +22,4 @@ Visit the [**Amazon EMR on EC2 Spot Instances**](https://aws.amazon.com/ec2/spot
 
 Read the blog post: [**Best practices for running Apache Spark applications using Amazon EC2 Spot Instances with Amazon EMR**](https://aws.amazon.com/blogs/big-data/best-practices-for-running-apache-spark-applications-using-amazon-ec2-spot-instances-with-amazon-emr/)  
 
-Watch the AWS Online Tech-Talk: 
-
-{{< youtube u5dFozl1fW8 >}}
+Watch the AWS Online Tech-Talk: [Best Practices for Running Spark Applications Using Spot Instances on EMR](https://www.youtube.com/watch?v=u5dFozl1fW8)
