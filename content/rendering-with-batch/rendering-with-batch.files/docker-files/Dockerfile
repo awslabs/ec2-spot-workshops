@@ -12,7 +12,7 @@ RUN apt-get update && \
     libxxf86vm-dev \
     libfontconfig1 \
     libxrender1 \
-    libgl1-mesa-glx
+    libgl1
 
 # Download and install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
