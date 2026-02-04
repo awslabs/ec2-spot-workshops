@@ -45,6 +45,16 @@ Parameters:
       - t3.large
       - m5.large
     ConstraintDescription: Must be a valid Cloud9 instance type
+
+  InstanceOSFamily:
+    Description: Instance OS Family
+    Type: String
+    Default: Linux
+    AllowedValues:
+      - Linux
+      - Windows
+    ConstraintDescription: Must be a valid OS family
+
   #Used only by Event Engine, if you are self-deploying the stack leave the default value to NONE
   EETeamRoleArn:
     Description: "ARN of the Team Role"
@@ -54,6 +64,8 @@ Parameters:
 
 Conditions: 
   NotEventEngine: !Equals [!Ref EETeamRoleArn, NONE]
+  UseLinux: !Equals [!Ref InstanceOSFamily, Linux]
+  UseWindows: !Equals [!Ref InstanceOSFamily, Windows]
 
 Resources:
 ################## VPC AND SUBNETs #################
@@ -132,6 +144,7 @@ Resources:
 ################## Launch Template #################
   MyLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
+    Condition: UseLinux
     Properties:
       LaunchTemplateName: EC2WorkshopLaunchTemplate
       LaunchTemplateData:
@@ -141,9 +154,7 @@ Resources:
         SecurityGroupIds:
           - !Ref InstanceSecurityGroup
         IamInstanceProfile:
-          Arn: !GetAtt
-            - InstanceProfile
-            - Arn
+          Arn: !GetAtt InstanceProfile.Arn
         UserData: 
           'Fn::Base64':
             |-
@@ -163,34 +174,65 @@ Resources:
             Content-Transfer-Encoding: 7bit
             Content-Disposition: attachment; filename="userdata.txt"
             #!/bin/bash
-            rpm -q httpd &> /dev/null
+            rpm -q stress &> /dev/null
             if [ $? -ne 0 ]
               then
                 sudo amazon-linux-extras install epel -y
                 sudo yum install stress -y
             fi
-            rpm -q httpd &> /dev/null
-            
+
+            rpm -q httpd &> /dev/null            
             if [ $? -ne 0 ]
               then
                 echo "Application is not installed, install and start it."
-                INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
-                REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
                 sudo yum -y install httpd && \
                 sudo service httpd start && \
                 echo "Sleeping for 120 seconds to simulate additional configuration time." && \
-                sleep 120 && \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
+                sleep 120
               else
                 echo "Application is installed, start it."
-                INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
-                REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
-                sudo service httpd start && \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
-                aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
+                sudo service httpd start
             fi
+
+            # TODO check if aws cli is preinstalled
+            INSTANCE_ID="`wget -q -O - http://instance-data/latest/meta-data/instance-id`" && \
+            REGION="`wget -q -O - http://instance-data/latest/meta-data/placement/region`" && \
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION || \
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id $INSTANCE_ID --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region $REGION
             --//
+
+  MyLaunchTemplateWindows:
+    Type: AWS::EC2::LaunchTemplate
+    Condition: UseWindows
+    Properties:
+      LaunchTemplateName: EC2WorkshopLaunchTemplateWindows
+      LaunchTemplateData:
+        ImageId: resolve:ssm:/aws/service/ami-windows-latest/Windows_Server-2022-English-Core-Base
+        InstanceType: t3.micro
+        KeyName: !Ref EC2WorkshopInstanceKeyPair
+        SecurityGroupIds:
+          - !Ref InstanceSecurityGroup
+        IamInstanceProfile:
+          Arn: !GetAtt InstanceProfile.Arn
+        UserData:
+          'Fn::Base64':
+            |-
+            <powershell>
+            # Minial IIS setup
+            Install-WindowsFeature Web-Server
+
+            $AWS_CLI_INSTALLED=(Get-Command aws -ErrorAction SilentlyContinue)
+            if ($AWS_CLI_INSTALLED -eq $null) {
+              Start-Process msiexec.exe -ArgumentList "/i `"https://awscli.amazonaws.com/AWSCLIV2.msi`" /q" -Wait
+              $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine")
+            }
+
+            $INSTANCE_ID=(Invoke-WebRequest -Uri http://169.254.169.254/latest/meta-data/instance-id -UseBasicParsing).Content
+            $REGION=(Invoke-WebRequest -Uri http://169.254.169.254/latest/meta-data/placement/region -UseBasicParsing).Content
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result CONTINUE --instance-id "$INSTANCE_ID" --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region "$REGION"
+            aws autoscaling complete-lifecycle-action --lifecycle-action-result ABANDON --instance-id "$INSTANCE_ID" --lifecycle-hook-name ec2-workshop-launch-hook --auto-scaling-group-name ec2-workshop-asg --region "$REGION"
+            </powershell>
+
   InstanceRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -267,11 +309,7 @@ Resources:
           - sts:AssumeRole
       Path: "/"
       Policies:
-      - PolicyName:
-          Fn::Join:
-          - ''
-          - - C9LambdaPolicy-
-            - Ref: AWS::Region
+      - PolicyName: !Sub 'C9LambdaPolicy-${AWS::Region}'
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
@@ -298,27 +336,22 @@ Resources:
 ################## LAMBDA BOOTSTRAP FUNCTION ################
 
   C9BootstrapInstanceLambda:
-    Description: Bootstrap Cloud9 instance
     Type: Custom::C9BootstrapInstanceLambda
     DependsOn:
-    - C9BootstrapInstanceLambdaFunction
-    - C9Instance
     - C9LambdaExecutionRole
     Properties:
+      Description: Bootstrap Cloud9 instance
       Tags:
         - Key: Environment
           Value: AWS Example
-      ServiceToken:
-        Fn::GetAtt:
-        - C9BootstrapInstanceLambdaFunction
-        - Arn
+      ServiceToken: !GetAtt C9BootstrapInstanceLambdaFunction.Arn
       REGION:
         Ref: AWS::Region
       StackName:
         Ref: AWS::StackName
       EnvironmentId:
         Ref: C9Instance
-      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:aws:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
+      LabIdeInstanceProfileArn: !If [ NotEventEngine, !GetAtt C9InstanceProfile.Arn, !Sub 'arn:${AWS::Partition}:iam::${AWS::AccountId}:instance-profile/TeamRoleInstanceProfile' ]
 
   C9BootstrapInstanceLambdaFunction:
     Type: AWS::Lambda::Function
@@ -327,10 +360,7 @@ Resources:
         - Key: Environment
           Value: AWS Example
       Handler: index.lambda_handler
-      Role:
-        Fn::GetAtt:
-        - C9LambdaExecutionRole
-        - Arn
+      Role: !GetAtt C9LambdaExecutionRole.Arn
       Runtime: python3.9
       MemorySize: 256
       Timeout: '600'
@@ -399,7 +429,7 @@ Resources:
       Tags:
         - Key: Environment
           Value: AWS Example
-      Content: Yaml
+      DocumentFormat: YAML
       DocumentType: Command
       Content:
         schemaVersion: '2.2'
@@ -457,8 +487,6 @@ Resources:
 
   C9BootstrapAssociation:
     Type: AWS::SSM::Association
-    DependsOn:
-    - C9OutputBucket
     Properties:
       Name: !Ref C9SSMDocument
       OutputLocation:
@@ -479,9 +507,8 @@ Resources:
       Roles:
       - Ref: C9Role
   C9Instance:
-    Description: "-"
-    DependsOn: C9BootstrapAssociation
     Type: AWS::Cloud9::EnvironmentEC2
+    DependsOn: C9BootstrapAssociation
     Properties:
       Description: AWS Cloud9 instance for Examples
       AutomaticStopTimeMinutes: 240
@@ -491,7 +518,7 @@ Resources:
       Name: 
         Ref: AWS::StackName
       # OwnerArn: !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey'
-      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:aws:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
+      OwnerArn: !If [NotEventEngine , !Ref AWS::NoValue , !Sub 'arn:${AWS::Partition}:sts::${AWS::AccountId}:assumed-role/TeamRole/MasterKey']
       Tags:
         -
           Key: SSMBootstrap
@@ -504,14 +531,8 @@ Resources:
 Outputs:
   Cloud9IDE:
     Value:
-      Fn::Join:
-      - ''
-      - - https://
-        - Ref: AWS::Region
-        - ".console.aws.amazon.com/cloud9/ide/"
-        - Ref: C9Instance
-        - "?region="
-        - Ref: AWS::Region
+      !Sub 'https://${AWS::Region}.console.aws.amazon.com/cloud9/ide/${C9Instance}?region=${AWS::Region}'
+
   VPC:
     Description: A reference to the created VPC
     Value: !Ref VPC
