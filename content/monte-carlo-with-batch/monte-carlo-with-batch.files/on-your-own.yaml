@@ -1,0 +1,2072 @@
+Resources:
+  Vpc8378EB38:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: MonteCarloStack/Vpc
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/Resource
+  VpcMonteCarloWithBatchSubnet1SubnetACD507E2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId:
+        Ref: Vpc8378EB38
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: MonteCarloWithBatch
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/Subnet
+  VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      Tags:
+        - Key: Name
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/RouteTable
+  VpcMonteCarloWithBatchSubnet1RouteTableAssociation764CCDCB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8
+      SubnetId:
+        Ref: VpcMonteCarloWithBatchSubnet1SubnetACD507E2
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/RouteTableAssociation
+  VpcMonteCarloWithBatchSubnet1DefaultRoute756AD8AE:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: VpcIGWD7BA715C
+    DependsOn:
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet1/DefaultRoute
+  VpcMonteCarloWithBatchSubnet2Subnet503CB79F:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: Vpc8378EB38
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: MonteCarloWithBatch
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/Subnet
+  VpcMonteCarloWithBatchSubnet2RouteTable38661A82:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      Tags:
+        - Key: Name
+          Value: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/RouteTable
+  VpcMonteCarloWithBatchSubnet2RouteTableAssociationA6624D36:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: VpcMonteCarloWithBatchSubnet2RouteTable38661A82
+      SubnetId:
+        Ref: VpcMonteCarloWithBatchSubnet2Subnet503CB79F
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/RouteTableAssociation
+  VpcMonteCarloWithBatchSubnet2DefaultRouteFBA27C07:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: VpcMonteCarloWithBatchSubnet2RouteTable38661A82
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: VpcIGWD7BA715C
+    DependsOn:
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/MonteCarloWithBatchSubnet2/DefaultRoute
+  VpcIGWD7BA715C:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: MonteCarloStack/Vpc
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/IGW
+  VpcVPCGWBF912B6E:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: Vpc8378EB38
+      InternetGatewayId:
+        Ref: VpcIGWD7BA715C
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Vpc/VPCGW
+  securityGroup32C48086:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: MonteCarloStack/securityGroup
+      GroupName: MonteCarloWithBatch
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: Vpc8378EB38
+    DependsOn:
+      - VpcIGWD7BA715C
+      - VpcMonteCarloWithBatchSubnet1DefaultRoute756AD8AE
+      - VpcMonteCarloWithBatchSubnet1RouteTable7142ABD8
+      - VpcMonteCarloWithBatchSubnet1RouteTableAssociation764CCDCB
+      - VpcMonteCarloWithBatchSubnet1SubnetACD507E2
+      - VpcMonteCarloWithBatchSubnet2DefaultRouteFBA27C07
+      - VpcMonteCarloWithBatchSubnet2RouteTable38661A82
+      - VpcMonteCarloWithBatchSubnet2RouteTableAssociationA6624D36
+      - VpcMonteCarloWithBatchSubnet2Subnet503CB79F
+      - Vpc8378EB38
+      - VpcVPCGWBF912B6E
+    Metadata:
+      aws:cdk:path: MonteCarloStack/securityGroup/Resource
+  launchTemplateDEE5742D:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - securityGroup32C48086
+              - GroupId
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: MonteCarloStack/launchTemplate
+          - ResourceType: volume
+            Tags:
+              - Key: Name
+                Value: MonteCarloStack/launchTemplate
+        UserData:
+          Fn::Base64: |-
+            MIME-Version: 1.0
+            Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+
+            --==MYBOUNDARY==
+            Content-Type: text/x-shellscript; charset="us-ascii"
+
+            #!/bin/bash
+            echo "ECS_CLUSTER=EcsSpotWorkshop" >> /etc/ecs/ecs.config
+            echo "ECS_ENABLE_SPOT_INSTANCE_DRAINING=true" >> /etc/ecs/ecs.config
+            echo "ECS_CONTAINER_STOP_TIMEOUT=90s" >> /etc/ecs/ecs.config
+            echo "ECS_ENABLE_CONTAINER_METADATA=true" >> /etc/ecs/ecs.config
+
+            --==MYBOUNDARY==--
+      LaunchTemplateName: MonteCarloWithBatch
+    DependsOn:
+      - securityGroup32C48086
+    Metadata:
+      aws:cdk:path: MonteCarloStack/launchTemplate/Resource
+  repository9F1A3F0B:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: montecarlo-with-batch
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: MonteCarloStack/repository/Resource
+  ecsRole157644C0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role
+    Metadata:
+      aws:cdk:path: MonteCarloStack/ecsRole/Resource
+  ecsinstanceprofile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: ecsRole157644C0
+    DependsOn:
+      - ecsRole157644C0
+    Metadata:
+      aws:cdk:path: MonteCarloStack/ecsinstanceprofile
+  bucket43879C71:
+    Type: AWS::S3::Bucket
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: MonteCarloStack/bucket/Resource
+  PreprocessingServiceRole532E6474:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    DependsOn:
+      - bucket43879C71
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Preprocessing/ServiceRole/Resource
+  PreprocessingServiceRoleDefaultPolicyF8800D5C:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: "*"
+            Effect: Allow
+            Resource:
+              - Fn::GetAtt:
+                  - bucket43879C71
+                  - Arn
+              - Fn::Join:
+                  - ""
+                  - - Fn::GetAtt:
+                        - bucket43879C71
+                        - Arn
+                    - /*
+        Version: "2012-10-17"
+      PolicyName: PreprocessingServiceRoleDefaultPolicyF8800D5C
+      Roles:
+        - Ref: PreprocessingServiceRole532E6474
+    DependsOn:
+      - bucket43879C71
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Preprocessing/ServiceRole/DefaultPolicy/Resource
+  Preprocessing329E01E4:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: "import json, boto3, sys\n\ndef lambda_handler(event, context):\n uri = event['inputUri']\n uri_components = uri.split('s3://')[1].split('/')\n bucket = uri_components[0]\n key = uri_components[1]\n s3 = boto3.resource('s3')\n obj = s3.Object(bucket, key)\n \n raw_data = obj.get()['Body'].read().decode('utf-8') \n json_data = json.loads(raw_data)\n array_job_size = len(json_data[\"positions\"])\n return {\n   'statusCode': 200,\n   'body': \n   {\n     'arrayJobSize': array_job_size,\n     'bucket': bucket,\n     'key': key\n   }\n }"
+      Role:
+        Fn::GetAtt:
+          - PreprocessingServiceRole532E6474
+          - Arn
+      Handler: index.lambda_handler
+      Runtime: python3.9
+      Timeout: 300
+    DependsOn:
+      - bucket43879C71
+      - PreprocessingServiceRoleDefaultPolicyF8800D5C
+      - PreprocessingServiceRole532E6474
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Preprocessing/Resource
+  PostprocessingServiceRole0C11EC1F:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    DependsOn:
+      - bucket43879C71
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Postprocessing/ServiceRole/Resource
+  PostprocessingServiceRoleDefaultPolicyC0902B61:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: "*"
+            Effect: Allow
+            Resource:
+              - Fn::GetAtt:
+                  - bucket43879C71
+                  - Arn
+              - Fn::Join:
+                  - ""
+                  - - Fn::GetAtt:
+                        - bucket43879C71
+                        - Arn
+                    - /*
+        Version: "2012-10-17"
+      PolicyName: PostprocessingServiceRoleDefaultPolicyC0902B61
+      Roles:
+        - Ref: PostprocessingServiceRole0C11EC1F
+    DependsOn:
+      - bucket43879C71
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Postprocessing/ServiceRole/DefaultPolicy/Resource
+  Postprocessing42790026:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: "import json, boto3, sys \n\ndef lambda_handler(event, context):\n    uri = event['outputUri'] # the location that the AWS Batch result files were written to\n    uri_components = uri.split('s3://')[1].split('/')\n    bucket = uri_components[0]\n    prefix = uri_components[1]\n    \n    s3 = boto3.resource('s3')\n    result = s3.meta.client.list_objects_v2(Bucket=bucket, Prefix=prefix)     \n\n    items = result[\"Contents\"]\n    aggregation = {} # Dictionary for aggregating by strike\n    for item in items:\n        \n        # get handle to S3 object\n        s3key = item[\"Key\"]\n        obj = s3.Object(bucket, s3key)\n        \n        # each file contains a single line of JSON containing the strike and PV\n        strike_pv_pair = obj.get()['Body'].read().decode('utf-8') \n        pair = json.loads(strike_pv_pair)\n        if pair:\n            if pair[\"strike\"] and not pair[\"strike\"] == 'null':\n                try:\n                    pv_value = float(pair[\"pv\"])\n                    if pair[\"strike\"] in aggregation.keys():\n                        aggregation[pair[\"strike\"]] += pv_value\n                    else:\n                        aggregation[pair[\"strike\"]] = pv_value\n                except ValueError:\n                    # Handle the error gracefully, e.g., log it or skip this pair\n                    print(f\"Warning: Could not convert 'pv' value '{pair['pv']}' to float for strike '{pair['strike']}'. Skipping this value.\")\n                except TypeError:\n                    # Handle cases where pair[\"pv\"] might not be a string or number (e.g., None)\n                    print(f\"Warning: 'pv' value '{pair['pv']}' has an unexpected type for strike '{pair['strike']}'. Skipping this value.\")\n          \n    # upload to S3\n    obj = s3.Object(bucket, \"aggregation_\"+prefix+\".json\")\n    obj.put(Body=(bytes(json.dumps(aggregation).encode('utf-8'))))\n\n    return {\n        'statusCode': 200,\n        'body': json.dumps(aggregation, default=str)\n    }"
+      Role:
+        Fn::GetAtt:
+          - PostprocessingServiceRole0C11EC1F
+          - Arn
+      Handler: index.lambda_handler
+      Runtime: python3.9
+      Timeout: 300
+    DependsOn:
+      - bucket43879C71
+      - PostprocessingServiceRoleDefaultPolicyC0902B61
+      - PostprocessingServiceRole0C11EC1F
+    Metadata:
+      aws:cdk:path: MonteCarloStack/Postprocessing/Resource
+  MonteCarloPipelineRoleDBF0A505:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - states.
+                    - Ref: AWS::Region
+                    - .amazonaws.com
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Role/Resource
+  MonteCarloPipelineRoleDefaultPolicy3E3E3B10:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: lambda:InvokeFunction
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - Preprocessing329E01E4
+                - Arn
+          - Action: batch:SubmitJob
+            Effect: Allow
+            Resource:
+              - Fn::Join:
+                  - ""
+                  - - "arn:"
+                    - Ref: AWS::Partition
+                    - ":batch:"
+                    - Ref: AWS::Region
+                    - ":"
+                    - Ref: AWS::AccountId
+                    - :job-definition/*
+              - Fn::Join:
+                  - ""
+                  - - "arn:"
+                    - Ref: AWS::Partition
+                    - ":batch:"
+                    - Ref: AWS::Region
+                    - ":"
+                    - Ref: AWS::AccountId
+                    - :job-queue/*
+          - Action:
+              - events:PutTargets
+              - events:PutRule
+              - events:DescribeRule
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - ":events:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :rule/StepFunctionsGetEventsForBatchJobsRule
+          - Action: lambda:InvokeFunction
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - Postprocessing42790026
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: MonteCarloPipelineRoleDefaultPolicy3E3E3B10
+      Roles:
+        - Ref: MonteCarloPipelineRoleDBF0A505
+    Metadata:
+      aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Role/DefaultPolicy/Resource
+  MonteCarloPipeline047F16B3:
+    Type: AWS::StepFunctions::StateMachine
+    Properties:
+      RoleArn:
+        Fn::GetAtt:
+          - MonteCarloPipelineRoleDBF0A505
+          - Arn
+      DefinitionString:
+        Fn::Join:
+          - ""
+          - - '{"StartAt":"Portfolio Extraction","States":{"Portfolio Extraction":{"Next":"MonteCarlo","Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","TimeoutSeconds":300,"ResultPath":"$.output","Resource":"arn:'
+            - Ref: AWS::Partition
+            - :states:::lambda:invoke","Parameters":{"FunctionName":"
+            - Fn::GetAtt:
+                - Preprocessing329E01E4
+                - Arn
+            - '","Payload.$":"$"}},"MonteCarlo":{"Next":"Merge","Type":"Task","ResultPath":"$.output","Resource":"arn:'
+            - Ref: AWS::Partition
+            - ':states:::batch:submitJob.sync","Parameters":{"JobDefinition.$":"$.jobDefinitionArn","JobName.$":"$.jobName","JobQueue.$":"$.jobQueueArn","Parameters":{"action":"price","inputUri.$":"$.inputUri","outputUri.$":"$.outputUri","bucket.$":"$.output.Payload.body.bucket","key.$":"$.output.Payload.body.key"},"ArrayProperties":{"Size.$":"$.output.Payload.body.arrayJobSize"}}},"Merge":{"End":true,"Retry":[{"ErrorEquals":["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"],"IntervalSeconds":2,"MaxAttempts":6,"BackoffRate":2}],"Type":"Task","TimeoutSeconds":300,"Resource":"arn:'
+            - Ref: AWS::Partition
+            - :states:::lambda:invoke","Parameters":{"FunctionName":"
+            - Fn::GetAtt:
+                - Postprocessing42790026
+                - Arn
+            - '","Payload.$":"$"}}},"TimeoutSeconds":86400}'
+    DependsOn:
+      - MonteCarloPipelineRoleDefaultPolicy3E3E3B10
+      - MonteCarloPipelineRoleDBF0A505
+    Metadata:
+      aws:cdk:path: MonteCarloStack/MonteCarloPipeline/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/11RwW7CMAz9Fu4hm8ppR0AaYmJaVRBXlAajem3jKnGGUNR/X2hghZ38/BzHz8+ZnMnXiTq7qT7W0wZLGbasdC0idQigMxn2nRbLk9nnS5H7skG99aUBvnIjKsgz7FTZwMiP3Nw50qgYyfw9voK1YbDx5UoxnNXlNuaWzTkKqVowLLagvUW+rCz5bhjwRGyUN7raQds1Kn38zPQCtJWhgI4cMtlh0Jj1AlUby5TE3+PaOFZGQ27phJHKKe4+tCbUCzeTYeF1nSxIqBeNasujkuE9SrhvfMexh6E73TJ3YOVqJ8NmaFmbH6pBLBTrKjrYIn9Q+a9jOA/DZ3QGTfL6Ie97UYAjb/VQ+vLc+XSeB3ZJ5ohJTH7hiszLTL7JLJt8O8Sp9YaxBVmk+AtMrLLeIAIAAA==
+    Metadata:
+      aws:cdk:path: MonteCarloStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  Subnet1:
+    Value:
+      Ref: VpcMonteCarloWithBatchSubnet1SubnetACD507E2
+  Subnet2:
+    Value:
+      Ref: VpcMonteCarloWithBatchSubnet2Subnet503CB79F
+  LaunchTemplateName:
+    Value: MonteCarloWithBatch
+  RepositoryName:
+    Value:
+      Ref: repository9F1A3F0B
+  ECSInstanceProfile:
+    Value:
+      Fn::GetAtt:
+        - ecsinstanceprofile
+        - Arn
+  BucketName:
+    Value:
+      Ref: bucket43879C71
+  MonteCarloFileName:
+    Value: portfolio.json
+  PreprocessingLambda:
+    Value:
+      Ref: Preprocessing329E01E4
+  PostprocessingLambda:
+    Value:
+      Ref: Postprocessing42790026
+  StateMachineArn:
+    Value:
+      Ref: MonteCarloPipeline047F16B3
+  StackNameOutput:
+    Description: The name of the CloudFormation stack
+    Value:
+      Ref: AWS::StackName
+    Export:
+      Name: MonteCarloBatchStackNameExport
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+Description: Create a code-server instance with an Amazon CloudFront distribution for use in Workshop Studio. Version 5.0.0
+
+
+Parameters:
+  PublicSSHKey:
+    Type: String
+    Description: Public SSH key for EC2 access (optional)
+    Default: ""
+  CloudFrontDomain:
+    Type: String
+    Description: CloudFront distribution domain name (optional)
+    Default: "*.cloudfront.net"
+  MonteCarloBatchStackNameRef:
+    Type: String
+    Default: montecarlowithbatch
+    Description: The export name for the MonteCarloWithBatch stack name.
+  CodeServerUser:
+    Type: String
+    Description: UserName for code-server
+    Default: participant
+  InstanceName:
+    Type: String
+    Description: Code-server EC2 instance name
+    Default: CodeServer
+  InstanceVolumeSize:
+    Type: Number
+    Description: Code-server EC2 instance volume size in GB
+    Default: 40
+  InstanceType:
+    Description: Code-server EC2 instance type
+    Type: String
+    Default: t3.medium
+    AllowedPattern: '^(t3|t4|c6|c7|m6|m7|m8)[g|i|a]?(d|n|dn|-flex)?\.(nano|micro|small|medium|large|[2|4|9|12|16|18|24|32|48]?xlarge)$'
+    ConstraintDescription: Must be a valid t, c or m series EC2 instance type
+  InstanceOperatingSystem:
+    Description: Code-server EC2 operating system
+    Type: String
+    Default: AmazonLinux-2023
+    AllowedValues: ['AmazonLinux-2023', 'Ubuntu-22', 'Ubuntu-24']
+  HomeFolder:
+    Type: String
+    Description: Folder to open in code-server
+    Default: /workshop
+  DevServerBasePath:
+    Type: String
+    Description: Base path for the application to be added to Nginx sites-available list
+    Default: app
+  DevServerPort:
+    Type: Number
+    Description: Port for the DevServer
+    Default: 8081
+  RepoUrl:
+    Description: Remote repo URL to clone. To not clone a remote repo, leave blank
+    Type: String
+    Default: ''
+  AssetZipS3Path:
+    Description: S3 path holding the asset zip file to be copied into the home folder. To not include any assets, leave blank
+    Type: String
+    Default: ''
+  BranchZipS3Path:
+    Description: S3 path holding the branches zip file to be checked into the git repo, with each folder being a branch. The content of each folder will added as under a branch, with the folder name being used as the branch name. To leave the empty, leave blank
+    Type: String
+    Default: ''
+  FolderZipS3Path:
+    Description: S3 path holding the folder zip file, with each folder being a subfolder of the home directory. Each folder will have its own local git repo. To not include any folders, leave blank
+    Type: String
+    Default: ''
+
+Conditions:
+  IsAL2023: !Equals [!Ref InstanceOperatingSystem, 'AmazonLinux-2023']
+  IsGraviton: !Or
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 't4g']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'c6g']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'c7g']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'c7gd']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'c8g']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'm6g']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'm6gd']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'm7g']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'm7gd']
+    - !Equals [ !Select [ 0, !Split ['.', !Ref InstanceType ]], 'm8g']
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Instance Configuration
+        Parameters:
+          - InstanceName
+          - InstanceVolumeSize
+          - InstanceType
+          - InstanceOperatingSystem
+      - Label:
+          default: Code-server Configuration
+        Parameters:
+          - CodeServerUser
+          - HomeFolder
+          - DevServerBasePath
+          - DevServerPort
+          - RepoUrl
+          - AssetZipS3Path
+          - BranchZipS3Path
+          - FolderZipS3Path
+    ParameterLabels:
+      CodeServerUser:
+        default: Code-server user name
+      InstanceName:
+        default: Instance name
+      InstanceVolumeSize:
+        default: Instance volume size
+      InstanceType:
+        default: Instance type
+      InstanceOperatingSystem:
+        default: Instance operating system
+      HomeFolder:
+        default: Code-server home folder
+      DevServerBasePath:
+        default: Application base path
+      DevServerPort:
+        default: Application port
+      RepoUrl:
+        default: Git repo URL
+      AssetZipS3Path:
+        default: Asset file S3 path
+      BranchZipS3Path:
+        default: Branch file S3 path
+      FolderZipS3Path:
+        default: Folder file S3 path
+
+Mappings:
+  ArmImage:
+  # aws ssm get-parameters-by-path --path "/aws/service/canonical/ubuntu/" --recursive --query "Parameters[*].Name"  > canonical-ami.txt
+  # aws ssm get-parameters-by-path --path "/aws/service/ami-amazon-linux-latest/" --recursive --query "Parameters[*].Name"  > amazon-ami.txt
+    Ubuntu-22:
+      ImageId: '{{resolve:ssm:/aws/service/canonical/ubuntu/server/jammy/stable/current/arm64/hvm/ebs-gp2/ami-id}}'
+    Ubuntu-24:
+      ImageId: '{{resolve:ssm:/aws/service/canonical/ubuntu/server/noble/stable/current/arm64/hvm/ebs-gp3/ami-id}}'
+    AmazonLinux-2023:
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64}}'
+  AmdImage:
+    Ubuntu-22:
+      ImageId: '{{resolve:ssm:/aws/service/canonical/ubuntu/server/jammy/stable/current/amd64/hvm/ebs-gp2/ami-id}}'
+    Ubuntu-24:
+      ImageId: '{{resolve:ssm:/aws/service/canonical/ubuntu/server/noble/stable/current/amd64/hvm/ebs-gp3/ami-id}}'
+    AmazonLinux-2023:
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}'
+  AWSRegionsPrefixListID:
+  # aws ec2 describe-managed-prefix-lists  --region <REGION> | jq -r '.PrefixLists[] | select (.PrefixListName == "com.amazonaws.global.cloudfront.origin-facing") | .PrefixListId'
+    ap-northeast-1:
+      PrefixList: pl-58a04531
+    ap-northeast-2:
+      PrefixList: pl-22a6434b
+    ap-south-1:
+      PrefixList: pl-9aa247f3
+    ap-southeast-1:
+      PrefixList: pl-31a34658
+    ap-southeast-2:
+      PrefixList: pl-b8a742d1
+    ca-central-1:
+      PrefixList: pl-38a64351
+    eu-central-1:
+      PrefixList: pl-a3a144ca
+    eu-north-1:
+      PrefixList: pl-fab65393
+    eu-west-1:
+      PrefixList: pl-4fa04526
+    eu-west-2:
+      PrefixList: pl-93a247fa
+    eu-west-3:
+      PrefixList: pl-75b1541c
+    sa-east-1:
+      PrefixList: pl-5da64334
+    us-east-1:
+      PrefixList: pl-3b927c52
+    us-east-2:
+      PrefixList: pl-b6a144df
+    us-west-1:
+      PrefixList: pl-4ea04527
+    us-west-2:
+      PrefixList: pl-82a045eb
+
+Resources:
+  InstanceKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: !Sub ${AWS::StackName}-key 
+  CodeServerSecret:
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W77
+            reason: The default KMS Key used by Secrets Manager is appropriate for this password which will be used to log into code-server, which has very limited permissions. In addition this secret will not be required to be shared across accounts
+    Type: AWS::SecretsManager::Secret
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Name: !Ref InstanceName
+      Description: Code-server user details
+      GenerateSecretString:
+        PasswordLength: 16
+        SecretStringTemplate: !Sub '{"username":"${CodeServerUser}"}'
+        GenerateStringKey: 'password'
+        ExcludePunctuation: true
+
+  SecretPlaintextLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: !Sub lambda.${AWS::URLSuffix}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: AwsSecretsManager
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                Resource: !Ref CodeServerSecret
+
+  SecretPlaintextLambda:
+    Type: AWS::Lambda::Function
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W58
+            reason: Warning incorrectly reported. The role associated with the Lambda function has the AWSLambdaBasicExecutionRole managed policy attached, which includes permission to write CloudWatch Logs. See https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLambdaBasicExecutionRole.html
+          - id: W89
+            reason: CloudFormation custom function does not need the scaffolding of a VPC, to do so would add unnecessary complexity
+          - id: W92
+            reason: CloudFormation custom function does not need reserved concurrent executions, to do so would add unnecessary complexity
+    Properties:
+      Description: Return the value of the secret
+      Handler: index.lambda_handler
+      Runtime: python3.13
+      MemorySize: 128
+      Timeout: 10
+      Architectures:
+        - arm64
+      Role: !GetAtt SecretPlaintextLambdaRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import json
+          import cfnresponse
+          import logging
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          def is_valid_json(json_string):
+              logger.debug(f'Calling is_valid_jason:{json_string}')
+              try:
+                  json.loads(json_string)
+                  logger.info(f'Secret is in json format')
+                  return True
+              except json.JSONDecodeError:
+                  logger.info(f'Secret is in string format')
+                  return False
+
+          def lambda_handler(event, context):
+              logger.debug(f'event: {event}')
+              logger.debug(f'context: {context}')
+              try:
+                  if event['RequestType'] == 'Delete':
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData={}, reason='No action to take')
+                  else:
+                      resource_properties = event['ResourceProperties']
+                      secret_name = resource_properties['SecretArn']
+                      secrets_mgr = boto3.client('secretsmanager')
+
+                      logger.info(f'Getting secret from {secret_name}')
+
+                      secret = secrets_mgr.get_secret_value(SecretId = secret_name)
+                      logger.debug(f'secret: {secret}')
+                      secret_value = secret['SecretString']
+
+                      responseData = {}
+                      if is_valid_json(secret_value):
+                          responseData = secret_value
+                      else:
+                          responseData = {'secret': secret_value}
+                      logger.debug(f'responseData: {responseData}')
+                      logger.debug(f'type(responseData): {type(responseData)}')
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData=json.loads(responseData), reason='OK', noEcho=True)
+              except Exception as e:
+                  logger.error(e)
+                  cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason=str(e))
+
+  SecretPlaintext:
+    Type: Custom::SecretPlaintextLambda
+    Properties:
+      ServiceToken: !GetAtt SecretPlaintextLambda.Arn
+      ServiceTimeout: 15
+      SecretArn: !Ref CodeServerSecret
+
+  CodeServerSSMDoc:
+    Type: AWS::SSM::Document
+    Properties:
+      DocumentType: Command
+      Content:
+        schemaVersion: '2.2'
+        description: Bootstrap code-server instance
+        parameters:
+          LinuxFlavor:
+            type: String
+            default: 'al2023'
+          CodeServerPassword:
+            type: String
+            default: !Ref AWS::StackId
+        # all mainSteps scripts are in in /var/lib/amazon/ssm/<instanceid>/document/orchestration/<uuid>/<StepName>/_script.sh
+        mainSteps:
+          - name: InstallCloudWatchAgent
+            action: aws:configurePackage
+            inputs:
+              name: AmazonCloudWatchAgent
+              action: Install
+          - name: ConfigureCloudWatchAgent
+            action: aws:runDocument
+            inputs:
+              documentType: SSMDocument
+              documentPath: AmazonCloudWatch-ManageAgent
+              documentParameters:
+                action: configure
+                mode: ec2
+                optionalConfigurationSource: default
+                optionalRestart: 'yes'
+          - name: InstallAptPackagesApt
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - ubuntu
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - dpkg --configure -a
+                - apt-get -q update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q apt-utils
+                - apt-get -q update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q needrestart unattended-upgrades
+                - sed -i 's/#$nrconf{kernelhints} = -1;/$nrconf{kernelhints} = 0;/' /etc/needrestart/needrestart.conf
+                - sed -i 's/#$nrconf{verbosity} = 2;/$nrconf{verbosity} = 0;/' /etc/needrestart/needrestart.conf
+                - sed -i "s/#\$nrconf{restart} = 'i';/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
+                - echo "Apt helper packages added. Checking configuration"
+                - cat /etc/needrestart/needrestart.conf
+          - name: InstallBasePackagesDnf
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - al2023
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - dnf install -y --allowerasing curl gnupg whois argon2 unzip nginx openssl
+          - name: InstallBasePackagesApt
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - ubuntu
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - dpkg --configure -a
+                - apt-get -q update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q curl gnupg whois argon2 unzip nginx openssl locales locales-all apt-transport-https ca-certificates software-properties-common
+          - name: AddUserDnf
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - al2023
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - !Sub |
+                  echo 'Adding user: ${CodeServerUser}'
+                  adduser -c '' ${CodeServerUser}
+                  passwd -l ${CodeServerUser}
+                  echo "${CodeServerUser}:{{ CodeServerPassword }}" | chpasswd
+                  usermod -aG wheel ${CodeServerUser}
+                - echo "User added. Checking configuration"
+                - !Sub getent passwd ${CodeServerUser}
+          - name: AddUserApt
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - ubuntu
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - dpkg --configure -a
+                - !Sub |
+                  if [[ "${CodeServerUser}" == "ubuntu" ]]
+                  then
+                    echo 'Using existing user: ${CodeServerUser}'
+                  else
+                    echo 'Adding user: ${CodeServerUser}'
+                    adduser --disabled-password --gecos '' ${CodeServerUser}
+                    echo "${CodeServerUser}:{{ CodeServerPassword }}" | chpasswd
+                    usermod -aG sudo ${CodeServerUser}
+                  fi
+                - !Sub |
+                  tee /etc/sudoers.d/91-vscode-user <<EOF
+                  ${CodeServerUser} ALL=(ALL) NOPASSWD:ALL
+                  EOF
+                - !Sub mkdir -p /home/${CodeServerUser} && chown -R ${CodeServerUser}:${CodeServerUser} /home/${CodeServerUser}
+                - !Sub mkdir -p /home/${CodeServerUser}/.local/bin && chown -R ${CodeServerUser}:${CodeServerUser} /home/${CodeServerUser}
+                - echo "User added. Checking configuration"
+                - !Sub getent passwd ${CodeServerUser}
+          - name: UpdateProfile
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - echo LANG=en_US.utf-8 >> /etc/environment
+                - echo LC_ALL=en_US.UTF-8 >> /etc/environment
+                - !Sub |
+                    if [ ! -f /home/${CodeServerUser}/.bashrc.original ]; then
+                      cp /home/${CodeServerUser}/.bashrc /home/${CodeServerUser}/.bashrc.original
+                    fi
+                    cat > /home/${CodeServerUser}/.bashrc << 'EOF'
+                    # Source global definitions
+                    if [ -f /etc/bashrc ]; then
+                        . /etc/bashrc
+                    fi
+
+                    # User specific environment
+                    PATH=$PATH:/home/${CodeServerUser}/.local/bin
+                    export PATH
+
+                    # User specific aliases and functions
+                    if [ -d ~/.bashrc.d ]; then
+                        for rc in ~/.bashrc.d/*; do
+                            if [ -f "$rc" ]; then
+                                . "$rc"
+                            fi
+                        done
+                    fi
+
+                    # Environment variables
+                    export AWS_REGION=${AWS::Region}
+                    export AWS_ACCOUNTID=${AWS::AccountId}
+                    export NEXT_TELEMETRY_DISABLED=1
+                    export AWS_DEFAULT_REGION=${AWS::Region}
+                    export PS1='\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]\$ '
+                    EOF
+          - name: InstallAWSCLI
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - mkdir -p /tmp
+                - curl -fsSL https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip -o /tmp/aws-cli.zip
+                - !Sub chown -R ${CodeServerUser}:${CodeServerUser} /tmp/aws-cli.zip
+                - unzip -q -d /tmp /tmp/aws-cli.zip
+                - sudo /tmp/aws/install
+                - rm -rf /tmp/aws
+                - echo "AWS CLI installed. Checking configuration"
+                - aws --version
+
+          - name: InstallGitDnf
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - al2023
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - dnf install -y git
+                - !Sub sudo -u ${CodeServerUser} git config --global user.email "participant@example.com"
+                - !Sub sudo -u ${CodeServerUser} git config --global user.name "Workshop Participant"
+                - !Sub sudo -u ${CodeServerUser} git config --global init.defaultBranch "main"
+                - echo "Git installed. Checking configuration"
+                - git --version
+                - !Sub |
+                  if [[ "${RepoUrl}" =~ ^codecommit ]];
+                  then
+                    dnf install -y python3-pip
+                    echo "Installing git-remote-codecommit with pip3"
+                    PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install git-remote-codecommit
+                  fi
+                - dnf install -y docker
+                - !Sub usermod -aG docker ${CodeServerUser}
+                - systemctl enable docker
+                - systemctl start docker
+                - echo "Docker install completed"
+          - name: InstallGitApt
+            action: aws:runShellScript
+            precondition:
+              StringEquals:
+                - '{{ LinuxFlavor }}'
+                - ubuntu
+            inputs:
+              timeoutSeconds: 300
+              runCommand:
+                - '#!/bin/bash'
+                - dpkg --configure -a
+                - add-apt-repository ppa:git-core/ppa
+                - apt-get -q update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q git
+                - !Sub sudo -u ${CodeServerUser} git config --global user.email "participant@example.com"
+                - !Sub sudo -u ${CodeServerUser} git config --global user.name "Workshop Participant"
+                - !Sub sudo -u ${CodeServerUser} git config --global init.defaultBranch "main"
+                - echo "Git installed. Checking configuration"
+                - git --version
+                - !Sub |
+                  if [[ "${RepoUrl}" =~ ^codecommit ]];
+                  then
+                    apt-get -q update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q python3-pip
+                    echo "Installing git-remote-codecommit with pip3"
+                    PIP_BREAK_SYSTEM_PACKAGES=1 pip3 install git-remote-codecommit
+                  fi
+          - name: CloneRepo
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 600
+              runCommand:
+                - '#!/bin/bash'
+                - !Sub |
+                  if [[ -z "${RepoUrl}" ]]
+                  then
+                    echo "No Repo"
+                  else
+                    mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                    RepoUrlRegion=$(echo "${RepoUrl}" | sed "s/{.Region}/${AWS::Region}/g")
+                    sudo -u ${CodeServerUser} git clone $RepoUrlRegion ${HomeFolder}
+                    echo "Repo $(RepoUrlRegion) cloned. Checking configuration"
+                    ls -la ${HomeFolder}
+                    sudo -u ${CodeServerUser} git -C ${HomeFolder} remote -v
+                  fi
+          - name: DownloadAssets
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 600
+              runCommand:
+                - '#!/bin/bash'
+                - !Sub |
+                  if [[ -z "${AssetZipS3Path}" ]]
+                  then
+                    echo "No assets"
+                  else
+                    mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                    mkdir -p /tmp
+                    aws s3 cp s3://${AssetZipS3Path} /tmp/asset.zip
+                    chown -R ${CodeServerUser}:${CodeServerUser} /tmp/asset.zip
+                    unzip -o /tmp/asset.zip -d ${HomeFolder}
+                    chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                    if  [[ -d ${HomeFolder}/.git ]] # Indicates that a repo has been cloned
+                    then
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} add .
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} commit -m 'Workshop commit'
+                    else
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} init
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} add .
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} commit -m 'Initial commit'
+                    fi
+                    echo "Assets downloaded. Checking configuration: ${HomeFolder}"
+                    ls -la ${HomeFolder}
+                    sudo -u ${CodeServerUser} git -C ${HomeFolder} branch
+                  fi
+          - name: DownloadFolders
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 600
+              runCommand:
+                - '#!/bin/bash'
+                - !Sub |
+                  if [[ -z "${FolderZipS3Path}" ]]
+                  then
+                    echo "No folders"
+                  else
+                    rm -rf /tmp/folder
+                    mkdir -p /tmp/folder && chown -R ${CodeServerUser}:${CodeServerUser} /tmp/folder
+                    aws s3 cp s3://${FolderZipS3Path} /tmp/asset-folder.zip
+                    chown -R ${CodeServerUser}:${CodeServerUser} /tmp/asset-folder.zip
+                    unzip -o /tmp/asset-folder.zip -d /tmp/folder
+                    chown -R ${CodeServerUser}:${CodeServerUser} /tmp/folder
+                    mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                    cd "${HomeFolder}" && cd ..
+                    if [[ $(pwd) ==  "/" ]]
+                    then
+                      targetRootFolder=""
+                    else
+                      targetRootFolder=$(pwd)
+                      chown -R ${CodeServerUser}:${CodeServerUser} .
+                    fi
+                    find "/tmp/folder" -maxdepth 1 -mindepth 1 -type d | while read sourceFolder; do
+                      folder="$(basename $sourceFolder)"
+                      echo "Processing folder: $folder"
+                      targetFolder=$targetRootFolder/$folder
+                      if [[ $targetRootFolder == "" ]]
+                      then
+                        mv $sourceFolder /
+                      else
+                        mv $sourceFolder $targetRootFolder
+                      fi
+                      chown -R ${CodeServerUser}:${CodeServerUser} $targetFolder
+                      sudo -u ${CodeServerUser} git -C $targetFolder init
+                      sudo -u ${CodeServerUser} git -C $targetFolder add .
+                      sudo -u ${CodeServerUser} git -C $targetFolder commit -m "Initial commit"
+                      echo "Folder downloaded. Checking configuration: $targetFolder"
+                      ls -la $targetFolder
+                    done
+                    rm -rf /tmp/folder
+                  fi
+          - name: DownloadBranches
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 600
+              runCommand:
+                - '#!/bin/bash'
+                - !Sub |
+                  if [[ -z "${BranchZipS3Path}" ]]
+                  then
+                    echo "No branches"
+                  else
+                    rm -rf /tmp/branch
+                    rm -rf /tmp/git
+                    mkdir -p /tmp/branch && chown -R ${CodeServerUser}:${CodeServerUser} /tmp/branch
+                    mkdir -p /tmp/git && chown -R ${CodeServerUser}:${CodeServerUser} /tmp/git
+                    aws s3 cp s3://${BranchZipS3Path} /tmp/asset-branch.zip
+                    chown -R ${CodeServerUser}:${CodeServerUser} /tmp/asset-branch.zip
+                    unzip -o /tmp/asset-branch.zip -d /tmp/branch
+                    chown -R ${CodeServerUser}:${CodeServerUser} /tmp/branch
+                    mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                    sudo -u ${CodeServerUser} git -C ${HomeFolder} init
+                    mv ${HomeFolder}/.git /tmp/git
+                    rm -rf ${HomeFolder}
+                    mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                    mv /tmp/git/.git ${HomeFolder}
+                    find /tmp/branch -maxdepth 1 -mindepth 1 -type d | while read sourceFolder; do
+                      branch="$(basename $sourceFolder)"
+                      echo "Processing branch: $branch"
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} checkout -b $branch 2>&1
+                      cp -a $sourceFolder/. ${HomeFolder}
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} add .
+                      sudo -u ${CodeServerUser} git -C ${HomeFolder} commit -m "Initial commit $branch"
+                      mv ${HomeFolder}/.git /tmp/git
+                      rm -rf ${HomeFolder}
+                      mkdir ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                      mv /tmp/git/.git ${HomeFolder}
+                    done
+                    sudo -u ${CodeServerUser} git -C ${HomeFolder} checkout main 2>&1
+                    sudo -u ${CodeServerUser} git -C ${HomeFolder} restore .
+                    rm -rf /tmp/branch
+                    rm -rf /tmp/git
+                    echo "Branches downloaded. Checking configuration: $HomeFolder"
+                    sudo -u ${CodeServerUser} git -C ${HomeFolder} branch
+                    ls -la ${HomeFolder}
+                  fi
+          - name: ConfigureCodeServer
+            action: aws:runShellScript
+            inputs:
+              timeoutSeconds: 600
+              runCommand:
+                - '#!/bin/bash'
+                - !Sub export HOME=/home/${CodeServerUser}
+                - curl -fsSL https://code-server.dev/install.sh | bash -s -- 2>&1
+                - !Sub systemctl enable --now code-server@${CodeServerUser} 2>&1
+                - !Sub |
+                  tee /etc/nginx/conf.d/code-server.conf <<EOF
+                  server {
+                      listen 80;
+                      listen [::]:80;
+                      server_name ${CloudFrontDomain};
+                      location / {
+                        proxy_pass http://localhost:8080/;
+                        proxy_set_header Host \$host;
+                        proxy_set_header Upgrade \$http_upgrade;
+                        proxy_set_header Connection upgrade;
+                        proxy_set_header Accept-Encoding gzip;
+                      }
+                      location /${DevServerBasePath} {
+                        proxy_pass http://localhost:${DevServerPort}/${DevServerBasePath};
+                        proxy_set_header Host \$host;
+                        proxy_set_header Upgrade \$http_upgrade;
+                        proxy_set_header Connection upgrade;
+                        proxy_set_header Accept-Encoding gzip;
+                      }
+                  }
+                  EOF
+                - !Sub mkdir -p /home/${CodeServerUser}/.config/code-server
+                - !Sub |
+                  tee /home/${CodeServerUser}/.config/code-server/config.yaml <<EOF
+                  cert: false
+                  auth: password
+                  hashed-password: "$(echo -n {{ CodeServerPassword }} | argon2 $(openssl rand -base64 12) -e)"
+                  EOF
+                - !Sub mkdir -p /home/${CodeServerUser}/.local/share/code-server/User/
+                - !Sub touch /home/${CodeServerUser}/.hushlogin
+                - !Sub mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+                - !Sub |
+                  tee /home/${CodeServerUser}/.local/share/code-server/User/settings.json <<EOF
+                  {
+                    "extensions.autoUpdate": false,
+                    "extensions.autoCheckUpdates": false,
+                    "telemetry.telemetryLevel": "off",
+                    "security.workspace.trust.startupPrompt": "never",
+                    "security.workspace.trust.enabled": false,
+                    "security.workspace.trust.banner": "never",
+                    "security.workspace.trust.emptyWindow": false,
+                    "auto-run-command.rules": [
+                      {
+                        "command": "workbench.action.terminal.new"
+                      }
+                    ]
+                  }
+                  EOF
+                - !Sub chown -R ${CodeServerUser}:${CodeServerUser} /home/${CodeServerUser}
+                - !Sub systemctl restart code-server@${CodeServerUser}
+                - systemctl restart nginx
+                - !Sub sudo -u ${CodeServerUser} --login code-server --install-extension AmazonWebServices.aws-toolkit-vscode --force
+                - !Sub # sudo -u ${CodeServerUser} --login code-server --install-extension AmazonWebServices.amazon-q-vscode --force
+                - !Sub sudo -u ${CodeServerUser} --login code-server --install-extension ms-vscode.live-server --force
+                - !Sub sudo -u ${CodeServerUser} --login code-server --install-extension synedra.auto-run-command --force
+                - !Sub chown -R ${CodeServerUser}:${CodeServerUser} /home/${CodeServerUser}
+                - echo "Nginx installed. Checking configuration"
+                - nginx -t 2>&1
+                - systemctl status nginx
+                - echo "CodeServer installed. Checking configuration"
+                - code-server -v
+                - !Sub systemctl status code-server@${CodeServerUser}
+# Install optional packages here - any of these blocks can be deleted if that software is not required for the workshop
+# Install Workshop specific packages here
+
+  SSMDocLambdaRole:
+    Type: AWS::IAM::Role
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W11
+            reason: The Amazon EC2 ssm:*CommandInvocation API actions do not support resource-level permissions, so you cannot control which individual resources users can view in the console. Therefore, the * wildcard is necessary in the Resource element. See https://docs.aws.amazon.com/service-authorization/latest/reference/list_awssystemsmanager.html
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: !Sub lambda.${AWS::URLSuffix}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: SSMDocOnEC2
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ssm:SendCommand
+                Resource:
+                  - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:document/${CodeServerSSMDoc}
+                  - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:document/AmazonCloudWatch-ManageAgent
+                  - !Sub arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/${CodeServerInstance}
+              - Effect: Allow
+                Action:
+                  - ssm:ListCommandInvocations
+                  - ssm:GetCommandInvocation
+                Resource: '*'
+
+  RunSSMDocLambda:
+    Type: AWS::Lambda::Function
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W58
+            reason: Warning incorrectly reported. The role associated with the Lambda function has the AWSLambdaBasicExecutionRole managed policy attached, which includes permission to write CloudWatch Logs. See https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLambdaBasicExecutionRole.html
+          - id: W89
+            reason: CloudFormation custom function does not need the scaffolding of a VPC, to do so would add unnecessary complexity
+          - id: W92
+            reason: CloudFormation custom function does not need reserved concurrent executions, to do so would add unnecessary complexity
+    Properties:
+      Description: Run SSM document on EC2 instance
+      Handler: index.lambda_handler
+      Runtime: python3.13
+      MemorySize: 128
+      Timeout: 600
+      Environment:
+        Variables:
+          RetrySleep: 2900
+          AbortTimeRemaining: 3200
+      Architectures:
+        - arm64
+      Role: !GetAtt SSMDocLambdaRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import logging
+          import time
+          import os
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          def lambda_handler(event, context):
+              logger.debug(f'event: {event}')
+              logger.debug(f'context: {context}')
+
+              if event['RequestType'] != 'Create':
+                  cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData={}, reason='No action to take')
+              else:
+                  sleep_ms = int(os.environ.get('RetrySleep'))
+                  abort_time_remaining_ms = int(os.environ.get('AbortTimeRemaining'))
+                  resource_properties = event['ResourceProperties']
+                  instance_id = resource_properties['InstanceId']
+                  document_name = resource_properties['DocumentName']
+                  cloudwatch_log_group_name = resource_properties['CloudWatchLogGroupName']
+
+                  logger.info(f'Running SSM Document {document_name} on EC2 instance {instance_id}. Logging to {cloudwatch_log_group_name}')
+
+                  del resource_properties['ServiceToken']
+                  if 'ServiceTimeout' in resource_properties:
+                      del resource_properties['ServiceTimeout']
+                  del resource_properties['InstanceId']
+                  del resource_properties['DocumentName']
+                  del resource_properties['CloudWatchLogGroupName']
+                  if 'PhysicalResourceId' in resource_properties:
+                      del resource_properties['PhysicalResourceId']
+
+                  logger.debug(f'resource_properties filtered: {resource_properties}')
+
+                  parameters = {}
+                  for key, value in resource_properties.items():
+                      parameters[key] = [value]
+
+                  logger.debug(f'parameters: {parameters}')
+
+                  retry = True
+                  attempt_no = 0
+                  time_remaining_ms = context.get_remaining_time_in_millis()
+
+                  ssm = boto3.client('ssm')
+
+                  while (retry == True):
+                      attempt_no += 1
+                      logger.info(f'Attempt: {attempt_no}. Time Remaining: {time_remaining_ms/1000}s')
+                      try:
+                          response = ssm.send_command(
+                              InstanceIds = [instance_id],
+                              DocumentName = document_name,
+                              CloudWatchOutputConfig = {'CloudWatchLogGroupName': cloudwatch_log_group_name, 'CloudWatchOutputEnabled': True},
+                              Parameters = parameters
+                          )
+                          logger.debug(f'response: {response}')
+                          command_id = response['Command']['CommandId']
+                          responseData = {'CommandId': command_id}
+                          cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData, reason='OK')
+                          retry = False
+
+                      except ssm.exceptions.InvalidInstanceId as e:
+                          time_remaining_ms = context.get_remaining_time_in_millis()
+                          if (time_remaining_ms > abort_time_remaining_ms):
+                              logger.info(f'Instance {instance_id} not ready. Sleeping: {sleep_ms/1000}s')
+                              time.sleep(sleep_ms/1000)
+                              retry = True
+                          else:
+                              logger.info(f'Instance {instance_id} not ready, timed out. Time remaining {time_remaining_ms/1000}s < Abort time remaining {abort_time_remaining_ms/1000}s')
+                              logger.error(e, exc_info=True)
+                              cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason='Timed out. Time remaining: ' + str(time_remaining_ms/1000) + 's < Abort time remaining: ' + str(abort_time_remaining_ms/1000) + 's')
+                              retry = False
+
+                      except Exception as e:
+                          logger.error(e, exc_info=True)
+                          cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason=str(e))
+                          retry = False
+
+  RunCodeServerSSMDoc:
+    Type: Custom::RunSSMDocLambda
+    Properties:
+      ServiceToken: !GetAtt RunSSMDocLambda.Arn
+      ServiceTimeout: 305
+      InstanceId: !Ref CodeServerInstance
+      DocumentName: !Ref CodeServerSSMDoc
+      CloudWatchLogGroupName: !Sub /aws/ssm/${CodeServerSSMDoc}
+      CodeServerPassword: !GetAtt SecretPlaintext.password
+      LinuxFlavor: !If [IsAL2023, 'al2023', 'ubuntu']
+
+  CodeServerInstanceBootstrapRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - !Sub ec2.${AWS::URLSuffix}
+                - !Sub ssm.${AWS::URLSuffix}
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/CloudWatchAgentServerPolicy
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonQDeveloperAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/ReadOnlyAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AWSCodeCommitPowerUser
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonS3FullAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AWSBatchFullAccess
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AWSStepFunctionsFullAccess
+        
+      Policies:
+      - PolicyName: AllowPassRoleForBatch
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action:
+                - iam:PassRole
+              Resource:
+                # Using '*' to allow passing any role. Consider using a specific ARN for least privilege.
+                - "*"
+  CodeServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref CodeServerInstanceBootstrapRole
+
+  CodeServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref InstanceKeyPair
+      ImageId: !If
+        - IsGraviton
+        - !FindInMap [ArmImage, !Ref InstanceOperatingSystem, ImageId]
+        - !FindInMap [AmdImage, !Ref InstanceOperatingSystem, ImageId]
+      InstanceType: !Ref InstanceType
+      BlockDeviceMappings:
+        - DeviceName: !If [IsAL2023, /dev/xvda, /dev/sda1]
+          Ebs:
+            VolumeSize: !Ref InstanceVolumeSize
+            VolumeType: gp3
+            DeleteOnTermination: true
+            Encrypted: true
+      Monitoring: true
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      IamInstanceProfile: !Ref CodeServerInstanceProfile
+      UserData:
+        Fn::Base64: !Sub |
+          #cloud-config
+          hostname: ${InstanceName}
+          runcmd:
+            - mkdir -p ${HomeFolder} && chown -R ${CodeServerUser}:${CodeServerUser} ${HomeFolder}
+            - mkdir -p /home/${CodeServerUser}/.bashrc.d
+            - STACK_NAME=$(aws cloudformation list-exports --query 'Exports[?Name==`MonteCarloBatchStackNameExport`].Value' --output text)
+            - echo "export STACK_NAME=\"$STACK_NAME\"" > /home/${CodeServerUser}/.bashrc.d/stack-name.sh
+            - |
+              if [ ! -z "${PublicSSHKey}" ]; then
+                mkdir -p /home/${CodeServerUser}/.ssh
+                echo "${PublicSSHKey}" >> /home/${CodeServerUser}/.ssh/authorized_keys
+                chmod 700 /home/${CodeServerUser}/.ssh
+                chmod 600 /home/${CodeServerUser}/.ssh/authorized_keys
+              fi          
+      Tags:
+      - Key: Name
+        Value: !Ref InstanceName
+
+  CodeServerInstanceCachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        DefaultTTL: 86400
+        MaxTTL: 31536000
+        MinTTL: 1
+        Name: !Sub
+        - ${InstanceName}-${RandomGUID}
+        - RandomGUID: !Select [0, !Split ['-', !Select [2, !Split ['/', !Ref AWS::StackId ]]]]
+        ParametersInCacheKeyAndForwardedToOrigin:
+          CookiesConfig:
+            CookieBehavior: all
+          EnableAcceptEncodingGzip: False
+          HeadersConfig:
+            HeaderBehavior: whitelist
+            Headers:
+              - Accept-Charset
+              - Authorization
+              - Origin
+              - Accept
+              - Referer
+              - Host
+              - Accept-Language
+              - Accept-Encoding
+              - Accept-Datetime
+          QueryStringsConfig:
+            QueryStringBehavior: all
+
+  # CloudFrontDistribution:
+  #   Type: AWS::CloudFront::Distribution
+  #   Metadata:
+  #     cfn_nag:
+  #       rules_to_suppress:
+  #         - id: W10
+  #           reason: CloudFront Distribution access logging would require setup of an S3 bucket and changes in IAM, which add unnecessary complexity to the template
+  #         - id: W70
+  #           reason: Workshop Studio does not include a domain that can be used to provision a certificate, so it is not possible to setup TLS. See PFR EE-6016
+  #   Properties:
+  #     DistributionConfig:
+  #       Enabled: True
+  #       HttpVersion: http2and3
+  #       CacheBehaviors:
+  #         - AllowedMethods:
+  #             - GET
+  #             - HEAD
+  #             - OPTIONS
+  #             - PUT
+  #             - PATCH
+  #             - POST
+  #             - DELETE
+  #           CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad # see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html#managed-cache-policy-caching-disabled
+  #           Compress: False
+  #           OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3 # Managed-AllViewer - see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#:~:text=When%20using%20AWS,47e4%2Db989%2D5492eafa07d3
+  #           TargetOriginId: !Sub CloudFront-${AWS::StackName}
+  #           ViewerProtocolPolicy: allow-all
+  #           PathPattern: '/proxy/*'
+  #       DefaultCacheBehavior:
+  #         AllowedMethods:
+  #           - GET
+  #           - HEAD
+  #           - OPTIONS
+  #           - PUT
+  #           - PATCH
+  #           - POST
+  #           - DELETE
+  #         CachePolicyId: !Ref CodeServerInstanceCachePolicy
+  #         OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3 # Managed-AllViewer - see https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#:~:text=When%20using%20AWS,47e4%2Db989%2D5492eafa07d3
+  #         TargetOriginId: !Sub CloudFront-${AWS::StackName}
+  #         ViewerProtocolPolicy: allow-all
+  #       Origins:
+  #         - DomainName: !GetAtt CodeServerInstance.PublicDnsName
+  #           Id: !Sub CloudFront-${AWS::StackName}
+  #           CustomOriginConfig:
+  #             OriginProtocolPolicy: http-only
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: F1000
+            reason: All outbound traffic should be allowed from this instance. The EC2 instance is provisioned in the default VPC, which already has this egress rule, and it is not possible to duplicate this egress rule in the default VPC
+    Properties:
+      GroupDescription: Security Group for code-server - only allow CloudFront ingress
+      SecurityGroupIngress:
+        - Description: Allow HTTP from com.amazonaws.global.cloudfront.origin-facing
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourcePrefixListId: !FindInMap [AWSRegionsPrefixListID, !Ref 'AWS::Region', PrefixList]
+        - Description: Allow HTTP from specific IP
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 180.255.24.10/32          
+
+  # CodeServerHealthCheckLambdaRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: 2012-10-17
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service: !Sub lambda.${AWS::URLSuffix}
+  #           Action: sts:AssumeRole
+  #     ManagedPolicyArns:
+  #       - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  # CodeServerHealthCheckLambda:
+  #   Type: AWS::Lambda::Function
+  #   Metadata:
+  #     cfn_nag:
+  #       rules_to_suppress:
+  #         - id: W58
+  #           reason: Warning incorrectly reported. The role associated with the Lambda function has the AWSLambdaBasicExecutionRole managed policy attached, which includes permission to write CloudWatch Logs. See https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLambdaBasicExecutionRole.html
+  #         - id: W89
+  #           reason: CloudFormation custom function does not need the scaffolding of a VPC, to do so would add unnecessary complexity
+  #         - id: W92
+  #           reason: CloudFormation custom function does not need reserved concurrent executions, to do so would add unnecessary complexity
+  #   Properties:
+  #     Description: Run health check on code-server instance
+  #     Handler: index.lambda_handler
+  #     Runtime: python3.13
+  #     MemorySize: 128
+  #     Timeout: 600
+  #     Environment:
+  #       Variables:
+  #         RetrySleep: 2900
+  #         AbortTimeRemaining: 5000
+  #     Architectures:
+  #       - arm64
+  #     Role: !GetAtt CodeServerHealthCheckLambdaRole.Arn
+  #     Code:
+  #       ZipFile: |
+  #         import json
+  #         import cfnresponse
+  #         import logging
+  #         import time
+  #         import os
+  #         import http.client
+  #         from urllib.parse import urlparse
+
+  #         logger = logging.getLogger()
+  #         logger.setLevel(logging.INFO)
+
+  #         def healthURLOk(url):
+  #             # Using try block to catch connection errors and JSON conversion errors
+  #             try:
+  #                 logger.debug(f'url: {url}')
+  #                 parsed_url = urlparse(url)
+  #                 if parsed_url.scheme == 'https':
+  #                     logger.debug(f'Trying https: {parsed_url.netloc}. Parsed_url: {parsed_url}')
+  #                     conn = http.client.HTTPSConnection(parsed_url.netloc)
+  #                 else:
+  #                     logger.debug(f'Trying http: {parsed_url.netloc}. Parsed_url: {parsed_url}')
+  #                     conn = http.client.HTTPConnection(parsed_url.netloc)
+  #                 conn.request("GET", parsed_url.path or "/")
+  #                 response = conn.getresponse()
+  #                 logger.debug(f'response: {response}')
+  #                 logger.debug(f'response.status: {response.status}')
+  #                 content = response.read()
+  #                 logger.debug(f'content: {content}')
+  #                 # This will be true for any return code below 4xx (so 3xx and 2xx)
+  #                 if 200 <= response.status < 400:
+  #                     response_dict = json.loads(content.decode('utf-8'))
+  #                     logger.debug(f'response_dict: {response_dict}')
+  #                     # Checking for expected keys and if the key has the expected value
+  #                     if 'status' in response_dict and (response_dict['status'].lower() == 'alive' or response_dict['status'].lower() == 'expired'):
+  #                         # Response code 200 and correct JSON returned
+  #                         logger.info(f'Health check OK. Status: {response_dict['status'].lower()}')
+  #                         return True
+  #                     else:
+  #                         # Response code 200 but the 'status' key is either not present or does not have the value 'alive' or 'expired'
+  #                         logger.info(f'Health check failed. Status: {response_dict['status'].lower()}')
+  #                         return False
+  #                 else:
+  #                     # Response was not ok (error 4xx or 5xx)
+  #                     logger.info(f'Healthcheck failed. Return code: {response.status}')
+  #                     return False
+
+  #             except http.client.HTTPException as e:
+  #                 # URL malformed or endpoint not ready yet, this should only happen if we can not DNS resolve the URL
+  #                 logger.error(e, exc_info=True)
+  #                 logger.error(f'Healthcheck failed: HTTP Exception. URL invalid and/or endpoint not ready yet')
+  #                 return False
+
+  #             except json.decoder.JSONDecodeError as e:
+  #                 # The response we got was not a properly formatted JSON
+  #                 logger.error(e, exc_info=True)
+  #                 logger.info(f'Healthcheck failed: Did not get JSON object from URL as expected')
+  #                 return False
+
+  #             except Exception as e:
+  #                 logger.error(e, exc_info=True)
+  #                 logger.info(f'Healthcheck failed: General error')
+  #                 return False
+
+  #             finally:
+  #                 if 'conn' in locals():
+  #                     conn.close()
+
+  #         def is_valid_json(json_string):
+  #             try:
+  #                 json.loads(json_string)
+  #                 return True
+  #             except ValueError:
+  #                 return False
+
+  #         def lambda_handler(event, context):
+  #             logger.debug(f'event: {event}')
+  #             logger.debug(f'context: {context}')
+  #             try:
+  #                 if event['RequestType'] != 'Create':
+  #                     cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData={}, reason='No action to take')
+  #                 else:
+  #                     sleep_ms = int(os.environ.get('RetrySleep'))
+  #                     abort_time_remaining_ms = int(os.environ.get('AbortTimeRemaining'))
+  #                     resource_properties = event['ResourceProperties']
+  #                     url = resource_properties['Url']
+
+  #                     logger.info(f'Testing url: {url}')
+
+  #                     time_remaining_ms = context.get_remaining_time_in_millis()
+  #                     attempt_no = 0
+  #                     health_check = False
+  #                     while (attempt_no == 0 or (time_remaining_ms > abort_time_remaining_ms and not health_check)):
+  #                         attempt_no += 1
+  #                         logger.info(f'Attempt: {attempt_no}. Time Remaining: {time_remaining_ms/1000}s')
+  #                         health_check = healthURLOk(url)
+  #                         if not health_check:
+  #                             logger.debug(f'Healthcheck failed. Sleeping: {sleep_ms/1000}s')
+  #                             time.sleep(sleep_ms/1000)
+  #                         time_remaining_ms = context.get_remaining_time_in_millis()
+  #                     if health_check:
+  #                         logger.info(f'Health check successful. Attempts: {attempt_no}. Time Remaining: {time_remaining_ms/1000}s')
+  #                         cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData={}, reason='Code-server healthcheck successful')
+  #                     else:
+  #                         logger.info(f'Health check failed. Timed out. Attempts: {attempt_no}. Time remaining {time_remaining_ms/1000}s < Abort time remaining {abort_time_remaining_ms/1000}s')
+  #                         cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason='Code-server healthcheck failed. Timed out after ' + str(attempt_no) + ' attempts')
+  #                         logger.info(f'Response sent')
+
+  #             except Exception as e:
+  #                 logger.error(e, exc_info=True)
+  #                 logger.info(f'Health check failed. General exception')
+  #                 cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason=str(e))
+
+  # Healthcheck:
+  #   Type: Custom::CodeServerHealthCheckLambda
+  #   Properties:
+  #     ServiceToken: !GetAtt CodeServerHealthCheckLambda.Arn
+  #     ServiceTimeout: 610
+  #     Url: !Sub https://${CloudFrontDistribution.DomainName}/healthz
+
+  CheckSSMDocLambda:
+    Type: AWS::Lambda::Function
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W58
+            reason: Warning incorrectly reported. The role associated with the Lambda function has the AWSLambdaBasicExecutionRole managed policy attached, which includes permission to write CloudWatch Logs. See https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSLambdaBasicExecutionRole.html
+          - id: W89
+            reason: CloudFormation custom function does not need the scaffolding of a VPC, to do so would add unnecessary complexity
+          - id: W92
+            reason: CloudFormation custom function does not need reserved concurrent executions, to do so would add unnecessary complexity
+    Properties:
+      Description: Check SSM document on EC2 instance
+      Handler: index.lambda_handler
+      Runtime: python3.13
+      MemorySize: 128
+      Timeout: 600
+      Environment:
+        Variables:
+          RetrySleep: 2900
+          AbortTimeRemaining: 5000
+      Architectures:
+        - arm64
+      Role: !GetAtt SSMDocLambdaRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import logging
+          import time
+          import os
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          def lambda_handler(event, context):
+              logger.debug(f'event: {event}')
+              logger.debug(f'context: {context}')
+
+              if event['RequestType'] != 'Create':
+                  cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData={}, reason='No action to take')
+              else:
+                  sleep_ms = int(os.environ.get('RetrySleep'))
+                  abort_time_remaining_ms = int(os.environ.get('AbortTimeRemaining'))
+                  resource_properties = event['ResourceProperties']
+                  instance_id = resource_properties['InstanceId']
+                  document_name = resource_properties['DocumentName']
+
+                  logger.info(f'Checking SSM Document {document_name} on EC2 instance {instance_id}')
+
+                  retry = True
+                  attempt_no = 0
+                  time_remaining_ms = context.get_remaining_time_in_millis()
+
+                  ssm = boto3.client('ssm')
+
+                  while (retry == True):
+                      attempt_no += 1
+                      logger.info(f'Attempt: {attempt_no}. Time Remaining: {time_remaining_ms/1000}s')
+                      try:
+                          # check to see if document has completed running on instance
+                          response = ssm.list_command_invocations(
+                              InstanceId=instance_id,
+                              Details=True
+                          )
+                          logger.debug(f'Response: {response}')
+                          for invocation in response['CommandInvocations']:
+                              if invocation['DocumentName'] == document_name:
+                                  invocation_status = invocation['Status']
+                                  if invocation_status == 'Success':
+                                      logger.info(f'SSM Document {document_name} on EC2 instance {instance_id} complete. Status: {invocation_status}')                                  
+                                      cfnresponse.send(event, context, cfnresponse.SUCCESS, responseData={}, reason='OK')
+                                      retry = False
+                                  elif invocation_status == 'Failed' or invocation_status == 'Cancelled' or invocation_status == 'TimedOut':
+                                      logger.info(f'SSM Document {document_name} on EC2 instance {instance_id} failed. Status: {invocation_status}')
+                                      reason = ''
+                                      # Get information on step that failed, otherwise it's cancelled or timeout
+                                      for step in invocation['CommandPlugins']:
+                                          step_name = step['Name']
+                                          step_status = step['Status']
+                                          step_output = step['Output']
+                                          logger.debug(f'Step {step_name} {step_status}: {step_output}')
+                                          if step_status != 'Success':
+                                              try:
+                                                  response_step = ssm.get_command_invocation(
+                                                      CommandId=invocation['CommandId'],
+                                                      InstanceId=instance_id,
+                                                      PluginName=step_name
+                                                  )
+                                                  logger.debug(f'Step details: {response_step}')
+                                                  step_output = response_step['StandardErrorContent']
+                                              except Exception as e:
+                                                  logger.error(e, exc_info=True)
+                                              logger.info(f'Step {step_name} {step_status}: {step_output}')
+                                              if reason == '':
+                                                  reason = f'Step {step_name} {step_status}: {step_output}'
+                                              else:
+                                                  reason += f'\nStep {step_name} {step_status}: {step_output}'
+                                      if reason == '':
+                                          reason = f'SSM Document {document_name} on EC2 instance {instance_id} failed. Status: {invocation_status}'
+                                      logger.info(f'{reason}')
+                                      cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason=reason)
+                                      retry = False
+                                  else:
+                                      logger.info(f'SSM Document {document_name} on EC2 instance {instance_id} not yet complete. Status: {invocation_status}')
+                                      retry = True
+                          if retry == True:
+                              if (time_remaining_ms > abort_time_remaining_ms):
+                                  logger.info(f'Sleeping: {sleep_ms/1000}s')
+                                  time.sleep(sleep_ms/1000)
+                                  time_remaining_ms = context.get_remaining_time_in_millis()
+                              else:
+                                  logger.info(f'Time remaining {time_remaining_ms/1000}s < Abort time remaining {abort_time_remaining_ms/1000}s')
+                                  logger.info(f'Aborting check as time remaining {time_remaining_ms/1000}s < Abort time remaining {abort_time_remaining_ms/1000}s')
+                                  cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason='Timed out. Time remaining: ' + str(time_remaining_ms/1000) + 's < Abort time remaining: ' + str(abort_time_remaining_ms/1000) + 's')
+                                  retry = False
+                      except Exception as e:
+                          logger.error(e, exc_info=True)
+                          cfnresponse.send(event, context, cfnresponse.FAILED, responseData={}, reason=str(e))
+                          retry = False
+
+  CheckCodeServerSSMDoc:
+    Type: Custom::CheckSSMDocLambda
+    DependsOn: RunCodeServerSSMDoc
+    Properties:   
+      ServiceToken: !GetAtt CheckSSMDocLambda.Arn
+      ServiceTimeout: 610
+      InstanceId: !Ref CodeServerInstance
+      DocumentName: !Ref CodeServerSSMDoc
+
+Outputs:
+  # URL:
+  #   Description: Code-server URL
+  #   Value: !Sub https://${CloudFrontDistribution.DomainName}/?folder=${HomeFolder}
+  Password:
+    Description: Code-server Password
+    Value: !GetAtt SecretPlaintext.password
+Mappings:
+  AWSRegionsPrefixListID:
+    ap-northeast-1:
+      PrefixList: pl-58a04531
+    ap-northeast-2:
+      PrefixList: pl-22a6434b
+    ap-south-1:
+      PrefixList: pl-9aa247f3
+    ap-southeast-1:
+      PrefixList: pl-31a34658
+    ap-southeast-2:
+      PrefixList: pl-b8a742d1
+    ca-central-1:
+      PrefixList: pl-38a64351
+    eu-central-1:
+      PrefixList: pl-a3a144ca
+    eu-north-1:
+      PrefixList: pl-fab65393
+    eu-west-1:
+      PrefixList: pl-4fa04526
+    eu-west-2:
+      PrefixList: pl-93a247fa
+    eu-west-3:
+      PrefixList: pl-75b1541c
+    sa-east-1:
+      PrefixList: pl-5da64334
+    us-east-1:
+      PrefixList: pl-3b927c52
+    us-east-2:
+      PrefixList: pl-b6a144df
+    us-west-1:
+      PrefixList: pl-4ea04527
+    us-west-2:
+      PrefixList: pl-82a045eb
+
+
+Resources:
+  CodeServerInstanceCachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        DefaultTTL: 86400
+        MaxTTL: 31536000
+        MinTTL: 1
+        Name: !Sub
+        - ${AWS::StackName}-${RandomGUID}
+        - RandomGUID: !Select [0, !Split ['-', !Select [2, !Split ['/', !Ref AWS::StackId ]]]]
+        ParametersInCacheKeyAndForwardedToOrigin:
+          CookiesConfig:
+            CookieBehavior: all
+          EnableAcceptEncodingGzip: False
+          HeadersConfig:
+            HeaderBehavior: whitelist
+            Headers:
+              - Accept-Charset
+              - Authorization
+              - Origin
+              - Accept
+              - Referer
+              - Host
+              - Accept-Language
+              - Accept-Encoding
+              - Accept-Datetime
+          QueryStringsConfig:
+            QueryStringBehavior: all
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: !Sub "CloudFront distribution for Code Server instance in ${AWS::StackName}"
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+        CacheBehaviors:
+          - AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+              - PUT
+              - PATCH
+              - POST
+              - DELETE
+            CachePolicyId: !Ref CodeServerInstanceCachePolicy
+            OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3 # Managed-AllViewer
+            TargetOriginId: !Sub CloudFront-${AWS::StackName}
+            ViewerProtocolPolicy: allow-all
+            PathPattern: '/proxy/*'
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+            - PUT
+            - PATCH
+            - POST
+            - DELETE
+          CachePolicyId: !Ref CodeServerInstanceCachePolicy
+          OriginRequestPolicyId: 216adef6-5c7f-47e4-b989-5492eafa07d3 # Managed-AllViewer
+          TargetOriginId: !Sub CloudFront-${AWS::StackName}
+          ViewerProtocolPolicy: allow-all
+        Origins:
+          - DomainName: !Sub "{{resolve:ssm:/CloudFormation/CodeServerPublicDNS}}" # Directly fetching DNS from SSM
+            Id: !Sub CloudFront-${AWS::StackName}
+            CustomOriginConfig:
+              OriginProtocolPolicy: http-only
+
+  SecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Sub "{{resolve:ssm:/CloudFormation/CodeServerSecurityGroup}}" # Directly fetching Security Group ID from SSM
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      SourcePrefixListId: !FindInMap [AWSRegionsPrefixListID, !Ref 'AWS::Region', PrefixList]
+      Description: Allow HTTP from CloudFront
+
+Outputs:
+  URL:
+    Description: CloudFront Distribution Domain Name
+    Value: !GetAtt CloudFrontDistribution.DomainName
+  Password:
+    Description: The password to login to the Code Server UI
+    Value: !Sub "{{resolve:ssm:/CloudFormation/CodeServerLoginPassword}}"

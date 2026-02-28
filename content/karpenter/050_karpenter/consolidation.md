@@ -225,7 +225,7 @@ Karpenter logs should show a sequence of events similar to the one below.
 2022-09-05T08:56:05.328Z        INFO    controller.consolidation.cloudprovider  Launched instance: i-00e7459e351c4992f, hostname: ip-192-168-29-219.eu-west-1.compute.internal, type: c5a.2xlarge, zone: eu-west-1a, capacityType: spot       {"commit": "b157d45", "provisioner": "default"}
 2022-09-05T08:57:06.000Z        INFO    controller.termination  Deleted node    {"commit": "b157d45", "node": "ip-192-168-8-39.eu-west-1.compute.internal"}
 ```
-
+{{% /expand %}}
 #### 4) Scale the `inflate` service to 3 replicas, what should happen ?
 {{%expand "Click here to show the answer" %}} 
 

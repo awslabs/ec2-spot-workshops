@@ -6,7 +6,7 @@ weight: 140
 
 ## Results
 
-You can check progress by running these commands in the Cloud9 terminal:
+You can check progress by running these commands in the Terminal:
 
 ```
 while [ true ]
@@ -45,14 +45,18 @@ It is normal if the progress is stuck at 0% at the beginning and after it increa
 This operation will take about 10 minutes. While it progresses, go to the AWS Batch Console, and explore the state of: (a) Compute Environments, (b) Jobs. You can also check in the EC2 Console the: \(c\) EC2 Instances and (d) Auto Scaling groups defined.  
 {{% /notice %}}
 
-When the progress reaches 100%, the aggregate PV file will be available in the following URL:
+When the progress reaches 100%, we can download the results of the calculation and display them. 
+Copy and execute the following commands in your Terminal:
 
 ```
-echo "Output url: https://s3.console.aws.amazon.com/s3/buckets/${BucketName}?region=${AWS_DEFAULT_REGION}&prefix=aggregation_${JOB_NAME}.json"
+aws s3api get-object --bucket ${BucketName} --key aggregation_${JOB_NAME}.json aggregation_${JOB_NAME}.json >/dev/null 
+
+echo -e "===========\r\nPV By Strike\r\n============" 
+cat aggregation_${JOB_NAME}.json | jq -r 'to_entries[] | "\(.key): \(.value)"' 
+echo ""
 ```
-
-Copy the output of the command into your browser. It will take you to the S3 page where the output PV aggregation file has been stored. You can just click on the **Download** button to download it to your own computer and view it.
-
+ 
+The PV-by-Strike report shows you the aggregate PV of each of the positions you have on a per-strike basis. 
 
 ## Monitoring
 
