@@ -12,7 +12,7 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.4.1"
+      version = "= 2.11.0"
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
@@ -159,7 +159,7 @@ module "eks" {
 
 module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "1.7.0"
+  version = "1.11.0"
 
   cluster_name      = module.eks.cluster_name
   cluster_endpoint  = module.eks.cluster_endpoint
@@ -176,13 +176,16 @@ module "eks_blueprints_addons" {
     repository_password = data.aws_ecrpublic_authorization_token.token.password
   }
   karpenter_enable_spot_termination = true
+  karpenter_enable_instance_profile_creation = true
+  karpenter_node = {
+    iam_role_use_name_prefix = false
+  }
   tags = local.tags
-
 }
 
 module "eks_blueprints_addons_load_balancer_controller" {
   source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "1.7.0"
+  version = "1.10.0"
 
   cluster_name      = module.eks.cluster_name
   cluster_endpoint  = module.eks.cluster_endpoint
