@@ -23,5 +23,5 @@ With this requirements we can set **EcsSpotWorkshop** cluster default capacity p
 ![Capacity Provider Strategy](/images/ecs-spot-capacity-providers/CPS.png)
 
 {{% notice note %}}
-Checkout the strategy configuration; it sets **`base=2`** and **`weight=1`** for CP-OD and **`weight=3`** for CP-SPOT. That means, ECS first places 2 tasks (since base=2) to CP-OD and then splits the remaining tasks between CP-OD and CP-SOT in 1:3 ratio, so for every 1 task on CP-OD, 3 tasks placed on CP-SPOT.
+Checkout the strategy configuration; it sets **`base=2`** and **`weight=1`** for CP-OD and **`weight=3`** for CP-SPOT. That means, ECS first places 2 tasks (since base=2) to CP-OD and then splits the remaining tasks between CP-OD and CP-SPOT in 1:3 ratio, so for every 1 task on CP-OD, 3 tasks placed on CP-SPOT.
 {{% /notice %}}
